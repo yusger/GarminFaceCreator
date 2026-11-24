@@ -2558,6 +2558,9 @@ export default function App() {
                                     files: v.files,
                                     codeRevision: v.revision,
                                     activeCodeVersion: v.id,
+                                    assets: v.assets
+                                      ? structuredClone(v.assets)
+                                      : p.assets,
                                   });
                               }}
                             >

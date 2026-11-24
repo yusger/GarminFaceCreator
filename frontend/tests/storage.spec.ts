@@ -1,4 +1,4 @@
-﻿import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 async function create(page: Page) {
   await page.goto("/");
   page.on("dialog", (d) => d.accept("存储测试"));
@@ -13,7 +13,7 @@ async function disk(page: Page) {
   return page.evaluate(
     () =>
       new Promise<any[]>((resolve, reject) => {
-        const req = indexedDB.open("garmin-face-creator", 1);
+        const req = indexedDB.open("garmin-face-creator", 2);
         req.onsuccess = () => {
           const db = req.result;
           const tx = db.transaction("projects");

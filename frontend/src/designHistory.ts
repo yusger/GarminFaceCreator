@@ -3,7 +3,15 @@ export function checkDesignHistory(p: Project) {
   const snapshots = p.designSnapshots || [];
   if (
     snapshots.length > 10 ||
-    new TextEncoder().encode(JSON.stringify(snapshots)).length >
+    new TextEncoder().encode(
+      JSON.stringify(snapshots, (key, value) =>
+        ["image", "data"].includes(key) &&
+        typeof value === "string" &&
+        value.startsWith("data:image/")
+          ? undefined
+          : value,
+      ),
+    ).length >
       20 * 1024 * 1024
   )
     throw Error("设计快照超过 10 个或 20MB 上限，请导出备份后清理未固定快照。");

@@ -1,3 +1,9 @@
+import {
+  writeStoredProject,
+  deleteStoredProject,
+  hydrateProject,
+  upgradeAssets,
+} from "./assetStore";
 import { checkDesignHistory } from "./designHistory";
 import { migrateProject } from "./migrations";
 import { checkHistory, normalizeHistory } from "./history";
@@ -19,9 +25,26 @@ export function storageMessage(error: unknown): string {
 const open = () =>
   new Promise<IDBDatabase>((resolve, reject) => {
     let settled = false;
-    const req = indexedDB.open("garmin-face-creator", 1);
-    req.onupgradeneeded = () =>
-      req.result.createObjectStore("projects", { keyPath: "id" });
+    let upgradeError: unknown;
+    const req = indexedDB.open("garmin-face-creator", 2);
+    req.onupgradeneeded = () => {
+      const db = req.result;
+      if (!db.objectStoreNames.contains("projects"))
+        db.createObjectStore("projects", { keyPath: "id" });
+      if (!db.objectStoreNames.contains("assets")) {
+        db.createObjectStore("assets", { keyPath: "id" }).createIndex(
+          "hash",
+          "hash",
+        );
+        const refs = db.createObjectStore("assetRefs", { keyPath: "id" });
+        refs.createIndex("projectId", "projectId");
+        refs.createIndex("assetId", "assetId");
+        upgradeAssets(req.transaction!, (error) => {
+          upgradeError = error;
+          req.transaction!.abort();
+        });
+      }
+    };
     req.onsuccess = () => {
       if (settled) {
         req.result.close();
@@ -33,7 +56,7 @@ const open = () =>
     };
     req.onerror = () => {
       settled = true;
-      reject(req.error);
+      reject(upgradeError || req.error);
     };
     req.onblocked = () => {
       settled = true;
@@ -42,7 +65,12 @@ const open = () =>
   });
 function transaction(db: IDBDatabase, mode: IDBTransactionMode = "readonly") {
   try {
-    return db.transaction("projects", mode);
+    return db.transaction(
+      mode === "readwrite"
+        ? ["projects", "assets", "assetRefs"]
+        : ["projects", "assets"],
+      mode,
+    );
   } catch (error) {
     db.close();
     throw error;
@@ -53,12 +81,18 @@ export async function loadProjects(): Promise<Project[]> {
   return new Promise((resolve, reject) => {
     const tx = transaction(db);
     const r = tx.objectStore("projects").getAll();
+    const images = tx.objectStore("assets").getAll();
     tx.oncomplete = () => {
       db.close();
       try {
+        const assets = new Map(
+          images.result.map((asset) => [asset.id, asset] as const),
+        );
         resolve(
           r.result
-            .map((p: Project) => normalizeHistory(migrateProject(p)))
+            .map((p: Project) =>
+              normalizeHistory(migrateProject(hydrateProject(p, assets))),
+            )
             .sort((a: Project, b: Project) => b.updated - a.updated),
         );
       } catch (error) {
@@ -83,6 +117,11 @@ export async function saveProject(
     const tx = transaction(db, "readwrite");
     const store = tx.objectStore("projects");
     let conflict = false;
+    let failure: unknown;
+    const fail = (error: unknown) => {
+      failure = error;
+      tx.abort();
+    };
     let next = 0;
     const r = store.get(p.id);
     r.onsuccess = () => {
@@ -95,7 +134,11 @@ export async function saveProject(
         return;
       }
       next = baseStorageVersion + 1;
-      store.put({ ...p, storageVersion: next });
+      try {
+        writeStoredProject(tx, { ...p, storageVersion: next }, fail);
+      } catch (error) {
+        fail(error);
+      }
     };
     tx.oncomplete = () => {
       db.close();
@@ -106,7 +149,9 @@ export async function saveProject(
       reject(
         conflict
           ? new StorageConflict()
-          : tx.error || new DOMException("保存事务已中止", "AbortError"),
+          : failure ||
+              tx.error ||
+              new DOMException("保存事务已中止", "AbortError"),
       );
     };
   });
@@ -116,14 +161,19 @@ export async function removeProject(id: string) {
   const db = await open();
   return new Promise<void>((resolve, reject) => {
     const tx = transaction(db, "readwrite");
-    tx.objectStore("projects").delete(id);
+    let failure: unknown;
+    const fail = (error: unknown) => {
+      failure = error;
+      tx.abort();
+    };
+    deleteStoredProject(tx, id, fail);
     tx.oncomplete = () => {
       db.close();
       resolve();
     };
     tx.onabort = tx.onerror = () => {
       db.close();
-      reject(tx.error || Error("删除事务已中止"));
+      reject(failure || tx.error || Error("删除事务已中止"));
     };
   });
 }

@@ -1,3 +1,4 @@
+import { binaryAssets } from "./assets";
 import { uid, type Project, type CodeFile } from "./domain";
 export const HISTORY_MAX_COUNT = 20;
 export const HISTORY_MAX_BYTES = 10 * 1024 * 1024;
@@ -21,7 +22,15 @@ export function activeVersion(p: Project): string | undefined {
     .find((v) => JSON.stringify(v.files) === JSON.stringify(p.files))?.id;
 }
 export function historyBytes(p: Project) {
-  return new TextEncoder().encode(JSON.stringify(p.versions)).length;
+  return new TextEncoder().encode(
+    JSON.stringify(p.versions, (key, value) =>
+      key === "data" &&
+      typeof value === "string" &&
+      value.startsWith("data:image/")
+        ? undefined
+        : value,
+    ),
+  ).length;
 }
 export function checkHistory(p: Project) {
   if (
@@ -62,7 +71,13 @@ export function addCodeVersion(p: Project, files: CodeFile[]): Project {
     activeCodeVersion: id,
     versions: [
       ...p.versions,
-      { id, at: Date.now(), revision: p.revision, files },
+      {
+        id,
+        at: Date.now(),
+        revision: p.revision,
+        files,
+        assets: binaryAssets(p),
+      },
     ],
   });
 }

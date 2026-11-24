@@ -1,4 +1,4 @@
-﻿import { test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { project, layer, validateProject } from "../src/domain";
 import { migrateProject, CURRENT_SCHEMA } from "../src/migrations";
@@ -152,7 +152,7 @@ test("stored legacy project loads migrated and future schema fails visibly witho
   await page.evaluate(
     (value) =>
       new Promise<void>((resolve) => {
-        const r = indexedDB.open("garmin-face-creator", 1);
+        const r = indexedDB.open("garmin-face-creator", 2);
         r.onsuccess = () => {
           const db = r.result,
             tx = db.transaction("projects", "readwrite");
@@ -178,7 +178,7 @@ test("stored legacy project loads migrated and future schema fails visibly witho
   await page.evaluate(
     (value) =>
       new Promise<void>((resolve) => {
-        const r = indexedDB.open("garmin-face-creator", 1);
+        const r = indexedDB.open("garmin-face-creator", 2);
         r.onsuccess = () => {
           const db = r.result,
             tx = db.transaction("projects", "readwrite");

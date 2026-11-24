@@ -1,4 +1,4 @@
-﻿import { test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { project } from "../src/domain";
 import {
   retainHistory,
@@ -64,7 +64,7 @@ test("legacy history remains readable and can be reduced without deleting active
   await page.evaluate(
     (value) =>
       new Promise<void>((resolve) => {
-        const r = indexedDB.open("garmin-face-creator", 1);
+        const r = indexedDB.open("garmin-face-creator", 2);
         r.onsuccess = () => {
           const db = r.result,
             tx = db.transaction("projects", "readwrite");

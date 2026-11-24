@@ -55,6 +55,7 @@ export type Layer = {
 };
 export type CodeFile = { path: string; content: string };
 export type CodeVersion = {
+  assets?: BinaryAsset[];
   id?: string;
   pinned?: boolean;
   at: number;
