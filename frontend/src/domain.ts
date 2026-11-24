@@ -7,6 +7,7 @@ export type Kind =
   | "metric"
   | "text"
   | "image"
+  | "wordTime"
   | "calendar"
   | "meter"
   | "ring"
@@ -43,6 +44,7 @@ export type Layer = {
   libraryIcon?: { id: string; recolor: boolean; strokeWidth: number };
   weatherIcon?: { period: "day" | "night" };
   assetId?: string;
+  wordLanguage?: "en" | "zh";
   calendarStart?: "monday" | "sunday";
   calendarTodayColor?: string;
   calendarTodayText?: string;
@@ -56,7 +58,14 @@ export type Layer = {
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
   garminFont?:
-    "auto" | "xtiny" | "tiny" | "small" | "medium" | "large" | "numberHot";
+    | "auto"
+    | "xtiny"
+    | "tiny"
+    | "small"
+    | "medium"
+    | "large"
+    | "numberHot"
+    | "systemXTiny";
   label?: string;
   unit?: string;
   precision?: number;
@@ -107,7 +116,8 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
+  schemaVersion:
+    1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -186,6 +196,7 @@ export function layer(kind: Kind): Layer {
       ring: "秒环",
       meter: "目标仪表",
       calendar: "三周日历",
+      wordTime: "文字报时",
       rect: "矩形",
       circle: "圆形",
       line: "直线",
@@ -225,7 +236,18 @@ export function layer(kind: Kind): Layer {
           calendarStart: "monday" as const,
         }
       : {}),
-    aod: kind === "time",
+    ...(kind === "wordTime"
+      ? {
+          x: 80,
+          y: 145,
+          w: 294,
+          h: 165,
+          size: 32,
+          garminFont: "xtiny" as const,
+          wordLanguage: "en" as const,
+        }
+      : {}),
+    aod: kind === "time" || kind === "wordTime",
     threshold: kind === "metric",
   };
 }
@@ -284,7 +306,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 14,
+    schemaVersion: 15,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -307,13 +329,14 @@ export function validateProject(value: unknown): Project {
     "ring",
     "meter",
     "calendar",
+    "wordTime",
     "rect",
     "circle",
     "line",
   ];
   if (
     !p ||
-    p.schemaVersion !== 14 ||
+    p.schemaVersion !== 15 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -393,6 +416,8 @@ export function validateProject(value: unknown): Project {
       !["monday", "sunday"].includes(l.calendarStart)
     )
       throw Error("日历周起始日无效");
+    if (l.wordLanguage !== undefined && !["en", "zh"].includes(l.wordLanguage))
+      throw Error("文字报时语言无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (
@@ -410,6 +435,7 @@ export function validateProject(value: unknown): Project {
           "medium",
           "large",
           "numberHot",
+          "systemXTiny",
         ].includes(l.garminFont)) ||
       (l.precision !== undefined &&
         (!Number.isInteger(l.precision) || l.precision < 0 || l.precision > 3))

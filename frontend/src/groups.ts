@@ -33,7 +33,15 @@ export function organizeReferenceLayers(layers: Layer[]): Layer[] {
                 ? "图表"
                 : l.kind === "image" || /背景|底色/.test(name)
                   ? "背景"
-                  : ["metric", "text", "time", "date"].includes(l.kind)
+                  : [
+                        "metric",
+                        "text",
+                        "time",
+                        "date",
+                        "wordTime",
+                        "calendar",
+                        "meter",
+                      ].includes(l.kind)
                     ? "数据与文字"
                     : "装饰";
     if (!groups.has(group)) groups.set(group, uid());

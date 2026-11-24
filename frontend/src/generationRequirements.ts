@@ -1,3 +1,4 @@
+import { wordTimeGlyphs } from "./wordTime.ts";
 import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
 import type { Project } from "./domain";
 import { generationDevice } from "./devices.ts";
@@ -118,11 +119,13 @@ export function generationRequirements(p: Project) {
   ].sort();
   const drawnText = layers
     .flatMap((l) =>
-      l.kind === "text"
-        ? [l.text]
-        : l.kind === "metric" || l.kind === "meter"
-          ? [l.label || "", l.unit || "", l.missingValue || "--"]
-          : [],
+      l.kind === "wordTime"
+        ? [wordTimeGlyphs(l.wordLanguage)]
+        : l.kind === "text"
+          ? [l.text]
+          : l.kind === "metric" || l.kind === "meter"
+            ? [l.label || "", l.unit || "", l.missingValue || "--"]
+            : [],
     )
     .join("");
   // AppName is a native string resource too. Editor layer/group names are not.

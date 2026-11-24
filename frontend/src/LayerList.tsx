@@ -1,3 +1,4 @@
+import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
 import LibraryImage from "./LibraryImage";
@@ -16,7 +17,13 @@ function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
       aria-label={`图层缩略图 ${l.name}`}
       viewBox={`0 0 ${w} ${h}`}
     >
-      {l.kind === "calendar" ? (
+      {l.kind === "wordTime" ? (
+        <WordTimeWidget
+          layer={l}
+          time={preview.time}
+          seconds={preview.seconds}
+        />
+      ) : l.kind === "calendar" ? (
         <Calendar layer={l} date={preview.calendarDate} />
       ) : l.kind === "meter" ? (
         <Meter

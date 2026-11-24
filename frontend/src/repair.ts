@@ -41,9 +41,11 @@ export function repairPayload(
 ) {
   if (
     paths.some((path) =>
-      ["source/GfcIcons.mc", "resources/drawables/gfc-icons.xml"].includes(
-        path,
-      ),
+      [
+        "source/GfcIcons.mc",
+        "source/GfcWordTime.mc",
+        "resources/drawables/gfc-icons.xml",
+      ].includes(path),
     )
   )
     throw Error("固定图标映射文件不允许 AI 修复修改，请调整画布后重新生成。");

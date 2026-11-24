@@ -44,6 +44,7 @@ const generators = [];
 for (const sourceFile of [
   "frontend/src/localGenerator.ts",
   "frontend/src/weatherIcons.ts",
+  "frontend/src/wordTime.ts",
 ]) {
   const text = (await readFile(resolve(root, sourceFile), "utf8")).replaceAll(
     "\r\n",
@@ -51,7 +52,9 @@ for (const sourceFile of [
   );
   const version = sourceFile.endsWith("localGenerator.ts")
     ? text.match(/LOCAL_GENERATOR_VERSION\s*=\s*"([^"]+)"/)?.[1]
-    : text.match(/fixed icon adapter (icons-[0-9]+)/)?.[1];
+    : sourceFile.endsWith("wordTime.ts")
+      ? text.match(/WORD_TIME_VERSION\s*=\s*"([^"]+)"/)?.[1]
+      : text.match(/fixed icon adapter (icons-[0-9]+)/)?.[1];
   if (!version) throw Error("Missing generator version");
   const path = "/reference-notices/generator-sources/" + basename(sourceFile);
   await writeFile(resolve(root, "frontend/public" + path), text);
@@ -60,9 +63,28 @@ for (const sourceFile of [
     path,
     version,
     sha256: hash(text),
-    license: "GPL-3.0-or-later",
+    license: sourceFile.endsWith("wordTime.ts")
+      ? "GPL-3.0-or-later adapter; MIT locale phrases"
+      : "GPL-3.0-or-later",
     scope:
       "Template source context; exported Monkey C files are the complete native build input",
+  });
+}
+const wordLocaleFiles = [];
+for (const [name, expected] of Object.entries({
+  "AboutTime-LICENSE.txt":
+    "00a2b29a7539568eb12ea2f79d0af7ce8e82fa40a59bde62ca0bae00c583dd18",
+  "AboutTime-English-strings.xml":
+    "5012c9504c589d529f4ac1ac6988bf5de2fbb53e32583e243196531f7b8b8c91",
+  "AboutTime-Chinese-strings.xml":
+    "a1a9580e8e590926c34b8de05a58b4ff6614d7e92fc3ebb759d1a20a667be891",
+})) {
+  const bytes = await readFile(resolve(out, name));
+  if (hash(bytes) !== expected)
+    throw Error("Pinned word-time source mismatch: " + name);
+  wordLocaleFiles.push({
+    path: "/reference-notices/" + name,
+    sha256: expected,
   });
 }
 await writeFile(
@@ -74,6 +96,12 @@ await writeFile(
       licensePath: "/reference-notices/repository-LICENSE.txt",
       bundles,
       generators,
+      wordTimeLocale: {
+        source: "https://github.com/samuelmr/garmin-abouttime",
+        commit: "4fdf09bcf784ecf385b9dce546af3f277e13caa5",
+        license: "MIT",
+        files: wordLocaleFiles,
+      },
     },
     null,
     2,

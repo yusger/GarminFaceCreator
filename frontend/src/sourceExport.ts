@@ -101,12 +101,27 @@ export async function exportSources(
     );
     templateSources.push({
       ...template,
-      sourceLicense: "GPL-3.0-or-later",
+      sourceLicense:
+        template.sourceFile === "frontend/src/wordTime.ts"
+          ? "GPL-3.0-or-later adapter; MIT locale phrases"
+          : "GPL-3.0-or-later",
       sourceContext: snapshot || null,
       note: snapshot
         ? "Copied native template source context attached; independent inputs and separate assets retain their own status"
         : "Historical template source snapshot unavailable; actual native source is included",
     });
+  }
+  if (templates.some((t) => t.sourceFile === "frontend/src/wordTime.ts")) {
+    if (!origins.wordTimeLocale?.files?.length)
+      throw Error("缺少文字报时原始许可和文本来源");
+    for (const file of origins.wordTimeLocale.files) {
+      const r = await fetch(file.path);
+      if (!r.ok) throw Error("缺少文字报时原始许可");
+      entries.push({
+        path: "notices/" + file.path.split("/").at(-1),
+        data: new Uint8Array(await r.arrayBuffer()),
+      });
+    }
   }
   if (templates.length) {
     const license = await fetch(origins.licensePath);
@@ -166,6 +181,11 @@ export async function exportSources(
   });
   const metadata = {
     usedIcons,
+    wordTimeLocale: templates.some(
+      (t) => t.sourceFile === "frontend/src/wordTime.ts",
+    )
+      ? origins.wordTimeLocale
+      : undefined,
     templateSources,
     referenceSnapshot: reference
       ? origins.bundles.find((r: { id: string }) => r.id === referenceId)

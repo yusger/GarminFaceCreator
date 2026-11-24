@@ -34,7 +34,9 @@ export default function RepairPanel({
   const [paths, setPaths] = useState<string[]>(() =>
     project.files
       .filter(
-        (f) => f.path.startsWith("source/") && f.path !== "source/GfcIcons.mc",
+        (f) =>
+          f.path.startsWith("source/") &&
+          !["source/GfcIcons.mc", "source/GfcWordTime.mc"].includes(f.path),
       )
       .slice(0, 1)
       .map((f) => f.path),
@@ -135,6 +137,7 @@ export default function RepairPanel({
                 /^source\/|^resources\//.test(f.path) &&
                 ![
                   "source/GfcIcons.mc",
+                  "source/GfcWordTime.mc",
                   "resources/drawables/gfc-icons.xml",
                 ].includes(f.path),
             )

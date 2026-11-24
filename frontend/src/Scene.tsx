@@ -1,3 +1,4 @@
+import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
 import {
@@ -177,7 +178,14 @@ export default function Scene({
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
             >
-              {l.kind === "calendar" ? (
+              {l.kind === "wordTime" ? (
+                <WordTimeWidget
+                  layer={l}
+                  time={preview.time}
+                  seconds={preview.seconds}
+                  aod={aod}
+                />
+              ) : l.kind === "calendar" ? (
                 <Calendar layer={l} date={preview.calendarDate} aod={aod} />
               ) : l.kind === "meter" ? (
                 <Meter

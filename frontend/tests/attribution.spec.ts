@@ -26,7 +26,7 @@ test("reference and generator source snapshots retain exact build fingerprints",
   expect(r.ok()).toBeTruthy();
   const origins = await r.json();
   expect(origins.bundles).toHaveLength(5);
-  expect(origins.generators).toHaveLength(2);
+  expect(origins.generators).toHaveLength(3);
   for (const entry of [...origins.bundles, ...origins.generators]) {
     const response = await request.get(entry.path);
     expect(response.ok()).toBeTruthy();

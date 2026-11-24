@@ -96,6 +96,7 @@ const tools = [
   ["ring", "圆环", RotateCw],
   ["meter", "目标仪表", SlidersHorizontal],
   ["calendar", "三周日历", Calendar],
+  ["wordTime", "文字报时", Type],
   ["rect", "矩形", Square],
   ["text", "文字", Type],
   ["circle", "圆形", Circle],
@@ -198,7 +199,7 @@ export default function App() {
   const textMeasure = useRef<CanvasRenderingContext2D | null>(null);
   textMeasure.current ||= document.createElement("canvas").getContext("2d");
   const boundaryWarnings = (p?.layers || []).filter((l) => {
-    if (!["text", "time", "date", "metric"].includes(l.kind))
+    if (!["text", "time", "date", "metric", "wordTime"].includes(l.kind))
       return crossesScreen(l);
     const ctx = textMeasure.current;
     if (!ctx) return crossesScreen(l);
@@ -2090,6 +2091,33 @@ export default function App() {
                         </p>
                       </>
                     )}
+                    {current.kind === "wordTime" && (
+                      <>
+                        <label>
+                          报时语言
+                          <select
+                            aria-label="报时语言"
+                            value={current.wordLanguage || "en"}
+                            onChange={(e) =>
+                              patch({
+                                wordLanguage: e.target
+                                  .value as Layer["wordLanguage"],
+                                garminFont:
+                                  e.target.value === "zh"
+                                    ? "systemXTiny"
+                                    : "xtiny",
+                              })
+                            }
+                          >
+                            <option value="en">English</option>
+                            <option value="zh">简体中文</option>
+                          </select>
+                        </label>
+                        <p className="hint">
+                          按最接近的五分钟报时，三行文字动态更新。中文需设备支持对应字形，建议本地化系统字体并在中文系统下检查；不分发字体。
+                        </p>
+                      </>
+                    )}
                     {current.kind === "calendar" && (
                       <>
                         <label>
@@ -2284,7 +2312,7 @@ export default function App() {
                         </select>
                       </label>
                     )}
-                    {["text", "time", "date", "metric"].includes(
+                    {["text", "time", "date", "metric", "wordTime"].includes(
                       current.kind,
                     ) && (
                       <>
@@ -2340,6 +2368,7 @@ export default function App() {
                             {[
                               ["auto", "自动选择"],
                               ["xtiny", "FONT_XTINY"],
+                              ["systemXTiny", "FONT_SYSTEM_XTINY"],
                               ["tiny", "FONT_TINY"],
                               ["small", "FONT_SMALL"],
                               ["medium", "FONT_MEDIUM"],
@@ -2687,9 +2716,13 @@ export default function App() {
                             }
                           />
                         </label>
-                        {["text", "time", "date", "metric"].includes(
-                          current.kind,
-                        ) && (
+                        {[
+                          "text",
+                          "time",
+                          "date",
+                          "metric",
+                          "wordTime",
+                        ].includes(current.kind) && (
                           <label>
                             息屏字号
                             <input

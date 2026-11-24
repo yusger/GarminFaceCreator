@@ -100,8 +100,8 @@
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-6-calendar",
-      "sha256": "267fa5d6997e10ffad4e01f14a4218ca5addee5e46850b94997022284306e7a3",
+      "version": "basic-7-words",
+      "sha256": "29610fb78a4d7983209121ba66c3852296368b3d7df76aec2b916a3d856582ec",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },
@@ -112,6 +112,33 @@
       "sha256": "c01b722b08642046a1b8423dfc8ecb59bb27b3a7350a99e7d0a1771a8b53cb9a",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
+    },
+    {
+      "sourceFile": "frontend/src/wordTime.ts",
+      "path": "/reference-notices/generator-sources/wordTime.ts",
+      "version": "words-1",
+      "sha256": "aa2c7de59bc282ccb23d38359a675755d472f26146163e23167bcd0cc680f3dd",
+      "license": "GPL-3.0-or-later adapter; MIT locale phrases",
+      "scope": "Template source context; exported Monkey C files are the complete native build input"
     }
-  ]
+  ],
+  "wordTimeLocale": {
+    "source": "https://github.com/samuelmr/garmin-abouttime",
+    "commit": "4fdf09bcf784ecf385b9dce546af3f277e13caa5",
+    "license": "MIT",
+    "files": [
+      {
+        "path": "/reference-notices/AboutTime-LICENSE.txt",
+        "sha256": "00a2b29a7539568eb12ea2f79d0af7ce8e82fa40a59bde62ca0bae00c583dd18"
+      },
+      {
+        "path": "/reference-notices/AboutTime-English-strings.xml",
+        "sha256": "5012c9504c589d529f4ac1ac6988bf5de2fbb53e32583e243196531f7b8b8c91"
+      },
+      {
+        "path": "/reference-notices/AboutTime-Chinese-strings.xml",
+        "sha256": "a1a9580e8e590926c34b8de05a58b4ff6614d7e92fc3ebb759d1a20a667be891"
+      }
+    ]
+  }
 }

@@ -1,3 +1,4 @@
+import { mergeNativeWordTime } from "./wordTime.ts";
 import { defaultThresholds } from "./thresholds.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
 import { meterPolygons } from "./meters.ts";
@@ -7,7 +8,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-6-calendar";
+export const LOCAL_GENERATOR_VERSION = "basic-7-words";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -27,6 +28,7 @@ function font(l: Layer, aod: boolean) {
     "Graphics.FONT_" +
     ({
       xtiny: "XTINY",
+      systemXTiny: "SYSTEM_XTINY",
       tiny: "TINY",
       small: "SMALL",
       medium: "MEDIUM",
@@ -102,6 +104,12 @@ function draw(l: Layer, aod: boolean) {
         l.aodSeconds === "hide"))
   )
     return "";
+  if (l.kind === "wordTime") {
+    const ink = color(aod ? l.aodColor || "#777777" : l.color),
+      align = l.textAlign || "center",
+      x = l.x + (align === "left" ? 0 : align === "right" ? l.w : l.w / 2);
+    return `{var rows=GfcWordTime.lines(clock.hour,clock.min,${aod ? 0 : "clock.sec"},${JSON.stringify(l.wordLanguage || "en")});dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);for(var line=0;line<3;line++){dc.drawText(px(${num(x)}),px(${num(l.y)}+(line+0.5)*${num(l.h)}/3),${font(l, aod)},rows[line],Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);}}`;
+  }
   if (l.kind === "calendar") {
     const normal = color(aod ? l.aodColor || "#777777" : l.color),
       muted = color(
@@ -186,6 +194,7 @@ export function localGenerate(p: Project) {
         "time",
         "date",
         "calendar",
+        "wordTime",
         "metric",
         "text",
         "rect",
@@ -203,11 +212,14 @@ export function localGenerate(p: Project) {
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量数据和内置图标。请移除或排除：" +
+      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量数据和内置图标。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const requirements = generationRequirements(p);
-  if (requirements.languages.length > 1)
+  if (
+    requirements.languages.length > 1 &&
+    !included.some((l) => l.kind === "wordTime" && l.wordLanguage === "zh")
+  )
     throw Error(
       "本地生成试验尚未验证非英文系统字形。请使用 ASCII 项目名和文字，或使用 AI 生成并提供已授权字体。",
     );
@@ -314,29 +326,32 @@ class GeneratedView extends WatchUi.WatchFace {
 }`;
   return parseFiles(
     JSON.stringify({
-      files: mergeNativeIcons(p, [
-        { path: "manifest.xml", content: generationManifest(p) },
-        {
-          path: "monkey.jungle",
-          content:
-            "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n",
-        },
-        { path: "source/App.mc", content: source },
-        {
-          path: "resources/strings/strings.xml",
-          content: `<strings><string id="AppName">${xml(p.name)}</string></strings>`,
-        },
-        {
-          path: "resources/drawables/drawables.xml",
-          content:
-            '<drawables><bitmap id="LauncherIcon" filename="icon.svg"/></drawables>',
-        },
-        {
-          path: "resources/drawables/icon.svg",
-          content:
-            '<svg xmlns="http://www.w3.org/2000/svg" width="65" height="65"><circle cx="32" cy="32" r="28" fill="#45d6be"/></svg>',
-        },
-      ]),
+      files: mergeNativeWordTime(
+        p,
+        mergeNativeIcons(p, [
+          { path: "manifest.xml", content: generationManifest(p) },
+          {
+            path: "monkey.jungle",
+            content:
+              "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n",
+          },
+          { path: "source/App.mc", content: source },
+          {
+            path: "resources/strings/strings.xml",
+            content: `<strings><string id="AppName">${xml(p.name)}</string></strings>`,
+          },
+          {
+            path: "resources/drawables/drawables.xml",
+            content:
+              '<drawables><bitmap id="LauncherIcon" filename="icon.svg"/></drawables>',
+          },
+          {
+            path: "resources/drawables/icon.svg",
+            content:
+              '<svg xmlns="http://www.w3.org/2000/svg" width="65" height="65"><circle cx="32" cy="32" r="28" fill="#45d6be"/></svg>',
+          },
+        ]),
+      ),
     }),
   );
 }

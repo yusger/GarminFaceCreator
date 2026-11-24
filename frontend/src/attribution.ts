@@ -13,6 +13,15 @@ export function observedTemplates(files: CodeFile[]) {
       icons = f.content.match(
         /^\/\/ GarminFaceCreator fixed icon adapter ([^.\s]+)/,
       );
+    const words = f.content.match(
+      /^\/\/ GarminFaceCreator fixed word-time adapter ([^.\s]+)/,
+    );
+    if (words)
+      result.push({
+        outputFile: f.path,
+        sourceFile: "frontend/src/wordTime.ts",
+        version: words[1],
+      });
     if (local)
       result.push({
         outputFile: f.path,

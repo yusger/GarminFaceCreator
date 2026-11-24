@@ -29,3 +29,7 @@ The Creator version contains editable layers and a complete new native build, in
 ## TimelyFenix Creator adaptation
 
 Thanks to [KWottrich/TimelyFenix](https://github.com/KWottrich/TimelyFenix), pinned `d38a347a548667780a9f17b84f5f02155687a72c`, and contributors. Original GPLv3 LICENSE and README, including the upstream PebbleTimely inspiration credit, are retained under `frontend/public/reference-notices/TimelyFenix-*`. This trimmed editable Venu 4 45mm adaptation uses system fonts and already curated Meteocons MIT weather icons; original Pixeden font/icon binaries are not copied. See [scope and modifications](frontend/public/reference-notices/TimelyFenix-ADAPTATION.md); original buffering and power claims do not apply automatically.
+
+## About Time word-time locale phrases
+
+The reusable word-time component includes English and Simplified Chinese phrase tables from [samuelmr/garmin-abouttime](https://github.com/samuelmr/garmin-abouttime), pinned `4fdf09bcf784ecf385b9dce546af3f277e13caa5`, copyright (c) 2019 Samuel Rinnetmäki, MIT. Complete license and original locale XML are retained under `frontend/public/reference-notices/AboutTime-*` and attached to source exports containing the adapter, even outside a reference project. The Creator adapter retains GPL-3.0-or-later scope. No upstream font/icon binary is copied. A future default reference is a separate integration stage.
