@@ -250,6 +250,9 @@ test("AI output cannot override fixed icon helper and weather pixels stay out of
     const design = JSON.parse(payload.messages[1].content).design;
     expect(design.assets).toHaveLength(9);
     expect(design.nativeIconBindings).toHaveLength(1);
+    expect(
+      design.nativeIconHelpers.every((f: any) => f.managed && !f.content),
+    ).toBe(true);
     expect(design.layers[0].asset).toBeUndefined();
     expect(JSON.stringify(payload)).not.toContain("PRIVATE_WEATHER_PIXELS");
     expect(JSON.stringify(payload)).not.toContain(profile.key);

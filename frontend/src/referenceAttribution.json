@@ -1,0 +1,42 @@
+[
+  {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "name": "ClownWatch",
+    "template": "clownwatch",
+    "source": "https://github.com/yusger/GarminFaceCreator",
+    "status": "Repository code GPL-3.0-or-later; Wildward portions MIT; character/artwork/font rights require separate review",
+    "summary": "仓库代码 GPLv3+；Wildward 部分 MIT；角色、图片与字体分别核查",
+    "files": ["repository-LICENSE.txt", "ClownWatch-Wildward-LICENSE.txt"],
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000002",
+    "name": "SkyRing",
+    "template": "skyring",
+    "source": "https://github.com/daveshap/SkyRingGarmin",
+    "status": "Upstream license not verified; do not infer redistribution permission from public source",
+    "summary": "上游许可尚未确认，公开源码不等于获得再分发授权",
+    "files": ["SkyRing-README.md"],
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000003",
+    "name": "fine-o-clock",
+    "template": "fine-o-clock",
+    "source": "https://github.com/causeri3/fine-o-clock",
+    "status": "Upstream LICENCE is LGPLv3, README states GPLv3+; both statements retained, discrepancy unresolved",
+    "summary": "LICENCE 为 LGPLv3，README 声明 GPLv3+；原始说明均保留",
+    "files": [
+      "fine-o-clock-LICENCE.txt",
+      "fine-o-clock-README.md",
+      "repository-LICENSE.txt"
+    ],
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true
+  }
+]

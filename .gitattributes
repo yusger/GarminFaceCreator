@@ -4,3 +4,4 @@
 Dockerfile* text eol=lf
 *.yaml text eol=lf
 frontend/public/icon-library/** -text
+frontend/public/reference-notices/generator-sources/** -text

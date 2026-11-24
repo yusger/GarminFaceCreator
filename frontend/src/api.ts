@@ -144,7 +144,10 @@ export async function generate(
         ),
     ],
     nativeIconBindings: nativeIconBindings(project),
-    nativeIconHelpers: nativeIconFiles(project),
+    nativeIconHelpers: nativeIconFiles(project).map((f) => ({
+      path: f.path,
+      managed: true,
+    })),
     target: device.target,
     deviceSize: device.size,
     device,

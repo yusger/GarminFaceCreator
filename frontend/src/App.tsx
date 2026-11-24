@@ -1,3 +1,4 @@
+import ReferenceDetails from "./ReferenceDetails";
 import IconDetails from "./IconDetails";
 import IconGallery from "./IconGallery";
 import { rasterIcon, preparedAssets, type LibraryIcon } from "./iconLibrary";
@@ -1404,6 +1405,7 @@ export default function App() {
                     >
                       <Scene project={item} preview={preview} />
                     </button>
+                    <ReferenceDetails id={item.referenceId || item.id} />
                     <div className="project-card-info">
                       <div>
                         <b>{item.name}</b>

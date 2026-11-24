@@ -1,3 +1,8 @@
+import {
+  referenceAttributions,
+  observedTemplates,
+  attributionSnapshot,
+} from "./attribution";
 import { iconVariants, iconResourcePath } from "./weatherIcons";
 import { preparedAssets, findIcon, originalIcon } from "./iconLibrary";
 import { imageAssetPath } from "./assets";
@@ -7,33 +12,7 @@ import { zipFiles } from "./zip";
 const referenceNotices: Record<
   string,
   { name: string; source: string; status: string; files: string[] }
-> = {
-  "00000000-0000-4000-8000-000000000001": {
-    name: "ClownWatch",
-    source: "GarminFaceCreator bundled reference",
-    status:
-      "Repository code GPL-3.0-or-later; Wildward portions MIT; character/artwork rights separate",
-    files: ["repository-LICENSE.txt", "ClownWatch-Wildward-LICENSE.txt"],
-  },
-  "00000000-0000-4000-8000-000000000002": {
-    name: "SkyRing",
-    source: "https://github.com/daveshap/SkyRingGarmin",
-    status:
-      "Upstream license not verified; do not infer redistribution permission from public source",
-    files: ["SkyRing-README.md"],
-  },
-  "00000000-0000-4000-8000-000000000003": {
-    name: "fine-o-clock",
-    source: "https://github.com/causeri3/fine-o-clock",
-    status:
-      "Upstream LICENCE is LGPLv3, README states GPLv3+; both original statements retained, discrepancy unresolved",
-    files: [
-      "fine-o-clock-LICENCE.txt",
-      "fine-o-clock-README.md",
-      "repository-LICENSE.txt",
-    ],
-  },
-};
+> = Object.fromEntries(referenceAttributions.map((r) => [r.id, r]));
 async function referenceOf(p: Project) {
   if (p.referenceId && referenceNotices[p.referenceId]) return p.referenceId;
   const references = await loadReferences().catch(() => []);
@@ -111,8 +90,86 @@ export async function exportSources(
       data: new Uint8Array(await response.arrayBuffer()),
     });
   }
+  const templates = observedTemplates(p.files);
+  const origins =
+    reference || templates.length ? await attributionSnapshot() : null;
+  const templateSources = [];
+  for (const template of templates) {
+    const snapshot = origins.generators.find(
+      (g: { sourceFile: string; version: string }) =>
+        g.sourceFile === template.sourceFile && g.version === template.version,
+    );
+    templateSources.push({
+      ...template,
+      sourceLicense: "GPL-3.0-or-later",
+      sourceContext: snapshot || null,
+      note: snapshot
+        ? "Copied native template source context attached; independent inputs and separate assets retain their own status"
+        : "Historical template source snapshot unavailable; actual native source is included",
+    });
+  }
+  if (templates.length) {
+    const license = await fetch(origins.licensePath);
+    if (!license.ok) throw Error("缺少固定模板许可证");
+    entries.push({
+      path: "licenses/GarminFaceCreator-LICENSE.txt",
+      data: new Uint8Array(await license.arrayBuffer()),
+    });
+    for (const source of new Map(
+      templateSources
+        .filter((t) => t.sourceContext)
+        .map((t) => [t.sourceContext.path, t.sourceContext]),
+    ).values()) {
+      const response = await fetch(source.path);
+      if (!response.ok) throw Error("缺少固定模板来源快照");
+      entries.push({
+        path:
+          "notices/generator-sources/" + source.sourceFile.split("/").at(-1),
+        data: new Uint8Array(await response.arrayBuffer()),
+      });
+    }
+    entries.push({
+      path: "notices/native-template-origin.md",
+      data: text.encode(
+        "# Fixed native template origin\n\nThe listed native files include template text produced from GarminFaceCreator, whose repository is GPL-3.0-or-later. The repository license and matching available source-context snapshots are attached. Complete actual Monkey C source/resources are included for native compilation. Source-context TypeScript is documentation of the copied templates, not a standalone tool build. Licensing is assessed by actual contents: this notice does not blanket-license independent AI output, user inputs, upstream artwork or fonts. See gfc-export.json for per-file/version scope and reference uncertainties.\n",
+      ),
+    });
+  }
+  entries.push({
+    path: "design-source.json",
+    data: text.encode(
+      JSON.stringify(
+        {
+          schemaVersion: p.schemaVersion,
+          name: p.name,
+          target: p.target,
+          deviceSize: p.deviceSize,
+          layoutGuide: p.layoutGuide,
+          layers: p.layers
+            .filter((l) => l.exportIncluded !== false)
+            .map(({ image, ...layer }) => ({
+              ...layer,
+              imageResource:
+                image && !layer.weatherIcon ? imageAssetPath(layer) : undefined,
+              imageVariants: layer.weatherIcon
+                ? iconVariants(layer).map((v) => ({
+                    ...v,
+                    path: iconResourcePath(layer, v.key),
+                  }))
+                : undefined,
+            })),
+        },
+        null,
+        2,
+      ),
+    ),
+  });
   const metadata = {
     usedIcons,
+    templateSources,
+    referenceSnapshot: reference
+      ? origins.bundles.find((r: { id: string }) => r.id === referenceId)
+      : null,
     iconUsages: p.layers
       .filter((l) => l.exportIncluded !== false && l.libraryIcon)
       .map((l) => ({
@@ -156,6 +213,10 @@ export async function exportSources(
       p.name.replace(/[<>:"/\\|?*\p{Cc}\s]/gu, "_") +
       `_source_r${p.codeRevision}.zip`,
     blob: zipFiles(entries),
-    licenseStatus: reference?.status || "请核对工程中实际内容的许可与来源",
+    licenseStatus:
+      reference?.status ||
+      (templates.length
+        ? "含固定原生模板代码，已附其来源与仓库许可证；独立内容和素材分别核查"
+        : "请核对工程中实际内容的许可与来源"),
   };
 }
