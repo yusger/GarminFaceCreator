@@ -10,3 +10,12 @@
 应用依赖的许可见各依赖包的声明。参考图片、字体或其他第三方资源若有独立许可，以其原许可为准。
 
 感谢 [daveshap](https://github.com/daveshap) 和 [causeri3](https://github.com/causeri3) 开源分享 SkyRing 与 fine-o-clock 的源码和设计，为本项目的参考表盘集成提供基础。
+
+## Curated watch-face icon sources
+
+The static icon catalog is separate from lucide-react UI icons. Original SVGs and full notices are retained under `frontend/public/icon-library/`; every catalog entry records its source, immutable commit or release, original path, SHA-256 and license.
+
+- Lucide Icons and Contributors: https://github.com/lucide-icons/lucide, commit `586bf5cf9bcf4129a63c0ce574602b23ca24f324`. Ten selected originals; full ISC license including the Feather-derived MIT notices is retained in `icon-library/licenses/Lucide-LICENSE.txt`. These notices are not replaced by this repository's GPL license.
+- Bas Milius / Meteocons: https://github.com/basmilius/meteocons. Seventeen selected static originals from official `@meteocons/svg-static@0.1.0`, package gitHead `1d821149b94a08f23c85e5042e8a61a3fcd82cf7`; full MIT copyright and license retained in `icon-library/licenses/Meteocons-LICENSE.txt`. The pinned registry tarball is checked against its SHA-512 integrity before reading selected files. No upstream install or build scripts are executed.
+
+This catalog stage makes curated files and notices available; insertion, derivatives, per-project exports and weather-data binding require their own implementation and validation. It does not claim all Meteocons animations can be exported natively.
