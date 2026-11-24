@@ -1,3 +1,4 @@
+import { organizeReferenceLayers } from "./groups";
 import { migrateProject } from "./migrations";
 import { uid, parseFiles, type Project } from "./domain";
 
@@ -41,6 +42,7 @@ export function copyReference(
     id: uid(),
     appId,
     referenceId: reference.id,
+    layers: organizeReferenceLayers(reference.layers),
     name,
     updated: Date.now(),
     files: reference.files.map((file) =>

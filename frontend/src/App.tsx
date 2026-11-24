@@ -1,3 +1,6 @@
+import LayerList from "./LayerList";
+import Palette from "./Palette";
+import { renderChanged, organizeReferenceLayers } from "./groups";
 import { exportSources } from "./sourceExport";
 import { groupBox, layerBox, insideBox, type Box } from "./selection";
 import ThresholdEditor from "./ThresholdEditor";
@@ -388,7 +391,12 @@ export default function App() {
       setPast((x) => [...x.slice(-49), structuredClone(p.layers)]);
       setFuture([]);
     }
-    setP({ ...p, layers, revision: p.revision + 1, updated: Date.now() });
+    setP({
+      ...p,
+      layers,
+      revision: p.revision + (renderChanged(p.layers, layers) ? 1 : 0),
+      updated: Date.now(),
+    });
   }
   function beginProperty(e: React.FocusEvent<HTMLElement>) {
     if (
@@ -450,7 +458,12 @@ export default function App() {
       setPast(past.slice(0, -1));
     }
     selectOne((id) => (layers.some((l) => l.id === id) ? id : ""));
-    setP({ ...p, layers, revision: p.revision + 1, updated: Date.now() });
+    setP({
+      ...p,
+      layers,
+      revision: p.revision + (renderChanged(p.layers, layers) ? 1 : 0),
+      updated: Date.now(),
+    });
   }
   function open(item: Project) {
     if (p && item.id !== p.id && persisted.current !== p) {
@@ -534,15 +547,22 @@ export default function App() {
   }
   function duplicate() {
     if (!p) return;
+    const copiedGroups = new Map<string, string>();
     const copies = p.layers
       .filter((l) => selection.includes(l.id) && !l.locked)
-      .map((l) => ({
-        ...l,
-        id: uid(),
-        name: l.name + " 副本",
-        x: l.x + 8,
-        y: l.y + 8,
-      }));
+      .map((l) => {
+        if (l.groupId && !copiedGroups.has(l.groupId))
+          copiedGroups.set(l.groupId, uid());
+        return {
+          ...l,
+          groupId: l.groupId ? copiedGroups.get(l.groupId) : undefined,
+          groupName: l.groupName ? l.groupName + " 副本" : undefined,
+          id: uid(),
+          name: l.name + " 副本",
+          x: l.x + 8,
+          y: l.y + 8,
+        };
+      });
     if (!copies.length) return;
     if (p.layers.length + copies.length > 200) {
       setNotice("最多 200 个图层");
@@ -1447,59 +1467,55 @@ export default function App() {
                   <b>图层</b>
                   <span>{p.layers.length}</span>
                 </div>
-                <div className="layer-list">
-                  {p.layers.map((l, i) => (
-                    <div
-                      key={l.id}
-                      className={
-                        "layer-row " +
-                        (selection.includes(l.id) ? "selected" : "")
-                      }
-                      onClick={(e) => selectLayer(l.id, e.shiftKey)}
-                    >
-                      <Layers size={14} />
-                      <span>{l.name}</span>
-                      <button
-                        aria-label={"隐藏 " + l.name}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          editLayers(
-                            p.layers.map((x) =>
-                              x.id === l.id ? { ...x, hidden: !x.hidden } : x,
-                            ),
-                          );
-                        }}
-                      >
-                        {l.hidden ? <EyeOff size={14} /> : <Eye size={14} />}
-                      </button>
-                      <button
-                        aria-label={"锁定 " + l.name}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          editLayers(
-                            p.layers.map((x) =>
-                              x.id === l.id ? { ...x, locked: !x.locked } : x,
-                            ),
-                          );
-                        }}
-                      >
-                        {l.locked ? <Lock size={13} /> : <Unlock size={13} />}
-                      </button>
-                      <button
-                        title="上移图层"
-                        disabled={!i}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          const a = [...p.layers];
-                          [a[i], a[i - 1]] = [a[i - 1], a[i]];
-                          editLayers(a);
-                        }}
-                      >
-                        ↑
-                      </button>
-                    </div>
-                  ))}
+                <div className="group-actions">
+                  <button
+                    disabled={selection.length < 2}
+                    onClick={() => {
+                      const name = prompt("分组名称", "新分组");
+                      if (!name?.trim()) return;
+                      const id = uid();
+                      editLayers(
+                        p.layers.map((l) =>
+                          selection.includes(l.id)
+                            ? {
+                                ...l,
+                                groupId: id,
+                                groupName: name.trim().slice(0, 80),
+                              }
+                            : l,
+                        ),
+                      );
+                    }}
+                  >
+                    选中图层分组
+                  </button>
+                  <button
+                    onClick={() =>
+                      editLayers(organizeReferenceLayers(p.layers))
+                    }
+                  >
+                    按名称整理
+                  </button>
                 </div>
+                <LayerList
+                  layers={p.layers}
+                  selection={selection}
+                  preview={preview}
+                  onSelect={selectLayer}
+                  onSelectGroup={(ids, additive) => {
+                    const next = additive
+                      ? [...new Set([...selection, ...ids])]
+                      : ids;
+                    setSelection(next);
+                    setSelected(next.at(-1) || "");
+                  }}
+                  onChange={editLayers}
+                />
+                <Palette
+                  layers={p.layers}
+                  selection={selection}
+                  onChange={editLayers}
+                />
                 <button
                   className="export-button"
                   disabled={!p.files.length}
