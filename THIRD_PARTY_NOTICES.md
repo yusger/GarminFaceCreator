@@ -37,3 +37,8 @@ The reusable word-time component includes English and Simplified Chinese phrase 
 ## AboutTime default reference
 
 The default AboutTime Creator layout adapts the pinned About Time version above. It includes three editable word-time rows and actual local date/battery, initially for Venu 4 45mm. Original MIT source phrases and complete copyright/notice remain MIT; Creator native templates retain GPLv3+ scope. The original README and two locale XML files accompany export. No original font/icon binary or other language package is copied. See [scope and modifications](frontend/public/reference-notices/AboutTime-ADAPTATION.md).
+
+
+## KISSFace Creator adaptation
+
+Thanks to [Delfim Machado / dbcm/KISSFace](https://github.com/dbcm/KISSFace), pinned `35617422cfc6e8db0c703b247c54835c3d77008c`, copyright (c) 2017 Delfim Machado, MIT. Original LICENSE and README are retained in `frontend/public/reference-notices/KISSFace-*`. This trimmed editable adaptation replaces liquid digit fill and the battery arc with independent-color digits and dynamic segmented meters. Creator native templates retain GPLv3+ scope; system fonts and curated Lucide icons replace original binaries. See [scope and differences](frontend/public/reference-notices/KISSFace-ADAPTATION.md).

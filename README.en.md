@@ -138,3 +138,6 @@ Reference cards and source archives preserve per-content attribution and known l
 **Editable AboutTime reference**: thanks to [Samuel Rinnetmäki / garmin-abouttime](https://github.com/samuelmr/garmin-abouttime). Three independently editable rows support English and Simplified Chinese. Original MIT locale phrases and Creator GPLv3+ template scope are retained separately; see [adaptation notes](frontend/public/reference-notices/AboutTime-ADAPTATION.md).
 
 AboutTime: [English editor](docs/screenshots/abouttime-editor.png) · [Chinese editor](docs/screenshots/abouttime-zh-editor.png) · [native English](docs/screenshots/abouttime-en-native.png) · [native Chinese](docs/screenshots/abouttime-zh-native.png) · [AOD](docs/screenshots/abouttime-aod.png).
+
+
+**Editable KISSFace reference**: thanks to [Delfim Machado / KISSFace](https://github.com/dbcm/KISSFace). Four independent time digits, cached HR/battery thresholds and dynamic segmented steps/battery meters. Original liquid digits and battery arc use an explicit downgrade; see [adaptation scope](frontend/public/reference-notices/KISSFace-ADAPTATION.md).

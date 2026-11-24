@@ -141,3 +141,6 @@ TimelyFenix：[编辑器](docs/screenshots/timelyfenix-editor.png) · [原生亮
 新增 **AboutTime 文字报时参考**：感谢 [Samuel Rinnetmäki / garmin-abouttime](https://github.com/samuelmr/garmin-abouttime)。三行可分别布局、配色和选择中英文；原译文 MIT 与 Creator 原生模板 GPLv3+ 范围分别保留，见[适配说明](frontend/public/reference-notices/AboutTime-ADAPTATION.md)。
 
 AboutTime：[英文编辑器](docs/screenshots/abouttime-editor.png) · [中文编辑器](docs/screenshots/abouttime-zh-editor.png) · [原生英文](docs/screenshots/abouttime-en-native.png) · [原生中文](docs/screenshots/abouttime-zh-native.png) · [息屏](docs/screenshots/abouttime-aod.png)。
+
+
+新增 **KISSFace 彩色时间参考**：感谢 [Delfim Machado / KISSFace](https://github.com/dbcm/KISSFace)。四个时间数字独立配色，缓存心率和电量支持阈值，步数/电量使用动态分段目标条。原版液面字形与外圈弧线采用明确降级，详见[适配范围](frontend/public/reference-notices/KISSFace-ADAPTATION.md)。

@@ -95,5 +95,23 @@
     "upstreamCommitStatus": "Pinned upstream revision; four original text/license input SHA-256 values checked",
     "legacy": false,
     "verifiedLicense": true
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000007",
+    "name": "KISSFace",
+    "template": "kissface",
+    "source": "https://github.com/dbcm/KISSFace",
+    "status": "Original KISSFace layout MIT; Creator native templates GPL-3.0-or-later; goal fill downgraded to dynamic segmented meters; no upstream font or icon binaries copied",
+    "summary": "原始布局 MIT；独立彩色数字、缓存心率和动态目标条；Creator 原生模板 GPLv3+；保留完整来源与降级说明",
+    "files": [
+      "KISSFace-LICENSE.txt",
+      "KISSFace-README.md",
+      "KISSFace-ADAPTATION.md",
+      "repository-LICENSE.txt"
+    ],
+    "upstreamCommit": "35617422cfc6e8db0c703b247c54835c3d77008c",
+    "upstreamCommitStatus": "Pinned upstream revision; two original text/license input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true
   }
 ]
