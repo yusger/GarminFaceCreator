@@ -149,3 +149,48 @@ test("manual repair previews diff records patch provenance and enforces two requ
     page.getByRole("button", { name: "发送一次修复请求", exact: true }),
   ).toBeDisabled();
 });
+
+test("cancelled repair leaves applied code unchanged and still consumes a round", async ({
+  page,
+}) => {
+  await page.addInitScript(
+    (profile) =>
+      localStorage.setItem(
+        "gfc-profiles",
+        JSON.stringify([{ ...profile, key: "" }]),
+      ),
+    profile,
+  );
+  await page.goto("/");
+  page.on("dialog", (d) => d.accept("Cancel Repair"));
+  await page.getByRole("button", { name: "新建表盘", exact: true }).click();
+  await page.getByLabel("初始布局", { exact: true }).selectOption("blank");
+  await page.getByRole("button", { name: "创建项目", exact: true }).click();
+  await page.getByRole("button", { name: "时间", exact: true }).click();
+  await page
+    .getByRole("button", { name: "本地生成（试验）", exact: true })
+    .click();
+  await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
+  await page.route(
+    "https://api.example.com/v1/chat/completions",
+    async (route) => {
+      await new Promise((r) => setTimeout(r, 1500));
+      await route.abort().catch(() => {});
+    },
+  );
+  await page.getByRole("button", { name: "修复", exact: true }).click();
+  await page
+    .getByRole("button", { name: "发送一次修复请求", exact: true })
+    .click();
+  await page.getByRole("button", { name: "取消修复", exact: true }).click();
+  await expect(page.locator(".repair-panel").getByRole("alert")).toContainText(
+    "已取消",
+  );
+  await expect(page.locator(".repair-panel")).toContainText("本轮请求 1/2");
+  await expect(
+    page.getByRole("button", { name: "应用所审阅修复", exact: true }),
+  ).toHaveCount(0);
+  await page.getByRole("button", { name: "历史", exact: true }).click();
+  await expect(page.locator(".history")).toContainText("1/20");
+  await expect(page.locator(".history")).not.toContainText("已修补");
+});

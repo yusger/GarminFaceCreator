@@ -93,6 +93,8 @@ dotnet build backend/GarminFaceCreator.Api.csproj -c Release
 - [后端 API 与容器部署](docs/backend-deployment.md)
 - [前端设计规划](docs/frontend-design.md)
 - [源码工程导出](docs/source-export.md)
+- [本地生成试点](docs/local-generator.md)
+- [受限 AI 修复](docs/ai-repair.md)
 - [设备与隐私自测](docs/device-self-test.md)
 - [预览差异与验证范围](docs/preview-limitations.md)
 - [问题反馈与功能建议](https://github.com/yusger/GarminFaceCreator/issues/new/choose)
