@@ -9,7 +9,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-10-solar";
+export const LOCAL_GENERATOR_VERSION = "basic-11-solar-events";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -336,16 +336,20 @@ class GeneratedView extends WatchUi.WatchFace {
  ${
    celestial
      ? `
- var solarMinute=-1;var solarCached=[-1,0.0];
+ var solarMinute=-1;var solarCached=[-1,0.0];var solarEventKey="";var solarRises=[];var solarSets=[];
  function getSolarState(){
   var now=Time.now();var stamp=(now.value()/60).toNumber();if(solarMinute==stamp){return solarCached;}solarMinute=stamp;solarCached=[-1,0.0];
   try{if((Toybox has :Position)&&(Toybox has :Weather)&&(Position has :getInfo)&&(Weather has :getSunrise)&&(Weather has :getSunset)){
-   var info=Position.getInfo();if(info!=null && info.position!=null){var rise=Weather.getSunrise(info.position,now);var set=Weather.getSunset(info.position,now);
-    if(rise!=null && set!=null && set.value()>rise.value()){
-      var value=now.value();solarCached=(value>=rise.value() && value<set.value()) ? [1,(value-rise.value())*1.0/(set.value()-rise.value())] : [0,0.5];
-    }
-   }
-  }}catch(e){}return solarCached;
+   var info=Position.getInfo();if(info!=null && info.position!=null){
+    var coords=info.position.toDegrees();var key=(now.value()/86400).toNumber().format("%d")+":"+coords[0].format("%.6f")+":"+coords[1].format("%.6f");
+    if(key!=solarEventKey){solarRises=[];solarSets=[];for(var day=-1;day<=1;day++){var query=new Time.Moment(now.value()+day*86400);var rise=Weather.getSunrise(info.position,query);var set=Weather.getSunset(info.position,query);if(rise!=null){solarRises.add(rise.value());}if(set!=null){solarSets.add(set.value());}}solarEventKey=key;}
+    var value=now.value();var lastRise=-1;var lastSet=-1;var nextRise=-1;var nextSet=-1;
+    for(var i=0;i<solarRises.size();i++){var r=solarRises[i];if(r<=value && r>lastRise){lastRise=r;}if(r>value && (nextRise<0 || r<nextRise)){nextRise=r;}}
+    for(var j=0;j<solarSets.size();j++){var t=solarSets[j];if(t<=value && t>lastSet){lastSet=t;}if(t>value && (nextSet<0 || t<nextSet)){nextSet=t;}}
+    if(lastRise>lastSet && lastRise>=0 && nextSet>value && value-lastRise<86400 && nextSet-value<86400){solarCached=[1,(value-lastRise)*1.0/(nextSet-lastRise)];}
+    else if(lastSet>lastRise && lastSet>=0 && nextRise>value && value-lastSet<86400 && nextRise-value<86400){solarCached=[0,0.5];}
+   }else{solarEventKey="";}
+  }}catch(e){solarEventKey="";}return solarCached;
  }
  function solarPaint(dc,ink){dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}
  function drawCelestial(dc,state,part,x,y,w,h,day,night,missing){

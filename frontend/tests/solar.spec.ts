@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { project, layer, validateProject } from "../src/domain";
-import { solarSample, solarPoint } from "../src/solar";
+import { solarSample, solarPoint, solarEventsState } from "../src/solar";
 import { localGenerate } from "../src/localGenerator";
 import { generationLayer } from "../src/generationDto";
 import { generationRequirements } from "../src/generationRequirements";
@@ -32,6 +32,28 @@ test("solar samples use exact day boundaries, no polar fabrication, and a bounde
     expect(p.y + p.r * 1.55).toBeLessThanOrEqual(180);
   }
 });
+test("Garmin date-shifted rise/set results are matched around UTC now, including night and missing polar windows", () => {
+  const now = 1795535717,
+    rise = 1795525777,
+    previousSet = 1795474868;
+  const rises = [rise - 86400, rise, rise + 86400],
+    sets = [previousSet - 86400, previousSet, previousSet + 86400];
+  const day = solarEventsState(now, rises, sets);
+  expect(day.state).toBe(1);
+  expect(day.progress).toBeCloseTo((now - rise) / (previousSet + 86400 - rise));
+  expect(solarEventsState(previousSet + 86400, rises, sets).state).toBe(0);
+  expect(solarEventsState(rise, rises, sets)).toEqual({
+    state: 1,
+    progress: 0,
+  });
+  for (const [r, t] of [
+    [[], []],
+    [[rise - 200000], []],
+    [[], [previousSet]],
+    [[rise], [rise]],
+  ])
+    expect(solarEventsState(now, r, t).state).toBe(-1);
+});
 test("native solar declares passive position, guarded Garmin API and missing/AOD cache policy", () => {
   const p = project("Solar", true);
   const sky = layer("celestial"),
@@ -48,8 +70,8 @@ test("native solar declares passive position, guarded Garmin API and missing/AOD
   )!.content;
   expect(source.match(/Position.getInfo\(/g)).toHaveLength(1);
   expect(source).toContain("info.position!=null");
-  expect(source).toContain("Weather.getSunrise(info.position,now)");
-  expect(source).toContain("Weather.getSunset(info.position,now)");
+  expect(source).toContain("Weather.getSunrise(info.position,query)");
+  expect(source).toContain("Weather.getSunset(info.position,query)");
   expect(source).toContain("solarMinute==stamp");
   expect(source).toContain("sleeping?solarCached:getSolarState()");
   expect(source).toContain("solarCached=[-1,0.0]");

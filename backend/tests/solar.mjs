@@ -11,6 +11,8 @@ for (const [target, mode] of [
   ["venu445mm", "day"],
   ["venu445mm", "night"],
   ["venu445mm", "missing"],
+  ["venu445mm", "positionWest"],
+  ["venu445mm", "positionEast"],
 ]) {
   const p = project("Solar_" + mode, true);
   p.target = target;
@@ -41,10 +43,11 @@ for (const [target, mode] of [
       ...layer("text"),
       text:
         mode === "live"
-          ? "SOLAR / DEVICE API"
-          : "SOLAR FIXTURE / " + mode.toUpperCase(),
+          ? "SOLAR DEVICE API"
+          : "FIXTURE " +
+            (mode.startsWith("position") ? "POSITION" : mode.toUpperCase()),
       x: 60,
-      y: 40,
+      y: 55,
       w: 334,
       h: 30,
       size: 14,
@@ -74,6 +77,21 @@ for (const [target, mode] of [
         : f.content,
     ]),
   );
+  if (mode.startsWith("position")) {
+    const source = files["source/App.mc"],
+      old =
+        "var info=Position.getInfo();if(info!=null && info.position!=null){";
+    assert.equal(source.includes(old), true);
+    const coords =
+      mode === "positionWest" ? [38.856147, -94.800953] : [31.2304, 121.4737];
+    files["source/App.mc"] = source
+      .replace(
+        old,
+        `var testLocation=new Position.Location({:latitude=>${coords[0]},:longitude=>${coords[1]},:format=>:degrees});if(testLocation!=null){`,
+      )
+      .replaceAll("info.position.toDegrees()", "testLocation.toDegrees()")
+      .replaceAll("info.position,query", "testLocation,query");
+  }
   const form = new FormData();
   form.append(
     "project",
