@@ -1,8 +1,9 @@
+import Meter from "./Meter";
 import LibraryImage from "./LibraryImage";
 import { Fragment, useState } from "react";
 import { Eye, EyeOff, Lock, Unlock } from "lucide-react";
 import type { Layer } from "./domain";
-import { reading, ink, type Preview } from "./Scene";
+import { reading, ink, metricValues, type Preview } from "./Scene";
 function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
   const w = Math.max(10, l.w),
     h = Math.max(10, l.h),
@@ -14,7 +15,13 @@ function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
       aria-label={`图层缩略图 ${l.name}`}
       viewBox={`0 0 ${w} ${h}`}
     >
-      {l.kind === "image" ? (
+      {l.kind === "meter" ? (
+        <Meter
+          layer={l}
+          value={metricValues(preview)[l.source]}
+          missing={preview.missing}
+        />
+      ) : l.kind === "image" ? (
         <LibraryImage
           layer={{ ...l, w, h }}
           condition={preview.weatherCondition}

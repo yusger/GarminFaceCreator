@@ -1,3 +1,4 @@
+import { meterPolygons } from "./meters";
 import { defaultThresholds } from "./thresholds";
 import type { Layer, Project } from "./domain";
 import { imageAssetPath } from "./assets";
@@ -31,6 +32,10 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   aod: true,
   threshold: true,
   strokeWidth: true,
+  meterShape: true,
+  meterCount: true,
+  meterGoal: true,
+  meterDim: true,
   timePart: true,
   textAlign: true,
   fontWeight: true,
@@ -119,6 +124,15 @@ export function generationLayer(l: Layer) {
           ringEnd: l.ringEnd ?? 360,
           ringWidth: l.ringWidth || 2,
           ringDim: l.ringDim ?? 0.25,
+        }
+      : {}),
+    ...(l.kind === "meter"
+      ? {
+          meterShape: l.meterShape || "bar",
+          meterCount: l.meterCount ?? 16,
+          meterGoal: l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
+          meterDim: l.meterDim ?? 0.35,
+          meterPolygons: meterPolygons(l),
         }
       : {}),
     hidden: false,

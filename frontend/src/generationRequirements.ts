@@ -88,7 +88,7 @@ export function generationRequirements(p: Project) {
       layers.flatMap((l) =>
         l.weatherIcon
           ? ["weatherIcon"]
-          : l.kind === "metric"
+          : l.kind === "metric" || l.kind === "meter"
             ? [l.source]
             : l.kind === "ring"
               ? [l.ringSource || "seconds"].filter((s) => s !== "static")
@@ -120,7 +120,7 @@ export function generationRequirements(p: Project) {
     .flatMap((l) =>
       l.kind === "text"
         ? [l.text]
-        : l.kind === "metric"
+        : l.kind === "metric" || l.kind === "meter"
           ? [l.label || "", l.unit || "", l.missingValue || "--"]
           : [],
     )

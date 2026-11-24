@@ -7,6 +7,7 @@ export type Kind =
   | "metric"
   | "text"
   | "image"
+  | "meter"
   | "ring"
   | "rect"
   | "circle"
@@ -41,6 +42,10 @@ export type Layer = {
   libraryIcon?: { id: string; recolor: boolean; strokeWidth: number };
   weatherIcon?: { period: "day" | "night" };
   assetId?: string;
+  meterShape?: "bar" | "left" | "right";
+  meterCount?: number;
+  meterGoal?: number;
+  meterDim?: number;
   timePart?: "full" | "hours" | "minutes";
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
@@ -95,7 +100,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -172,6 +177,7 @@ export function layer(kind: Kind): Layer {
       text: "文字",
       image: "图片",
       ring: "秒环",
+      meter: "目标仪表",
       rect: "矩形",
       circle: "圆形",
       line: "直线",
@@ -187,7 +193,19 @@ export function layer(kind: Kind): Layer {
     hidden: false,
     locked: false,
     text: kind === "text" ? "HELLO WORLD" : "",
-    source: "heartRate",
+    source: kind === "meter" ? "steps" : "heartRate",
+    ...(kind === "meter"
+      ? {
+          w: 320,
+          h: 18,
+          x: 67,
+          y: 310,
+          meterShape: "bar" as const,
+          meterCount: 16,
+          meterGoal: 10000,
+          meterDim: 0.35,
+        }
+      : {}),
     aod: kind === "time",
     threshold: kind === "metric",
   };
@@ -247,7 +265,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 12,
+    schemaVersion: 13,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -268,13 +286,14 @@ export function validateProject(value: unknown): Project {
     "text",
     "image",
     "ring",
+    "meter",
     "rect",
     "circle",
     "line",
   ];
   if (
     !p ||
-    p.schemaVersion !== 12 ||
+    p.schemaVersion !== 13 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -332,6 +351,23 @@ export function validateProject(value: unknown): Project {
       )
     )
       throw Error("图层属性无效");
+    if (
+      l.kind === "meter" &&
+      (!["steps", "battery"].includes(l.source) ||
+        (l.meterShape !== undefined &&
+          !["bar", "left", "right"].includes(l.meterShape)) ||
+        (l.meterCount !== undefined &&
+          (!Number.isInteger(l.meterCount) ||
+            l.meterCount < 4 ||
+            l.meterCount > 32)) ||
+        (l.meterGoal !== undefined &&
+          (!Number.isFinite(l.meterGoal) ||
+            l.meterGoal < 1 ||
+            l.meterGoal > 1000000)) ||
+        (l.meterDim !== undefined &&
+          (!Number.isFinite(l.meterDim) || l.meterDim < 0 || l.meterDim > 1)))
+    )
+      throw Error("目标仪表配置无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (

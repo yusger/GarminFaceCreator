@@ -13,3 +13,7 @@ AI 和本地生成共用互斥入口与代码审阅流程；设计版本变化�
 后续 basic-2-icons 扩展：增加受控内置图标与 Monochrome 缓存天气绑定，固定资源/辅助代码由前端生成，详见 [素材库](icon-library.md)。原版 basic-1 的代码快照仍保留其版本标识，不自动重写。
 
 阶段 32（basic-3-time-parts）：时间控件支持完整 HH:MM、独立 HH、独立 MM；读取同一帧设备本地 24 小时时间并补零，网页预览与原生遵守相同分段。每层可独立布局与配色；Garmin 系统字体不保证复现浏览器字重。schema v12 为旧项目和设计快照补 full 默认值，不改写历史代码。
+
+阶段 33（basic-4-meters / schema v13）：增加步数、电量分段目标仪表，支持水平直条和左右弧形。每个仪表是一层，目标/分段数/暗部/颜色独立配置；更换形状应用推荐尺寸与位置，之后仍可拖动缩放。网页与原生共用多边形采样，弧形从下向上点亮，直条从左向右点亮；按完整分段取整，超过目标封顶，缺失/非法值全暗。目标为固定设计值，不跟踪设备自动目标。步数与电量原生读取每帧各至多一次，捕获缺失或异常；AOD 按图层包含和配色绘制，不开动画计时器。真实设备的低亮可见性及功耗仍需实测。
+
+读取依据：[ActivityMonitor.Info.steps](https://developer.garmin.com/connect-iq/api-docs/Toybox/ActivityMonitor/Info.html) 为当日步数且须检查空值，[System.Stats.battery](https://developer.garmin.com/connect-iq/api-docs/Toybox/System/Stats.html) 为百分比。首版不扩到其他目标源。

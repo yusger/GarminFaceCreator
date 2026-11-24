@@ -94,6 +94,7 @@ const tools = [
   ["metric", "数据", Heart],
   ["image", "图片", Image],
   ["ring", "圆环", RotateCw],
+  ["meter", "目标仪表", SlidersHorizontal],
   ["rect", "矩形", Square],
   ["text", "文字", Type],
   ["circle", "圆形", Circle],
@@ -2085,6 +2086,121 @@ export default function App() {
                             ? "当前目标已核查增强图形与透明混合能力。"
                             : "当前目标尚未核查增强图形，不开放透明度。"}
                           浏览器与设备的色深、抗锯齿可能不同。
+                        </p>
+                      </>
+                    )}
+                    {current.kind === "meter" && (
+                      <>
+                        <label>
+                          仪表样式
+                          <select
+                            aria-label="仪表样式"
+                            value={current.meterShape || "bar"}
+                            onChange={(e) =>
+                              patch({
+                                meterShape: e.target
+                                  .value as Layer["meterShape"],
+                                ...(e.target.value === "bar"
+                                  ? { w: 320, h: 18, x: 67, y: 310 }
+                                  : {
+                                      w: 88,
+                                      h: 320,
+                                      x: e.target.value === "left" ? 0 : 366,
+                                      y: 67,
+                                      allowClip: true,
+                                    }),
+                              })
+                            }
+                          >
+                            <option value="bar">水平分段条</option>
+                            <option value="left">左侧弧形</option>
+                            <option value="right">右侧弧形</option>
+                          </select>
+                        </label>
+                        <label>
+                          仪表数据
+                          <select
+                            aria-label="仪表数据"
+                            value={current.source}
+                            onChange={(e) =>
+                              patch({
+                                source: e.target.value,
+                                meterGoal:
+                                  e.target.value === "battery" ? 100 : 10000,
+                              })
+                            }
+                          >
+                            <option value="steps">当日步数</option>
+                            <option value="battery">电量百分比</option>
+                          </select>
+                        </label>
+                        <label>
+                          目标数值
+                          <input
+                            aria-label="目标数值"
+                            type="number"
+                            min="1"
+                            max="1000000"
+                            value={
+                              current.meterGoal ??
+                              (current.source === "battery" ? 100 : 10000)
+                            }
+                            onChange={(e) =>
+                              patch({
+                                meterGoal: Math.max(
+                                  1,
+                                  Math.min(
+                                    1000000,
+                                    Number(e.target.value) || 1,
+                                  ),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <label>
+                          分段数量
+                          <input
+                            aria-label="分段数量"
+                            type="number"
+                            min="4"
+                            max="32"
+                            value={current.meterCount ?? 16}
+                            onChange={(e) =>
+                              patch({
+                                meterCount: Math.max(
+                                  4,
+                                  Math.min(
+                                    32,
+                                    Math.round(Number(e.target.value) || 4),
+                                  ),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <label>
+                          未点亮亮度
+                          <input
+                            aria-label="未点亮亮度"
+                            type="number"
+                            min="0"
+                            max="1"
+                            step="0.05"
+                            value={current.meterDim ?? 0.35}
+                            onChange={(e) =>
+                              patch({
+                                meterDim: Math.max(
+                                  0,
+                                  Math.min(1, Number(e.target.value) || 0),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <p className="hint">
+                          目标为固定设计值，不读取 Garmin
+                          自动目标。达到目标后全亮；缺失数据全暗。更换样式会应用推荐尺寸和位置，可继续拖动调整。
                         </p>
                       </>
                     )}

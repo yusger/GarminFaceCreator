@@ -1,3 +1,4 @@
+import Meter from "./Meter";
 import { metricDisplayUnits, metricDecorations } from "./metricFormat";
 import LibraryImage from "./LibraryImage";
 import { guideInsetDesign } from "./layouts";
@@ -177,7 +178,14 @@ export default function Scene({
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
             >
-              {l.kind === "ring" ? (
+              {l.kind === "meter" ? (
+                <Meter
+                  layer={l}
+                  value={metricValues(preview)[l.source]}
+                  missing={preview.missing}
+                  aod={aod}
+                />
+              ) : l.kind === "ring" ? (
                 Array.from({ length: l.ringTicks || 60 }, (_, i) => {
                   const count = l.ringTicks || 60,
                     start = l.ringStart ?? 0,

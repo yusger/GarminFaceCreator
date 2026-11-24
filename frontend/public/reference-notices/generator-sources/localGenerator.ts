@@ -1,10 +1,11 @@
+import { meterPolygons } from "./meters.ts";
 import { iconDrawMethod, mergeNativeIcons } from "./weatherIcons.ts";
 import { parseFiles, type Project, type Layer } from "./domain.ts";
 import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-3-time-parts";
+export const LOCAL_GENERATOR_VERSION = "basic-4-meters";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -91,6 +92,21 @@ function primitive(l: Layer, aod: boolean) {
 }
 function draw(l: Layer, aod: boolean) {
   if (aod && !l.aod) return "";
+  if (l.kind === "meter") {
+    const ink = color(aod ? l.aodColor || "#777777" : l.color),
+      goal = l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
+      count = l.meterCount ?? 16;
+    return (
+      `{var lit=meterCount(${l.source === "battery" ? "meterBattery" : "meterSteps"},${num(goal)},${count},${l.source === "battery" ? "true" : "false"});` +
+      meterPolygons(l)
+        .map(
+          (points, i) =>
+            `dc.setFill(Graphics.createColor(${i}<lit?255:${Math.round((l.meterDim ?? 0.35) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.fillPolygon([${points.map(([x, y]) => `[px(${num(l.x + x)}),px(${num(l.y + y)})]`).join(",")}]);`,
+        )
+        .join("") +
+      `}`
+    );
+  }
   if (l.kind === "image" && l.libraryIcon)
     return `GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
   if (["rect", "circle", "line"].includes(l.kind))
@@ -112,13 +128,14 @@ export function localGenerate(p: Project) {
   const included = p.layers.filter((l) => l.exportIncluded !== false);
   const unsupported = included.filter(
     (l) =>
-      (!["time", "text", "rect", "circle", "line"].includes(l.kind) &&
+      (!["time", "text", "rect", "circle", "line", "meter"].includes(l.kind) &&
         !(l.kind === "image" && l.libraryIcon)) ||
-      l.rotation !== 0,
+      l.rotation !== 0 ||
+      (l.kind === "meter" && !["steps", "battery"].includes(l.source)),
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、文字、基础形状和内置图标。请移除或排除：" +
+      "本地生成试验仅支持未旋转的时间、文字、基础形状、步数/电量目标仪表和内置图标。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const requirements = generationRequirements(p);
@@ -138,17 +155,26 @@ export function localGenerate(p: Project) {
     throw Error(
       "本地生成试验只支持 ASCII 文字；其他文字请先使用 AI 字体方案。",
     );
+  const meters = included.filter((l) => l.kind === "meter");
+  const meterReads =
+    (meters.some((l) => l.source === "steps")
+      ? "try {var info=ActivityMonitor.getInfo();if(info!=null && info has :steps){meterSteps=info.steps;}}catch(e){}"
+      : "") +
+    (meters.some((l) => l.source === "battery")
+      ? "try {meterBattery=System.getSystemStats().battery;}catch(e){}"
+      : "");
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${meters.some((l) => l.source === "steps") ? "import Toybox.ActivityMonitor;" : ""}
 class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
+ ${meters.length ? "function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
-  scale=dc.getWidth()/454.0;var clock=System.getClockTime();
+  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${meters.length ? "var meterSteps=null;var meterBattery=null;" + meterReads : ""}
   dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   if(sleeping){${included.map((l) => draw(l, true)).join("\n")}}else{${included.map((l) => draw(l, false)).join("\n")}}
  }

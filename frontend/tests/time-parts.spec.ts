@@ -52,7 +52,7 @@ test("v11 migration covers active layers and design snapshots without rewriting 
   ];
   const old = { ...p, schemaVersion: 11 as const };
   const next = migrateProject(old);
-  expect(next.schemaVersion).toBe(12);
+  expect(next.schemaVersion).toBe(13);
   expect(next.layers[0].timePart).toBe("full");
   expect(next.designSnapshots![0].layers[0].timePart).toBe("full");
   expect(next.files).toEqual(old.files);
