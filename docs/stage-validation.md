@@ -345,3 +345,14 @@ P0 与 P1 清单已完成。P2、架构试点、素材库和新增参考项目�
 - 本地生产构建通过；113 专项 **6 项通过（18.4 秒）**；最终 **全量 107 项通过（4.5 分钟）**，包括五个参考的保护/副本与真实编译、ZIP 许可/资源、三分辨率天气、预览、迁移及存储冲突等回归。
 - 本机 Venu 4 45mm 实际检查 [亮屏](screenshots/timelyfenix-native.png)、[缺失天气 N/A](screenshots/timelyfenix-missing.png)、[Always-On 仅时间](screenshots/timelyfenix-aod.png) 通过，另附 [可编辑网页](screenshots/timelyfenix-editor.png)。还原天气与显示模式并关闭本次模拟器，调试连接正常退出。
 - R-02 按明确的 Creator 精简范围完成；其余候选逐项验收，不提前宣称全部适配或真机验证。没有付费模型调用，本机未运行前后端常驻服务。
+
+## 阶段 38：中英文动态文字报时控件
+
+- 实现提交：`6ba5e55`；独立行布局：`39fa483`。
+- 固定 `samuelmr/garmin-abouttime@4fdf09bcf784ecf385b9dce546af3f277e13caa5` 的 MIT 中英文原始短句，保留 Samuel Rinnetmäki 版权及完整 MIT 许可。prebuild 核对原许可和两份 XML 的固定 SHA-256，浏览器/原生共用文本表；未复制上游字体或图标。
+- schema v15 的文字报时控件支持英文/简体中文、完整三行或单独上/中/下行，均可独立布局/字体/配色。按最接近五分钟（2 分 30 秒边界）取整，处理整点/半点/跨小时/中午/午夜；AOD 以秒数 0 计算且不创建秒计时器。
+- `GfcWordTime` 固定辅助文件由前端合并；模型仅收到受管理路径与调用说明，覆盖被固定输出替换，受限修复排除此文件。实际含该辅助代码的独立工程也自动导出 MIT 原文、固定提交、原 XML 和匹配源码上下文，不依赖 referenceId 才保留许可。适配代码和原译文的许可范围分别记录。
+- 本地生产构建通过；113 规则/原始译文/字体语言/许可 ZIP/模型越权/修复等 **21 项通过（12.2 秒）**。中英两种语言 × 454/390/416 分辨率的六个真实 SDK 工程全部通过，包括完整三行及独立上/下行。
+- Venu 4 45mm 实际显示 [英文](screenshots/word-time-en-native.png) 和 [中文](screenshots/word-time-zh-native.png)，均为明确标出的 11:15 测试样本；中文 [Always-On](screenshots/word-time-zh-aod.png) 正常显示灰色文本。Venu 4 41mm 的 [独立中文下行](screenshots/word-time-row-native.png) 居中仅显示“十五分”，验证单行真实路径。
+- 中文使用设备的 FONT_SYSTEM_XTINY，当前 Venu 模拟器字形正常，不以网页或编译成功替代实际字形核对；其他设备/真机字形与功耗仍需实测。恢复显示并关闭本次所有模拟器，连接正常退出，没有付费模型调用。
+- R-03 的报时控件依赖完成，默认参考包尚待下一阶段，未提前勾选。

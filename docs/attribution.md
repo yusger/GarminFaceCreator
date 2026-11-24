@@ -11,3 +11,7 @@
 固定模板发生实质修改须更新版本。构建前自动生成 reference-notices/provenance.json 和对应 LF 规范化源码快照；第三方原始 SVG 仍保留逐字节原文。build 校验参考身份、必要许可文件和新参考准入条件，部署测试再核对 HTTP 字节哈希。
 
 依据：[GNU FAQ：工具输出](https://www.gnu.org/licenses/gpl-faq.html#GPLOutput)、[输出中的程序内容](https://www.gnu.org/licenses/gpl-faq.html#WhatCaseIsOutputGPL)、[GPLv3 原文](https://www.gnu.org/licenses/gpl-3.0.html)。这里实现来源记录、适用声明与源文件分发流程，不对许可未确认的内容授予缺失的权利，也不提供对全部作品的统一许可判断。
+
+## 文字报时的独立原始许可
+
+`GfcWordTime` 适配代码按仓库 GPLv3+ 范围记录，其英文和简体中文译文来自固定 About Time MIT 版本。无论工程是否来自默认参考，只要实际源码包含固定 words 标记，导出都会附原 MIT 全文、原始两份 XML 文本和固定提交信息；来源快照分别记录适配代码与译文，不把原 MIT 文本重标为原创或把所有独立 AI 输出统一许可。不分发原字体。
