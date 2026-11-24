@@ -42,3 +42,8 @@ The default AboutTime Creator layout adapts the pinned About Time version above.
 ## KISSFace Creator adaptation
 
 Thanks to [Delfim Machado / dbcm/KISSFace](https://github.com/dbcm/KISSFace), pinned `35617422cfc6e8db0c703b247c54835c3d77008c`, copyright (c) 2017 Delfim Machado, MIT. Original LICENSE and README are retained in `frontend/public/reference-notices/KISSFace-*`. This trimmed editable adaptation replaces liquid digit fill and the battery arc with independent-color digits and dynamic segmented meters. Creator native templates retain GPLv3+ scope; system fonts and curated Lucide icons replace original binaries. See [scope and differences](frontend/public/reference-notices/KISSFace-ADAPTATION.md).
+
+
+## Yet Another Creator adaptation
+
+Thanks to [Laverlin / Yet-Another-WatchFace](https://github.com/Laverlin/Yet-Another-WatchFace), pinned `f9db8c2d3a1f10633c195e5516d96d45f0f61340`, copyright (c) 2018 Laverlin, MIT. Original LICENSE, README and 454 layout XML are retained under `frontend/public/reference-notices/YetAnother-*`. This trimmed adaptation includes split time, activity data and a fixed-UTC-offset secondary clock; original automatic DST, GPS/currency/external weather and lunar infrastructure are not copied. Creator native templates retain GPLv3+ scope. See [scope and differences](frontend/public/reference-notices/YetAnother-ADAPTATION.md).

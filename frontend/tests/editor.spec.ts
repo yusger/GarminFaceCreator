@@ -255,7 +255,7 @@ for (const name of ["SkyRing", "fine-o-clock"]) {
       test.skip(!process.env.GFC_TEST_URL, "Requires deployed compiler");
       test.setTimeout(180000);
       await page.goto("/");
-      await expect(page.locator(".reference-card")).toHaveCount(7);
+      await expect(page.locator(".reference-card")).toHaveCount(8);
       await expect(
         page.getByRole("button", { name: "删除 " + name, exact: true }),
       ).toHaveCount(0);
@@ -280,7 +280,7 @@ for (const name of ["SkyRing", "fine-o-clock"]) {
       await page.getByRole("link", { name: /^下载 .*\.prg$/ }).click();
       expect(await (await pending).failure()).toBeNull();
       await page.getByRole("button", { name: "项目", exact: true }).click();
-      await expect(page.locator(".reference-card")).toHaveCount(7);
+      await expect(page.locator(".reference-card")).toHaveCount(8);
     },
   );
 }

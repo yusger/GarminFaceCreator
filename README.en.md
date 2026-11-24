@@ -141,3 +141,6 @@ AboutTime: [English editor](docs/screenshots/abouttime-editor.png) · [Chinese e
 
 
 **Editable KISSFace reference**: thanks to [Delfim Machado / KISSFace](https://github.com/dbcm/KISSFace). Four independent time digits, cached HR/battery thresholds and dynamic segmented steps/battery meters. Original liquid digits and battery arc use an explicit downgrade; see [adaptation scope](frontend/public/reference-notices/KISSFace-ADAPTATION.md).
+
+
+**Editable YetAnother reference**: thanks to [Laverlin / Yet-Another-WatchFace](https://github.com/Laverlin/Yet-Another-WatchFace). Split HH/MM, real activity data and an optional secondary clock are editable. Secondary time uses a fixed UTC offset without automatic destination DST; see [trimmed scope](frontend/public/reference-notices/YetAnother-ADAPTATION.md).

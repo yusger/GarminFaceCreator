@@ -113,5 +113,24 @@
     "upstreamCommitStatus": "Pinned upstream revision; two original text/license input SHA-256 values checked",
     "legacy": false,
     "verifiedLicense": true
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000008",
+    "name": "YetAnother",
+    "template": "yetanother",
+    "source": "https://github.com/Laverlin/Yet-Another-WatchFace",
+    "status": "Original Yet Another layout MIT; Creator native templates GPL-3.0-or-later; fixed UTC offset replaces automatic DST; no upstream font or icon binaries copied",
+    "summary": "原始布局 MIT；分列时间、活动数据、固定 UTC 偏移第二时区；Creator 原生模板 GPLv3+；完整原始声明与精简范围保留",
+    "files": [
+      "YetAnother-LICENSE.txt",
+      "YetAnother-README.md",
+      "YetAnother-layout-454.xml",
+      "YetAnother-ADAPTATION.md",
+      "repository-LICENSE.txt"
+    ],
+    "upstreamCommit": "f9db8c2d3a1f10633c195e5516d96d45f0f61340",
+    "upstreamCommitStatus": "Pinned upstream revision; three original text/license/layout input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true
   }
 ]
