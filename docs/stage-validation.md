@@ -12,3 +12,13 @@
 - 本地：TypeScript/Vite 生产构建通过。
 - 远程：已提交产物部署后，`storage.spec.ts` 2 项通过，现有 editor 编辑/撤销/预览/保存/导出回归 1 项通过。
 - 浏览器测试使用独立测试上下文，不改写用户浏览器中的项目，不调用付费模型。
+
+## 阶段 2：P0-02 按目标设备编译就绪
+
+- 实现提交：`b3cbba8`。
+- capabilities 保留 targets 与聚合 ready，新增 common 和 devices（每个 target 的 ready/reasons）。公共检查包含 SDK、初始化配置、签名密钥和 Java；接口不返回服务器私有路径。
+- 前端构建上传前检查当前 target；后端验证 target 后、创建任务和写入工程前检查对应环境，缺失时返回带原因的 503。
+- 本地：前端生产构建、.NET Release 构建通过。
+- 远程：capabilities API 检查、前端缺失目标拦截 1 项通过；真实 SDK 编译/PRG 下载、失败产物拒绝、取消及路径/DTD 校验通过。
+- 远程隔离容器只挂载 Venu 3 设备包：Venu 4 45mm 缺失时 Venu 3 与聚合 ready 仍为 true；缺失目标在排队前返回 503。临时容器已停止，未修改主服务设备包。
+- 隔离脚本首次检查遇到启动时连接重置，补就绪重试后通过；脚本见 backend/tests/readiness-isolated.sh（从测试部署目录运行）。
