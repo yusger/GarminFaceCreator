@@ -17,6 +17,9 @@ export type Layer = {
   name: string;
   groupId?: string;
   groupName?: string;
+  anchor?: "topLeft" | "center" | "topRight" | "bottomLeft" | "bottomRight";
+  exportIncluded?: boolean;
+  guide?: boolean;
   kind: Kind;
   x: number;
   y: number;
@@ -76,7 +79,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
@@ -220,7 +223,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 5,
+    schemaVersion: 6,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -247,7 +250,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 5 ||
+    p.schemaVersion !== 6 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -306,6 +309,20 @@ export function validateProject(value: unknown): Project {
         (!Number.isInteger(l.precision) || l.precision < 0 || l.precision > 3))
     )
       throw Error("文字或数据格式无效");
+    if (
+      (l.anchor !== undefined &&
+        ![
+          "topLeft",
+          "center",
+          "topRight",
+          "bottomLeft",
+          "bottomRight",
+        ].includes(l.anchor)) ||
+      [l.exportIncluded, l.guide].some(
+        (v) => v !== undefined && typeof v !== "boolean",
+      )
+    )
+      throw Error("锚点或导出条件无效");
     if (
       (l.groupId !== undefined && !/^[a-zA-Z0-9_-]{1,120}$/.test(l.groupId)) ||
       (l.groupName !== undefined &&

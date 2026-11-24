@@ -159,6 +159,11 @@ export default function LayerList({
               >
                 <Thumbnail layer={l} preview={preview} />
                 <span>{l.name}</span>
+                {l.exportIncluded === false && (
+                  <small title="不包含在原生导出">
+                    {l.guide ? "辅助" : "不导出"}
+                  </small>
+                )}
                 <button
                   aria-label={`隐藏 ${l.name}`}
                   onClick={(e) => {

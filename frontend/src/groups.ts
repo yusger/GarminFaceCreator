@@ -1,7 +1,18 @@
 ﻿import { uid, type Layer } from "./domain.ts";
 export function renderChanged(before: Layer[], after: Layer[]) {
   const visual = (layers: Layer[]) =>
-    layers.map(({ groupId: _id, groupName: _name, ...l }) => l);
+    layers
+      .filter((l) => l.exportIncluded !== false)
+      .map(
+        ({
+          groupId: _id,
+          groupName: _name,
+          anchor: _anchor,
+          guide: _guide,
+          hidden: _hidden,
+          ...l
+        }) => l,
+      );
   return JSON.stringify(visual(before)) !== JSON.stringify(visual(after));
 }
 export function organizeReferenceLayers(layers: Layer[]): Layer[] {

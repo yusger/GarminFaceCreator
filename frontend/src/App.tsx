@@ -1,3 +1,4 @@
+import { anchorPosition, coordinatePatch } from "./anchors";
 import LayerList from "./LayerList";
 import Palette from "./Palette";
 import { renderChanged, organizeReferenceLayers } from "./groups";
@@ -1442,6 +1443,25 @@ export default function App() {
                     ))}
                   </div>
                 )}
+                {leftTab === "控件" && (
+                  <button
+                    onClick={() => {
+                      const guide = {
+                        ...layer("line"),
+                        name: "辅助线",
+                        guide: true,
+                        exportIncluded: false,
+                        allowClip: true,
+                        color: "#698798",
+                        strokeWidth: 1,
+                      };
+                      editLayers([...p.layers, guide]);
+                      selectOne(guide.id);
+                    }}
+                  >
+                    添加辅助线
+                  </button>
+                )}
                 {leftTab === "素材" && (
                   <div className="asset-list">
                     <button onClick={() => add("image")}>
@@ -1698,6 +1718,31 @@ export default function App() {
                       />
                     </label>
                     <h4>布局</h4>
+                    <label>
+                      坐标锚点
+                      <select
+                        aria-label="坐标锚点"
+                        value={current.anchor || "topLeft"}
+                        onChange={(e) =>
+                          patch({ anchor: e.target.value as Layer["anchor"] })
+                        }
+                      >
+                        {[
+                          ["topLeft", "左上"],
+                          ["center", "中心"],
+                          ["topRight", "右上"],
+                          ["bottomLeft", "左下"],
+                          ["bottomRight", "右下"],
+                        ].map(([id, name]) => (
+                          <option key={id} value={id}>
+                            {name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <p className="hint">
+                      X/Y 按所选锚点显示；保存与生成仍使用统一左上角坐标。
+                    </p>
                     <div className="numeric-grid">
                       {(["x", "y", "w", "h", "rotation", "size"] as const).map(
                         (k) => (
@@ -1714,20 +1759,29 @@ export default function App() {
                             }
                             <input
                               type="number"
-                              value={current[k]}
+                              value={
+                                k === "x" || k === "y"
+                                  ? Math.round(
+                                      anchorPosition(current)[k] * 1000,
+                                    ) / 1000
+                                  : current[k]
+                              }
                               min={["w", "h", "size"].includes(k) ? 1 : -454}
                               max={k === "size" ? 200 : 1000}
-                              onChange={(e) =>
-                                patch({
-                                  [k]: Math.max(
-                                    ["w", "h", "size"].includes(k) ? 1 : -454,
-                                    Math.min(
-                                      k === "size" ? 200 : 1000,
-                                      Number(e.target.value),
-                                    ),
+                              onChange={(e) => {
+                                const value = Math.max(
+                                  ["w", "h", "size"].includes(k) ? 1 : -454,
+                                  Math.min(
+                                    k === "size" ? 200 : 1000,
+                                    Number(e.target.value),
                                   ),
-                                })
-                              }
+                                );
+                                patch(
+                                  k === "x" || k === "y"
+                                    ? coordinatePatch(current, k, value)
+                                    : { [k]: value },
+                                );
+                              }}
                             />
                           </label>
                         ),
@@ -2113,6 +2167,37 @@ export default function App() {
                       </>
                     )}
                     <h4>显示条件</h4>
+                    <label className="inline">
+                      <input
+                        type="checkbox"
+                        checked={current.exportIncluded !== false}
+                        onChange={(e) =>
+                          patch({
+                            exportIncluded: e.target.checked,
+                            ...(e.target.checked ? { guide: false } : {}),
+                          })
+                        }
+                      />
+                      包含在原生导出
+                    </label>
+                    {current.kind === "line" && (
+                      <label className="inline">
+                        <input
+                          type="checkbox"
+                          checked={!!current.guide}
+                          onChange={(e) =>
+                            patch({
+                              guide: e.target.checked,
+                              exportIncluded: !e.target.checked,
+                            })
+                          }
+                        />
+                        作为辅助线
+                      </label>
+                    )}
+                    <p className="hint">
+                      眼睛图标控制编辑器显隐；独立预览和原生输出按导出开关显示。
+                    </p>
                     <label className="inline">
                       <input
                         type="checkbox"

@@ -3,7 +3,7 @@ export function crossesScreen(
   layer: Layer,
   textSize?: { width: number; height: number },
 ) {
-  if (layer.hidden || layer.allowClip) return false;
+  if (layer.allowClip || layer.exportIncluded === false) return false;
   const angle = (layer.rotation * Math.PI) / 180,
     cos = Math.cos(angle),
     sin = Math.sin(angle);

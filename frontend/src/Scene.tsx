@@ -144,7 +144,7 @@ export default function Scene({
         {project.layers
           .filter(
             (l) =>
-              !l.hidden &&
+              (exact ? l.exportIncluded !== false : !l.hidden) &&
               (!aod ||
                 (l.aod &&
                   !(
@@ -157,6 +157,7 @@ export default function Scene({
             <g
               key={l.id}
               data-layer={l.id}
+              data-guide={l.guide ? "true" : undefined}
               transform={`translate(${l.x} ${l.y}) rotate(${l.rotation} ${l.w / 2} ${l.h / 2})`}
               onPointerDown={(e) => onDown?.(e, l)}
               style={{
@@ -228,6 +229,7 @@ export default function Scene({
                   y2={l.h}
                   stroke={aod ? l.aodColor || "#777777" : l.color}
                   strokeWidth={l.strokeWidth || 2}
+                  strokeDasharray={l.guide ? "6 4" : undefined}
                   strokeLinecap={(l.strokeWidth || 2) > 2 ? "round" : "butt"}
                 />
               ) : (

@@ -1,15 +1,27 @@
 import type { Layer, Project, BinaryAsset } from "./domain";
-export function imageAssetPath(layer: Layer) {
+export function imageAssetPath(layer: Pick<Layer, "id" | "assetId">) {
   const id = layer.assetId || layer.id;
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(id)) throw Error("图片素材标识无效");
   return `assets/${id}.png`;
 }
 export function binaryAssets(project: Project): BinaryAsset[] {
   const unique = new Map<string, BinaryAsset>();
+  const included = new Set(
+    project.layers
+      .filter((l) => l.image && l.exportIncluded !== false)
+      .map(imageAssetPath),
+  );
+  const excluded = new Set(
+    project.layers
+      .filter((l) => l.image && l.exportIncluded === false)
+      .map(imageAssetPath),
+  );
   const candidates = [
-    ...(project.assets || []),
+    ...(project.assets || []).filter(
+      (asset) => !excluded.has(asset.path) || included.has(asset.path),
+    ),
     ...project.layers
-      .filter((l) => l.image)
+      .filter((l) => l.image && l.exportIncluded !== false)
       .map((l) => ({
         id: l.assetId || l.id,
         path: imageAssetPath(l),
