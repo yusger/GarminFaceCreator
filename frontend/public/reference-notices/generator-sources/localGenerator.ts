@@ -9,7 +9,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-12-hands";
+export const LOCAL_GENERATOR_VERSION = "basic-13-paint";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -50,11 +50,13 @@ function font(l: Layer, aod: boolean) {
 function primitive(l: Layer, aod: boolean) {
   const fill = color(aod ? l.aodColor || "#777777" : l.color),
     stroke = color(aod ? l.aodColor || "#777777" : l.strokeColor || l.color);
-  const paint = `dc.setFill(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${fill}>>16)&255,(${fill}>>8)&255,${fill}&255));dc.setStroke(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${stroke}>>16)&255,(${stroke}>>8)&255,${stroke}&255));dc.setPenWidth(px(${num(l.strokeWidth || 2)}));`;
+  const alpha = Math.round((l.opacity ?? 1) * 255);
+  const fillPaint = `dc.setColor(${fill},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${alpha},(${fill}>>16)&255,(${fill}>>8)&255,${fill}&255));`;
+  const strokePaint = `dc.setColor(${stroke},Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(${alpha},(${stroke}>>16)&255,(${stroke}>>8)&255,${stroke}&255));dc.setPenWidth(px(${num(l.strokeWidth || 2)})>0?px(${num(l.strokeWidth || 2)}):1);`;
   if (l.kind === "line")
     return l.strokeEnabled === false
       ? ""
-      : paint +
+      : strokePaint +
           `dc.drawLine(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.x + l.w)}),px(${num(l.y + l.h)}));`;
   let points: number[][] = [];
   if (l.kind === "circle")
@@ -88,11 +90,11 @@ function primitive(l: Layer, aod: boolean) {
     points.map(([x, y]) => `[px(${num(x)}),px(${num(y)})]`).join(",") +
     "]";
   return (
-    paint +
     `var polygon=${array};` +
-    (l.fillEnabled === false ? "" : "dc.fillPolygon(polygon);") +
+    (l.fillEnabled === false ? "" : fillPaint + "dc.fillPolygon(polygon);") +
     (l.strokeEnabled
-      ? "for(var i=0;i<polygon.size();i++){var j=(i+1)%polygon.size();dc.drawLine(polygon[i][0],polygon[i][1],polygon[j][0],polygon[j][1]);}"
+      ? strokePaint +
+        "for(var i=0;i<polygon.size();i++){var j=(i+1)%polygon.size();dc.drawLine(polygon[i][0],polygon[i][1],polygon[j][0],polygon[j][1]);}"
       : "")
   );
 }
@@ -138,7 +140,7 @@ function draw(l: Layer, aod: boolean) {
       goal = l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
       count = l.meterCount ?? 16;
     return (
-      `{var lit=meterCount(${l.source === "battery" ? "databattery" : "datasteps"},${num(goal)},${count},${l.source === "battery" ? "true" : "false"});` +
+      `{dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);var lit=meterCount(${l.source === "battery" ? "databattery" : "datasteps"},${num(goal)},${count},${l.source === "battery" ? "true" : "false"});` +
       meterPolygons(l)
         .map(
           (points, i) =>

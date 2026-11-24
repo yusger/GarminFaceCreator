@@ -75,11 +75,23 @@ test("protected BAWF copy exports complete notices and compiles before and after
     ])
       expect(files.has("notices/" + name)).toBe(true);
     expect(
-      meta.templateSources.some((t: any) => t.version === "basic-12-hands"),
+      meta.templateSources.some((t: any) => t.version === "basic-13-paint"),
     ).toBe(true);
     expect(files.get("notices/BAWF-original-App.mc.txt")!.toString()).toContain(
       "Copyright (c)2018-2023 Kevin Boone",
     );
+    const design = JSON.parse(files.get("design-source.json")!.toString());
+    expect(design.layers.find((l: any) => l.name === "背景").color).toBe(
+      language === "default" ? "#000000" : "#ffffff",
+    );
+    expect(
+      design.layers
+        .filter((l: any) => l.name !== "背景")
+        .every(
+          (l: any) =>
+            l.color === (language === "default" ? "#ffffff" : "#000000"),
+        ),
+    ).toBe(true);
     const form = new FormData();
     form.append(
       "project",

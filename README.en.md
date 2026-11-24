@@ -33,7 +33,7 @@ The screenshots show the current Chinese interface.
 - Time, date, metrics, text, images, rings, and basic shapes.
 - Independent preview with the current time, random heart rate, increasing step count, scenario presets, playback controls, and active / always-on comparison.
 - Watch series, model, and case-size selection when creating a project, with the actual screen resolution displayed.
-- Built-in ClownWatch, SkyRing, and fine-o-clock reference projects that create independent editable copies.
+- Ten protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, and BAWF; each creates an independent editable copy.
 - AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
 - Separate design/code snapshots and retention limits; generation, raw failure recovery, review, and stale-code protection.
 - Configurable rings, threshold ranges/fallbacks, metric typography, independent AOD styles, and round-screen clipping inspection.
@@ -41,7 +41,7 @@ The screenshots show the current Chinese interface.
 - Per-target compiler readiness, incremental logs/reconnection, cancellation, timeouts, retention, and signed PRG downloads.
 - Download names follow `Model_Size_ProjectName.prg`, with whitespace removed and invalid filename characters handled.
 
-AI-assisted canvas editing, automatic build-error repair, and full native simulator previews are not implemented yet. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
+User-triggered AI repair supports up to two rounds with diff review and scoped files. Automatic canvas editing, unattended repair, and full native simulator previews remain future work. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
 
 ## Supported devices
 
@@ -153,3 +153,5 @@ BYOD inspired a [round-screen modular layout proposal](docs/byod-modular-layout.
 
 
 **Editable BAWF analog reference**: thanks to [Kevin Boone / BAWF](https://github.com/kevinboone/BAWF). Explicit GPLv3 source copyright headers and complete license are retained. Hands, numerals, date and battery are editable; black/white variants use the same fixed Jungle after changing design colors. See [adaptation scope](frontend/public/reference-notices/BAWF-ADAPTATION.md); upstream power claims are not inherited.
+
+Editable components also include segmented goal meters, a three-week calendar, English/Chinese word time, fixed-UTC-offset clocks, solar scenes and configurable-pivot clock hands. See [todo](todo.md) and [staged validation](docs/stage-validation.md) for scope and evidence.
