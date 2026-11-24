@@ -1,4 +1,4 @@
-import { defaultThresholds } from "./thresholds";
+import { defaultThresholds } from "./thresholds.ts";
 import type { Project } from "./domain";
 export const CURRENT_SCHEMA = 4;
 export function migrateProject(value: unknown): Project {

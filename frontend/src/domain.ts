@@ -1,4 +1,4 @@
-import { validateThresholds } from "./thresholds";
+import { validateThresholds } from "./thresholds.ts";
 import { migrateProject } from "./migrations.ts";
 import { devices } from "./devices.ts";
 export type Kind =
