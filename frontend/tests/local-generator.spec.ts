@@ -59,7 +59,7 @@ test("local generation works without a model and provenance survives reload", as
     .click();
   await page.getByRole("button", { name: "历史", exact: true }).click();
   await expect(
-    page.getByText(/代码版本.*deterministic.*basic-13-paint/),
+    page.getByText(/代码版本.*deterministic.*basic-14-white/),
   ).toBeVisible();
 });
 
@@ -106,7 +106,7 @@ test("changing generation source requires confirmation and retains recoverable c
   await page.getByRole("button", { name: "历史", exact: true }).click();
   await expect(page.locator(".history")).toContainText("2/20");
   await expect(
-    page.getByText(/代码版本.*deterministic.*basic-13-paint/),
+    page.getByText(/代码版本.*deterministic.*basic-14-white/),
   ).toBeVisible();
   page.once("dialog", (d) => d.accept());
   await page

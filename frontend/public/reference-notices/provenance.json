@@ -199,15 +199,15 @@
       "legacy": false,
       "verifiedLicense": true,
       "path": "/templates/bawf.json",
-      "sha256": "2e12bd0548f8ab23dbca6a9924b1f3b56e1edac999221f4c24bd5d994b65bb0d"
+      "sha256": "0a56b4686edbe36165efe544d4abd2046d165a960178b01eee5083ec5e5479f5"
     }
   ],
   "generators": [
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-13-paint",
-      "sha256": "502598a4685cf0369d63fd1bc9511ba1e872bdb1d03dcd5f5a1036dd893e1f2c",
+      "version": "basic-14-white",
+      "sha256": "78778e08d5decb81eef5a65d9c8c48794553460f369b1664cec155cd27133d05",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },
