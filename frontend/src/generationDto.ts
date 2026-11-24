@@ -1,3 +1,4 @@
+import { defaultThresholds } from "./thresholds";
 import type { Layer, Project } from "./domain";
 import { imageAssetPath } from "./assets";
 type Omitted =
@@ -71,11 +72,53 @@ function objectFields(value: unknown, keys: string[]) {
   return Object.fromEntries(keys.map((key) => [key, scalar(o[key])]));
 }
 export function generationLayer(l: Layer) {
+  const rules =
+    l.thresholdRules ??
+    (l.kind === "metric" && l.threshold
+      ? defaultThresholds(l.source, l.color)
+      : undefined);
+  const ringSource = l.ringSource || "seconds";
+
   const result = Object.fromEntries(
     Object.keys(fields).map((key) => [key, scalar(l[key as keyof Layer])]),
   );
   return {
     ...result,
+    textAlign: l.textAlign || "center",
+    fontWeight: l.fontWeight || (l.kind === "time" ? 600 : 400),
+    garminFont: l.garminFont || "auto",
+    missingValue: l.missingValue ?? "--",
+    aodColor: l.aodColor || "#777777",
+    aodSize: l.aodSize || l.size,
+    aodSeconds: l.aodSeconds || "zero",
+    thresholdFallback: l.thresholdFallback || l.color,
+    ...(["rect", "circle", "line"].includes(l.kind)
+      ? {
+          fillEnabled: l.fillEnabled ?? l.kind !== "line",
+          strokeEnabled: l.strokeEnabled ?? l.kind === "line",
+          strokeColor: l.strokeColor || l.color,
+          strokeWidth: l.strokeWidth || 2,
+          opacity: l.opacity ?? 1,
+          ...(l.kind === "rect" ? { cornerRadius: l.cornerRadius ?? 4 } : {}),
+        }
+      : {}),
+    ...(l.kind === "ring"
+      ? {
+          ringTicks: l.ringTicks || 60,
+          ringSource,
+          ringGoal:
+            ringSource === "static"
+              ? 1
+              : l.ringGoal ||
+                { seconds: 60, steps: 10000, battery: 100, heartRate: 180 }[
+                  ringSource
+                ],
+          ringStart: l.ringStart ?? 0,
+          ringEnd: l.ringEnd ?? 360,
+          ringWidth: l.ringWidth || 2,
+          ringDim: l.ringDim ?? 0.25,
+        }
+      : {}),
     hidden: false,
     asset: l.image && !l.weatherIcon ? imageAssetPath(l) : undefined,
     libraryIcon: l.libraryIcon
@@ -85,12 +128,11 @@ export function generationLayer(l: Layer) {
       ? objectFields(l.weatherIcon, ["period"])
       : undefined,
     thresholdRules:
-      l.thresholdRules === undefined
+      rules === undefined
         ? undefined
         : (() => {
-            if (!Array.isArray(l.thresholdRules))
-              throw Error("阈值配置格式无效");
-            return l.thresholdRules.map((rule) =>
+            if (!Array.isArray(rules)) throw Error("阈值配置格式无效");
+            return rules.map((rule) =>
               objectFields(rule, ["min", "max", "color"]),
             );
           })(),

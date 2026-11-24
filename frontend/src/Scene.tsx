@@ -15,28 +15,31 @@ export type Preview = {
   battery: number;
   seconds: number;
 };
+export function metricValues(d: Preview): Record<string, number> {
+  return {
+    heartRate: d.heartRate,
+    steps: d.steps,
+    battery: d.battery,
+    calories: 426,
+    distance: 6.42,
+    temperature: 24,
+    stress: 30,
+    recoveryHours: 5,
+    floorsClimbed: 0,
+    intensityMinutes: 0,
+    humidity: 62,
+    uvIndex: 3,
+    altitude: -59,
+    windSpeed: 6,
+    seconds: d.seconds,
+  };
+}
 export function reading(l: Layer, d: Preview) {
   if (l.kind === "time") return d.time;
   if (l.kind === "date") return d.date || "MON 23";
   if (l.kind === "text") return l.text;
   if (l.kind === "metric") {
-    const values: Record<string, number> = {
-      heartRate: d.heartRate,
-      steps: d.steps,
-      battery: d.battery,
-      calories: 426,
-      distance: 6.42,
-      temperature: 24,
-      stress: 30,
-      recoveryHours: 5,
-      floorsClimbed: 0,
-      intensityMinutes: 0,
-      humidity: 62,
-      uvIndex: 3,
-      altitude: -59,
-      windSpeed: 6,
-      seconds: d.seconds,
-    };
+    const values = metricValues(d);
     const units = metricDisplayUnits;
     const value = values[l.source];
     const prefix = l.label ? l.label + " " : "";
@@ -55,16 +58,10 @@ export function reading(l: Layer, d: Preview) {
   return "";
 }
 export function ink(l: Layer, d: Preview) {
-  return thresholdInk(
-    l,
-    l.source === "heartRate"
-      ? d.heartRate
-      : l.source === "battery"
-        ? d.battery
-        : undefined,
-    !!d.missing,
-  );
+  if (l.kind !== "metric" || !l.threshold) return l.color;
+  return thresholdInk(l, metricValues(d)[l.source], !!d.missing);
 }
+
 export function ringLit(l: Layer, d: Preview, aod = false) {
   if (aod) return 0;
   const source = l.ringSource || "seconds";

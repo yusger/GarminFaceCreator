@@ -1,3 +1,4 @@
+import { ink } from "../src/Scene";
 import { test, expect } from "@playwright/test";
 import { generate } from "../src/api";
 import { project, layer } from "../src/domain";
@@ -106,4 +107,41 @@ test("malformed known fields reject nested objects and non-finite numbers before
   expect(() => generationLayer({ ...layer("rect"), x: Infinity })).toThrow(
     /格式无效/,
   );
+});
+
+test("resolved defaults preserve threshold AOD shape and ring behavior without relying on model guesses", () => {
+  const hr = generationLayer(layer("metric"));
+  expect(hr.thresholdRules).toEqual([
+    { min: 0, max: 120, color: "#55ff99" },
+    { min: 120, max: 150, color: "#ffee44" },
+    { min: 150, color: "#ff5566" },
+  ]);
+  expect(hr.aodColor).toBe("#777777");
+  const shape = generationLayer(layer("rect"));
+  expect(shape.fillEnabled).toBe(true);
+  expect(shape.strokeEnabled).toBe(false);
+  expect(shape.opacity).toBe(1);
+  expect(shape.cornerRadius).toBe(4);
+  const ring = generationLayer(layer("ring"));
+  expect(ring.ringGoal).toBe(60);
+  expect(ring.ringTicks).toBe(60);
+  expect(ring.ringDim).toBe(0.25);
+  const steps = {
+    ...layer("metric"),
+    source: "steps",
+    threshold: true,
+    thresholdRules: [
+      { min: 0, max: 10000, color: "#ff0000" },
+      { min: 10000, color: "#00ff00" },
+    ],
+  };
+  const d = {
+    time: "09:41",
+    heartRate: 72,
+    steps: 4500,
+    battery: 78,
+    seconds: 12,
+  };
+  expect(ink(steps, d)).toBe("#ff0000");
+  expect(ink(steps, { ...d, steps: 12500 })).toBe("#00ff00");
 });
