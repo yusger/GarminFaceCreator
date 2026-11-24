@@ -76,7 +76,7 @@ export default function Scene({
   onDown?: (
     e: React.PointerEvent<SVGGElement>,
     l: Layer,
-    resize?: boolean,
+    resize?: number,
   ) => void;
 }) {
   const clipId = useId().replaceAll(":", "");
@@ -197,12 +197,19 @@ export default function Scene({
                       fill="#e7fff9"
                       stroke="#45d6be"
                       onPointerDown={(e) => {
-                        if (i === 3) {
-                          e.stopPropagation();
-                          onDown?.(e, l, true);
-                        }
+                        e.stopPropagation();
+                        onDown?.(e, l, i);
                       }}
-                      style={{ cursor: i === 3 ? "nwse-resize" : "move" }}
+                      aria-label={
+                        ["左上缩放", "右上缩放", "左下缩放", "右下缩放"][i]
+                      }
+                      style={{
+                        cursor: l.locked
+                          ? "not-allowed"
+                          : i === 0 || i === 3
+                            ? "nwse-resize"
+                            : "nesw-resize",
+                      }}
                     />
                   ))}
                 </>

@@ -135,7 +135,14 @@ export default function App() {
     y: number;
     original: Layer;
     before: Layer[];
-    resize: boolean;
+    project: Project;
+    latest: Layer[];
+    resize?: number;
+  } | null>(null);
+  const propertyEdit = useRef<{
+    projectId: string;
+    before: Layer[];
+    changed: boolean;
   } | null>(null);
   const current = p?.layers.find((l) => l.id === selected);
   useEffect(() => {
@@ -167,12 +174,19 @@ export default function App() {
       });
   }, []);
   useEffect(() => {
-    if (!p || !ready || halted.current.has(p.id) || persisted.current === p)
+    if (
+      !p ||
+      !ready ||
+      drag.current ||
+      halted.current.has(p.id) ||
+      persisted.current === p
+    )
       return;
     setSaved("保存中…");
     const timer = setTimeout(() => {
       saveQueue.current = saveQueue.current.then(async () => {
-        if (halted.current.has(p.id)) return;
+        if (drag.current?.project.id === p.id || halted.current.has(p.id))
+          return;
         try {
           const version = await saveProject(
             p,
@@ -278,9 +292,48 @@ export default function App() {
     }
     setP({ ...p, layers, revision: p.revision + 1, updated: Date.now() });
   }
+  function beginProperty(e: React.FocusEvent<HTMLElement>) {
+    if (
+      !p ||
+      !(e.target instanceof HTMLInputElement) ||
+      ["checkbox", "file"].includes(e.target.type)
+    )
+      return;
+    propertyEdit.current = {
+      projectId: p.id,
+      before: structuredClone(p.layers),
+      changed: false,
+    };
+  }
+  function endProperty() {
+    const edit = propertyEdit.current;
+    propertyEdit.current = null;
+    if (
+      edit?.changed &&
+      activeProject.current?.id === edit.projectId &&
+      JSON.stringify(edit.before) !==
+        JSON.stringify(activeProject.current.layers)
+    ) {
+      setPast((items) => [...items.slice(-49), edit.before]);
+      setFuture([]);
+    }
+  }
   function patch(v: Partial<Layer>) {
-    if (p && current)
-      editLayers(p.layers.map((l) => (l.id === selected ? { ...l, ...v } : l)));
+    if (
+      !p ||
+      !current ||
+      Object.entries(v).every(
+        ([key, value]) => current[key as keyof Layer] === value,
+      )
+    )
+      return;
+    const transaction =
+      propertyEdit.current?.projectId === p.id ? propertyEdit.current : null;
+    if (transaction) transaction.changed = true;
+    editLayers(
+      p.layers.map((l) => (l.id === selected ? { ...l, ...v } : l)),
+      !transaction,
+    );
   }
   function undo(redo = false) {
     if (!p) return;
@@ -294,6 +347,7 @@ export default function App() {
       setFuture([...future, p.layers]);
       setPast(past.slice(0, -1));
     }
+    setSelected((id) => (layers.some((l) => l.id === id) ? id : ""));
     setP({ ...p, layers, revision: p.revision + 1, updated: Date.now() });
   }
   function open(item: Project) {
@@ -403,6 +457,16 @@ export default function App() {
         page !== "editor"
       )
         return;
+      if (drag.current) {
+        if (e.key === "Escape") {
+          const before = drag.current.project;
+          drag.current = null;
+          setP(before);
+          setSaveAttempt((n) => n + 1);
+        }
+        e.preventDefault();
+        return;
+      }
       if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z") {
         e.preventDefault();
         undo(e.shiftKey);
@@ -430,11 +494,12 @@ export default function App() {
   function pointer(
     e: React.PointerEvent<SVGGElement>,
     l: Layer,
-    resize = false,
+    resize?: number,
   ) {
     e.stopPropagation();
     setSelected(l.id);
-    if (l.locked) return;
+    if (!p || l.locked || e.button !== 0) return;
+    endProperty();
     const svg = e.currentTarget.ownerSVGElement!;
     const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(
       svg.getScreenCTM()!.inverse(),
@@ -444,47 +509,76 @@ export default function App() {
       x: pt.x,
       y: pt.y,
       original: l,
-      before: structuredClone(p!.layers),
+      before: structuredClone(p.layers),
+      project: p,
+      latest: p.layers,
       resize,
     };
     svg.setPointerCapture(e.pointerId);
   }
-  function move(e: React.PointerEvent<HTMLDivElement>) {
+  function dragLayers(e: React.PointerEvent<HTMLDivElement>) {
     const d = drag.current;
-    if (!d || !p) return;
+    if (!d) return null;
     const svg = e.currentTarget.querySelector("svg.watch")! as SVGSVGElement;
     const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(
       svg.getScreenCTM()!.inverse(),
     );
     const dx = Math.round(pt.x - d.x),
       dy = Math.round(pt.y - d.y);
-    setP({
-      ...p,
-      layers: p.layers.map((l) =>
-        l.id !== d.id
-          ? l
-          : d.resize
-            ? {
-                ...l,
-                w: Math.max(10, d.original.w + dx),
-                h: Math.max(10, d.original.h + dy),
-              }
-            : {
-                ...l,
-                x: Math.max(-454, Math.min(454, d.original.x + dx)),
-                y: Math.max(-454, Math.min(454, d.original.y + dy)),
-              },
-      ),
-    });
+    let changed: Layer;
+    if (d.resize !== undefined) {
+      const angle = (d.original.rotation * Math.PI) / 180,
+        cos = Math.cos(angle),
+        sin = Math.sin(angle);
+      const localX = dx * cos + dy * sin,
+        localY = -dx * sin + dy * cos;
+      const left = d.resize === 0 || d.resize === 2,
+        top = d.resize === 0 || d.resize === 1;
+      const w = Math.max(10, d.original.w + (left ? -localX : localX));
+      const h = Math.max(10, d.original.h + (top ? -localY : localY));
+      const shiftX = (w - d.original.w) * (left ? -0.5 : 0.5),
+        shiftY = (h - d.original.h) * (top ? -0.5 : 0.5);
+      changed = {
+        ...d.original,
+        w,
+        h,
+        x:
+          d.original.x + d.original.w / 2 + shiftX * cos - shiftY * sin - w / 2,
+        y:
+          d.original.y + d.original.h / 2 + shiftX * sin + shiftY * cos - h / 2,
+      };
+    } else
+      changed = {
+        ...d.original,
+        x: Math.max(-454, Math.min(454, d.original.x + dx)),
+        y: Math.max(-454, Math.min(454, d.original.y + dy)),
+      };
+    d.latest = d.before.map((l) => (l.id === d.id ? changed : l));
+    return d.latest;
   }
-  function end() {
+  function move(e: React.PointerEvent<HTMLDivElement>) {
+    const layers = dragLayers(e),
+      d = drag.current;
+    if (d && layers) setP({ ...d.project, layers });
+  }
+  function end(e: React.PointerEvent<HTMLDivElement>, cancel = false) {
     const d = drag.current;
-    if (d && p) {
-      setPast((x) => [...x.slice(-49), d.before]);
-      setFuture([]);
-      setP({ ...p, revision: p.revision + 1, updated: Date.now() });
-      drag.current = null;
+    if (!d) return;
+    if (!cancel) dragLayers(e);
+    drag.current = null;
+    if (cancel || JSON.stringify(d.before) === JSON.stringify(d.latest)) {
+      setP(d.project);
+      setSaveAttempt((n) => n + 1);
+      return;
     }
+    setPast((items) => [...items.slice(-49), d.before]);
+    setFuture([]);
+    setP({
+      ...d.project,
+      layers: d.latest,
+      revision: d.project.revision + 1,
+      updated: Date.now(),
+    });
   }
   async function image(file?: File) {
     if (!file || !p) return;
@@ -1178,8 +1272,9 @@ export default function App() {
                 <div
                   className="canvas-space"
                   onPointerMove={move}
-                  onPointerUp={end}
-                  onPointerCancel={end}
+                  onPointerUp={(e) => end(e)}
+                  onPointerCancel={(e) => end(e, true)}
+                  onLostPointerCapture={(e) => end(e, true)}
                 >
                   <div className="ruler">
                     0　　　50　　　100　　　150　　　200　　　250　　　300　　　350　　　400　454
@@ -1214,7 +1309,11 @@ export default function App() {
                   </div>
                 </div>
               </main>
-              <aside className="inspector">
+              <aside
+                className="inspector"
+                onFocusCapture={beginProperty}
+                onBlurCapture={endProperty}
+              >
                 <div className="inspector-title">
                   <b>{current?.name || "画布属性"}</b>
                   <SlidersHorizontal size={16} />
