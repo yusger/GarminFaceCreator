@@ -115,10 +115,12 @@ export async function exportSources(
     if (!origins.wordTimeLocale?.files?.length)
       throw Error("缺少文字报时原始许可和文本来源");
     for (const file of origins.wordTimeLocale.files) {
+      const noticePath = "notices/" + file.path.split("/").at(-1);
+      if (entries.some((entry) => entry.path === noticePath)) continue;
       const r = await fetch(file.path);
       if (!r.ok) throw Error("缺少文字报时原始许可");
       entries.push({
-        path: "notices/" + file.path.split("/").at(-1),
+        path: noticePath,
         data: new Uint8Array(await r.arrayBuffer()),
       });
     }

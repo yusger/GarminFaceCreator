@@ -94,6 +94,28 @@
       "verifiedLicense": true,
       "path": "/templates/timelyfenix.json",
       "sha256": "5b159bffd5bd2ee39b1d9ca955b9d8cc07a30b6e55c80af2a467cb5a9809ed29"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000006",
+      "name": "AboutTime",
+      "template": "abouttime",
+      "source": "https://github.com/samuelmr/garmin-abouttime",
+      "status": "Original About Time locale phrases MIT; Creator native generator/adapter templates GPL-3.0-or-later; system fonts, no upstream font or icon binaries copied",
+      "summary": "原始中英文译文 MIT；Creator 原生适配模板 GPLv3+；系统字体与完整原始声明保留",
+      "files": [
+        "AboutTime-LICENSE.txt",
+        "AboutTime-README.md",
+        "AboutTime-English-strings.xml",
+        "AboutTime-Chinese-strings.xml",
+        "AboutTime-ADAPTATION.md",
+        "repository-LICENSE.txt"
+      ],
+      "upstreamCommit": "4fdf09bcf784ecf385b9dce546af3f277e13caa5",
+      "upstreamCommitStatus": "Pinned upstream revision; four original text/license input SHA-256 values checked",
+      "legacy": false,
+      "verifiedLicense": true,
+      "path": "/templates/abouttime.json",
+      "sha256": "13316bb0d52c295ff1db3990c00506babcc1aaf2327da18a1c34cbedf4b97b12"
     }
   ],
   "generators": [

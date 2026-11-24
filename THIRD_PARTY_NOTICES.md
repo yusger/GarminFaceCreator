@@ -33,3 +33,7 @@ Thanks to [KWottrich/TimelyFenix](https://github.com/KWottrich/TimelyFenix), pin
 ## About Time word-time locale phrases
 
 The reusable word-time component includes English and Simplified Chinese phrase tables from [samuelmr/garmin-abouttime](https://github.com/samuelmr/garmin-abouttime), pinned `4fdf09bcf784ecf385b9dce546af3f277e13caa5`, copyright (c) 2019 Samuel Rinnetmäki, MIT. Complete license and original locale XML are retained under `frontend/public/reference-notices/AboutTime-*` and attached to source exports containing the adapter, even outside a reference project. The Creator adapter retains GPL-3.0-or-later scope. No upstream font/icon binary is copied. A future default reference is a separate integration stage.
+
+## AboutTime default reference
+
+The default AboutTime Creator layout adapts the pinned About Time version above. It includes three editable word-time rows and actual local date/battery, initially for Venu 4 45mm. Original MIT source phrases and complete copyright/notice remain MIT; Creator native templates retain GPLv3+ scope. The original README and two locale XML files accompany export. No original font/icon binary or other language package is copied. See [scope and modifications](frontend/public/reference-notices/AboutTime-ADAPTATION.md).

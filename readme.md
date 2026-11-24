@@ -137,3 +137,5 @@ Crystal：[编辑器画面](docs/screenshots/crystal-editor.png) · [原生亮�
 新增 **TimelyFenix 可编辑参考**：感谢 [KWottrich/TimelyFenix](https://github.com/KWottrich/TimelyFenix)。动态三周日历、周起始日/今日配色和 Garmin 缓存天气均可编辑；固定 GPLv3 来源与[适配范围](frontend/public/reference-notices/TimelyFenix-ADAPTATION.md)保留，不复制原图标字体。
 
 TimelyFenix：[编辑器](docs/screenshots/timelyfenix-editor.png) · [原生亮屏](docs/screenshots/timelyfenix-native.png) · [天气缺失](docs/screenshots/timelyfenix-missing.png) · [息屏](docs/screenshots/timelyfenix-aod.png)。
+
+新增 **AboutTime 文字报时参考**：感谢 [Samuel Rinnetmäki / garmin-abouttime](https://github.com/samuelmr/garmin-abouttime)。三行可分别布局、配色和选择中英文；原译文 MIT 与 Creator 原生模板 GPLv3+ 范围分别保留，见[适配说明](frontend/public/reference-notices/AboutTime-ADAPTATION.md)。
