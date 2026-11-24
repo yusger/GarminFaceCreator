@@ -1,4 +1,4 @@
-﻿# GarminFaceCreator
+# GarminFaceCreator
 
 面向 Garmin Connect IQ 的可视化表盘设计器。通过网页拖动控件、管理图层和素材，在浏览器中调用自行配置的大模型生成 Monkey C 工程，再交给 .NET 后端编译为 PRG。
 
@@ -99,6 +99,15 @@ compose.yaml      容器运行配置
 ```
 
 运行页面测试：`npm test`。可用 `GFC_TEST_URL` 指定已部署的服务，避免启动本地开发服务器。真实模型测试需自行提供环境变量中的 Key，可能产生服务商费用。
+
+## 参考项目与致谢
+
+默认参考表盘中的以下项目来自开源社区，本项目在其基础上进行了适配和编辑器集成：
+
+- **SkyRing**：[daveshap/SkyRingGarmin](https://github.com/daveshap/SkyRingGarmin)，作者 [daveshap](https://github.com/daveshap)。
+- **fine-o-clock / Fine’o clock**：[causeri3/fine-o-clock](https://github.com/causeri3/fine-o-clock)，作者 [causeri3](https://github.com/causeri3)。
+
+感谢两位作者开源分享表盘源码与设计，为参考项目的布局、数据展示和动画实现提供了基础，也让可视化编辑与编译流程有了可供学习的实例。原项目及资源的版权和许可仍归各自权利人所有。
 
 ## 开源许可与第三方内容
 
