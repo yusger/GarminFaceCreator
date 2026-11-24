@@ -29,6 +29,15 @@ for (const paths of [
     method: "POST",
     body: form,
   });
+  if (paths.some((path) => /[^\x00-\x7f]/.test(path))) {
+    assert.equal(response.status, 400, await response.clone().text());
+    assert.match((await response.json()).error, /ASCII/);
+    console.log(
+      "PASS unsupported native Unicode resource paths rejected before compiler",
+      paths,
+    );
+    continue;
+  }
   assert.equal(response.status, 202, await response.clone().text());
   const job = await response.json();
   let done;
