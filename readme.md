@@ -94,6 +94,8 @@ dotnet build backend/GarminFaceCreator.Api.csproj -c Release
 - [前端设计规划](docs/frontend-design.md)
 - [源码工程导出](docs/source-export.md)
 - [设备与隐私自测](docs/device-self-test.md)
+- [预览差异与验证范围](docs/preview-limitations.md)
+- [问题反馈与功能建议](https://github.com/yusger/GarminFaceCreator/issues/new/choose)
 - [分阶段验证记录](docs/stage-validation.md)
 
 ```text

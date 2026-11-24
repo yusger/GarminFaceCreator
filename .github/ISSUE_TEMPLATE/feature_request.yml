@@ -1,0 +1,26 @@
+name: 功能建议 / Feature request
+description: 描述需求场景和验收方式 / Propose a concrete improvement
+title: "[Feature] "
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: 使用场景与问题 / Use case and problem
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 希望的操作与结果 / Proposed behavior
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: 验收方式 / Acceptance criteria
+      description: 包括目标设备、语言、数据源及与现有行为的兼容要求。请勿附凭据或私人环境信息。
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: 替代方案或素材来源 / Alternatives or asset sources
+      description: 新素材和参考项目请附来源及明确的许可证。
