@@ -93,6 +93,7 @@ dotnet build backend/GarminFaceCreator.Api.csproj -c Release
 - [后端 API 与容器部署](docs/backend-deployment.md)
 - [前端设计规划](docs/frontend-design.md)
 - [源码工程导出](docs/source-export.md)
+- [内容来源与许可分发](docs/attribution.md)
 - [内置图标素材库](docs/icon-library.md)
 - [本地生成试点](docs/local-generator.md)
 - [受限 AI 修复](docs/ai-repair.md)

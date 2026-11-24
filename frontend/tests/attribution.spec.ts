@@ -43,7 +43,7 @@ test("reference and generator source snapshots retain exact build fingerprints",
     true,
   );
 });
-for (const mode of ["local", "independent"])
+for (const mode of ["local", "unmarked"])
   test(
     "source export scopes template notices to actual contents: " + mode,
     async ({ page }) => {
@@ -51,14 +51,14 @@ for (const mode of ["local", "independent"])
       p.layers = [layer("time")];
       p.files = localGenerate(p);
       p.codeRevision = p.revision;
-      if (mode === "independent") {
+      if (mode === "unmarked") {
         p.files = p.files.map((f) =>
           f.path === "source/App.mc"
             ? {
                 ...f,
                 content: f.content.replace(
                   /^\/\/ GarminFaceCreator[^\n]*\n/,
-                  "// Independent test fixture\n",
+                  "// Unmarked test fixture\n",
                 ),
               }
             : f,
@@ -124,18 +124,14 @@ test("reference cards show actual licensing uncertainty rather than a generic op
   page,
 }) => {
   await page.goto("/");
-  const sky = page
-    .locator(".project-card")
-    .filter({
-      has: page.getByRole("button", { name: "使用 SkyRing", exact: true }),
-    });
+  const sky = page.locator(".project-card").filter({
+    has: page.getByRole("button", { name: "使用 SkyRing", exact: true }),
+  });
   await sky.getByText("参考来源与许可", { exact: true }).click();
   await expect(sky).toContainText("上游许可尚未确认");
-  const fine = page
-    .locator(".project-card")
-    .filter({
-      has: page.getByRole("button", { name: "使用 fine-o-clock", exact: true }),
-    });
+  const fine = page.locator(".project-card").filter({
+    has: page.getByRole("button", { name: "使用 fine-o-clock", exact: true }),
+  });
   await fine.getByText("参考来源与许可", { exact: true }).click();
   await expect(fine).toContainText("LGPLv3");
   await expect(fine).toContainText("GPLv3+");
