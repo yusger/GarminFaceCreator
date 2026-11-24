@@ -1,5 +1,5 @@
 import type { Project } from "./domain";
-export const CURRENT_SCHEMA = 2;
+export const CURRENT_SCHEMA = 3;
 export function migrateProject(value: unknown): Project {
   if (!value || typeof value !== "object") throw Error("项目格式不正确");
   const input = value as Project;
@@ -33,6 +33,28 @@ export function migrateProject(value: unknown): Project {
         id: asset.id || `legacy-resource-${index}`,
       })),
       designSnapshots: [],
+    };
+  }
+  if (result.schemaVersion === 2) {
+    const defaults = (l: Project["layers"][number]) => ({
+      ...l,
+      textAlign: l.textAlign || ("center" as const),
+      fontWeight:
+        l.fontWeight || ((l.kind === "time" ? 600 : 400) as 400 | 600),
+      garminFont: l.garminFont || ("auto" as const),
+      missingValue: l.missingValue ?? "--",
+      allowClip:
+        l.allowClip ??
+        ["ring", "circle", "image", "rect", "line"].includes(l.kind),
+    });
+    result = {
+      ...result,
+      schemaVersion: 3,
+      layers: result.layers.map(defaults),
+      designSnapshots: result.designSnapshots?.map((snapshot) => ({
+        ...snapshot,
+        layers: snapshot.layers.map(defaults),
+      })),
     };
   }
   if (!Array.isArray(result.layers) || !Array.isArray(result.versions))

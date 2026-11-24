@@ -1,7 +1,7 @@
 ﻿import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { project, layer, validateProject } from "../src/domain";
-import { migrateProject } from "../src/migrations";
+import { migrateProject, CURRENT_SCHEMA } from "../src/migrations";
 import { imageAssetPath, binaryAssets } from "../src/assets";
 import {
   saveDesignSnapshot,
@@ -14,7 +14,7 @@ test("sequential migration preserves native identities and stable shared image r
     layers: [{ ...layer("image"), image: "data:image/png;base64,AAAA" }],
   };
   const migrated = migrateProject(old);
-  expect(migrated.schemaVersion).toBe(2);
+  expect(migrated.schemaVersion).toBe(CURRENT_SCHEMA);
   expect(migrated.layers[0].id).toBe(old.layers[0].id);
   expect(imageAssetPath(migrated.layers[0])).toBe(
     "assets/" + old.layers[0].id + ".png",
@@ -115,7 +115,7 @@ test("import cancellation preserves current project and confirmation explains co
   );
   expect(value.files).toEqual([]);
   expect(value.versions).toEqual([]);
-  expect(value.schemaVersion).toBe(2);
+  expect(value.schemaVersion).toBe(CURRENT_SCHEMA);
 });
 test("named design snapshot can be restored independently of code history", async ({
   page,
@@ -174,7 +174,7 @@ test("stored legacy project loads migrated and future schema fails visibly witho
   expect(
     JSON.parse(await readFile((await (await pending).path())!, "utf8"))
       .schemaVersion,
-  ).toBe(2);
+  ).toBe(CURRENT_SCHEMA);
   await page.evaluate(
     (value) =>
       new Promise<void>((resolve) => {

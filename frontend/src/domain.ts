@@ -27,6 +27,14 @@ export type Layer = {
   source: string;
   image?: string;
   assetId?: string;
+  textAlign?: "left" | "center" | "right";
+  fontWeight?: 400 | 600 | 700;
+  garminFont?: "auto" | "tiny" | "small" | "medium" | "large" | "numberHot";
+  label?: string;
+  unit?: string;
+  precision?: number;
+  missingValue?: string;
+  allowClip?: boolean;
   aod: boolean;
   threshold: boolean;
   strokeWidth?: number;
@@ -51,7 +59,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2;
+  schemaVersion: 1 | 2 | 3;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
@@ -194,7 +202,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 2,
+    schemaVersion: 3,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -221,7 +229,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 2 ||
+    p.schemaVersion !== 3 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -268,6 +276,26 @@ export function validateProject(value: unknown): Project {
       throw Error("图层属性无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
+    if (
+      (l.textAlign !== undefined &&
+        !["left", "center", "right"].includes(l.textAlign)) ||
+      (l.fontWeight !== undefined && ![400, 600, 700].includes(l.fontWeight)) ||
+      (l.garminFont !== undefined &&
+        !["auto", "tiny", "small", "medium", "large", "numberHot"].includes(
+          l.garminFont,
+        )) ||
+      (l.precision !== undefined &&
+        (!Number.isInteger(l.precision) || l.precision < 0 || l.precision > 3))
+    )
+      throw Error("文字或数据格式无效");
+    if (l.allowClip !== undefined && typeof l.allowClip !== "boolean")
+      throw Error("裁切设置无效");
+    for (const field of [l.label, l.unit, l.missingValue])
+      if (
+        field !== undefined &&
+        (typeof field !== "string" || field.length > 100)
+      )
+        throw Error("标签、单位或缺失值格式无效");
     if (l.assetId !== undefined && !/^[a-zA-Z0-9_-]{1,120}$/.test(l.assetId))
       throw Error("图片素材标识无效");
     if (l.image && !/^data:image\/(png|jpeg|webp);base64,/.test(l.image))

@@ -13,29 +13,47 @@ export function reading(l: Layer, d: Preview) {
   if (l.kind === "time") return d.time;
   if (l.kind === "date") return d.date || "MON 23";
   if (l.kind === "text") return l.text;
-  if (l.kind === "metric" && d.missing) return "--";
-  if (l.kind === "metric")
-    return (
-      (
-        {
-          heartRate: String(d.heartRate),
-          steps: d.steps.toLocaleString(),
-          battery: d.battery + "%",
-          calories: "426",
-          distance: "6.42",
-          temperature: "24°C",
-          stress: "30",
-          recoveryHours: "5h",
-          floorsClimbed: "0",
-          intensityMinutes: "0/150",
-          humidity: "62%",
-          uvIndex: "3",
-          altitude: "−59ft",
-          windSpeed: "6m",
-          seconds: String(d.seconds).padStart(2, "0"),
-        } as Record<string, string>
-      )[l.source] || "--"
-    );
+  if (l.kind === "metric") {
+    const values: Record<string, number> = {
+      heartRate: d.heartRate,
+      steps: d.steps,
+      battery: d.battery,
+      calories: 426,
+      distance: 6.42,
+      temperature: 24,
+      stress: 30,
+      recoveryHours: 5,
+      floorsClimbed: 0,
+      intensityMinutes: 0,
+      humidity: 62,
+      uvIndex: 3,
+      altitude: -59,
+      windSpeed: 6,
+      seconds: d.seconds,
+    };
+    const units: Record<string, string> = {
+      battery: "%",
+      temperature: "°C",
+      recoveryHours: "h",
+      intensityMinutes: "/150",
+      humidity: "%",
+      altitude: "ft",
+      windSpeed: "m",
+    };
+    const value = values[l.source];
+    const prefix = l.label ? l.label + " " : "";
+    if (d.missing || !Number.isFinite(value))
+      return prefix + (l.missingValue ?? "--");
+    const text =
+      l.precision !== undefined
+        ? value.toFixed(l.precision)
+        : l.source === "steps"
+          ? value.toLocaleString()
+          : l.source === "seconds"
+            ? String(value).padStart(2, "0")
+            : String(value);
+    return prefix + text + (l.unit ?? units[l.source] ?? "");
+  }
   return "";
 }
 export function ink(l: Layer, d: Preview) {
@@ -159,14 +177,26 @@ export default function Scene({
                 />
               ) : (
                 <text
-                  x={l.w / 2}
+                  x={
+                    l.textAlign === "left"
+                      ? 0
+                      : l.textAlign === "right"
+                        ? l.w
+                        : l.w / 2
+                  }
                   y={l.h / 2}
                   dominantBaseline="central"
-                  textAnchor="middle"
+                  textAnchor={
+                    l.textAlign === "left"
+                      ? "start"
+                      : l.textAlign === "right"
+                        ? "end"
+                        : "middle"
+                  }
                   fontFamily="Arial, sans-serif"
                   letterSpacing={l.kind === "time" ? -4 : 0}
                   fontSize={l.size}
-                  fontWeight={l.kind === "time" ? 600 : 400}
+                  fontWeight={l.fontWeight || (l.kind === "time" ? 600 : 400)}
                   fill={aod ? "#777" : ink(l, preview)}
                 >
                   {l.kind === "metric" && l.source === "heartRate" ? "♡ " : ""}

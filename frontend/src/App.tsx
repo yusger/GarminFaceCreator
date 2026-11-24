@@ -1,3 +1,4 @@
+import { crossesScreen } from "./bounds";
 import { saveDesignSnapshot, restoreDesignSnapshot } from "./designHistory";
 import { binaryAssets } from "./assets";
 import { activeVersion, addCodeVersion, retainHistory } from "./history";
@@ -69,7 +70,7 @@ import {
 import { generate, GenerationFailure } from "./api";
 import Models from "./Models";
 import { loadReferences, isReference, copyReference } from "./builtins";
-import Scene, { type Preview } from "./Scene";
+import Scene, { reading, type Preview } from "./Scene";
 const tools = [
   ["time", "时间", Clock],
   ["date", "日期", Calendar],
@@ -164,6 +165,26 @@ export default function App() {
     changed: boolean;
   } | null>(null);
   const current = p?.layers.find((l) => l.id === selected);
+  const textMeasure = useRef<CanvasRenderingContext2D | null>(null);
+  textMeasure.current ||= document.createElement("canvas").getContext("2d");
+  const boundaryWarnings = (p?.layers || []).filter((l) => {
+    if (!["text", "time", "date", "metric"].includes(l.kind))
+      return crossesScreen(l);
+    const ctx = textMeasure.current;
+    if (!ctx) return crossesScreen(l);
+    ctx.font = `${l.fontWeight || (l.kind === "time" ? 600 : 400)} ${l.size}px Arial`;
+    const measured = ctx.measureText(
+      (l.kind === "metric" && l.source === "heartRate" ? "♡ " : "") +
+        reading(l, preview),
+    );
+    return crossesScreen(l, {
+      width: measured.width,
+      height: Math.max(
+        l.size,
+        measured.actualBoundingBoxAscent + measured.actualBoundingBoxDescent,
+      ),
+    });
+  });
   useEffect(() => {
     loadProjects()
       .then(async (items) => {
@@ -1397,6 +1418,21 @@ export default function App() {
                 onFocusCapture={beginProperty}
                 onBlurCapture={endProperty}
               >
+                {boundaryWarnings.length > 0 && (
+                  <details className="boundary-warning">
+                    <summary>
+                      {boundaryWarnings.length} 个图层超出圆屏边界
+                    </summary>
+                    <p>
+                      按当前网页字体与预览值估算，请在目标设备检查实际字形。
+                    </p>
+                    {boundaryWarnings.map((l) => (
+                      <button key={l.id} onClick={() => setSelected(l.id)}>
+                        定位 {l.name}
+                      </button>
+                    ))}
+                  </details>
+                )}
                 <div className="inspector-title">
                   <b>{current?.name || "画布属性"}</b>
                   <SlidersHorizontal size={16} />
@@ -1476,6 +1512,87 @@ export default function App() {
                         />
                       </label>
                     )}
+                    {["text", "time", "date", "metric"].includes(
+                      current.kind,
+                    ) && (
+                      <>
+                        <label>
+                          文字对齐
+                          <select
+                            aria-label="文字对齐"
+                            value={current.textAlign || "center"}
+                            onChange={(e) =>
+                              patch({
+                                textAlign: e.target.value as Layer["textAlign"],
+                              })
+                            }
+                          >
+                            <option value="left">左对齐</option>
+                            <option value="center">居中</option>
+                            <option value="right">右对齐</option>
+                          </select>
+                        </label>
+                        <label>
+                          字重
+                          <select
+                            aria-label="字重"
+                            value={
+                              current.fontWeight ||
+                              (current.kind === "time" ? 600 : 400)
+                            }
+                            onChange={(e) =>
+                              patch({
+                                fontWeight: Number(
+                                  e.target.value,
+                                ) as Layer["fontWeight"],
+                              })
+                            }
+                          >
+                            <option value="400">常规</option>
+                            <option value="600">半粗</option>
+                            <option value="700">粗体</option>
+                          </select>
+                        </label>
+                        <label>
+                          Garmin 字体
+                          <select
+                            aria-label="Garmin 字体"
+                            value={current.garminFont || "auto"}
+                            onChange={(e) =>
+                              patch({
+                                garminFont: e.target
+                                  .value as Layer["garminFont"],
+                              })
+                            }
+                          >
+                            {[
+                              ["auto", "自动选择"],
+                              ["tiny", "FONT_TINY"],
+                              ["small", "FONT_SMALL"],
+                              ["medium", "FONT_MEDIUM"],
+                              ["large", "FONT_LARGE"],
+                              ["numberHot", "FONT_NUMBER_HOT"],
+                            ].map(([id, label]) => (
+                              <option key={id} value={id}>
+                                {label}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <p className="hint">
+                          网页使用替代字体。原生字体的字号、字重和中文字形取决于目标设备，不随工程分发
+                          SDK 字体。
+                        </p>
+                      </>
+                    )}
+                    <label className="inline">
+                      <input
+                        type="checkbox"
+                        checked={!!current.allowClip}
+                        onChange={(e) => patch({ allowClip: e.target.checked })}
+                      />
+                      允许装饰裁切
+                    </label>
                     {current.kind === "text" && (
                       <label>
                         文字内容
@@ -1506,6 +1623,66 @@ export default function App() {
                               </option>
                             ))}
                           </select>
+                        </label>
+                        <label>
+                          数据标签
+                          <input
+                            aria-label="数据标签"
+                            maxLength={100}
+                            value={current.label || ""}
+                            onChange={(e) => patch({ label: e.target.value })}
+                          />
+                        </label>
+                        <label>
+                          数据单位
+                          <input
+                            aria-label="数据单位"
+                            maxLength={100}
+                            placeholder="输入自定义单位；空值隐藏"
+                            value={current.unit ?? ""}
+                            onChange={(e) => patch({ unit: e.target.value })}
+                          />
+                        </label>
+                        <p className="hint">
+                          {current.unit === undefined
+                            ? "当前使用数据源默认单位"
+                            : "当前使用自定义单位（可留空隐藏）"}
+                        </p>
+                        <button onClick={() => patch({ unit: undefined })}>
+                          恢复默认单位
+                        </button>
+                        <label>
+                          小数位
+                          <select
+                            aria-label="小数位"
+                            value={current.precision ?? "auto"}
+                            onChange={(e) =>
+                              patch({
+                                precision:
+                                  e.target.value === "auto"
+                                    ? undefined
+                                    : Number(e.target.value),
+                              })
+                            }
+                          >
+                            <option value="auto">自动格式</option>
+                            {[0, 1, 2, 3].map((n) => (
+                              <option key={n} value={n}>
+                                {n} 位
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        <label>
+                          缺失值
+                          <input
+                            aria-label="缺失值"
+                            maxLength={100}
+                            value={current.missingValue ?? "--"}
+                            onChange={(e) =>
+                              patch({ missingValue: e.target.value })
+                            }
+                          />
                         </label>
                         {["heartRate", "battery"].includes(current.source) && (
                           <>
