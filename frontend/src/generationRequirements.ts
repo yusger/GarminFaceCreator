@@ -1,3 +1,4 @@
+import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
 import type { Project } from "./domain";
 import { generationDevice } from "./devices.ts";
 
@@ -16,9 +17,9 @@ const adapters: Record<string, Adapter> = {
   },
   altitude: {
     api: "2.1.0",
-    read: "SensorHistory.getElevationHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next().data",
+    read: "SensorHistory.getElevationHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next().data * 3.280839895 (meters to feet)",
     permission: "SensorHistory",
-    unit: "m",
+    unit: "ft",
   },
   steps: { api: "1.0.0", read: "ActivityMonitor.getInfo().steps" },
   calories: {
@@ -54,8 +55,8 @@ const adapters: Record<string, Adapter> = {
   },
   windSpeed: {
     api: "3.2.0",
-    read: "Weather.getCurrentConditions().windSpeed * 3.6 (m/s to km/h)",
-    unit: "km/h",
+    read: "Weather.getCurrentConditions().windSpeed",
+    unit: "m/s",
   },
   uvIndex: { api: "5.1.0", read: "Weather.getCurrentConditions().uvIndex" },
   stress: {
@@ -92,7 +93,12 @@ export function generationRequirements(p: Project) {
   const dataSources = sources.map((source) => {
     const adapter = adapters[source];
     if (!adapter) throw Error("数据源尚无已核查的原生读取规则：" + source);
-    return { source, ...adapter };
+    return {
+      source,
+      ...adapter,
+      defaultDisplayUnit: metricDisplayUnits[source] || "",
+      decoration: metricDecorations[source] || "",
+    };
   });
   // The generation contract explicitly uses source-over drawing tools (4.2.1).
   const minApiLevel = dataSources.reduce(
@@ -114,7 +120,8 @@ export function generationRequirements(p: Project) {
     )
     .join("");
   // AppName is a native string resource too. Editor layer/group names are not.
-  const resourceText = p.name + drawnText;
+  const resourceText =
+    p.name + drawnText + dataSources.map((a) => a.decoration).join("");
   const han = /\p{Script=Han}/u.test(resourceText),
     kana = /[\p{Script=Hiragana}\p{Script=Katakana}]/u.test(resourceText);
   const languages = [
@@ -135,6 +142,8 @@ export function generationRequirements(p: Project) {
     minApiLevel,
     permissions,
     languages,
+    displayUnits: metricDisplayUnits,
+    metricDecorations,
     dataSources,
     glyphs,
     languagePolicy:

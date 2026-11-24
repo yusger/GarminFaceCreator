@@ -1,3 +1,4 @@
+import { metricDisplayUnits, metricDecorations } from "./metricFormat";
 import LibraryImage from "./LibraryImage";
 import { guideInsetDesign } from "./layouts";
 import type { Box } from "./selection";
@@ -35,15 +36,7 @@ export function reading(l: Layer, d: Preview) {
       windSpeed: 6,
       seconds: d.seconds,
     };
-    const units: Record<string, string> = {
-      battery: "%",
-      temperature: "°C",
-      recoveryHours: "h",
-      intensityMinutes: "/150",
-      humidity: "%",
-      altitude: "ft",
-      windSpeed: "m",
-    };
+    const units = metricDisplayUnits;
     const value = values[l.source];
     const prefix = l.label ? l.label + " " : "";
     if (d.missing || !Number.isFinite(value))
@@ -305,7 +298,7 @@ export default function Scene({
                   fontWeight={l.fontWeight || (l.kind === "time" ? 600 : 400)}
                   fill={aod ? l.aodColor || "#777777" : ink(l, preview)}
                 >
-                  {l.kind === "metric" && l.source === "heartRate" ? "♡ " : ""}
+                  {l.kind === "metric" ? metricDecorations[l.source] || "" : ""}
                   {reading(l, aod ? { ...preview, seconds: 0 } : preview)}
                 </text>
               )}
