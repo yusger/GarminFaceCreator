@@ -30,6 +30,13 @@ export type Layer = {
   strokeWidth?: number;
 };
 export type CodeFile = { path: string; content: string };
+export type CodeVersion = {
+  id?: string;
+  pinned?: boolean;
+  at: number;
+  revision: number;
+  files: CodeFile[];
+};
 export type Project = {
   schemaVersion: 1;
   storageVersion?: number;
@@ -44,7 +51,8 @@ export type Project = {
   files: CodeFile[];
   assets?: { path: string; data: string }[];
   codeRevision: number;
-  versions: { at: number; revision: number; files: CodeFile[] }[];
+  versions: CodeVersion[];
+  activeCodeVersion?: string;
 };
 export type Profile = {
   provider?: string;

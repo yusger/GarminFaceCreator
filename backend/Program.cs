@@ -12,11 +12,12 @@ builder.Services.Configure<FormOptions>(o => o.MultipartBodyLengthLimit = 25 * 1
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 25 * 1024 * 1024);
 builder.Services.AddSingleton<BuildStore>();
 builder.Services.AddHostedService<BuildWorker>();
+builder.Services.AddHostedService<RetentionWorker>();
 var app = builder.Build();
 app.Use(async (ctx, next) => { try { await next(ctx); } catch (Exception e) when (e is ArgumentException or InvalidDataException or XmlException or JsonException or BadHttpRequestException) { if (!ctx.Response.HasStarted) { ctx.Response.StatusCode = 400; await ctx.Response.WriteAsJsonAsync(new { error = e.Message }); } } });
 app.UseDefaultFiles(); app.UseStaticFiles();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ok", framework = ".NET 10" }));
-app.MapGet("/api/capabilities", (BuildStore store) => new { sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, common = store.Readiness.Common(), devices = BuildStore.Targets.Select(store.Readiness.ForTarget), maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8 });
+app.MapGet("/api/capabilities", (BuildStore store) => new { sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, common = store.Readiness.Common(), devices = BuildStore.Targets.Select(store.Readiness.ForTarget), maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8, retention = store.Retention });
 app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, CancellationToken ct) =>
 {
     if (!request.HasFormContentType) return Results.BadRequest(new { error = "Expected multipart form" });
@@ -47,7 +48,7 @@ app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, Cancell
 app.MapGet("/api/builds/{id}", (string id, BuildStore s) => s.Jobs.TryGetValue(id, out var j) ? Results.Ok(s.View(j)) : Results.NotFound());
 app.MapGet("/api/builds/{id}/logs", (string id, int? after, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j)) return Results.NotFound(); lock (j.Gate) { var reset = after is < 0 || after > j.Logs.Count; var cursor = reset ? 0 : after ?? 0; return Results.Ok(new { lines = j.Logs.Skip(cursor).ToArray(), nextCursor = j.Logs.Count, reset }); } });
 app.MapPost("/api/builds/{id}/cancel", (string id, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j)) return Results.NotFound(); lock (j.Gate) { if (j.Status is "queued" or "running") { j.Cancel.Cancel(); j.Status = "cancelled"; j.Finished = DateTime.UtcNow; s.Persist(j); } } return Results.Ok(s.View(j)); });
-app.MapGet("/api/builds/{id}/artifacts/{artifact}", (string id, string artifact, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j) || j.Status != "succeeded" || artifact != "watchface.prg") return Results.NotFound(); var path = s.ArtifactPath(j); return File.Exists(path) ? Results.File(path, "application/octet-stream", BuildStore.FileName(j)) : Results.NotFound(); });
+app.MapGet("/api/builds/{id}/artifacts/{artifact}", (string id, string artifact, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j) || j.Status != "succeeded" || artifact != "watchface.prg") return Results.NotFound(); var path = s.ArtifactPath(j); return File.Exists(path) ? new ArtifactDownload(s, j) : Results.NotFound(); });
 app.MapFallback((HttpContext c) => c.Request.Path.StartsWithSegments("/api") ? Results.NotFound() : Results.File(Path.Combine(app.Environment.WebRootPath ?? "wwwroot", "index.html"), "text/html"));
 app.Run();
 
@@ -57,25 +58,30 @@ class BuildJob
     public string Id { get; set; } = Guid.NewGuid().ToString("N"); public string ProjectId { get; set; } = ""; public string AppId { get; set; } = ""; public int Revision { get; set; }
     public string Status { get; set; } = "queued"; public DateTime Created { get; set; } = DateTime.UtcNow; public DateTime? Finished { get; set; }
     public int? ExitCode { get; set; }
+    public bool ProjectExpired { get; set; }
+    public bool ArtifactExpired { get; set; }
+    public bool LogsExpired { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore] public bool WorkerActive { get; set; }
+    [System.Text.Json.Serialization.JsonIgnore] public int Downloads { get; set; }
     public string Target {get;set;} = "venu445mm";
     public string ProjectName {get;set;} = "WatchFace";
     public string? DeviceSize {get;set;}
     public List<string> Logs { get; set; } = [];
     [System.Text.Json.Serialization.JsonIgnore] public object Gate { get; } = new(); [System.Text.Json.Serialization.JsonIgnore] public CancellationTokenSource Cancel { get; } = new();
 }
-class BuildStore
+partial class BuildStore
 {
     public static readonly string[] Targets = ["venu441mm","venu445mm","venu3","venu3s","fr57042mm","fr57047mm","fr970","fenix843mm","fenix847mm"];
     public static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
     public string Root { get; } = Path.GetFullPath(Environment.GetEnvironmentVariable("GFC_DATA") ?? "data"); public string Sdk { get; } = Environment.GetEnvironmentVariable("GFC_SDK") ?? "/opt/connectiq"; public string Key { get; } = Environment.GetEnvironmentVariable("GFC_KEY") ?? "/run/secrets/developer_key";
     public BuildReadiness Readiness => new(Sdk, Key, Environment.GetEnvironmentVariable("GFC_DEVICES") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".Garmin", "ConnectIQ", "Devices"), Environment.GetEnvironmentVariable("GFC_JAVA") ?? "java");
     public bool Ready => Targets.Any(t => Readiness.ForTarget(t).Ready); public ConcurrentDictionary<string, BuildJob> Jobs { get; } = new(); public Channel<BuildJob> Queue { get; } = Channel.CreateBounded<BuildJob>(8);
-    public BuildStore() { Directory.CreateDirectory(Root); foreach (var path in Directory.EnumerateFiles(Root, "job.json", SearchOption.AllDirectories)) { var j = JsonSerializer.Deserialize<BuildJob>(File.ReadAllText(path), Json); if (j is null) continue; if (j.Status is "queued" or "running") { j.Status = "interrupted"; j.Logs.Add("服务重启，任务中断，请重新提交。"); } Jobs[j.Id] = j; Persist(j); } }
+    public BuildStore() { Directory.CreateDirectory(Root); foreach (var path in Directory.EnumerateFiles(Root, "job.json", SearchOption.AllDirectories)) { var j = JsonSerializer.Deserialize<BuildJob>(File.ReadAllText(path), Json); if (j is null) continue; if (j.Status is "queued" or "running") { j.Status = "interrupted"; j.Finished = DateTime.UtcNow; j.Logs.Add("服务重启，任务中断，请重新提交。"); } Jobs[j.Id] = j; Persist(j); } }
     public BuildJob Create(BuildRequest r) => new() { ProjectId = r.ProjectId, AppId = r.AppId, Revision = r.Revision, Target = r.Target, ProjectName = r.ProjectName ?? "WatchFace", DeviceSize = r.DeviceSize }; public string Work(string id) => Path.Combine(Root, id, "project");
     public bool Enqueue(BuildJob j) { Jobs[j.Id] = j; Persist(j); if (Queue.Writer.TryWrite(j)) return true; Jobs.TryRemove(j.Id, out _); return false; }
     public void Persist(BuildJob j) { lock (j.Gate) { var dir = Path.Combine(Root, j.Id); Directory.CreateDirectory(dir); var tmp = Path.Combine(dir, "job.tmp"); File.WriteAllText(tmp, JsonSerializer.Serialize(j, Json)); File.Move(tmp, Path.Combine(dir, "job.json"), true); } }
     public void Log(BuildJob j, string line) { lock (j.Gate) { if (j.Logs.Count < 6000) j.Logs.Add(line.Length > 4000 ? line[..4000] : line); } }
-    public object View(BuildJob j) { lock (j.Gate) return new { buildId = j.Id, j.ProjectId, j.AppId, j.Revision, j.Target, j.Status, j.Created, j.Finished, j.ExitCode, artifacts = j.Status == "succeeded" ? new[] { new { id = "watchface.prg", fileName = FileName(j), url = $"/api/builds/{j.Id}/artifacts/watchface.prg" } } : Array.Empty<object>() }; }
+    public object View(BuildJob j) { lock (j.Gate) return new { buildId = j.Id, j.ProjectId, j.AppId, j.Revision, j.Target, j.Status, j.Created, j.Finished, j.ExitCode, j.ProjectExpired, j.ArtifactExpired, j.LogsExpired, artifacts = j.Status == "succeeded" && !j.ArtifactExpired ? new[] { new { id = "watchface.prg", fileName = FileName(j), url = $"/api/builds/{j.Id}/artifacts/watchface.prg" } } : Array.Empty<object>() }; }
     public static string Within(string root, string relative) { var path = Path.GetFullPath(Path.Combine(root, relative)); if (!path.StartsWith(Path.GetFullPath(root) + Path.DirectorySeparatorChar, StringComparison.Ordinal)) throw new ArgumentException("Path escapes project"); return path; }
     public static string FileName(BuildJob j) {
         var (model, sizes) = j.Target switch {
@@ -106,14 +112,14 @@ class BuildWorker(BuildStore store, ILogger<BuildWorker> logger) : BackgroundSer
         {
             if (job.Cancel.IsCancellationRequested) continue; using var timeout = new CancellationTokenSource(TimeSpan.FromMinutes(3)); using var linked = CancellationTokenSource.CreateLinkedTokenSource(timeout.Token, stoppingToken, job.Cancel.Token); try
             {
-                lock (job.Gate) { if (job.Cancel.IsCancellationRequested) continue; job.Status = "running"; store.Persist(job); }
+                lock (job.Gate) { if (job.Cancel.IsCancellationRequested) continue; job.Status = "running"; job.WorkerActive = true; store.Persist(job); }
                 var output = Path.Combine(store.Root, job.Id, "output"); Directory.CreateDirectory(output); var psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("GFC_JAVA") ?? "java") { WorkingDirectory = store.Work(job.Id), UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true }; foreach (var a in new[] { "-Xmx512m", "-Dfile.encoding=UTF-8", "-jar", Path.Combine(store.Sdk, "bin", "monkeybrains.jar"), "-f", "monkey.jungle", "-d", job.Target, "-o", Path.Combine(output, "watchface.prg"), "-y", store.Key, "-r", "-w" }) psi.ArgumentList.Add(a);
                 store.Log(job, "SDK 编译开始：" + job.Target); using var proc = Process.Start(psi) ?? throw new InvalidOperationException("Could not start compiler"); using var cancel = linked.Token.Register(() => { try { if (!proc.HasExited) proc.Kill(true); } catch (InvalidOperationException) { } }); async Task Drain(StreamReader r) { while (await r.ReadLineAsync() is { } line) store.Log(job, line); }
                 await Task.WhenAll(Drain(proc.StandardOutput), Drain(proc.StandardError), proc.WaitForExitAsync()); job.ExitCode = proc.ExitCode;
                 lock (job.Gate) { job.Status = job.Cancel.IsCancellationRequested ? "cancelled" : timeout.IsCancellationRequested ? "failed" : proc.ExitCode == 0 && File.Exists(Path.Combine(output, "watchface.prg")) ? "succeeded" : "failed"; if (job.Status == "succeeded") File.Move(Path.Combine(output,"watchface.prg"),Path.Combine(output,BuildStore.FileName(job)),true); if (timeout.IsCancellationRequested) store.Log(job, "编译超时，进程已结束。"); }
             }
             catch (Exception e) { logger.LogWarning("Build {Id} failed: {Message}", job.Id, e.Message); lock (job.Gate) { job.Status = job.Cancel.IsCancellationRequested ? "cancelled" : "failed"; store.Log(job, "编译失败：" + e.Message); } }
-            finally { job.Finished = DateTime.UtcNow; store.Persist(job); }
+            finally { lock (job.Gate) { job.Finished = DateTime.UtcNow; job.WorkerActive = false; store.Persist(job); } }
         }
     }
 }

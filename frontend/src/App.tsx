@@ -1,3 +1,4 @@
+import { activeVersion, addCodeVersion, retainHistory } from "./history";
 import { mergeLogs, diagnostic, type LogBuffer } from "./buildLogs";
 import PreviewStudio from "./PreviewStudio";
 import DevicePicker from "./DevicePicker";
@@ -782,7 +783,9 @@ export default function App() {
         });
         if (!stateResponse.ok)
           throw Error(
-            stateResponse.status === 404 ? "任务已不存在" : "获取构建状态失败",
+            stateResponse.status === 404
+              ? "任务已不存在或已过期"
+              : "获取构建状态失败",
           );
         const state = await stateResponse.json();
         const logResponse = await fetch(
@@ -797,7 +800,9 @@ export default function App() {
         failures = 0;
         setLogs(
           `任务 ${build} · ${state.status}\n` +
-            logBuffer.current.lines.join("\n"),
+            logBuffer.current.lines.join("\n") +
+            (state.artifactExpired ? "\n编译产物已过期，请重新编译。" : "") +
+            (state.logsExpired ? "\n诊断日志已过保留期。" : ""),
         );
         if (
           ["succeeded", "failed", "cancelled", "interrupted"].includes(
@@ -1731,15 +1736,12 @@ export default function App() {
                               setNotice("生成期间设计已变化，请重新生成");
                               return;
                             }
-                            setP({
-                              ...p,
-                              files,
-                              codeRevision: p.revision,
-                              versions: [
-                                ...p.versions,
-                                { at: Date.now(), revision: p.revision, files },
-                              ],
-                            });
+                            try {
+                              setP(addCodeVersion(p, files));
+                            } catch (error) {
+                              setNotice((error as Error).message);
+                              return;
+                            }
                             setFiles([]);
                             setFileIndex(0);
                             setNotice("代码已应用，可提交编译");
@@ -1826,6 +1828,25 @@ export default function App() {
                     </div>
                   ) : (
                     <div className="history">
+                      <p>
+                        代码历史：{p.versions.length}/20 个，上限
+                        10MB。当前版本和固定版本受保护；请在清理前导出所需工程。
+                      </p>
+                      <button
+                        onClick={() => {
+                          try {
+                            setP(retainHistory(p));
+                            halted.current.delete(p.id);
+                            setSaveError("");
+                            setSaveAttempt((n) => n + 1);
+                            setNotice("已按上限清理最旧的未固定历史");
+                          } catch (error) {
+                            setNotice((error as Error).message);
+                          }
+                        }}
+                      >
+                        清理超限的未固定历史
+                      </button>
                       {p.versions.length ? (
                         p.versions.map((v, i) => (
                           <div key={i}>
@@ -1841,10 +1862,40 @@ export default function App() {
                                     ...p,
                                     files: v.files,
                                     codeRevision: v.revision,
+                                    activeCodeVersion: v.id,
                                   });
                               }}
                             >
                               恢复代码
+                            </button>
+                            <button
+                              aria-label={`${v.pinned ? "取消固定" : "固定"}代码版本 ${i + 1}`}
+                              onClick={() =>
+                                setP({
+                                  ...p,
+                                  versions: p.versions.map((item, index) =>
+                                    index === i
+                                      ? { ...item, pinned: !item.pinned }
+                                      : item,
+                                  ),
+                                })
+                              }
+                            >
+                              {v.pinned ? "取消固定" : "固定"}
+                            </button>
+                            <button
+                              aria-label={`删除代码版本 ${i + 1}`}
+                              disabled={v.pinned || v.id === activeVersion(p)}
+                              onClick={() =>
+                                setP({
+                                  ...p,
+                                  versions: p.versions.filter(
+                                    (_, index) => index !== i,
+                                  ),
+                                })
+                              }
+                            >
+                              删除
                             </button>
                           </div>
                         ))
