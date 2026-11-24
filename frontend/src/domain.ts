@@ -247,6 +247,7 @@ export function validateProject(value: unknown): Project {
   }
   return {
     ...p,
+    storageVersion: 0,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     files: [],
