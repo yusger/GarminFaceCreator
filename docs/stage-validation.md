@@ -415,3 +415,13 @@ P0 与 P1 清单已完成。P2、架构试点、素材库和新增参考项目�
 - [西半球测试坐标](screenshots/solar-position-west-native.png) 与 [东半球测试坐标](screenshots/solar-position-east-native.png) 明确标记 FIXTURE POSITION，仅替换位置输入，仍调用真实 Garmin 日出/日落 API，分别得到白天太阳与夜间标记。正式输出没有测试坐标或固定天文事件；不能据此宣称真机缓存位置已验证。
 - [白天样本](screenshots/solar-day-native.png)、[夜间样本](screenshots/solar-night-native.png) 与 [实际 Always-On](screenshots/solar-aod-native.png) 留档。最后跨本地午夜仍正确显示 00:00。还原 High Power 后关闭本次全部模拟器；一个启动脚本误把 PowerShell 函数的空 LASTEXITCODE 当作退出条件，已改为异常检查并按已核对的自有窗口关闭，无遗留模拟器。
 - 不复制上游天文算法/字体/图片，当前为 Creator 自有控件；Celestial 默认包尚未接入。无付费模型调用或本机常驻服务；真机缓存可用性、功耗及烧屏行为待硬件实测。
+
+
+## 阶段 45：Celestial 可编辑默认参考
+
+- 实现 `ef96c8f`；静态声明下载修复 `1b527c1`。固定 `Cutwell/garmin-celestial-watchface@c5d124c54866f23dbee7528a488c3802d120b715`；原 MIT 许可（2024 Zachary Smith）、README 与原 View 文本按三个固定 SHA-256 校验保留。重复构建字节一致，不运行上游脚本、不复制原位图/字体或原天文算法到原生程序。
+- 十个独立图层：背景、动态天空、日月标记、三块地景、日期、标题、时间与真实电量。原生使用已核验的 Garmin 相邻日期天文事件与被动位置缓存；无位置时明确 N/A，网页样本不写入原生。默认保护/副本独立身份、修改后代码过期及重新生成均保持。AOD 仅灰色时间，与 SkyRing 外环布局的用途和形态不同。
+- 初次全量回归发现原 View 溯源文件 `.mc` 被静态服务返回 404，导致源码导出失败；已在无编译任务运行时停止该轮测试，保存为 `.mc.txt` 以保持原字节且可下载。补充对所有参考声明文件的 HTTP 可达性与原字节哈希验证；没有扩大服务的可执行文件类型。
+- 本地生产构建通过；113 修复后专项 **6 项通过（27.7 秒）**，最终 **全量 128 项通过（6.3 分钟）**。默认和编辑后副本均导出完整原生工程/设计/原许可/原 View 文本，并通过真实 SDK 编译；完整回归还涵盖九个参考来源与原项目流程、三分辨率天气/图标、存储/模型/事务/迁移/安全路径等。
+- Venu 4 45mm [原生亮屏](screenshots/celestial-native.png) 实际显示 WED 25、00:10、电量 50% 和缺失位置 N/A；[Always-On](screenshots/celestial-aod.png) 仅灰色时间。[真实网页](screenshots/celestial-editor.png) 和 [编辑副本](screenshots/celestial-edited.png) 留档。正向天文 API 的东西半球测试坐标验证见阶段 44，不冒充真机定位成功。
+- 还原显示模式并关闭本次模拟器；R-06 与 R-C01～06 按明确的 Creator 精简参考范围完成。目前九个默认参考，含六个新许可核验的适配参考；旧 SkyRing 许可不确定状态仍保留。I-04 软件许可/导出部分已通过，硬件清晰度、AOD、功耗等未勾选。无付费模型请求或本机常驻服务。
