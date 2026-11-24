@@ -26,6 +26,7 @@ test("uploaded images survive export/import and compile with a bitmap font witho
   page.on("dialog", (d) => d.accept("图片链路测试"));
   await page.getByRole("button", { name: "新建表盘", exact: true }).click();
   await page.getByRole("button", { name: "创建项目", exact: true }).click();
+  await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   for (const [name, color] of [
     ["红色 图片 & 1.png", [255, 0, 0]],
     ["蓝色(2).png", [0, 100, 255]],
