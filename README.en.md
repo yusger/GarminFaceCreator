@@ -28,15 +28,17 @@ The screenshots show the current Chinese interface.
 
 ## Features
 
-- Project management, browser storage, and design JSON import/export.
-- Round canvas with layer ordering, locking, visibility, dragging, resizing, undo, and redo.
+- Atomic browser saves with conflict recovery, schema migration, and design JSON import/export.
+- Round canvas with four-corner resizing, marquee/Shift selection, snapping, batch actions, alignment, undo, and redo.
 - Time, date, metrics, text, images, rings, and basic shapes.
 - Independent preview with the current time, random heart rate, increasing step count, scenario presets, playback controls, and active / always-on comparison.
 - Watch series, model, and case-size selection when creating a project, with the actual screen resolution displayed.
 - Built-in ClownWatch, SkyRing, and fine-o-clock reference projects that create independent editable copies.
 - AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
-- Code generation, review, history snapshots, and stale-code detection after design changes.
-- Backend project validation, build queue, logs, cancellation, timeouts, and signed PRG downloads.
+- Separate design/code snapshots and retention limits; generation, raw failure recovery, review, and stale-code protection.
+- Configurable rings, threshold ranges/fallbacks, metric typography, independent AOD styles, and round-screen clipping inspection.
+- Complete native source ZIP export with version metadata, resources, and applicable original notices.
+- Per-target compiler readiness, incremental logs/reconnection, cancellation, timeouts, retention, and signed PRG downloads.
 - Download names follow `Model_Size_ProjectName.prg`, with whitespace removed and invalid filename characters handled.
 
 AI-assisted canvas editing, automatic build-error repair, and full native simulator previews are not implemented yet. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
@@ -118,3 +120,5 @@ Thank you to both authors for sharing their watch-face source code and designs. 
 ## License and third-party content
 
 This project is released under [GNU GPL v3 or later](LICENSE). Third-party reference projects, fonts, and images retain their own copyrights and licenses; see [Third-party notices](THIRD_PARTY_NOTICES.md). The project license does not grant additional rights to trademarks, characters, or illustrations.
+
+License review: SkyRing upstream licensing is not verified. fine-o-clock README states GPLv3+, while its original LICENCE is LGPLv3; both are retained and the discrepancy is documented. Public source alone is not treated as complete redistribution authorization. See [third-party notices](THIRD_PARTY_NOTICES.md), [source export](docs/source-export.md), [device checklist](docs/device-self-test.md), and [stage validation](docs/stage-validation.md).

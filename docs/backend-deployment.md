@@ -15,14 +15,14 @@
 | 方法 | 路径 | 功能 |
 | --- | --- | --- |
 | GET | /api/health | 服务存活 |
-| GET | /api/capabilities | SDK、目标、限制和就绪状态 |
+| GET | /api/capabilities | 公共 SDK/Java/签名状态、各 target 就绪原因、限制与保留策略 |
 | POST | /api/builds | multipart：project JSON + files 文件列表，返回 202 |
 | GET | /api/builds/{id} | 状态和产物列表 |
 | GET | /api/builds/{id}/logs?after=cursor | 增量日志 |
 | POST | /api/builds/{id}/cancel | 取消排队或编译任务 |
 | GET | /api/builds/{id}/artifacts/watchface.prg | 仅成功任务可以下载 |
 
-project 字段包含 projectId（UUID）、appId（32 位十六进制）、target（固定 venu445mm）、revision（非负整数）。文件通过 multipart filename 保留资源相对路径。
+project 字段包含 projectId（UUID）、appId（32 位十六进制）、target（所选 SDK 设备 ID）、revision（非负整数）。文件通过 multipart filename 保留资源相对路径。
 
 ## 构建边界
 

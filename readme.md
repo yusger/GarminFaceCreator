@@ -26,15 +26,17 @@
 
 ## 已实现功能
 
-- 项目管理、本地保存、设计 JSON 导入与导出。
-- 圆形画布、图层排序、锁定、显隐、拖动、尺寸调整、撤销与重做。
+- 项目管理、原子本地保存与冲突恢复、版本迁移、设计 JSON 导入与导出。
+- 圆形画布、四角缩放、多选/框选、吸附、批量操作和对齐、撤销与重做。
 - 时间、日期、数据、文字、图片、圆环及基础图形控件。
 - 独立预览：当前时间、随机心率、累加步数、场景切换、播放暂停、亮屏与息屏对比。
 - 创建项目时选择系列、型号、表壳尺寸，显示实际屏幕分辨率。
 - ClownWatch、SkyRing、fine-o-clock 默认参考项目；使用时创建独立副本。
 - 模型服务商预设、自定义兼容接口、连接测试和模型列表获取。
-- 代码生成、审阅、历史快照，以及设计变化后的代码过期检测。
-- 后端工程校验、编译队列、日志、取消、超时和签名 PRG 下载。
+- 独立设计/代码快照及保留策略；代码生成、失败原文恢复、审阅和过期检测。
+- 可配置圆环、阈值兜底、文字/数据格式及独立息屏样式；网页边界检查与定位。
+- 源码工程 ZIP 导出，附版本信息、完整资源与适用的第三方声明。
+- 按目标检查编译就绪，增量日志/断线续看、取消、超时、产物保留与签名 PRG 下载。
 - 下载文件名：`型号_尺寸_项目名称.prg`，移除空格并处理非法字符。
 
 AI 辅助修改画布、自动编译修复和完整原生模拟器预览尚未实现。部分参考项目包含近似图层或动画静帧，实际绘制以原生工程为准。
@@ -90,6 +92,9 @@ dotnet build backend/GarminFaceCreator.Api.csproj -c Release
 - [页面使用与功能范围](docs/frontend-running.md)
 - [后端 API 与容器部署](docs/backend-deployment.md)
 - [前端设计规划](docs/frontend-design.md)
+- [源码工程导出](docs/source-export.md)
+- [设备与隐私自测](docs/device-self-test.md)
+- [分阶段验证记录](docs/stage-validation.md)
 
 ```text
 frontend/         React、TypeScript、SVG 编辑器与参考包
@@ -104,13 +109,15 @@ compose.yaml      容器运行配置
 
 ## 参考项目与致谢
 
-默认参考表盘中的以下项目来自开源社区，本项目在其基础上进行了适配和编辑器集成：
+默认参考表盘中的以下项目来自社区公开仓库，本项目在其基础上进行了适配和编辑器集成：
 
 - **SkyRing**：[daveshap/SkyRingGarmin](https://github.com/daveshap/SkyRingGarmin)，作者 [daveshap](https://github.com/daveshap)。
 - **fine-o-clock / Fine’o clock**：[causeri3/fine-o-clock](https://github.com/causeri3/fine-o-clock)，作者 [causeri3](https://github.com/causeri3)。
 
-感谢两位作者开源分享表盘源码与设计，为参考项目的布局、数据展示和动画实现提供了基础，也让可视化编辑与编译流程有了可供学习的实例。原项目及资源的版权和许可仍归各自权利人所有。
+感谢两位作者公开分享表盘源码与设计，为参考项目的布局、数据展示和动画实现提供了基础，也让可视化编辑与编译流程有了可供学习的实例。原项目及资源的版权和许可仍归各自权利人所有。
 
 ## 开源许可与第三方内容
 
 项目按 [GNU GPL v3 或更新版本](LICENSE) 发布。第三方参考工程、字体和图片仍保留各自版权与许可，见 [第三方说明](THIRD_PARTY_NOTICES.md)。项目许可证不会额外授予商标、角色形象或插画的使用权。
+
+许可核对：SkyRing 上游许可尚未核实；fine-o-clock 的 README 与 LICENCE 存在 GPLv3+/LGPLv3 差异，已原样保留并说明。详见第三方说明，不将公开源码等同于授权完备。
