@@ -1,7 +1,7 @@
 ﻿import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), "GFC_");
+  const env = loadEnv(mode, ".", "GFC_");
   const target = new URL(env.GFC_API_PROXY || "http://127.0.0.1:18380");
   if (
     !["http:", "https:"].includes(target.protocol) ||
@@ -26,3 +26,4 @@ export default defineConfig(({ mode }) => {
     },
   };
 });
+
