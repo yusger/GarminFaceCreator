@@ -1,3 +1,4 @@
+import RepairPanel from "./RepairPanel";
 import { localGenerate, LOCAL_PROVENANCE } from "./localGenerator";
 import type { CodeProvenance } from "./domain";
 import { applyLayout, type LayoutChoice } from "./layouts";
@@ -2453,7 +2454,7 @@ export default function App() {
             </div>
             <section className={"drawer " + (drawer ? "open" : "")}>
               <div className="drawer-tabs">
-                {["AI", "代码", "编译", "历史"].map((t) => (
+                {["AI", "代码", "编译", "修复", "历史"].map((t) => (
                   <button
                     key={t}
                     className={drawer === t ? "active" : ""}
@@ -2575,6 +2576,47 @@ export default function App() {
                         </button>
                       </div>
                     </div>
+                  ) : drawer === "修复" ? (
+                    <RepairPanel
+                      key={`${p.id}-${p.codeProvenance?.repairRootId || activeVersion(p) || p.codeRevision}`}
+                      project={p}
+                      profile={generationProfile}
+                      logs={logs}
+                      busy={busy}
+                      onBegin={() => {
+                        if (busy || generationLock.current) return false;
+                        generationLock.current = true;
+                        setBusy(true);
+                        return true;
+                      }}
+                      onEnd={() => {
+                        generationLock.current = false;
+                        setBusy(false);
+                      }}
+                      onApply={(base, patched, provenance) => {
+                        const current = activeProject.current;
+                        if (
+                          !current ||
+                          current.id !== base.id ||
+                          current.revision !== base.revision ||
+                          JSON.stringify(current.files) !==
+                            JSON.stringify(base.files)
+                        ) {
+                          setNotice(
+                            "工程或设计已变化，未应用修复，请重新检查。",
+                          );
+                          return;
+                        }
+                        try {
+                          setP(addCodeVersion(current, patched, provenance));
+                          setNotice(
+                            "修复已应用并保留代码快照，请手动编译验证。",
+                          );
+                        } catch (e) {
+                          setNotice((e as Error).message);
+                        }
+                      }}
+                    />
                   ) : drawer === "代码" ? (
                     <div className="code-drawer">
                       <select
@@ -2826,7 +2868,10 @@ export default function App() {
                             <Code2 size={16} />
                             代码版本 {v.revision} ·{" "}
                             {v.provenance?.primary || "unknown"}{" "}
-                            {v.provenance?.generatorVersion || ""}
+                            {v.provenance?.generatorVersion || ""}{" "}
+                            {v.provenance?.patches?.length
+                              ? `· 已修补 ${v.provenance.patches.length} 次`
+                              : ""}
                             <span>{new Date(v.at).toLocaleString()}</span>
                             <button
                               onClick={() => {

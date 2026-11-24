@@ -1327,3 +1327,10 @@ label select {
 .palette-panel { margin: 8px; padding: 8px; background: #17252d; border-radius: 7px; }
 .palette-panel label { display: flex; flex-direction: column; gap: 4px; margin: 8px 0; }
 .canvas-toolbar { flex-wrap: wrap; height: auto; min-height: 48px; }
+
+.repair-panel { width:100%; padding:8px; overflow:auto; max-height:60vh; }
+.repair-columns { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.repair-panel pre {white-space:pre-wrap; overflow-wrap:anywhere; max-height:260px; overflow:auto; background:#101923; padding:12px;}
+.repair-panel textarea {width:100%; min-height:100px;}
+.repair-panel fieldset label {display:flex; gap:8px; align-items:center;}
+.repair-panel button {margin:8px 8px 8px 0;}
