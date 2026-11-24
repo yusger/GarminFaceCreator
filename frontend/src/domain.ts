@@ -38,6 +38,7 @@ export type Layer = {
   text: string;
   source: string;
   image?: string;
+  libraryIcon?: { id: string; recolor: boolean; strokeWidth: number };
   assetId?: string;
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
@@ -92,7 +93,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -244,7 +245,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 9,
+    schemaVersion: 10,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -271,7 +272,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 9 ||
+    p.schemaVersion !== 10 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -423,6 +424,16 @@ export function validateProject(value: unknown): Project {
         throw Error("标签、单位或缺失值格式无效");
     if (l.assetId !== undefined && !/^[a-zA-Z0-9_-]{1,120}$/.test(l.assetId))
       throw Error("图片素材标识无效");
+    if (
+      l.libraryIcon &&
+      (l.kind !== "image" ||
+        !/^[a-z0-9_]{1,120}$/.test(l.libraryIcon.id) ||
+        typeof l.libraryIcon.recolor !== "boolean" ||
+        !Number.isFinite(l.libraryIcon.strokeWidth) ||
+        l.libraryIcon.strokeWidth < 0.5 ||
+        l.libraryIcon.strokeWidth > 8)
+    )
+      throw Error("素材库参数无效");
     if (l.image && !/^data:image\/(png|jpeg|webp);base64,/.test(l.image))
       throw Error("图片必须包含在项目中");
   }

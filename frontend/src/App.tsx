@@ -1,3 +1,6 @@
+import IconDetails from "./IconDetails";
+import IconGallery from "./IconGallery";
+import { rasterIcon, preparedAssets, type LibraryIcon } from "./iconLibrary";
 import RepairPanel from "./RepairPanel";
 import { localGenerate, LOCAL_PROVENANCE } from "./localGenerator";
 import type { CodeProvenance } from "./domain";
@@ -846,6 +849,36 @@ export default function App() {
       updated: Date.now(),
     });
   }
+  async function insertLibraryIcon(icon: LibraryIcon) {
+    if (!p) return;
+    const projectId = p.id;
+    try {
+      const l = {
+        ...layer("image"),
+        name: icon.name,
+        w: 64,
+        h: 64,
+        x: 195,
+        y: 195,
+        color: "#45d6be",
+        libraryIcon: { id: icon.id, recolor: false, strokeWidth: 2 },
+      };
+      const png = await rasterIcon(l, p);
+      if (activeProject.current?.id !== projectId) return;
+      const latest = activeProject.current;
+      setPast((items) => [...items.slice(-49), structuredClone(latest.layers)]);
+      setFuture([]);
+      setP({
+        ...latest,
+        layers: [...latest.layers, { ...l, image: png }],
+        revision: latest.revision + 1,
+        updated: Date.now(),
+      });
+      selectOne(l.id);
+    } catch (e) {
+      setNotice((e as Error).message);
+    }
+  }
   async function image(file?: File) {
     if (!file || !p) return;
     try {
@@ -1025,7 +1058,7 @@ export default function App() {
           f.path,
         ),
       );
-      for (const asset of binaryAssets(p))
+      for (const asset of await preparedAssets(p))
         form.append(
           "files",
           await (await fetch(asset.data)).blob(),
@@ -1512,6 +1545,7 @@ export default function App() {
                 )}
                 {leftTab === "素材" && (
                   <div className="asset-list">
+                    <IconGallery onInsert={insertLibraryIcon} />
                     <button onClick={() => add("image")}>
                       <Upload size={16} />
                       上传图片
@@ -1845,6 +1879,55 @@ export default function App() {
                       />
                       <code>{current.color.toUpperCase()}</code>
                     </label>
+                    {current.libraryIcon && (
+                      <>
+                        <p className="hint">
+                          素材 ID：{current.libraryIcon.id}
+                          。颜色由上方颜色控制；天气 Flat/Line 默认保留原色。
+                        </p>
+                        <label className="inline">
+                          <input
+                            type="checkbox"
+                            aria-label="素材统一颜色"
+                            checked={current.libraryIcon.recolor}
+                            onChange={(e) =>
+                              patch({
+                                libraryIcon: {
+                                  ...current.libraryIcon!,
+                                  recolor: e.target.checked,
+                                },
+                              })
+                            }
+                          />
+                          统一素材颜色
+                        </label>
+                        {current.libraryIcon.id.startsWith("lucide_") && (
+                          <label>
+                            图标线宽
+                            <input
+                              type="number"
+                              aria-label="图标线宽"
+                              min="0.5"
+                              max="8"
+                              step="0.5"
+                              value={current.libraryIcon.strokeWidth}
+                              onChange={(e) =>
+                                patch({
+                                  libraryIcon: {
+                                    ...current.libraryIcon!,
+                                    strokeWidth: Math.max(
+                                      0.5,
+                                      Math.min(8, Number(e.target.value) || 2),
+                                    ),
+                                  },
+                                })
+                              }
+                            />
+                          </label>
+                        )}
+                        <IconDetails id={current.libraryIcon.id} />
+                      </>
+                    )}
                     {["rect", "circle", "line"].includes(current.kind) && (
                       <>
                         {current.kind !== "line" && (

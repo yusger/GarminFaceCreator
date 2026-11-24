@@ -1,6 +1,8 @@
 import type { Layer, Project, BinaryAsset } from "./domain";
-export function imageAssetPath(layer: Pick<Layer, "id" | "assetId">) {
-  const id = layer.assetId || layer.id;
+export function imageAssetPath(
+  layer: Pick<Layer, "id" | "assetId" | "libraryIcon">,
+) {
+  const id = layer.libraryIcon ? layer.id : layer.assetId || layer.id;
   if (!/^[a-zA-Z0-9_-]{1,120}$/.test(id)) throw Error("图片素材标识无效");
   return `assets/${id}.png`;
 }

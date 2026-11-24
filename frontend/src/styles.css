@@ -1334,3 +1334,10 @@ label select {
 .repair-panel textarea {width:100%; min-height:100px;}
 .repair-panel fieldset label {display:flex; gap:8px; align-items:center;}
 .repair-panel button {margin:8px 8px 8px 0;}
+
+.icon-gallery {margin-bottom:16px;}
+.icon-gallery select,.icon-gallery input {width:100%;margin:4px 0;}
+.icon-grid {display:grid;grid-template-columns:repeat(3,minmax(0,1fr));max-height:280px;overflow:auto;gap:4px;}
+.icon-grid button {display:flex;flex-direction:column;align-items:center;padding:6px;min-width:0;}
+.icon-grid img {width:32px;height:32px;}
+.icon-grid span {font-size:10px;overflow-wrap:anywhere;}

@@ -1,4 +1,5 @@
-﻿import { Fragment, useState } from "react";
+import LibraryImage from "./LibraryImage";
+import { Fragment, useState } from "react";
 import { Eye, EyeOff, Lock, Unlock } from "lucide-react";
 import type { Layer } from "./domain";
 import { reading, ink, type Preview } from "./Scene";
@@ -14,12 +15,7 @@ function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
       viewBox={`0 0 ${w} ${h}`}
     >
       {l.kind === "image" ? (
-        <image
-          href={l.image}
-          width={w}
-          height={h}
-          preserveAspectRatio="xMidYMid meet"
-        />
+        <LibraryImage layer={{ ...l, w, h }} />
       ) : l.kind === "line" ? (
         <line
           x1={0}

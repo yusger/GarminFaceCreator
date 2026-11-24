@@ -1,4 +1,5 @@
-import { binaryAssets } from "./assets";
+import { preparedAssets, findIcon, originalIcon } from "./iconLibrary";
+import { imageAssetPath } from "./assets";
 import { parseFiles, type Project } from "./domain";
 import { loadReferences } from "./builtins";
 import { zipFiles } from "./zip";
@@ -64,7 +65,7 @@ export async function exportSources(
   jungle.data = text.encode(
     "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n",
   );
-  for (const asset of binaryAssets(p)) {
+  for (const asset of await preparedAssets(p)) {
     if (
       !/^(assets|resources)\/[a-zA-Z0-9_/-]+\.(png|jpg|jpeg)$/.test(
         asset.path,
@@ -87,7 +88,40 @@ export async function exportSources(
       data: new Uint8Array(await response.arrayBuffer()),
     });
   }
+  const usedIcons = await Promise.all(
+    [
+      ...new Set(
+        p.layers
+          .filter((l) => l.exportIncluded !== false && l.libraryIcon)
+          .map((l) => l.libraryIcon!.id),
+      ),
+    ].map(findIcon),
+  );
+  for (const icon of usedIcons)
+    entries.push({
+      path: `source-assets/icons/${icon.id}.svg`,
+      data: text.encode(await originalIcon(icon)),
+    });
+  for (const path of new Set(usedIcons.map((i) => i.licensePath))) {
+    const response = await fetch(path);
+    if (!response.ok) throw Error("缺少图标许可");
+    entries.push({
+      path: "licenses/" + path.split("/").at(-1),
+      data: new Uint8Array(await response.arrayBuffer()),
+    });
+  }
   const metadata = {
+    usedIcons,
+    iconUsages: p.layers
+      .filter((l) => l.exportIncluded !== false && l.libraryIcon)
+      .map((l) => ({
+        icon: l.libraryIcon,
+        path: imageAssetPath(l),
+        color: l.color,
+        w: l.w,
+        h: l.h,
+      })),
+
     format: "GarminFaceCreator source export",
     projectId: p.id,
     appId: p.appId,
@@ -107,7 +141,7 @@ export async function exportSources(
   entries.push({
     path: "README-export.md",
     data: text.encode(
-      `# ${p.name}\n\nCode revision: ${p.codeRevision}; design revision: ${p.revision}.\n\nInstall your own Connect IQ SDK 9.3-compatible environment, device package and signing key. Compile with monkeyc -f monkey.jungle -d ${metadata.target} -y YOUR_PRIVATE_KEY -o watchface.prg -r -w. The archive contains source/resources, not the SDK or a signing key. Jungle is normalized to the same source/resources paths as the build service.\n\nReference: ${reference?.source || "No verified bundled reference association"}.\nLicense status: ${reference?.status || "Output licensing depends on actual contents and their sources; the editor license does not automatically license independent outputs."}. Retain applicable copyright, source and modification notices. Images/fonts/characters may have separate rights. This archive does not grant missing upstream permissions.\n\nGenerated/adapted using GarminFaceCreator. Web preview is approximate; test the exported source and PRG on the selected device.\n`,
+      `# ${p.name}\n\nCode revision: ${p.codeRevision}; design revision: ${p.revision}.\n\nInstall your own Connect IQ SDK 9.3-compatible environment, device package and signing key. Compile with monkeyc -f monkey.jungle -d ${metadata.target} -y YOUR_PRIVATE_KEY -o watchface.prg -r -w. The archive contains source/resources, not the SDK or a signing key. Jungle is normalized to the same source/resources paths as the build service.\n\nReference: ${reference?.source || "No verified bundled reference association"}.\nLicense status: ${reference?.status || "Output licensing depends on actual contents and their sources; the editor license does not automatically license independent outputs."}. Retain applicable copyright, source and modification notices. Images/fonts/characters may have separate rights. This archive does not grant missing upstream permissions.\n\nStatic icon derivatives are rasterized/resized/recolored from pinned originals when used; see gfc-export.json, source-assets/icons and licenses for their sources and notices.\n\nGenerated/adapted using GarminFaceCreator. Web preview is approximate; test the exported source and PRG on the selected device.\n`,
     ),
   });
   return {

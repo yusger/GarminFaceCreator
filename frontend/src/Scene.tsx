@@ -1,3 +1,4 @@
+import LibraryImage from "./LibraryImage";
 import { guideInsetDesign } from "./layouts";
 import type { Box } from "./selection";
 import { thresholdInk } from "./thresholds";
@@ -214,12 +215,7 @@ export default function Scene({
                   );
                 })
               ) : l.kind === "image" ? (
-                <image
-                  href={l.image}
-                  width={l.w}
-                  height={l.h}
-                  preserveAspectRatio="xMidYMid slice"
-                />
+                <LibraryImage layer={l} />
               ) : l.kind === "rect" ? (
                 <rect
                   width={l.w}
