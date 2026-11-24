@@ -153,3 +153,6 @@ AboutTime：[英文编辑器](docs/screenshots/abouttime-editor.png) · [中文�
 
 
 BYOD 的六分区/跨区思路已形成[圆屏组合控件研究方案](docs/byod-modular-layout.md)，保留固定版本、原 LGPL 许可和来源文件记录；目前是设计草案，不加入默认参考，也未实现分区引擎。
+
+
+新增 **BAWF 黑白指针参考**：感谢 [Kevin Boone / BAWF](https://github.com/kevinboone/BAWF)。保留原源码明确的 GPLv3 版权头并补齐许可原文；时针、分针、时标、日期与电量均可编辑，支持同一 Jungle 下的黑白设计变体。见[适配范围](frontend/public/reference-notices/BAWF-ADAPTATION.md)，不直接继承原省电结论。

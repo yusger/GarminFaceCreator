@@ -150,3 +150,6 @@ AboutTime: [English editor](docs/screenshots/abouttime-editor.png) · [Chinese e
 
 
 BYOD inspired a [round-screen modular layout proposal](docs/byod-modular-layout.md), with a pinned revision, original LGPL text and reviewed source-file records. This is architecture research, not an implemented region engine or a default reference.
+
+
+**Editable BAWF analog reference**: thanks to [Kevin Boone / BAWF](https://github.com/kevinboone/BAWF). Explicit GPLv3 source copyright headers and complete license are retained. Hands, numerals, date and battery are editable; black/white variants use the same fixed Jungle after changing design colors. See [adaptation scope](frontend/public/reference-notices/BAWF-ADAPTATION.md); upstream power claims are not inherited.

@@ -151,5 +151,25 @@
     "upstreamCommitStatus": "Pinned upstream revision; three original license/readme/view input SHA-256 values checked",
     "legacy": false,
     "verifiedLicense": true
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000010",
+    "name": "BAWF",
+    "template": "bawf",
+    "source": "https://github.com/kevinboone/BAWF",
+    "status": "Original source copyright headers explicitly GPLv3; Creator layout adaptation GPL-3.0-only, generator templates GPL-3.0-or-later; complete GPL text and original source notices retained",
+    "summary": "原源码版权头明确 GPLv3；可编辑黑白指针适配、完整原版权头与 GPL 原文保留；不继承原省电结论",
+    "files": [
+      "BAWF-GPL-v3.txt",
+      "BAWF-README.md",
+      "BAWF-original-App.mc.txt",
+      "BAWF-original-View.mc.txt",
+      "BAWF-ADAPTATION.md",
+      "repository-LICENSE.txt"
+    ],
+    "upstreamCommit": "243293ba4d2a4f03c4ed767bb072a7838386c741",
+    "upstreamCommitStatus": "Pinned upstream revision; three original input hashes and explicit GPLv3 source headers checked; full GPLv3 copy supplied",
+    "legacy": false,
+    "verifiedLicense": true
   }
 ]

@@ -57,3 +57,8 @@ Thanks to [Zachary Smith / Cutwell](https://github.com/Cutwell/garmin-celestial-
 ## BYOD architecture research
 
 Thanks to [NickSteen/BYOD-Watchface](https://github.com/NickSteen/BYOD-Watchface), pinned `cd04057cc2a7780747d046f85ec2ef38d2f5f73b`. Its original LGPLv3 LICENSE and README are retained verbatim in `docs/research/byod/` and published as research documents, together with a separate GPL text. The proposal records immutable links/hashes for eight reviewed files; no BYOD implementation class, font, icon, binary or build script is imported into runtime/native output. The research documents do not make BYOD a default reference or relicense its contents. See [proposal and boundaries](docs/byod-modular-layout.md).
+
+
+## BAWF Creator adaptation
+
+Thanks to [Kevin Boone / BAWF](https://github.com/kevinboone/BAWF), pinned `243293ba4d2a4f03c4ed767bb072a7838386c741`. Both source headers explicitly state copyright (c)2018-2023 Kevin Boone and GNU Public Licence v3.0. Complete original source texts/README and a full GPLv3 copy are retained under `frontend/public/reference-notices/BAWF-*`; the original header is also preserved in the generated native source. The layout adaptation retains GPL-3.0-only scope, and Creator generator templates retain GPL-3.0-or-later scope. System fonts/line hands replace original artwork/outlined hand/buffer implementation; no original power claim is transferred. See [scope](frontend/public/reference-notices/BAWF-ADAPTATION.md).

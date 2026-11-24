@@ -70,7 +70,7 @@ test("research documents do not register BYOD as a usable or deletable default r
   request,
 }) => {
   await page.goto("/");
-  await expect(page.locator(".reference-card")).toHaveCount(9);
+  await expect(page.locator(".reference-card")).toHaveCount(10);
   await expect(page.getByRole("button", { name: /使用 BYOD/ })).toHaveCount(0);
   const p = await (
     await request.get("/reference-notices/provenance.json")

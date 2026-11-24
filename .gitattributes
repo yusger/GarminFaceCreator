@@ -19,3 +19,5 @@ frontend/public/reference-notices/Celestial-* -text
 
 docs/research/byod/** -text
 frontend/public/research/byod/** -text
+
+frontend/public/reference-notices/BAWF-* -text
