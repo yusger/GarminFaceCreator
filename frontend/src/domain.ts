@@ -49,6 +49,9 @@ export type Project = {
 export type Profile = {
   provider?: string;
   thinking?: boolean;
+  temperatureMode?: "auto" | "send" | "omit";
+  tokenParameter?: "auto" | "max_tokens" | "max_completion_tokens";
+  modelParameters?: Record<string, string[]>;
   id: string;
   name: string;
   url: string;

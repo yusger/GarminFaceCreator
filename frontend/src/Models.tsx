@@ -1,5 +1,5 @@
 import { providers } from "./providers";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   ArrowLeft,
   Plus,
@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { uid, type Profile } from "./domain";
 import { storeProfiles } from "./storage";
-import { testProfile, listModels } from "./api";
+import { testProfile, listModelDetails } from "./api";
 export default function Models({
   profiles,
   onSave,
@@ -34,8 +34,10 @@ export default function Models({
     temperature: 0.2,
     tokens: 8192,
   });
-  const [drafts, setDrafts] = useState<Profile[]>(() =>
-    profiles.length ? structuredClone(profiles) : [make()],
+  const [drafts, setDrafts] = useState<Profile[]>(
+    () =>
+      loadDrafts(profiles) ||
+      (profiles.length ? structuredClone(profiles) : [make()]),
   );
   const [index, setIndex] = useState(0);
   const [show, setShow] = useState(false);
@@ -43,6 +45,18 @@ export default function Models({
   const [busy, setBusy] = useState(false);
   const [models, setModels] = useState<string[]>([]);
   const p = drafts[index];
+  const activeRequest = useRef("");
+  activeRequest.current = JSON.stringify([p.id, p.url, p.model]);
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        "gfc-profile-drafts",
+        JSON.stringify(drafts.map(({ key: _secret, ...safe }) => safe)),
+      );
+    } catch {
+      setStatus("配置草稿缓存失败；可继续编辑并手动保存");
+    }
+  }, [drafts]);
   const provider =
     providers.find((x) => x.id === p.provider) ||
     providers.find((x) => x.url && p.url.replace(/\/$/, "") === x.url) ||
@@ -50,23 +64,37 @@ export default function Models({
   const choices = [...new Set([...provider.models, ...models])];
 
   function patch(v: Partial<Profile>) {
-    setDrafts(drafts.map((x, i) => (i === index ? { ...x, ...v } : x)));
+    setDrafts((items) =>
+      items.map((x, i) => (i === index ? { ...x, ...v } : x)),
+    );
     setStatus("配置已修改，尚未测试");
   }
   async function test(list = false) {
+    const requestIdentity = activeRequest.current;
     setBusy(true);
     setStatus(list ? "正在获取模型列表…" : "正在测试连接…");
     try {
       if (!p.url || (!list && !p.model))
         throw Error("请填写 API 地址和模型 ID");
       if (list) {
-        setModels(await listModels(p));
-        setStatus("模型列表已获取，仍需测试生成接口");
+        const details = await listModelDetails(p);
+        if (activeRequest.current !== requestIdentity) return;
+        setModels(details.map((item) => item.id));
+        patch({
+          modelParameters: Object.fromEntries(
+            details
+              .filter((item) => item.supportedParameters)
+              .map((item) => [item.id, item.supportedParameters!]),
+          ),
+        });
+        setStatus("模型列表及参数能力已获取，仍需测试生成接口");
       } else {
         await testProfile(p);
+        if (activeRequest.current !== requestIdentity) return;
         setStatus("连接成功，模型已响应");
       }
     } catch (e) {
+      if (activeRequest.current !== requestIdentity) return;
       setStatus(
         e instanceof TypeError
           ? "网络或跨域错误，请检查服务是否允许浏览器直连"
@@ -104,6 +132,7 @@ export default function Models({
             key={x.id}
             className={"profile-card " + (i === index ? "selected" : "")}
             onClick={() => {
+              setShow(false);
               setIndex(i);
               setStatus("尚未测试连接");
               setModels([]);
@@ -134,7 +163,7 @@ export default function Models({
           新增配置
         </button>
       </div>
-      <section className="form-card">
+      <section className="form-card" key={p.id}>
         <div className="section-heading">
           <h3>
             <Plug size={18} />
@@ -186,6 +215,9 @@ export default function Models({
                   model: next.models[0] || "",
                   key: "",
                   remember: false,
+                  modelParameters: undefined,
+                  temperatureMode: "auto",
+                  tokenParameter: "auto",
                 });
               }}
             >
@@ -234,7 +266,13 @@ export default function Models({
               placeholder="https://api.example.com/v1"
               value={p.url}
               onChange={(e) =>
-                patch({ url: e.target.value, provider: "custom" })
+                patch({
+                  url: e.target.value,
+                  provider: "custom",
+                  key: "",
+                  remember: false,
+                  modelParameters: undefined,
+                })
               }
             />
           </label>
@@ -322,6 +360,40 @@ export default function Models({
             />
           </label>
           <label>
+            温度参数策略
+            <select
+              aria-label="温度参数策略"
+              value={p.temperatureMode || "auto"}
+              onChange={(e) =>
+                patch({
+                  temperatureMode: e.target.value as Profile["temperatureMode"],
+                })
+              }
+            >
+              <option value="auto">自动（优先模型能力信息）</option>
+              <option value="send">发送温度</option>
+              <option value="omit">不发送温度</option>
+            </select>
+          </label>
+          <label>
+            Token 参数名称
+            <select
+              aria-label="Token 参数名称"
+              value={p.tokenParameter || "auto"}
+              onChange={(e) =>
+                patch({
+                  tokenParameter: e.target.value as Profile["tokenParameter"],
+                })
+              }
+            >
+              <option value="auto">自动（按接口协议）</option>
+              <option value="max_tokens">max_tokens</option>
+              <option value="max_completion_tokens">
+                max_completion_tokens
+              </option>
+            </select>
+          </label>
+          <label>
             最大输出 Token
             <input
               type="number"
@@ -388,10 +460,43 @@ export default function Models({
         </div>
       </div>
       <p className="hint">
-        模型配置只保存在本机浏览器，不包含在项目导出中。填写 Key
+        非敏感配置草稿自动保存在本机浏览器；未保存的 Key
+        不进入草稿缓存。模型配置不包含在项目导出中。填写 Key
         不等于连接测试通过。选择服务商会自动填写地址与默认模型，并清空原密钥。预设不代表账号一定有权限，可获取实时列表或填写自定义模型
         ID。
       </p>
     </main>
   );
+}
+
+function loadDrafts(profiles: Profile[]): Profile[] | null {
+  try {
+    const drafts = JSON.parse(
+      localStorage.getItem("gfc-profile-drafts") || "null",
+    );
+    if (
+      !Array.isArray(drafts) ||
+      !drafts.length ||
+      drafts.some(
+        (p) =>
+          !p ||
+          typeof p.id !== "string" ||
+          typeof p.name !== "string" ||
+          typeof p.url !== "string" ||
+          typeof p.model !== "string",
+      )
+    )
+      return null;
+    return drafts.map((draft: Profile) => {
+      const saved = profiles.find(
+        (p) =>
+          p.id === draft.id &&
+          p.url === draft.url &&
+          p.provider === draft.provider,
+      );
+      return { ...draft, key: saved?.key || "" };
+    });
+  } catch {
+    return null;
+  }
 }

@@ -88,6 +88,10 @@ export default function App() {
   const [ready, setReady] = useState(false);
   const [selected, setSelected] = useState("");
   const [profiles, setProfiles] = useState(readProfiles);
+  const [generationProfileId, setGenerationProfileId] = useState("");
+  const generationProfile =
+    profiles.find((profile) => profile.id === generationProfileId) ||
+    profiles[0];
   const [notice, setNotice] = useState("");
   const [saved, setSaved] = useState("");
   const [saveError, setSaveError] = useState("");
@@ -628,7 +632,7 @@ export default function App() {
   }
   async function gen() {
     if (!p) return;
-    if (!profiles.length || !profiles[0].model) {
+    if (!generationProfile?.model) {
       setNotice("请先配置模型地址和模型 ID");
       setPage("models");
       return;
@@ -647,7 +651,7 @@ export default function App() {
     abort.current = new AbortController();
     try {
       const result = await generate(
-        profiles[0],
+        generationProfile,
         p,
         instruction,
         abort.current.signal,
@@ -1528,9 +1532,29 @@ export default function App() {
                       <div>
                         <b>让设计成为代码</b>
                         <p>
-                          当前模型：{profiles[0]?.name || "尚未配置"} ·{" "}
-                          {profiles[0]?.model || "请选择模型 ID"}
+                          当前模型：{generationProfile?.name || "尚未配置"} ·{" "}
+                          {generationProfile?.model || "请选择模型 ID"}
                         </p>
+                        <label>
+                          本次生成模型
+                          <select
+                            aria-label="本次生成模型"
+                            disabled={busy}
+                            value={generationProfile?.id || ""}
+                            onChange={(e) =>
+                              setGenerationProfileId(e.target.value)
+                            }
+                          >
+                            {!profiles.length && (
+                              <option value="">请先配置模型</option>
+                            )}
+                            {profiles.map((profile) => (
+                              <option key={profile.id} value={profile.id}>
+                                {profile.name} · {profile.model}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
                         <textarea
                           aria-label="生成需求"
                           value={instruction}
@@ -1724,7 +1748,7 @@ export default function App() {
                 <Eye size={13} />
                 网页预览
               </span>
-              <span>模型：{profiles[0]?.name || "未配置"}</span>
+              <span>模型：{generationProfile?.name || "未配置"}</span>
               <button onClick={() => setPage("models")}>
                 <Settings size={13} />
                 模型设置

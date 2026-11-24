@@ -39,27 +39,71 @@ async function request(
     throw Error("模型服务 HTTP " + r.status + "，请检查地址、认证和模型");
   return r.json();
 }
+// Parameter names follow the endpoint protocol; model capability metadata overrides family defaults.
+export function completionParameters(p: Profile, tokens = p.tokens) {
+  const host = new URL(p.url).hostname;
+  const openai = host === "api.openai.com",
+    router = host === "openrouter.ai",
+    deepseek = host === "api.deepseek.com";
+  const reasoning = /^(?:openai\/)?(?:gpt-[56]|o[134](?:-|$))/i.test(p.model);
+  const supported = p.modelParameters?.[p.model];
+  const temperature =
+    p.temperatureMode === "send" ||
+    (p.temperatureMode !== "omit" &&
+      (supported
+        ? supported.includes("temperature")
+        : !(reasoning || (deepseek && p.thinking))));
+  const tokenKey =
+    p.tokenParameter && p.tokenParameter !== "auto"
+      ? p.tokenParameter
+      : openai && reasoning && !router
+        ? "max_completion_tokens"
+        : "max_tokens";
+  if (
+    !Number.isInteger(tokens) ||
+    tokens < 1 ||
+    !Number.isFinite(p.temperature) ||
+    p.temperature < 0 ||
+    p.temperature > 2
+  )
+    throw Error("请检查最大输出 Token 和温度范围");
+  return {
+    [tokenKey]: tokens,
+    ...(temperature ? { temperature: p.temperature } : {}),
+    ...(deepseek
+      ? { thinking: { type: p.thinking ? "enabled" : "disabled" } }
+      : {}),
+  };
+}
 export async function testProfile(p: Profile) {
   const data = await request(p, "/chat/completions", {
     method: "POST",
     body: JSON.stringify({
-      ...(new URL(p.url).hostname === "api.deepseek.com"
-        ? { thinking: { type: "disabled" } }
-        : {}),
+      ...completionParameters(p, 512),
       model: p.model,
       messages: [{ role: "user", content: "Reply OK." }],
-      ...(new URL(p.url).hostname === "api.openai.com" &&
-      /^gpt-[56]/.test(p.model)
-        ? { max_completion_tokens: 512 }
-        : { max_tokens: 128 }),
     }),
   });
   if (!data.choices?.[0]?.message?.content?.trim())
     throw Error("服务已连接，但未返回文本；请检查模型或增加输出额度");
 }
-export async function listModels(p: Profile): Promise<string[]> {
+export async function listModelDetails(
+  p: Profile,
+): Promise<{ id: string; supportedParameters?: string[] }[]> {
   const data = await request(p, "/models", { method: "GET" });
-  return (data.data || []).map((m: { id: string }) => m.id);
+  return (data.data || [])
+    .filter((m: { id: unknown }) => typeof m.id === "string")
+    .map((m: { id: string; supported_parameters?: unknown }) => ({
+      id: m.id,
+      supportedParameters: Array.isArray(m.supported_parameters)
+        ? m.supported_parameters.filter(
+            (v): v is string => typeof v === "string",
+          )
+        : undefined,
+    }));
+}
+export async function listModels(p: Profile): Promise<string[]> {
+  return (await listModelDetails(p)).map((m) => m.id);
 }
 export async function generate(
   p: Profile,
@@ -99,14 +143,8 @@ export async function generate(
     {
       method: "POST",
       body: JSON.stringify({
-        ...(new URL(p.url).hostname === "api.deepseek.com"
-          ? { thinking: { type: p.thinking ? "enabled" : "disabled" } }
-          : {}),
         model: p.model,
-        ...(new URL(p.url).hostname === "api.openai.com" &&
-        /^gpt-[56]/.test(p.model)
-          ? { max_completion_tokens: p.tokens }
-          : { temperature: p.temperature, max_tokens: p.tokens }),
+        ...completionParameters(p),
         stream: false,
         messages: [
           { role: "system", content: system },
