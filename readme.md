@@ -1,5 +1,7 @@
 # GarminFaceCreator
 
+**简体中文** | [English](README.en.md)
+
 面向 Garmin Connect IQ 的可视化表盘设计器。通过网页拖动控件、管理图层和素材，在浏览器中调用自行配置的大模型生成 Monkey C 工程，再交给 .NET 后端编译为 PRG。
 
 > 项目仍在开发中。网页预览采用模拟数据，编译成功不代表已完成真机验证。

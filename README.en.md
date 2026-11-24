@@ -1,0 +1,120 @@
+﻿# GarminFaceCreator
+
+[简体中文](readme.md) | **English**
+
+A visual watch-face designer for Garmin Connect IQ. Arrange components, layers, and assets in a web editor, use your own AI provider to generate a Monkey C project from the browser, and compile it into a PRG with the .NET backend.
+
+> This project is under development. Web previews use simulated data. A successful build does not mean the watch face has been validated on a physical device.
+
+## Screenshots
+
+### Projects and reference watch faces
+
+![Project management and reference watch faces](docs/screenshots/projects.png)
+
+### Visual editor
+
+![SkyRing layer editor](docs/screenshots/skyring-layered.png)
+
+### Live preview and active / always-on comparison
+
+![Independent preview window](docs/screenshots/preview-studio.png)
+
+### AI model settings
+
+![AI providers and model presets](docs/screenshots/model-presets.png)
+
+The screenshots show the current Chinese interface.
+
+## Features
+
+- Project management, browser storage, and design JSON import/export.
+- Round canvas with layer ordering, locking, visibility, dragging, resizing, undo, and redo.
+- Time, date, metrics, text, images, rings, and basic shapes.
+- Independent preview with the current time, random heart rate, increasing step count, scenario presets, playback controls, and active / always-on comparison.
+- Watch series, model, and case-size selection when creating a project, with the actual screen resolution displayed.
+- Built-in ClownWatch, SkyRing, and fine-o-clock reference projects that create independent editable copies.
+- AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
+- Code generation, review, history snapshots, and stale-code detection after design changes.
+- Backend project validation, build queue, logs, cancellation, timeouts, and signed PRG downloads.
+- Download names follow `Model_Size_ProjectName.prg`, with whitespace removed and invalid filename characters handled.
+
+AI-assisted canvas editing, automatic build-error repair, and full native simulator previews are not implemented yet. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
+
+## Supported devices
+
+| Series | Model | Case size | Screen resolution |
+| --- | --- | --- | --- |
+| Venu | Venu 4 | 41 / 45 mm | 390×390 / 454×454 |
+| Venu | Venu 3 / 3S | 45 / 41 mm | 454×454 / 390×390 |
+| Forerunner | Forerunner 570 | 42 / 47 mm | 390×390 / 454×454 |
+| Forerunner | Forerunner 970 | 47 mm | 454×454 |
+| fēnix | fēnix 8 AMOLED | 43 / 47 / 51 mm | 416×416 / 454×454 / 454×454 |
+
+All listed screens are round AMOLED displays. Designs use a normalized 454×454 coordinate system. Generation prompts include the target model, actual resolution, and scaling requirements. Built-in native reference projects currently target Venu 4 45 mm; compatibility with other devices is not automatically guaranteed.
+
+## Architecture and data flow
+
+```mermaid
+flowchart LR
+    Browser[React web editor] <--> Local[Browser storage]
+    Browser -->|Design and asset inventory| AI[User-configured AI service]
+    AI -->|Project files| Browser
+    Browser -->|Source and required assets| API[ASP.NET Core / .NET 10]
+    API --> SDK[Linux Connect IQ SDK]
+    SDK -->|Logs and signed PRG| Browser
+```
+
+- API keys stay in the browser, either for the current session or persistently if requested. They are excluded from prompts, standard project exports, and build requests.
+- Images are stored in the browser. The current build workflow uploads required assets to the backend; asset handling is not fully offline.
+- The browser calls AI providers directly, so the provider must allow CORS. The backend does not proxy AI requests.
+- The build service does not execute uploaded shell or build scripts.
+- The application is currently intended for personal self-hosting. Authentication and multi-user isolation are not implemented.
+
+## Getting started
+
+Install Node.js 24 and the .NET 10 SDK. Watch-face compilation also requires Docker, Java 17, the Linux Connect IQ SDK, target device packages, fonts, and a signing key that you manage yourself.
+
+```bash
+git clone https://github.com/yusger/GarminFaceCreator.git
+cd GarminFaceCreator
+npm ci
+npm run build
+dotnet build backend/GarminFaceCreator.Api.csproj -c Release
+```
+
+For frontend-only development, run `npm run dev` and open `http://localhost:5173`. You can edit and export designs without a connected build service, but you cannot generate a PRG.
+
+See the [backend deployment guide](docs/backend-deployment.md) for deployment, SDK initialization, and volume mounts. The SDK, device packages, fonts, and private signing keys are not distributed with this repository and must be supplied separately.
+
+## Documentation and repository layout
+
+The detailed guides are currently in Chinese:
+
+- [Editor usage and feature scope](docs/frontend-running.md)
+- [Backend API and container deployment](docs/backend-deployment.md)
+- [Frontend design plan](docs/frontend-design.md)
+
+```text
+frontend/         React, TypeScript, SVG editor, and reference packages
+backend/          .NET 10 build API and integration tests
+deploy/           Dockerfiles, initialization, and helper scripts
+scripts/          Reference-package generation tools
+docs/             Guides, design documents, and screenshots
+compose.yaml      Container configuration
+```
+
+Run browser tests with `npm test`. Set `GFC_TEST_URL` to test against a deployed service without starting a local development server. Tests that call a real AI service require a key supplied through an environment variable and may incur provider charges.
+
+## Reference projects and acknowledgments
+
+The following reference watch faces come from the open-source community and have been adapted and integrated into this editor:
+
+- **SkyRing**: [daveshap/SkyRingGarmin](https://github.com/daveshap/SkyRingGarmin), by [daveshap](https://github.com/daveshap).
+- **fine-o-clock / Fine’o clock**: [causeri3/fine-o-clock](https://github.com/causeri3/fine-o-clock), by [causeri3](https://github.com/causeri3).
+
+Thank you to both authors for sharing their watch-face source code and designs. Their work provides a foundation for the reference layouts, data displays, and animations, as well as practical examples for the visual editing and compilation workflow. The original projects and assets retain their respective copyrights and licenses.
+
+## License and third-party content
+
+This project is released under [GNU GPL v3 or later](LICENSE). Third-party reference projects, fonts, and images retain their own copyrights and licenses; see [Third-party notices](THIRD_PARTY_NOTICES.md). The project license does not grant additional rights to trademarks, characters, or illustrations.
