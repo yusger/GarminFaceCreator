@@ -73,7 +73,7 @@
       "legacy": false,
       "verifiedLicense": true,
       "path": "/templates/crystal.json",
-      "sha256": "6337000a30709b25753cf1816ef0dc682d1751bb92a9886dbbf7f72cc07e48c5"
+      "sha256": "40c49d0bf831108341083f0101e299d8253d8dbfb3fa7593099f9bf11f891739"
     }
   ],
   "generators": [

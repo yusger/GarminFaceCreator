@@ -87,6 +87,7 @@ add("meter", "电量弧形目标", {
   allowClip: true,
 });
 add("text", "标题", {
+  garminFont: "tiny",
   text: "CRYSTAL",
   x: 155,
   y: 40,
@@ -96,6 +97,7 @@ add("text", "标题", {
   color: "#6d8196",
 });
 add("metric", "电量", {
+  garminFont: "tiny",
   source: "battery",
   x: 163,
   y: 77,
@@ -105,6 +107,7 @@ add("metric", "电量", {
   color: "#c4d3e2",
 });
 add("date", "日期", {
+  garminFont: "small",
   x: 118,
   y: 124,
   w: 218,
@@ -151,6 +154,7 @@ add("time", "分钟", {
   aodColor: "#626a73",
 });
 add("metric", "实时秒数", {
+  garminFont: "tiny",
   source: "seconds",
   x: 318,
   y: 280,
@@ -161,6 +165,7 @@ add("metric", "实时秒数", {
   threshold: false,
 });
 add("metric", "当日距离", {
+  garminFont: "small",
   source: "distance",
   x: 124,
   y: 301,
@@ -173,6 +178,7 @@ add("metric", "当日距离", {
   threshold: false,
 });
 add("metric", "当日步数", {
+  garminFont: "tiny",
   source: "steps",
   x: 143,
   y: 339,
@@ -184,6 +190,7 @@ add("metric", "当日步数", {
   threshold: false,
 });
 add("metric", "当日总热量", {
+  garminFont: "tiny",
   source: "calories",
   x: 143,
   y: 375,
