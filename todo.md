@@ -216,12 +216,13 @@
   - 依赖：P1-07/P1-08；不以四段静态文字冒充动态目标控件。
   - 阶段 40–41 已完成 Creator 精简版：独立四位数字、缓存心率、数值阈值与动态步数/电量分段条；原液面字形/电量弧线明确降级，原强度/楼层等目标未冒充已实现。固定 MIT 来源及导出许可、Venu 4 45mm 原生亮屏/AOD 验证通过。
 
-- [ ] **R-05 Yet Another WatchFace — 综合数据与第二时区模板**
+- [x] **R-05 Yet Another WatchFace — 综合数据与第二时区模板**
   - 来源：[Laverlin/Yet-Another-WatchFace](https://github.com/Laverlin/Yet-Another-WatchFace)。许可依据：仓库 `LICENSE`，MIT。
   - 价值：综合数据、第二时区、月相与天气，适合更丰富的数据仪表布局。
   - 工作：先精简为时间/日期/活动数据及可选第二时区；GPS、汇率、外部天气和后台服务不无条件纳入默认版本。
   - 明确保留与裁减功能；逐项核对数据源、权限、资源及息屏模式，保留作者与原工程来源。
   - 依赖：格式化数据控件与相关数据源支持；验证时区与夏令时转换。
+  - 阶段 42–43 完成 Creator 精简版：13 个可编辑图层、实际活动数据、可选固定 UTC 偏移第二时区。固定偏移不自动处理目标地区夏令时，与原版地区时区功能差异已明确；GPS/汇率/外部天气/月相等未移植。完整 MIT 来源与原生亮屏/AOD/修改后时区验证通过。
 
 - [ ] **R-06 Celestial Watchface — 昼夜天文主题模板**
   - 来源：[Cutwell/garmin-celestial-watchface](https://github.com/Cutwell/garmin-celestial-watchface)。许可依据：仓库 `LICENSE`，MIT。
