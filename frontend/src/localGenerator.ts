@@ -1,9 +1,10 @@
+import { iconDrawMethod, mergeNativeIcons } from "./weatherIcons.ts";
 import { parseFiles, type Project, type Layer } from "./domain.ts";
 import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-1";
+export const LOCAL_GENERATOR_VERSION = "basic-2-icons";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -90,6 +91,8 @@ function primitive(l: Layer, aod: boolean) {
 }
 function draw(l: Layer, aod: boolean) {
   if (aod && !l.aod) return "";
+  if (l.kind === "image" && l.libraryIcon)
+    return `GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
   if (["rect", "circle", "line"].includes(l.kind))
     return `{${primitive(l, aod)}}`;
   const align = l.textAlign || "center",
@@ -105,12 +108,13 @@ export function localGenerate(p: Project) {
   const included = p.layers.filter((l) => l.exportIncluded !== false);
   const unsupported = included.filter(
     (l) =>
-      !["time", "text", "rect", "circle", "line"].includes(l.kind) ||
+      (!["time", "text", "rect", "circle", "line"].includes(l.kind) &&
+        !(l.kind === "image" && l.libraryIcon)) ||
       l.rotation !== 0,
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、文字、矩形、圆形和直线。请移除或排除：" +
+      "本地生成试验仅支持未旋转的时间、文字、基础形状和内置图标。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const requirements = generationRequirements(p);
@@ -147,7 +151,7 @@ class GeneratedView extends WatchUi.WatchFace {
 }`;
   return parseFiles(
     JSON.stringify({
-      files: [
+      files: mergeNativeIcons(p, [
         { path: "manifest.xml", content: generationManifest(p) },
         {
           path: "monkey.jungle",
@@ -169,7 +173,7 @@ class GeneratedView extends WatchUi.WatchFace {
           content:
             '<svg xmlns="http://www.w3.org/2000/svg" width="65" height="65"><circle cx="32" cy="32" r="28" fill="#45d6be"/></svg>',
         },
-      ],
+      ]),
     }),
   );
 }

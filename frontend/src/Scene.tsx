@@ -7,6 +7,7 @@ import { useId } from "react";
 import type { Project, Layer } from "./domain";
 export type Preview = {
   missing?: boolean;
+  weatherCondition?: number | null;
   date?: string;
   time: string;
   heartRate: number;
@@ -208,7 +209,11 @@ export default function Scene({
                   );
                 })
               ) : l.kind === "image" ? (
-                <LibraryImage layer={l} />
+                <LibraryImage
+                  layer={l}
+                  condition={preview.weatherCondition}
+                  missing={preview.missing}
+                />
               ) : l.kind === "rect" ? (
                 <rect
                   width={l.w}

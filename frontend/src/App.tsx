@@ -1925,6 +1925,52 @@ export default function App() {
                             />
                           </label>
                         )}
+                        {current.libraryIcon.id.startsWith(
+                          "meteocons_0_1_0_monochrome_",
+                        ) && (
+                          <>
+                            <label className="inline">
+                              <input
+                                aria-label="绑定实时天气"
+                                type="checkbox"
+                                checked={!!current.weatherIcon}
+                                onChange={(e) =>
+                                  patch({
+                                    weatherIcon: e.target.checked
+                                      ? { period: "day" }
+                                      : undefined,
+                                  })
+                                }
+                              />
+                              绑定 Garmin 缓存天气
+                            </label>
+                            {current.weatherIcon && (
+                              <>
+                                <label>
+                                  昼夜图标
+                                  <select
+                                    aria-label="天气昼夜样式"
+                                    value={current.weatherIcon.period}
+                                    onChange={(e) =>
+                                      patch({
+                                        weatherIcon: {
+                                          period: e.target.value as
+                                            "day" | "night",
+                                        },
+                                      })
+                                    }
+                                  >
+                                    <option value="day">日间</option>
+                                    <option value="night">夜间</option>
+                                  </select>
+                                </label>
+                                <p className="hint">
+                                  昼夜样式手动选择；缺失或未知天气显示缺失图标。严重天气用概括图形，不替代天气警报。
+                                </p>
+                              </>
+                            )}
+                          </>
+                        )}
                         <IconDetails id={current.libraryIcon.id} />
                       </>
                     )}

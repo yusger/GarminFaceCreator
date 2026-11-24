@@ -39,6 +39,7 @@ export type Layer = {
   source: string;
   image?: string;
   libraryIcon?: { id: string; recolor: boolean; strokeWidth: number };
+  weatherIcon?: { period: "day" | "night" };
   assetId?: string;
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
@@ -93,7 +94,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -245,7 +246,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 10,
+    schemaVersion: 11,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -272,7 +273,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 10 ||
+    p.schemaVersion !== 11 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -434,6 +435,12 @@ export function validateProject(value: unknown): Project {
         l.libraryIcon.strokeWidth > 8)
     )
       throw Error("素材库参数无效");
+    if (
+      l.weatherIcon &&
+      (!l.libraryIcon?.id.startsWith("meteocons_0_1_0_monochrome_") ||
+        !["day", "night"].includes(l.weatherIcon.period))
+    )
+      throw Error("动态天气图标配置无效");
     if (l.image && !/^data:image\/(png|jpeg|webp);base64,/.test(l.image))
       throw Error("图片必须包含在项目中");
   }

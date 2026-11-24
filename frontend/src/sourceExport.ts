@@ -1,3 +1,4 @@
+import { iconVariants, iconResourcePath } from "./weatherIcons";
 import { preparedAssets, findIcon, originalIcon } from "./iconLibrary";
 import { imageAssetPath } from "./assets";
 import { parseFiles, type Project } from "./domain";
@@ -93,7 +94,7 @@ export async function exportSources(
       ...new Set(
         p.layers
           .filter((l) => l.exportIncluded !== false && l.libraryIcon)
-          .map((l) => l.libraryIcon!.id),
+          .flatMap((l) => iconVariants(l).map((v) => v.id)),
       ),
     ].map(findIcon),
   );
@@ -116,7 +117,13 @@ export async function exportSources(
       .filter((l) => l.exportIncluded !== false && l.libraryIcon)
       .map((l) => ({
         icon: l.libraryIcon,
-        path: imageAssetPath(l),
+        weather: l.weatherIcon,
+        variants: iconVariants(l),
+        path: l.weatherIcon ? undefined : imageAssetPath(l),
+        resources: iconVariants(l).map((v) => ({
+          ...v,
+          path: iconResourcePath(l, v.key),
+        })),
         color: l.color,
         w: l.w,
         h: l.h,

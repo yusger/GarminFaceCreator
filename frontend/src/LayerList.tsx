@@ -15,7 +15,11 @@ function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
       viewBox={`0 0 ${w} ${h}`}
     >
       {l.kind === "image" ? (
-        <LibraryImage layer={{ ...l, w, h }} />
+        <LibraryImage
+          layer={{ ...l, w, h }}
+          condition={preview.weatherCondition}
+          missing={preview.missing}
+        />
       ) : l.kind === "line" ? (
         <line
           x1={0}

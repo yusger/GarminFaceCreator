@@ -33,7 +33,9 @@ export default function RepairPanel({
   useEffect(() => () => inFlight.current?.abort(), []);
   const [paths, setPaths] = useState<string[]>(() =>
     project.files
-      .filter((f) => f.path.startsWith("source/"))
+      .filter(
+        (f) => f.path.startsWith("source/") && f.path !== "source/GfcIcons.mc",
+      )
       .slice(0, 1)
       .map((f) => f.path),
   );
@@ -128,7 +130,14 @@ export default function RepairPanel({
         <fieldset disabled={busy}>
           <legend>允许修改的文件</legend>
           {project.files
-            .filter((f) => /^source\/|^resources\//.test(f.path))
+            .filter(
+              (f) =>
+                /^source\/|^resources\//.test(f.path) &&
+                ![
+                  "source/GfcIcons.mc",
+                  "resources/drawables/gfc-icons.xml",
+                ].includes(f.path),
+            )
             .map((f) => (
               <label key={f.path}>
                 <input

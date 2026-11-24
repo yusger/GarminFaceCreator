@@ -1,3 +1,4 @@
+import { iconVariants, iconResourcePath } from "./weatherIcons";
 import type { Layer, Project } from "./domain";
 import { binaryAssets, imageAssetPath } from "./assets";
 import { generationDevice } from "./devices";
@@ -130,10 +131,17 @@ export async function preparedAssets(p: Project) {
   const assets = new Map(binaryAssets(p).map((a) => [a.path, a]));
   for (const l of p.layers.filter(
     (l) => l.libraryIcon && l.exportIncluded !== false,
-  ))
-    assets.set(imageAssetPath(l), {
-      path: imageAssetPath(l),
-      data: await rasterIcon(l, p),
-    });
+  )) {
+    if (l.weatherIcon) assets.delete(imageAssetPath(l));
+    for (const v of iconVariants(l))
+      assets.set(iconResourcePath(l, v.key), {
+        path: iconResourcePath(l, v.key),
+        data: await rasterIcon(
+          { ...l, libraryIcon: { ...l.libraryIcon!, id: v.id } },
+          p,
+        ),
+      });
+  }
+
   return [...assets.values()];
 }

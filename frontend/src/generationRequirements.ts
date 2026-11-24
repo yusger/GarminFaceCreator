@@ -9,6 +9,10 @@ type Adapter = {
   unit?: string;
 };
 const adapters: Record<string, Adapter> = {
+  weatherIcon: {
+    api: "3.2.0",
+    read: "Weather.getCurrentConditions().condition (nullable cached conditions; use the fixed native icon helper)",
+  },
   heartRate: {
     api: "2.1.0",
     read: "SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next().data",
@@ -82,11 +86,13 @@ export function generationRequirements(p: Project) {
   const sources = [
     ...new Set(
       layers.flatMap((l) =>
-        l.kind === "metric"
-          ? [l.source]
-          : l.kind === "ring"
-            ? [l.ringSource || "seconds"].filter((s) => s !== "static")
-            : [],
+        l.weatherIcon
+          ? ["weatherIcon"]
+          : l.kind === "metric"
+            ? [l.source]
+            : l.kind === "ring"
+              ? [l.ringSource || "seconds"].filter((s) => s !== "static")
+              : [],
       ),
     ),
   ].sort();

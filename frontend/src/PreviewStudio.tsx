@@ -1,3 +1,4 @@
+import { weatherGroups } from "./weatherIcons";
 import {
   useEffect,
   useRef,
@@ -268,6 +269,27 @@ export default function PreviewStudio({
             {(mode === "对比" ? ["亮屏", "息屏"] : [mode]).map(scene)}
           </div>
           <aside className="preview-data">
+            <label>
+              模拟天气
+              <select
+                aria-label="模拟天气"
+                value={preview.weatherCondition ?? 0}
+                onChange={(e) => {
+                  manualPause();
+                  setPreview((p) => ({
+                    ...p,
+                    missing: false,
+                    weatherCondition: Number(e.target.value),
+                  }));
+                }}
+              >
+                {weatherGroups.map((g) => (
+                  <option key={g.key} value={g.values[0]}>
+                    {g.name}
+                  </option>
+                ))}
+              </select>
+            </label>
             <h3>数据场景</h3>
             <div className="preview-presets">
               {["日常", "运动", "低电量", "数据缺失"].map((name) => (
