@@ -36,7 +36,7 @@
 
 ### P0：数据与构建可靠性
 
-- [ ] **P0-01 保存失败与冲突恢复**（A-B004）
+- [x] **P0-01 保存失败与冲突恢复**（A-B004）
   - 补齐 IndexedDB 打开失败、事务 abort/blocked、配额不足与存储不可用的明确提示，保留当前内存设计和导出入口。
   - BroadcastChannel 仅用于冲突通知，功能不可用时仍须保护保存。另设持久化 storageVersion 与加载时的 baseStorageVersion，不把设计 revision 当作存储锁。
   - 在同一个 IndexedDB 读写事务内读取并比较持久版本；仅与 baseStorageVersion 一致时写入并递增版本。不能只判断“磁盘 revision 更大”，因为两个标签页可能生成相同 revision 的不同内容。
@@ -174,7 +174,7 @@
 - `frontend/vite.config.ts`：当前尚无 API 开发代理。
 - `backend/Program.cs`、`compose.yaml`：资源校验、目标就绪、编译生命周期及网络绑定。
 
-本文件为评估后的实施清单；本轮仅整理建议，未修改上述程序行为。
+实施状态以勾选项及 docs/stage-validation.md 中的阶段记录为准。
 
 ## 五、新增默认参考项目计划
 
