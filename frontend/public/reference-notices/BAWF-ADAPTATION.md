@@ -2,7 +2,7 @@
 
 Source: https://github.com/kevinboone/BAWF
 Pinned revision: `243293ba4d2a4f03c4ed767bb072a7838386c741`.
-Thank you to **Kevin Boone**. Both original source files explicitly state copyright (c)2018-2023 Kevin Boone and GNU Public Licence v3.0; this is the license basis, not an inference from public availability. The original source texts and README are retained verbatim, with a complete GPLv3 copy supplied. The original header is also preserved in generated App.mc. The layout adaptation retains GPL-3.0-only scope; Creator generator templates retain GPL-3.0-or-later scope, which can be used under GPLv3. Do not label the adaptation as MIT-only or claim all unrelated tool output inherits one license.
+Thank you to **Kevin Boone**. Both original source files explicitly state copyright (c)2018-2023 Kevin Boone and GNU Public Licence v3.0; this is the license basis, not an inference from public availability. The original source texts and README are retained verbatim, with a complete GPLv3 copy supplied. The initial default App.mc includes the original header. Regeneration uses Creator templates; full source exports retain both original source texts and their complete notices. The layout adaptation retains GPL-3.0-only scope; Creator generator templates retain GPL-3.0-or-later scope, which can be used under GPLv3. Do not label the adaptation as MIT-only or claim all unrelated tool output inherits one license.
 
 ## Included and changed
 
