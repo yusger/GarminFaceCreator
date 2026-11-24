@@ -9,7 +9,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-11-solar-events";
+export const LOCAL_GENERATOR_VERSION = "basic-12-hands";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -105,6 +105,10 @@ function draw(l: Layer, aod: boolean) {
         l.aodSeconds === "hide"))
   )
     return "";
+  if (l.kind === "hand") {
+    if (aod && l.handType === "second" && l.aodSeconds === "hide") return "";
+    return `drawHand(dc,clock,${l.handType === "second" ? 2 : l.handType === "minute" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX ?? 0.5)},${num(l.handPivotY ?? 0.5)},${num(l.handReach ?? 0.58)},${num(l.handTail ?? 0.08)},${num(l.strokeWidth || 6)},${color(aod ? l.aodColor || "#777777" : l.color)},${aod ? "true" : "false"});`;
+  }
   if (l.kind === "celestial")
     return `drawCelestial(dc,solar,${l.solarPart === "body" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${color(aod ? l.aodColor || "#777777" : l.color)},${color(aod ? l.aodColor || "#777777" : l.solarNightColor || (l.solarPart === "body" ? "#dfedff" : "#0b1829"))},${color(aod ? l.aodColor || "#777777" : l.solarMissingColor || "#17212c")});`;
   if (l.kind === "wordTime") {
@@ -196,6 +200,7 @@ export function localGenerate(p: Project) {
         "date",
         "calendar",
         "celestial",
+        "hand",
         "wordTime",
         "metric",
         "text",
@@ -280,6 +285,7 @@ export function localGenerate(p: Project) {
         .map((l) => l.timeUtcOffset!),
     ),
   ];
+  const hands = included.some((l) => l.kind === "hand");
   const celestial = included.some((l) => l.kind === "celestial");
   const calendars = included.some((l) => l.kind === "calendar");
   const calendarHelpers = calendars
@@ -323,7 +329,7 @@ export function localGenerate(p: Project) {
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;import Toybox.Weather;import Toybox.Math;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;import Toybox.Weather;" : ""}${celestial || hands ? "import Toybox.Math;" : ""}
 class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
@@ -332,6 +338,16 @@ class GeneratedView extends WatchUi.WatchFace {
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
  ${meters.length ? "function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
  ${dataHelpers}
+ ${
+   hands
+     ? `function drawHand(dc,clock,kind,x,y,w,h,pvx,pvy,reach,tail,stroke,ink,low){
+  var cx=w*pvx;var cy=h*pvy;var radius=cx;if(w-cx<radius){radius=w-cx;}if(cy<radius){radius=cy;}if(h-cy<radius){radius=h-cy;}radius-=stroke/2.0;if(radius<0){radius=0;}
+  var sec=low?0:clock.sec;var degrees=kind==0?((clock.hour%12)+clock.min/60.0+sec/3600.0)*30:(kind==1?(clock.min+sec/60.0)*6:sec*6);var a=degrees*Math.PI/180.0;var dx=Math.sin(a);var dy=-Math.cos(a);
+  dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setPenWidth(px(stroke)>0?px(stroke):1);
+  dc.drawLine(px(x+cx-dx*radius*tail),px(y+cy-dy*radius*tail),px(x+cx+dx*radius*reach),px(y+cy+dy*radius*reach));
+ }`
+     : ""
+ }
  ${calendarHelpers}
  ${
    celestial

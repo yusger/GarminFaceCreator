@@ -82,7 +82,9 @@ test("protected Celestial copy exports complete notices and compiles before and 
       expect(files.has("notices/" + name)).toBe(true);
     expect(
       meta.templateSources.some(
-        (t: any) => t.version === "basic-11-solar-events",
+        (t: any) =>
+          t.version ===
+          (language === "default" ? "basic-11-solar-events" : "basic-12-hands"),
       ),
     ).toBe(true);
     expect(files.get("notices/Celestial-LICENSE.txt")!.toString()).toContain(

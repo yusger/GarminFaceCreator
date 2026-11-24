@@ -35,6 +35,11 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   metricDecoration: true,
   wordLanguage: true,
   wordRow: true,
+  handType: true,
+  handPivotX: true,
+  handPivotY: true,
+  handReach: true,
+  handTail: true,
   solarPart: true,
   solarNightColor: true,
   solarMissingColor: true,
@@ -153,6 +158,16 @@ export function generationLayer(l: Layer) {
           meterGoal: l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
           meterDim: l.meterDim ?? 0.35,
           meterPolygons: meterPolygons(l),
+        }
+      : {}),
+    ...(l.kind === "hand"
+      ? {
+          handType: l.handType || "hour",
+          handPivotX: l.handPivotX ?? 0.5,
+          handPivotY: l.handPivotY ?? 0.5,
+          handReach: l.handReach ?? 0.58,
+          handTail: l.handTail ?? 0.08,
+          handClock: "deviceLocal",
         }
       : {}),
     ...(l.kind === "celestial"

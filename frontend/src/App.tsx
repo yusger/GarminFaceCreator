@@ -97,6 +97,7 @@ const tools = [
   ["meter", "目标仪表", SlidersHorizontal],
   ["calendar", "三周日历", Calendar],
   ["celestial", "昼夜场景", Circle],
+  ["hand", "指针", Clock],
   ["wordTime", "文字报时", Type],
   ["rect", "矩形", Square],
   ["text", "文字", Type],
@@ -2136,6 +2137,83 @@ export default function App() {
                         </p>
                       </>
                     )}
+                    {current.kind === "hand" && (
+                      <>
+                        <h4>指针</h4>
+                        <label>
+                          时间绑定
+                          <select
+                            aria-label="指针时间绑定"
+                            value={current.handType || "hour"}
+                            onChange={(e) =>
+                              patch({
+                                handType: e.target.value as Layer["handType"],
+                                handReach:
+                                  e.target.value === "hour"
+                                    ? 0.58
+                                    : e.target.value === "minute"
+                                      ? 0.79
+                                      : 0.88,
+                                aod: e.target.value !== "second",
+                              })
+                            }
+                          >
+                            <option value="hour">时针</option>
+                            <option value="minute">分针</option>
+                            <option value="second">秒针</option>
+                          </select>
+                        </label>
+                        {(
+                          [
+                            ["handPivotX", "转动中心 X", 0.5, 0, 1],
+                            ["handPivotY", "转动中心 Y", 0.5, 0, 1],
+                            ["handReach", "指针长度比例", 0.58, 0.1, 1],
+                            ["handTail", "针尾比例", 0.08, 0, 0.3],
+                          ] as const
+                        ).map(([key, label, value, min, max]) => (
+                          <label key={key}>
+                            {label}
+                            <input
+                              aria-label={label}
+                              type="number"
+                              min={min}
+                              max={max}
+                              step={0.01}
+                              value={current[key] ?? value}
+                              onChange={(e) => {
+                                const n = Number(e.target.value);
+                                if (Number.isFinite(n) && n >= min && n <= max)
+                                  patch({ [key]: n });
+                              }}
+                            />
+                          </label>
+                        ))}
+                        <label>
+                          指针线宽
+                          <input
+                            aria-label="指针线宽"
+                            type="number"
+                            min={1}
+                            max={20}
+                            value={current.strokeWidth || 6}
+                            onChange={(e) =>
+                              patch({
+                                strokeWidth: Math.max(
+                                  1,
+                                  Math.min(20, Number(e.target.value) || 1),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <p className="hint">
+                          转动中心为控件宽高的 0–1
+                          比例；长度以中心到最近边缘的安全半径为基准。靠近边缘时会缩短以保持在控件内。使用设备本地时间，时针/分针包含当前分秒进度；秒针默认息屏隐藏，息屏保留时固定
+                          12
+                          点或隐藏。不添加秒计时器；本地生成暂不支持非零整体旋转。
+                        </p>
+                      </>
+                    )}
                     {current.kind === "celestial" && (
                       <>
                         <h4>昼夜场景</h4>
@@ -2896,6 +2974,8 @@ export default function App() {
                           </label>
                         )}
                         {(current.kind === "ring" ||
+                          (current.kind === "hand" &&
+                            current.handType === "second") ||
                           (current.kind === "metric" &&
                             current.source === "seconds")) && (
                           <label>
@@ -2910,7 +2990,9 @@ export default function App() {
                                 })
                               }
                             >
-                              <option value="zero">固定 00 / 圆环全暗</option>
+                              <option value="zero">
+                                固定 00 / 圆环全暗 / 秒针 12 点
+                              </option>
                               <option value="hide">隐藏</option>
                             </select>
                           </label>

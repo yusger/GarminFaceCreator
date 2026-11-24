@@ -83,9 +83,7 @@ test("protected YetAnother copy exports complete notices and compiles before and
       meta.templateSources.some(
         (t: any) =>
           t.version ===
-          (language === "default"
-            ? "basic-9-fixed-zone"
-            : "basic-11-solar-events"),
+          (language === "default" ? "basic-9-fixed-zone" : "basic-12-hands"),
       ),
     ).toBe(true);
     expect(files.get("notices/YetAnother-LICENSE.txt")!.toString()).toContain(

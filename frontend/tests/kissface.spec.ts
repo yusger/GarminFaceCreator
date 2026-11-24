@@ -86,9 +86,7 @@ test("protected KISSFace copy exports complete notices and compiles before and a
       meta.templateSources.some(
         (t: any) =>
           t.version ===
-          (language === "default"
-            ? "basic-8-digits-hr"
-            : "basic-11-solar-events"),
+          (language === "default" ? "basic-8-digits-hr" : "basic-12-hands"),
       ),
     ).toBe(true);
     expect(files.get("notices/KISSFace-LICENSE.txt")!.toString()).toContain(

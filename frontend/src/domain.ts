@@ -8,6 +8,7 @@ export type Kind =
   | "text"
   | "image"
   | "wordTime"
+  | "hand"
   | "celestial"
   | "calendar"
   | "meter"
@@ -47,6 +48,11 @@ export type Layer = {
   assetId?: string;
   wordLanguage?: "en" | "zh";
   wordRow?: "all" | "top" | "middle" | "bottom";
+  handType?: "hour" | "minute" | "second";
+  handPivotX?: number;
+  handPivotY?: number;
+  handReach?: number;
+  handTail?: number;
   solarPart?: "sky" | "body";
   solarNightColor?: string;
   solarMissingColor?: string;
@@ -148,7 +154,8 @@ export type Project = {
     | 15
     | 16
     | 17
-    | 18;
+    | 18
+    | 19;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -228,6 +235,7 @@ export function layer(kind: Kind): Layer {
       meter: "目标仪表",
       calendar: "三周日历",
       celestial: "昼夜场景",
+      hand: "指针",
       wordTime: "文字报时",
       rect: "矩形",
       circle: "圆形",
@@ -255,6 +263,20 @@ export function layer(kind: Kind): Layer {
           meterCount: 16,
           meterGoal: 10000,
           meterDim: 0.35,
+        }
+      : {}),
+    ...(kind === "hand"
+      ? {
+          x: 27,
+          y: 27,
+          w: 400,
+          h: 400,
+          handType: "hour" as const,
+          handPivotX: 0.5,
+          handPivotY: 0.5,
+          handReach: 0.58,
+          handTail: 0.08,
+          strokeWidth: 6,
         }
       : {}),
     ...(kind === "celestial"
@@ -292,7 +314,7 @@ export function layer(kind: Kind): Layer {
           wordLanguage: "en" as const,
         }
       : {}),
-    aod: kind === "time" || kind === "wordTime",
+    aod: kind === "time" || kind === "wordTime" || kind === "hand",
     threshold: kind === "metric",
   };
 }
@@ -351,7 +373,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 18,
+    schemaVersion: 19,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -375,6 +397,7 @@ export function validateProject(value: unknown): Project {
     "meter",
     "calendar",
     "celestial",
+    "hand",
     "wordTime",
     "rect",
     "circle",
@@ -382,7 +405,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 18 ||
+    p.schemaVersion !== 19 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -471,6 +494,22 @@ export function validateProject(value: unknown): Project {
       throw Error("文字报时语言无效");
     if (l.solarPart !== undefined && !["sky", "body"].includes(l.solarPart))
       throw Error("昼夜场景部分无效");
+    if (
+      l.handType !== undefined &&
+      !["hour", "minute", "second"].includes(l.handType)
+    )
+      throw Error("指针时间绑定无效");
+    for (const [value, min, max] of [
+      [l.handPivotX, 0, 1],
+      [l.handPivotY, 0, 1],
+      [l.handReach, 0.1, 1],
+      [l.handTail, 0, 0.3],
+    ] as const)
+      if (
+        value !== undefined &&
+        (!Number.isFinite(value) || value < min || value > max)
+      )
+        throw Error("指针转动中心或长度无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (

@@ -1,3 +1,4 @@
+import { handOrbit } from "./hands";
 import type { Layer } from "./domain";
 export function crossesScreen(
   layer: Layer,
@@ -9,6 +10,16 @@ export function crossesScreen(
     sin = Math.sin(angle);
   const cx = layer.x + layer.w / 2,
     cy = layer.y + layer.h / 2;
+  if (layer.kind === "hand") {
+    const p = handOrbit(layer),
+      x = p.cx - layer.w / 2,
+      y = p.cy - layer.h / 2;
+    return (
+      Math.hypot(cx + x * cos - y * sin - 227, cy + x * sin + y * cos - 227) +
+        p.extent >
+      227.000001
+    );
+  }
   const width = textSize?.width ?? layer.w,
     height = textSize?.height ?? layer.h;
   const x = textSize

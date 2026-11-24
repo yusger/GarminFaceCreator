@@ -1,4 +1,5 @@
 import { timeText, timeInOffset } from "./timeParts";
+import Hand from "./Hand";
 import Celestial from "./Celestial";
 import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
@@ -193,7 +194,9 @@ export default function Scene({
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
             >
-              {l.kind === "celestial" ? (
+              {l.kind === "hand" ? (
+                <Hand layer={l} preview={preview} aod={aod} />
+              ) : l.kind === "celestial" ? (
                 <Celestial layer={l} preview={preview} aod={aod} />
               ) : l.kind === "wordTime" ? (
                 <WordTimeWidget

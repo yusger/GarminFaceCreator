@@ -184,8 +184,8 @@
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-11-solar-events",
-      "sha256": "01e448ed55a9bcddc0deef086dc2aad1f6a7677fe6b945c0440bc1751619a8ff",
+      "version": "basic-12-hands",
+      "sha256": "0acdb139eb26a3174c09975ef687a2bd3980c201526c658e5d5ba53e29b79c21",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },
