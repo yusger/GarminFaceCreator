@@ -356,6 +356,7 @@ export default function PreviewStudio({
                 type="time"
                 value={preview.time}
                 onChange={(e) => {
+                  if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(e.target.value)) return;
                   manualPause();
                   if (e.target.value)
                     setPreview((p) => ({ ...p, time: e.target.value }));

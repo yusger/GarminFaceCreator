@@ -55,7 +55,15 @@ export type Layer = {
   meterCount?: number;
   meterGoal?: number;
   meterDim?: number;
-  timePart?: "full" | "hours" | "minutes";
+  timePart?:
+    | "full"
+    | "hours"
+    | "minutes"
+    | "hourTens"
+    | "hourOnes"
+    | "minuteTens"
+    | "minuteOnes";
+  metricDecoration?: boolean;
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
   garminFont?:
@@ -118,7 +126,7 @@ export type DesignSnapshot = {
 };
 export type Project = {
   schemaVersion:
-    1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
+    1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -307,7 +315,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 15,
+    schemaVersion: 16,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -337,7 +345,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 15 ||
+    p.schemaVersion !== 16 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -428,7 +436,15 @@ export function validateProject(value: unknown): Project {
       throw Error("图层尺寸无效");
     if (
       (l.timePart !== undefined &&
-        !["full", "hours", "minutes"].includes(l.timePart)) ||
+        ![
+          "full",
+          "hours",
+          "minutes",
+          "hourTens",
+          "hourOnes",
+          "minuteTens",
+          "minuteOnes",
+        ].includes(l.timePart)) ||
       (l.textAlign !== undefined &&
         !["left", "center", "right"].includes(l.textAlign)) ||
       (l.fontWeight !== undefined && ![400, 600, 700].includes(l.fontWeight)) ||
@@ -448,7 +464,7 @@ export function validateProject(value: unknown): Project {
     )
       throw Error("文字或数据格式无效");
     if (
-      [l.fillEnabled, l.strokeEnabled].some(
+      [l.fillEnabled, l.strokeEnabled, l.metricDecoration].some(
         (v) => v !== undefined && typeof v !== "boolean",
       ) ||
       (l.strokeColor !== undefined && !/^#[0-9a-f]{6}$/i.test(l.strokeColor)) ||

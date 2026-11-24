@@ -2326,6 +2326,10 @@ export default function App() {
                           <option value="full">完整时间 HH:MM</option>
                           <option value="hours">小时 HH</option>
                           <option value="minutes">分钟 MM</option>
+                          <option value="hourTens">小时十位 H_</option>
+                          <option value="hourOnes">小时个位 _H</option>
+                          <option value="minuteTens">分钟十位 M_</option>
+                          <option value="minuteOnes">分钟个位 _M</option>
                         </select>
                       </label>
                     )}
@@ -2424,6 +2428,24 @@ export default function App() {
                     {current.kind === "metric" && (
                       <>
                         <h4>数据绑定</h4>
+                        {current.source === "heartRate" && (
+                          <>
+                            <label className="inline">
+                              <input
+                                aria-label="显示心形符号"
+                                type="checkbox"
+                                checked={current.metricDecoration !== false}
+                                onChange={(e) =>
+                                  patch({ metricDecoration: e.target.checked })
+                                }
+                              />
+                              显示心形符号
+                            </label>
+                            <p className="hint">
+                              本地生成心率使用纯数字，请关闭心形符号；需要图标时可从素材添加独立心率图标。
+                            </p>
+                          </>
+                        )}
                         <label>
                           数据源
                           <select

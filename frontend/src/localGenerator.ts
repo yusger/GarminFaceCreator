@@ -1,3 +1,4 @@
+import { nativeTimeText } from "./timeParts.ts";
 import { mergeNativeWordTime } from "./wordTime.ts";
 import { defaultThresholds } from "./thresholds.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
@@ -8,7 +9,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-7-words";
+export const LOCAL_GENERATOR_VERSION = "basic-8-digits-hr";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -149,11 +150,7 @@ function draw(l: Layer, aod: boolean) {
     x = l.x + (align === "left" ? 0 : align === "right" ? l.w : l.w / 2);
   const content =
     l.kind === "time"
-      ? l.timePart === "hours"
-        ? 'clock.hour.format("%02d")'
-        : l.timePart === "minutes"
-          ? 'clock.min.format("%02d")'
-          : 'clock.hour.format("%02d")+":"+clock.min.format("%02d")'
+      ? nativeTimeText(l.timePart)
       : l.kind === "date"
         ? "dateText"
         : l.kind === "metric"
@@ -208,13 +205,21 @@ export function localGenerate(p: Project) {
       l.rotation !== 0 ||
       (l.kind === "meter" && !["steps", "battery"].includes(l.source)) ||
       (l.kind === "metric" &&
-        !["steps", "battery", "seconds", "distance", "calories"].includes(
-          l.source,
-        )),
+        ![
+          "steps",
+          "battery",
+          "seconds",
+          "distance",
+          "calories",
+          "heartRate",
+        ].includes(l.source)) ||
+      (l.kind === "metric" &&
+        l.source === "heartRate" &&
+        l.metricDecoration !== false),
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量数据和内置图标。请移除或排除：" +
+      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据和内置图标（心率需关闭心形符号）。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const requirements = generationRequirements(p);
@@ -259,6 +264,9 @@ export function localGenerate(p: Project) {
       : "") +
     (dataSources.includes("battery")
       ? "try {databattery=System.getSystemStats().battery;}catch(e){}"
+      : "") +
+    (dataSources.includes("heartRate")
+      ? "try {if((Toybox has :SensorHistory)&&(Toybox.SensorHistory has :getHeartRateHistory)){var history=SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST});if(history!=null){var sample=history.next();if(sample!=null){var hr=sample.data;if(hr!=null && hr>0 && hr<1.0e12){dataheartRate=hr;}}}}}catch(e){}"
       : "");
   const metrics = included.some((l) => l.kind === "metric");
   const date = included.some((l) => l.kind === "date" || l.kind === "calendar");
@@ -304,7 +312,7 @@ export function localGenerate(p: Project) {
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}
 class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;

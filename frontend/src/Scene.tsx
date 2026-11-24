@@ -1,3 +1,4 @@
+import { timeText } from "./timeParts";
 import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
@@ -5,6 +6,7 @@ import {
   metricDisplayUnits,
   metricDecorations,
   formatMetricValue,
+  validMetricValue,
 } from "./metricFormat";
 import LibraryImage from "./LibraryImage";
 import { guideInsetDesign } from "./layouts";
@@ -43,14 +45,7 @@ export function metricValues(d: Preview): Record<string, number> {
   };
 }
 export function reading(l: Layer, d: Preview) {
-  if (l.kind === "time") {
-    const [hours, minutes] = d.time.split(":");
-    return l.timePart === "hours"
-      ? hours
-      : l.timePart === "minutes"
-        ? minutes
-        : d.time;
-  }
+  if (l.kind === "time") return timeText(d.time, l.timePart);
   if (l.kind === "date") return d.date || "MON 23";
   if (l.kind === "text") return l.text;
   if (l.kind === "metric") {
@@ -58,7 +53,7 @@ export function reading(l: Layer, d: Preview) {
     const units = metricDisplayUnits;
     const value = values[l.source];
     const prefix = l.label ? l.label + " " : "";
-    if (d.missing || !Number.isFinite(value))
+    if (d.missing || !validMetricValue(l.source, value))
       return prefix + (l.missingValue ?? "--");
     const text = formatMetricValue(l.source, value, l.precision);
     return prefix + text + (l.unit ?? units[l.source] ?? "");
@@ -67,7 +62,11 @@ export function reading(l: Layer, d: Preview) {
 }
 export function ink(l: Layer, d: Preview) {
   if (l.kind !== "metric" || !l.threshold) return l.color;
-  return thresholdInk(l, metricValues(d)[l.source], !!d.missing);
+  return thresholdInk(
+    l,
+    metricValues(d)[l.source],
+    !!d.missing || !validMetricValue(l.source, metricValues(d)[l.source]),
+  );
 }
 
 export function ringLit(l: Layer, d: Preview, aod = false) {
@@ -324,7 +323,9 @@ export default function Scene({
                   fontWeight={l.fontWeight || (l.kind === "time" ? 600 : 400)}
                   fill={aod ? l.aodColor || "#777777" : ink(l, preview)}
                 >
-                  {l.kind === "metric" ? metricDecorations[l.source] || "" : ""}
+                  {l.kind === "metric" && l.metricDecoration !== false
+                    ? metricDecorations[l.source] || ""
+                    : ""}
                   {reading(l, aod ? { ...preview, seconds: 0 } : preview)}
                 </text>
               )}

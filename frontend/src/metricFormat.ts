@@ -1,3 +1,10 @@
+export function validMetricValue(source: string, value: number | undefined) {
+  return (
+    Number.isFinite(value) &&
+    (source !== "heartRate" || value! > 0) &&
+    (source !== "battery" || (value! >= 0 && value! <= 100))
+  );
+}
 export function formatMetricValue(
   source: string,
   value: number,

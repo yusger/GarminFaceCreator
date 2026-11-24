@@ -32,6 +32,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   aod: true,
   threshold: true,
   strokeWidth: true,
+  metricDecoration: true,
   wordLanguage: true,
   wordRow: true,
   calendarStart: true,
@@ -153,6 +154,9 @@ export function generationLayer(l: Layer) {
       : {}),
     ...(l.kind === "wordTime"
       ? { wordLanguage: l.wordLanguage || "en", wordRow: l.wordRow || "all" }
+      : {}),
+    ...(l.kind === "metric"
+      ? { metricDecoration: l.metricDecoration ?? true }
       : {}),
     hidden: false,
     asset: l.image && !l.weatherIcon ? imageAssetPath(l) : undefined,
