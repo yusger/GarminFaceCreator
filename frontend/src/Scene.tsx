@@ -1,4 +1,5 @@
 import { timeText, timeInOffset } from "./timeParts";
+import Celestial from "./Celestial";
 import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
@@ -21,6 +22,8 @@ export type Preview = {
   calendarDate?: string;
   time: string;
   utcOffsetMinutes?: number;
+  sunrise?: string;
+  sunset?: string;
   heartRate: number;
   steps: number;
   battery: number;
@@ -190,7 +193,9 @@ export default function Scene({
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
             >
-              {l.kind === "wordTime" ? (
+              {l.kind === "celestial" ? (
+                <Celestial layer={l} preview={preview} aod={aod} />
+              ) : l.kind === "wordTime" ? (
                 <WordTimeWidget
                   layer={l}
                   time={preview.time}

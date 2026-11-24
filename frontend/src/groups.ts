@@ -40,6 +40,7 @@ export function organizeReferenceLayers(layers: Layer[]): Layer[] {
                         "date",
                         "wordTime",
                         "calendar",
+                        "celestial",
                         "meter",
                       ].includes(l.kind)
                     ? "数据与文字"

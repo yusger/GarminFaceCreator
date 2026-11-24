@@ -35,6 +35,9 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   metricDecoration: true,
   wordLanguage: true,
   wordRow: true,
+  solarPart: true,
+  solarNightColor: true,
+  solarMissingColor: true,
   calendarStart: true,
   calendarTodayColor: true,
   calendarTodayText: true,
@@ -150,6 +153,17 @@ export function generationLayer(l: Layer) {
           meterGoal: l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
           meterDim: l.meterDim ?? 0.35,
           meterPolygons: meterPolygons(l),
+        }
+      : {}),
+    ...(l.kind === "celestial"
+      ? {
+          solarPart: l.solarPart || "sky",
+          solarNightColor:
+            l.solarNightColor ||
+            (l.solarPart === "body" ? "#dfedff" : "#0b1829"),
+          solarMissingColor: l.solarMissingColor || "#17212c",
+          solarDataPolicy: "cachedPositionGarminSunTimes",
+          moonPolicy: "nightIndicatorNotMoonPhase",
         }
       : {}),
     ...(l.kind === "calendar"

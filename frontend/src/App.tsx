@@ -96,6 +96,7 @@ const tools = [
   ["ring", "圆环", RotateCw],
   ["meter", "目标仪表", SlidersHorizontal],
   ["calendar", "三周日历", Calendar],
+  ["celestial", "昼夜场景", Circle],
   ["wordTime", "文字报时", Type],
   ["rect", "矩形", Square],
   ["text", "文字", Type],
@@ -2132,6 +2133,67 @@ export default function App() {
                         </label>
                         <p className="hint">
                           按最接近的五分钟报时，三行文字动态更新。中文需设备支持对应字形，建议本地化系统字体并在中文系统下检查；不分发字体。
+                        </p>
+                      </>
+                    )}
+                    {current.kind === "celestial" && (
+                      <>
+                        <h4>昼夜场景</h4>
+                        <label>
+                          场景部分
+                          <select
+                            aria-label="场景部分"
+                            value={current.solarPart || "sky"}
+                            onChange={(e) =>
+                              patch({
+                                solarPart: e.target.value as Layer["solarPart"],
+                                color:
+                                  e.target.value === "body"
+                                    ? "#ffce60"
+                                    : "#326a88",
+                                solarNightColor:
+                                  e.target.value === "body"
+                                    ? "#dfedff"
+                                    : "#0b1829",
+                              })
+                            }
+                          >
+                            <option value="sky">天空底色</option>
+                            <option value="body">日月标记</option>
+                          </select>
+                        </label>
+                        <label>
+                          夜间颜色
+                          <input
+                            aria-label="场景夜间颜色"
+                            type="color"
+                            value={
+                              current.solarNightColor ||
+                              (current.solarPart === "body"
+                                ? "#dfedff"
+                                : "#0b1829")
+                            }
+                            onChange={(e) =>
+                              patch({ solarNightColor: e.target.value })
+                            }
+                          />
+                        </label>
+                        <label>
+                          缺失底色
+                          <input
+                            aria-label="场景缺失底色"
+                            type="color"
+                            value={current.solarMissingColor || "#17212c"}
+                            onChange={(e) =>
+                              patch({ solarMissingColor: e.target.value })
+                            }
+                          />
+                        </label>
+                        <p className="hint">
+                          上方颜色用于白天。原生使用缓存位置与 Garmin
+                          日出/日落；不主动定位。无位置、极昼/极夜或 API
+                          无结果时显示
+                          N/A、隐藏日月。太阳弧线仅示意日间进度；月亮固定在中央作为夜间标识，不代表月相/真实月球位置。默认息屏隐藏场景；网页使用独立预览中的日出/日落样本。
                         </p>
                       </>
                     )}

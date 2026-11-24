@@ -305,6 +305,39 @@ export default function PreviewStudio({
                 ))}
               </select>
             </label>
+            {project.layers.some((l) => l.kind === "celestial") && (
+              <>
+                <h3>日出 / 日落样本</h3>
+                <p className="hint">
+                  仅控制网页预览，不是当前位置预测。原生按缓存位置调用 Garmin
+                  API；清空任一项测试缺失状态。日落应晚于日出，跨午夜日照或极地缺失统一回退。
+                </p>
+                <label>
+                  模拟日出
+                  <input
+                    aria-label="模拟日出"
+                    type="time"
+                    value={preview.sunrise ?? "06:00"}
+                    onChange={(e) => {
+                      manualPause();
+                      setPreview((p) => ({ ...p, sunrise: e.target.value }));
+                    }}
+                  />
+                </label>
+                <label>
+                  模拟日落
+                  <input
+                    aria-label="模拟日落"
+                    type="time"
+                    value={preview.sunset ?? "18:00"}
+                    onChange={(e) => {
+                      manualPause();
+                      setPreview((p) => ({ ...p, sunset: e.target.value }));
+                    }}
+                  />
+                </label>
+              </>
+            )}
             <h3>数据场景</h3>
             <div className="preview-presets">
               {["日常", "运动", "低电量", "数据缺失"].map((name) => (

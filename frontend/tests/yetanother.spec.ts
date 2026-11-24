@@ -80,7 +80,11 @@ test("protected YetAnother copy exports complete notices and compiles before and
     ])
       expect(files.has("notices/" + name)).toBe(true);
     expect(
-      meta.templateSources.some((t: any) => t.version === "basic-9-fixed-zone"),
+      meta.templateSources.some(
+        (t: any) =>
+          t.version ===
+          (language === "default" ? "basic-9-fixed-zone" : "basic-10-solar"),
+      ),
     ).toBe(true);
     expect(files.get("notices/YetAnother-LICENSE.txt")!.toString()).toContain(
       "Laverlin",

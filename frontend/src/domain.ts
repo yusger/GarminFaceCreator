@@ -8,6 +8,7 @@ export type Kind =
   | "text"
   | "image"
   | "wordTime"
+  | "celestial"
   | "calendar"
   | "meter"
   | "ring"
@@ -46,6 +47,9 @@ export type Layer = {
   assetId?: string;
   wordLanguage?: "en" | "zh";
   wordRow?: "all" | "top" | "middle" | "bottom";
+  solarPart?: "sky" | "body";
+  solarNightColor?: string;
+  solarMissingColor?: string;
   calendarStart?: "monday" | "sunday";
   calendarTodayColor?: string;
   calendarTodayText?: string;
@@ -127,7 +131,24 @@ export type DesignSnapshot = {
 };
 export type Project = {
   schemaVersion:
-    1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17;
+    | 1
+    | 2
+    | 3
+    | 4
+    | 5
+    | 6
+    | 7
+    | 8
+    | 9
+    | 10
+    | 11
+    | 12
+    | 13
+    | 14
+    | 15
+    | 16
+    | 17
+    | 18;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -206,6 +227,7 @@ export function layer(kind: Kind): Layer {
       ring: "秒环",
       meter: "目标仪表",
       calendar: "三周日历",
+      celestial: "昼夜场景",
       wordTime: "文字报时",
       rect: "矩形",
       circle: "圆形",
@@ -233,6 +255,19 @@ export function layer(kind: Kind): Layer {
           meterCount: 16,
           meterGoal: 10000,
           meterDim: 0.35,
+        }
+      : {}),
+    ...(kind === "celestial"
+      ? {
+          x: 0,
+          y: 0,
+          w: 454,
+          h: 227,
+          solarPart: "sky" as const,
+          color: "#326a88",
+          solarNightColor: "#0b1829",
+          solarMissingColor: "#17212c",
+          allowClip: true,
         }
       : {}),
     ...(kind === "calendar"
@@ -316,7 +351,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 17,
+    schemaVersion: 18,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -339,6 +374,7 @@ export function validateProject(value: unknown): Project {
     "ring",
     "meter",
     "calendar",
+    "celestial",
     "wordTime",
     "rect",
     "circle",
@@ -346,7 +382,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 17 ||
+    p.schemaVersion !== 18 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -433,6 +469,8 @@ export function validateProject(value: unknown): Project {
       throw Error("报时行无效");
     if (l.wordLanguage !== undefined && !["en", "zh"].includes(l.wordLanguage))
       throw Error("文字报时语言无效");
+    if (l.solarPart !== undefined && !["sky", "body"].includes(l.solarPart))
+      throw Error("昼夜场景部分无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (
@@ -509,6 +547,8 @@ export function validateProject(value: unknown): Project {
     for (const color of [
       l.aodColor,
       l.thresholdFallback,
+      l.solarNightColor,
+      l.solarMissingColor,
       l.calendarTodayColor,
       l.calendarTodayText,
       l.calendarMutedColor,

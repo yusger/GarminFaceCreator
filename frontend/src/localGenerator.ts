@@ -9,7 +9,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-9-fixed-zone";
+export const LOCAL_GENERATOR_VERSION = "basic-10-solar";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -105,6 +105,8 @@ function draw(l: Layer, aod: boolean) {
         l.aodSeconds === "hide"))
   )
     return "";
+  if (l.kind === "celestial")
+    return `drawCelestial(dc,solar,${l.solarPart === "body" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${color(aod ? l.aodColor || "#777777" : l.color)},${color(aod ? l.aodColor || "#777777" : l.solarNightColor || (l.solarPart === "body" ? "#dfedff" : "#0b1829"))},${color(aod ? l.aodColor || "#777777" : l.solarMissingColor || "#17212c")});`;
   if (l.kind === "wordTime") {
     const ink = color(aod ? l.aodColor || "#777777" : l.color),
       align = l.textAlign || "center",
@@ -193,6 +195,7 @@ export function localGenerate(p: Project) {
         "time",
         "date",
         "calendar",
+        "celestial",
         "wordTime",
         "metric",
         "text",
@@ -277,6 +280,7 @@ export function localGenerate(p: Project) {
         .map((l) => l.timeUtcOffset!),
     ),
   ];
+  const celestial = included.some((l) => l.kind === "celestial");
   const calendars = included.some((l) => l.kind === "calendar");
   const calendarHelpers = calendars
     ? `
@@ -319,7 +323,7 @@ export function localGenerate(p: Project) {
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;import Toybox.Weather;import Toybox.Math;" : ""}
 class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
@@ -329,9 +333,33 @@ class GeneratedView extends WatchUi.WatchFace {
  ${meters.length ? "function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
  ${dataHelpers}
  ${calendarHelpers}
+ ${
+   celestial
+     ? `
+ var solarMinute=-1;var solarCached=[-1,0.0];
+ function getSolarState(){
+  var now=Time.now();var stamp=(now.value()/60).toNumber();if(solarMinute==stamp){return solarCached;}solarMinute=stamp;solarCached=[-1,0.0];
+  try{if((Toybox has :Position)&&(Toybox has :Weather)&&(Position has :getInfo)&&(Weather has :getSunrise)&&(Weather has :getSunset)){
+   var info=Position.getInfo();if(info!=null && info.position!=null){var rise=Weather.getSunrise(info.position,now);var set=Weather.getSunset(info.position,now);
+    if(rise!=null && set!=null && set.value()>rise.value()){
+      var value=now.value();solarCached=(value>=rise.value() && value<set.value()) ? [1,(value-rise.value())*1.0/(set.value()-rise.value())] : [0,0.5];
+    }
+   }
+  }}catch(e){}return solarCached;
+ }
+ function solarPaint(dc,ink){dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}
+ function drawCelestial(dc,state,part,x,y,w,h,day,night,missing){
+  var mode=state[0];var p=state[1];
+  if(part==0){solarPaint(dc,mode==1?day:(mode==0?night:missing));dc.fillRectangle(px(x),px(y),px(w),px(h));if(mode<0){solarPaint(dc,0x9aabbc);dc.drawText(px(x+w/2),px(y+h/2),Graphics.FONT_XTINY,"N/A",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}return;}
+  if(mode<0){return;}if(p<0){p=0;}if(p>1){p=1;}var radius=(w<h?w:h)*0.09;var cx=x+w*(0.15+0.7*p);var cy=y+h*(0.84-0.65*Math.sin(Math.PI*p));
+  solarPaint(dc,mode==1?day:night);dc.setPenWidth(px(2)>0?px(2):1);if(mode==1){dc.fillCircle(px(cx),px(cy),px(radius));for(var i=0;i<8;i++){var a=i*Math.PI/4;dc.drawLine(px(cx+Math.cos(a)*radius*1.25),px(cy+Math.sin(a)*radius*1.25),px(cx+Math.cos(a)*radius*1.55),px(cy+Math.sin(a)*radius*1.55));}}else{dc.drawCircle(px(cx),px(cy),px(radius));dc.fillCircle(px(cx+radius*0.25),px(cy-radius*0.2),px(radius*0.13));dc.fillCircle(px(cx-radius*0.3),px(cy+radius*0.2),px(radius*0.18));}
+ }
+ `
+     : ""
+ }
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
-  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources
+  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${celestial ? "var solar=sleeping?solarCached:getSolarState();" : ""}${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources
     .filter((s) => s !== "seconds")
     .map((s) => `var data${s}=null;`)
     .join(

@@ -10,6 +10,11 @@ type Adapter = {
   unit?: string;
 };
 const adapters: Record<string, Adapter> = {
+  solarScene: {
+    api: "3.3.0",
+    read: "Position.getInfo().position (passive cache); Weather.getSunrise(location,Time.now()) and getSunset, both nullable; no active GPS, no network",
+    permission: "Positioning",
+  },
   weatherIcon: {
     api: "3.2.0",
     read: "Weather.getCurrentConditions().condition (nullable cached conditions; use the fixed native icon helper)",
@@ -87,13 +92,15 @@ export function generationRequirements(p: Project) {
   const sources = [
     ...new Set(
       layers.flatMap((l) =>
-        l.weatherIcon
-          ? ["weatherIcon"]
-          : l.kind === "metric" || l.kind === "meter"
-            ? [l.source]
-            : l.kind === "ring"
-              ? [l.ringSource || "seconds"].filter((s) => s !== "static")
-              : [],
+        l.kind === "celestial"
+          ? ["solarScene"]
+          : l.weatherIcon
+            ? ["weatherIcon"]
+            : l.kind === "metric" || l.kind === "meter"
+              ? [l.source]
+              : l.kind === "ring"
+                ? [l.ringSource || "seconds"].filter((s) => s !== "static")
+                : [],
       ),
     ),
   ].sort();
