@@ -4,7 +4,10 @@ runtime
 **/bin
 **/obj
 test-results
-docslocalkey
+docs
+localkey
+Temp
+.gfc-browser
 .env
 .env.*
 *.key

@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: deploy/Dockerfile.runtime
     ports:
-      - "18380:8080"
+      - "${GFC_BIND_ADDRESS:-0.0.0.0}:${GFC_HTTP_PORT:-18380}:8080"
     restart: unless-stopped
     volumes:
       - ./runtime/jobs:/data/jobs
