@@ -32,6 +32,7 @@ export type Layer = {
 export type CodeFile = { path: string; content: string };
 export type Project = {
   schemaVersion: 1;
+  storageVersion?: number;
   target?: string;
   deviceSize?: string;
   id: string;

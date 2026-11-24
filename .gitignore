@@ -28,3 +28,6 @@ developer_key*
 # Local credentials (never publish)
 /localkey
 .gfc-browser/
+
+# Local temporary files
+/Temp/

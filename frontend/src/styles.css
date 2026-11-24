@@ -1304,3 +1304,6 @@ label select {
     padding: 12px;
   }
 }
+
+.storage-error { padding: 16px 24px; background: #3b2926; border-bottom: 1px solid #df9b63; color: #fff; }
+.storage-error button { margin: 4px 8px 0 0; }

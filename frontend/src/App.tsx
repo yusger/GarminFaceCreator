@@ -54,6 +54,8 @@ import {
   type CodeFile,
 } from "./domain";
 import {
+  StorageConflict,
+  storageMessage,
   loadProjects,
   saveProject,
   removeProject,
@@ -88,6 +90,15 @@ export default function App() {
   const [profiles, setProfiles] = useState(readProfiles);
   const [notice, setNotice] = useState("");
   const [saved, setSaved] = useState("");
+  const [saveError, setSaveError] = useState("");
+  const [conflict, setConflict] = useState(false);
+  const [saveAttempt, setSaveAttempt] = useState(0);
+  const bases = useRef(new Map<string, number>());
+  const saveQueue = useRef(Promise.resolve());
+  const persisted = useRef<Project | null>(null);
+  const halted = useRef(new Set<string>());
+  const activeProject = useRef(p);
+  activeProject.current = p;
   const [aod, setAod] = useState(false);
   const [zoom, setZoom] = useState(125);
   const [preview, setPreview] = useState<Preview>({
@@ -141,7 +152,12 @@ export default function App() {
           const active = items.find(
             (x) => x.id === localStorage.getItem("gfc-active"),
           );
-          if (active && !isReference(active)) setP(active);
+          if (active && !isReference(active)) {
+            bases.current.set(active.id, active.storageVersion ?? 0);
+            persisted.current = active;
+            setSaved("已保存到本机");
+            setP(active);
+          }
         }
         setReady(true);
       })
@@ -151,19 +167,94 @@ export default function App() {
       });
   }, []);
   useEffect(() => {
-    if (!p || !ready) return;
+    if (!p || !ready || halted.current.has(p.id) || persisted.current === p)
+      return;
     setSaved("保存中…");
     const timer = setTimeout(() => {
-      saveProject(p)
-        .then(() => {
-          setSaved("已保存到本机");
-          setProjects((items) => [p, ...items.filter((x) => x.id !== p.id)]);
-          localStorage.setItem("gfc-active", p.id);
-        })
-        .catch(() => setSaved("保存失败，请导出备份"));
+      saveQueue.current = saveQueue.current.then(async () => {
+        if (halted.current.has(p.id)) return;
+        try {
+          const version = await saveProject(
+            p,
+            bases.current.get(p.id) ?? p.storageVersion ?? 0,
+          );
+          bases.current.set(p.id, version);
+          persisted.current = p;
+          setProjects((items) => [
+            { ...p, storageVersion: version },
+            ...items.filter((x) => x.id !== p.id),
+          ]);
+          if (activeProject.current === p) {
+            setSaved("已保存到本机");
+            setSaveError("");
+          }
+          try {
+            localStorage.setItem("gfc-active", p.id);
+          } catch {
+            /* IndexedDB save succeeded independently. */
+          }
+        } catch (error) {
+          halted.current.add(p.id);
+          if (activeProject.current?.id === p.id) {
+            setSaved("保存失败，请导出备份");
+            setSaveError(storageMessage(error));
+            setConflict(error instanceof StorageConflict);
+          }
+        }
+      });
     }, 350);
     return () => clearTimeout(timer);
-  }, [p, ready]);
+  }, [p, ready, saveAttempt]);
+  async function resolveSave(action: "load" | "copy" | "cancel" | "retry") {
+    if (!p) return;
+    if (action === "cancel") {
+      setConflict(false);
+      return;
+    }
+    if (action === "retry") {
+      halted.current.delete(p.id);
+      setSaveError("");
+      setSaveAttempt((x) => x + 1);
+      return;
+    }
+    try {
+      if (action === "load") {
+        if (
+          !confirm(
+            "加载最新版本将替换当前页面未保存的修改，是否继续？建议先导出备份。",
+          )
+        )
+          return;
+        const latest = (await loadProjects()).find((x) => x.id === p.id);
+        if (!latest) throw Error("项目已被删除，可另存为冲突副本。");
+        halted.current.delete(p.id);
+        persisted.current = p;
+        open(latest);
+      } else {
+        const copy = {
+          ...structuredClone(p),
+          id: uid(),
+          appId: uid().replaceAll("-", ""),
+          name: p.name + " 冲突副本",
+          updated: Date.now(),
+          storageVersion: 0,
+          files: [],
+          versions: [],
+          codeRevision: -1,
+        };
+        copy.storageVersion = await saveProject(copy);
+        setProjects((items) => [copy, ...items]);
+        halted.current.delete(p.id);
+        persisted.current = p;
+        open(copy);
+        setNotice("已保留设计为独立副本，请重新生成代码后编译。");
+      }
+      setSaveError("");
+      setConflict(false);
+    } catch (error) {
+      setSaveError(storageMessage(error));
+    }
+  }
   useEffect(() => {
     const guard = (e: BeforeUnloadEvent) => {
       if (saved === "保存中…" || saved.startsWith("保存失败")) {
@@ -206,6 +297,10 @@ export default function App() {
     setP({ ...p, layers, revision: p.revision + 1, updated: Date.now() });
   }
   function open(item: Project) {
+    if (p && item.id !== p.id && persisted.current !== p) {
+      setNotice("当前项目有未保存修改，请先完成保存或使用恢复选项并导出备份。");
+      return;
+    }
     if (isReference(item)) {
       const existing = projects.filter((x) =>
         x.name.startsWith(item.name + " 副本"),
@@ -215,7 +310,8 @@ export default function App() {
         item.name + " 副本" + (existing ? " " + (existing + 1) : ""),
       );
       saveProject(copy)
-        .then(() => {
+        .then((version) => {
+          copy.storageVersion = version;
           setProjects((items) => [...items, copy]);
           open(copy);
           setNotice("已创建可编辑副本，默认参考项目保留。副本可直接编译。");
@@ -223,6 +319,12 @@ export default function App() {
         .catch(() => setNotice("创建副本失败，请检查浏览器存储"));
       return;
     }
+    bases.current.set(item.id, item.storageVersion ?? 0);
+    halted.current.delete(item.id);
+    setSaveError("");
+    setConflict(false);
+    persisted.current = item;
+    setSaved("已保存到本机");
     setP(item);
     setSelected("");
     setPast([]);
@@ -248,7 +350,7 @@ export default function App() {
       deviceSize: device.size,
     };
     try {
-      await saveProject(item);
+      item.storageVersion = await saveProject(item);
       setProjects((items) => [item, ...items]);
       setNewProject(null);
       open(item);
@@ -419,7 +521,7 @@ export default function App() {
     try {
       if (file.size > 20 * 1024 * 1024) throw Error("项目文件上限 20MB");
       const item = validateProject(JSON.parse(await file.text()));
-      await saveProject(item);
+      item.storageVersion = await saveProject(item);
       setProjects([item, ...projects]);
       open(item);
     } catch (e) {
@@ -673,6 +775,33 @@ export default function App() {
           </button>
         )}
       </header>
+      {saveError && (
+        <div role="alert" className="storage-error">
+          <strong>{saveError}</strong>
+          <p>当前设计仍保留在页面中。请处理后再关闭或切换项目。</p>
+          <button onClick={() => p && download(p.name + ".json", p)}>
+            导出未保存设计
+          </button>
+          {conflict ? (
+            <>
+              <button onClick={() => resolveSave("load")}>
+                加载已保存的最新版本
+              </button>
+              <button onClick={() => resolveSave("copy")}>
+                另存为冲突副本
+              </button>
+              <button onClick={() => resolveSave("cancel")}>
+                放弃本次保存
+              </button>
+            </>
+          ) : (
+            <>
+              <button onClick={() => resolveSave("retry")}>重试保存</button>
+              <button onClick={() => setConflict(true)}>恢复选项</button>
+            </>
+          )}
+        </div>
+      )}
       {page === "models" ? (
         <div className="app-layout">
           <nav className="sidebar">
