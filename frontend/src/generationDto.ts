@@ -45,6 +45,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   meterGoal: true,
   meterDim: true,
   timePart: true,
+  timeUtcOffset: true,
   textAlign: true,
   fontWeight: true,
   garminFont: true,
@@ -98,7 +99,15 @@ export function generationLayer(l: Layer) {
   );
   return {
     ...result,
-    ...(l.kind === "time" ? { timePart: l.timePart || "full" } : {}),
+    ...(l.kind === "time"
+      ? {
+          timePart: l.timePart || "full",
+          timeClock:
+            l.timeUtcOffset === undefined ? "deviceLocal" : "fixedUtcOffset",
+          timeUtcOffset: l.timeUtcOffset,
+          ...(l.timeUtcOffset === undefined ? {} : { automaticDst: false }),
+        }
+      : {}),
     textAlign: l.textAlign || "center",
     fontWeight: l.fontWeight || (l.kind === "time" ? 600 : 400),
     garminFont: l.garminFont || "auto",

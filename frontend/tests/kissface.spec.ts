@@ -83,7 +83,11 @@ test("protected KISSFace copy exports complete notices and compiles before and a
     ])
       expect(files.has("notices/" + name)).toBe(true);
     expect(
-      meta.templateSources.some((t: any) => t.version === "basic-8-digits-hr"),
+      meta.templateSources.some(
+        (t: any) =>
+          t.version ===
+          (language === "default" ? "basic-8-digits-hr" : "basic-9-fixed-zone"),
+      ),
     ).toBe(true);
     expect(files.get("notices/KISSFace-LICENSE.txt")!.toString()).toContain(
       "Delfim Machado",

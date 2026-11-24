@@ -55,6 +55,7 @@ export type Layer = {
   meterCount?: number;
   meterGoal?: number;
   meterDim?: number;
+  timeUtcOffset?: number;
   timePart?:
     | "full"
     | "hours"
@@ -126,7 +127,7 @@ export type DesignSnapshot = {
 };
 export type Project = {
   schemaVersion:
-    1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16;
+    1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -315,7 +316,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 16,
+    schemaVersion: 17,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -345,7 +346,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 16 ||
+    p.schemaVersion !== 17 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -434,6 +435,13 @@ export function validateProject(value: unknown): Project {
       throw Error("文字报时语言无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
+    if (
+      l.timeUtcOffset !== undefined &&
+      (!Number.isInteger(l.timeUtcOffset) ||
+        l.timeUtcOffset < -720 ||
+        l.timeUtcOffset > 840)
+    )
+      throw Error("固定 UTC 偏移须为 -720 至 840 的整数分钟");
     if (
       (l.timePart !== undefined &&
         ![

@@ -1,4 +1,4 @@
-import { nativeTimeText } from "./timeParts.ts";
+import { nativeTimeText, nativeClock } from "./timeParts.ts";
 import { mergeNativeWordTime } from "./wordTime.ts";
 import { defaultThresholds } from "./thresholds.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
@@ -9,7 +9,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-8-digits-hr";
+export const LOCAL_GENERATOR_VERSION = "basic-9-fixed-zone";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -150,7 +150,7 @@ function draw(l: Layer, aod: boolean) {
     x = l.x + (align === "left" ? 0 : align === "right" ? l.w : l.w / 2);
   const content =
     l.kind === "time"
-      ? nativeTimeText(l.timePart)
+      ? nativeTimeText(l.timePart, nativeClock(l.timeUtcOffset))
       : l.kind === "date"
         ? "dateText"
         : l.kind === "metric"
@@ -270,6 +270,13 @@ export function localGenerate(p: Project) {
       : "");
   const metrics = included.some((l) => l.kind === "metric");
   const date = included.some((l) => l.kind === "date" || l.kind === "calendar");
+  const zones = [
+    ...new Set(
+      included
+        .filter((l) => l.kind === "time" && l.timeUtcOffset !== undefined)
+        .map((l) => l.timeUtcOffset!),
+    ),
+  ];
   const calendars = included.some((l) => l.kind === "calendar");
   const calendarHelpers = calendars
     ? `
@@ -312,7 +319,7 @@ export function localGenerate(p: Project) {
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}
 class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
@@ -324,7 +331,7 @@ class GeneratedView extends WatchUi.WatchFace {
  ${calendarHelpers}
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
-  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${dataSources
+  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources
     .filter((s) => s !== "seconds")
     .map((s) => `var data${s}=null;`)
     .join(

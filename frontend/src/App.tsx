@@ -2312,26 +2312,78 @@ export default function App() {
                       </>
                     )}
                     {current.kind === "time" && (
-                      <label>
-                        时间部分
-                        <select
-                          aria-label="时间部分"
-                          value={current.timePart || "full"}
-                          onChange={(e) =>
-                            patch({
-                              timePart: e.target.value as Layer["timePart"],
-                            })
-                          }
-                        >
-                          <option value="full">完整时间 HH:MM</option>
-                          <option value="hours">小时 HH</option>
-                          <option value="minutes">分钟 MM</option>
-                          <option value="hourTens">小时十位 H_</option>
-                          <option value="hourOnes">小时个位 _H</option>
-                          <option value="minuteTens">分钟十位 M_</option>
-                          <option value="minuteOnes">分钟个位 _M</option>
-                        </select>
-                      </label>
+                      <>
+                        <label>
+                          时间基准
+                          <select
+                            aria-label="时间基准"
+                            value={
+                              current.timeUtcOffset === undefined
+                                ? "local"
+                                : "fixed"
+                            }
+                            onChange={(e) =>
+                              patch({
+                                timeUtcOffset:
+                                  e.target.value === "local" ? undefined : 0,
+                              })
+                            }
+                          >
+                            <option value="local">设备本地时间</option>
+                            <option value="fixed">固定 UTC 偏移</option>
+                          </select>
+                        </label>
+                        {current.timeUtcOffset !== undefined && (
+                          <>
+                            <label>
+                              UTC 偏移（分钟，东正西负）
+                              <input
+                                aria-label="UTC 偏移分钟"
+                                type="number"
+                                min={-720}
+                                max={840}
+                                step={15}
+                                value={current.timeUtcOffset}
+                                onChange={(e) => {
+                                  const value = Number(e.target.value);
+                                  if (
+                                    Number.isInteger(value) &&
+                                    value >= -720 &&
+                                    value <= 840
+                                  )
+                                    patch({ timeUtcOffset: value });
+                                }}
+                              />
+                            </label>
+                            <p className="hint">
+                              固定偏移不自动调整夏令时。例：UTC+8 为
+                              480，UTC+5:30 为
+                              330。网页按浏览器时区换算，原生按设备 UTC
+                              时刻计算；不会更改设备时区。
+                            </p>
+                          </>
+                        )}
+                        <label>
+                          时间部分
+                          <select
+                            aria-label="时间部分"
+                            value={current.timePart || "full"}
+                            onChange={(e) =>
+                              patch({
+                                timePart: e.target.value as Layer["timePart"],
+                              })
+                            }
+                          >
+                            <option value="full">完整时间 HH:MM</option>
+                            <option value="hours">小时 HH</option>
+                            <option value="minutes">分钟 MM</option>
+                            <option value="hourTens">小时十位 H_</option>
+                            <option value="hourOnes">小时个位 _H</option>
+                            <option value="minuteTens">分钟十位 M_</option>
+                            <option value="minuteOnes">分钟个位 _M</option>
+                          </select>
+                        </label>
+                      </>
                     )}
                     {["text", "time", "date", "metric", "wordTime"].includes(
                       current.kind,

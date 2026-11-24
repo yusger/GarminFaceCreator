@@ -1,4 +1,4 @@
-import { timeText } from "./timeParts";
+import { timeText, timeInOffset } from "./timeParts";
 import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
@@ -20,6 +20,7 @@ export type Preview = {
   date?: string;
   calendarDate?: string;
   time: string;
+  utcOffsetMinutes?: number;
   heartRate: number;
   steps: number;
   battery: number;
@@ -45,7 +46,19 @@ export function metricValues(d: Preview): Record<string, number> {
   };
 }
 export function reading(l: Layer, d: Preview) {
-  if (l.kind === "time") return timeText(d.time, l.timePart);
+  if (l.kind === "time") {
+    const localOffset =
+      d.utcOffsetMinutes ??
+      -(
+        d.calendarDate && /^([01]\d|2[0-3]):[0-5]\d$/.test(d.time)
+          ? new Date(d.calendarDate + "T" + d.time + ":00")
+          : new Date()
+      ).getTimezoneOffset();
+    return timeText(
+      timeInOffset(d.time, l.timeUtcOffset, localOffset),
+      l.timePart,
+    );
+  }
   if (l.kind === "date") return d.date || "MON 23";
   if (l.kind === "text") return l.text;
   if (l.kind === "metric") {
