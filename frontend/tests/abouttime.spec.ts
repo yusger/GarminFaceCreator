@@ -84,7 +84,7 @@ test("protected AboutTime copy exports one complete set of MIT notices and compi
       "Samuel Rinnetmäki",
     );
     if (language === "zh")
-      expect(files.get("manifest.xml")!.toString()).toContain('id="zhs"');
+      expect(files.get("manifest.xml")!.toString()).toContain(">zhs<");
     const form = new FormData();
     form.append(
       "project",

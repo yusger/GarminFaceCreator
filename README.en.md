@@ -136,3 +136,5 @@ Reference cards and source archives preserve per-content attribution and known l
 **Editable TimelyFenix reference**: thanks to [KWottrich/TimelyFenix](https://github.com/KWottrich/TimelyFenix). A dynamic three-week calendar, week-start/theme controls and cached Garmin weather are editable. Pinned GPLv3 provenance and [adaptation scope](frontend/public/reference-notices/TimelyFenix-ADAPTATION.md) are retained; original icon fonts are not copied.
 
 **Editable AboutTime reference**: thanks to [Samuel Rinnetmäki / garmin-abouttime](https://github.com/samuelmr/garmin-abouttime). Three independently editable rows support English and Simplified Chinese. Original MIT locale phrases and Creator GPLv3+ template scope are retained separately; see [adaptation notes](frontend/public/reference-notices/AboutTime-ADAPTATION.md).
+
+AboutTime: [English editor](docs/screenshots/abouttime-editor.png) · [Chinese editor](docs/screenshots/abouttime-zh-editor.png) · [native English](docs/screenshots/abouttime-en-native.png) · [native Chinese](docs/screenshots/abouttime-zh-native.png) · [AOD](docs/screenshots/abouttime-aod.png).

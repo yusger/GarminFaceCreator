@@ -356,3 +356,14 @@ P0 与 P1 清单已完成。P2、架构试点、素材库和新增参考项目�
 - Venu 4 45mm 实际显示 [英文](screenshots/word-time-en-native.png) 和 [中文](screenshots/word-time-zh-native.png)，均为明确标出的 11:15 测试样本；中文 [Always-On](screenshots/word-time-zh-aod.png) 正常显示灰色文本。Venu 4 41mm 的 [独立中文下行](screenshots/word-time-row-native.png) 居中仅显示“十五分”，验证单行真实路径。
 - 中文使用设备的 FONT_SYSTEM_XTINY，当前 Venu 模拟器字形正常，不以网页或编译成功替代实际字形核对；其他设备/真机字形与功耗仍需实测。恢复显示并关闭本次所有模拟器，连接正常退出，没有付费模型调用。
 - R-03 的报时控件依赖完成，默认参考包尚待下一阶段，未提前勾选。
+
+## 阶段 39：AboutTime 中英文默认参考
+
+- 实现提交：`dfb2394`。
+- R-03 固定 `samuelmr/garmin-abouttime@4fdf09bcf784ecf385b9dce546af3f277e13caa5`，保留原 MIT 版权/许可、README 及两份原始译文 XML。生成器校验四份原始文本的 SHA-256，重复构建包字节一致；未执行原 SDK 9.4 流程，当前环境直接编译完整生成工程。
+- 8 个可编辑图层：背景、标题、日期、三个独立报时行、分隔线和电量。每行可单独移动/配色/字体及选择中英文，原生从同一帧时钟取值，按原 MIT 短句取最接近五分钟。原文仍为 MIT，Creator 原生模板保留 GPLv3+，不宣称完整适配是独立 MIT-only 输出。
+- 新参考与通用报时组件共用原始通知，源码 ZIP 按路径只保留一份 MIT/译文通知，避免重复项；未复制字体、图标或其他语言包。默认 AOD 只留三个灰色报时行，不保留标题/日期/电量，不开秒动画；与上游自适应字重和原手机设置等差异写入适配说明。
+- 本地生产构建通过；113 专项 **9 项通过（29.1 秒）**，包含默认保护/独立副本、独立中英行编辑、MIT 去重、英文与中文完整源码再编译；初轮测试误将语言节点写成 id 属性，修正断言后通过，实际程序声明正确。
+- 最终 **113 全量 112 项通过（5.0 分钟）**，覆盖六个默认参考、三分辨率图标/天气、源码 ZIP、模型隐私/固定辅助、迁移、存储冲突与编辑事务等。
+- Venu 4 45mm 实际检查 [英文实时](screenshots/abouttime-en-native.png)、[中文实时](screenshots/abouttime-zh-native.png) 与 [中文 Always-On](screenshots/abouttime-aod.png) 通过；另附 [英文编辑器](screenshots/abouttime-editor.png) / [中文编辑器](screenshots/abouttime-zh-editor.png)。截图移动本次窗口至屏幕内重新绘制，避免窗口在屏幕外造成截图裁切，未修改图像内容。检查后恢复显示模式并关闭所有本次模拟器，调试连接正常退出。
+- R-01～R-03 首批按各自明确的 Creator 精简范围完成；后续候选仍逐项验收，不自动声称全 TODO 完成、其他设备可直接运行或真机功耗已测试。没有付费模型调用。
