@@ -1,3 +1,4 @@
+import { guideInsetDesign } from "./layouts";
 import type { Box } from "./selection";
 import { thresholdInk } from "./thresholds";
 import { useId } from "react";
@@ -140,6 +141,19 @@ export default function Scene({
         stroke="#53616d"
         strokeWidth="0.7"
       />
+      {!exact && project.layoutGuide?.showGuide && (
+        <circle
+          data-layout-guide="true"
+          cx={227}
+          cy={227}
+          r={227 - guideInsetDesign(project)}
+          fill="none"
+          stroke="#8096a0"
+          strokeDasharray="4 4"
+          opacity={0.65}
+          pointerEvents="none"
+        />
+      )}
       <g clipPath={"url(#clip-" + clipId + ")"}>
         {project.layers
           .filter(

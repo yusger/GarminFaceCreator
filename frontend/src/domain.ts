@@ -80,11 +80,12 @@ export type DesignSnapshot = {
   pinned?: boolean;
   layers: Layer[];
   assets?: BinaryAsset[];
+  layoutGuide?: Project["layoutGuide"];
   target?: string;
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
@@ -99,6 +100,13 @@ export type Project = {
   designSnapshots?: DesignSnapshot[];
   activeDesignSnapshot?: string;
   referenceId?: string;
+  layoutGuide?: {
+    presetId: string;
+    safeInsetPx: number;
+    minFontPx: number;
+    numberFontPx: number;
+    showGuide: boolean;
+  };
   codeRevision: number;
   versions: CodeVersion[];
   activeCodeVersion?: string;
@@ -228,7 +236,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 7,
+    schemaVersion: 8,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -255,7 +263,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 7 ||
+    p.schemaVersion !== 8 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -281,6 +289,19 @@ export function validateProject(value: unknown): Project {
     )
   )
     throw Error("设备型号无效");
+  if (
+    p.layoutGuide &&
+    (!Number.isFinite(p.layoutGuide.safeInsetPx) ||
+      p.layoutGuide.safeInsetPx < 0 ||
+      p.layoutGuide.safeInsetPx > 40 ||
+      !Number.isFinite(p.layoutGuide.minFontPx) ||
+      !Number.isFinite(p.layoutGuide.numberFontPx) ||
+      !["basic", "large-time", "fitness", "blank"].includes(
+        p.layoutGuide.presetId,
+      ) ||
+      typeof p.layoutGuide.showGuide !== "boolean")
+  )
+    throw Error("布局指导参数无效");
   for (const l of p.layers) {
     if (
       l.strokeWidth !== undefined &&

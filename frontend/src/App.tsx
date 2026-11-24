@@ -1,3 +1,4 @@
+import { applyLayout, type LayoutChoice } from "./layouts";
 import { graphicsCapabilities } from "./graphics";
 import { anchorPosition, coordinatePatch } from "./anchors";
 import LayerList from "./LayerList";
@@ -514,13 +515,20 @@ export default function App() {
     if (!name?.trim()) return;
     setNewProject({ name: name.trim(), blank });
   }
-  async function finishCreate(device: ReturnType<typeof deviceFor>) {
+  async function finishCreate(
+    device: ReturnType<typeof deviceFor>,
+    choice?: LayoutChoice,
+  ) {
     if (!newProject) return;
-    const item = {
-      ...createProject(newProject.name, newProject.blank),
+    const base = {
+      ...createProject(
+        newProject.name,
+        choice ? choice.presetId === "blank" : newProject.blank,
+      ),
       target: device.id,
       deviceSize: device.size,
     };
+    const item = choice ? applyLayout(base, choice) : base;
     try {
       item.storageVersion = await saveProject(item);
       setProjects((items) => [item, ...items]);
@@ -2365,6 +2373,32 @@ export default function App() {
                     <p className="hint">
                       选择一个图层，调整它的位置、外观与数据来源。
                     </p>
+                    {p.layoutGuide && (
+                      <div>
+                        <h4>布局指导</h4>
+                        <p>
+                          布局：{p.layoutGuide.presetId} · 正文建议{" "}
+                          {p.layoutGuide.minFontPx}px · 数字建议{" "}
+                          {p.layoutGuide.numberFontPx}px
+                        </p>
+                        <label className="inline">
+                          <input
+                            type="checkbox"
+                            checked={p.layoutGuide.showGuide}
+                            onChange={(e) =>
+                              setP({
+                                ...p,
+                                layoutGuide: {
+                                  ...p.layoutGuide!,
+                                  showGuide: e.target.checked,
+                                },
+                              })
+                            }
+                          />
+                          显示编辑器安全圈
+                        </label>
+                      </div>
+                    )}
                     <div className="device-info">
                       <span>设备</span>
                       <b>{deviceLabel(p)}</b>

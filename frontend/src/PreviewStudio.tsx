@@ -127,7 +127,19 @@ export default function PreviewStudio({
             aod={name === "息屏"}
             exact
           />
-          {safe && <div className="preview-safe" aria-label="屏幕边界辅助线" />}
+          {safe && (
+            <div
+              className="preview-safe"
+              aria-label="屏幕边界辅助线"
+              style={
+                project.layoutGuide
+                  ? {
+                      inset: `${(project.layoutGuide.safeInsetPx / pixels) * 100}%`,
+                    }
+                  : undefined
+              }
+            />
+          )}
         </div>
         <small>
           {pixels} × {pixels} 像素

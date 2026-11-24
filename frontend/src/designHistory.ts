@@ -40,6 +40,7 @@ export function saveDesignSnapshot(p: Project, name: string): Project {
     layers: structuredClone(p.layers),
     assets: structuredClone(p.assets),
     target: p.target,
+    layoutGuide: structuredClone(p.layoutGuide),
     deviceSize: p.deviceSize,
   };
   return retainDesignHistory({
@@ -56,6 +57,7 @@ export function restoreDesignSnapshot(p: Project, id: string): Project {
     layers: structuredClone(snapshot.layers),
     assets: structuredClone(snapshot.assets),
     target: snapshot.target,
+    layoutGuide: structuredClone(snapshot.layoutGuide),
     deviceSize: snapshot.deviceSize,
     activeDesignSnapshot: id,
     revision: p.revision + 1,
