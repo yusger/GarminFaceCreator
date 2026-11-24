@@ -1,3 +1,4 @@
+import { groupBox, layerBox, insideBox, type Box } from "./selection";
 import ThresholdEditor from "./ThresholdEditor";
 import { defaultThresholds } from "./thresholds";
 import { crossesScreen } from "./bounds";
@@ -94,6 +95,11 @@ export default function App() {
   const [p, setP] = useState<Project | null>(null);
   const [ready, setReady] = useState(false);
   const [selected, setSelected] = useState("");
+  const [selection, setSelection] = useState<string[]>([]);
+  const [selectionBox, setSelectionBox] = useState<Box | null>(null);
+  const marquee = useRef<{ x: number; y: number; before: string[] } | null>(
+    null,
+  );
   const [profiles, setProfiles] = useState(readProfiles);
   const [generationProfileId, setGenerationProfileId] = useState("");
   const generationProfile =
@@ -160,6 +166,7 @@ export default function App() {
     project: Project;
     latest: Layer[];
     resize?: number;
+    ids: string[];
   } | null>(null);
   const propertyEdit = useRef<{
     projectId: string;
@@ -326,6 +333,54 @@ export default function App() {
     const t = setTimeout(() => setNotice(""), 6000);
     return () => clearTimeout(t);
   }, [notice]);
+  function selectOne(value: string | ((id: string) => string)) {
+    const id = typeof value === "function" ? value(selected) : value;
+    setSelected(id);
+    setSelection(id ? [id] : []);
+  }
+  function selectLayer(id: string, additive = false) {
+    if (!additive) {
+      selectOne(id);
+      return;
+    }
+    const next = selection.includes(id)
+      ? selection.filter((v) => v !== id)
+      : [...selection, id];
+    setSelection(next);
+    setSelected(next.at(-1) || "");
+  }
+  function batchAlign(mode: "center" | "left" | "right" | "top" | "bottom") {
+    if (!p) return;
+    const movable = p.layers.filter(
+      (l) => selection.includes(l.id) && !l.locked,
+    );
+    if (!movable.length) return;
+    const bounds = groupBox(movable);
+    editLayers(
+      p.layers.map((l) => {
+        if (!movable.some((item) => item.id === l.id)) return l;
+        const b = layerBox(l);
+        return mode === "center"
+          ? { ...l, x: l.x + 227 - (bounds.x + bounds.w / 2) }
+          : mode === "left"
+            ? { ...l, x: l.x + bounds.x - b.x }
+            : mode === "right"
+              ? { ...l, x: l.x + bounds.x + bounds.w - b.x - b.w }
+              : mode === "top"
+                ? { ...l, y: l.y + bounds.y - b.y }
+                : { ...l, y: l.y + bounds.y + bounds.h - b.y - b.h };
+      }),
+    );
+  }
+  function batchLock() {
+    if (!p || !selection.length) return;
+    const locked = !p.layers
+      .filter((l) => selection.includes(l.id))
+      .every((l) => l.locked);
+    editLayers(
+      p.layers.map((l) => (selection.includes(l.id) ? { ...l, locked } : l)),
+    );
+  }
   function editLayers(layers: Layer[], record = true) {
     if (!p) return;
     if (record) {
@@ -369,6 +424,10 @@ export default function App() {
       )
     )
       return;
+    if (current.locked) {
+      setNotice("请先解锁图层再编辑属性");
+      return;
+    }
     const transaction =
       propertyEdit.current?.projectId === p.id ? propertyEdit.current : null;
     if (transaction) transaction.changed = true;
@@ -389,7 +448,7 @@ export default function App() {
       setFuture([...future, p.layers]);
       setPast(past.slice(0, -1));
     }
-    setSelected((id) => (layers.some((l) => l.id === id) ? id : ""));
+    selectOne((id) => (layers.some((l) => l.id === id) ? id : ""));
     setP({ ...p, layers, revision: p.revision + 1, updated: Date.now() });
   }
   function open(item: Project) {
@@ -422,7 +481,7 @@ export default function App() {
     persisted.current = item;
     setSaved("已保存到本机");
     setP(item);
-    setSelected("");
+    selectOne("");
     setPast([]);
     setFuture([]);
     setFiles([]);
@@ -469,26 +528,39 @@ export default function App() {
         l.w = l.h = 430;
       }
       editLayers([...p.layers, l]);
-      setSelected(l.id);
+      selectOne(l.id);
     }
   }
   function duplicate() {
-    if (!p || !current) return;
-    const l = {
-      ...current,
-      id: uid(),
-      name: current.name + " 副本",
-      x: current.x + 8,
-      y: current.y + 8,
-    };
-    editLayers([...p.layers, l]);
-    setSelected(l.id);
+    if (!p) return;
+    const copies = p.layers
+      .filter((l) => selection.includes(l.id) && !l.locked)
+      .map((l) => ({
+        ...l,
+        id: uid(),
+        name: l.name + " 副本",
+        x: l.x + 8,
+        y: l.y + 8,
+      }));
+    if (!copies.length) return;
+    if (p.layers.length + copies.length > 200) {
+      setNotice("最多 200 个图层");
+      return;
+    }
+    editLayers([...p.layers, ...copies]);
+    setSelection(copies.map((l) => l.id));
+    setSelected(copies.at(-1)!.id);
   }
   function remove() {
-    if (p && current) {
-      editLayers(p.layers.filter((l) => l.id !== selected));
-      setSelected("");
-    }
+    if (!p) return;
+    const ids = p.layers
+      .filter((l) => selection.includes(l.id) && !l.locked)
+      .map((l) => l.id);
+    if (!ids.length) return;
+    editLayers(p.layers.filter((l) => !ids.includes(l.id)));
+    const next = selection.filter((id) => !ids.includes(id));
+    setSelection(next);
+    setSelected(next.at(-1) || "");
   }
   useEffect(() => {
     function key(e: KeyboardEvent) {
@@ -515,32 +587,53 @@ export default function App() {
         undo(e.shiftKey);
       } else if (e.key === "Delete") remove();
       else if (
-        current &&
-        !current.locked &&
+        p?.layers.some((l) => selection.includes(l.id) && !l.locked) &&
         ["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)
       ) {
         e.preventDefault();
         const step = e.shiftKey ? 10 : 1;
-        patch({
-          x:
-            current.x +
-            (e.key === "ArrowRight" ? step : e.key === "ArrowLeft" ? -step : 0),
-          y:
-            current.y +
-            (e.key === "ArrowDown" ? step : e.key === "ArrowUp" ? -step : 0),
-        });
+        if (p)
+          editLayers(
+            p.layers.map((l) =>
+              selection.includes(l.id) && !l.locked
+                ? {
+                    ...l,
+                    x:
+                      l.x +
+                      (e.key === "ArrowRight"
+                        ? step
+                        : e.key === "ArrowLeft"
+                          ? -step
+                          : 0),
+                    y:
+                      l.y +
+                      (e.key === "ArrowDown"
+                        ? step
+                        : e.key === "ArrowUp"
+                          ? -step
+                          : 0),
+                  }
+                : l,
+            ),
+          );
       }
     }
     window.addEventListener("keydown", key);
     return () => window.removeEventListener("keydown", key);
-  }, [p, current, page, past, future, showPreview]);
+  }, [p, current, page, past, future, showPreview, selection]);
   function pointer(
     e: React.PointerEvent<SVGGElement>,
     l: Layer,
     resize?: number,
   ) {
     e.stopPropagation();
-    setSelected(l.id);
+    if (e.shiftKey) {
+      selectLayer(l.id, true);
+      return;
+    }
+    const ids = selection.includes(l.id) ? selection : [l.id];
+    if (!selection.includes(l.id)) selectOne(l.id);
+    else setSelected(l.id);
     if (!p || l.locked || e.button !== 0) return;
     endProperty();
     const svg = e.currentTarget.ownerSVGElement!;
@@ -556,6 +649,7 @@ export default function App() {
       project: p,
       latest: p.layers,
       resize,
+      ids,
     };
     svg.setPointerCapture(e.pointerId);
   }
@@ -590,21 +684,111 @@ export default function App() {
         y:
           d.original.y + d.original.h / 2 + shiftX * sin + shiftY * cos - h / 2,
       };
-    } else
-      changed = {
-        ...d.original,
-        x: Math.max(-454, Math.min(454, d.original.x + dx)),
-        y: Math.max(-454, Math.min(454, d.original.y + dy)),
-      };
+    } else {
+      let moveX = dx,
+        moveY = dy;
+      if (dx === 0 && dy === 0) {
+        d.latest = d.before;
+        return d.latest;
+      }
+      const group = d.before.filter((l) => d.ids.includes(l.id) && !l.locked);
+      if (!e.altKey && group.length) {
+        const box = groupBox(group);
+        const horizontal = [
+          box.x + moveX,
+          box.x + box.w / 2 + moveX,
+          box.x + box.w + moveX,
+        ];
+        const vertical = [
+          box.y + moveY,
+          box.y + box.h / 2 + moveY,
+          box.y + box.h + moveY,
+        ];
+        const sx = horizontal.find((v) => Math.abs(v - 227) <= 2),
+          sy = vertical.find((v) => Math.abs(v - 227) <= 2);
+        if (sx !== undefined) moveX += 227 - sx;
+        if (sy !== undefined) moveY += 227 - sy;
+      }
+      d.latest = d.before.map((l) =>
+        d.ids.includes(l.id) && !l.locked
+          ? { ...l, x: l.x + moveX, y: l.y + moveY }
+          : l,
+      );
+      return d.latest;
+    }
     d.latest = d.before.map((l) => (l.id === d.id ? changed : l));
     return d.latest;
   }
+  function canvasPoint(e: React.PointerEvent<HTMLDivElement>) {
+    const svg = e.currentTarget.querySelector(
+      "svg.watch",
+    ) as SVGSVGElement | null;
+    return svg
+      ? new DOMPoint(e.clientX, e.clientY).matrixTransform(
+          svg.getScreenCTM()!.inverse(),
+        )
+      : null;
+  }
+  function startMarquee(e: React.PointerEvent<HTMLDivElement>) {
+    if (
+      e.button !== 0 ||
+      (e.target as Element).closest("[data-layer],button,input")
+    )
+      return;
+    const point = canvasPoint(e);
+    if (!point) return;
+    marquee.current = {
+      x: point.x,
+      y: point.y,
+      before: e.shiftKey ? selection : [],
+    };
+    e.currentTarget.setPointerCapture(e.pointerId);
+  }
   function move(e: React.PointerEvent<HTMLDivElement>) {
+    if (marquee.current) {
+      const point = canvasPoint(e),
+        start = marquee.current;
+      if (!point) return;
+      setSelectionBox({
+        x: Math.min(start.x, point.x),
+        y: Math.min(start.y, point.y),
+        w: Math.abs(point.x - start.x),
+        h: Math.abs(point.y - start.y),
+      });
+      return;
+    }
     const layers = dragLayers(e),
       d = drag.current;
     if (d && layers) setP({ ...d.project, layers });
   }
   function end(e: React.PointerEvent<HTMLDivElement>, cancel = false) {
+    if (marquee.current) {
+      const start = marquee.current,
+        point = canvasPoint(e);
+      marquee.current = null;
+      setSelectionBox(null);
+      if (!cancel && point && p) {
+        const box = {
+          x: Math.min(start.x, point.x),
+          y: Math.min(start.y, point.y),
+          w: Math.abs(point.x - start.x),
+          h: Math.abs(point.y - start.y),
+        };
+        const next = [
+          ...new Set([
+            ...start.before,
+            ...p.layers
+              .filter(
+                (l) => !l.hidden && box.w > 2 && box.h > 2 && insideBox(l, box),
+              )
+              .map((l) => l.id),
+          ]),
+        ];
+        setSelection(next);
+        setSelected(next.at(-1) || "");
+      }
+      return;
+    }
     const d = drag.current;
     if (!d) return;
     if (!cancel) dragLayers(e);
@@ -649,7 +833,7 @@ export default function App() {
         h: (180 * canvas.height) / canvas.width,
       };
       editLayers([...p.layers, l]);
-      setSelected(l.id);
+      selectOne(l.id);
     } catch (e) {
       setNotice((e as Error).message);
     }
@@ -1251,7 +1435,7 @@ export default function App() {
                     {p.layers
                       .filter((l) => l.kind === "image")
                       .map((l) => (
-                        <button key={l.id} onClick={() => setSelected(l.id)}>
+                        <button key={l.id} onClick={() => selectOne(l.id)}>
                           <img src={l.image} />
                           {l.name}
                         </button>
@@ -1267,9 +1451,10 @@ export default function App() {
                     <div
                       key={l.id}
                       className={
-                        "layer-row " + (l.id === selected ? "selected" : "")
+                        "layer-row " +
+                        (selection.includes(l.id) ? "selected" : "")
                       }
-                      onClick={() => setSelected(l.id)}
+                      onClick={(e) => selectLayer(l.id, e.shiftKey)}
                     >
                       <Layers size={14} />
                       <span>{l.name}</span>
@@ -1342,9 +1527,7 @@ export default function App() {
                   <button
                     title="水平居中"
                     disabled={!current}
-                    onClick={() =>
-                      current && patch({ x: Math.round((454 - current.w) / 2) })
-                    }
+                    onClick={() => batchAlign("center")}
                   >
                     <MoveHorizontal size={18} />
                   </button>
@@ -1358,6 +1541,24 @@ export default function App() {
                   <button title="删除图层" disabled={!current} onClick={remove}>
                     <Trash2 size={16} />
                   </button>
+                  {selection.length > 1 && (
+                    <>
+                      <span aria-label="已选图层数">
+                        已选 {selection.length}
+                      </span>
+                      <button onClick={() => batchAlign("left")}>左对齐</button>
+                      <button onClick={() => batchAlign("right")}>
+                        右对齐
+                      </button>
+                      <button onClick={() => batchAlign("top")}>
+                        顶部对齐
+                      </button>
+                      <button onClick={() => batchAlign("bottom")}>
+                        底部对齐
+                      </button>
+                      <button onClick={batchLock}>批量锁定/解锁</button>
+                    </>
+                  )}
                   <div className="mode-tabs">
                     <button
                       className={!aod ? "active" : ""}
@@ -1377,6 +1578,7 @@ export default function App() {
                 </div>
                 <div
                   className="canvas-space"
+                  onPointerDown={startMarquee}
                   onPointerMove={move}
                   onPointerUp={(e) => end(e)}
                   onPointerCancel={(e) => end(e, true)}
@@ -1395,6 +1597,8 @@ export default function App() {
                     <Scene
                       project={p}
                       selected={selected}
+                      selection={selection}
+                      selectionBox={selectionBox}
                       preview={preview}
                       aod={aod}
                       onDown={pointer}
@@ -1429,11 +1633,18 @@ export default function App() {
                       按当前网页字体与预览值估算，请在目标设备检查实际字形。
                     </p>
                     {boundaryWarnings.map((l) => (
-                      <button key={l.id} onClick={() => setSelected(l.id)}>
+                      <button key={l.id} onClick={() => selectOne(l.id)}>
                         定位 {l.name}
                       </button>
                     ))}
                   </details>
+                )}
+                {selection.length > 1 && (
+                  <p className="hint">
+                    已选 {selection.length}{" "}
+                    个图层，属性仅修改主选图层。批量操作使用画布工具栏；锁定图层不会被移动、复制或删除。按住
+                    Alt 拖动可暂时关闭吸附。
+                  </p>
                 )}
                 <div className="inspector-title">
                   <b>{current?.name || "画布属性"}</b>
@@ -2246,7 +2457,7 @@ export default function App() {
                                 setP(restoreDesignSnapshot(p, snapshot.id));
                                 setPast([]);
                                 setFuture([]);
-                                setSelected("");
+                                selectOne("");
                               } catch (error) {
                                 setNotice((error as Error).message);
                               }

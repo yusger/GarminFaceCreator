@@ -1,3 +1,4 @@
+import type { Box } from "./selection";
 import { thresholdInk } from "./thresholds";
 import { useId } from "react";
 import type { Project, Layer } from "./domain";
@@ -101,6 +102,8 @@ export default function Scene({
   preview,
   aod = false,
   selected = "",
+  selection = [selected],
+  selectionBox,
   exact = false,
   onDown,
 }: {
@@ -108,6 +111,8 @@ export default function Scene({
   preview: Preview;
   aod?: boolean;
   selected?: string;
+  selection?: string[];
+  selectionBox?: Box | null;
   exact?: boolean;
   onDown?: (
     e: React.PointerEvent<SVGGElement>,
@@ -253,7 +258,7 @@ export default function Scene({
                   {reading(l, aod ? { ...preview, seconds: 0 } : preview)}
                 </text>
               )}
-              {selected === l.id && (
+              {selection.includes(l.id) && (
                 <>
                   <rect
                     width={l.w}
@@ -262,41 +267,54 @@ export default function Scene({
                     stroke="#45d6be"
                     strokeWidth="1"
                   />
-                  {[
-                    [0, 0],
-                    [l.w, 0],
-                    [0, l.h],
-                    [l.w, l.h],
-                  ].map(([x, y], i) => (
-                    <rect
-                      key={i}
-                      x={x - 3}
-                      y={y - 3}
-                      width="6"
-                      height="6"
-                      fill="#e7fff9"
-                      stroke="#45d6be"
-                      onPointerDown={(e) => {
-                        e.stopPropagation();
-                        onDown?.(e, l, i);
-                      }}
-                      aria-label={
-                        ["左上缩放", "右上缩放", "左下缩放", "右下缩放"][i]
-                      }
-                      style={{
-                        cursor: l.locked
-                          ? "not-allowed"
-                          : i === 0 || i === 3
-                            ? "nwse-resize"
-                            : "nesw-resize",
-                      }}
-                    />
-                  ))}
+                  {selected === l.id &&
+                    [
+                      [0, 0],
+                      [l.w, 0],
+                      [0, l.h],
+                      [l.w, l.h],
+                    ].map(([x, y], i) => (
+                      <rect
+                        key={i}
+                        x={x - 3}
+                        y={y - 3}
+                        width="6"
+                        height="6"
+                        fill="#e7fff9"
+                        stroke="#45d6be"
+                        onPointerDown={(e) => {
+                          e.stopPropagation();
+                          onDown?.(e, l, i);
+                        }}
+                        aria-label={
+                          ["左上缩放", "右上缩放", "左下缩放", "右下缩放"][i]
+                        }
+                        style={{
+                          cursor: l.locked
+                            ? "not-allowed"
+                            : i === 0 || i === 3
+                              ? "nwse-resize"
+                              : "nesw-resize",
+                        }}
+                      />
+                    ))}
                 </>
               )}
             </g>
           ))}
       </g>
+      {selectionBox && (
+        <rect
+          x={selectionBox.x}
+          y={selectionBox.y}
+          width={selectionBox.w}
+          height={selectionBox.h}
+          fill="#45d6be22"
+          stroke="#45d6be"
+          strokeDasharray="4 3"
+          pointerEvents="none"
+        />
+      )}
     </svg>
   );
 }

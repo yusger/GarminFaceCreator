@@ -44,10 +44,12 @@ test("drag commits final pointer position once, does not autosave mid-drag, and 
     finish = await point(page, 240, 225);
   await page.mouse.move(start.x, start.y);
   await page.mouse.down();
+  await page.keyboard.down("Alt");
   await page.mouse.move(finish.x, finish.y, { steps: 2 });
   await page.waitForTimeout(600);
   expect((await stored(page)).revision).toBe(baseline.revision);
   await page.mouse.up();
+  await page.keyboard.up("Alt");
   await expect(page.getByLabel("X", { exact: true })).toHaveValue("170");
   await expect(page.getByLabel("Y", { exact: true })).toHaveValue("200");
   await page.getByRole("button", { name: "撤销", exact: true }).click();
