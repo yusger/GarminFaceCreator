@@ -7,8 +7,8 @@ test("pinned icon catalog serves static originals and complete license notices",
   expect(response.ok()).toBeTruthy();
   const catalog = await response.json();
   expect(catalog.format).toBe(1);
-  expect(catalog.icons).toHaveLength(27);
-  expect(new Set(catalog.icons.map((i: any) => i.id)).size).toBe(27);
+  expect(catalog.icons).toHaveLength(28);
+  expect(new Set(catalog.icons.map((i: any) => i.id)).size).toBe(28);
   await Promise.all(
     catalog.icons.map(async (icon: any) => {
       expect(icon.commit).toMatch(/^[0-9a-f]{40}$/);

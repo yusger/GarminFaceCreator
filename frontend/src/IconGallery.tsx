@@ -72,7 +72,8 @@ export default function IconGallery({
           ))}
       </div>
       <p className="hint">
-        点击插入；天气图标当前为静态素材，尚未绑定天气。原图及授权信息随所用素材记录。
+        点击插入；Monochrome
+        天气图标可在属性中绑定缓存天气，其余风格为静态素材。原图及授权信息随所用素材记录。
       </p>
     </section>
   );

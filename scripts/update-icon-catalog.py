@@ -42,7 +42,7 @@ def main():
             return archive.extractfile(member).read()
         (OUT/"licenses/Meteocons-LICENSE.txt").write_bytes(read("LICENSE"))
         weather=[("clear-day","晴天"),("clear-night","晴夜"),("partly-cloudy-day","日间多云"),("partly-cloudy-night","夜间多云"),("overcast","阴天"),("rain","雨"),("snow","雪"),("thunderstorms","雷暴"),("fog","雾"),("wind","风"),("not-available","天气缺失")]
-        for style,selected in [("monochrome",weather),("flat",[weather[i] for i in [0,4,5,6]]),("line",[weather[i] for i in [0,5]])]:
+        for style,selected in [("monochrome",weather),("flat",[weather[i] for i in [0,4,5,6]]),("line",[weather[i] for i in [0,5]]),("fill",[weather[0]])]:
             for name,title in selected:
                 save("meteocons",name,title+" · "+style,style,read(style+"/"+name+".svg"),METEOCONS,"https://www.npmjs.com/package/@meteocons/svg-static/v/0.1.0","MIT","Meteocons-LICENSE.txt","@meteocons/svg-static@0.1.0")
     for name in ["Lucide-LICENSE.txt","Meteocons-LICENSE.txt"]:

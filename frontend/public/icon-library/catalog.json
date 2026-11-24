@@ -594,6 +594,28 @@
       "sha256": "8872164c38855163bd4609128dc7b821d41bc04f37395ed528852a8bc7975dde",
       "viewBox": "0 0 128 128",
       "customStroke": false
+    },
+    {
+      "id": "meteocons_0_1_0_fill_clear_day",
+      "name": "晴天 · fill",
+      "keywords": [
+        "clear-day",
+        "晴天 · fill",
+        "fill"
+      ],
+      "provider": "meteocons",
+      "style": "fill",
+      "path": "/icon-library/meteocons/fill-clear-day.svg",
+      "source": "https://www.npmjs.com/package/@meteocons/svg-static/v/0.1.0",
+      "upstreamPath": "fill/clear-day.svg",
+      "commit": "1d821149b94a08f23c85e5042e8a61a3fcd82cf7",
+      "package": "@meteocons/svg-static@0.1.0",
+      "license": "MIT",
+      "licensePath": "/icon-library/licenses/Meteocons-LICENSE.txt",
+      "copyright": "2020-present Bas Milius",
+      "sha256": "48743c29f18f37a844737cddafceb2d6d194090cc59f70c2733d10a70a96218a",
+      "viewBox": "0 0 128 128",
+      "customStroke": false
     }
   ],
   "packageIntegrity": "sha512-dnuXOkt1W5q+XZbyj54dzjuBcKmsC0eLv51IVaW9kzzvzwnhwv9KgNXHKgpvmdN6cX2stMo+k95iMFbcyM4x5Q=="
