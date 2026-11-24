@@ -1,3 +1,4 @@
+import { migrateProject } from "./migrations.ts";
 import { devices } from "./devices.ts";
 export type Kind =
   | "time"
@@ -25,6 +26,7 @@ export type Layer = {
   text: string;
   source: string;
   image?: string;
+  assetId?: string;
   aod: boolean;
   threshold: boolean;
   strokeWidth?: number;
@@ -37,8 +39,19 @@ export type CodeVersion = {
   revision: number;
   files: CodeFile[];
 };
+export type BinaryAsset = { id?: string; path: string; data: string };
+export type DesignSnapshot = {
+  id: string;
+  name: string;
+  at: number;
+  pinned?: boolean;
+  layers: Layer[];
+  assets?: BinaryAsset[];
+  target?: string;
+  deviceSize?: string;
+};
 export type Project = {
-  schemaVersion: 1;
+  schemaVersion: 1 | 2;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
@@ -49,7 +62,9 @@ export type Project = {
   revision: number;
   layers: Layer[];
   files: CodeFile[];
-  assets?: { path: string; data: string }[];
+  assets?: BinaryAsset[];
+  designSnapshots?: DesignSnapshot[];
+  activeDesignSnapshot?: string;
   codeRevision: number;
   versions: CodeVersion[];
   activeCodeVersion?: string;
@@ -179,7 +194,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 1,
+    schemaVersion: 2,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -192,7 +207,7 @@ export function project(name = "极夜 01", blank = false): Project {
   };
 }
 export function validateProject(value: unknown): Project {
-  const p = value as Project;
+  const p = migrateProject(value);
   const kinds = [
     "time",
     "date",
@@ -206,7 +221,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 1 ||
+    p.schemaVersion !== 2 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -218,7 +233,7 @@ export function validateProject(value: unknown): Project {
       p.assets.length > 80 ||
       p.assets.some(
         (a) =>
-          !/^resources\/[\w/-]+\.(png|jpg|jpeg)$/.test(a.path) ||
+          !/^(resources|assets)\/[\w/-]+\.(png|jpg|jpeg)$/.test(a.path) ||
           a.path.includes("..") ||
           !/^data:image\/(png|jpeg);base64,[a-zA-Z0-9+/=]+$/.test(a.data) ||
           a.data.length > 12000000,
@@ -253,12 +268,17 @@ export function validateProject(value: unknown): Project {
       throw Error("图层属性无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
+    if (l.assetId !== undefined && !/^[a-zA-Z0-9_-]{1,120}$/.test(l.assetId))
+      throw Error("图片素材标识无效");
     if (l.image && !/^data:image\/(png|jpeg|webp);base64,/.test(l.image))
       throw Error("图片必须包含在项目中");
   }
   return {
     ...p,
     storageVersion: 0,
+    activeCodeVersion: undefined,
+    designSnapshots: [],
+    activeDesignSnapshot: undefined,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     files: [],
@@ -266,7 +286,16 @@ export function validateProject(value: unknown): Project {
     versions: [],
     revision: 0,
     updated: Date.now(),
-    layers: p.layers.map((l) => ({ ...l, id: uid() })),
+    layers: p.layers.map((l) => ({
+      ...l,
+      ...(l.image
+        ? {
+            assetId:
+              l.assetId || (/^[a-zA-Z0-9_-]{1,120}$/.test(l.id) ? l.id : uid()),
+          }
+        : {}),
+      id: uid(),
+    })),
   };
 }
 export function parseFiles(text: string): CodeFile[] {

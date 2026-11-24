@@ -1,3 +1,5 @@
+import { checkDesignHistory } from "./designHistory";
+import { migrateProject } from "./migrations";
 import { checkHistory, normalizeHistory } from "./history";
 import { isReference } from "./builtins";
 import type { Project, Profile } from "./domain";
@@ -53,11 +55,15 @@ export async function loadProjects(): Promise<Project[]> {
     const r = tx.objectStore("projects").getAll();
     tx.oncomplete = () => {
       db.close();
-      resolve(
-        r.result
-          .map(normalizeHistory)
-          .sort((a: Project, b: Project) => b.updated - a.updated),
-      );
+      try {
+        resolve(
+          r.result
+            .map(normalizeHistory)
+            .sort((a: Project, b: Project) => b.updated - a.updated),
+        );
+      } catch (error) {
+        reject(error);
+      }
     };
     tx.onabort = tx.onerror = () => {
       db.close();
@@ -71,6 +77,7 @@ export async function saveProject(
 ): Promise<number> {
   if (isReference(p)) throw Error("内置参考项目不可覆盖，请创建副本");
   checkHistory(p);
+  checkDesignHistory(p);
   const db = await open();
   return new Promise((resolve, reject) => {
     const tx = transaction(db, "readwrite");

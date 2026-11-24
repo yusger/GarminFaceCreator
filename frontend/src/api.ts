@@ -1,3 +1,4 @@
+import { imageAssetPath } from "./assets";
 import { generationDevice } from "./devices";
 import { parseFiles, type Profile, type Project } from "./domain";
 export class GenerationFailure extends Error {
@@ -129,10 +130,13 @@ export async function generate(
       scaleY: device.screenHeight / 454,
     },
     versions: undefined,
+    designSnapshots: undefined,
+    activeDesignSnapshot: undefined,
+    storageVersion: undefined,
     files: undefined,
     layers: project.layers.map(({ image, ...l }) => ({
       ...l,
-      asset: image ? "assets/" + l.id + ".png" : undefined,
+      asset: image ? imageAssetPath(l) : undefined,
     })),
   };
   const system =

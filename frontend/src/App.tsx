@@ -1,3 +1,5 @@
+import { saveDesignSnapshot, restoreDesignSnapshot } from "./designHistory";
+import { binaryAssets } from "./assets";
 import { activeVersion, addCodeVersion, retainHistory } from "./history";
 import { mergeLogs, diagnostic, type LogBuffer } from "./buildLogs";
 import PreviewStudio from "./PreviewStudio";
@@ -617,6 +619,7 @@ export default function App() {
       bitmap.close();
       const l = {
         ...layer("image"),
+        assetId: uid(),
         name: file.name,
         image: canvas.toDataURL("image/png"),
         w: 180,
@@ -632,7 +635,17 @@ export default function App() {
     if (!file) return;
     try {
       if (file.size > 20 * 1024 * 1024) throw Error("项目文件上限 20MB");
-      const item = validateProject(JSON.parse(await file.text()));
+      const imported = JSON.parse(await file.text());
+      const item = validateProject(imported);
+      if (
+        (imported.files?.length ||
+          imported.versions?.length ||
+          imported.designSnapshots?.length) &&
+        !confirm(
+          "本次仅恢复当前画布设计，原工程代码、代码快照及设计快照不会导入。是否继续？取消后现有项目保持不变。",
+        )
+      )
+        return;
       item.storageVersion = await saveProject(item);
       setProjects([item, ...projects]);
       open(item);
@@ -738,19 +751,12 @@ export default function App() {
           f.path,
         ),
       );
-      for (const asset of p.assets || [])
+      for (const asset of binaryAssets(p))
         form.append(
           "files",
           await (await fetch(asset.data)).blob(),
           asset.path,
         );
-      for (const l of p.layers)
-        if (l.image)
-          form.append(
-            "files",
-            await (await fetch(l.image)).blob(),
-            "assets/" + l.id + ".png",
-          );
       const r = await fetch("/api/builds", {
         method: "POST",
         body: form,
@@ -1828,6 +1834,87 @@ export default function App() {
                     </div>
                   ) : (
                     <div className="history">
+                      <h4>设计快照</h4>
+                      <p>
+                        最多 10 个 /
+                        20MB；恢复后需要重新生成代码，当前设计和代码快照分别管理。
+                      </p>
+                      <button
+                        onClick={() => {
+                          const name = prompt(
+                            "设计快照名称",
+                            "设计 " + new Date().toLocaleString(),
+                          );
+                          if (!name?.trim()) return;
+                          try {
+                            setP(saveDesignSnapshot(p, name.trim()));
+                          } catch (error) {
+                            setNotice((error as Error).message);
+                          }
+                        }}
+                      >
+                        保存设计快照
+                      </button>
+                      {(p.designSnapshots || []).map((snapshot) => (
+                        <div key={snapshot.id}>
+                          <span>{snapshot.name}</span>
+                          <button
+                            aria-label={`恢复设计快照 ${snapshot.name}`}
+                            onClick={() => {
+                              if (
+                                !confirm(
+                                  "恢复此设计快照将替换当前画布和素材，代码将标记过期。请先保存需要保留的设计。",
+                                )
+                              )
+                                return;
+                              try {
+                                setP(restoreDesignSnapshot(p, snapshot.id));
+                                setPast([]);
+                                setFuture([]);
+                                setSelected("");
+                              } catch (error) {
+                                setNotice((error as Error).message);
+                              }
+                            }}
+                          >
+                            恢复设计
+                          </button>
+                          <button
+                            aria-label={`${snapshot.pinned ? "取消固定" : "固定"}设计快照 ${snapshot.name}`}
+                            onClick={() =>
+                              setP({
+                                ...p,
+                                designSnapshots: p.designSnapshots?.map(
+                                  (item) =>
+                                    item.id === snapshot.id
+                                      ? { ...item, pinned: !item.pinned }
+                                      : item,
+                                ),
+                              })
+                            }
+                          >
+                            {snapshot.pinned ? "取消固定" : "固定"}
+                          </button>
+                          <button
+                            aria-label={`删除设计快照 ${snapshot.name}`}
+                            disabled={
+                              snapshot.pinned ||
+                              snapshot.id === p.activeDesignSnapshot
+                            }
+                            onClick={() =>
+                              setP({
+                                ...p,
+                                designSnapshots: p.designSnapshots?.filter(
+                                  (item) => item.id !== snapshot.id,
+                                ),
+                              })
+                            }
+                          >
+                            删除
+                          </button>
+                        </div>
+                      ))}
+                      <h4>代码快照</h4>
                       <p>
                         代码历史：{p.versions.length}/20 个，上限
                         10MB。当前版本和固定版本受保护；请在清理前导出所需工程。

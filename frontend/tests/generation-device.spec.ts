@@ -20,6 +20,19 @@ for (const [name, target, size, pixels, model] of [
   test("generation request describes " + name, async () => {
     const p = { ...project("metadata test"), target, deviceSize: size };
     p.layers[0].image = "data:image/png;base64,PRIVATE_IMAGE_SENTINEL";
+    p.designSnapshots = [
+      {
+        id: "private",
+        name: "private history",
+        at: 0,
+        layers: [
+          {
+            ...p.layers[0],
+            image: "data:image/png;base64,PRIVATE_HISTORY_SENTINEL",
+          },
+        ],
+      },
+    ];
     p.assets = [
       {
         path: "resources/a.png",

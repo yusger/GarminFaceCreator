@@ -1,3 +1,4 @@
+import { migrateProject } from "./migrations";
 import { uid, parseFiles, type Project } from "./domain";
 
 export const CLOWN_REFERENCE_ID = "00000000-0000-4000-8000-000000000001";
@@ -14,7 +15,7 @@ export function loadClownReference(): Promise<Project> {
   })
     .then(async (response) => {
       if (!response.ok) throw Error("ClownWatch 参考项目加载失败");
-      const reference = (await response.json()) as Project;
+      const reference = migrateProject(await response.json());
       if (
         reference.id !== CLOWN_REFERENCE_ID ||
         reference.name !== "ClownWatch"
@@ -58,7 +59,7 @@ export async function loadReferences(): Promise<Project[]> {
         signal: AbortSignal.timeout(15000),
       });
       if (!response.ok) throw Error(name + " 参考项目加载失败");
-      const reference = (await response.json()) as Project;
+      const reference = migrateProject(await response.json());
       if (!isReference(reference)) throw Error("参考项目标识无效");
       parseFiles(JSON.stringify({ files: reference.files }));
       return reference;
