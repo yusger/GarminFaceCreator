@@ -295,7 +295,7 @@
 
 ## 七、内置图标素材库（Lucide / Meteocons）
 
-本节为待实施方案，尚未接入素材面板。先精选静态图标，后续再评估动画。
+已接入静态素材面板及 Monochrome 缓存天气绑定；各项按实际验收勾选，动画与未完成验证仍保留在待办。
 
 - [x] **I-01 Lucide 通用图标库**
   - 来源：[lucide-icons/lucide](https://github.com/lucide-icons/lucide)。优先收录心率、步数、活动、电量、日历、温度、海拔、蓝牙等表盘常用图标。
@@ -303,9 +303,9 @@
   - 阶段 25 已固定 10 个原始 SVG、提交与完整许可证，113 字节哈希验证通过；阶段 26 已实现点击插入、改色、线宽与三分辨率原生验证。
   - 当前用于编辑器界面的 lucide-react 不等于已实现表盘素材库；新增可插入设计的独立图标素材，支持颜色、尺寸和线条粗细。
 
-- [ ] **I-02 Meteocons 天气图标库**
+- [x] **I-02 Meteocons 天气图标库**
   - 来源：[basmilius/meteocons](https://github.com/basmilius/meteocons)，保留其 [MIT LICENSE](https://github.com/basmilius/meteocons/blob/main/LICENSE) 与 Bas Milius 版权声明。
-  - 阶段 25 已筛选并固定官方 svg-static@0.1.0 的 17 个静态图标变体，验证包完整性及 113 文件哈希；天气绑定尚未实现。
+  - 阶段 25 已筛选并固定官方 svg-static@0.1.0 的 17 个静态图标变体，验证包完整性及 113 文件哈希；阶段 28 已完成 Monochrome 天气分类、手动昼夜及缺失回退，三分辨率编译与模拟器缓存天气切换通过。
   - 首版采用官方静态 SVG，优先 Flat、Monochrome、Line 风格；精选晴、阴、雨、雪、雷暴、雾、风及昼夜变体，验证小尺寸辨识度。
   - 增加天气数据绑定、昼夜选择和无天气数据的回退图标；网页预览与原生代码使用同一条件映射。
   - 动画 SVG、SMIL 和 Lottie 暂不直接用于原生导出；后续单独验证实现方式、帧资源、性能和 AOD 行为。

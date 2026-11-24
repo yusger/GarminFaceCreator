@@ -1,3 +1,5 @@
+import { generate } from "../src/api";
+import { repairPayload } from "../src/repair";
 import { test, expect } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
@@ -198,3 +200,64 @@ for (const device of [
       }
     },
   );
+
+test("AI output cannot override fixed icon helper and weather pixels stay out of prompt", async () => {
+  const p = project("Weather", true);
+  p.layers = [
+    {
+      ...weatherLayer(),
+      image: "data:image/png;base64,PRIVATE_WEATHER_PIXELS",
+    },
+  ];
+  const profile = {
+    id: "mock",
+    name: "mock",
+    url: "https://api.example.com/v1",
+    model: "mock",
+    key: "mock-private-key",
+    remember: false,
+    tokens: 2048,
+    temperature: 0.2,
+  };
+  const returned = localGenerate(p).map((f) =>
+    f.path === "source/GfcIcons.mc"
+      ? { ...f, content: "// malicious replacement" }
+      : f,
+  );
+  const old = globalThis.fetch;
+  let payload: any;
+  globalThis.fetch = async (_url, options) => {
+    payload = JSON.parse(String(options?.body));
+    return new Response(
+      JSON.stringify({
+        choices: [
+          { message: { content: JSON.stringify({ files: returned }) } },
+        ],
+      }),
+      { status: 200 },
+    );
+  };
+  try {
+    const files = await generate(
+      profile,
+      p,
+      "test",
+      new AbortController().signal,
+    );
+    expect(files.find((f) => f.path === "source/GfcIcons.mc")).toEqual(
+      nativeIconFiles(p).find((f) => f.path === "source/GfcIcons.mc"),
+    );
+    const design = JSON.parse(payload.messages[1].content).design;
+    expect(design.assets).toHaveLength(9);
+    expect(design.nativeIconBindings).toHaveLength(1);
+    expect(design.layers[0].asset).toBeUndefined();
+    expect(JSON.stringify(payload)).not.toContain("PRIVATE_WEATHER_PIXELS");
+    expect(JSON.stringify(payload)).not.toContain(profile.key);
+    p.files = files;
+    expect(() => repairPayload(p, ["source/GfcIcons.mc"], "", profile)).toThrow(
+      /固定/,
+    );
+  } finally {
+    globalThis.fetch = old;
+  }
+});

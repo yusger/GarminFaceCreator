@@ -126,3 +126,5 @@ compose.yaml      容器运行配置
 项目按 [GNU GPL v3 或更新版本](LICENSE) 发布。第三方参考工程、字体和图片仍保留各自版权与许可，见 [第三方说明](THIRD_PARTY_NOTICES.md)。项目许可证不会额外授予商标、角色形象或插画的使用权。
 
 许可核对：SkyRing 上游许可尚未核实；fine-o-clock 的 README 与 LICENCE 存在 GPLv3+/LGPLv3 差异，已原样保留并说明。详见第三方说明，不将公开源码等同于授权完备。
+
+素材页现支持 Lucide/Meteocons 静态图标及 Monochrome 缓存天气绑定；网页天气为模拟场景，原生读取 Garmin 缓存。昼夜样式首版手动选择，缺失显示 N/A；不会自动定位或请求外部天气服务。
