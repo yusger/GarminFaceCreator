@@ -593,6 +593,16 @@ export default function App() {
         throw Error(
           "编译服务未连接。前端可继续编辑与导出项目；需启动 .NET 10 后端才能生成 PRG。",
         );
+      const environment = await capabilities.json();
+      const target = p.target || "venu445mm";
+      const device = environment.devices?.find(
+        (item: { target: string }) => item.target === target,
+      );
+      if (!device || !device.ready) {
+        throw Error(
+          `目标 ${target} 编译环境未就绪：${device?.reasons?.join("；") || "服务未提供该设备的就绪信息，请更新后端"}`,
+        );
+      }
       const form = new FormData();
       form.append(
         "project",

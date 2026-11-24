@@ -16,13 +16,14 @@ var app = builder.Build();
 app.Use(async (ctx, next) => { try { await next(ctx); } catch (Exception e) when (e is ArgumentException or InvalidDataException or XmlException or JsonException or BadHttpRequestException) { if (!ctx.Response.HasStarted) { ctx.Response.StatusCode = 400; await ctx.Response.WriteAsJsonAsync(new { error = e.Message }); } } });
 app.UseDefaultFiles(); app.UseStaticFiles();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ok", framework = ".NET 10" }));
-app.MapGet("/api/capabilities", (BuildStore store) => new { sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8 });
+app.MapGet("/api/capabilities", (BuildStore store) => new { sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, common = store.Readiness.Common(), devices = BuildStore.Targets.Select(store.Readiness.ForTarget), maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8 });
 app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, CancellationToken ct) =>
 {
-    if (!store.Ready) return Results.Problem("编译环境未就绪：需要 SDK、设备包和签名密钥。", statusCode: 503);
     if (!request.HasFormContentType) return Results.BadRequest(new { error = "Expected multipart form" });
     var form = await request.ReadFormAsync(ct); var meta = JsonSerializer.Deserialize<BuildRequest>(form["project"].ToString(), BuildStore.Json) ?? throw new ArgumentException("Missing project metadata");
     if (!Guid.TryParse(meta.ProjectId, out _) || !Regex.IsMatch(meta.AppId ?? "", "^[a-fA-F0-9]{32}$") || !BuildStore.Targets.Contains(meta.Target) || meta.Revision < 0) throw new ArgumentException("Invalid project, appId or target");
+    var readiness = store.Readiness.ForTarget(meta.Target);
+    if (!readiness.Ready) return Results.Problem($"目标 {meta.Target} 编译环境未就绪：{string.Join("；", readiness.Reasons)}", statusCode: 503);
     if (form.Files.Count is < 2 or > 100) throw new ArgumentException("Expected 2 to 100 files");
     var job = store.Create(meta);
     _ = BuildStore.FileName(job); var work = store.Work(job.Id); Directory.CreateDirectory(work);
@@ -67,7 +68,8 @@ class BuildStore
     public static readonly string[] Targets = ["venu441mm","venu445mm","venu3","venu3s","fr57042mm","fr57047mm","fr970","fenix843mm","fenix847mm"];
     public static readonly JsonSerializerOptions Json = new(JsonSerializerDefaults.Web);
     public string Root { get; } = Path.GetFullPath(Environment.GetEnvironmentVariable("GFC_DATA") ?? "data"); public string Sdk { get; } = Environment.GetEnvironmentVariable("GFC_SDK") ?? "/opt/connectiq"; public string Key { get; } = Environment.GetEnvironmentVariable("GFC_KEY") ?? "/run/secrets/developer_key";
-    public bool Ready => File.Exists(Path.Combine(Sdk, "bin", "default.jungle")) && File.Exists(Path.Combine(Sdk, "bin", "monkeybrains.jar")) && File.Exists(Key) && File.Exists(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".Garmin", "ConnectIQ", "Devices", "venu445mm", "compiler.json")); public ConcurrentDictionary<string, BuildJob> Jobs { get; } = new(); public Channel<BuildJob> Queue { get; } = Channel.CreateBounded<BuildJob>(8);
+    public BuildReadiness Readiness => new(Sdk, Key, Environment.GetEnvironmentVariable("GFC_DEVICES") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".Garmin", "ConnectIQ", "Devices"), Environment.GetEnvironmentVariable("GFC_JAVA") ?? "java");
+    public bool Ready => Targets.Any(t => Readiness.ForTarget(t).Ready); public ConcurrentDictionary<string, BuildJob> Jobs { get; } = new(); public Channel<BuildJob> Queue { get; } = Channel.CreateBounded<BuildJob>(8);
     public BuildStore() { Directory.CreateDirectory(Root); foreach (var path in Directory.EnumerateFiles(Root, "job.json", SearchOption.AllDirectories)) { var j = JsonSerializer.Deserialize<BuildJob>(File.ReadAllText(path), Json); if (j is null) continue; if (j.Status is "queued" or "running") { j.Status = "interrupted"; j.Logs.Add("服务重启，任务中断，请重新提交。"); } Jobs[j.Id] = j; Persist(j); } }
     public BuildJob Create(BuildRequest r) => new() { ProjectId = r.ProjectId, AppId = r.AppId, Revision = r.Revision, Target = r.Target, ProjectName = r.ProjectName ?? "WatchFace", DeviceSize = r.DeviceSize }; public string Work(string id) => Path.Combine(Root, id, "project");
     public bool Enqueue(BuildJob j) { Jobs[j.Id] = j; Persist(j); if (Queue.Writer.TryWrite(j)) return true; Jobs.TryRemove(j.Id, out _); return false; }
