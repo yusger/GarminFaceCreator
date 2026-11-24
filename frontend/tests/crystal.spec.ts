@@ -23,7 +23,7 @@ test("Crystal has pinned reviewed provenance and editable data without upstream 
   request,
 }) => {
   const p = await (await request.get("/templates/crystal.json")).json();
-  expect(p.layers).toHaveLength(15);
+  expect(p.layers).toHaveLength(16);
   expect(p.layers.filter((l: any) => l.kind === "meter")).toHaveLength(2);
   expect(
     p.layers.filter((l: any) => l.kind === "time").map((l: any) => l.timePart),

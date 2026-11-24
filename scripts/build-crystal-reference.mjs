@@ -48,6 +48,18 @@ function add(kind, name, props) {
   p.layers.push(item);
   return item;
 }
+add("circle", "背景", {
+  x: 0,
+  y: 0,
+  w: 454,
+  h: 454,
+  color: "#000000",
+  fillEnabled: true,
+  strokeEnabled: false,
+  allowClip: true,
+  aod: true,
+  aodColor: "#000000",
+});
 add("meter", "步数弧形目标", {
   source: "steps",
   meterShape: "left",
