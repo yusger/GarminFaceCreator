@@ -404,3 +404,14 @@ P0 与 P1 清单已完成。P2、架构试点、素材库和新增参考项目�
 - 本地生产构建通过；113 参考来源/保护/副本/导出/编辑/时间与旧参考真实编译回归 **24 项通过（1.7 分钟）**。默认副本和修改 UTC+05:45 后副本均导出完整 Monkey C/设计/原许可/原布局并经真实 SDK 编译，修改不影响默认包。
 - Venu 4 45mm [原生亮屏](screenshots/yetanother-native.png) 本地 23:38 对应 UTC 15:38，实际缓存心率 80、电量 50%、活动数据为设备 0 值。[修改后原生](screenshots/yetanother-edited-native.png) 本地 23:40 对应 UTC+05:45 的 21:25；[Always-On](screenshots/yetanother-aod.png) 仅保留灰色本地 HH/MM。[网页](screenshots/yetanother-editor.png) 与[修改副本](screenshots/yetanother-edited.png) 留档。
 - 还原 High Power，关闭本次两个模拟器，连接正常退出。R-05 按明确的 Creator 精简范围完成；未声称原版全部功能、自动 DST 或真机功耗已验证。无付费模型请求或本机常驻服务。
+
+
+## 阶段 44：动态昼夜场景与 Garmin 天文事件
+
+- 初始实现 `6903f9d`；真实 API 检查发现同次查询的 sunrise/sunset 可落在不同 UTC 日期，修复提交 `991a696`。schema v18 / basic-11-solar-events 的天空与日月标记是独立图层，支持日间/夜间/缺失配色；太阳沿示意弧线移动，月亮固定作为夜间标识，不宣称月相或精确天球位置。
+- 原生每分钟最多读一次被动缓存位置；按 UTC 日与坐标缓存相邻三天的 Garmin 日出/日落事件，寻找当前时刻前后的最近事件，避免把错日事件直接配对。空位置、无法形成前后边界或距事件超过 24 小时统一 N/A/隐藏标记；不主动开 GPS、不联网。默认 AOD 隐藏场景，显式保留时也只用缓存；网页日出/日落输入明确是预览样本，不写入原生。完整边界见 [说明](solar-scene.md)。
+- 本地生产构建通过；113 最终相关回归 **30 项通过（53.9 秒）**，包含从实际 API 日志构造的日期错配复现、昼夜边界/极地缺失/图形边界/预览不改设计/迁移/协议/权限/旧参考重新编译。修复后重新进行 **8 个真实 SDK 编译**：454/390/416 三种生产读取路径、三个标记状态样本及两个显式测试坐标工程，全部通过。
+- [生产读取路径](screenshots/solar-device-native.png) 确认模拟器 Position.getInfo().position 为空时显示 N/A；没有把此项伪称真实缓存定位成功。尝试模拟器设置后仍为空，临时 GPS Quality 已恢复原 Last Known、原坐标文字未更改；诊断仅存在于临时工程。
+- [西半球测试坐标](screenshots/solar-position-west-native.png) 与 [东半球测试坐标](screenshots/solar-position-east-native.png) 明确标记 FIXTURE POSITION，仅替换位置输入，仍调用真实 Garmin 日出/日落 API，分别得到白天太阳与夜间标记。正式输出没有测试坐标或固定天文事件；不能据此宣称真机缓存位置已验证。
+- [白天样本](screenshots/solar-day-native.png)、[夜间样本](screenshots/solar-night-native.png) 与 [实际 Always-On](screenshots/solar-aod-native.png) 留档。最后跨本地午夜仍正确显示 00:00。还原 High Power 后关闭本次全部模拟器；一个启动脚本误把 PowerShell 函数的空 LASTEXITCODE 当作退出条件，已改为异常检查并按已核对的自有窗口关闭，无遗留模拟器。
+- 不复制上游天文算法/字体/图片，当前为 Creator 自有控件；Celestial 默认包尚未接入。无付费模型调用或本机常驻服务；真机缓存可用性、功耗及烧屏行为待硬件实测。
