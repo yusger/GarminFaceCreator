@@ -58,7 +58,7 @@ export async function loadProjects(): Promise<Project[]> {
       try {
         resolve(
           r.result
-            .map(normalizeHistory)
+            .map((p: Project) => normalizeHistory(migrateProject(p)))
             .sort((a: Project, b: Project) => b.updated - a.updated),
         );
       } catch (error) {

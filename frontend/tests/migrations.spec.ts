@@ -143,3 +143,55 @@ test("named design snapshot can be restored independently of code history", asyn
   expect(value.codeRevision).toBe(-1);
   expect(value.designSnapshots).toHaveLength(1);
 });
+
+test("stored legacy project loads migrated and future schema fails visibly without a stuck loader", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const legacy = { ...project("旧版本项目"), schemaVersion: 1 };
+  await page.evaluate(
+    (value) =>
+      new Promise<void>((resolve) => {
+        const r = indexedDB.open("garmin-face-creator", 1);
+        r.onsuccess = () => {
+          const db = r.result,
+            tx = db.transaction("projects", "readwrite");
+          tx.objectStore("projects").put(value);
+          tx.oncomplete = () => {
+            db.close();
+            resolve();
+          };
+        };
+      }),
+    legacy,
+  );
+  await page.reload();
+  await page
+    .getByRole("button", { name: "打开 旧版本项目", exact: true })
+    .click();
+  const pending = page.waitForEvent("download");
+  await page.getByRole("button", { name: "导出项目", exact: true }).click();
+  expect(
+    JSON.parse(await readFile((await (await pending).path())!, "utf8"))
+      .schemaVersion,
+  ).toBe(2);
+  await page.evaluate(
+    (value) =>
+      new Promise<void>((resolve) => {
+        const r = indexedDB.open("garmin-face-creator", 1);
+        r.onsuccess = () => {
+          const db = r.result,
+            tx = db.transaction("projects", "readwrite");
+          tx.objectStore("projects").put({ ...value, schemaVersion: 99 });
+          tx.oncomplete = () => {
+            db.close();
+            resolve();
+          };
+        };
+      }),
+    legacy,
+  );
+  await page.reload();
+  await expect(page.getByRole("alert")).toContainText("不支持的项目版本");
+  await expect(page.locator(".loading")).toHaveCount(0);
+});

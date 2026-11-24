@@ -85,6 +85,9 @@ for (const [name, target, size, pixels, model] of [
     expect(d.designCoordinateSystem.scaleX).toBe(pixels / 454);
     expect(d.requiredManifest).toContain('<iq:product id="' + d.target + '"/>');
     expect(request.messages[1].content).not.toContain("PRIVATE_IMAGE_SENTINEL");
+    expect(request.messages[1].content).not.toContain(
+      "PRIVATE_HISTORY_SENTINEL",
+    );
     expect(request.messages[1].content).not.toContain("PRIVATE_ASSET_SENTINEL");
     expect(request.messages[1].content).not.toContain(profile.key);
     expect(d.files).toBeUndefined();
