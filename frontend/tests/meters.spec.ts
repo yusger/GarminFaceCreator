@@ -93,7 +93,7 @@ test("meter controls change preview, persist and invalidate generated code after
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: "打开 Meters", exact: true }).click();
-  await page.locator("svg.watch g[data-layer]").first().click();
+  await page.locator(".layer-row").first().click();
   await expect(page.getByLabel("仪表样式", { exact: true })).toHaveValue(
     "left",
   );
