@@ -47,6 +47,16 @@ const j = await response.json();
 const done = await terminal(j.buildId);
 const log = await (await fetch(`${base}/api/builds/${j.buildId}/logs`)).json();
 assert.equal(done.status, "succeeded", JSON.stringify(log));
+const tail = await (
+  await fetch(`${base}/api/builds/${j.buildId}/logs?after=${log.nextCursor}`)
+).json();
+assert.deepEqual(tail.lines, []);
+const reset = await (
+  await fetch(`${base}/api/builds/${j.buildId}/logs?after=999999`)
+).json();
+assert.equal(reset.reset, true);
+assert.deepEqual(reset.lines, log.lines);
+console.log("PASS incremental log cursor and invalid cursor reset");
 const artifact = await fetch(base + done.artifacts[0].url);
 assert.equal(artifact.status, 200);
 assert.ok((await artifact.arrayBuffer()).byteLength > 500);

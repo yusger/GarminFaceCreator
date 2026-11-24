@@ -1,3 +1,4 @@
+import { mergeLogs, diagnostic, type LogBuffer } from "./buildLogs";
 import PreviewStudio from "./PreviewStudio";
 import DevicePicker from "./DevicePicker";
 import { deviceFor, deviceLabel } from "./devices";
@@ -123,6 +124,14 @@ export default function App() {
   const [logs, setLogs] = useState("编译服务尚未连接。生成代码后可提交编译。");
   const [files, setFiles] = useState<CodeFile[]>([]);
   const [fileIndex, setFileIndex] = useState(0);
+  const [codeFromBuild, setCodeFromBuild] = useState(false);
+  const [codeLine, setCodeLine] = useState<number | null>(null);
+  const shownFiles = codeFromBuild
+    ? p?.files || []
+    : files.length
+      ? files
+      : p?.files || [];
+  const logBuffer = useRef<LogBuffer>({ id: "", cursor: 0, lines: [] });
   const [generationFailure, setGenerationFailure] =
     useState<GenerationFailure | null>(null);
   const rawOutput = useRef<HTMLTextAreaElement>(null);
@@ -658,6 +667,8 @@ export default function App() {
       );
       setFiles(result);
       setFileIndex(0);
+      setCodeFromBuild(false);
+      setCodeLine(null);
       setNotice("生成完成，请审阅文件后应用");
     } catch (e) {
       if (e instanceof GenerationFailure) setGenerationFailure(e);
@@ -752,21 +763,41 @@ export default function App() {
       }
       const job = await r.json();
       setBuildId(job.buildId);
-      const id = encodeURIComponent(job.buildId);
-      for (let attempt = 0; attempt < 240; attempt++) {
-        const [stateResponse, logResponse] = await Promise.all([
-          fetch(`/api/builds/${id}`, { signal: AbortSignal.timeout(10000) }),
-          fetch(`/api/builds/${id}/logs`, {
-            signal: AbortSignal.timeout(10000),
-          }),
-        ]);
-        if (!stateResponse.ok || !logResponse.ok)
-          throw Error("获取构建状态失败");
+      await observeBuild(job.buildId);
+    } catch (e) {
+      setLogs((old) => old + "\n" + (e as Error).message);
+    } finally {
+      setBusy(false);
+    }
+  }
+  async function observeBuild(build: string) {
+    const id = encodeURIComponent(build);
+    if (logBuffer.current.id !== build)
+      logBuffer.current = { id: build, cursor: 0, lines: [] };
+    let failures = 0;
+    for (let attempt = 0; attempt < 240; attempt++) {
+      try {
+        const stateResponse = await fetch(`/api/builds/${id}`, {
+          signal: AbortSignal.timeout(10000),
+        });
+        if (!stateResponse.ok)
+          throw Error(
+            stateResponse.status === 404 ? "任务已不存在" : "获取构建状态失败",
+          );
         const state = await stateResponse.json();
-        const log = await logResponse.json();
+        const logResponse = await fetch(
+          `/api/builds/${id}/logs?after=${logBuffer.current.cursor}`,
+          { signal: AbortSignal.timeout(10000) },
+        );
+        if (!logResponse.ok) throw Error("获取构建日志失败");
+        logBuffer.current = mergeLogs(
+          logBuffer.current,
+          await logResponse.json(),
+        );
+        failures = 0;
         setLogs(
-          `任务 ${job.buildId} · ${state.status}\n` +
-            (log.lines || []).join("\n"),
+          `任务 ${build} · ${state.status}\n` +
+            logBuffer.current.lines.join("\n"),
         );
         if (
           ["succeeded", "failed", "cancelled", "interrupted"].includes(
@@ -775,20 +806,51 @@ export default function App() {
         ) {
           if (state.status === "succeeded")
             setArtifacts(
-              (state.artifacts || []).filter((a: { id: string; url: string }) =>
+              (state.artifacts || []).filter((a: { url: string }) =>
                 a.url.startsWith(`/api/builds/${id}/artifacts/`),
               ),
             );
           return;
         }
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+      } catch (error) {
+        failures++;
+        setLogs(
+          `任务 ${build} · 连接中断，正在重试 ${failures}/3\n` +
+            logBuffer.current.lines.join("\n"),
+        );
+        if (failures >= 3) throw error;
       }
-      throw Error("前端等待超时，可通过任务 ID 查询服务端状态");
-    } catch (e) {
-      setLogs((e as Error).message);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
+    throw Error("前端等待超时，可继续观察原任务");
+  }
+  async function resumeBuild() {
+    setBusy(true);
+    try {
+      await observeBuild(buildId);
+    } catch (error) {
+      setLogs((old) => old + "\n" + (error as Error).message);
     } finally {
       setBusy(false);
     }
+  }
+  function locateDiagnostic(path: string, line: number) {
+    const index = p?.files.findIndex((file) => file.path === path) ?? -1;
+    if (index < 0) {
+      setNotice("当前工程找不到文件：" + path);
+      return;
+    }
+    setCodeFromBuild(true);
+    setFileIndex(index);
+    setCodeLine(line);
+    setDrawer("代码");
+    setTimeout(
+      () =>
+        document
+          .querySelector(".code-drawer mark")
+          ?.scrollIntoView({ block: "center" }),
+      0,
+    );
   }
   return (
     <>
@@ -1633,19 +1695,35 @@ export default function App() {
                       <select
                         aria-label="代码文件"
                         value={fileIndex}
-                        onChange={(e) => setFileIndex(Number(e.target.value))}
+                        onChange={(e) => {
+                          setFileIndex(Number(e.target.value));
+                          setCodeLine(null);
+                        }}
                       >
-                        {(files.length ? files : p.files).map((f, i) => (
+                        {shownFiles.map((f, i) => (
                           <option key={f.path} value={i}>
                             {f.path}
                           </option>
                         ))}
                       </select>
                       <pre>
-                        {(files.length ? files : p.files)[fileIndex]?.content ||
-                          "AI 生成后可在这里审阅工程代码。"}
+                        {(
+                          shownFiles[fileIndex]?.content ||
+                          "AI 生成后可在这里审阅工程代码。"
+                        )
+                          .split("\n")
+                          .map((line, index) => (
+                            <span key={index} data-line={index + 1}>
+                              {codeLine === index + 1 ? (
+                                <mark>{line}</mark>
+                              ) : (
+                                line
+                              )}
+                              {"\n"}
+                            </span>
+                          ))}
                       </pre>
-                      {files.length > 0 && (
+                      {!codeFromBuild && files.length > 0 && (
                         <button
                           className="primary"
                           onClick={() => {
@@ -1676,8 +1754,13 @@ export default function App() {
                       <div>
                         <span className="pill">.NET 10 构建服务</span>
                         <button disabled={busy} onClick={build}>
-                          重新连接并编译
+                          新建编译任务
                         </button>
+                        {buildId && (
+                          <button disabled={busy} onClick={resumeBuild}>
+                            继续观察原任务
+                          </button>
+                        )}
                       </div>
                       {busy && buildId && (
                         <button
@@ -1696,7 +1779,39 @@ export default function App() {
                           取消构建
                         </button>
                       )}
-                      <pre>{logs}</pre>
+                      <pre>
+                        {logs.split("\n").map((line, index) => {
+                          const location = diagnostic(line);
+                          return (
+                            <span
+                              key={index}
+                              className={
+                                /\bERROR\b|编译失败/i.test(line)
+                                  ? "log-error"
+                                  : /\bWARNING\b/i.test(line)
+                                    ? "log-warning"
+                                    : ""
+                              }
+                            >
+                              {line}
+                              {location && (
+                                <button
+                                  className="log-location"
+                                  onClick={() =>
+                                    locateDiagnostic(
+                                      location.path,
+                                      location.line,
+                                    )
+                                  }
+                                >
+                                  打开 {location.path}:{location.line}
+                                </button>
+                              )}
+                              {"\n"}
+                            </span>
+                          );
+                        })}
+                      </pre>
                       {artifacts.map((a) => (
                         <a
                           className="download-link"

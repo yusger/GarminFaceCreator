@@ -1307,3 +1307,8 @@ label select {
 
 .storage-error { padding: 16px 24px; background: #3b2926; border-bottom: 1px solid #df9b63; color: #fff; }
 .storage-error button { margin: 4px 8px 0 0; }
+
+.log-error { color: #ff8996; }
+.log-warning { color: #f2cd75; }
+.log-location { margin-left: 12px; font-size: 11px; }
+.code-drawer mark { background: #65522b; color: #fff; }
