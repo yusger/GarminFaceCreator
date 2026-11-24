@@ -45,6 +45,7 @@ export type Layer = {
   weatherIcon?: { period: "day" | "night" };
   assetId?: string;
   wordLanguage?: "en" | "zh";
+  wordRow?: "all" | "top" | "middle" | "bottom";
   calendarStart?: "monday" | "sunday";
   calendarTodayColor?: string;
   calendarTodayText?: string;
@@ -416,6 +417,11 @@ export function validateProject(value: unknown): Project {
       !["monday", "sunday"].includes(l.calendarStart)
     )
       throw Error("日历周起始日无效");
+    if (
+      l.wordRow !== undefined &&
+      !["all", "top", "middle", "bottom"].includes(l.wordRow)
+    )
+      throw Error("报时行无效");
     if (l.wordLanguage !== undefined && !["en", "zh"].includes(l.wordLanguage))
       throw Error("文字报时语言无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)

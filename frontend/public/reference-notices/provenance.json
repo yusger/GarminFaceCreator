@@ -101,7 +101,7 @@
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
       "version": "basic-7-words",
-      "sha256": "29610fb78a4d7983209121ba66c3852296368b3d7df76aec2b916a3d856582ec",
+      "sha256": "5bf71daf2b3b90aa127685ceaf3d7713a9328b7983af5f7f4ef3d395a456bd4f",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },
@@ -117,7 +117,7 @@
       "sourceFile": "frontend/src/wordTime.ts",
       "path": "/reference-notices/generator-sources/wordTime.ts",
       "version": "words-1",
-      "sha256": "aa2c7de59bc282ccb23d38359a675755d472f26146163e23167bcd0cc680f3dd",
+      "sha256": "2698d78127b90abcca67913e29718ad7986a25a4cce63a3c3a8c8809e8a620ce",
       "license": "GPL-3.0-or-later adapter; MIT locale phrases",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     }

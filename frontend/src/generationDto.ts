@@ -33,6 +33,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   threshold: true,
   strokeWidth: true,
   wordLanguage: true,
+  wordRow: true,
   calendarStart: true,
   calendarTodayColor: true,
   calendarTodayText: true,
@@ -150,7 +151,9 @@ export function generationLayer(l: Layer) {
           calendarHeaderColor: l.calendarHeaderColor || "#7891aa",
         }
       : {}),
-    ...(l.kind === "wordTime" ? { wordLanguage: l.wordLanguage || "en" } : {}),
+    ...(l.kind === "wordTime"
+      ? { wordLanguage: l.wordLanguage || "en", wordRow: l.wordRow || "all" }
+      : {}),
     hidden: false,
     asset: l.image && !l.weatherIcon ? imageAssetPath(l) : undefined,
     libraryIcon: l.libraryIcon

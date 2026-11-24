@@ -73,6 +73,17 @@ test("word-time native helper is canonical, protected from repair and included i
   expect(generationRequirements(p).languages).toEqual(["eng", "zhs", "zht"]);
   expect(generationRequirements(p).glyphs).toContain("午");
   expect(() => validateProject(p)).not.toThrow();
+  const single = {
+    ...p,
+    layers: [{ ...p.layers[0], wordRow: "bottom" as const }],
+  };
+  expect(
+    localGenerate(single).find((f) => f.path === "source/App.mc")!.content,
+  ).toContain("rows[2]");
+  expect(() =>
+    validateProject({ ...p, layers: [{ ...p.layers[0], wordRow: "bad" }] }),
+  ).toThrow(/报时行/);
+
   expect(() =>
     repairPayload(p, ["source/GfcWordTime.mc"], "log", profile),
   ).toThrow();
@@ -179,4 +190,9 @@ test("word-time language selection previews Chinese and every standalone source 
         t.sourceFile === "frontend/src/wordTime.ts" && t.sourceContext,
     ),
   ).toBe(true);
+  await page.getByLabel("报时行", { exact: true }).selectOption("bottom");
+  await expect(page.locator("svg.watch [data-word-line]")).toHaveCount(1);
+  await expect(page.locator('svg.watch [data-word-line="2"]')).toHaveText(
+    "十点了",
+  );
 });

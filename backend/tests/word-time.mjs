@@ -44,6 +44,12 @@ for (const language of ["en", "zh"])
       {
         ...layer("wordTime"),
         wordLanguage: language,
+        wordRow:
+          target === "venu441mm"
+            ? "bottom"
+            : target === "fenix843mm"
+              ? "top"
+              : "all",
         x: 80,
         y: 140,
         w: 294,

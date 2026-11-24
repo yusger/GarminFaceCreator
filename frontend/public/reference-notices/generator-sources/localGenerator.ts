@@ -108,7 +108,9 @@ function draw(l: Layer, aod: boolean) {
     const ink = color(aod ? l.aodColor || "#777777" : l.color),
       align = l.textAlign || "center",
       x = l.x + (align === "left" ? 0 : align === "right" ? l.w : l.w / 2);
-    return `{var rows=GfcWordTime.lines(clock.hour,clock.min,${aod ? 0 : "clock.sec"},${JSON.stringify(l.wordLanguage || "en")});dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);for(var line=0;line<3;line++){dc.drawText(px(${num(x)}),px(${num(l.y)}+(line+0.5)*${num(l.h)}/3),${font(l, aod)},rows[line],Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);}}`;
+    const rowIndex = { top: 0, middle: 1, bottom: 2 }[l.wordRow as "top"],
+      rowCount = rowIndex === undefined ? 3 : 1;
+    return `{var rows=GfcWordTime.lines(clock.hour,clock.min,${aod ? 0 : "clock.sec"},${JSON.stringify(l.wordLanguage || "en")});dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);for(var line=0;line<${rowCount};line++){dc.drawText(px(${num(x)}),px(${num(l.y)}+(line+0.5)*${num(l.h)}/${rowCount}),${font(l, aod)},rows[${rowIndex === undefined ? "line" : rowIndex}],Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);}}`;
   }
   if (l.kind === "calendar") {
     const normal = color(aod ? l.aodColor || "#777777" : l.color),

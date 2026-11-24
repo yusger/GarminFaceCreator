@@ -2113,6 +2113,23 @@ export default function App() {
                             <option value="zh">简体中文</option>
                           </select>
                         </label>
+                        <label>
+                          报时行
+                          <select
+                            aria-label="报时行"
+                            value={current.wordRow || "all"}
+                            onChange={(e) =>
+                              patch({
+                                wordRow: e.target.value as Layer["wordRow"],
+                              })
+                            }
+                          >
+                            <option value="all">完整三行</option>
+                            <option value="top">上行</option>
+                            <option value="middle">中行</option>
+                            <option value="bottom">下行</option>
+                          </select>
+                        </label>
                         <p className="hint">
                           按最接近的五分钟报时，三行文字动态更新。中文需设备支持对应字形，建议本地化系统字体并在中文系统下检查；不分发字体。
                         </p>

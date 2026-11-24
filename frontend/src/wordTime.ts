@@ -124,6 +124,7 @@ export function nativeWordTimeBindings(p: Project) {
       layerId: l.id,
       call: `GfcWordTime.lines(clock.hour,clock.min,sleeping?0:clock.sec,${JSON.stringify(l.wordLanguage || "en")})`,
       lines: 3,
+      row: l.wordRow || "all",
     }));
 }
 export function nativeWordTimeFiles(p: Project): CodeFile[] {
