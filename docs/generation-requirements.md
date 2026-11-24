@@ -1,0 +1,12 @@
+# 原生生成声明规则
+
+生成请求包含 generationRequirements 与固定 requiredManifest，按实际导出的图层计算，不改动已有参考项目原生工程。
+
+- 仅心率、海拔历史读取使用 SensorHistory；压力和恢复时间通过 Complications，声明 ComplicationSubscriber。步数、总热量、日距离、电量和缓存天气不附加无关权限。
+- 当前增强绘图协议包含 Source-over，最低 API 基线 4.2.1；使用紫外线字段时提升为 5.1.0。不把 SDK 版本、设备包 hash 当成最低 API。
+- 里程由厘米转公里，风速由米/秒转公里/小时，恢复时间由分钟转小时。热量是每日总热量，不冒充运动热量。
+- 根据实际文字、数据标签/单位/缺失提示和 AppName 资源确定字形集合；编辑器图层名、分组名及界面语言不参与。英文基础资源 eng；汉字兼容 zhs/zht，假名添加 jpn。只凭汉字无法判断用户文字语言；这不生成翻译，也不保证所有设备语言和字体包含全部字形。
+- 模型须核查 glyphs 中的字符；缺字时使用用户提供且授权的位图字体，不复制 SDK 字体。系统字体在不同设备语言下的效果仍需模拟器或真机检查。
+- nullable API、传感器迭代器、模块/字段能力、异常均需处理；缺失显示 missingValue，不以模拟数据冒充真实值。静态浏览器预览不能证明传感器可用。
+
+依据：[SensorHistory](https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html)、[Complications](https://developer.garmin.com/connect-iq/api-docs/Toybox/Complications.html)、[Weather 字段](https://developer.garmin.com/connect-iq/api-docs/Toybox/Weather/CurrentConditions.html)、[ActivityMonitor](https://developer.garmin.com/connect-iq/api-docs/Toybox/ActivityMonitor/Info.html)、[资源语言](https://developer.garmin.com/connect-iq/articles/core-topics/Resources.html)。声明是生成契约，不能保证任意大模型输出无误；最终仍由真实 SDK 编译和设备验证。
