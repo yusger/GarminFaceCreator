@@ -12,3 +12,5 @@
 依据：[SensorHistory](https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html)、[Complications](https://developer.garmin.com/connect-iq/api-docs/Toybox/Complications.html)、[Weather 字段](https://developer.garmin.com/connect-iq/api-docs/Toybox/Weather/CurrentConditions.html)、[ActivityMonitor](https://developer.garmin.com/connect-iq/api-docs/Toybox/ActivityMonitor/Info.html)、[资源语言](https://developer.garmin.com/connect-iq/articles/core-topics/Resources.html)。声明是生成契约，不能保证任意大模型输出无误；最终仍由真实 SDK 编译和设备验证。
 
 数值单位（dataSources.unit）与显示后缀（defaultDisplayUnit）分别声明，不能把每个物理单位自动追加到画面。显式 unit 仍为后缀文本，不自动换算数值；空字符串隐藏后缀。强度分钟 /150 保留为静态显示后缀，不当作实时目标。心率装饰字符加入字形核查清单；缺字仍需用户字体方案或设备核查。
+
+模型请求使用显式画布字段白名单，不再展开整个项目对象；导入的未知根属性、图层属性及阈值/图标/天气/布局中的额外字段都不会透传。编辑器分组、锚点、锁定、历史和存储元数据不参与原生渲染请求。新增 Layer 字段必须在协议中明确包含或排除，否则类型检查失败。已定义的文本/标签仍属于用户主动发送的设计内容；模型设置 Key 仅用于认证头。
