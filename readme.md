@@ -129,3 +129,7 @@ compose.yaml      容器运行配置
 许可核对：SkyRing 上游许可尚未核实；fine-o-clock 的 README 与 LICENCE 存在 GPLv3+/LGPLv3 差异，已原样保留并说明。详见第三方说明，不将公开源码等同于授权完备。
 
 素材页现支持 Lucide/Meteocons 静态图标及 Monochrome 缓存天气绑定；网页天气为模拟场景，原生读取 Garmin 缓存。昼夜样式首版手动选择，缺失显示 N/A；不会自动定位或请求外部天气服务。
+
+新增 **Crystal 可编辑参考**：感谢 [warmsound/crystal-face](https://github.com/warmsound/crystal-face)。包含独立小时/分钟、日期、真实基础数据和弧形目标仪表；首版 Venu 4 45mm，固定上游提交、完整 GPLv3 许可与[精简范围](frontend/public/reference-notices/Crystal-ADAPTATION.md)均保留，使用系统字体和已核查 Lucide 图标。
+
+Crystal：[编辑器画面](docs/screenshots/crystal-editor.png) · [原生亮屏](docs/screenshots/crystal-native.png) · [原生息屏](docs/screenshots/crystal-aod.png)。

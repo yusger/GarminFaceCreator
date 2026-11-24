@@ -183,7 +183,8 @@
 
 ### 首批：优先接入
 
-- [ ] **R-01 Crystal — 数字仪表模板**
+- [x] **R-01 Crystal — 数字仪表模板**
+  - 阶段 35：Creator 精简适配已完成并通过 Venu 4 45mm 原生验证；16 个可编辑图层，固定上游提交、完整许可、原始布局与修改说明均保留。系统字体和 Lucide 图标替代未核清的上游资源；不包含自动目标分段、移动条、外部天气/后台服务及原手机设置。完整范围见 `Crystal-ADAPTATION.md`，验证见 `docs/stage-validation.md`。
   - 来源：[warmsound/crystal-face](https://github.com/warmsound/crystal-face)。许可依据：仓库 `LICENSE.txt`，GPLv3；图标等资源还需保留各自署名。
   - 价值：大时间、多数据区、状态图标、分段目标进度条和主题配色，适合展示数据驱动控件。
   - 工作：拆分时间/日期/指标/目标仪表；整理圆屏资源覆盖、构建注解和息屏源码，不能因后端固定 Jungle 而漏掉必要代码或资源。
