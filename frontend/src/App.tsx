@@ -2508,24 +2508,6 @@ export default function App() {
                             }
                           />
                         </label>
-                        {current.kind === "time" && (
-                          <label>
-                            时间部分
-                            <select
-                              aria-label="时间部分"
-                              value={current.timePart || "full"}
-                              onChange={(e) =>
-                                patch({
-                                  timePart: e.target.value as Layer["timePart"],
-                                })
-                              }
-                            >
-                              <option value="full">完整时间 HH:MM</option>
-                              <option value="hours">小时 HH</option>
-                              <option value="minutes">分钟 MM</option>
-                            </select>
-                          </label>
-                        )}
                         {["text", "time", "date", "metric"].includes(
                           current.kind,
                         ) && (

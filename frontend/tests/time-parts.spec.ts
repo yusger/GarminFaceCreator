@@ -63,6 +63,7 @@ test("v11 migration covers active layers and design snapshots without rewriting 
 test("time part selection changes the canvas, persists and produces native code without a model", async ({
   page,
 }) => {
+  page.on("dialog", (d) => d.accept("Time Parts"));
   await page.goto("/");
   await page.getByText("空白画布", { exact: true }).click();
   await page.getByLabel("初始布局", { exact: true }).selectOption("blank");
@@ -79,7 +80,10 @@ test("time part selection changes the canvas, persists and produces native code 
   await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.reload();
-  const open = page.getByRole("button", { name: /^打开 / }).last();
+  const open = page.getByRole("button", {
+    name: "打开 Time Parts",
+    exact: true,
+  });
   await open.click();
   await page.locator("svg.watch g[data-layer]").first().click();
   await expect(page.getByLabel("时间部分", { exact: true })).toHaveValue(
