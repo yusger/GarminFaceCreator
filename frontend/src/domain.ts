@@ -41,6 +41,7 @@ export type Layer = {
   libraryIcon?: { id: string; recolor: boolean; strokeWidth: number };
   weatherIcon?: { period: "day" | "night" };
   assetId?: string;
+  timePart?: "full" | "hours" | "minutes";
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
   garminFont?: "auto" | "tiny" | "small" | "medium" | "large" | "numberHot";
@@ -94,7 +95,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -246,7 +247,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 11,
+    schemaVersion: 12,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -273,7 +274,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 11 ||
+    p.schemaVersion !== 12 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -334,6 +335,8 @@ export function validateProject(value: unknown): Project {
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (
+      (l.timePart !== undefined &&
+        !["full", "hours", "minutes"].includes(l.timePart)) ||
       (l.textAlign !== undefined &&
         !["left", "center", "right"].includes(l.textAlign)) ||
       (l.fontWeight !== undefined && ![400, 600, 700].includes(l.fontWeight)) ||

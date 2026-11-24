@@ -31,6 +31,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   aod: true,
   threshold: true,
   strokeWidth: true,
+  timePart: true,
   textAlign: true,
   fontWeight: true,
   garminFont: true,
@@ -84,6 +85,7 @@ export function generationLayer(l: Layer) {
   );
   return {
     ...result,
+    ...(l.kind === "time" ? { timePart: l.timePart || "full" } : {}),
     textAlign: l.textAlign || "center",
     fontWeight: l.fontWeight || (l.kind === "time" ? 600 : 400),
     garminFont: l.garminFont || "auto",

@@ -35,7 +35,14 @@ export function metricValues(d: Preview): Record<string, number> {
   };
 }
 export function reading(l: Layer, d: Preview) {
-  if (l.kind === "time") return d.time;
+  if (l.kind === "time") {
+    const [hours, minutes] = d.time.split(":");
+    return l.timePart === "hours"
+      ? hours
+      : l.timePart === "minutes"
+        ? minutes
+        : d.time;
+  }
   if (l.kind === "date") return d.date || "MON 23";
   if (l.kind === "text") return l.text;
   if (l.kind === "metric") {

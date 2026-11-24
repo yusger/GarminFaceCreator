@@ -4,7 +4,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-2-icons";
+export const LOCAL_GENERATOR_VERSION = "basic-3-time-parts";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -99,7 +99,11 @@ function draw(l: Layer, aod: boolean) {
     x = l.x + (align === "left" ? 0 : align === "right" ? l.w : l.w / 2);
   const content =
     l.kind === "time"
-      ? 'clock.hour.format("%02d")+":"+clock.min.format("%02d")'
+      ? l.timePart === "hours"
+        ? 'clock.hour.format("%02d")'
+        : l.timePart === "minutes"
+          ? 'clock.min.format("%02d")'
+          : 'clock.hour.format("%02d")+":"+clock.min.format("%02d")'
       : JSON.stringify(l.text);
   const ink = color(aod ? l.aodColor || "#777777" : l.color);
   return `dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);`;
