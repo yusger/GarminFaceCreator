@@ -98,7 +98,8 @@ function draw(l: Layer, aod: boolean) {
     l.kind === "time"
       ? 'clock.hour.format("%02d")+":"+clock.min.format("%02d")'
       : JSON.stringify(l.text);
-  return `dc.setColor(${color(aod ? l.aodColor || "#777777" : l.color)},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);`;
+  const ink = color(aod ? l.aodColor || "#777777" : l.color);
+  return `dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);`;
 }
 export function localGenerate(p: Project) {
   const included = p.layers.filter((l) => l.exportIncluded !== false);

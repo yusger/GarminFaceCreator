@@ -56,7 +56,7 @@ test("local generation works without a model and provenance survives reload", as
   await page
     .getByRole("button", { name: "打开 Local Clock", exact: true })
     .click();
-  await page.getByRole("button", { name: "版本", exact: true }).click();
+  await page.getByRole("button", { name: "历史", exact: true }).click();
   await expect(
     page.getByText(/代码版本.*deterministic.*basic-1/),
   ).toBeVisible();

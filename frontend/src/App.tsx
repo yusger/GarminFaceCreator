@@ -139,6 +139,7 @@ export default function App() {
   const [drawer, setDrawer] = useState("");
   const [busy, setBusy] = useState(false);
   const generationLock = useRef(false);
+  const [genProjectId, setGenProjectId] = useState("");
   const [pendingProvenance, setPendingProvenance] = useState<CodeProvenance>({
     primary: "ai",
   });
@@ -905,6 +906,7 @@ export default function App() {
       setFiles(result);
       setPendingProvenance(LOCAL_PROVENANCE);
       setGenRevision(p.revision);
+      setGenProjectId(p.id);
       setFileIndex(0);
       setCodeFromBuild(false);
       setCodeLine(null);
@@ -939,6 +941,7 @@ export default function App() {
     setGenerationFailure(null);
     setFiles([]);
     setGenRevision(p.revision);
+    setGenProjectId(p.id);
     abort.current = new AbortController();
     try {
       const result = await generate(
@@ -947,6 +950,7 @@ export default function App() {
         instruction,
         abort.current.signal,
       );
+      if (activeProject.current?.id !== p.id) return;
       setFiles(result);
       setFileIndex(0);
       setCodeFromBuild(false);
@@ -2608,7 +2612,10 @@ export default function App() {
                         <button
                           className="primary"
                           onClick={() => {
-                            if (genRevision !== p.revision) {
+                            if (
+                              genRevision !== p.revision ||
+                              genProjectId !== p.id
+                            ) {
                               setNotice("生成期间设计已变化，请重新生成");
                               return;
                             }
