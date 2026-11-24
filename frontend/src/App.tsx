@@ -2954,6 +2954,7 @@ export default function App() {
       )}
       {newProject && (
         <DevicePicker
+          blank={newProject.blank}
           onChoose={finishCreate}
           onCancel={() => setNewProject(null)}
         />
