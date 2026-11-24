@@ -62,7 +62,7 @@ import {
   readProfiles,
   download,
 } from "./storage";
-import { generate } from "./api";
+import { generate, GenerationFailure } from "./api";
 import Models from "./Models";
 import { loadReferences, isReference, copyReference } from "./builtins";
 import Scene, { type Preview } from "./Scene";
@@ -119,6 +119,9 @@ export default function App() {
   const [logs, setLogs] = useState("编译服务尚未连接。生成代码后可提交编译。");
   const [files, setFiles] = useState<CodeFile[]>([]);
   const [fileIndex, setFileIndex] = useState(0);
+  const [generationFailure, setGenerationFailure] =
+    useState<GenerationFailure | null>(null);
+  const rawOutput = useRef<HTMLTextAreaElement>(null);
   const [genRevision, setGenRevision] = useState(-1);
   const [instruction, setInstruction] = useState(
     "按当前画布生成完整表盘，保留数据绑定和息屏布局。",
@@ -384,6 +387,7 @@ export default function App() {
     setPast([]);
     setFuture([]);
     setFiles([]);
+    setGenerationFailure(null);
     setPage("editor");
   }
   async function create(blank = false) {
@@ -637,6 +641,7 @@ export default function App() {
       return;
     setBusy(true);
     setDrawer("AI");
+    setGenerationFailure(null);
     setFiles([]);
     setGenRevision(p.revision);
     abort.current = new AbortController();
@@ -651,6 +656,7 @@ export default function App() {
       setFileIndex(0);
       setNotice("生成完成，请审阅文件后应用");
     } catch (e) {
+      if (e instanceof GenerationFailure) setGenerationFailure(e);
       setNotice(
         (e as Error).name === "AbortError"
           ? "已取消生成"
@@ -1544,6 +1550,46 @@ export default function App() {
                           <button onClick={() => abort.current?.abort()}>
                             取消生成
                           </button>
+                        )}
+                        {generationFailure && (
+                          <details className="generation-failure" open>
+                            <summary>
+                              生成失败：{generationFailure.message}
+                            </summary>
+                            <p>
+                              原设计及已应用代码保持不变。原文仅保留在当前页面，不自动发送到编译服务。
+                            </p>
+                            <textarea
+                              ref={rawOutput}
+                              aria-label="模型原始返回"
+                              readOnly
+                              value={generationFailure.raw}
+                            />
+                            <button
+                              onClick={async () => {
+                                try {
+                                  if (navigator.clipboard)
+                                    await navigator.clipboard.writeText(
+                                      generationFailure.raw,
+                                    );
+                                  else {
+                                    rawOutput.current?.select();
+                                    if (!document.execCommand("copy"))
+                                      throw Error("请选择原文并按 Ctrl+C 复制");
+                                  }
+                                  setNotice("已复制原始返回");
+                                } catch {
+                                  rawOutput.current?.select();
+                                  setNotice("请选择原文并按 Ctrl+C 复制");
+                                }
+                              }}
+                            >
+                              复制原始返回
+                            </button>
+                            <button onClick={() => setGenerationFailure(null)}>
+                              清除失败原文
+                            </button>
+                          </details>
                         )}
                         {files.length > 0 && (
                           <>

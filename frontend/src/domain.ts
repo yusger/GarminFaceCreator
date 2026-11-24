@@ -259,19 +259,35 @@ export function validateProject(value: unknown): Project {
   };
 }
 export function parseFiles(text: string): CodeFile[] {
-  const clean = text
-    .trim()
-    .replace(/^```(?:json)?\s*/, "")
-    .replace(/\s*```$/, "");
-  const data = JSON.parse(clean);
+  const trimmed = text.trim();
+  let data: unknown;
+  try {
+    data = JSON.parse(trimmed);
+  } catch {
+    // Only accept a single complete JSON code fence; never guess braces from prose.
+    const fences = [...trimmed.matchAll(/```([^\r\n`]*)\r?\n([\s\S]*?)```/g)];
+    if (
+      fences.length !== 1 ||
+      !["", "json"].includes(fences[0][1].trim().toLowerCase()) ||
+      trimmed.replace(fences[0][0], "").includes("```")
+    ) {
+      throw Error(
+        "返回内容不是有效 JSON，或包含多个/不完整的代码围栏，请查看原始返回。",
+      );
+    }
+    data = JSON.parse(fences[0][2]);
+  }
+  if (!data || typeof data !== "object" || !("files" in data))
+    throw Error("模型需要返回包含 files 的 JSON 对象");
+  const result = data as { files: CodeFile[] };
   if (
-    !Array.isArray(data.files) ||
-    !data.files.length ||
-    data.files.length > 80
+    !Array.isArray(result.files) ||
+    !result.files.length ||
+    result.files.length > 80
   )
     throw Error("模型需要返回非空 files 列表");
   const seen = new Set<string>();
-  for (const f of data.files) {
+  for (const f of result.files) {
     if (
       typeof f.path !== "string" ||
       typeof f.content !== "string" ||
@@ -281,12 +297,18 @@ export function parseFiles(text: string): CodeFile[] {
         f.path,
       ) ||
       f.path.includes("..") ||
-      seen.has(f.path)
+      seen.has(f.path.toLowerCase())
     )
       throw Error("模型返回了重复或不允许的文件路径");
-    seen.add(f.path);
+    seen.add(f.path.toLowerCase());
   }
   for (const path of ["manifest.xml", "monkey.jungle"])
     if (!seen.has(path)) throw Error("缺少工程文件 " + path);
-  return data.files;
+  if (
+    !result.files.some(
+      (f) => f.path.startsWith("source/") && f.path.endsWith(".mc"),
+    )
+  )
+    throw Error("缺少 Monkey C 源文件");
+  return result.files;
 }

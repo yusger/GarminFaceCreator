@@ -1,5 +1,13 @@
 import { generationDevice } from "./devices";
 import { parseFiles, type Profile, type Project } from "./domain";
+export class GenerationFailure extends Error {
+  constructor(
+    message: string,
+    public raw: string,
+  ) {
+    super(message);
+  }
+}
 function base(p: Profile) {
   const u = new URL(p.url);
   if (
@@ -111,10 +119,22 @@ export async function generate(
     },
     signal,
   );
-  if (data.choices?.[0]?.finish_reason === "length")
-    throw Error("模型输出被截断，请提高最大输出 Token 或简化设计后重试");
   const content = data.choices?.[0]?.message?.content;
+  const raw =
+    typeof content === "string" ? content : JSON.stringify(data, null, 2);
+  if (data.choices?.[0]?.finish_reason === "length")
+    throw new GenerationFailure(
+      "模型输出被截断，请提高最大输出 Token 或简化设计后重试",
+      raw,
+    );
   if (typeof content !== "string")
-    throw Error("接口未返回文本 choices[0].message.content");
-  return parseFiles(content);
+    throw new GenerationFailure(
+      "接口未返回文本 choices[0].message.content",
+      raw,
+    );
+  try {
+    return parseFiles(content);
+  } catch (error) {
+    throw new GenerationFailure((error as Error).message, content);
+  }
 }
