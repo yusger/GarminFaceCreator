@@ -1,0 +1,268 @@
+{
+  "schemaVersion": 14,
+  "id": "00000000-0000-4000-8000-000000000005",
+  "appId": "16ca8a4589744f049569ab92966f7ad5",
+  "name": "TimelyFenix",
+  "updated": 0,
+  "revision": 0,
+  "layers": [
+    {
+      "id": "timely_001",
+      "name": "背景",
+      "kind": "circle",
+      "x": 0,
+      "y": 0,
+      "w": 454,
+      "h": 454,
+      "color": "#06101b",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "fillEnabled": true,
+      "strokeEnabled": false,
+      "aodColor": "#000000",
+      "allowClip": true
+    },
+    {
+      "id": "timely_002",
+      "name": "标题",
+      "kind": "text",
+      "x": 165,
+      "y": 30,
+      "w": 124,
+      "h": 28,
+      "color": "#7891aa",
+      "size": 14,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "TIMELY",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "garminFont": "xtiny"
+    },
+    {
+      "id": "timely_003",
+      "name": "时间",
+      "kind": "time",
+      "x": 80,
+      "y": 68,
+      "w": 294,
+      "h": 100,
+      "color": "#e8f1fa",
+      "size": 72,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "garminFont": "numberHot",
+      "aodColor": "#667585"
+    },
+    {
+      "id": "timely_004",
+      "name": "日期",
+      "kind": "date",
+      "x": 166,
+      "y": 169,
+      "w": 180,
+      "h": 32,
+      "color": "#c5d8e9",
+      "size": 22,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "garminFont": "xtiny"
+    },
+    {
+      "id": "timely_005",
+      "name": "电量",
+      "kind": "metric",
+      "x": 166,
+      "y": 203,
+      "w": 180,
+      "h": 32,
+      "color": "#70c7ff",
+      "size": 18,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "battery",
+      "aod": false,
+      "threshold": true,
+      "label": "BAT",
+      "garminFont": "xtiny"
+    },
+    {
+      "id": "timely_006",
+      "name": "日历分隔线",
+      "kind": "line",
+      "x": 90,
+      "y": 242,
+      "w": 274,
+      "h": 1,
+      "color": "#1b3147",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "strokeWidth": 1
+    },
+    {
+      "id": "timely_007",
+      "name": "三周日历",
+      "kind": "calendar",
+      "x": 80,
+      "y": 252,
+      "w": 294,
+      "h": 140,
+      "color": "#e8f1fa",
+      "size": 18,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "garminFont": "xtiny",
+      "calendarStart": "monday",
+      "aod": false,
+      "threshold": false,
+      "calendarTodayColor": "#70c7ff",
+      "calendarTodayText": "#06101b",
+      "calendarMutedColor": "#586a7f",
+      "calendarHeaderColor": "#7891aa"
+    },
+    {
+      "id": "timely_008",
+      "name": "缓存天气图标",
+      "kind": "image",
+      "x": 100,
+      "y": 174,
+      "w": 56,
+      "h": 56,
+      "color": "#70c7ff",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "libraryIcon": {
+        "id": "meteocons_0_1_0_monochrome_clear_day",
+        "recolor": true,
+        "strokeWidth": 2
+      },
+      "weatherIcon": {
+        "period": "day"
+      },
+      "image": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAD+UlEQVR4AexZMU8UQRR+cxg1RqOUNCbYaW3BoYnQ2VAJ/gIldtwZAiVHCSHe0Rn0FwhWNnZoohyFtXaS2FCi0Rg1cuP7hh2EZWd3dnh7nmQv+zJzb7735vvm7c4OR4VO+KcU+L8XuKxgWcEeX4HyFpUsUO2tbsAkc2bl6m4FKzRHFbqVRUpyvLsCJZl75ioFei5Uz8LKCiaVptbWOmg37NA8deh1Us40H+bCnGkY11hYBUGUd0RM7Eqc5G/dUA1Y0pjLZ+bguXhh5l2YNH+QQEMyUGQamfjYQXFmzjjA43uQQOQ1ExYoUkIceAYLRPAhkW09Ap+E8fM2wgeCOdyWZg4K/+QTmDBPRGC0VVWvEoaDXFGu0Sh3UA4bdGyBSBQRQveIzbzRF6Y29MRUWz+qt/UaDH34Glv67JGAyJGWM4J4NSICXTPVNnTtV4V2lKJniqiuie7A0Ifv8zZ9A8YVL+EvRODkO32xtqlXSVFTVegTE51lu8ZVUTD02WbNGGOARQz7xK9CBJ77TU9J0zhX6klzSF1hUYtsHyx79NkWMQYMsCbGAgRbcYHmlrPiqmoyi2uTMVakic0KyDkuKjDaNJb4+doCcV8uwCKG8UvYlLgVu0QF7mzTGD93fVrT47wMTYyivp8Vuk2CH1GBLK4acXsRtXmavRhFNkeeWCc2VSCOS3yq0EeMf1tJysjJLsPPG8j+hoLvPmZjbI54TF4uNp7z2a6zxQklbk5wwQNxHvieOmWqQByVeGVxDDts/GdPUtYOmXceccWvJo2n+WyMzRHH5uVi41MFWpB3q6kdYceiNk+zF/M3R55YJ1ZU4JkOveSX9i5v+Q+cMzoGTIym3f4B2ttsHLi8blGBizfVVyYwzVv+IB+qV7jvdQGLGAZPNwbVD27FLlGBYNUaVi1+Xazxofo+iMOXZsAAixgTmwYOGBMXCA7fT9E9EAbx+qb+yBvIDNv+xoM+2wzGgAHWxCBY2AoRuHJdfWkNqQl+Huu6Q3g3LjDv9yxKw9BnWzBjmurAIoZ94lchAiOWhFvu0gCd5+frLleqqYiew9CH73SH+oGx+CJaEYFclREXOWway8NqdbmqHvKhehyGPnzRppQYmpYzMcDhPLZAHKE497oUIc6FgwIWbD3KDVewHUugIRD9KMsnnsxjky9Lk0voJ8lggYfEOY5uvoKScDiakYDIIIFFi7OCJUQGCSR7W+asHBYGZgX4tAdF+uDjmCCB/IwoM3E8W9Z3LEyFcv8LG3Nhzqz0SeNBApMS9aqvFNirlfHlVVbQd6W8cHivBfwL2yu3A9TVCprdMOerxcHb291Vgd6sBIGlQMHF/Cepygp2bdkLmujEV/APAAAA//8RNCq0AAAABklEQVQDAMIxtoAQqEhaAAAAAElFTkSuQmCC"
+    }
+  ],
+  "files": [
+    {
+      "path": "manifest.xml",
+      "content": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><iq:manifest xmlns:iq=\"http://www.garmin.com/xml/connectiq\" version=\"3\"><iq:application id=\"16ca8a4589744f049569ab92966f7ad5\" type=\"watchface\" name=\"@Strings.AppName\" entry=\"GeneratedApp\" launcherIcon=\"@Drawables.LauncherIcon\" minApiLevel=\"4.2.1\"><iq:products><iq:product id=\"venu445mm\"/></iq:products><iq:permissions></iq:permissions><iq:languages><iq:language>eng</iq:language></iq:languages><iq:barrels/></iq:application></iq:manifest>"
+    },
+    {
+      "path": "monkey.jungle",
+      "content": "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n"
+    },
+    {
+      "path": "source/App.mc",
+      "content": "// GarminFaceCreator local generator basic-6-calendar; approximate system font mapping, no SDK fonts bundled.\n// TimelyFenix Creator layout adaptation of KWottrich/TimelyFenix @ d38a347a548667780a9f17b84f5f02155687a72c; GPL-3.0-only. See distributed notices.\nimport Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.Time;import Toybox.Time.Gregorian;\nclass GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}\nclass GeneratedView extends WatchUi.WatchFace {\n var sleeping=false;var scale=1.0;\n function initialize(){WatchFace.initialize();}\n function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}\n function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}\n \n function metricValid(value,battery){return value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100);}\n function metricText(value,source,label,unit,precision,missing){\n  if(!metricValid(value,source.equals(\"battery\"))){return label+missing;}\n  var text=\"\";\n  if(precision>=0){text=value.toFloat().format(\"%.\"+precision.format(\"%d\")+\"f\");}\n  else if(source.equals(\"seconds\")){text=value.toNumber().format(\"%02d\");}\n  else if(source.equals(\"steps\")){var digits=value.toNumber().format(\"%d\");var length=digits.length();for(var i=0;i<length;i++){if(i>0 && (length-i)%3==0){text+=\",\";}text+=digits.substring(i,i+1);}}\n  else {text=value.toFloat().format(\"%.6f\");while(text.length()>0 && text.substring(text.length()-1,text.length()).equals(\"0\")){text=text.substring(0,text.length()-1);}if(text.substring(text.length()-1,text.length()).equals(\".\")){text=text.substring(0,text.length()-1);}}\n  return label+text+unit;\n }\n \n var calendarStamp=0;var mondayCells=null;var sundayCells=null;\n function calendarMonthDays(year,month){if(month==2 && (year%400==0 || (year%4==0 && year%100!=0))){return 29;}return [31,28,31,30,31,30,31,31,30,31,30,31][month-1];}\n function calendarCells(info,start){\n  var stamp=info.year*10000+info.month*100+info.day;\n  if(stamp!=calendarStamp){calendarStamp=stamp;mondayCells=null;sundayCells=null;}\n  if(start==1 && mondayCells!=null){return mondayCells;}if(start==0 && sundayCells!=null){return sundayCells;}\n  var offset=-7-(info.day_of_week-1-start+7)%7;var cells=[];\n  for(var i=0;i<21;i++){var y=info.year;var m=info.month;var d=info.day+offset+i;\n   while(d<1){m--;if(m<1){m=12;y--;}d+=calendarMonthDays(y,m);}\n   while(d>calendarMonthDays(y,m)){d-=calendarMonthDays(y,m);m++;if(m>12){m=1;y++;}}\n   cells.add([d,m!=info.month,offset+i==0]);\n  }\n  if(start==1){mondayCells=cells;}else{sundayCells=cells;}return cells;\n }\n function calendarPaint(dc,ink){dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}\n function drawCalendar(dc,info,start,x,y,w,h,textFont,normal,muted,header,highlight,todayText){\n  var names=[\"Su\",\"Mo\",\"Tu\",\"We\",\"Th\",\"Fr\",\"Sa\"];var cells=calendarCells(info,start);\n  calendarPaint(dc,header);\n  for(var col=0;col<7;col++){dc.drawText(px(x+(col+0.5)*w/7),px(y+h/8),textFont,names[(start+col)%7],Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}\n  for(var i=0;i<21;i++){var cx=x+(i%7+0.5)*w/7;var cy=y+((i/7).toNumber()+1.5)*h/4;\n   if(cells[i][2]){calendarPaint(dc,highlight);var radius=w/7.0;if(h/4.0<radius){radius=h/4.0;}dc.fillCircle(px(cx),px(cy),px(radius*0.43));}\n   calendarPaint(dc,cells[i][2]?todayText:(cells[i][1]?muted:normal));dc.drawText(px(cx),px(cy),textFont,cells[i][0].format(\"%d\"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);\n  }\n }\n\n function px(value){return (value*scale).toNumber();}\n function onUpdate(dc as Graphics.Dc) as Void {\n  scale=dc.getWidth()/454.0;var clock=System.getClockTime();var databattery=null;try {databattery=System.getSystemStats().battery;}catch(e){}var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=[\"SUN\",\"MON\",\"TUE\",\"WED\",\"THU\",\"FRI\",\"SAT\"][calendar.day_of_week-1]+\" \"+calendar.day.format(\"%d\");\n  dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);\n  if(sleeping){{dc.setFill(Graphics.createColor(255,(0x000000>>16)&255,(0x000000>>8)&255,0x000000&255));dc.setStroke(Graphics.createColor(255,(0x000000>>16)&255,(0x000000>>8)&255,0x000000&255));dc.setPenWidth(px(2));var polygon=[[px(454),px(227)],[px(452.058),px(256.6294)],[px(446.2652),px(285.7519)],[px(436.7207),px(313.8691)],[px(423.5878),px(340.5)],[px(407.0912),px(365.1888)],[px(387.5132),px(387.5132)],[px(365.1888),px(407.0912)],[px(340.5),px(423.5878)],[px(313.8691),px(436.7207)],[px(285.7519),px(446.2652)],[px(256.6294),px(452.058)],[px(227),px(454)],[px(197.3706),px(452.058)],[px(168.2481),px(446.2652)],[px(140.1309),px(436.7207)],[px(113.5),px(423.5878)],[px(88.8112),px(407.0912)],[px(66.4868),px(387.5132)],[px(46.9088),px(365.1888)],[px(30.4122),px(340.5)],[px(17.2793),px(313.8691)],[px(7.7348),px(285.7519)],[px(1.942),px(256.6294)],[px(0),px(227)],[px(1.942),px(197.3706)],[px(7.7348),px(168.2481)],[px(17.2793),px(140.1309)],[px(30.4122),px(113.5)],[px(46.9088),px(88.8112)],[px(66.4868),px(66.4868)],[px(88.8112),px(46.9088)],[px(113.5),px(30.4122)],[px(140.1309),px(17.2793)],[px(168.2481),px(7.7348)],[px(197.3706),px(1.942)],[px(227),px(0)],[px(256.6294),px(1.942)],[px(285.7519),px(7.7348)],[px(313.8691),px(17.2793)],[px(340.5),px(30.4122)],[px(365.1888),px(46.9088)],[px(387.5132),px(66.4868)],[px(407.0912),px(88.8112)],[px(423.5878),px(113.5)],[px(436.7207),px(140.1309)],[px(446.2652),px(168.2481)],[px(452.058),px(197.3706)]];dc.fillPolygon(polygon);}\n\ndc.setFill(Graphics.createColor(255,(0x667585>>16)&255,(0x667585>>8)&255,0x667585&255));dc.setStroke(Graphics.createColor(255,(0x667585>>16)&255,(0x667585>>8)&255,0x667585&255));dc.setColor(0x667585,Graphics.COLOR_TRANSPARENT);dc.drawText(px(227),px(118),Graphics.FONT_NUMBER_HOT,clock.hour.format(\"%02d\")+\":\"+clock.min.format(\"%02d\"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);\n\n\n\n\n}else{{dc.setFill(Graphics.createColor(255,(0x06101b>>16)&255,(0x06101b>>8)&255,0x06101b&255));dc.setStroke(Graphics.createColor(255,(0x06101b>>16)&255,(0x06101b>>8)&255,0x06101b&255));dc.setPenWidth(px(2));var polygon=[[px(454),px(227)],[px(452.058),px(256.6294)],[px(446.2652),px(285.7519)],[px(436.7207),px(313.8691)],[px(423.5878),px(340.5)],[px(407.0912),px(365.1888)],[px(387.5132),px(387.5132)],[px(365.1888),px(407.0912)],[px(340.5),px(423.5878)],[px(313.8691),px(436.7207)],[px(285.7519),px(446.2652)],[px(256.6294),px(452.058)],[px(227),px(454)],[px(197.3706),px(452.058)],[px(168.2481),px(446.2652)],[px(140.1309),px(436.7207)],[px(113.5),px(423.5878)],[px(88.8112),px(407.0912)],[px(66.4868),px(387.5132)],[px(46.9088),px(365.1888)],[px(30.4122),px(340.5)],[px(17.2793),px(313.8691)],[px(7.7348),px(285.7519)],[px(1.942),px(256.6294)],[px(0),px(227)],[px(1.942),px(197.3706)],[px(7.7348),px(168.2481)],[px(17.2793),px(140.1309)],[px(30.4122),px(113.5)],[px(46.9088),px(88.8112)],[px(66.4868),px(66.4868)],[px(88.8112),px(46.9088)],[px(113.5),px(30.4122)],[px(140.1309),px(17.2793)],[px(168.2481),px(7.7348)],[px(197.3706),px(1.942)],[px(227),px(0)],[px(256.6294),px(1.942)],[px(285.7519),px(7.7348)],[px(313.8691),px(17.2793)],[px(340.5),px(30.4122)],[px(365.1888),px(46.9088)],[px(387.5132),px(66.4868)],[px(407.0912),px(88.8112)],[px(423.5878),px(113.5)],[px(436.7207),px(140.1309)],[px(446.2652),px(168.2481)],[px(452.058),px(197.3706)]];dc.fillPolygon(polygon);}\ndc.setFill(Graphics.createColor(255,(0x7891aa>>16)&255,(0x7891aa>>8)&255,0x7891aa&255));dc.setStroke(Graphics.createColor(255,(0x7891aa>>16)&255,(0x7891aa>>8)&255,0x7891aa&255));dc.setColor(0x7891aa,Graphics.COLOR_TRANSPARENT);dc.drawText(px(227),px(44),Graphics.FONT_XTINY,\"TIMELY\",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);\ndc.setFill(Graphics.createColor(255,(0xe8f1fa>>16)&255,(0xe8f1fa>>8)&255,0xe8f1fa&255));dc.setStroke(Graphics.createColor(255,(0xe8f1fa>>16)&255,(0xe8f1fa>>8)&255,0xe8f1fa&255));dc.setColor(0xe8f1fa,Graphics.COLOR_TRANSPARENT);dc.drawText(px(227),px(118),Graphics.FONT_NUMBER_HOT,clock.hour.format(\"%02d\")+\":\"+clock.min.format(\"%02d\"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);\ndc.setFill(Graphics.createColor(255,(0xc5d8e9>>16)&255,(0xc5d8e9>>8)&255,0xc5d8e9&255));dc.setStroke(Graphics.createColor(255,(0xc5d8e9>>16)&255,(0xc5d8e9>>8)&255,0xc5d8e9&255));dc.setColor(0xc5d8e9,Graphics.COLOR_TRANSPARENT);dc.drawText(px(256),px(185),Graphics.FONT_XTINY,dateText,Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);\n{var value=databattery;var ink=0x70c7ff;if(metricValid(value,true)){if(value>=0 && value<10){ink=0xff5566;}else if(value>=10 && value<30){ink=0xffee44;}else if(value>=30 && true){ink=0x70c7ff;}}dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.drawText(px(256),px(219),Graphics.FONT_XTINY,metricText(value,\"battery\",\"BAT \",\"%\",-1,\"--\"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}\n{dc.setFill(Graphics.createColor(255,(0x1b3147>>16)&255,(0x1b3147>>8)&255,0x1b3147&255));dc.setStroke(Graphics.createColor(255,(0x1b3147>>16)&255,(0x1b3147>>8)&255,0x1b3147&255));dc.setPenWidth(px(1));dc.drawLine(px(90),px(242),px(364),px(243));}\ndrawCalendar(dc,calendar,1,80,252,294,140,Graphics.FONT_XTINY,0xe8f1fa,0x586a7f,0x7891aa,0x70c7ff,0x06101b);\nGfcIcons.draw_timely_008(dc,px(100),px(174));}\n }\n}"
+    },
+    {
+      "path": "resources/strings/strings.xml",
+      "content": "<strings><string id=\"AppName\">TimelyFenix</string></strings>"
+    },
+    {
+      "path": "resources/drawables/drawables.xml",
+      "content": "<drawables><bitmap id=\"LauncherIcon\" filename=\"icon.svg\"/></drawables>"
+    },
+    {
+      "path": "resources/drawables/icon.svg",
+      "content": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"65\" height=\"65\"><circle cx=\"32\" cy=\"32\" r=\"28\" fill=\"#45d6be\"/></svg>"
+    },
+    {
+      "path": "resources/drawables/gfc-icons.xml",
+      "content": "<drawables><bitmap id=\"GfcIcon_timely_008_clear\" filename=\"../../assets/timely_008_wx_clear.png\"/><bitmap id=\"GfcIcon_timely_008_partly\" filename=\"../../assets/timely_008_wx_partly.png\"/><bitmap id=\"GfcIcon_timely_008_cloudy\" filename=\"../../assets/timely_008_wx_cloudy.png\"/><bitmap id=\"GfcIcon_timely_008_rain\" filename=\"../../assets/timely_008_wx_rain.png\"/><bitmap id=\"GfcIcon_timely_008_snow\" filename=\"../../assets/timely_008_wx_snow.png\"/><bitmap id=\"GfcIcon_timely_008_wind\" filename=\"../../assets/timely_008_wx_wind.png\"/><bitmap id=\"GfcIcon_timely_008_thunder\" filename=\"../../assets/timely_008_wx_thunder.png\"/><bitmap id=\"GfcIcon_timely_008_fog\" filename=\"../../assets/timely_008_wx_fog.png\"/><bitmap id=\"GfcIcon_timely_008_missing\" filename=\"../../assets/timely_008_wx_missing.png\"/></drawables>"
+    },
+    {
+      "path": "source/GfcIcons.mc",
+      "content": "// GarminFaceCreator fixed icon adapter icons-1. Weather categories are approximate pictograms, not severe-weather warnings.\nimport Toybox.Graphics;import Toybox.WatchUi;import Toybox.Weather;class GfcIcons {static function draw_timely_008(dc as Graphics.Dc,x,y) as Void {var condition=null;try {var data=Weather.getCurrentConditions();if(data!=null){condition=data.condition;}}catch(e){}var resource=Rez.Drawables.GfcIcon_timely_008_missing;if(condition!=null){if(condition==0||condition==23||condition==40){resource=Rez.Drawables.GfcIcon_timely_008_clear;}else if(condition==1||condition==22||condition==52){resource=Rez.Drawables.GfcIcon_timely_008_partly;}else if(condition==2||condition==20){resource=Rez.Drawables.GfcIcon_timely_008_cloudy;}else if(condition==3||condition==11||condition==13||condition==14||condition==15||condition==24||condition==25||condition==26||condition==27||condition==31||condition==45||condition==49){resource=Rez.Drawables.GfcIcon_timely_008_rain;}else if(condition==4||condition==7||condition==10||condition==16||condition==17||condition==18||condition==19||condition==21||condition==34||condition==43||condition==44||condition==46||condition==47||condition==48||condition==50||condition==51){resource=Rez.Drawables.GfcIcon_timely_008_snow;}else if(condition==5||condition==32||condition==36||condition==37||condition==41||condition==42){resource=Rez.Drawables.GfcIcon_timely_008_wind;}else if(condition==6||condition==12||condition==28){resource=Rez.Drawables.GfcIcon_timely_008_thunder;}else if(condition==8||condition==9||condition==29||condition==30||condition==33||condition==35||condition==38||condition==39){resource=Rez.Drawables.GfcIcon_timely_008_fog;}}dc.drawBitmap(x,y,WatchUi.loadResource(resource));}}"
+    }
+  ],
+  "codeRevision": 0,
+  "versions": [],
+  "target": "venu445mm",
+  "deviceSize": "45mm",
+  "assets": [
+    {
+      "id": "timely_008_clear",
+      "path": "assets/timely_008_wx_clear.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAD+UlEQVR4AexZMU8UQRR+cxg1RqOUNCbYaW3BoYnQ2VAJ/gIldtwZAiVHCSHe0Rn0FwhWNnZoohyFtXaS2FCi0Rg1cuP7hh2EZWd3dnh7nmQv+zJzb7735vvm7c4OR4VO+KcU+L8XuKxgWcEeX4HyFpUsUO2tbsAkc2bl6m4FKzRHFbqVRUpyvLsCJZl75ioFei5Uz8LKCiaVptbWOmg37NA8deh1Us40H+bCnGkY11hYBUGUd0RM7Eqc5G/dUA1Y0pjLZ+bguXhh5l2YNH+QQEMyUGQamfjYQXFmzjjA43uQQOQ1ExYoUkIceAYLRPAhkW09Ap+E8fM2wgeCOdyWZg4K/+QTmDBPRGC0VVWvEoaDXFGu0Sh3UA4bdGyBSBQRQveIzbzRF6Y29MRUWz+qt/UaDH34Glv67JGAyJGWM4J4NSICXTPVNnTtV4V2lKJniqiuie7A0Ifv8zZ9A8YVL+EvRODkO32xtqlXSVFTVegTE51lu8ZVUTD02WbNGGOARQz7xK9CBJ77TU9J0zhX6klzSF1hUYtsHyx79NkWMQYMsCbGAgRbcYHmlrPiqmoyi2uTMVakic0KyDkuKjDaNJb4+doCcV8uwCKG8UvYlLgVu0QF7mzTGD93fVrT47wMTYyivp8Vuk2CH1GBLK4acXsRtXmavRhFNkeeWCc2VSCOS3yq0EeMf1tJysjJLsPPG8j+hoLvPmZjbI54TF4uNp7z2a6zxQklbk5wwQNxHvieOmWqQByVeGVxDDts/GdPUtYOmXceccWvJo2n+WyMzRHH5uVi41MFWpB3q6kdYceiNk+zF/M3R55YJ1ZU4JkOveSX9i5v+Q+cMzoGTIym3f4B2ttsHLi8blGBizfVVyYwzVv+IB+qV7jvdQGLGAZPNwbVD27FLlGBYNUaVi1+Xazxofo+iMOXZsAAixgTmwYOGBMXCA7fT9E9EAbx+qb+yBvIDNv+xoM+2wzGgAHWxCBY2AoRuHJdfWkNqQl+Huu6Q3g3LjDv9yxKw9BnWzBjmurAIoZ94lchAiOWhFvu0gCd5+frLleqqYiew9CH73SH+oGx+CJaEYFclREXOWway8NqdbmqHvKhehyGPnzRppQYmpYzMcDhPLZAHKE497oUIc6FgwIWbD3KDVewHUugIRD9KMsnnsxjky9Lk0voJ8lggYfEOY5uvoKScDiakYDIIIFFi7OCJUQGCSR7W+asHBYGZgX4tAdF+uDjmCCB/IwoM3E8W9Z3LEyFcv8LG3Nhzqz0SeNBApMS9aqvFNirlfHlVVbQd6W8cHivBfwL2yu3A9TVCprdMOerxcHb291Vgd6sBIGlQMHF/Cepygp2bdkLmujEV/APAAAA//8RNCq0AAAABklEQVQDAMIxtoAQqEhaAAAAAElFTkSuQmCC"
+    },
+    {
+      "id": "timely_008_partly",
+      "path": "assets/timely_008_wx_partly.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAADdklEQVR4AeyWS47UMBCGy30CFhyAEyB2CLEgYcct2LOYhgt09wGQgjgPJCzQjMRmjsAR2LFBMf9fidMzDcF2O5mEkSPX2O1HVX1VfsxG7vmXAf/3BOcM5gyuPAJ5i648QV73cga9IVr5hJzBlSfI617OoC9E2692T/HNW2p8mgxu5MVSAD67wYDbS1v4lK1xPBiQzgPSQm6DbqSRVr7IyYd59Rq2bjBg9cwQ5ACOGs4PkOyvnps9+oeC8ZrQp/2cgLECQh0UBkwDMVcwggHpXEWQVg6E4m849RLOvr+4sh+23+wr7bu0jwD39hQO8xQMc2oIA0RptL2RnUCg71agMJZcogBpzTm+vbIVnPqEvnfGymP5JT/RFsB/x5xrtp30jndgXYAM5lFK1phXCvqhb4dAMKuER3d6iQakSTjxWqxcsA1hRkvUgv6CME60D88IHUe7IQzg/8gS+hvtJyQmojAYqNKLF1Cdxg3KejBn5U3fJpx7B+lUrTDYbqyxxrLGXMJpENAeLTchsZb6RueGDngBoWgHobGamUFbxMhDET2LezhS9BCi20ykxFi35UR4xgQfLydU/qKQ3Tqe2cK/4t8zvIDYPnpOUJveuIgRnjHnPOHFjaNmthrORdutdXMl8OsC0sr8gPK3z8hHON9o9jjeSucQ2xMIdauajST/h+TNoBo6+VM9NZ+1y0WYj712rO9PNCDO4ZP1YYx7FA2Is3XNrQmph8tlXP9ZI9A9nL2b7XOUBQNua/uABpBBvmO8WOgELw9eJKw5PLXQRg1I29uN1h8MWJXmhxrhG9dd4wSjTA6nl0yrF9fxuYFdgDKwUZDBgKoVRljDgVnAqNsJjsIedobnpn9j+TZGQQYDInrcLu4xd37cWU1gGONuIWTnCzp8JRgQEQxW6jOaMB793oYDurfO1Qlenr3UvbuuDlAUDnhUtjs2F2pFBDkYkAceONFnAGumK8dLjn4E6Q0G7LW5M1Drk9F3jlSTdfOCg3S3Z/d8BOuOAtQsOgOIJoxaCB/iOcWChnAFLrpDf5uiK6xEAVIlDQDU0Bh+c6vwdp1TaINS0jZsRpVoQKedxgDKB9+gnlNog0JIZz64Phsw2MLCEzPgwglINp8zmBzChRXkDC6cgGTzOYPJIVxYQc7gwglINp8zmBzChRXkDN5ZAmYydO8z+BsAAP//Im09eQAAAAZJREFUAwBNLLWAmkGN1wAAAABJRU5ErkJggg=="
+    },
+    {
+      "id": "timely_008_cloudy",
+      "path": "assets/timely_008_wx_cloudy.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAAC+klEQVR4AexX0VHDMAxVshXHB8kmjMAGLRswApukfHBs1fCebCfhaLFcOyRw7lmx48iSnp5sX1v5578K8K8TXBmsDO48A7VEd05QNLzKYDRFO1eoDO6coGh4lcFoinauUBncOUHR8CqD0RQlKjx9jB1k8DJq/z4enyCJpkzqaQyaTF5WAhAFhq8DpPNy0r6Vg0DWAPkrAH3gDthZnl/umsZLzx4ge8G8gvwYySoTIEjKI9dSoHNTa29adWERgiFDHYMJQjWOGTjGJ4J5uW+OGH9pmD/pPEG6L0yGYP4Vax8gB9ifgDsV27MIQAUhwqAGBhOEQelYhOD6WEhLkFhLe1zyzIeXg+/NXTZABNJ5EKJlJtLDe+/H3GN4lWWQfL8qChIJgYJWBFgMNjAlOseBVbIBwpFmGoE0DA492dKSw1j3GPplkFgSbS4hZ9G9KA4wuvSWBVDZo8+znSGqx2RKSCsP33QB2m+Jb58uTWQBRBm6DLeSypAk/t4mfVwn3BJIrlbONH9lkAfwitHS02CUJ68r29m4aT/eBBDZo/GBmZz9lRvRfrAWxgQJaTA/AcV7tHKSAfr6Z3mwPOmABwl7+C7e6GMAyNH7FYBybJ5t+z4JoDrhHnCnGoFRioMDiBP2N5marxv4BdCBKcT3I09sjmOSBDCUJBysAmwZLAHAz3TdeMBuaywVI2MzQGSP5RIu84jZ8p8JGFZZLQTpYsFErJkBIoNmozGnGd9ZtknL7QDDXRf6JDeFlHHJq6XQ68vPDzvA2c5hHm40SkiyGSA3POAk7wGsKddwktKYj4XDqJgBekthDwx6ZfjJK12xaR5wEL0icBaEGEz2kwBq5sIFi2zCKf+E8iJeU0YgIbiO4PxpiilbSwJIk3QAoA2d4V1LFj1P2LWEPig9fcNXUksGGKzTGYDywm/Qryn0QSHI4N7c3wzQ7GFjxQpwYwKy3VcGs1O4sYHK4MYEZLuvDGancGMDlcGNCch2XxnMTuHGBiqDv0bASo7+PYOfAAAA//+8wsYVAAAABklEQVQDADrceICnOc8hAAAAAElFTkSuQmCC"
+    },
+    {
+      "id": "timely_008_rain",
+      "path": "assets/timely_008_wx_rain.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAADcElEQVR4AexXsY4TMRAdp0A0wEEBP0F/F4HE7XfQ0CIhcaFAdEkaBDTJn0BJl1Bwx19QICEokJAokJBY8569vixLbm2vd8PeaVeejNcez8ybGdubkVzwZwB43hM8ZHDIYM8jMJRozxPkdW/IoDdEPRcYMtjzBHndGzLoDVHPBYYM9jxBXveGDHpDFClwdKIPQauCtOHv9ewIFKkqSDwug0EqtwsBiAGG2RXosKC14SOZCqgLkDsBWDhugeUyX46VKigjB8hMMG5AnmhmlQHAcHprFaDLEgGR6J7hyA76a4JZ3lEz9P9qGF+bcYK0M1PL0n9bAUgQAKfhjs0SAYHMGDjGCS4Dr20lkK6ca+VDJpMBAsQhS8sYsxnI0LclJ8I9JnjmoKBmQNp1BJlcqskA4TWzBiYZnTPlNlam5NA3ewzcAaVcCAUHxKcsCaDJHi0gcw1AcKWPkvdiEkCcfLaERhKbIal72gxWGsA6L9uYy+VdqppGAFmaoNXp4ZLqRWU9dLvKuHfar8iEvkYD5JUA5TxY6ARLkwcJOYZbb7SxAkhd2I02EAXQGCnuNVgiMFLr4MwezGWOPW6J1wbsAigDC9PhLQqgK0k40AmwstvmysFXj+Fj5e5V3o1RIIMBInosFzFRLXuyoz6BwhSrhSCtLxjwtWCAABas1Gc0YT76AyAcoLvrHE/wsvHSXGyQHRf/Ew5wo2u66f6nXkSQgwHiYGH9k6L2QDkE2McPJ8f6UXksqo+TlPKFL+x6KRhgocntgZW5MorBM9i24ae5kvvbJurGEBgG1Z6evD7qhCtzUQBN5JwBRBOG+e+bF7HdGxXlqa/QT92b/5mwXZymwaqjAFIrDQCowqnKbJqSRf8fgA8+6suUD6EzZe23KG2QMtoO0VeWiQboFtMYgPLCV+y7cfLJW31j74v8nHzQz/heR4+P9dzIYk1VjnoLG7RDkFUR73tjgHWa9TW5ynmdyy3yWlJyk/NuDfttUicA23QwVddOAaqRPAG9THU6Zv1OAS721evlvnoT42Cq7E4BpjrbZH0nAC/9lm+i5DvK8at4HjjwibJ7V+SzR7TRNPQ3Wle76NVd9WN5oK4vDtSLWkFMLsbqOWVnt9UvvLbeOgHYupcJCgeACcHrxdIhg71IQ4ITQwYTgteLpf3JYEfhuPAA/wAAAP//1uHxDQAAAAZJREFUAwDTry2AnTW+iwAAAABJRU5ErkJggg=="
+    },
+    {
+      "id": "timely_008_snow",
+      "path": "assets/timely_008_wx_snow.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAADT0lEQVR4AexYW3biMAxV2BVnPkh21B1QdtAdhX7M6a7I3CvbISnBj9hk0h7nWMixrceVZBs4yC9/KsCfnuCawZrBnUeglujOExR0r2YwGKKdL6gZ3HmCgu7VDAZDtPMFNYM7T1DQvZrBYIgSF7x9DS2otzQo/zu8v4ESVUUtT8tglMrlRQCiwDDbg1pLV+UHOQvoFSA3AWgdN8Bucvk4No2ljhwgO8G4gvwamFUGAMP5rShAlyUCItE95cgO+leC+fjTvKM/axi/6jhBmpmzYfmfRQASBMANcMdkiYBAOgaOcYLrwL1tAtKVs3d9zGQ2QIBoWVpqzGSgQ9+UnAj3mOC5gKKagjRyBJldqtkA4TWzBiYdndNyOzZacujrHgN3QLkuhqIDElKWBVCzRwvI3AoQlAxR9l7MAoiTz5TQQVIzJL6nZLDyAPq8LDF3k89cNasAsjRB/Xi45HrxTR66XWWcxv63NbGvyQB5JUA5DxY6wdLkQUKO4eKNNnqAHKzdZANJANWIvddgicBIxcHpHrzJBXvcEK8N2AVQBham41sSQFeScOAlwKZu65WDbz3Kj427V3k3JoGMBojosVxEozr1ZKM+gcIUq4UgjS8YCLVogAAWrTRkNGM++QtAPEB31zme4eVq0ZuYIDsu4Sce4F3X+d79T72EIEcDxMHC+icl7YGiIcBJSn3WF3aDFA3QanJ7oNcrww4+YQ/D40H1MOMfoBzInJ68PvzLZ7NJADVyzgCiCaP89c2L2OyNmer5C9a2PKjISfPZ5Teso+7770zYtqfpssDCaBJAytMAgDZwltnUkkU/CBCyZ9yjJ+X4iGrmuyhtkDrajpKbLEoG6GRpDEB54Tfsu3EvNw63kQER6rU2aIcgveqXJlcDXFLmxlBaSxm92Ax24A/OrtnTzp6PFwVIJwGOh8GZHNQ648jEFaSZAB8BjjJmT/dTGSebw4sCZEmpM6YUZQpExxc+RhkR/pcTJbOg5ulQUYDMBvbXJ0rwpPyp2fuEZswEpKeMvt+ns3tFATIbJHh1sRxdf2OW7Vo9Jfnul0ibLQrQmV7j5BoZZ8/HXwLQZ3DruQpw64iXtlczWDqiW+urGdw64qXt1QyWjuhTfS+a+PUZ/AcAAP//NvE3tAAAAAZJREFUAwDellWAowNLtwAAAABJRU5ErkJggg=="
+    },
+    {
+      "id": "timely_008_wind",
+      "path": "assets/timely_008_wx_wind.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAACH0lEQVR4AeyXYY6CMBCFH95qsz8Wb+QN1Bt4I9gfG28FO2+oRBMrg2lLa0p4KdRa5uuDGdjhw7cKWLrB1cHqYOYrUG/RzA1aDK86uLhEmQ+oDmZu0GJ41cHFJcp8QHVwS4MO17E9/I2ne62NJ1sHCSUwHXY43sv1y0+2PUtAOqdQQA9grxpwBiXAayDXAcqVUuyXr0bBpN2LetV3c7qI5Po94XUR5GRpzxKQQROK7ROdtW9AC8OWLaAv9hl8hx/fmPv+4gDn4Af8zscvDooDXJNgyF0UoCYWyaIM3CUcHr6UGZCTc/U203XshISClgs5sewmQMLJZB3T82YCmDWn8jGVC1g2E6DLXFPBBTZpJYZGpHXRAnYbYwLkYJl8KrhShLc4ZgzvyAz4zuQ5/McMyOcwpFLBmwAJJgExgwWTzDneMrLMHW03AfKZ09Q8YHqjD9HyS4E1TUTQWIQmQF6chTWovhpmxEbm7ll6xFGWATkNu5sBw172Ybbp6wA4PvQGOtkcUG//QDDPptkc0AXFN5TiblEXu6lpNYmZhq4blMxBXxKJmUG5FEkAHUQnkB2PpW2dOmZQuscMzYBCKwmgBj9IDQVaBQJuLwx87nr9HXG2JIAM3UHs6dYsgLVwz99jKRkgAVgSCDpLvkzYH1NJAWOC+OaugL6VKaW/OliKU744q4O+lSmlvzpYilO+OKuDvpUppb86mMypSBf6eAf/AQAA//8lXTMWAAAABklEQVQDALubrIBiXYUhAAAAAElFTkSuQmCC"
+    },
+    {
+      "id": "timely_008_thunder",
+      "path": "assets/timely_008_wx_thunder.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAADU0lEQVR4AexXXXLyMAxUuBXzPZTcqDeg3KA3gu+h01uR7so2OMHEdpyEtGMmQo5/JK1WtmEnf/xTAf52giuDlcGNZ6CW6MYJioZXGYymaOMTKoMbJygaXmUwmqKNT6gMbpygaHiVwWiKMie8f3cHyNlKp/qr+3iHZJpKmp7HYJLJ8CQAUWAYPUMOVi6qd3IUyBIgVwFoAzfArnL63DeNlZYaIFtBv4L87sgqE4Du8mdWgI4lAqIwPNVgB+0LwXz+az7Q7j3ov2g/QZqRo1Hl37MAJAiA6xCOYYmAINoHjX6Ca6FHHw+kK+fR+SmDxQAB4sDSUmeGgRZtU3Ii3GOCzwmS9ChIs44gi0u1GCCiJmtQ0jI4Lbd9oyWHtu4xaAeU81IkOSExY0UAlT16AHMTQHBlTIr3YhFAnHymhHaSy5CMfeZMVhnAsSjnGLvK/1IzkwCyNCHn2+FSGsVgPWy7yni7tQdzUl+zAfJKgHEeLAyCpcmDhBrdsz/0cQbIzvrNdpAFUJ3Yew2eCIySBA5B6rHva9gIProHr3LCHjfCawN+sZaJDa551pkF0JUkAkgG5jlmcEPxhvtNvXLwq0f1vnH3KpNEG/3JI2/JAJE9lotoVkcMhoaU+eEAGRr2jbwTKIZZLQRpYkFH7EkGCGDJRmNOOW4DZjNHsn8ApAN0d53TOWFh//SmZ7J3W3sVk2SnJf5JB3i3dbw3461QeU5k7+4sI8nJAHGwsP4pWXsAB9PbPTK0prKHpbClybWxsCcqyQCtJbcHziFm7BynnDZl5d6gudYXdI0+POAg5vTMTFAWQM2cc4B9Baf8982L+AEEIyYI6p5gnTLhdG+w/wL7tH3/nwnfueWdBZDu6QBAG5yqZFNLFu0gQADplycN+BIL2PwWpQ9KS9/+8pR2NkBnlM4AlBd+w7brD2gGR3kYiqwTjlsf9BO08WB00DEZ4MBO8NULjv/yh3NCfcM5xe+LAnwaHUsT//qfjs84sArA3mFDcPiNOSOGUVOrAPQj4L7y35durwNwJ+40XWXf+UlbB6DIAVfJCYfOpJNQCj6LA8RlbcCtuO/8fCwOEMwd1t53qwJ8JTgCXZ5BenmhVIAvTP4sriuDs6TxhUa2w+BCSfjzAH8AAAD///OgWKUAAAAGSURBVAMAjIVKgBE9nykAAAAASUVORK5CYII="
+    },
+    {
+      "id": "timely_008_fog",
+      "path": "assets/timely_008_wx_fog.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAADTklEQVR4AexXQW5TMRAdB4SEuAALyoo9KwQBJPJPwRlAqggnSLNgBVIj9UAJizaFHWdgwRFYNeY9+7sJFcT2Hyf9rRz913H97TfzPGM7Gcgt/1SBNz3BNYM1gz1fgVqiPU9QNLyawegS9XxAzWDPExQNr2YwukQ9H1Az2PMERcOrGYwuUeaA8dKOgHkL6+ypPRoDmVRJw/MymET570EQ4oTh7RwYtVg4O5CJALsQuReBbeBe2Eqms6ExLRpaiGwE/U7k0jKrXAB065+iAkOWKIhgeM4iO2gvKGb2yhyh/deD/oXrp0j/ZuKN/m8RgRQBcRbh+CxREOD6YNFPcQ3s1mdDZCjnreNTXqoFQsSIpeWc+Qw0aPuSE+EeE3ymQNLjRPp5FKkuVbVARM2swUjD4Fy5DY0rObTdHoMNQjkuBckLEiNTCXTZowdkroMIzoxBvRdVAnHy+RIaSG6GZNun5GLpBG6LssS7lXzV0nQSyNIE5peHizaKK/PBHSrjzWX7ypjUf7MF8koAOQ8WBsHS5EFCi+7iD33MIdK2frMdZAl0Ttp7DZ4ojCguzu3BlUyxxz14bcAvhHJh4Tr9yRIYShIB7ETYZtjuysG3HmeHJtyrvBuzRCYLxOqxXMSt6mYke2pTKFyxWijSx4KO2JMsEMKSSWNOFe+zvwCkCwx3XbCKKDtPXYlf5GAl/kkXuOaarJvX1MpY5GSBOFhY/0TWHii6BDhJydfGwmYUyQJbprAH5u7KaDv/Y4p184AD/OnJ6yODOUugW7ngAKsJp/z1zYvY740MxylDwU/u9e9M+G5P05TpbkyWQM6gAwg1OFWZTVeyaO9EIHj5XZQ+iIa+GUMOsgUGcjqDUF74hu3QX9KSt/VBPxSZTd9Z4Kanw3P76P13+7AkyLnpo2tbLfDwm316x8rPexfyqyTISe6uwsI8tcCT5+aH3JXXF0aGJUFOxx0i7WjVAul39sycnrww5yVBTnJrUUTgh6X9EjA+s581CDywn7TiOF8t8OOZvQ+SB8CBETkQI481IAcBvifkZpAagEczXeT4pfl9PDTvgLc40ouBfOTWRSf4Catl6Pl8dQZ7rq9msO8JisZXSzS6RD0fUDO4twTtyNGtz+AfAAAA//+39MezAAAABklEQVQDACDA/YDLVU7AAAAAAElFTkSuQmCC"
+    },
+    {
+      "id": "timely_008_missing",
+      "path": "assets/timely_008_wx_missing.png",
+      "data": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAYAAACohjseAAACBElEQVR4AexVbZKCMAyN3GpnfyzcyBsoN/BGsj92vBVsUpqKBdvph05wwjSkTb/ey4vSwIc/SnDvAquCqqDwDGiJChcoCk8VjKZI+AJVULhAUXiqYDRFwheogsIFisJTBaMpEr4gTUHhZLbgKcGtrOwppgruSa0trNkKHm/TFW2y1vLhx7/pbGM05+Jb8xxj7+29crzEZxP0Lj154+fDBua1I/TPF5mZFhO1SpCZSXjVIthS9mP3Rtcw+ftBczLu4+ReLYIAa3BBMJfvw3m5wCM/2DkxCho8WFLh3w0nYas8G/gxhwAQOVe+eGYRyVoKdjA/LSrJQOeIfS8VWql3m4gEGcAIv5evA5G0O+HEnRxfhaAFxKBmoD6akHojPOxZJgMAHuYg8alC0N7pysqOnfMAu7jrMHkKUJ+M+tZKyrQaQaPi1m/LgmS3Kk/8bvIc+gFLtHeGAduyy7QaQQLig6eYyT4rEk9AT2ew4X5X9uYcDKS2EoJUkh1eSIZubqjkAXsU67A/kLmx92nAOOCfEpFw603MvnCviePQnIU+uWUTxMsNePL+rRQj4zj1yXi89BRnW8a5H5rjNSGfTTB0qKS5VxIUwVMJipChAIQqWJA8EVtVQREyFIBQBQuSJ2KrKihChgIQqmBB8kRsVQVFyFAAQhUsSJ6Irarg22R40UUfr+A/AAAA//+LzawZAAAABklEQVQDAGhznHHkseY3AAAAAElFTkSuQmCC"
+    }
+  ],
+  "codeProvenance": {
+    "primary": "reference"
+  }
+}

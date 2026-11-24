@@ -57,5 +57,23 @@
     "upstreamCommitStatus": "Pinned upstream revision; referenced file SHA-256 checked by reproducible builder",
     "legacy": false,
     "verifiedLicense": true
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000005",
+    "name": "TimelyFenix",
+    "template": "timelyfenix",
+    "source": "https://github.com/KWottrich/TimelyFenix",
+    "status": "Trimmed Creator layout adaptation GPL-3.0-only; system fonts and Meteocons MIT; original Pixeden font/icon binaries not copied",
+    "summary": "GPLv3 精简适配；动态三周日历、Garmin 缓存天气与 MIT Meteocons；完整原许可和修改说明保留",
+    "files": [
+      "TimelyFenix-LICENSE.txt",
+      "TimelyFenix-README.md",
+      "TimelyFenix-ADAPTATION.md",
+      "repository-LICENSE.txt"
+    ],
+    "upstreamCommit": "d38a347a548667780a9f17b84f5f02155687a72c",
+    "upstreamCommitStatus": "Pinned upstream revision; original input SHA-256 verified by reproducible builder",
+    "legacy": false,
+    "verifiedLicense": true
   }
 ]
