@@ -87,6 +87,7 @@ export type Project = {
   assets?: BinaryAsset[];
   designSnapshots?: DesignSnapshot[];
   activeDesignSnapshot?: string;
+  referenceId?: string;
   codeRevision: number;
   versions: CodeVersion[];
   activeCodeVersion?: string;

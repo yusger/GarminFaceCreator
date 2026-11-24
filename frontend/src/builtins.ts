@@ -40,6 +40,7 @@ export function copyReference(
     ...structuredClone(reference),
     id: uid(),
     appId,
+    referenceId: reference.id,
     name,
     updated: Date.now(),
     files: reference.files.map((file) =>

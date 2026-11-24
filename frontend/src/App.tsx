@@ -1,3 +1,4 @@
+import { exportSources } from "./sourceExport";
 import { groupBox, layerBox, insideBox, type Box } from "./selection";
 import ThresholdEditor from "./ThresholdEditor";
 import { defaultThresholds } from "./thresholds";
@@ -1499,6 +1500,27 @@ export default function App() {
                     </div>
                   ))}
                 </div>
+                <button
+                  className="export-button"
+                  disabled={!p.files.length}
+                  onClick={async () => {
+                    try {
+                      const result = await exportSources(p),
+                        url = URL.createObjectURL(result.blob),
+                        link = document.createElement("a");
+                      link.href = url;
+                      link.download = result.name;
+                      link.click();
+                      setTimeout(() => URL.revokeObjectURL(url), 1000);
+                      setNotice(result.licenseStatus);
+                    } catch (error) {
+                      setNotice((error as Error).message);
+                    }
+                  }}
+                >
+                  <Download size={15} />
+                  导出源码工程 ZIP
+                </button>
                 <button
                   className="export-button"
                   onClick={() => download(p.name + ".json", p)}
