@@ -210,8 +210,24 @@ export default function Scene({
                 <rect
                   width={l.w}
                   height={l.h}
-                  fill={aod ? l.aodColor || "#777777" : l.color}
-                  rx="4"
+                  fill={
+                    l.fillEnabled === false
+                      ? "none"
+                      : aod
+                        ? l.aodColor || "#777777"
+                        : l.color
+                  }
+                  rx={l.cornerRadius ?? 4}
+                  fillOpacity={l.opacity ?? 1}
+                  stroke={
+                    l.strokeEnabled
+                      ? aod
+                        ? l.aodColor || "#777777"
+                        : l.strokeColor || l.color
+                      : "none"
+                  }
+                  strokeWidth={l.strokeWidth || 2}
+                  strokeOpacity={l.opacity ?? 1}
                 />
               ) : l.kind === "circle" ? (
                 <ellipse
@@ -219,7 +235,23 @@ export default function Scene({
                   cy={l.h / 2}
                   rx={l.w / 2}
                   ry={l.h / 2}
-                  fill={aod ? l.aodColor || "#777777" : l.color}
+                  fill={
+                    l.fillEnabled === false
+                      ? "none"
+                      : aod
+                        ? l.aodColor || "#777777"
+                        : l.color
+                  }
+                  fillOpacity={l.opacity ?? 1}
+                  stroke={
+                    l.strokeEnabled
+                      ? aod
+                        ? l.aodColor || "#777777"
+                        : l.strokeColor || l.color
+                      : "none"
+                  }
+                  strokeWidth={l.strokeWidth || 2}
+                  strokeOpacity={l.opacity ?? 1}
                 />
               ) : l.kind === "line" ? (
                 <line
@@ -227,8 +259,15 @@ export default function Scene({
                   y1="0"
                   x2={l.w}
                   y2={l.h}
-                  stroke={aod ? l.aodColor || "#777777" : l.color}
+                  stroke={
+                    l.strokeEnabled === false
+                      ? "none"
+                      : aod
+                        ? l.aodColor || "#777777"
+                        : l.strokeColor || l.color
+                  }
                   strokeWidth={l.strokeWidth || 2}
+                  strokeOpacity={l.opacity ?? 1}
                   strokeDasharray={l.guide ? "6 4" : undefined}
                   strokeLinecap={(l.strokeWidth || 2) > 2 ? "round" : "butt"}
                 />

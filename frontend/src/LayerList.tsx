@@ -26,8 +26,9 @@ function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
           y1={0}
           x2={w}
           y2={h}
-          stroke={l.color}
+          stroke={l.strokeEnabled === false ? "none" : l.strokeColor || l.color}
           strokeWidth={stroke}
+          strokeOpacity={l.opacity ?? 1}
         />
       ) : l.kind === "ring" ? (
         <ellipse
@@ -43,7 +44,15 @@ function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
       ) : l.kind === "circle" ? (
         <ellipse cx={w / 2} cy={h / 2} rx={w / 2} ry={h / 2} fill={l.color} />
       ) : l.kind === "rect" ? (
-        <rect width={w} height={h} fill={l.color} />
+        <rect
+          width={w}
+          height={h}
+          fill={l.fillEnabled === false ? "none" : l.color}
+          fillOpacity={l.opacity ?? 1}
+          stroke={l.strokeEnabled ? l.strokeColor || l.color : "none"}
+          strokeWidth={stroke}
+          strokeOpacity={l.opacity ?? 1}
+        />
       ) : (
         <text
           x={w / 2}

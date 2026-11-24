@@ -1,6 +1,6 @@
 import { defaultThresholds } from "./thresholds.ts";
 import type { Project } from "./domain";
-export const CURRENT_SCHEMA = 6;
+export const CURRENT_SCHEMA = 7;
 export function migrateProject(value: unknown): Project {
   if (!value || typeof value !== "object") throw Error("项目格式不正确");
   const input = value as Project;
@@ -87,6 +87,26 @@ export function migrateProject(value: unknown): Project {
     result = {
       ...result,
       schemaVersion: 6,
+      layers: result.layers.map(defaults),
+      designSnapshots: result.designSnapshots?.map((snapshot) => ({
+        ...snapshot,
+        layers: snapshot.layers.map(defaults),
+      })),
+    };
+  }
+  if (result.schemaVersion === 6) {
+    const defaults = (l: Project["layers"][number]) =>
+      ["rect", "circle", "line"].includes(l.kind)
+        ? {
+            ...l,
+            fillEnabled: l.fillEnabled ?? l.kind !== "line",
+            strokeEnabled: l.strokeEnabled ?? l.kind === "line",
+            opacity: l.opacity ?? 1,
+          }
+        : l;
+    result = {
+      ...result,
+      schemaVersion: 7,
       layers: result.layers.map(defaults),
       designSnapshots: result.designSnapshots?.map((snapshot) => ({
         ...snapshot,

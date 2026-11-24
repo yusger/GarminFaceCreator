@@ -1,3 +1,4 @@
+import { graphicsCapabilities } from "./graphics";
 import { anchorPosition, coordinatePatch } from "./anchors";
 import LayerList from "./LayerList";
 import Palette from "./Palette";
@@ -1797,25 +1798,117 @@ export default function App() {
                       />
                       <code>{current.color.toUpperCase()}</code>
                     </label>
-                    {current.kind === "line" && (
-                      <label>
-                        线宽
-                        <input
-                          aria-label="线宽"
-                          type="number"
-                          min="1"
-                          max="32"
-                          value={current.strokeWidth || 2}
-                          onChange={(e) =>
-                            patch({
-                              strokeWidth: Math.max(
-                                1,
-                                Math.min(32, Number(e.target.value) || 1),
-                              ),
-                            })
-                          }
-                        />
-                      </label>
+                    {["rect", "circle", "line"].includes(current.kind) && (
+                      <>
+                        {current.kind !== "line" && (
+                          <label className="inline">
+                            <input
+                              type="checkbox"
+                              checked={current.fillEnabled !== false}
+                              onChange={(e) =>
+                                patch({ fillEnabled: e.target.checked })
+                              }
+                            />
+                            填充形状
+                          </label>
+                        )}
+                        <label className="inline">
+                          <input
+                            type="checkbox"
+                            checked={
+                              current.strokeEnabled ?? current.kind === "line"
+                            }
+                            onChange={(e) =>
+                              patch({ strokeEnabled: e.target.checked })
+                            }
+                          />
+                          启用描边
+                        </label>
+                        {(current.strokeEnabled ?? current.kind === "line") && (
+                          <>
+                            <label>
+                              描边颜色
+                              <input
+                                aria-label="描边颜色"
+                                type="color"
+                                value={current.strokeColor || current.color}
+                                onChange={(e) =>
+                                  patch({ strokeColor: e.target.value })
+                                }
+                              />
+                            </label>
+                            <button
+                              onClick={() => patch({ strokeColor: undefined })}
+                            >
+                              描边跟随基础色
+                            </button>
+                            <label>
+                              线宽
+                              <input
+                                aria-label="线宽"
+                                type="number"
+                                min={1}
+                                max={32}
+                                value={current.strokeWidth || 2}
+                                onChange={(e) =>
+                                  patch({
+                                    strokeWidth: Math.max(
+                                      1,
+                                      Math.min(32, Number(e.target.value) || 1),
+                                    ),
+                                  })
+                                }
+                              />
+                            </label>
+                          </>
+                        )}
+                        <label>
+                          不透明度
+                          <input
+                            aria-label="形状不透明度"
+                            type="number"
+                            step={0.05}
+                            min={0}
+                            max={1}
+                            disabled={!graphicsCapabilities(p).alphaBlending}
+                            value={current.opacity ?? 1}
+                            onChange={(e) =>
+                              patch({
+                                opacity: Math.max(
+                                  0,
+                                  Math.min(1, Number(e.target.value) || 0),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        {current.kind === "rect" && (
+                          <label>
+                            圆角半径
+                            <input
+                              aria-label="圆角半径"
+                              type="number"
+                              min={0}
+                              max={500}
+                              value={current.cornerRadius ?? 4}
+                              onChange={(e) =>
+                                patch({
+                                  cornerRadius: Math.max(
+                                    0,
+                                    Math.min(500, Number(e.target.value) || 0),
+                                  ),
+                                })
+                              }
+                            />
+                          </label>
+                        )}
+                        <p className="hint">
+                          {graphicsCapabilities(p).enhancedGraphics
+                            ? "当前目标已核查增强图形与透明混合能力。"
+                            : "当前目标尚未核查增强图形，不开放透明度。"}
+                          浏览器与设备的色深、抗锯齿可能不同。
+                        </p>
+                      </>
                     )}
                     {["text", "time", "date", "metric"].includes(
                       current.kind,

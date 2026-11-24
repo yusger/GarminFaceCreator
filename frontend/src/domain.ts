@@ -20,6 +20,11 @@ export type Layer = {
   anchor?: "topLeft" | "center" | "topRight" | "bottomLeft" | "bottomRight";
   exportIncluded?: boolean;
   guide?: boolean;
+  fillEnabled?: boolean;
+  strokeEnabled?: boolean;
+  strokeColor?: string;
+  opacity?: number;
+  cornerRadius?: number;
   kind: Kind;
   x: number;
   y: number;
@@ -79,7 +84,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
@@ -223,7 +228,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 6,
+    schemaVersion: 7,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -250,7 +255,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 6 ||
+    p.schemaVersion !== 7 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -309,6 +314,19 @@ export function validateProject(value: unknown): Project {
         (!Number.isInteger(l.precision) || l.precision < 0 || l.precision > 3))
     )
       throw Error("文字或数据格式无效");
+    if (
+      [l.fillEnabled, l.strokeEnabled].some(
+        (v) => v !== undefined && typeof v !== "boolean",
+      ) ||
+      (l.strokeColor !== undefined && !/^#[0-9a-f]{6}$/i.test(l.strokeColor)) ||
+      (l.opacity !== undefined &&
+        (!Number.isFinite(l.opacity) || l.opacity < 0 || l.opacity > 1)) ||
+      (l.cornerRadius !== undefined &&
+        (!Number.isFinite(l.cornerRadius) ||
+          l.cornerRadius < 0 ||
+          l.cornerRadius > 500))
+    )
+      throw Error("形状样式无效");
     if (
       (l.anchor !== undefined &&
         ![
