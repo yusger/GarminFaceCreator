@@ -191,7 +191,8 @@
   - 默认版本优先采用无需外部账号的功能；联网天气另行明确配置，不能沿用上游共享服务密钥。
   - 依赖：P0-03、P1-07/P1-08；先验证 Venu 4 45mm，再扩展已列出的设备。
 
-- [ ] **R-02 TimelyFenix — 日历与天气模板**
+- [x] **R-02 TimelyFenix — 日历与天气模板**
+  - 阶段 37：Creator 精简参考已完成并通过 Venu 4 45mm；动态三周日历和 Garmin 缓存天气均为真实绑定，8 个可编辑图层，原始 GPLv3 与 Meteocons MIT 完整分发。原字体/Pixeden 图标、原始帧缓冲优化和手机设置未复制，差异见 `TimelyFenix-ADAPTATION.md`。
   - 来源：[KWottrich/TimelyFenix](https://github.com/KWottrich/TimelyFenix)。许可依据：仓库 `LICENSE`，GPLv3。
   - 价值：时间、天气和连续三周日历，补充现有参考库缺少的日历布局。
   - 工作：将原 240–280 像素布局适配到目标屏幕；星期标题、日期格、当前日期高亮、时间、天气分别成为可编辑控件/图层。
