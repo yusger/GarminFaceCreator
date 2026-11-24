@@ -114,3 +114,5 @@ console.log(
   generators.length,
   "generator sources",
 );
+
+await import("./update-research-docs.mjs");

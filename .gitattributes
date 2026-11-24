@@ -16,3 +16,6 @@ frontend/public/reference-notices/KISSFace-* -text
 frontend/public/reference-notices/YetAnother-* -text
 
 frontend/public/reference-notices/Celestial-* -text
+
+docs/research/byod/** -text
+frontend/public/research/byod/** -text

@@ -1,0 +1,119 @@
+{
+  "proposalVersion": 1,
+  "status": "proposalNotRuntimeSchema",
+  "designSize": 454,
+  "safeInset": 24,
+  "slots": [
+    {
+      "id": "A",
+      "x": 91,
+      "y": 91,
+      "w": 126,
+      "h": 80
+    },
+    {
+      "id": "B",
+      "x": 237,
+      "y": 91,
+      "w": 126,
+      "h": 80
+    },
+    {
+      "id": "C",
+      "x": 91,
+      "y": 187,
+      "w": 126,
+      "h": 80
+    },
+    {
+      "id": "D",
+      "x": 237,
+      "y": 187,
+      "w": 126,
+      "h": 80
+    },
+    {
+      "id": "E",
+      "x": 91,
+      "y": 283,
+      "w": 126,
+      "h": 80
+    },
+    {
+      "id": "F",
+      "x": 237,
+      "y": 283,
+      "w": 126,
+      "h": 80
+    }
+  ],
+  "examples": [
+    {
+      "name": "sixFields",
+      "placements": [
+        {
+          "component": "hours",
+          "slots": [
+            "A"
+          ]
+        },
+        {
+          "component": "minutes",
+          "slots": [
+            "B"
+          ]
+        },
+        {
+          "component": "date",
+          "slots": [
+            "C"
+          ]
+        },
+        {
+          "component": "steps",
+          "slots": [
+            "D"
+          ]
+        },
+        {
+          "component": "battery",
+          "slots": [
+            "E"
+          ]
+        },
+        {
+          "component": "empty",
+          "slots": [
+            "F"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "largeClock",
+      "placements": [
+        {
+          "component": "clock",
+          "slots": [
+            "A",
+            "B",
+            "C",
+            "D"
+          ]
+        },
+        {
+          "component": "date",
+          "slots": [
+            "E"
+          ]
+        },
+        {
+          "component": "battery",
+          "slots": [
+            "F"
+          ]
+        }
+      ]
+    }
+  ]
+}

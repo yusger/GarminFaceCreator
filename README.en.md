@@ -147,3 +147,6 @@ AboutTime: [English editor](docs/screenshots/abouttime-editor.png) · [Chinese e
 
 
 **Editable Celestial reference**: thanks to [Zachary Smith / Cutwell](https://github.com/Cutwell/garmin-celestial-watchface). Sky, sun/night marker, landscape, clock and battery are editable. Native uses Garmin sun times and passive cached position with explicit missing-data fallback. Browser sun times are labelled preview samples; see [adaptation scope](frontend/public/reference-notices/Celestial-ADAPTATION.md).
+
+
+BYOD inspired a [round-screen modular layout proposal](docs/byod-modular-layout.md), with a pinned revision, original LGPL text and reviewed source-file records. This is architecture research, not an implemented region engine or a default reference.

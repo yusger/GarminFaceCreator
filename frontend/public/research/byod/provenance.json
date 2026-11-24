@@ -1,0 +1,83 @@
+{
+  "format": 1,
+  "purpose": "architectureResearchOnly",
+  "source": "https://github.com/NickSteen/BYOD-Watchface",
+  "commit": "cd04057cc2a7780747d046f85ec2ef38d2f5f73b",
+  "license": "LGPL-3.0",
+  "sourceFiles": [
+    {
+      "path": "LICENSE",
+      "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/LICENSE",
+      "copiedAs": "BYOD-LICENSE.txt"
+    },
+    {
+      "path": "README.md",
+      "sha256": "9b5bdcf3e059855114a0ecf03a939776a160d6c7642ee8488d8d2fa0a1047c58",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/README.md",
+      "copiedAs": "BYOD-README.md"
+    },
+    {
+      "path": "manifest.xml",
+      "sha256": "66887e670af37acfcfecc180c79c8d48da9b6eb8b8d24fdee49fc2c576ff86f6",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/manifest.xml",
+      "copiedAs": null
+    },
+    {
+      "path": "source/Field.mc",
+      "sha256": "c5b1b67066a89379c9d6171a40813c3aeecffe25ca37db18a4cbd13ae04e27e5",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/source/Field.mc",
+      "copiedAs": null
+    },
+    {
+      "path": "source/Settings.mc",
+      "sha256": "96205c4f78d3b18771c0a8c59e6d50f3c0caece44c9008740084188bc134f9f4",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/source/Settings.mc",
+      "copiedAs": null
+    },
+    {
+      "path": "source/BYODView.mc",
+      "sha256": "6aa8b7e4d97c8f6ad63467db2a8c60eb70873db57e5fd7b3ee81ef520a9a17a9",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/source/BYODView.mc",
+      "copiedAs": null
+    },
+    {
+      "path": "source/Fields/StepsField.mc",
+      "sha256": "c4550e4dc48a50eaa705a5f0a1a5ed6f92f1279e30134d48be21e0edae3d0b74",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/source/Fields/StepsField.mc",
+      "copiedAs": null
+    },
+    {
+      "path": "source/Fields/LargeHourField.mc",
+      "sha256": "27c7e53205af77a0d5d5ac6680f8bfe2abd81a95f13d28da2fcf5a975bc476b0",
+      "url": "https://github.com/NickSteen/BYOD-Watchface/blob/cd04057cc2a7780747d046f85ec2ef38d2f5f73b/source/Fields/LargeHourField.mc",
+      "copiedAs": null
+    }
+  ],
+  "files": [
+    {
+      "path": "/research/byod/layout-plan.md",
+      "sha256": "99895f0abac9a3bbf4e14f0f68cc516c15752230b961238e7b0b272a91b39b7f"
+    },
+    {
+      "path": "/research/byod/round-layout.svg",
+      "sha256": "738ac3ff9bf59cd44a09a8f63d500851d0708cdb1b353eaf3e2d3df127a6ebee"
+    },
+    {
+      "path": "/research/byod/layout-proposal.json",
+      "sha256": "8d9903edbc358e1331fc327b7d207c8522aee5d4da51332a76f3dd9114a2c1eb"
+    },
+    {
+      "path": "/research/byod/BYOD-LICENSE.txt",
+      "sha256": "da7eabb7bafdf7d3ae5e9f223aa5bdc1eece45ac569dc21b3b037520b4464768"
+    },
+    {
+      "path": "/research/byod/BYOD-README.md",
+      "sha256": "9b5bdcf3e059855114a0ecf03a939776a160d6c7642ee8488d8d2fa0a1047c58"
+    },
+    {
+      "path": "/research/byod/GPL-v3.txt",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    }
+  ]
+}

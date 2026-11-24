@@ -52,3 +52,8 @@ Thanks to [Laverlin / Yet-Another-WatchFace](https://github.com/Laverlin/Yet-Ano
 ## Celestial Creator adaptation
 
 Thanks to [Zachary Smith / Cutwell](https://github.com/Cutwell/garmin-celestial-watchface), pinned `c5d124c54866f23dbee7528a488c3802d120b715`, copyright (c) 2024 Zachary Smith, MIT. Original LICENSE, README and original View text are retained under `frontend/public/reference-notices/Celestial-*`; the View is provenance only, not compiled source. The Creator adaptation uses Garmin sun APIs, passive cached location, system fonts and primitive graphics; original algorithm/font/bitmap binaries are not copied into the native program. Creator templates retain GPLv3+ scope. See [scope and differences](frontend/public/reference-notices/Celestial-ADAPTATION.md).
+
+
+## BYOD architecture research
+
+Thanks to [NickSteen/BYOD-Watchface](https://github.com/NickSteen/BYOD-Watchface), pinned `cd04057cc2a7780747d046f85ec2ef38d2f5f73b`. Its original LGPLv3 LICENSE and README are retained verbatim in `docs/research/byod/` and published as research documents, together with a separate GPL text. The proposal records immutable links/hashes for eight reviewed files; no BYOD implementation class, font, icon, binary or build script is imported into runtime/native output. The research documents do not make BYOD a default reference or relicense its contents. See [proposal and boundaries](docs/byod-modular-layout.md).
