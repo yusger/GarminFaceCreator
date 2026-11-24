@@ -1,0 +1,30 @@
+node_modules/
+dist/
+playwright-report/
+test-results/
+*.local
+backend/bin/
+backend/obj/
+runtime/
+*.tar.gz
+*.der
+*.pem
+
+
+deploy/publish/
+
+
+# Credentials, local data and generated watch binaries
+.env
+.env.*
+!.env.example
+*.log
+*.prg
+*.iq
+*.key
+*.p12
+*.pfx
+developer_key*
+# Local credentials (never publish)
+/localkey
+.gfc-browser/

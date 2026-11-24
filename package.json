@@ -1,0 +1,27 @@
+{
+  "version": "0.1.0",
+  "name": "garmin-face-creator",
+  "scripts": {
+    "preview": "vite preview --config frontend/vite.config.ts",
+    "build": "tsc --noEmit && vite build --config frontend/vite.config.ts",
+    "dev": "vite --config frontend/vite.config.ts",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.65.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.3.0",
+    "prettier": "^3.10.1",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.8"
+  },
+  "type": "module",
+  "dependencies": {
+    "lucide-react": "^1.78.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1"
+  },
+  "private": true,
+  "license": "GPL-3.0-or-later"
+}

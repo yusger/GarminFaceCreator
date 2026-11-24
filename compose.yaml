@@ -1,0 +1,20 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: deploy/Dockerfile.runtime
+    ports:
+      - "18380:8080"
+    restart: unless-stopped
+    volumes:
+      - ./runtime/jobs:/data/jobs
+      - ./runtime/sdk:/opt/connectiq:ro
+      - ./runtime/garmin:/home/app/.Garmin/ConnectIQ:ro
+      - ./runtime/secrets/developer_key:/run/secrets/developer_key:ro
+    mem_limit: 1536m
+    cpus: 2
+    pids_limit: 150
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL

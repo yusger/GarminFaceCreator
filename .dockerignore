@@ -1,0 +1,12 @@
+node_modules
+runtime
+.git
+**/bin
+**/obj
+test-results
+docslocalkey
+.env
+.env.*
+*.key
+*.pem
+*.der
