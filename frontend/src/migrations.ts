@@ -1,5 +1,6 @@
+import { defaultThresholds } from "./thresholds";
 import type { Project } from "./domain";
-export const CURRENT_SCHEMA = 3;
+export const CURRENT_SCHEMA = 4;
 export function migrateProject(value: unknown): Project {
   if (!value || typeof value !== "object") throw Error("项目格式不正确");
   const input = value as Project;
@@ -50,6 +51,25 @@ export function migrateProject(value: unknown): Project {
     result = {
       ...result,
       schemaVersion: 3,
+      layers: result.layers.map(defaults),
+      designSnapshots: result.designSnapshots?.map((snapshot) => ({
+        ...snapshot,
+        layers: snapshot.layers.map(defaults),
+      })),
+    };
+  }
+  if (result.schemaVersion === 3) {
+    const defaults = (l: Project["layers"][number]) => ({
+      ...l,
+      thresholdFallback: l.thresholdFallback || l.color,
+      thresholdRules: l.thresholdRules ?? defaultThresholds(l.source, l.color),
+      aodColor: l.aodColor || "#777777",
+      aodSize: l.aodSize || l.size,
+      aodSeconds: l.aodSeconds || ("zero" as const),
+    });
+    result = {
+      ...result,
+      schemaVersion: 4,
       layers: result.layers.map(defaults),
       designSnapshots: result.designSnapshots?.map((snapshot) => ({
         ...snapshot,

@@ -1,3 +1,4 @@
+import { thresholdInk } from "./thresholds";
 import { useId } from "react";
 import type { Project, Layer } from "./domain";
 export type Preview = {
@@ -57,26 +58,43 @@ export function reading(l: Layer, d: Preview) {
   return "";
 }
 export function ink(l: Layer, d: Preview) {
-  if (d.missing || !l.threshold || l.kind !== "metric") return l.color;
-  const v =
+  return thresholdInk(
+    l,
     l.source === "heartRate"
       ? d.heartRate
       : l.source === "battery"
         ? d.battery
-        : null;
-  return v === null
-    ? l.color
-    : l.source === "heartRate"
-      ? v < 120
-        ? "#55ff99"
-        : v < 150
-          ? "#ffee44"
-          : "#ff5566"
-      : v < 10
-        ? "#ff5566"
-        : v < 30
-          ? "#ffee44"
-          : l.color;
+        : undefined,
+    !!d.missing,
+  );
+}
+export function ringLit(l: Layer, d: Preview, aod = false) {
+  if (aod) return 0;
+  const source = l.ringSource || "seconds";
+  const value =
+    source === "static"
+      ? 1
+      : {
+          seconds: d.seconds,
+          steps: d.steps,
+          battery: d.battery,
+          heartRate: d.heartRate,
+        }[source];
+  const goal =
+    source === "static"
+      ? 1
+      : l.ringGoal ||
+        (source === "seconds"
+          ? 60
+          : source === "steps"
+            ? 10000
+            : source === "battery"
+              ? 100
+              : 180);
+  return Math.floor(
+    (l.ringTicks || 60) *
+      Math.max(0, Math.min(1, Number.isFinite(value) ? value / goal : 0)),
+  );
 }
 export default function Scene({
   project,
@@ -119,7 +137,17 @@ export default function Scene({
       />
       <g clipPath={"url(#clip-" + clipId + ")"}>
         {project.layers
-          .filter((l) => !l.hidden && (!aod || l.aod))
+          .filter(
+            (l) =>
+              !l.hidden &&
+              (!aod ||
+                (l.aod &&
+                  !(
+                    l.aodSeconds === "hide" &&
+                    ((l.kind === "metric" && l.source === "seconds") ||
+                      l.kind === "ring")
+                  ))),
+          )
           .map((l) => (
             <g
               key={l.id}
@@ -131,8 +159,18 @@ export default function Scene({
               }}
             >
               {l.kind === "ring" ? (
-                Array.from({ length: 60 }, (_, i) => {
-                  const a = (i * Math.PI) / 30;
+                Array.from({ length: l.ringTicks || 60 }, (_, i) => {
+                  const count = l.ringTicks || 60,
+                    start = l.ringStart ?? 0,
+                    end = l.ringEnd ?? 360;
+                  const a =
+                    ((start +
+                      (i * (end - start)) /
+                        (Math.abs(end - start) === 360
+                          ? count
+                          : Math.max(1, count - 1))) *
+                      Math.PI) /
+                    180;
                   return (
                     <line
                       key={i}
@@ -140,10 +178,17 @@ export default function Scene({
                       y1={l.h / 2 - Math.cos(a) * (l.h / 2 - 9)}
                       x2={l.w / 2 + (Math.sin(a) * l.w) / 2}
                       y2={l.h / 2 - (Math.cos(a) * l.h) / 2}
-                      stroke={l.color}
-                      strokeWidth={i % 5 === 0 ? 3 : 2}
+                      stroke={aod ? l.aodColor || "#777777" : l.color}
+                      strokeWidth={
+                        (l.ringWidth || 2) *
+                        (i %
+                          Math.max(1, Math.round((l.ringTicks || 60) / 12)) ===
+                        0
+                          ? 1.5
+                          : 1)
+                      }
                       opacity={
-                        i < preview.seconds && preview.seconds > 0 ? 1 : 0.25
+                        i < ringLit(l, preview, aod) ? 1 : (l.ringDim ?? 0.25)
                       }
                     />
                   );
@@ -156,14 +201,19 @@ export default function Scene({
                   preserveAspectRatio="xMidYMid slice"
                 />
               ) : l.kind === "rect" ? (
-                <rect width={l.w} height={l.h} fill={l.color} rx="4" />
+                <rect
+                  width={l.w}
+                  height={l.h}
+                  fill={aod ? l.aodColor || "#777777" : l.color}
+                  rx="4"
+                />
               ) : l.kind === "circle" ? (
                 <ellipse
                   cx={l.w / 2}
                   cy={l.h / 2}
                   rx={l.w / 2}
                   ry={l.h / 2}
-                  fill={l.color}
+                  fill={aod ? l.aodColor || "#777777" : l.color}
                 />
               ) : l.kind === "line" ? (
                 <line
@@ -171,7 +221,7 @@ export default function Scene({
                   y1="0"
                   x2={l.w}
                   y2={l.h}
-                  stroke={l.color}
+                  stroke={aod ? l.aodColor || "#777777" : l.color}
                   strokeWidth={l.strokeWidth || 2}
                   strokeLinecap={(l.strokeWidth || 2) > 2 ? "round" : "butt"}
                 />
@@ -195,12 +245,12 @@ export default function Scene({
                   }
                   fontFamily="Arial, sans-serif"
                   letterSpacing={l.kind === "time" ? -4 : 0}
-                  fontSize={l.size}
+                  fontSize={aod ? l.aodSize || l.size : l.size}
                   fontWeight={l.fontWeight || (l.kind === "time" ? 600 : 400)}
-                  fill={aod ? "#777" : ink(l, preview)}
+                  fill={aod ? l.aodColor || "#777777" : ink(l, preview)}
                 >
                   {l.kind === "metric" && l.source === "heartRate" ? "♡ " : ""}
-                  {reading(l, preview)}
+                  {reading(l, aod ? { ...preview, seconds: 0 } : preview)}
                 </text>
               )}
               {selected === l.id && (

@@ -1,3 +1,5 @@
+import ThresholdEditor from "./ThresholdEditor";
+import { defaultThresholds } from "./thresholds";
 import { crossesScreen } from "./bounds";
 import { saveDesignSnapshot, restoreDesignSnapshot } from "./designHistory";
 import { binaryAssets } from "./assets";
@@ -1614,6 +1616,10 @@ export default function App() {
                               patch({
                                 source: e.target.value,
                                 name: metrics[e.target.value],
+                                thresholdRules: defaultThresholds(
+                                  e.target.value,
+                                  current.color,
+                                ),
                               })
                             }
                           >
@@ -1697,29 +1703,164 @@ export default function App() {
                               启用阈值颜色
                             </label>
                             {current.threshold && (
-                              <div className="thresholds">
-                                {(current.source === "heartRate"
-                                  ? [
-                                      ["#55ff99", "＜120"],
-                                      ["#ffee44", "120–149"],
-                                      ["#ff5566", "≥150"],
-                                    ]
-                                  : [
-                                      [current.color, "≥30%"],
-                                      ["#ffee44", "10–29%"],
-                                      ["#ff5566", "＜10%"],
-                                    ]
-                                ).map(([c, t]) => (
-                                  <div key={t}>
-                                    <i style={{ background: c }} />
-                                    {t}
-                                    <code>{c}</code>
-                                  </div>
-                                ))}
-                              </div>
+                              <ThresholdEditor
+                                layer={current}
+                                onApply={patch}
+                              />
                             )}
                           </>
                         )}
+                      </>
+                    )}
+                    {current.kind === "ring" && (
+                      <>
+                        <h4>圆环参数</h4>
+                        <label>
+                          刻度数
+                          <input
+                            aria-label="圆环刻度数"
+                            type="number"
+                            min={4}
+                            max={180}
+                            value={current.ringTicks || 60}
+                            onChange={(e) =>
+                              patch({
+                                ringTicks: Math.max(
+                                  4,
+                                  Math.min(180, Number(e.target.value) || 4),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <label>
+                          起始角
+                          <input
+                            aria-label="圆环起始角"
+                            type="number"
+                            min={0}
+                            max={360}
+                            value={current.ringStart ?? 0}
+                            onChange={(e) =>
+                              patch({
+                                ringStart: Math.max(
+                                  0,
+                                  Math.min(360, Number(e.target.value) || 0),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <label>
+                          结束角
+                          <input
+                            aria-label="圆环结束角"
+                            type="number"
+                            min={0}
+                            max={360}
+                            value={current.ringEnd ?? 360}
+                            onChange={(e) =>
+                              patch({
+                                ringEnd: Math.max(
+                                  0,
+                                  Math.min(360, Number(e.target.value) || 0),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <label>
+                          刻度线宽
+                          <input
+                            aria-label="圆环线宽"
+                            type="number"
+                            min={1}
+                            max={32}
+                            value={current.ringWidth || 2}
+                            onChange={(e) =>
+                              patch({
+                                ringWidth: Math.max(
+                                  1,
+                                  Math.min(32, Number(e.target.value) || 1),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <label>
+                          未点亮透明度
+                          <input
+                            aria-label="圆环暗色透明度"
+                            type="number"
+                            step={0.05}
+                            min={0}
+                            max={1}
+                            value={current.ringDim ?? 0.25}
+                            onChange={(e) =>
+                              patch({
+                                ringDim: Math.max(
+                                  0,
+                                  Math.min(1, Number(e.target.value) || 0),
+                                ),
+                              })
+                            }
+                          />
+                        </label>
+                        <label>
+                          圆环数据
+                          <select
+                            aria-label="圆环数据"
+                            value={current.ringSource || "seconds"}
+                            onChange={(e) =>
+                              patch({
+                                ringSource: e.target
+                                  .value as Layer["ringSource"],
+                                ringGoal: undefined,
+                              })
+                            }
+                          >
+                            {[
+                              ["seconds", "秒数"],
+                              ["steps", "步数"],
+                              ["battery", "电量"],
+                              ["heartRate", "心率"],
+                              ["static", "全部点亮"],
+                            ].map(([id, name]) => (
+                              <option key={id} value={id}>
+                                {name}
+                              </option>
+                            ))}
+                          </select>
+                        </label>
+                        {current.ringSource &&
+                          !["seconds", "static"].includes(
+                            current.ringSource,
+                          ) && (
+                            <label>
+                              圆环目标
+                              <input
+                                aria-label="圆环目标"
+                                type="number"
+                                min={1}
+                                value={
+                                  current.ringGoal ||
+                                  (current.ringSource === "steps"
+                                    ? 10000
+                                    : current.ringSource === "battery"
+                                      ? 100
+                                      : 180)
+                                }
+                                onChange={(e) =>
+                                  patch({
+                                    ringGoal: Math.max(
+                                      1,
+                                      Number(e.target.value) || 1,
+                                    ),
+                                  })
+                                }
+                              />
+                            </label>
+                          )}
                       </>
                     )}
                     <h4>显示条件</h4>
@@ -1731,6 +1872,63 @@ export default function App() {
                       />
                       在息屏布局显示
                     </label>
+                    {current.aod && current.kind !== "image" && (
+                      <>
+                        <label>
+                          息屏颜色
+                          <input
+                            aria-label="息屏颜色"
+                            type="color"
+                            value={current.aodColor || "#777777"}
+                            onChange={(e) =>
+                              patch({ aodColor: e.target.value })
+                            }
+                          />
+                        </label>
+                        {["text", "time", "date", "metric"].includes(
+                          current.kind,
+                        ) && (
+                          <label>
+                            息屏字号
+                            <input
+                              aria-label="息屏字号"
+                              type="number"
+                              min={1}
+                              max={200}
+                              value={current.aodSize || current.size}
+                              onChange={(e) =>
+                                patch({
+                                  aodSize: Math.max(
+                                    1,
+                                    Math.min(200, Number(e.target.value) || 1),
+                                  ),
+                                })
+                              }
+                            />
+                          </label>
+                        )}
+                        {(current.kind === "ring" ||
+                          (current.kind === "metric" &&
+                            current.source === "seconds")) && (
+                          <label>
+                            息屏秒数与动画
+                            <select
+                              aria-label="息屏秒数与动画"
+                              value={current.aodSeconds || "zero"}
+                              onChange={(e) =>
+                                patch({
+                                  aodSeconds: e.target
+                                    .value as Layer["aodSeconds"],
+                                })
+                              }
+                            >
+                              <option value="zero">固定 00 / 圆环全暗</option>
+                              <option value="hide">隐藏</option>
+                            </select>
+                          </label>
+                        )}
+                      </>
+                    )}
                     <p className="hint">
                       息屏预览仅作布局参考，导出时还需验证像素占用与字体。
                     </p>

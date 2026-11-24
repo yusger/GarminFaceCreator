@@ -1,3 +1,4 @@
+import { validateThresholds } from "./thresholds";
 import { migrateProject } from "./migrations.ts";
 import { devices } from "./devices.ts";
 export type Kind =
@@ -10,6 +11,7 @@ export type Kind =
   | "rect"
   | "circle"
   | "line";
+export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
   id: string;
   name: string;
@@ -35,6 +37,18 @@ export type Layer = {
   precision?: number;
   missingValue?: string;
   allowClip?: boolean;
+  thresholdRules?: ThresholdRange[];
+  thresholdFallback?: string;
+  ringTicks?: number;
+  ringStart?: number;
+  ringEnd?: number;
+  ringWidth?: number;
+  ringSource?: "seconds" | "steps" | "battery" | "heartRate" | "static";
+  ringGoal?: number;
+  ringDim?: number;
+  aodColor?: string;
+  aodSize?: number;
+  aodSeconds?: "hide" | "zero";
   aod: boolean;
   threshold: boolean;
   strokeWidth?: number;
@@ -59,7 +73,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3;
+  schemaVersion: 1 | 2 | 3 | 4;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
@@ -202,7 +216,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 3,
+    schemaVersion: 4,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -229,7 +243,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 3 ||
+    p.schemaVersion !== 4 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -288,6 +302,43 @@ export function validateProject(value: unknown): Project {
         (!Number.isInteger(l.precision) || l.precision < 0 || l.precision > 3))
     )
       throw Error("文字或数据格式无效");
+    if (l.thresholdRules)
+      validateThresholds(l.thresholdRules, l.thresholdFallback || l.color);
+    for (const color of [l.aodColor, l.thresholdFallback])
+      if (color !== undefined && !/^#[0-9a-f]{6}$/i.test(color))
+        throw Error("颜色设置无效");
+    if (
+      (l.ringTicks !== undefined &&
+        (!Number.isInteger(l.ringTicks) ||
+          l.ringTicks < 4 ||
+          l.ringTicks > 180)) ||
+      (l.ringWidth !== undefined &&
+        (!Number.isFinite(l.ringWidth) ||
+          l.ringWidth < 1 ||
+          l.ringWidth > 32)) ||
+      (l.ringGoal !== undefined &&
+        (!Number.isFinite(l.ringGoal) || l.ringGoal <= 0)) ||
+      (l.ringDim !== undefined &&
+        (!Number.isFinite(l.ringDim) || l.ringDim < 0 || l.ringDim > 1)) ||
+      (l.aodSize !== undefined &&
+        (!Number.isFinite(l.aodSize) || l.aodSize < 1 || l.aodSize > 200))
+    )
+      throw Error("圆环或息屏尺寸无效");
+    if (
+      [l.ringStart, l.ringEnd].some(
+        (v) => v !== undefined && (!Number.isFinite(v) || Math.abs(v) > 360),
+      ) ||
+      Math.abs((l.ringEnd ?? 360) - (l.ringStart ?? 0)) > 360
+    )
+      throw Error("圆环角度无效");
+    if (
+      (l.ringSource !== undefined &&
+        !["seconds", "steps", "battery", "heartRate", "static"].includes(
+          l.ringSource,
+        )) ||
+      (l.aodSeconds !== undefined && !["hide", "zero"].includes(l.aodSeconds))
+    )
+      throw Error("圆环或息屏策略无效");
     if (l.allowClip !== undefined && typeof l.allowClip !== "boolean")
       throw Error("裁切设置无效");
     for (const field of [l.label, l.unit, l.missingValue])

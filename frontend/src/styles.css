@@ -1312,3 +1312,7 @@ label select {
 .log-warning { color: #f2cd75; }
 .log-location { margin-left: 12px; font-size: 11px; }
 .code-drawer mark { background: #65522b; color: #fff; }
+
+.threshold-row { display: grid; grid-template-columns: 1fr 1fr 36px 28px; gap: 4px; align-items: end; margin-bottom: 8px; }
+.threshold-row input { min-width: 0; width: 100%; }
+.threshold-editor button { margin: 4px 4px 4px 0; }
