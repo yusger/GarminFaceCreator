@@ -170,7 +170,7 @@ await writeFile(
 for (const [path, name] of [
   ["LICENSE", "Celestial-LICENSE.txt"],
   ["README.md", "Celestial-README.md"],
-  ["celestial/source/celestialView.mc", "Celestial-original-View.mc"],
+  ["celestial/source/celestialView.mc", "Celestial-original-View.mc.txt"],
 ])
   await writeFile(join(publicRoot, "reference-notices", name), originals[path]);
 console.log(

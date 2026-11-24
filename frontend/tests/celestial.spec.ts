@@ -65,7 +65,7 @@ test("protected Celestial copy exports complete notices and compiles before and 
   await expect(page.locator(".layer-row")).toHaveCount(10);
   await page.screenshot({ path: "docs/screenshots/celestial-editor.png" });
   async function exportAndCompile(language: string) {
-    const pending = page.waitForEvent("download");
+    const pending = page.waitForEvent("download", { timeout: 15000 });
     await page
       .getByRole("button", { name: "导出源码工程 ZIP", exact: true })
       .click();
@@ -77,7 +77,7 @@ test("protected Celestial copy exports complete notices and compiles before and 
       "Celestial-LICENSE.txt",
       "Celestial-README.md",
       "Celestial-ADAPTATION.md",
-      "Celestial-original-View.mc",
+      "Celestial-original-View.mc.txt",
     ])
       expect(files.has("notices/" + name)).toBe(true);
     expect(

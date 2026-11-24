@@ -27,6 +27,23 @@ test("reference and generator source snapshots retain exact build fingerprints",
   const origins = await r.json();
   expect(origins.bundles).toHaveLength(9);
   expect(origins.generators).toHaveLength(3);
+  for (const file of new Set<string>(
+    origins.bundles.flatMap((b: any) => b.files),
+  )) {
+    const response = await request.get("/reference-notices/" + file);
+    expect(response.ok(), file).toBe(true);
+    expect(
+      createHash("sha256")
+        .update(await response.body())
+        .digest("hex"),
+      file,
+    ).toBe(
+      createHash("sha256")
+        .update(await readFile("frontend/public/reference-notices/" + file))
+        .digest("hex"),
+    );
+  }
+
   for (const entry of [...origins.bundles, ...origins.generators]) {
     const response = await request.get(entry.path);
     expect(response.ok()).toBeTruthy();
