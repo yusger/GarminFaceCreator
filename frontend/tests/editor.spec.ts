@@ -255,7 +255,7 @@ for (const name of ["SkyRing", "fine-o-clock"]) {
       test.skip(!process.env.GFC_TEST_URL, "Requires deployed compiler");
       test.setTimeout(180000);
       await page.goto("/");
-      await expect(page.locator(".reference-card")).toHaveCount(3);
+      await expect(page.locator(".reference-card")).toHaveCount(4);
       await expect(
         page.getByRole("button", { name: "删除 " + name, exact: true }),
       ).toHaveCount(0);
@@ -280,7 +280,7 @@ for (const name of ["SkyRing", "fine-o-clock"]) {
       await page.getByRole("link", { name: /^下载 .*\.prg$/ }).click();
       expect(await (await pending).failure()).toBeNull();
       await page.getByRole("button", { name: "项目", exact: true }).click();
-      await expect(page.locator(".reference-card")).toHaveCount(3);
+      await expect(page.locator(".reference-card")).toHaveCount(4);
     },
   );
 }
@@ -439,23 +439,38 @@ test("provider presets fill URL and model and isolate credentials", async ({
   );
 });
 
-test('SkyRing uses editable layers and bound live preview instead of a screenshot',async({page})=>{
- await page.goto('/');const ref=await(await page.request.get('/templates/skyring.json')).json();
- expect(ref.layers.length).toBeGreaterThan(20);expect(ref.layers.some((l:any)=>l.kind==='image')).toBe(false);
- expect(ref.layers.some((l:any)=>l.kind==='metric'&&l.source==='steps')).toBe(true);
- await page.getByRole('button',{name:'使用 SkyRing',exact:true}).click();
- await expect(page.getByRole('button',{name:'SkyRing 副本',exact:true})).toBeVisible();
- await expect(page.locator('svg.watch image')).toHaveCount(0);
- await page.screenshot({path:'docs/screenshots/skyring-layered.png',fullPage:true});
- await page.getByText('步数',{exact:true}).first().click();
- await expect(page.getByLabel('数据源',{exact:true})).toHaveValue('steps');
- await page.getByLabel('X',{exact:true}).fill('140');
- await expect(page.getByLabel('X',{exact:true})).toHaveValue('140');
- await page.getByRole('button',{name:'预览',exact:true}).click();
- const dialog=page.getByRole('dialog',{name:'表盘独立预览'});
- await dialog.getByLabel('模拟步数').fill('12345');
- await expect(dialog.locator('svg.watch text').filter({hasText:'12,345'})).toHaveCount(1);
- await page.keyboard.press('Escape');
- await page.getByRole('button',{name:'项目',exact:true}).click();
- expect((await(await page.request.get('/templates/skyring.json')).json()).layers).toEqual(ref.layers);
+test("SkyRing uses editable layers and bound live preview instead of a screenshot", async ({
+  page,
+}) => {
+  await page.goto("/");
+  const ref = await (await page.request.get("/templates/skyring.json")).json();
+  expect(ref.layers.length).toBeGreaterThan(20);
+  expect(ref.layers.some((l: any) => l.kind === "image")).toBe(false);
+  expect(
+    ref.layers.some((l: any) => l.kind === "metric" && l.source === "steps"),
+  ).toBe(true);
+  await page.getByRole("button", { name: "使用 SkyRing", exact: true }).click();
+  await expect(
+    page.getByRole("button", { name: "SkyRing 副本", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator("svg.watch image")).toHaveCount(0);
+  await page.screenshot({
+    path: "docs/screenshots/skyring-layered.png",
+    fullPage: true,
+  });
+  await page.getByText("步数", { exact: true }).first().click();
+  await expect(page.getByLabel("数据源", { exact: true })).toHaveValue("steps");
+  await page.getByLabel("X", { exact: true }).fill("140");
+  await expect(page.getByLabel("X", { exact: true })).toHaveValue("140");
+  await page.getByRole("button", { name: "预览", exact: true }).click();
+  const dialog = page.getByRole("dialog", { name: "表盘独立预览" });
+  await dialog.getByLabel("模拟步数").fill("12345");
+  await expect(
+    dialog.locator("svg.watch text").filter({ hasText: "12,345" }),
+  ).toHaveCount(1);
+  await page.keyboard.press("Escape");
+  await page.getByRole("button", { name: "项目", exact: true }).click();
+  expect(
+    (await (await page.request.get("/templates/skyring.json")).json()).layers,
+  ).toEqual(ref.layers);
 });

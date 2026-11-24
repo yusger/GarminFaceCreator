@@ -25,7 +25,7 @@ test("reference and generator source snapshots retain exact build fingerprints",
   const r = await request.get("/reference-notices/provenance.json");
   expect(r.ok()).toBeTruthy();
   const origins = await r.json();
-  expect(origins.bundles).toHaveLength(3);
+  expect(origins.bundles).toHaveLength(4);
   expect(origins.generators).toHaveLength(2);
   for (const entry of [...origins.bundles, ...origins.generators]) {
     const response = await request.get(entry.path);
@@ -39,9 +39,11 @@ test("reference and generator source snapshots retain exact build fingerprints",
   expect(
     origins.bundles.find((b: any) => b.name === "SkyRing").status,
   ).toContain("not verified");
-  expect(origins.bundles.every((b: any) => b.upstreamCommit === null)).toBe(
-    true,
-  );
+  expect(
+    origins.bundles
+      .filter((b: any) => b.legacy)
+      .every((b: any) => b.upstreamCommit === null),
+  ).toBe(true);
 });
 for (const mode of ["local", "unmarked"])
   test(

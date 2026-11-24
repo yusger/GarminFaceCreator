@@ -19,3 +19,9 @@ The static icon catalog is separate from lucide-react UI icons. Original SVGs an
 - Bas Milius / Meteocons: https://github.com/basmilius/meteocons. Seventeen selected static originals from official `@meteocons/svg-static@0.1.0`, package gitHead `1d821149b94a08f23c85e5042e8a61a3fcd82cf7`; full MIT copyright and license retained in `icon-library/licenses/Meteocons-LICENSE.txt`. The pinned registry tarball is checked against its SHA-512 integrity before reading selected files. No upstream install or build scripts are executed.
 
 Static insertion and per-project export retain originals and full notices for actually used icons, along with raster derivative/style metadata. Weather-data binding remains a separate implementation milestone. It does not claim all Meteocons animations can be exported natively.
+
+## Crystal Creator adaptation
+
+[warmsound/crystal-face](https://github.com/warmsound/crystal-face), pinned `bcc340484bd2a3a09f13b22a2d0d6dae3b4de9c7`, is adapted under its original GPLv3 license. Thank you to warmsound and contributors. Retained unchanged: upstream LICENSE.txt, README and referenced 454×454 layout XML under `frontend/public/reference-notices/Crystal-*`. See [modification and scope notes](frontend/public/reference-notices/Crystal-ADAPTATION.md).
+
+The Creator version contains editable layers and a complete new native build, initially for Venu 4 45mm. It uses system fonts and already curated Lucide icons; no upstream Titillium/Noto/glyph atlas or Noun Project assets are redistributed. The two goals are fixed design values, and external weather/background/GPS, original mobile settings, move bar and automatic segment sizing are omitted. Referenced layout/adaptation material is GPL-3.0-only; generator source templates and Lucide retain their separate notices. Source export includes the complete actual native program, design and full relevant licenses, rather than an upstream binary or a preview screenshot.

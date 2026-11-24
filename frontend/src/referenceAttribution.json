@@ -38,5 +38,24 @@
     "upstreamCommit": null,
     "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
     "legacy": true
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000004",
+    "name": "Crystal",
+    "template": "crystal",
+    "source": "https://github.com/warmsound/crystal-face",
+    "status": "Trimmed Creator layout adaptation GPL-3.0-only; system fonts; Lucide ISC and Feather MIT notices retained; no upstream font or icon binaries copied",
+    "summary": "GPLv3 精简适配；系统字体与已核查 Lucide 图标；原始许可和修改说明保留",
+    "files": [
+      "Crystal-LICENSE.txt",
+      "Crystal-README.md",
+      "Crystal-layout-454.xml",
+      "Crystal-ADAPTATION.md",
+      "repository-LICENSE.txt"
+    ],
+    "upstreamCommit": "bcc340484bd2a3a09f13b22a2d0d6dae3b4de9c7",
+    "upstreamCommitStatus": "Pinned upstream revision; referenced file SHA-256 checked by reproducible builder",
+    "legacy": false,
+    "verifiedLicense": true
   }
 ]
