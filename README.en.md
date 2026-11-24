@@ -144,3 +144,6 @@ AboutTime: [English editor](docs/screenshots/abouttime-editor.png) · [Chinese e
 
 
 **Editable YetAnother reference**: thanks to [Laverlin / Yet-Another-WatchFace](https://github.com/Laverlin/Yet-Another-WatchFace). Split HH/MM, real activity data and an optional secondary clock are editable. Secondary time uses a fixed UTC offset without automatic destination DST; see [trimmed scope](frontend/public/reference-notices/YetAnother-ADAPTATION.md).
+
+
+**Editable Celestial reference**: thanks to [Zachary Smith / Cutwell](https://github.com/Cutwell/garmin-celestial-watchface). Sky, sun/night marker, landscape, clock and battery are editable. Native uses Garmin sun times and passive cached position with explicit missing-data fallback. Browser sun times are labelled preview samples; see [adaptation scope](frontend/public/reference-notices/Celestial-ADAPTATION.md).

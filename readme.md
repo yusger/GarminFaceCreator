@@ -147,3 +147,6 @@ AboutTime：[英文编辑器](docs/screenshots/abouttime-editor.png) · [中文�
 
 
 新增 **YetAnother 综合数据参考**：感谢 [Laverlin / Yet-Another-WatchFace](https://github.com/Laverlin/Yet-Another-WatchFace)。分列 HH/MM、实际活动数据与可选第二时区均可编辑；第二时区采用固定 UTC 偏移，不自动调整目标地区夏令时。见[精简范围](frontend/public/reference-notices/YetAnother-ADAPTATION.md)。
+
+
+新增 **Celestial 昼夜场景参考**：感谢 [Zachary Smith / Cutwell](https://github.com/Cutwell/garmin-celestial-watchface)。天空、日月标记、地景、时间与电量可独立编辑；原生使用 Garmin 日出/日落和被动缓存位置，无位置时明确回退。网页天文时间是预览样本，见[适配范围](frontend/public/reference-notices/Celestial-ADAPTATION.md)。

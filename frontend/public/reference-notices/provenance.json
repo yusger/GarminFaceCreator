@@ -157,6 +157,27 @@
       "verifiedLicense": true,
       "path": "/templates/yetanother.json",
       "sha256": "b2c3e4f4b525d09b14accedf1b8b8c56c84b2b8ba8d854abc59c79472e6a1cd8"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000009",
+      "name": "Celestial",
+      "template": "celestial",
+      "source": "https://github.com/Cutwell/garmin-celestial-watchface",
+      "status": "Original Celestial theme/layout MIT; Creator native templates GPL-3.0-or-later; Garmin solar APIs replace upstream calculation; no original bitmap/font binaries copied",
+      "summary": "原主题布局 MIT；可编辑昼夜场景与 Garmin 日出/日落、位置缺失回退；Creator 原生模板 GPLv3+；保留完整来源及修改说明",
+      "files": [
+        "Celestial-LICENSE.txt",
+        "Celestial-README.md",
+        "Celestial-original-View.mc",
+        "Celestial-ADAPTATION.md",
+        "repository-LICENSE.txt"
+      ],
+      "upstreamCommit": "c5d124c54866f23dbee7528a488c3802d120b715",
+      "upstreamCommitStatus": "Pinned upstream revision; three original license/readme/view input SHA-256 values checked",
+      "legacy": false,
+      "verifiedLicense": true,
+      "path": "/templates/celestial.json",
+      "sha256": "2b0fc59df87973d983bb03c83daabc5280950b21dd3510a51a837595397af209"
     }
   ],
   "generators": [
