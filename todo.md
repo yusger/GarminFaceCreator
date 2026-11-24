@@ -209,11 +209,12 @@
 
 ### 第二批：具备控件能力后接入
 
-- [ ] **R-04 KISSFace — 彩色时间与目标进度模板**
+- [x] **R-04 KISSFace — 彩色时间与目标进度模板**
   - 来源：[dbcm/KISSFace](https://github.com/dbcm/KISSFace)。许可依据：仓库 `LICENSE`，MIT。
   - 价值：独立时间数字配色、活动目标、心率/电量阈值，可作为进度与阈值控件示例。
   - 工作：适配老设备布局；实现时间数字拆分、进度填充或可解释的降级方案，明确网页与原生效果差异，补充 AMOLED/AOD 行为。
   - 依赖：P1-07/P1-08；不以四段静态文字冒充动态目标控件。
+  - 阶段 40–41 已完成 Creator 精简版：独立四位数字、缓存心率、数值阈值与动态步数/电量分段条；原液面字形/电量弧线明确降级，原强度/楼层等目标未冒充已实现。固定 MIT 来源及导出许可、Venu 4 45mm 原生亮屏/AOD 验证通过。
 
 - [ ] **R-05 Yet Another WatchFace — 综合数据与第二时区模板**
   - 来源：[Laverlin/Yet-Another-WatchFace](https://github.com/Laverlin/Yet-Another-WatchFace)。许可依据：仓库 `LICENSE`，MIT。

@@ -36,7 +36,8 @@ test("KISSFace has pinned MIT provenance and genuine editable data controls", as
     p.layers.filter((l: any) => l.kind === "meter").map((l: any) => l.source),
   ).toEqual(["steps", "battery"]);
   expect(
-    p.layers.find((l: any) => l.source === "heartRate").metricDecoration,
+    p.layers.find((l: any) => l.kind === "metric" && l.source === "heartRate")
+      .metricDecoration,
   ).toBe(false);
   expect(p.files.some((f: any) => /\.(fnt|ttf|otf)$/.test(f.path))).toBe(false);
   const meta = await (
@@ -142,7 +143,7 @@ test("protected KISSFace copy exports complete notices and compiles before and a
     .getByRole("button", { name: "KISSFace 副本", exact: true })
     .click();
   await page.locator(".layer-row").filter({ hasText: "时十位" }).click();
-  await page.getByLabel("颜色", { exact: true }).fill("#ff88dd");
+  await page.locator(".color-control input[type=color]").fill("#ff88dd");
   await expect(page.locator(".drawer-caption")).toContainText("设计已更新");
   await page
     .getByRole("button", { name: "本地生成（试验）", exact: true })
