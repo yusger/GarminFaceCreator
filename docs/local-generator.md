@@ -28,4 +28,4 @@ AI 和本地生成共用互斥入口与代码审阅流程；设计版本变化�
 
 阶段 36（basic-6-calendar / schema v14）：三周日历是一层可编辑控件，7 列、标题加三周共四行，周一起始或周日起始，显示前一周/本周/后一周。今日反色、跨月暗色和星期标题可独立配置。网页预览增加日期选择，动态模式读浏览器本地日期，手动模拟跨午夜同步日期；编辑器静态示例日期为 2026-11-23，与原有 MON 23 一致。
 
-原生日历读 [Gregorian.info](https://developer.garmin.com/connect-iq/api-docs/Toybox/Time/Gregorian.html) 的设备本地日期，按年月日滚动处理跨月跨年和 Gregorian 闰年规则；不靠一天固定秒数跨 DST。单独缓存两种周起始网格，本地日期变化时重建。没有绑定秒计时器；AOD 仍按图层显隐/颜色。星期为两字母英文，不分发 SDK 字体。默认 FONT_TINY，缩小控件后需原生检查字体是否容纳。
+原生日历读 [Gregorian.info](https://developer.garmin.com/connect-iq/api-docs/Toybox/Time/Gregorian.html) 的设备本地日期，按年月日滚动处理跨月跨年和 Gregorian 闰年规则；不靠一天固定秒数跨 DST。单独缓存两种周起始网格，本地日期变化时重建。没有绑定秒计时器；AOD 仍按图层显隐/颜色。星期为两字母英文，不分发 SDK 字体。默认 FONT_XTINY，缩小控件后需原生检查字体是否容纳。

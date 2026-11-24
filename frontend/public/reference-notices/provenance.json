@@ -81,7 +81,7 @@
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
       "version": "basic-6-calendar",
-      "sha256": "e9eaaa91c67f200cd90cd91ec2f8c870881bf9c925ee7c46a567305124c37741",
+      "sha256": "267fa5d6997e10ffad4e01f14a4218ca5addee5e46850b94997022284306e7a3",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },

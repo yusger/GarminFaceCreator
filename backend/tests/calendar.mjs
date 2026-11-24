@@ -28,7 +28,7 @@ for (const target of ["venu445mm", "venu441mm", "fenix843mm"]) {
       w: 274,
       h: 32,
       size: 16,
-      garminFont: "tiny",
+      garminFont: "xtiny",
     },
     {
       ...layer("calendar"),

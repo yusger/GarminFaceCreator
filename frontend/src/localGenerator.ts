@@ -26,6 +26,7 @@ function font(l: Layer, aod: boolean) {
   return (
     "Graphics.FONT_" +
     ({
+      xtiny: "XTINY",
       tiny: "TINY",
       small: "SMALL",
       medium: "MEDIUM",

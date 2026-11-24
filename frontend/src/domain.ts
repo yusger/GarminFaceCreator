@@ -55,7 +55,8 @@ export type Layer = {
   timePart?: "full" | "hours" | "minutes";
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
-  garminFont?: "auto" | "tiny" | "small" | "medium" | "large" | "numberHot";
+  garminFont?:
+    "auto" | "xtiny" | "tiny" | "small" | "medium" | "large" | "numberHot";
   label?: string;
   unit?: string;
   precision?: number;
@@ -220,7 +221,7 @@ export function layer(kind: Kind): Layer {
           w: 294,
           h: 160,
           size: 18,
-          garminFont: "tiny" as const,
+          garminFont: "xtiny" as const,
           calendarStart: "monday" as const,
         }
       : {}),
@@ -401,9 +402,15 @@ export function validateProject(value: unknown): Project {
         !["left", "center", "right"].includes(l.textAlign)) ||
       (l.fontWeight !== undefined && ![400, 600, 700].includes(l.fontWeight)) ||
       (l.garminFont !== undefined &&
-        !["auto", "tiny", "small", "medium", "large", "numberHot"].includes(
-          l.garminFont,
-        )) ||
+        ![
+          "auto",
+          "xtiny",
+          "tiny",
+          "small",
+          "medium",
+          "large",
+          "numberHot",
+        ].includes(l.garminFont)) ||
       (l.precision !== undefined &&
         (!Number.isInteger(l.precision) || l.precision < 0 || l.precision > 3))
     )

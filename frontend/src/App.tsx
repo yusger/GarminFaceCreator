@@ -2132,7 +2132,7 @@ export default function App() {
                           日历原生字体
                           <select
                             aria-label="日历原生字体"
-                            value={current.garminFont || "tiny"}
+                            value={current.garminFont || "xtiny"}
                             onChange={(e) =>
                               patch({
                                 garminFont: e.target
@@ -2140,6 +2140,7 @@ export default function App() {
                               })
                             }
                           >
+                            <option value="xtiny">FONT_XTINY</option>
                             <option value="tiny">FONT_TINY</option>
                             <option value="small">FONT_SMALL</option>
                             <option value="medium">FONT_MEDIUM</option>
@@ -2338,6 +2339,7 @@ export default function App() {
                           >
                             {[
                               ["auto", "自动选择"],
+                              ["xtiny", "FONT_XTINY"],
                               ["tiny", "FONT_TINY"],
                               ["small", "FONT_SMALL"],
                               ["medium", "FONT_MEDIUM"],
