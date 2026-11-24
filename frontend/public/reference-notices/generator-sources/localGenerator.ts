@@ -1,3 +1,5 @@
+import { defaultThresholds } from "./thresholds.ts";
+import { metricDisplayUnits } from "./metricFormat.ts";
 import { meterPolygons } from "./meters.ts";
 import { iconDrawMethod, mergeNativeIcons } from "./weatherIcons.ts";
 import { parseFiles, type Project, type Layer } from "./domain.ts";
@@ -5,7 +7,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-4-meters";
+export const LOCAL_GENERATOR_VERSION = "basic-5-data";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -91,13 +93,20 @@ function primitive(l: Layer, aod: boolean) {
   );
 }
 function draw(l: Layer, aod: boolean) {
-  if (aod && !l.aod) return "";
+  if (
+    aod &&
+    (!l.aod ||
+      (l.kind === "metric" &&
+        l.source === "seconds" &&
+        l.aodSeconds === "hide"))
+  )
+    return "";
   if (l.kind === "meter") {
     const ink = color(aod ? l.aodColor || "#777777" : l.color),
       goal = l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
       count = l.meterCount ?? 16;
     return (
-      `{var lit=meterCount(${l.source === "battery" ? "meterBattery" : "meterSteps"},${num(goal)},${count},${l.source === "battery" ? "true" : "false"});` +
+      `{var lit=meterCount(${l.source === "battery" ? "databattery" : "datasteps"},${num(goal)},${count},${l.source === "battery" ? "true" : "false"});` +
       meterPolygons(l)
         .map(
           (points, i) =>
@@ -120,22 +129,65 @@ function draw(l: Layer, aod: boolean) {
         : l.timePart === "minutes"
           ? 'clock.min.format("%02d")'
           : 'clock.hour.format("%02d")+":"+clock.min.format("%02d")'
-      : JSON.stringify(l.text);
-  const ink = color(aod ? l.aodColor || "#777777" : l.color);
-  return `dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);`;
+      : l.kind === "date"
+        ? "dateText"
+        : l.kind === "metric"
+          ? `metricText(value,${JSON.stringify(l.source)},${JSON.stringify(l.label ? l.label + " " : "")},${JSON.stringify(l.unit ?? metricDisplayUnits[l.source] ?? "")},${l.precision ?? -1},${JSON.stringify(l.missingValue ?? "--")})`
+          : JSON.stringify(l.text);
+  let paint = color(aod ? l.aodColor || "#777777" : l.color),
+    prefix = "",
+    suffix = "";
+  if (l.kind === "metric") {
+    const raw =
+      l.source === "seconds" ? (aod ? "0" : "clock.sec") : "data" + l.source;
+    prefix = `{var value=${raw};`;
+    if (l.threshold && !aod) {
+      const rules = l.thresholdRules ?? defaultThresholds(l.source, l.color);
+      prefix +=
+        `var ink=${color(l.thresholdFallback || l.color)};if(metricValid(value,${l.source === "battery" ? "true" : "false"})){` +
+        rules
+          .map(
+            (r, i) =>
+              `${i ? "else " : ""}if(${[r.min !== undefined ? `value>=${num(r.min)}` : "true", r.max !== undefined ? `value<${num(r.max)}` : "true"].join(" && ")}){ink=${color(r.color)};}`,
+          )
+          .join("") +
+        `}`;
+      paint = "ink";
+    }
+    suffix = "}";
+  }
+  const ink = paint;
+  return (
+    prefix +
+    `dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
+    suffix
+  );
 }
 export function localGenerate(p: Project) {
   const included = p.layers.filter((l) => l.exportIncluded !== false);
   const unsupported = included.filter(
     (l) =>
-      (!["time", "text", "rect", "circle", "line", "meter"].includes(l.kind) &&
+      (![
+        "time",
+        "date",
+        "metric",
+        "text",
+        "rect",
+        "circle",
+        "line",
+        "meter",
+      ].includes(l.kind) &&
         !(l.kind === "image" && l.libraryIcon)) ||
       l.rotation !== 0 ||
-      (l.kind === "meter" && !["steps", "battery"].includes(l.source)),
+      (l.kind === "meter" && !["steps", "battery"].includes(l.source)) ||
+      (l.kind === "metric" &&
+        !["steps", "battery", "seconds", "distance", "calories"].includes(
+          l.source,
+        )),
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、文字、基础形状、步数/电量目标仪表和内置图标。请移除或排除：" +
+      "本地生成试验仅支持未旋转的时间、日期、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量数据和内置图标。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const requirements = generationRequirements(p);
@@ -147,8 +199,13 @@ export function localGenerate(p: Project) {
     /[^\x20-\x7e\n\r\t]/.test(
       p.name +
         included
-          .filter((l) => l.kind === "text")
-          .map((l) => l.text)
+          .map((l) =>
+            l.kind === "text"
+              ? l.text
+              : l.kind === "metric"
+                ? (l.label || "") + (l.unit || "") + (l.missingValue || "")
+                : "",
+          )
           .join(""),
     )
   )
@@ -156,15 +213,39 @@ export function localGenerate(p: Project) {
       "本地生成试验只支持 ASCII 文字；其他文字请先使用 AI 字体方案。",
     );
   const meters = included.filter((l) => l.kind === "meter");
-  const meterReads =
-    (meters.some((l) => l.source === "steps")
-      ? "try {var info=ActivityMonitor.getInfo();if(info!=null && info has :steps){meterSteps=info.steps;}}catch(e){}"
+  const dataSources = [
+    ...new Set(
+      included
+        .filter((l) => l.kind === "metric" || l.kind === "meter")
+        .map((l) => l.source),
+    ),
+  ];
+  const activitySources = dataSources.filter((s) =>
+    ["steps", "distance", "calories"].includes(s),
+  );
+  const dataReads =
+    (activitySources.length
+      ? `try {var info=ActivityMonitor.getInfo();if(info!=null){${activitySources.map((s) => `if(info has :${s}){data${s}=info.${s}${s === "distance" ? "==null ? null : info.distance/100000.0" : ""};}`).join("")}}}catch(e){}`
       : "") +
-    (meters.some((l) => l.source === "battery")
-      ? "try {meterBattery=System.getSystemStats().battery;}catch(e){}"
+    (dataSources.includes("battery")
+      ? "try {databattery=System.getSystemStats().battery;}catch(e){}"
       : "");
+  const metrics = included.some((l) => l.kind === "metric");
+  const date = included.some((l) => l.kind === "date");
+  const dataHelpers = metrics
+    ? `function metricValid(value,battery){return value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100);}
+ function metricText(value,source,label,unit,precision,missing){
+  if(!metricValid(value,source.equals("battery"))){return label+missing;}
+  var text="";
+  if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
+  else if(source.equals("seconds")){text=value.toNumber().format("%02d");}
+  else if(source.equals("steps")){var digits=value.toNumber().format("%d");var length=digits.length();for(var i=0;i<length;i++){if(i>0 && (length-i)%3==0){text+=",";}text+=digits.substring(i,i+1);}}
+  else {text=value.toFloat().format("%.6f");while(text.length()>0 && text.substring(text.length()-1,text.length()).equals("0")){text=text.substring(0,text.length()-1);}if(text.substring(text.length()-1,text.length()).equals(".")){text=text.substring(0,text.length()-1);}}
+  return label+text+unit;
+ }`
+    : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${meters.some((l) => l.source === "steps") ? "import Toybox.ActivityMonitor;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}
 class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
@@ -172,9 +253,15 @@ class GeneratedView extends WatchUi.WatchFace {
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
  ${meters.length ? "function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
+ ${dataHelpers}
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
-  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${meters.length ? "var meterSteps=null;var meterBattery=null;" + meterReads : ""}
+  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${dataSources
+    .filter((s) => s !== "seconds")
+    .map((s) => `var data${s}=null;`)
+    .join(
+      "",
+    )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' : ""}
   dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   if(sleeping){${included.map((l) => draw(l, true)).join("\n")}}else{${included.map((l) => draw(l, false)).join("\n")}}
  }

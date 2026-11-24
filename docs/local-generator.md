@@ -1,4 +1,8 @@
-# 浏览器本地生成试点 basic-1
+# 浏览器本地生成试点
+
+当前版本 **basic-5-data**：支持未旋转的时间（完整/小时/分钟）、日期、ASCII 文字、基础形状、步数/电量目标仪表、受控内置图标和步数/电量/秒数/当日总热量/当日距离。其他数据、圆环、任意上传图片和非 ASCII 字形仍明确拒绝本地生成，可继续使用 AI 方案。后续段落保留各阶段扩展记录。
+
+## 初始 basic-1 范围
 
 从空白项目开始，使用 ASCII 项目名和文字，加入时间、文字、矩形、椭圆或直线，点击「本地生成（试验）」，审阅并应用后编译。这个入口不请求大模型，不需要 Key；后端仍只校验和编译。
 
@@ -17,3 +21,7 @@ AI 和本地生成共用互斥入口与代码审阅流程；设计版本变化�
 阶段 33（basic-4-meters / schema v13）：增加步数、电量分段目标仪表，支持水平直条和左右弧形。每个仪表是一层，目标/分段数/暗部/颜色独立配置；更换形状应用推荐尺寸与位置，之后仍可拖动缩放。网页与原生共用多边形采样，弧形从下向上点亮，直条从左向右点亮；按完整分段取整，超过目标封顶，缺失/非法值全暗。目标为固定设计值，不跟踪设备自动目标。步数与电量原生读取每帧各至多一次，捕获缺失或异常；AOD 按图层包含和配色绘制，不开动画计时器。真实设备的低亮可见性及功耗仍需实测。
 
 读取依据：[ActivityMonitor.Info.steps](https://developer.garmin.com/connect-iq/api-docs/Toybox/ActivityMonitor/Info.html) 为当日步数且须检查空值，[System.Stats.battery](https://developer.garmin.com/connect-iq/api-docs/Toybox/System/Stats.html) 为百分比。首版不扩到其他目标源。
+
+阶段 34（basic-5-data）：日期为设备本地英文星期缩写 + 当月日号；真实 ActivityMonitor 提供当日步数、总热量（不是运动热量）和厘米距离（转公里），System 提供电量与秒数。数据每帧集中读取，缺失/异常/非法值显示自定义占位而不填模拟数值。支持标签、单位、小数位、步数千分位、阈值与兜底颜色；自动数值最多六位小数并去尾零，显式小数位保留尾零，浏览器格式同步。息屏秒数按隐藏或固定 00，无秒动画；息屏颜色优先于阈值。
+
+日期与格式依据：[Gregorian.Info](https://developer.garmin.com/connect-iq/api-docs/Toybox/Time/Gregorian/Info.html)、[Float.format](https://developer.garmin.com/connect-iq/api-docs/Toybox/Lang/Float.html)。数值仍受设备浮点精度限制；标签改成别的单位不会自动改变数值。

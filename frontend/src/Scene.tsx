@@ -1,5 +1,9 @@
 import Meter from "./Meter";
-import { metricDisplayUnits, metricDecorations } from "./metricFormat";
+import {
+  metricDisplayUnits,
+  metricDecorations,
+  formatMetricValue,
+} from "./metricFormat";
 import LibraryImage from "./LibraryImage";
 import { guideInsetDesign } from "./layouts";
 import type { Box } from "./selection";
@@ -53,14 +57,7 @@ export function reading(l: Layer, d: Preview) {
     const prefix = l.label ? l.label + " " : "";
     if (d.missing || !Number.isFinite(value))
       return prefix + (l.missingValue ?? "--");
-    const text =
-      l.precision !== undefined
-        ? value.toFixed(l.precision)
-        : l.source === "steps"
-          ? value.toLocaleString()
-          : l.source === "seconds"
-            ? String(value).padStart(2, "0")
-            : String(value);
+    const text = formatMetricValue(l.source, value, l.precision);
     return prefix + text + (l.unit ?? units[l.source] ?? "");
   }
   return "";
