@@ -1,3 +1,5 @@
+import { localGenerate, LOCAL_PROVENANCE } from "./localGenerator";
+import type { CodeProvenance } from "./domain";
 import { applyLayout, type LayoutChoice } from "./layouts";
 import { graphicsCapabilities } from "./graphics";
 import { anchorPosition, coordinatePatch } from "./anchors";
@@ -136,6 +138,10 @@ export default function App() {
   const [leftTab, setLeftTab] = useState("控件");
   const [drawer, setDrawer] = useState("");
   const [busy, setBusy] = useState(false);
+  const generationLock = useRef(false);
+  const [pendingProvenance, setPendingProvenance] = useState<CodeProvenance>({
+    primary: "ai",
+  });
   const [buildId, setBuildId] = useState("");
   const [artifacts, setArtifacts] = useState<
     { id: string; url: string; fileName?: string }[]
@@ -891,8 +897,30 @@ export default function App() {
       setNotice("导入失败：" + (e as Error).message);
     }
   }
+  function genLocal() {
+    if (!p || busy || generationLock.current) return;
+    generationLock.current = true;
+    try {
+      const result = localGenerate(p);
+      setFiles(result);
+      setPendingProvenance(LOCAL_PROVENANCE);
+      setGenRevision(p.revision);
+      setFileIndex(0);
+      setCodeFromBuild(false);
+      setCodeLine(null);
+      setGenerationFailure(null);
+      setDrawer("代码");
+      setNotice(
+        "本地生成完成，请审阅后应用。系统字体为近似映射，需要设备检查。",
+      );
+    } catch (error) {
+      setNotice((error as Error).message);
+    } finally {
+      generationLock.current = false;
+    }
+  }
   async function gen() {
-    if (!p) return;
+    if (!p || busy || generationLock.current) return;
     if (!generationProfile?.model) {
       setNotice("请先配置模型地址和模型 ID");
       setPage("models");
@@ -904,6 +932,8 @@ export default function App() {
       )
     )
       return;
+    generationLock.current = true;
+    setPendingProvenance({ primary: "ai" });
     setBusy(true);
     setDrawer("AI");
     setGenerationFailure(null);
@@ -932,6 +962,7 @@ export default function App() {
             : (e as Error).message,
       );
     } finally {
+      generationLock.current = false;
       setBusy(false);
     }
   }
@@ -939,7 +970,7 @@ export default function App() {
     if (!p) return;
     setDrawer("编译");
     if (!p.files.length) {
-      setLogs("尚无工程代码。请先使用 AI 生成并审阅应用。");
+      setLogs("尚无工程代码。请先生成并审阅应用。");
       return;
     }
     if (p.codeRevision !== p.revision) {
@@ -1187,6 +1218,9 @@ export default function App() {
             >
               <Sparkles size={15} />
               AI 生成代码
+            </button>
+            <button disabled={busy} onClick={genLocal}>
+              本地生成（试验）
             </button>
             <button className="primary" disabled={busy} onClick={build}>
               <Hammer size={15} />
@@ -2579,7 +2613,16 @@ export default function App() {
                               return;
                             }
                             try {
-                              setP(addCodeVersion(p, files));
+                              if (
+                                p.files.length &&
+                                (p.codeProvenance?.primary || "unknown") !==
+                                  pendingProvenance.primary &&
+                                !confirm(
+                                  "切换生成来源并应用？当前代码会保留快照；设计画布不会改变。",
+                                )
+                              )
+                                return;
+                              setP(addCodeVersion(p, files, pendingProvenance));
                             } catch (error) {
                               setNotice((error as Error).message);
                               return;
@@ -2774,7 +2817,9 @@ export default function App() {
                         p.versions.map((v, i) => (
                           <div key={i}>
                             <Code2 size={16} />
-                            代码版本 {v.revision}
+                            代码版本 {v.revision} ·{" "}
+                            {v.provenance?.primary || "unknown"}{" "}
+                            {v.provenance?.generatorVersion || ""}
                             <span>{new Date(v.at).toLocaleString()}</span>
                             <button
                               onClick={() => {
@@ -2784,6 +2829,9 @@ export default function App() {
                                   setP({
                                     ...p,
                                     files: v.files,
+                                    codeProvenance: v.provenance || {
+                                      primary: "unknown",
+                                    },
                                     codeRevision: v.revision,
                                     activeCodeVersion: v.id,
                                     assets: v.assets

@@ -1,5 +1,10 @@
 import { binaryAssets } from "./assets";
-import { uid, type Project, type CodeFile } from "./domain";
+import {
+  uid,
+  type Project,
+  type CodeFile,
+  type CodeProvenance,
+} from "./domain";
 export const HISTORY_MAX_COUNT = 20;
 export const HISTORY_MAX_BYTES = 10 * 1024 * 1024;
 export function normalizeHistory(p: Project): Project {
@@ -62,17 +67,38 @@ export function retainHistory(p: Project): Project {
   }
   return { ...next, activeCodeVersion: current };
 }
-export function addCodeVersion(p: Project, files: CodeFile[]): Project {
+export function addCodeVersion(
+  p: Project,
+  files: CodeFile[],
+  provenance: CodeProvenance = { primary: "ai" },
+): Project {
+  // Preserve even legacy/reference working code before replacing its generation mode.
+  const previous =
+    p.files.length && !activeVersion(p)
+      ? [
+          {
+            id: uid(),
+            at: Date.now() - 1,
+            revision: p.codeRevision,
+            files: p.files,
+            assets: binaryAssets(p),
+            provenance: p.codeProvenance || { primary: "unknown" as const },
+          },
+        ]
+      : [];
   const id = uid();
   return retainHistory({
     ...p,
     files,
+    codeProvenance: provenance,
     codeRevision: p.revision,
     activeCodeVersion: id,
     versions: [
       ...p.versions,
+      ...previous,
       {
         id,
+        provenance,
         at: Date.now(),
         revision: p.revision,
         files,

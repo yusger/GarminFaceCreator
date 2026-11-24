@@ -64,7 +64,13 @@ export type Layer = {
   strokeWidth?: number;
 };
 export type CodeFile = { path: string; content: string };
+export type CodeProvenance = {
+  primary: "ai" | "deterministic" | "reference" | "unknown";
+  generatorVersion?: string;
+  patches?: { source: "ai" | "manual"; at: number }[];
+};
 export type CodeVersion = {
+  provenance?: CodeProvenance;
   assets?: BinaryAsset[];
   id?: string;
   pinned?: boolean;
@@ -85,7 +91,8 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+  codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
@@ -236,7 +243,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 8,
+    schemaVersion: 9,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -263,7 +270,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 8 ||
+    p.schemaVersion !== 9 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200

@@ -97,6 +97,7 @@ export async function exportSources(
     designRevision: p.revision,
     codeRevision: p.codeRevision,
     schemaVersion: p.schemaVersion,
+    codeProvenance: p.codeProvenance || { primary: "unknown" },
     reference: reference ? { ...reference, files: undefined } : null,
   };
   entries.push({

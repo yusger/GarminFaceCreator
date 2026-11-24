@@ -42,6 +42,7 @@ export function copyReference(
     id: uid(),
     appId,
     referenceId: reference.id,
+    codeProvenance: { primary: "reference" },
     layers: organizeReferenceLayers(reference.layers),
     name,
     updated: Date.now(),
