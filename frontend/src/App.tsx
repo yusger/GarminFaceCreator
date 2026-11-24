@@ -95,6 +95,7 @@ const tools = [
   ["image", "图片", Image],
   ["ring", "圆环", RotateCw],
   ["meter", "目标仪表", SlidersHorizontal],
+  ["calendar", "三周日历", Calendar],
   ["rect", "矩形", Square],
   ["text", "文字", Type],
   ["circle", "圆形", Circle],
@@ -2086,6 +2087,66 @@ export default function App() {
                             ? "当前目标已核查增强图形与透明混合能力。"
                             : "当前目标尚未核查增强图形，不开放透明度。"}
                           浏览器与设备的色深、抗锯齿可能不同。
+                        </p>
+                      </>
+                    )}
+                    {current.kind === "calendar" && (
+                      <>
+                        <label>
+                          周起始日
+                          <select
+                            aria-label="周起始日"
+                            value={current.calendarStart || "monday"}
+                            onChange={(e) =>
+                              patch({
+                                calendarStart: e.target
+                                  .value as Layer["calendarStart"],
+                              })
+                            }
+                          >
+                            <option value="monday">星期一</option>
+                            <option value="sunday">星期日</option>
+                          </select>
+                        </label>
+                        {(
+                          [
+                            ["calendarTodayColor", "今日背景", "#70c7ff"],
+                            ["calendarTodayText", "今日文字", "#07131d"],
+                            ["calendarMutedColor", "跨月文字", "#586a7f"],
+                            ["calendarHeaderColor", "星期标题", "#7891aa"],
+                          ] as const
+                        ).map(([field, title, fallback]) => (
+                          <label key={field}>
+                            {title}
+                            <input
+                              aria-label={title}
+                              type="color"
+                              value={current[field] || fallback}
+                              onChange={(e) =>
+                                patch({ [field]: e.target.value })
+                              }
+                            />
+                          </label>
+                        ))}
+                        <label>
+                          日历原生字体
+                          <select
+                            aria-label="日历原生字体"
+                            value={current.garminFont || "tiny"}
+                            onChange={(e) =>
+                              patch({
+                                garminFont: e.target
+                                  .value as Layer["garminFont"],
+                              })
+                            }
+                          >
+                            <option value="tiny">FONT_TINY</option>
+                            <option value="small">FONT_SMALL</option>
+                            <option value="medium">FONT_MEDIUM</option>
+                          </select>
+                        </label>
+                        <p className="hint">
+                          显示前一周、本周、下一周。日期随设备本地日期更新；网页动态预览使用浏览器日期。跨月日期使用暗色，今日反色突出。原生系统字体较大，缩小控件后需检查可读性。
                         </p>
                       </>
                     )}

@@ -7,7 +7,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-5-data";
+export const LOCAL_GENERATOR_VERSION = "basic-6-calendar";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -101,6 +101,20 @@ function draw(l: Layer, aod: boolean) {
         l.aodSeconds === "hide"))
   )
     return "";
+  if (l.kind === "calendar") {
+    const normal = color(aod ? l.aodColor || "#777777" : l.color),
+      muted = color(
+        aod ? l.aodColor || "#777777" : l.calendarMutedColor || "#586a7f",
+      ),
+      header = color(
+        aod ? l.aodColor || "#777777" : l.calendarHeaderColor || "#7891aa",
+      ),
+      highlight = color(
+        aod ? l.aodColor || "#777777" : l.calendarTodayColor || "#70c7ff",
+      ),
+      todayText = color(l.calendarTodayText || "#07131d");
+    return `drawCalendar(dc,calendar,${l.calendarStart === "sunday" ? 0 : 1},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${font(l, aod)},${normal},${muted},${header},${highlight},${todayText});`;
+  }
   if (l.kind === "meter") {
     const ink = color(aod ? l.aodColor || "#777777" : l.color),
       goal = l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
@@ -170,6 +184,7 @@ export function localGenerate(p: Project) {
       (![
         "time",
         "date",
+        "calendar",
         "metric",
         "text",
         "rect",
@@ -187,7 +202,7 @@ export function localGenerate(p: Project) {
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、日期、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量数据和内置图标。请移除或排除：" +
+      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量数据和内置图标。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const requirements = generationRequirements(p);
@@ -231,7 +246,36 @@ export function localGenerate(p: Project) {
       ? "try {databattery=System.getSystemStats().battery;}catch(e){}"
       : "");
   const metrics = included.some((l) => l.kind === "metric");
-  const date = included.some((l) => l.kind === "date");
+  const date = included.some((l) => l.kind === "date" || l.kind === "calendar");
+  const calendars = included.some((l) => l.kind === "calendar");
+  const calendarHelpers = calendars
+    ? `
+ var calendarStamp=0;var mondayCells=null;var sundayCells=null;
+ function calendarMonthDays(year,month){if(month==2 && (year%400==0 || (year%4==0 && year%100!=0))){return 29;}return [31,28,31,30,31,30,31,31,30,31,30,31][month-1];}
+ function calendarCells(info,start){
+  var stamp=info.year*10000+info.month*100+info.day;
+  if(stamp!=calendarStamp){calendarStamp=stamp;mondayCells=null;sundayCells=null;}
+  if(start==1 && mondayCells!=null){return mondayCells;}if(start==0 && sundayCells!=null){return sundayCells;}
+  var offset=-7-(info.day_of_week-1-start+7)%7;var cells=[];
+  for(var i=0;i<21;i++){var y=info.year;var m=info.month;var d=info.day+offset+i;
+   while(d<1){m--;if(m<1){m=12;y--;}d+=calendarMonthDays(y,m);}
+   while(d>calendarMonthDays(y,m)){d-=calendarMonthDays(y,m);m++;if(m>12){m=1;y++;}}
+   cells.add([d,m!=info.month,offset+i==0]);
+  }
+  if(start==1){mondayCells=cells;}else{sundayCells=cells;}return cells;
+ }
+ function calendarPaint(dc,ink){dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}
+ function drawCalendar(dc,info,start,x,y,w,h,textFont,normal,muted,header,highlight,todayText){
+  var names=["Su","Mo","Tu","We","Th","Fr","Sa"];var cells=calendarCells(info,start);
+  calendarPaint(dc,header);
+  for(var col=0;col<7;col++){dc.drawText(px(x+(col+0.5)*w/7),px(y+h/8),textFont,names[(start+col)%7],Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
+  for(var i=0;i<21;i++){var cx=x+(i%7+0.5)*w/7;var cy=y+((i/7).toNumber()+1.5)*h/4;
+   if(cells[i][2]){calendarPaint(dc,highlight);var radius=w/7.0;if(h/4.0<radius){radius=h/4.0;}dc.fillCircle(px(cx),px(cy),px(radius*0.43));}
+   calendarPaint(dc,cells[i][2]?todayText:(cells[i][1]?muted:normal));dc.drawText(px(cx),px(cy),textFont,cells[i][0].format("%d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);
+  }
+ }
+`
+    : "";
   const dataHelpers = metrics
     ? `function metricValid(value,battery){return value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100);}
  function metricText(value,source,label,unit,precision,missing){
@@ -254,6 +298,7 @@ class GeneratedView extends WatchUi.WatchFace {
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
  ${meters.length ? "function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
  ${dataHelpers}
+ ${calendarHelpers}
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
   scale=dc.getWidth()/454.0;var clock=System.getClockTime();${dataSources

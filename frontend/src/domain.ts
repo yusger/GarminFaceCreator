@@ -7,6 +7,7 @@ export type Kind =
   | "metric"
   | "text"
   | "image"
+  | "calendar"
   | "meter"
   | "ring"
   | "rect"
@@ -42,6 +43,11 @@ export type Layer = {
   libraryIcon?: { id: string; recolor: boolean; strokeWidth: number };
   weatherIcon?: { period: "day" | "night" };
   assetId?: string;
+  calendarStart?: "monday" | "sunday";
+  calendarTodayColor?: string;
+  calendarTodayText?: string;
+  calendarMutedColor?: string;
+  calendarHeaderColor?: string;
   meterShape?: "bar" | "left" | "right";
   meterCount?: number;
   meterGoal?: number;
@@ -100,7 +106,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
-  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13;
+  schemaVersion: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -178,6 +184,7 @@ export function layer(kind: Kind): Layer {
       image: "图片",
       ring: "秒环",
       meter: "目标仪表",
+      calendar: "三周日历",
       rect: "矩形",
       circle: "圆形",
       line: "直线",
@@ -204,6 +211,17 @@ export function layer(kind: Kind): Layer {
           meterCount: 16,
           meterGoal: 10000,
           meterDim: 0.35,
+        }
+      : {}),
+    ...(kind === "calendar"
+      ? {
+          x: 80,
+          y: 210,
+          w: 294,
+          h: 160,
+          size: 18,
+          garminFont: "tiny" as const,
+          calendarStart: "monday" as const,
         }
       : {}),
     aod: kind === "time",
@@ -265,7 +283,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 13,
+    schemaVersion: 14,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -287,13 +305,14 @@ export function validateProject(value: unknown): Project {
     "image",
     "ring",
     "meter",
+    "calendar",
     "rect",
     "circle",
     "line",
   ];
   if (
     !p ||
-    p.schemaVersion !== 13 ||
+    p.schemaVersion !== 14 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -368,6 +387,11 @@ export function validateProject(value: unknown): Project {
           (!Number.isFinite(l.meterDim) || l.meterDim < 0 || l.meterDim > 1)))
     )
       throw Error("目标仪表配置无效");
+    if (
+      l.calendarStart !== undefined &&
+      !["monday", "sunday"].includes(l.calendarStart)
+    )
+      throw Error("日历周起始日无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (
@@ -419,7 +443,14 @@ export function validateProject(value: unknown): Project {
       throw Error("分组信息无效");
     if (l.thresholdRules)
       validateThresholds(l.thresholdRules, l.thresholdFallback || l.color);
-    for (const color of [l.aodColor, l.thresholdFallback])
+    for (const color of [
+      l.aodColor,
+      l.thresholdFallback,
+      l.calendarTodayColor,
+      l.calendarTodayText,
+      l.calendarMutedColor,
+      l.calendarHeaderColor,
+    ])
       if (color !== undefined && !/^#[0-9a-f]{6}$/i.test(color))
         throw Error("颜色设置无效");
     if (

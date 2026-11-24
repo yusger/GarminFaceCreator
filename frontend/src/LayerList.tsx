@@ -1,3 +1,4 @@
+import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
 import LibraryImage from "./LibraryImage";
 import { Fragment, useState } from "react";
@@ -15,7 +16,9 @@ function Thumbnail({ layer: l, preview }: { layer: Layer; preview: Preview }) {
       aria-label={`图层缩略图 ${l.name}`}
       viewBox={`0 0 ${w} ${h}`}
     >
-      {l.kind === "meter" ? (
+      {l.kind === "calendar" ? (
+        <Calendar layer={l} date={preview.calendarDate} />
+      ) : l.kind === "meter" ? (
         <Meter
           layer={l}
           value={metricValues(preview)[l.source]}

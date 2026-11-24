@@ -25,3 +25,7 @@ AI 和本地生成共用互斥入口与代码审阅流程；设计版本变化�
 阶段 34（basic-5-data）：日期为设备本地英文星期缩写 + 当月日号；真实 ActivityMonitor 提供当日步数、总热量（不是运动热量）和厘米距离（转公里），System 提供电量与秒数。数据每帧集中读取，缺失/异常/非法值显示自定义占位而不填模拟数值。支持标签、单位、小数位、步数千分位、阈值与兜底颜色；自动数值最多六位小数并去尾零，显式小数位保留尾零，浏览器格式同步。息屏秒数按隐藏或固定 00，无秒动画；息屏颜色优先于阈值。
 
 日期与格式依据：[Gregorian.Info](https://developer.garmin.com/connect-iq/api-docs/Toybox/Time/Gregorian/Info.html)、[Float.format](https://developer.garmin.com/connect-iq/api-docs/Toybox/Lang/Float.html)。数值仍受设备浮点精度限制；标签改成别的单位不会自动改变数值。
+
+阶段 36（basic-6-calendar / schema v14）：三周日历是一层可编辑控件，7 列、标题加三周共四行，周一起始或周日起始，显示前一周/本周/后一周。今日反色、跨月暗色和星期标题可独立配置。网页预览增加日期选择，动态模式读浏览器本地日期，手动模拟跨午夜同步日期；编辑器静态示例日期为 2026-11-23，与原有 MON 23 一致。
+
+原生日历读 [Gregorian.info](https://developer.garmin.com/connect-iq/api-docs/Toybox/Time/Gregorian.html) 的设备本地日期，按年月日滚动处理跨月跨年和 Gregorian 闰年规则；不靠一天固定秒数跨 DST。单独缓存两种周起始网格，本地日期变化时重建。没有绑定秒计时器；AOD 仍按图层显隐/颜色。星期为两字母英文，不分发 SDK 字体。默认 FONT_TINY，缩小控件后需原生检查字体是否容纳。

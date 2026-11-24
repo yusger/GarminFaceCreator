@@ -1,3 +1,9 @@
+import {
+  localDateKey,
+  calendarDateLabel,
+  shiftCalendarDate,
+  DEFAULT_CALENDAR_DATE,
+} from "./calendar";
 import { weatherGroups } from "./weatherIcons";
 import {
   useEffect,
@@ -17,6 +23,7 @@ function currentClock() {
       ":" +
       `${now.getMinutes()}`.padStart(2, "0"),
     seconds: now.getSeconds(),
+    calendarDate: localDateKey(now),
     date:
       now.toLocaleDateString("en-US", { weekday: "short" }).toUpperCase() +
       " " +
@@ -93,10 +100,18 @@ export default function PreviewStudio({
       setPreview((p) => {
         const total = p.seconds + step;
         const [h, m] = p.time.split(":").map(Number);
-        const minutes = (h * 60 + m + Math.floor(total / 60)) % 1440;
+        const elapsedMinutes = h * 60 + m + Math.floor(total / 60),
+          minutes = elapsedMinutes % 1440;
+        const dayOffset = Math.floor(elapsedMinutes / 1440);
+        const dateKey = shiftCalendarDate(
+          p.calendarDate || DEFAULT_CALENDAR_DATE,
+          dayOffset,
+        );
         return {
           ...p,
           seconds: total % 60,
+          calendarDate: dateKey,
+          ...(dayOffset ? { date: calendarDateLabel(dateKey) } : {}),
           time:
             `${Math.floor(minutes / 60)}`.padStart(2, "0") +
             ":" +
@@ -310,6 +325,30 @@ export default function PreviewStudio({
                 </button>
               ))}
             </div>
+            <label>
+              预览日期
+              <input
+                aria-label="预览日期"
+                type="date"
+                min="0100-01-01"
+                max="9999-12-31"
+                value={preview.calendarDate || DEFAULT_CALENDAR_DATE}
+                onChange={(e) => {
+                  if (
+                    !e.target.value ||
+                    e.target.value < "0100-01-01" ||
+                    e.target.value > "9999-12-31"
+                  )
+                    return;
+                  manualPause();
+                  setPreview((p) => ({
+                    ...p,
+                    calendarDate: e.target.value,
+                    date: calendarDateLabel(e.target.value),
+                  }));
+                }}
+              />
+            </label>
             <label>
               时间
               <input

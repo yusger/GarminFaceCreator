@@ -32,6 +32,11 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   aod: true,
   threshold: true,
   strokeWidth: true,
+  calendarStart: true,
+  calendarTodayColor: true,
+  calendarTodayText: true,
+  calendarMutedColor: true,
+  calendarHeaderColor: true,
   meterShape: true,
   meterCount: true,
   meterGoal: true,
@@ -133,6 +138,15 @@ export function generationLayer(l: Layer) {
           meterGoal: l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
           meterDim: l.meterDim ?? 0.35,
           meterPolygons: meterPolygons(l),
+        }
+      : {}),
+    ...(l.kind === "calendar"
+      ? {
+          calendarStart: l.calendarStart || "monday",
+          calendarTodayColor: l.calendarTodayColor || "#70c7ff",
+          calendarTodayText: l.calendarTodayText || "#07131d",
+          calendarMutedColor: l.calendarMutedColor || "#586a7f",
+          calendarHeaderColor: l.calendarHeaderColor || "#7891aa",
         }
       : {}),
     hidden: false,

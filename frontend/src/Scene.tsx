@@ -1,3 +1,4 @@
+import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
 import {
   metricDisplayUnits,
@@ -14,6 +15,7 @@ export type Preview = {
   missing?: boolean;
   weatherCondition?: number | null;
   date?: string;
+  calendarDate?: string;
   time: string;
   heartRate: number;
   steps: number;
@@ -175,7 +177,9 @@ export default function Scene({
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
             >
-              {l.kind === "meter" ? (
+              {l.kind === "calendar" ? (
+                <Calendar layer={l} date={preview.calendarDate} aod={aod} />
+              ) : l.kind === "meter" ? (
                 <Meter
                   layer={l}
                   value={metricValues(preview)[l.source]}
