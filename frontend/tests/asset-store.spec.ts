@@ -1,4 +1,4 @@
-﻿import { test, expect, type Page } from "@playwright/test";
+import { test, expect, type Page } from "@playwright/test";
 import { project, layer } from "../src/domain";
 import { png } from "../../backend/tests/image-fixture.mjs";
 async function contents(page: Page) {
@@ -176,4 +176,77 @@ test("snapshot references protect removed image and transaction quota failure cr
     .click();
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   expect((await contents(page)).assets).toHaveLength(0);
+});
+
+test("failed asset migration leaves old inline database intact and succeeds after retry", async ({
+  page,
+}) => {
+  await page.goto("/api/health");
+  const legacy = {
+    ...project("迁移回滚"),
+    schemaVersion: 1,
+    layers: [
+      {
+        ...layer("image"),
+        image: "data:image/png;base64," + png(0, 0, 255).toString("base64"),
+      },
+    ],
+  };
+  await page.evaluate(
+    (p) =>
+      new Promise<void>((resolve) => {
+        const r = indexedDB.open("garmin-face-creator", 1);
+        r.onupgradeneeded = () =>
+          r.result.createObjectStore("projects", { keyPath: "id" });
+        r.onsuccess = () => {
+          const db = r.result,
+            tx = db.transaction("projects", "readwrite");
+          tx.objectStore("projects").put(p);
+          tx.oncomplete = () => {
+            db.close();
+            resolve();
+          };
+        };
+      }),
+    legacy,
+  );
+  await page.addInitScript(() => {
+    if (sessionStorage.getItem("migration-fault")) return;
+    sessionStorage.setItem("migration-fault", "injected");
+    const original = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function (...args: any[]) {
+      if (this.name === "assets")
+        throw new DOMException("full", "QuotaExceededError");
+      return (original as any).apply(this, args);
+    } as typeof original;
+  });
+  await page.goto("/");
+  await expect(page.getByRole("alert")).toContainText("空间不足");
+  const intact = await page.evaluate(
+    () =>
+      new Promise<any>((resolve, reject) => {
+        const r = indexedDB.open("garmin-face-creator", 1);
+        r.onerror = () => reject(r.error);
+        r.onsuccess = () => {
+          const db = r.result,
+            read = db.transaction("projects").objectStore("projects").getAll();
+          read.onsuccess = () => {
+            const value = {
+              version: db.version,
+              inline: read.result[0].layers[0].image,
+            };
+            db.close();
+            resolve(value);
+          };
+        };
+      }),
+  );
+  expect(intact.version).toBe(1);
+  expect(intact.inline).toContain("data:image/png");
+  await page.reload();
+  await page
+    .getByRole("button", { name: "打开 迁移回滚", exact: true })
+    .click();
+  await expect(page.locator("svg.watch image")).toHaveCount(1);
+  expect((await contents(page)).assets).toHaveLength(1);
 });

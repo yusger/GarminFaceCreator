@@ -219,7 +219,7 @@ export default function App() {
         setReady(true);
       })
       .catch((e) => {
-        setNotice("无法读取本地项目：" + e.message);
+        setNotice("无法读取本地项目：" + storageMessage(e));
         setReady(true);
       });
   }, []);
