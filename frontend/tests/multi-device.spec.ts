@@ -84,6 +84,25 @@ test("device editing refuses topology and binding edits, master drag frames rema
     revision: p.revision + 1,
   })!;
   expect(frame2.multiDevice!.master[0].x).toBe(70);
+  const ended = reconcileDevices(frame2, {
+    ...dragStart,
+    layers: frame2.layers,
+    revision: dragStart.revision + 1,
+  })!;
+  expect(ended.multiDevice!.master[0].x).toBe(70);
+  const deviceStart = selectDevice(ended, deviceKey(ended), "device");
+  const moved = reconcileDevices(deviceStart, {
+    ...deviceStart,
+    layers: deviceStart.layers.map((l) => ({ ...l, x: 92 })),
+  })!;
+  const committed = reconcileDevices(moved, {
+    ...deviceStart,
+    layers: moved.layers,
+    revision: deviceStart.revision + 1,
+  })!;
+  expect(
+    selectDevice(committed, deviceKey(committed), "device").layers[0].x,
+  ).toBe(92);
 });
 test("multi-device import validates nested designs and remaps identities while discarding every target's code", () => {
   let p = addDevice(enableDevices(seed()), small);
@@ -123,7 +142,16 @@ test("multi-device import validates nested designs and remaps identities while d
   expect(() => validateProject(invalid)).toThrow(/图层/);
 });
 test("design snapshots restore the entire adaptation design and cannot restore stale target source", () => {
-  let p = addDevice(enableDevices(seed()), small);
+  let p = enableDevices(seed());
+  p = reconcileDevices(
+    p,
+    addCodeVersion(p, localGenerate(p), LOCAL_PROVENANCE),
+  )!;
+  p = addDevice(p, small);
+  p = reconcileDevices(
+    p,
+    addCodeVersion(p, localGenerate(p), LOCAL_PROVENANCE),
+  )!;
   p = saveDesignSnapshot(p, "two devices");
   const snap = p.designSnapshots![0].id;
   p = reconcileDevices(p, {
@@ -134,6 +162,11 @@ test("design snapshots restore the entire adaptation design and cannot restore s
   const restored = restoreDesignSnapshot(p, snap);
   expect(restored.multiDevice!.variants).toHaveLength(2);
   expect(restored.layers[0].x).toBe(60);
+  expect(
+    restored.multiDevice!.variants.every(
+      (v) => v.code.files.length > 0 && v.code.versions.length > 0,
+    ),
+  ).toBe(true);
   expect(restored.codeRevision).toBe(-1);
   expect(
     restored.multiDevice!.variants.every((v) => v.code.codeRevision === -1),

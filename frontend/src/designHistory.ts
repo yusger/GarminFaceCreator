@@ -1,3 +1,4 @@
+import { deviceKey } from "./multiDevice";
 import { uid, type Project, type DesignSnapshot } from "./domain";
 export function checkDesignHistory(p: Project) {
   const snapshots = p.designSnapshots || [];
@@ -63,14 +64,30 @@ export function saveDesignSnapshot(p: Project, name: string): Project {
 export function restoreDesignSnapshot(p: Project, id: string): Project {
   const snapshot = p.designSnapshots?.find((s) => s.id === id);
   if (!snapshot) throw Error("设计快照不存在");
+  const multiDevice = snapshot.multiDevice
+    ? {
+        ...structuredClone(snapshot.multiDevice),
+        viewVersion: (p.multiDevice?.viewVersion || 0) + 1,
+        variants: snapshot.multiDevice.variants.map((v) => {
+          const current = p.multiDevice?.variants.find(
+            (item) => item.key === v.key,
+          );
+          return {
+            ...structuredClone(v),
+            code: { ...(current?.code || v.code), codeRevision: -1 },
+            buildId: undefined,
+            buildStatus: undefined,
+          };
+        }),
+      }
+    : undefined;
+  const selected = multiDevice?.variants.find(
+    (v) => v.key === deviceKey(snapshot),
+  );
   return {
     ...p,
-    multiDevice: snapshot.multiDevice
-      ? {
-          ...structuredClone(snapshot.multiDevice),
-          viewVersion: (p.multiDevice?.viewVersion || 0) + 1,
-        }
-      : undefined,
+    ...(selected?.code || {}),
+    multiDevice,
     layers: structuredClone(snapshot.layers),
     assets: structuredClone(snapshot.assets),
     target: snapshot.target,

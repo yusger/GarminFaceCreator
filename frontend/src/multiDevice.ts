@@ -169,8 +169,20 @@ export function reconcileDevices(
   )
     return next;
   const m = next.multiDevice;
-  if (JSON.stringify(previous.layers) === JSON.stringify(next.layers))
+  if (JSON.stringify(previous.layers) === JSON.stringify(next.layers)) {
+    const variant = m.variants.find((v) => v.key === deviceKey(next));
+    const resolved =
+      m.scope === "master"
+        ? m.master
+        : variant
+          ? effectiveLayers(m.master, variant)
+          : next.layers;
+    // Pointer-up commits from its initial project snapshot. Keep the already resolved
+    // live frame rather than restoring that snapshot's stale master/overrides.
+    if (canonical(resolved) !== canonical(next.layers))
+      return capture({ ...next, multiDevice: previous.multiDevice });
     return capture(next);
+  }
   if (m.scope === "master") {
     const ids = new Set(next.layers.map((l) => l.id));
     const variants = m.variants.map((v) => ({
