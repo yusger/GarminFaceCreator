@@ -1,3 +1,4 @@
+import { validateVisibility } from "./visibility";
 import { meterPolygons } from "./meters";
 import { defaultThresholds } from "./thresholds";
 import type { Layer, Project } from "./domain";
@@ -14,7 +15,8 @@ type Omitted =
   | "exportIncluded"
   | "libraryIcon"
   | "weatherIcon"
-  | "thresholdRules";
+  | "thresholdRules"
+  | "visibility";
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   id: true,
@@ -54,6 +56,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   meterDim: true,
   timePart: true,
   timeUtcOffset: true,
+  dateLocale: true,
   textAlign: true,
   fontWeight: true,
   garminFont: true,
@@ -95,6 +98,7 @@ function objectFields(value: unknown, keys: string[]) {
   return Object.fromEntries(keys.map((key) => [key, scalar(o[key])]));
 }
 export function generationLayer(l: Layer) {
+  validateVisibility(l.visibility);
   const rules =
     l.thresholdRules ??
     (l.kind === "metric" && l.threshold
@@ -107,6 +111,19 @@ export function generationLayer(l: Layer) {
   );
   return {
     ...result,
+    ...(l.visibility
+      ? {
+          visibility: objectFields(l.visibility, [
+            "source",
+            "min",
+            "max",
+            "minExclusive",
+            "maxInclusive",
+            "missingVisible",
+            "aod",
+          ]),
+        }
+      : {}),
     ...(l.kind === "time"
       ? {
           timePart: l.timePart || "full",

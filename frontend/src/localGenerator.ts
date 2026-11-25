@@ -1,3 +1,6 @@
+import { nativeVisibility, validateVisibility } from "./visibility.ts";
+import { imageAssetPath } from "./assets.ts";
+import { generationDevice } from "./devices.ts";
 import { nativeTimeText, nativeClock } from "./timeParts.ts";
 import { mergeNativeWordTime } from "./wordTime.ts";
 import { defaultThresholds } from "./thresholds.ts";
@@ -9,7 +12,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-14-white";
+export const LOCAL_GENERATOR_VERSION = "basic-15-conditions";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -24,6 +27,8 @@ const xml = (v: string) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
 function font(l: Layer, aod: boolean) {
+  if (l.kind === "date" && l.dateLocale === "zh")
+    return "Graphics.FONT_SYSTEM_XTINY";
   const size = aod ? l.aodSize || l.size : l.size;
   return (
     "Graphics.FONT_" +
@@ -156,6 +161,8 @@ function draw(l: Layer, aod: boolean) {
       `}`
     );
   }
+  if (l.kind === "image" && !l.libraryIcon)
+    return `dc.drawBitmap(px(${num(l.x)}),px(${num(l.y)}),WatchUi.loadResource(Rez.Drawables.${bitmapId(l)}));`;
   if (l.kind === "image" && l.libraryIcon)
     return `GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
   if (["rect", "circle", "line"].includes(l.kind))
@@ -166,7 +173,9 @@ function draw(l: Layer, aod: boolean) {
     l.kind === "time"
       ? nativeTimeText(l.timePart, nativeClock(l.timeUtcOffset))
       : l.kind === "date"
-        ? "dateText"
+        ? l.dateLocale === "zh"
+          ? "dateZh"
+          : "dateText"
         : l.kind === "metric"
           ? `metricText(value,${JSON.stringify(l.source)},${JSON.stringify(l.label ? l.label + " " : "")},${JSON.stringify(l.unit ?? metricDisplayUnits[l.source] ?? "")},${l.precision ?? -1},${JSON.stringify(l.missingValue ?? "--")})`
           : JSON.stringify(l.text);
@@ -199,7 +208,15 @@ function draw(l: Layer, aod: boolean) {
     suffix
   );
 }
+function bitmapId(l: Layer) {
+  return "GfcImage_" + l.id.replace(/[^a-zA-Z0-9]/g, "_");
+}
+function visibleDraw(l: Layer, aod: boolean) {
+  const code = draw(l, aod);
+  return code ? `if(${nativeVisibility(l, aod)}){${code}}` : "";
+}
 export function localGenerate(p: Project) {
+  p.layers.forEach((l) => validateVisibility(l.visibility));
   const included = p.layers.filter((l) => l.exportIncluded !== false);
   const unsupported = included.filter(
     (l) =>
@@ -217,7 +234,7 @@ export function localGenerate(p: Project) {
         "line",
         "meter",
       ].includes(l.kind) &&
-        !(l.kind === "image" && l.libraryIcon)) ||
+        !(l.kind === "image" && (l.libraryIcon || l.image))) ||
       l.rotation !== 0 ||
       (l.kind === "meter" && !["steps", "battery"].includes(l.source)) ||
       (l.kind === "metric" &&
@@ -235,40 +252,50 @@ export function localGenerate(p: Project) {
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据和内置图标（心率需关闭心形符号）。请移除或排除：" +
+      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据、静态图片和内置图标（心率需关闭心形符号）。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
+  const imageLayers = included.filter(
+    (l) => l.kind === "image" && !l.libraryIcon,
+  );
+  if (new Set(imageLayers.map(bitmapId)).size !== imageLayers.length)
+    throw Error("图片资源标识重复");
+  const device = generationDevice(p);
+  const imageResources = imageLayers
+    .map(
+      (l) =>
+        `<bitmap id="${bitmapId(l)}" filename="../../${imageAssetPath(l)}" scaleX="${Math.max(1, Math.round((l.w * device.screenWidth) / 454))}" scaleY="${Math.max(1, Math.round((l.h * device.screenHeight) / 454))}" scaleRelativeTo="image"/>`,
+    )
+    .join("");
   const requirements = generationRequirements(p);
   if (
-    requirements.languages.length > 1 &&
-    !included.some((l) => l.kind === "wordTime" && l.wordLanguage === "zh")
+    /[^\x20-\x7e]/.test(p.name) ||
+    included.some((l) => {
+      const text =
+        l.kind === "text"
+          ? l.text
+          : l.kind === "metric"
+            ? (l.label || "") + (l.unit || "") + (l.missingValue || "")
+            : "";
+      return (
+        /[^\x20-\x7e\n\r\t]/.test(text) &&
+        !(
+          l.garminFont === "systemXTiny" &&
+          !/[^\x20-\x7e\n\r\t\p{Script=Han}]/u.test(text)
+        )
+      );
+    })
   )
     throw Error(
-      "本地生成试验尚未验证非英文系统字形。请使用 ASCII 项目名和文字，或使用 AI 生成并提供已授权字体。",
-    );
-  if (
-    /[^\x20-\x7e\n\r\t]/.test(
-      p.name +
-        included
-          .map((l) =>
-            l.kind === "text"
-              ? l.text
-              : l.kind === "metric"
-                ? (l.label || "") + (l.unit || "") + (l.missingValue || "")
-                : "",
-          )
-          .join(""),
-    )
-  )
-    throw Error(
-      "本地生成试验只支持 ASCII 文字；其他文字请先使用 AI 字体方案。",
+      "本地生成只支持 ASCII 项目名；中文文字需指定已验证的 SYSTEM_XTINY 字体，其他字形请使用 AI 字体方案。",
     );
   const meters = included.filter((l) => l.kind === "meter");
   const dataSources = [
     ...new Set(
-      included
-        .filter((l) => l.kind === "metric" || l.kind === "meter")
-        .map((l) => l.source),
+      included.flatMap((l) => [
+        ...(l.kind === "metric" || l.kind === "meter" ? [l.source] : []),
+        ...(l.visibility ? [l.visibility.source] : []),
+      ]),
     ),
   ];
   const activitySources = dataSources.filter((s) =>
@@ -392,9 +419,9 @@ class GeneratedView extends WatchUi.WatchFace {
     .map((s) => `var data${s}=null;`)
     .join(
       "",
-    )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' : ""}
+    )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
   dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
-  if(sleeping){${included.map((l) => draw(l, true)).join("\n")}}else{${included.map((l) => draw(l, false)).join("\n")}}
+  if(sleeping){${included.map((l) => visibleDraw(l, true)).join("\n")}}else{${included.map((l) => visibleDraw(l, false)).join("\n")}}
  }
 }`;
   return parseFiles(
@@ -415,8 +442,7 @@ class GeneratedView extends WatchUi.WatchFace {
           },
           {
             path: "resources/drawables/drawables.xml",
-            content:
-              '<drawables><bitmap id="LauncherIcon" filename="icon.svg"/></drawables>',
+            content: `<drawables><bitmap id="LauncherIcon" filename="icon.svg"/>${imageResources}</drawables>`,
           },
           {
             path: "resources/drawables/icon.svg",

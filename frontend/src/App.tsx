@@ -1,3 +1,4 @@
+import VisibilityEditor from "./VisibilityEditor";
 import AdaptationAssistant from "./AdaptationAssistant";
 import { adaptationFingerprint, applyAdaptation } from "./adaptation";
 import DeviceAdaptations from "./DeviceAdaptations";
@@ -3070,7 +3071,27 @@ export default function App() {
                           )}
                       </>
                     )}
+                    {current.kind === "date" && (
+                      <label>
+                        日期语言
+                        <select
+                          aria-label="日期语言"
+                          value={current.dateLocale || "en"}
+                          onChange={(e) =>
+                            patch({ dateLocale: e.target.value as "en" | "zh" })
+                          }
+                        >
+                          <option value="en">英文星期 / 日期</option>
+                          <option value="zh">中文星期 / 月日</option>
+                        </select>
+                      </label>
+                    )}
                     <h4>显示条件</h4>
+                    <VisibilityEditor
+                      key={current.id}
+                      value={current.visibility}
+                      onChange={(visibility) => patch({ visibility })}
+                    />
                     <label className="inline">
                       <input
                         type="checkbox"

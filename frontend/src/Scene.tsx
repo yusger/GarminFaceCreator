@@ -1,3 +1,4 @@
+import { conditionVisible } from "./visibility";
 import { timeText, timeInOffset } from "./timeParts";
 import Hand from "./Hand";
 import Celestial from "./Celestial";
@@ -63,7 +64,23 @@ export function reading(l: Layer, d: Preview) {
       l.timePart,
     );
   }
-  if (l.kind === "date") return d.date || "MON 23";
+  if (l.kind === "date") {
+    if (l.dateLocale === "zh") {
+      const date = d.calendarDate
+        ? new Date(d.calendarDate + "T12:00:00")
+        : new Date();
+      return Number.isFinite(date.getTime())
+        ? "周" +
+            ["日", "一", "二", "三", "四", "五", "六"][date.getDay()] +
+            " " +
+            (date.getMonth() + 1) +
+            "月" +
+            date.getDate() +
+            "日"
+        : "--";
+    }
+    return d.date || "MON 23";
+  }
   if (l.kind === "text") return l.text;
   if (l.kind === "metric") {
     const values = metricValues(d);
@@ -175,6 +192,11 @@ export default function Scene({
           .filter(
             (l) =>
               (exact ? l.exportIncluded !== false : !l.hidden) &&
+              conditionVisible(
+                l.visibility,
+                preview.missing ? {} : metricValues(preview),
+                aod,
+              ) &&
               (!aod ||
                 (l.aod &&
                   !(

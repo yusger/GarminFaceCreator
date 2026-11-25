@@ -91,8 +91,9 @@ export function generationRequirements(p: Project) {
   const layers = p.layers.filter((l) => l.exportIncluded !== false);
   const sources = [
     ...new Set(
-      layers.flatMap((l) =>
-        l.kind === "celestial"
+      layers.flatMap((l) => [
+        ...(l.visibility ? [l.visibility.source] : []),
+        ...(l.kind === "celestial"
           ? ["solarScene"]
           : l.weatherIcon
             ? ["weatherIcon"]
@@ -100,8 +101,8 @@ export function generationRequirements(p: Project) {
               ? [l.source]
               : l.kind === "ring"
                 ? [l.ringSource || "seconds"].filter((s) => s !== "static")
-                : [],
-      ),
+                : []),
+      ]),
     ),
   ].sort();
   const dataSources = sources.map((source) => {
@@ -126,13 +127,15 @@ export function generationRequirements(p: Project) {
   ].sort();
   const drawnText = layers
     .flatMap((l) =>
-      l.kind === "wordTime"
-        ? [wordTimeGlyphs(l.wordLanguage)]
-        : l.kind === "text"
-          ? [l.text]
-          : l.kind === "metric" || l.kind === "meter"
-            ? [l.label || "", l.unit || "", l.missingValue || "--"]
-            : [],
+      l.kind === "date" && l.dateLocale === "zh"
+        ? ["周日一二三四五六月"]
+        : l.kind === "wordTime"
+          ? [wordTimeGlyphs(l.wordLanguage)]
+          : l.kind === "text"
+            ? [l.text]
+            : l.kind === "metric" || l.kind === "meter"
+              ? [l.label || "", l.unit || "", l.missingValue || "--"]
+              : [],
     )
     .join("");
   // AppName is a native string resource too. Editor layer/group names are not.

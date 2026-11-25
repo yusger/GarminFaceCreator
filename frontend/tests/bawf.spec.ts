@@ -75,7 +75,11 @@ test("protected BAWF copy exports complete notices and compiles before and after
     ])
       expect(files.has("notices/" + name)).toBe(true);
     expect(
-      meta.templateSources.some((t: any) => t.version === "basic-14-white"),
+      meta.templateSources.some(
+        (t: any) =>
+          t.version ===
+          (language === "default" ? "basic-14-white" : "basic-15-conditions"),
+      ),
     ).toBe(true);
     expect(files.get("notices/BAWF-original-App.mc.txt")!.toString()).toContain(
       "Copyright (c)2018-2023 Kevin Boone",

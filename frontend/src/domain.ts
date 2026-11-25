@@ -1,3 +1,4 @@
+import { validateVisibility } from "./visibility.ts";
 import { validateMultiDevice, importedDevices } from "./multiDevice.ts";
 import { validateThresholds } from "./thresholds.ts";
 import { migrateProject } from "./migrations.ts";
@@ -19,6 +20,7 @@ export type Kind =
   | "line";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  visibility?: import("./visibility").VisibilityCondition;
   id: string;
   name: string;
   groupId?: string;
@@ -66,6 +68,7 @@ export type Layer = {
   meterCount?: number;
   meterGoal?: number;
   meterDim?: number;
+  dateLocale?: "en" | "zh";
   timeUtcOffset?: number;
   timePart?:
     | "full"
@@ -158,7 +161,8 @@ export type Project = {
     | 17
     | 18
     | 19
-    | 20;
+    | 20
+    | 21;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -377,7 +381,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 20,
+    schemaVersion: 21,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -409,7 +413,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 20 ||
+    p.schemaVersion !== 21 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -449,6 +453,9 @@ export function validateProject(value: unknown): Project {
   )
     throw Error("布局指导参数无效");
   for (const l of p.layers) {
+    validateVisibility(l.visibility);
+    if (l.dateLocale !== undefined && !["en", "zh"].includes(l.dateLocale))
+      throw Error("日期语言无效");
     if (
       l.strokeWidth !== undefined &&
       (!Number.isFinite(l.strokeWidth) ||
