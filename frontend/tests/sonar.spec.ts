@@ -74,7 +74,7 @@ test("SONAR conversion preserves generic fonts, native controls, continuous prog
   expect(source).toContain("dateMonthDayWeek");
   expect(source).toContain("drawAlphaText");
   expect(source).toContain(
-    ":tintColor=>Graphics.createColor(alpha,255,255,255)",
+    "surface.setPalette([Graphics.COLOR_TRANSPARENT,Graphics.createColor(alpha,",
   );
   expect(source).toContain("cfg_right_slot_source");
   expect(source).toContain("datadistance");

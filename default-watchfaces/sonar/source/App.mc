@@ -4,17 +4,18 @@ class GeneratedApp extends Application.AppBase {var mainView=null;function initi
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
  var settingsCache=null;function prepareSettings(){if(settingsCache==null){settingsCache={};{var v=null;try{v=Application.Properties.getValue("Gfc_primary_color");}catch(e){}settingsCache["Gfc_primary_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xDCE9F0;}{var v=null;try{v=Application.Properties.getValue("Gfc_hour_hand_color");}catch(e){}settingsCache["Gfc_hour_hand_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xDCE9F0;}{var v=null;try{v=Application.Properties.getValue("Gfc_minute_hand_color");}catch(e){}settingsCache["Gfc_minute_hand_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xDCE9F0;}{var v=null;try{v=Application.Properties.getValue("Gfc_second_hand_color");}catch(e){}settingsCache["Gfc_second_hand_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xF2A65F;}{var v=null;try{v=Application.Properties.getValue("Gfc_hr_normal_color");}catch(e){}settingsCache["Gfc_hr_normal_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0x4FD1C5;}{var v=null;try{v=Application.Properties.getValue("Gfc_hr_warning_color");}catch(e){}settingsCache["Gfc_hr_warning_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xF2A65F;}{var v=null;try{v=Application.Properties.getValue("Gfc_hr_alert_color");}catch(e){}settingsCache["Gfc_hr_alert_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xFF6B6B;}{var v=null;try{v=Application.Properties.getValue("Gfc_batt_normal_color");}catch(e){}settingsCache["Gfc_batt_normal_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0x4FD1C5;}{var v=null;try{v=Application.Properties.getValue("Gfc_batt_warning_color");}catch(e){}settingsCache["Gfc_batt_warning_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xF2A65F;}{var v=null;try{v=Application.Properties.getValue("Gfc_batt_alert_color");}catch(e){}settingsCache["Gfc_batt_alert_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xFF6B6B;}{var v=null;try{v=Application.Properties.getValue("Gfc_right_slot_source");}catch(e){}settingsCache["Gfc_right_slot_source"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<3 && v.toNumber()==v))?["steps","calories","distance"][v.toNumber()]:"steps";}{var v=null;try{v=Application.Properties.getValue("Gfc_show_seconds");}catch(e){}settingsCache["Gfc_show_seconds"]=(v!=null && (v instanceof Toybox.Lang.Boolean))?v:true;}}}
- var textBuffers={};
+var textBuffers={};
  function drawAlphaText(dc,id,x,y,w,h,font,text,ink,alpha,align){
-  var signature=text+":"+ink.format("%d")+":"+w.format("%d")+":"+h.format("%d")+":"+font.toString();
+  var signature=text+":"+ink.format("%d")+":"+w.format("%d")+":"+h.format("%d")+":"+alpha.format("%d")+":"+font.toString();
   if(!textBuffers.hasKey(id) || !textBuffers[id][0].equals(signature)){
-   var ref=Graphics.createBufferedBitmap({:width=>w+16,:height=>h+16,:colorDepth=>16,:alphaBlending=>Graphics.ALPHA_BLENDING_FULL});
+   var ref=Graphics.createBufferedBitmap({:width=>w+16,:height=>h+16,:palette=>[Graphics.COLOR_TRANSPARENT,ink]});
    var surface=ref.get();var target=surface.getDc();target.setColor(ink,Graphics.COLOR_TRANSPARENT);target.clear();
    var justify=align==0?Graphics.TEXT_JUSTIFY_LEFT:(align==2?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER);
    target.drawText(8+(align==0?0:(align==2?w:w/2)),8+h/2,font,text,justify|Graphics.TEXT_JUSTIFY_VCENTER);
+   surface.setPalette([Graphics.COLOR_TRANSPARENT,Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255)]);
    textBuffers[id]=[signature,ref];
   }
-  dc.drawBitmap2(x-8,y-8,textBuffers[id][1].get(),{:tintColor=>Graphics.createColor(alpha,255,255,255)});
+  dc.drawBitmap(x-8,y-8,textBuffers[id][1].get());
  }
  var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}
  function initialize(){WatchFace.initialize();}

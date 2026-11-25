@@ -4,6 +4,7 @@ class GeneratedApp extends Application.AppBase {var mainView=null;function initi
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
  
+
  var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
