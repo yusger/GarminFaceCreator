@@ -43,7 +43,7 @@ test("owned PulseManiac package pins all selected transparent assets and leaves 
   expect(
     bundle.project.layers
       .filter((l: any) => l.kind === "metric" && l.source === "heartRate")
-      .every((l: any) => l.x === 217 && l.y === 200 && l.label === ""),
+      .every((l: any) => l.x === 200 && l.y === 205 && l.label === ""),
   ).toBe(true);
   expect(
     bundle.project.layers.filter((l: any) => l.kind === "time"),

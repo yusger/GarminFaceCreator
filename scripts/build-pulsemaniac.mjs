@@ -118,10 +118,10 @@ for (const state of states) {
 for (const state of states) {
   add("image", {
     name: state.name + "心形",
-    x: 202,
-    y: 207,
-    w: 12,
-    h: 12,
+    x: 222,
+    y: 193,
+    w: 10,
+    h: 10,
     color: state.color,
     aod: state.key === "rest",
     visibility: state.condition,
@@ -135,11 +135,12 @@ for (const state of states) {
   });
   add("metric", {
     name: state.name + "胸口心率",
-    x: 217,
-    y: 200,
-    w: 40,
-    h: 27,
-    size: 20,
+    x: 200,
+    y: 205,
+    w: 54,
+    h: 32,
+    size: 26,
+    garminFont: "xtiny",
     source: "heartRate",
     metricDecoration: false,
     label: "",
@@ -149,7 +150,7 @@ for (const state of states) {
     threshold: false,
     color: state.color,
     aodColor: "#888888",
-    aodSize: 20,
+    aodSize: 26,
     aod: state.key === "rest",
     visibility: state.condition,
     groupId: state.key,
@@ -179,6 +180,7 @@ for (const [text, x, y] of [
   });
 add("metric", {
   name: "顶部数据1（默认电量）",
+  garminFont: "xtiny",
   x: 127,
   y: 47,
   w: 200,
@@ -197,6 +199,7 @@ add("metric", {
 });
 add("metric", {
   name: "顶部数据2（默认步数）",
+  garminFont: "xtiny",
   x: 127,
   y: 81,
   w: 200,
@@ -229,11 +232,12 @@ add("date", {
 });
 add("time", {
   name: "底部时间",
+  garminFont: "large",
   x: 87,
   y: 352,
   w: 280,
   h: 66,
-  size: 68,
+  size: 62,
   fontWeight: 700,
   color: "#e8ecf1",
   aodColor: "#888888",
