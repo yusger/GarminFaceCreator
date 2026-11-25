@@ -92,10 +92,18 @@ export async function buildDefaultWatchfaces() {
         data: "data:" + a.mime + ";base64," + bytes.toString("base64"),
       });
     }
+    for (const a of r.fonts || []) {
+      const bytes = await read(dir + "/" + safe(a.file));
+      if (hash(bytes) !== a.sha256) throw Error("Font hash mismatch");
+      await put("frontend/public/fonts/" + safe(a.publishName), bytes);
+    }
     if (r.generation.mode === "deterministic") {
       const { localGenerate } =
         await import("../frontend/src/localGenerator.ts");
-      p.files = localGenerate(p);
+      p.files = [
+        ...localGenerate(p),
+        ...p.files.filter((f) => f.path.endsWith(".fnt")),
+      ];
       p.codeRevision = p.revision;
       for (const f of p.files) await put(dir + "/" + safe(f.path), f.content);
       r.codeFiles = p.files.map((f) => f.path);
@@ -118,6 +126,12 @@ export async function buildDefaultWatchfaces() {
         await read(dir + "/" + safe(n.file)),
       );
     }
+    if (slug === "pulsemaniac")
+      for (const name of ["NOTICE.md", "PROMPTS.md"])
+        await put(
+          "frontend/public/pulsemaniac/" + name,
+          await read(dir + "/notices/PulseManiac-" + name),
+        );
     const ref = {
       ...r.attribution,
       authorship: r.authorship,

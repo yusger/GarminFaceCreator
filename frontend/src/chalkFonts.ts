@@ -1,0 +1,106 @@
+import type { Layer, Project, CodeFile } from "./domain.ts";
+import { generationDevice } from "./devices.ts";
+import { chalkAtlas } from "./chalkAtlas.ts";
+export const chalkFont = (l: Layer) =>
+  l.garminFont === "chalk" || l.garminFont === "chalkHan";
+export const chalkId = (l: Layer, aod = false) =>
+  "GfcChalk" +
+  (l.garminFont === "chalkHan" ? "Han" : "Latin") +
+  Math.round(aod ? l.aodSize || l.size : l.size);
+const fontName = (id: string) =>
+  id.includes("Han")
+    ? "MaShanZheng-Regular.ttf"
+    : "PermanentMarker-Regular.ttf";
+export function chalkPlans(p: Project) {
+  const plans = new Map<
+    string,
+    { id: string; size: number; glyphs: string; font: string }
+  >();
+  const device = generationDevice(p);
+  for (const l of p.layers.filter(
+    (l) => chalkFont(l) && l.exportIncluded !== false,
+  )) {
+    const glyphs =
+      l.garminFont === "chalkHan"
+        ? l.text || "彻底疯狂"
+        : l.kind === "time"
+          ? "0123456789:"
+          : Array.from({ length: 95 }, (_, i) =>
+              String.fromCharCode(i + 32),
+            ).join("") + "°";
+    if (
+      l.garminFont === "chalk" &&
+      /[^\x20-\x7e°]/.test(
+        (l.text || "") +
+          (l.label || "") +
+          (l.unit || "") +
+          (l.missingValue || ""),
+      )
+    )
+      throw Error("粉笔数字字体支持 ASCII 与 °；中文请使用粉笔中文字体");
+    for (const aod of [false, true]) {
+      const id = chalkId(l, aod),
+        existing = plans.get(id);
+      const merged = [
+        ...new Set([...(existing?.glyphs || ""), ...glyphs]),
+      ].join("");
+      plans.set(id, {
+        id,
+        size: Math.max(
+          6,
+          Math.round(
+            ((aod ? l.aodSize || l.size : l.size) * device.screenWidth) / 454,
+          ),
+        ),
+        glyphs: merged,
+        font: fontName(id),
+      });
+    }
+  }
+  return [...plans.values()];
+}
+const cache = new Map<
+  string,
+  Promise<{ files: CodeFile[]; assets: { path: string; data: string }[] }>
+>();
+export function preparedChalk(p: Project) {
+  const plans = chalkPlans(p),
+    key = JSON.stringify(plans);
+  const existing = cache.get(key);
+  if (existing) return existing;
+  const promise = (async () => {
+    const files: CodeFile[] = [],
+      assets: { path: string; data: string }[] = [];
+    for (const plan of plans) {
+      const response = await fetch("/fonts/" + plan.font);
+      if (!response.ok) throw Error("粉笔字体加载失败");
+      const atlas = await chalkAtlas(
+        await response.arrayBuffer(),
+        plan.id,
+        plan.size,
+        plan.glyphs,
+        plan.id + ".png",
+      );
+      files.push({
+        path: "resources/fonts/" + plan.id + ".fnt",
+        content: atlas.content,
+      });
+      assets.push({
+        path: "resources/fonts/" + plan.id + ".png",
+        data: atlas.data,
+      });
+    }
+    return { files, assets };
+  })().catch((e) => {
+    cache.delete(key);
+    throw e;
+  });
+  cache.set(key, promise);
+  return promise;
+}
+export async function preparedCodeFiles(p: Project) {
+  const chalk = await preparedChalk(p),
+    files = new Map(p.files.map((f) => [f.path, f]));
+  for (const f of chalk.files) files.set(f.path, f);
+  return [...files.values()];
+}

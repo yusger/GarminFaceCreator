@@ -16,3 +16,7 @@
 
 构建脚本自动发现目录，生成前端注册表、`/default-watchfaces/<slug>/project.json` 和旧 `/templates/` 兼容输出。生成输出不是维护入口。旧单项目转换脚本仅供历史导入排查，不再参与默认构建。
 默认卡片保留不可删除；用户编辑会创建独立副本。
+
+带字体的包可增加 fonts 清单（文件、发布名、SHA-256）。PulseManiac 的 FNT/PNG 是默认 454px 快照；编辑器编译/导出时按目标分辨率重新生成。更改其字体或字号时同步生成并保留默认快照。
+
+PulseManiac 字体/心形快照维护命令：`node scripts/generate-pulse-font-snapshots.mjs`（本机 Edge；不启动服务）。然后执行 `npm run build`。字体来源记录与完整许可保留在包内。

@@ -1,3 +1,4 @@
+import { preparedChalk } from "./chalkFonts";
 import { iconVariants, iconResourcePath } from "./weatherIcons";
 import type { Layer, Project } from "./domain";
 import { binaryAssets, imageAssetPath } from "./assets";
@@ -143,5 +144,6 @@ export async function preparedAssets(p: Project) {
       });
   }
 
+  for (const a of (await preparedChalk(p)).assets) assets.set(a.path, a);
   return [...assets.values()];
 }

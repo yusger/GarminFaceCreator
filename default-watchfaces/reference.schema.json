@@ -110,6 +110,17 @@
           "publishName"
         ]
       }
+    },
+    "fonts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "file",
+          "publishName",
+          "sha256"
+        ]
+      }
     }
   }
 }

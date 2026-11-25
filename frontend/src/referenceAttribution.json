@@ -257,7 +257,12 @@
     "files": [
       "PulseManiac-NOTICE.md",
       "PulseManiac-PROMPTS.md",
-      "repository-LICENSE.txt"
+      "repository-LICENSE.txt",
+      "PermanentMarker-Regular-LICENSE.txt",
+      "PermanentMarker-Regular-METADATA.pb",
+      "MaShanZheng-Regular-OFL.txt",
+      "MaShanZheng-Regular-METADATA.pb",
+      "PulseManiac-Font-Sources.json"
     ]
   }
 ]

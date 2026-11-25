@@ -24,7 +24,7 @@ const meta = JSON.parse(files.get("gfc-export.json").toString());
 assert.equal(meta.starterId, "pulsemaniac");
 const source = files.get("source/App.mc").toString(),
   marker = "dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);dc.clear();";
-assert(source.includes("basic-16-image-scale"));
+assert(source.includes("basic-17-chalk-fonts"));
 assert.equal(source.split(marker).length, 2);
 await mkdir(directory, { recursive: true });
 const results = [];
@@ -48,7 +48,7 @@ for (const [name, hr] of [
   );
   for (const [path, bytes] of files) {
     if (
-      !/^(manifest\.xml|monkey\.jungle|source\/.*\.mc|resources\/.*\.(xml|svg|fnt)|assets\/.*\.png)$/.test(
+      !/^(manifest\.xml|monkey\.jungle|source\/.*\.mc|resources\/.*\.(xml|svg|fnt|png)|assets\/.*\.png)$/.test(
         path,
       )
     )

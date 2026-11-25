@@ -1,3 +1,4 @@
+import { preparedCodeFiles, chalkPlans } from "./chalkFonts";
 import {
   referenceAttributions,
   observedTemplates,
@@ -37,7 +38,9 @@ export async function exportSources(
   if (!p.files.length || p.codeRevision !== p.revision)
     throw Error("请先生成并应用与当前设计一致的完整工程，再导出源码包。");
   const text = new TextEncoder(),
-    entries = parseFiles(JSON.stringify({ files: p.files })).map((file) => ({
+    entries = parseFiles(
+      JSON.stringify({ files: await preparedCodeFiles(p) }),
+    ).map((file) => ({
       path: file.path,
       data: text.encode(file.content),
     }));
@@ -78,6 +81,19 @@ export async function exportSources(
       path: "notices/" + file,
       data: new Uint8Array(await response.arrayBuffer()),
     });
+  }
+  for (const name of new Set(chalkPlans(p).map((plan) => plan.font))) {
+    for (const path of [
+      "/fonts/" + name,
+      "/fonts/" + name.replace(".ttf", "-LICENSE.txt"),
+    ]) {
+      const response = await fetch(path);
+      if (!response.ok) throw Error("缺少字体或许可");
+      entries.push({
+        path: "source-assets/fonts/" + path.split("/").at(-1),
+        data: new Uint8Array(await response.arrayBuffer()),
+      });
+    }
   }
   const usedIcons = await Promise.all(
     [

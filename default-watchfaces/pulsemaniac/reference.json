@@ -1,7 +1,7 @@
 {
   "format": 1,
   "slug": "pulsemaniac",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "authorship": "self",
   "generation": {
     "mode": "deterministic"
@@ -26,8 +26,8 @@
   "images": [
     {
       "layerId": "pulse-layer-1",
-      "file": "assets/pulse-background-v1.png",
-      "sha256": "6f2b6046b444d8f8ae383cca1c08bde84fa649d55ae639530fa05ba952c401e9",
+      "file": "assets/pulse-background-v2.png",
+      "sha256": "a5c923b57ba08b9243c942e35336290997d504643e7d15bad090f1887db1cc76",
       "mime": "image/png"
     },
     {
@@ -50,12 +50,78 @@
     },
     {
       "layerId": "pulse-layer-5",
-      "file": "assets/pulse-maniac-v1.png",
-      "sha256": "3a50281cd5c419defd5578702480df1f882d8b67ad5f9062a2a5f356333ff42b",
+      "file": "assets/pulse-maniac-v2.png",
+      "sha256": "5705ebafdcd48d6694ef19528b6069e4543b4e63ed3cc3909eed818b71dfa6ae",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-6",
+      "file": "assets/pulse-layer-6-heart.png",
+      "sha256": "36d86743364020e9971ce43dae29634619f31b523004898eea0b098afc2a0406",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-8",
+      "file": "assets/pulse-layer-8-heart.png",
+      "sha256": "9c08c2e9b210266d5e5e5c1d28fd0424923d89eb780194ffc35e4d11c6a3dc3b",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-10",
+      "file": "assets/pulse-layer-10-heart.png",
+      "sha256": "b23cdf0d9ba082091209951abd9acac1e892def0719deaedede0247d851676e0",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-12",
+      "file": "assets/pulse-layer-12-heart.png",
+      "sha256": "7884dbf99a8c96bfa45c0fb7cde819fffce5c30070fedf882ea2f177f404457b",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-chalk-ring",
+      "file": "assets/pulse-ring-v2.png",
+      "sha256": "0571c045d883fddf0388c197dd805fbddc8a9c12dbab169c9b3664d338691d35",
       "mime": "image/png"
     }
   ],
-  "binaryAssets": [],
+  "binaryAssets": [
+    {
+      "id": "GfcChalkLatin18",
+      "file": "resources/fonts/GfcChalkLatin18.png",
+      "path": "resources/fonts/GfcChalkLatin18.png",
+      "mime": "image/png",
+      "sha256": "b12ea81d191250b8e951a2bfcbdca8832e46c2397481697eb5c0e947bae79fb1"
+    },
+    {
+      "id": "GfcChalkHan30",
+      "file": "resources/fonts/GfcChalkHan30.png",
+      "path": "resources/fonts/GfcChalkHan30.png",
+      "mime": "image/png",
+      "sha256": "b3e3294b3623eec438ca7abe14b63704cff3d4ab1e00004437302c70818d8ac0"
+    },
+    {
+      "id": "GfcChalkLatin16",
+      "file": "resources/fonts/GfcChalkLatin16.png",
+      "path": "resources/fonts/GfcChalkLatin16.png",
+      "mime": "image/png",
+      "sha256": "933b7c7009396fde22329d96be6609f59ff034f36ad5de31ee06ae0df840d6f8"
+    },
+    {
+      "id": "GfcChalkLatin62",
+      "file": "resources/fonts/GfcChalkLatin62.png",
+      "path": "resources/fonts/GfcChalkLatin62.png",
+      "mime": "image/png",
+      "sha256": "6f74e1e578f264799d915e07d05a17c9a188af3e0277dc77c477e5c93fc99abf"
+    },
+    {
+      "id": "GfcChalkLatin54",
+      "file": "resources/fonts/GfcChalkLatin54.png",
+      "path": "resources/fonts/GfcChalkLatin54.png",
+      "mime": "image/png",
+      "sha256": "72957de7414c7d5fa5385eac42972a0e9590902ef585941a9a5e4969030b8e26"
+    }
+  ],
   "notices": [
     {
       "file": "notices/PulseManiac-NOTICE.md",
@@ -68,16 +134,62 @@
     {
       "file": "notices/repository-LICENSE.txt",
       "publishName": "repository-LICENSE.txt"
+    },
+    {
+      "file": "notices/PermanentMarker-Regular-LICENSE.txt",
+      "publishName": "PermanentMarker-Regular-LICENSE.txt"
+    },
+    {
+      "file": "notices/PermanentMarker-Regular-METADATA.pb",
+      "publishName": "PermanentMarker-Regular-METADATA.pb"
+    },
+    {
+      "file": "notices/MaShanZheng-Regular-OFL.txt",
+      "publishName": "MaShanZheng-Regular-OFL.txt"
+    },
+    {
+      "file": "notices/MaShanZheng-Regular-METADATA.pb",
+      "publishName": "MaShanZheng-Regular-METADATA.pb"
+    },
+    {
+      "file": "fonts/sources.json",
+      "publishName": "PulseManiac-Font-Sources.json"
     }
   ],
   "codeFiles": [
     "manifest.xml",
     "monkey.jungle",
     "source/App.mc",
+    "resources/fonts/fonts.xml",
     "resources/strings/strings.xml",
     "resources/drawables/drawables.xml",
     "resources/drawables/icon.svg",
-    "resources/drawables/gfc-icons.xml",
-    "source/GfcIcons.mc"
+    "resources/fonts/GfcChalkLatin18.fnt",
+    "resources/fonts/GfcChalkHan30.fnt",
+    "resources/fonts/GfcChalkLatin16.fnt",
+    "resources/fonts/GfcChalkLatin62.fnt",
+    "resources/fonts/GfcChalkLatin54.fnt"
+  ],
+  "fonts": [
+    {
+      "file": "fonts/PermanentMarker-Regular.ttf",
+      "publishName": "PermanentMarker-Regular.ttf",
+      "sha256": "28f82c8a7943cb8e9d599f8554da1d4fc75dbcf69b9885ad6c0611d20c6946c5"
+    },
+    {
+      "file": "notices/PermanentMarker-Regular-LICENSE.txt",
+      "publishName": "PermanentMarker-Regular-LICENSE.txt",
+      "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+    },
+    {
+      "file": "fonts/MaShanZheng-Regular.ttf",
+      "publishName": "MaShanZheng-Regular.ttf",
+      "sha256": "6d2546bb189c732a8ca29af9e22457b152387d158aa459e4ac2ce1e51788b7fb"
+    },
+    {
+      "file": "notices/MaShanZheng-Regular-OFL.txt",
+      "publishName": "MaShanZheng-Regular-LICENSE.txt",
+      "sha256": "d7bdb1cee215b689e23c2f95672a6084c790542170648267a55114103d756a08"
+    }
   ]
 }

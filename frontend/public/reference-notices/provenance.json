@@ -281,18 +281,23 @@
       "files": [
         "PulseManiac-NOTICE.md",
         "PulseManiac-PROMPTS.md",
-        "repository-LICENSE.txt"
+        "repository-LICENSE.txt",
+        "PermanentMarker-Regular-LICENSE.txt",
+        "PermanentMarker-Regular-METADATA.pb",
+        "MaShanZheng-Regular-OFL.txt",
+        "MaShanZheng-Regular-METADATA.pb",
+        "PulseManiac-Font-Sources.json"
       ],
       "path": "/default-watchfaces/pulsemaniac/project.json",
-      "sha256": "351d1253df055968835f3a1c750a014e093f0e0898864ef98aa62b7b96ea679e"
+      "sha256": "d8b3c294e0f5b590ff0316ed32a879dfb94e3a1e9d18cf06db7acd5cbd640f8e"
     }
   ],
   "generators": [
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-16-image-scale",
-      "sha256": "b7f3feb3614ed13f2ed22a1a495484f711c7ba84982ffb94c9d2e7f3cbaab97a",
+      "version": "basic-17-chalk-fonts",
+      "sha256": "00db8d36fe99ffa753db324668b274ed18edc9af21e027550d0446fc4751306c",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },

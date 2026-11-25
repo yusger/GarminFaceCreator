@@ -1,3 +1,4 @@
+import { preparedCodeFiles } from "./chalkFonts";
 import { referenceAttribution } from "./attribution";
 import VisibilityEditor from "./VisibilityEditor";
 import AdaptationAssistant from "./AdaptationAssistant";
@@ -1183,7 +1184,7 @@ export default function App() {
           revision: p.revision,
         }),
       );
-      p.files.forEach((f) =>
+      (await preparedCodeFiles(p)).forEach((f) =>
         form.append(
           "files",
           new Blob([f.content], { type: "text/plain" }),
@@ -2765,6 +2766,8 @@ export default function App() {
                               ["auto", "自动选择"],
                               ["xtiny", "FONT_XTINY"],
                               ["systemXTiny", "FONT_SYSTEM_XTINY"],
+                              ["chalk", "粉笔手写（数字/英文）"],
+                              ["chalkHan", "粉笔中文"],
                               ["tiny", "FONT_TINY"],
                               ["small", "FONT_SMALL"],
                               ["medium", "FONT_MEDIUM"],
@@ -2825,6 +2828,7 @@ export default function App() {
                           数据源
                           <select
                             aria-label="数据源"
+                            disabled={current.sourceLocked === true}
                             value={current.source}
                             onChange={(e) =>
                               patch({

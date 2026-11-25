@@ -1,0 +1,38 @@
+[
+  {
+    "file": "fonts/PermanentMarker-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/83c62e30d87daa70216dab6b984d00d20d96d585/apache/permanentmarker/PermanentMarker-Regular.ttf",
+    "commit": "83c62e30d87daa70216dab6b984d00d20d96d585",
+    "sha256": "28f82c8a7943cb8e9d599f8554da1d4fc75dbcf69b9885ad6c0611d20c6946c5"
+  },
+  {
+    "file": "notices/PermanentMarker-Regular-LICENSE.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/83c62e30d87daa70216dab6b984d00d20d96d585/apache/permanentmarker/LICENSE.txt",
+    "commit": "83c62e30d87daa70216dab6b984d00d20d96d585",
+    "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
+  },
+  {
+    "file": "notices/PermanentMarker-Regular-METADATA.pb",
+    "source": "https://raw.githubusercontent.com/google/fonts/83c62e30d87daa70216dab6b984d00d20d96d585/apache/permanentmarker/METADATA.pb",
+    "commit": "83c62e30d87daa70216dab6b984d00d20d96d585",
+    "sha256": "e8c6f976c51817b22d458c031e1b270d05aa28685f99ed57a2d099bb1634724f"
+  },
+  {
+    "file": "fonts/MaShanZheng-Regular.ttf",
+    "source": "https://raw.githubusercontent.com/google/fonts/83c62e30d87daa70216dab6b984d00d20d96d585/ofl/mashanzheng/MaShanZheng-Regular.ttf",
+    "commit": "83c62e30d87daa70216dab6b984d00d20d96d585",
+    "sha256": "6d2546bb189c732a8ca29af9e22457b152387d158aa459e4ac2ce1e51788b7fb"
+  },
+  {
+    "file": "notices/MaShanZheng-Regular-OFL.txt",
+    "source": "https://raw.githubusercontent.com/google/fonts/83c62e30d87daa70216dab6b984d00d20d96d585/ofl/mashanzheng/OFL.txt",
+    "commit": "83c62e30d87daa70216dab6b984d00d20d96d585",
+    "sha256": "d7bdb1cee215b689e23c2f95672a6084c790542170648267a55114103d756a08"
+  },
+  {
+    "file": "notices/MaShanZheng-Regular-METADATA.pb",
+    "source": "https://raw.githubusercontent.com/google/fonts/83c62e30d87daa70216dab6b984d00d20d96d585/ofl/mashanzheng/METADATA.pb",
+    "commit": "83c62e30d87daa70216dab6b984d00d20d96d585",
+    "sha256": "7e21912b6659b58694f0b999e69ad5a95da12fdc453565059727a2467e525f84"
+  }
+]

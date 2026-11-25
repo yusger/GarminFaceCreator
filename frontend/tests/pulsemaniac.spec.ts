@@ -23,8 +23,8 @@ test("owned PulseManiac package pins all selected transparent assets and registe
 }) => {
   const bundle = await (await request.get("/pulsemaniac/project.json")).json();
   expect(bundle.project.starterId).toBe("pulsemaniac");
-  expect(bundle.project.layers).toHaveLength(21);
-  expect(bundle.images).toHaveLength(5);
+  expect(bundle.project.layers).toHaveLength(22);
+  expect(bundle.images).toHaveLength(10);
   for (const asset of bundle.images) {
     const r = await request.get(asset.path);
     expect(r.ok()).toBe(true);
@@ -35,14 +35,24 @@ test("owned PulseManiac package pins all selected transparent assets and registe
     ).toBe(asset.sha256);
   }
   const states = bundle.project.layers.filter(
-    (l: any) => l.kind === "image" && l.visibility && !l.libraryIcon,
+    (l: any) =>
+      l.kind === "image" &&
+      l.visibility &&
+      !l.libraryIcon &&
+      !l.assetId.endsWith("-heart"),
   );
   expect(states).toHaveLength(4);
   expect(states.every((l: any) => l.x === 117 && l.y === 104)).toBe(true);
   expect(
     bundle.project.layers
       .filter((l: any) => l.kind === "metric" && l.source === "heartRate")
-      .every((l: any) => l.x === 200 && l.y === 205 && l.label === ""),
+      .every(
+        (l: any) =>
+          l.x === 205 &&
+          l.y === 205 &&
+          l.label === "" &&
+          l.sourceLocked === true,
+      ),
   ).toBe(true);
   expect(
     bundle.project.layers.filter((l: any) => l.kind === "time"),
@@ -84,7 +94,7 @@ test("PulseManiac creates an editable native project, previews all four static s
   await page.locator(".project-title button").click();
   page.on("dialog", (d) => d.accept());
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
-  await expect(page.locator(".layer-row")).toHaveCount(21);
+  await expect(page.locator(".layer-row")).toHaveCount(22);
   async function exported() {
     const download = page.waitForEvent("download");
     await page
@@ -92,6 +102,7 @@ test("PulseManiac creates an editable native project, previews all four static s
       .click();
     return readFile((await (await download).path())!);
   }
+  await page.evaluate(() => document.fonts.ready);
   const originalBytes = await exported(),
     files = unzip(originalBytes),
     design = JSON.parse(files.get("design-source.json")!.toString());
@@ -112,7 +123,11 @@ test("PulseManiac creates an editable native project, previews all four static s
   await mkdir(directory, { recursive: true });
   await writeFile(join(directory, "source.zip"), originalBytes);
   const bodies = design.layers.filter(
-    (l: any) => l.kind === "image" && l.visibility && !l.libraryIcon,
+    (l: any) =>
+      l.kind === "image" &&
+      l.visibility &&
+      !l.libraryIcon &&
+      !l.assetId.endsWith("-heart"),
   );
   await page.getByRole("button", { name: "预览", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "表盘独立预览" });
@@ -160,7 +175,7 @@ test("PulseManiac creates an editable native project, previews all four static s
     );
     for (const [name, bytes] of source)
       if (
-        /^(manifest\.xml|monkey\.jungle|source\/.*\.mc|resources\/.*\.(xml|svg|fnt)|assets\/.*\.png)$/.test(
+        /^(manifest\.xml|monkey\.jungle|source\/.*\.mc|resources\/.*\.(xml|svg|fnt|png)|assets\/.*\.png)$/.test(
           name,
         )
       )
@@ -196,7 +211,15 @@ test("PulseManiac creates an editable native project, previews all four static s
     }
     throw Error("Build timeout");
   }
+  expect(files.has("resources/fonts/GfcChalkLatin62.fnt")).toBe(true);
+  expect(files.has("resources/fonts/GfcChalkLatin62.png")).toBe(true);
+  expect(
+    files.has("source-assets/fonts/PermanentMarker-Regular-LICENSE.txt"),
+  ).toBe(true);
   await compile(files, "venu445mm", "45mm");
+  await page.getByText("静息态胸口心率", { exact: true }).click();
+  await expect(page.getByLabel("数据源", { exact: true })).toBeDisabled();
+
   await page.getByText("顶部数据1（默认电量）", { exact: true }).click();
   await page.getByLabel("数据源", { exact: true }).selectOption("calories");
   await page.getByLabel("数据标签", { exact: true }).fill("CAL");
@@ -228,5 +251,5 @@ test("PulseManiac creates an editable native project, previews all four static s
     .getByRole("button", { name: "打开 PulseManiac", exact: true })
     .click();
   await expect(page.locator(".device")).toContainText("390");
-  await expect(page.locator(".layer-row")).toHaveCount(21);
+  await expect(page.locator(".layer-row")).toHaveCount(22);
 });

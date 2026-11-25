@@ -1,3 +1,4 @@
+import { chalkFont, chalkId, chalkPlans } from "./chalkFonts.ts";
 import { nativeVisibility, validateVisibility } from "./visibility.ts";
 import { imageAssetPath } from "./assets.ts";
 import { generationDevice } from "./devices.ts";
@@ -12,7 +13,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-16-image-scale";
+export const LOCAL_GENERATOR_VERSION = "basic-17-chalk-fonts";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -27,6 +28,7 @@ const xml = (v: string) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
 function font(l: Layer, aod: boolean) {
+  if (chalkFont(l)) return `fontFor(Rez.Fonts.${chalkId(l, aod)})`;
   if (l.kind === "date" && l.dateLocale === "zh")
     return "Graphics.FONT_SYSTEM_XTINY";
   const size = aod ? l.aodSize || l.size : l.size;
@@ -189,7 +191,7 @@ function draw(l: Layer, aod: boolean) {
     if (l.threshold && !aod) {
       const rules = l.thresholdRules ?? defaultThresholds(l.source, l.color);
       prefix +=
-        `var ink=${color(l.thresholdFallback || l.color)};if(metricValid(value,${l.source === "battery" ? "true" : "false"})){` +
+        `var ink=${color(l.thresholdFallback || l.color)};if(${l.source === "temperature" ? "value!=null && value==value && value>=-273.15 && value<=1000" : `metricValid(value,${l.source === "battery" ? "true" : "false"})`}){` +
         rules
           .map(
             (r, i) =>
@@ -245,6 +247,7 @@ export function localGenerate(p: Project) {
           "distance",
           "calories",
           "heartRate",
+          "temperature",
         ].includes(l.source)) ||
       (l.kind === "metric" &&
         l.source === "heartRate" &&
@@ -279,8 +282,9 @@ export function localGenerate(p: Project) {
             : "";
       return (
         /[^\x20-\x7e\n\r\t]/.test(text) &&
+        !(l.garminFont === "chalk" && !/[^\x20-\x7e°]/.test(text)) &&
         !(
-          l.garminFont === "systemXTiny" &&
+          (l.garminFont === "systemXTiny" || l.garminFont === "chalkHan") &&
           !/[^\x20-\x7e\n\r\t\p{Script=Han}]/u.test(text)
         )
       );
@@ -289,6 +293,7 @@ export function localGenerate(p: Project) {
     throw Error(
       "本地生成只支持 ASCII 项目名；中文文字需指定已验证的 SYSTEM_XTINY 字体，其他字形请使用 AI 字体方案。",
     );
+  const chalk = chalkPlans(p);
   const meters = included.filter((l) => l.kind === "meter");
   const dataSources = [
     ...new Set(
@@ -310,7 +315,11 @@ export function localGenerate(p: Project) {
       : "") +
     (dataSources.includes("heartRate")
       ? "try {if((Toybox has :SensorHistory)&&(Toybox.SensorHistory has :getHeartRateHistory)){var history=SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST});if(history!=null){var sample=history.next();if(sample!=null){var hr=sample.data;if(hr!=null && hr>0 && hr<1.0e12){dataheartRate=hr;}}}}}catch(e){}"
+      : "") +
+    (dataSources.includes("temperature")
+      ? "try{if((Toybox has :Weather)&&(Weather has :getCurrentConditions)){var conditions=Weather.getCurrentConditions();if(conditions!=null && conditions has :temperature){datatemperature=conditions.temperature;}}}catch(e){}"
       : "");
+  const temperature = dataSources.includes("temperature");
   const metrics = included.some((l) => l.kind === "metric");
   const date = included.some((l) => l.kind === "date" || l.kind === "calendar");
   const zones = [
@@ -354,7 +363,7 @@ export function localGenerate(p: Project) {
   const dataHelpers = metrics
     ? `function metricValid(value,battery){return value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100);}
  function metricText(value,source,label,unit,precision,missing){
-  if(!metricValid(value,source.equals("battery"))){return label+missing;}
+  if(source.equals("temperature") ? (value==null || value!=value || value < -273.15 || value>1000) : !metricValid(value,source.equals("battery"))){return label+missing;}
   var text="";
   if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
   else if(source.equals("seconds")){text=value.toNumber().format("%02d");}
@@ -364,10 +373,11 @@ export function localGenerate(p: Project) {
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;import Toybox.Weather;" : ""}${celestial || hands ? "import Toybox.Math;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands ? "import Toybox.Math;" : ""}
 class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
+ ${chalk.length ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
@@ -444,6 +454,14 @@ class GeneratedView extends WatchUi.WatchFace {
               "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n",
           },
           { path: "source/App.mc", content: source },
+          ...(chalk.length
+            ? [
+                {
+                  path: "resources/fonts/fonts.xml",
+                  content: `<fonts>${chalk.map((plan) => `<font id="${plan.id}" filename="${plan.id}.fnt" antialias="true"/>`).join("")}</fonts>`,
+                },
+              ]
+            : []),
           {
             path: "resources/strings/strings.xml",
             content: `<strings><string id="AppName">${xml(p.name)}</string></strings>`,

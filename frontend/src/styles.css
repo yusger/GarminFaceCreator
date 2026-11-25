@@ -1569,3 +1569,6 @@ label select {
 }
 
 .authorship-badge{display:inline-flex;margin-left:6px;padding:3px 7px;border-radius:5px;background:#193c35;color:#86e7bc;font-size:11px;}
+
+@font-face{font-family:GfcChalkLatin;src:url('/fonts/PermanentMarker-Regular.ttf') format('truetype');font-display:swap;}
+@font-face{font-family:GfcChalkHan;src:url('/fonts/MaShanZheng-Regular.ttf') format('truetype');font-display:swap;}

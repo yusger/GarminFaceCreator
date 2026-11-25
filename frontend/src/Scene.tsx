@@ -360,10 +360,26 @@ export default function Scene({
                         ? "end"
                         : "middle"
                   }
-                  fontFamily="Arial, sans-serif"
-                  letterSpacing={l.kind === "time" ? -4 : 0}
+                  fontFamily={
+                    l.garminFont === "chalk"
+                      ? "GfcChalkLatin"
+                      : l.garminFont === "chalkHan"
+                        ? "GfcChalkHan"
+                        : "Arial, sans-serif"
+                  }
+                  letterSpacing={
+                    l.garminFont?.startsWith("chalk")
+                      ? 0
+                      : l.kind === "time"
+                        ? -4
+                        : 0
+                  }
                   fontSize={aod ? l.aodSize || l.size : l.size}
-                  fontWeight={l.fontWeight || (l.kind === "time" ? 600 : 400)}
+                  fontWeight={
+                    l.garminFont?.startsWith("chalk")
+                      ? 400
+                      : l.fontWeight || (l.kind === "time" ? 600 : 400)
+                  }
                   fill={aod ? l.aodColor || "#777777" : ink(l, preview)}
                 >
                   {l.kind === "metric" && l.metricDecoration !== false

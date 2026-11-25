@@ -35,6 +35,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   threshold: true,
   strokeWidth: true,
   metricDecoration: true,
+  sourceLocked: true,
   wordLanguage: true,
   wordRow: true,
   handType: true,

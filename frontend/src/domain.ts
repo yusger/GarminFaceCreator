@@ -79,6 +79,7 @@ export type Layer = {
     | "minuteTens"
     | "minuteOnes";
   metricDecoration?: boolean;
+  sourceLocked?: boolean;
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
   garminFont?:
@@ -89,7 +90,9 @@ export type Layer = {
     | "medium"
     | "large"
     | "numberHot"
-    | "systemXTiny";
+    | "systemXTiny"
+    | "chalk"
+    | "chalkHan";
   label?: string;
   unit?: string;
   precision?: number;
@@ -557,6 +560,8 @@ export function validateProject(value: unknown): Project {
           "large",
           "numberHot",
           "systemXTiny",
+          "chalk",
+          "chalkHan",
         ].includes(l.garminFont)) ||
       (l.precision !== undefined &&
         (!Number.isInteger(l.precision) || l.precision < 0 || l.precision > 3))
@@ -670,6 +675,14 @@ export function validateProject(value: unknown): Project {
     if (l.image && !/^data:image\/(png|jpeg|webp);base64,/.test(l.image))
       throw Error("图片必须包含在项目中");
   }
+  for (const l of p.layers)
+    if (
+      l.sourceLocked !== undefined &&
+      (typeof l.sourceLocked !== "boolean" ||
+        l.kind !== "metric" ||
+        (l.sourceLocked && l.source !== "heartRate"))
+    )
+      throw Error("固定心率数据源无效");
   validateMultiDevice(p, validateProject);
   const imported: Project = {
     ...p,
