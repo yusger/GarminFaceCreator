@@ -1,3 +1,4 @@
+import { validateMultiDevice, importedDevices } from "./multiDevice";
 import { validateThresholds } from "./thresholds.ts";
 import { migrateProject } from "./migrations.ts";
 import { devices } from "./devices.ts";
@@ -125,6 +126,7 @@ export type CodeVersion = {
 };
 export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
+  multiDevice?: import("./multiDevice").MultiDevice;
   id: string;
   name: string;
   at: number;
@@ -155,11 +157,13 @@ export type Project = {
     | 16
     | 17
     | 18
-    | 19;
+    | 19
+    | 20;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
   deviceSize?: string;
+  multiDevice?: import("./multiDevice").MultiDevice;
   id: string;
   appId: string;
   name: string;
@@ -373,7 +377,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 19,
+    schemaVersion: 20,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -405,7 +409,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 19 ||
+    p.schemaVersion !== 20 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -656,7 +660,8 @@ export function validateProject(value: unknown): Project {
     if (l.image && !/^data:image\/(png|jpeg|webp);base64,/.test(l.image))
       throw Error("图片必须包含在项目中");
   }
-  return {
+  validateMultiDevice(p, validateProject);
+  const imported: Project = {
     ...p,
     storageVersion: 0,
     activeCodeVersion: undefined,
@@ -680,6 +685,7 @@ export function validateProject(value: unknown): Project {
       id: uid(),
     })),
   };
+  return importedDevices(p, imported);
 }
 export function parseFiles(text: string): CodeFile[] {
   const trimmed = text.trim();

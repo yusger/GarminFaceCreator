@@ -1,3 +1,5 @@
+import DeviceAdaptations from "./DeviceAdaptations";
+import { reconcileDevices, deviceKey, projectForDevice } from "./multiDevice";
 import ReferenceDetails from "./ReferenceDetails";
 import IconDetails from "./IconDetails";
 import IconGallery from "./IconGallery";
@@ -111,7 +113,17 @@ export default function App() {
   } | null>(null);
   const [page, setPage] = useState("projects");
   const [projects, setProjects] = useState<Project[]>([]);
-  const [p, setP] = useState<Project | null>(null);
+  const [p, setProjectState] = useState<Project | null>(null);
+  function setP(next: Project | null) {
+    setProjectState((previous) => {
+      try {
+        return reconcileDevices(previous, next);
+      } catch (error) {
+        queueMicrotask(() => setNotice((error as Error).message));
+        return previous;
+      }
+    });
+  }
   const [ready, setReady] = useState(false);
   const [selected, setSelected] = useState("");
   const [selection, setSelection] = useState<string[]>([]);
@@ -148,6 +160,16 @@ export default function App() {
   const [leftTab, setLeftTab] = useState("控件");
   const [drawer, setDrawer] = useState("");
   const [busy, setBusy] = useState(false);
+  const [batchBusy, setBatchBusy] = useState(false);
+  const [batchResults, setBatchResults] = useState<
+    {
+      key: string;
+      label: string;
+      status: string;
+      buildId?: string;
+      artifacts?: { url: string; fileName?: string }[];
+    }[]
+  >([]);
   const generationLock = useRef(false);
   const [genProjectId, setGenProjectId] = useState("");
   const [pendingProvenance, setPendingProvenance] = useState<CodeProvenance>({
@@ -486,6 +508,8 @@ export default function App() {
     });
   }
   function open(item: Project) {
+    if (batchBusy) { setNotice("请等待设备编译队列结束后切换项目。"); return; }
+    setBatchResults([]);
     if (p && item.id !== p.id && persisted.current !== p) {
       setNotice("当前项目有未保存修改，请先完成保存或使用恢复选项并导出备份。");
       return;
@@ -938,8 +962,18 @@ export default function App() {
       setNotice("导入失败：" + (e as Error).message);
     }
   }
+  function requireDeviceScope() {
+    if (
+      p?.multiDevice?.scope === "master" &&
+      p.multiDevice.variants.some((v) => Object.keys(v.overrides).length)
+    ) {
+      setNotice("请切换到当前设备微调后生成或编译，确保包含设备专用配置。");
+      return false;
+    }
+    return true;
+  }
   function genLocal() {
-    if (!p || busy || generationLock.current) return;
+    if (!p || busy || generationLock.current || !requireDeviceScope()) return;
     generationLock.current = true;
     try {
       const result = localGenerate(p);
@@ -962,7 +996,7 @@ export default function App() {
     }
   }
   async function gen() {
-    if (!p || busy || generationLock.current) return;
+    if (!p || busy || generationLock.current || !requireDeviceScope()) return;
     if (!generationProfile?.model) {
       setNotice("请先配置模型地址和模型 ID");
       setPage("models");
@@ -1010,8 +1044,87 @@ export default function App() {
       setBusy(false);
     }
   }
-  async function build() {
-    if (!p) return;
+  function generateAllDevices() {
+    if (!p?.multiDevice || busy || batchBusy) return;
+    if (
+      !confirm(
+        "为全部适配设备使用本地生成器生成并应用代码？不调用 AI。各设备原代码保留历史；任一设备不支持则全部保持原样。",
+      )
+    )
+      return;
+    try {
+      const variants = p.multiDevice.variants.map((v) => {
+        const resolved = projectForDevice(p, v.key),
+          generated = addCodeVersion(
+            resolved,
+            localGenerate(resolved),
+            LOCAL_PROVENANCE,
+          );
+        return {
+          ...v,
+          code: {
+            files: generated.files,
+            versions: generated.versions,
+            codeRevision: generated.codeRevision,
+            codeProvenance: generated.codeProvenance,
+            activeCodeVersion: generated.activeCodeVersion,
+          },
+        };
+      });
+      const next = { ...p, multiDevice: { ...p.multiDevice, variants } };
+      const active = variants.find((v) => v.key === deviceKey(p))!;
+      // Restore the newly generated current code without recapturing the old code.
+      setP({
+        ...next,
+        ...active.code,
+        layers: projectForDevice(p, deviceKey(p)).layers,
+        multiDevice: {
+          ...next.multiDevice,
+          scope: "device",
+          viewVersion: (next.multiDevice.viewVersion || 0) + 1,
+        },
+      });
+      setNotice(
+        "全部设备代码已分别生成并应用，可以逐设备编译。系统字体仍需设备检查。",
+      );
+    } catch (error) {
+      setNotice((error as Error).message);
+    }
+  }
+  async function buildAllDevices() {
+    if (!p?.multiDevice || busy || batchBusy) return;
+    const targets = p.multiDevice.variants.map((v) =>
+      projectForDevice(p, v.key),
+    );
+    if (targets.some((t) => !t.files.length || t.revision !== t.codeRevision)) {
+      setNotice("部分设备尚未生成代码或代码已过期，请先生成全部设备代码。");
+      return;
+    }
+    setBatchBusy(true);
+    setBatchResults([]);
+    try {
+      for (const target of targets) {
+        const result = await build(target);
+        setBatchResults((items) => [
+          ...items,
+          {
+            key: deviceKey(target),
+            label: deviceLabel(target),
+            status: result?.status || "提交失败",
+            buildId: result?.buildId,
+            artifacts: result?.artifacts?.filter((a: { url: string }) =>
+              a.url.startsWith(`/api/builds/${result.buildId}/artifacts/`),
+            ),
+          },
+        ]);
+      }
+    } finally {
+      setBatchBusy(false);
+    }
+  }
+  async function build(candidate?: Project) {
+    const p = candidate || activeProject.current;
+    if (!p || (!candidate && !requireDeviceScope())) return;
     setDrawer("编译");
     if (!p.files.length) {
       setLogs("尚无工程代码。请先生成并审阅应用。");
@@ -1083,7 +1196,21 @@ export default function App() {
       }
       const job = await r.json();
       setBuildId(job.buildId);
-      await observeBuild(job.buildId);
+      const state = await observeBuild(job.buildId);
+      const current = activeProject.current;
+      if (current?.id === p.id && current.multiDevice)
+        setP({
+          ...current,
+          multiDevice: {
+            ...current.multiDevice,
+            variants: current.multiDevice.variants.map((v) =>
+              v.key === deviceKey(p)
+                ? { ...v, buildId: job.buildId, buildStatus: state.status }
+                : v,
+            ),
+          },
+        });
+      return { ...state, buildId: job.buildId };
     } catch (e) {
       setLogs((old) => old + "\n" + (e as Error).message);
     } finally {
@@ -1134,7 +1261,7 @@ export default function App() {
                 a.url.startsWith(`/api/builds/${id}/artifacts/`),
               ),
             );
-          return;
+          return state;
         }
       } catch (error) {
         failures++;
@@ -1244,6 +1371,21 @@ export default function App() {
         </span>
         {page === "editor" && p ? (
           <div className="header-actions">
+            <DeviceAdaptations
+              project={p}
+              disabled={busy || batchBusy}
+              onChange={(next) => {
+                setP(next);
+                setPast([]);
+                setFuture([]);
+                selectOne("");
+                setFiles([]);
+                setGenProjectId("");
+                setArtifacts([]);
+                setBuildId("");
+                setLogs("已切换适配上下文，请选择设备代码编译或重新生成。");
+              }}
+            />
             <span className="device">
               {deviceLabel(p)}{" "}
               <small>
@@ -1255,7 +1397,7 @@ export default function App() {
               预览
             </button>
             <button
-              disabled={busy}
+              disabled={busy || batchBusy}
               onClick={() => {
                 setDrawer("AI");
               }}
@@ -1263,10 +1405,27 @@ export default function App() {
               <Sparkles size={15} />
               AI 生成代码
             </button>
-            <button disabled={busy} onClick={genLocal}>
+            <button disabled={busy || batchBusy} onClick={genLocal}>
               本地生成（试验）
             </button>
-            <button className="primary" disabled={busy} onClick={build}>
+            {p.multiDevice && (
+              <>
+                <button
+                  disabled={busy || batchBusy}
+                  onClick={generateAllDevices}
+                >
+                  生成全部设备代码
+                </button>
+                <button disabled={busy || batchBusy} onClick={buildAllDevices}>
+                  编译全部设备
+                </button>
+              </>
+            )}
+            <button
+              className="primary"
+              disabled={busy || batchBusy}
+              onClick={() => build()}
+            >
               <Hammer size={15} />
               编译
             </button>
@@ -3083,7 +3242,7 @@ export default function App() {
                           本次生成模型
                           <select
                             aria-label="本次生成模型"
-                            disabled={busy}
+                            disabled={busy || batchBusy}
                             value={generationProfile?.id || ""}
                             onChange={(e) =>
                               setGenerationProfileId(e.target.value)
@@ -3108,7 +3267,7 @@ export default function App() {
                       <div>
                         <button
                           className="primary"
-                          disabled={busy}
+                          disabled={busy || batchBusy}
                           onClick={gen}
                         >
                           <Sparkles size={15} />
@@ -3178,9 +3337,10 @@ export default function App() {
                       project={p}
                       profile={generationProfile}
                       logs={logs}
-                      busy={busy}
+                      busy={busy || batchBusy}
                       onBegin={() => {
-                        if (busy || generationLock.current) return false;
+                        if (busy || batchBusy || generationLock.current)
+                          return false;
                         generationLock.current = true;
                         setBusy(true);
                         return true;
@@ -3283,13 +3443,34 @@ export default function App() {
                     </div>
                   ) : drawer === "编译" ? (
                     <div className="build-drawer">
+                      {!!batchResults.length && (
+                        <ul aria-label="多设备编译结果">
+                          {batchResults.map((r) => (
+                            <li key={r.key}>
+                              {r.label} · {r.status}
+                              {r.artifacts?.map((a) => (
+                                <a key={a.url} href={a.url} download>
+                                  {" "}
+                                  下载 {a.fileName || "PRG"}
+                                </a>
+                              ))}
+                            </li>
+                          ))}
+                        </ul>
+                      )}
                       <div>
                         <span className="pill">.NET 10 构建服务</span>
-                        <button disabled={busy} onClick={build}>
+                        <button
+                          disabled={busy || batchBusy}
+                          onClick={() => build()}
+                        >
                           新建编译任务
                         </button>
                         {buildId && (
-                          <button disabled={busy} onClick={resumeBuild}>
+                          <button
+                            disabled={busy || batchBusy}
+                            onClick={resumeBuild}
+                          >
                             继续观察原任务
                           </button>
                         )}

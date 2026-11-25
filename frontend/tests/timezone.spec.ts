@@ -59,7 +59,7 @@ test("native zones share a frame moment, preserve local clock and reject invalid
   }
   p.files = [{ path: "source/App.mc", content: "// original" }];
   const migrated = migrateProject({ ...p, schemaVersion: 16 });
-  expect(migrated.schemaVersion).toBe(19);
+  expect(migrated.schemaVersion).toBe(20);
   expect(migrated.files).toEqual(p.files);
   expect(migrated.layers[0].timeUtcOffset).toBeUndefined();
 });

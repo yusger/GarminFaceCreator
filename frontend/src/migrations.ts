@@ -1,6 +1,6 @@
 import { defaultThresholds } from "./thresholds.ts";
 import type { Project } from "./domain";
-export const CURRENT_SCHEMA = 19;
+export const CURRENT_SCHEMA = 20;
 export function migrateProject(value: unknown): Project {
   if (!value || typeof value !== "object") throw Error("项目格式不正确");
   const input = value as Project;
@@ -149,6 +149,7 @@ export function migrateProject(value: unknown): Project {
   if (result.schemaVersion === 16) result = { ...result, schemaVersion: 17 };
   if (result.schemaVersion === 17) result = { ...result, schemaVersion: 18 };
   if (result.schemaVersion === 18) result = { ...result, schemaVersion: 19 };
+  if (result.schemaVersion === 19) result = { ...result, schemaVersion: 20 };
   if (!Array.isArray(result.layers) || !Array.isArray(result.versions))
     throw Error("项目图层或历史格式不正确");
   return result;

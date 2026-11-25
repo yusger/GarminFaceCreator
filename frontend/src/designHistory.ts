@@ -38,6 +38,17 @@ export function saveDesignSnapshot(p: Project, name: string): Project {
     name,
     at: Date.now(),
     layers: structuredClone(p.layers),
+    multiDevice: p.multiDevice
+      ? {
+          ...structuredClone(p.multiDevice),
+          variants: p.multiDevice.variants.map((v) => ({
+            ...structuredClone(v),
+            code: { files: [], versions: [], codeRevision: -1 },
+            buildId: undefined,
+            buildStatus: undefined,
+          })),
+        }
+      : undefined,
     assets: structuredClone(p.assets),
     target: p.target,
     layoutGuide: structuredClone(p.layoutGuide),
@@ -54,6 +65,12 @@ export function restoreDesignSnapshot(p: Project, id: string): Project {
   if (!snapshot) throw Error("设计快照不存在");
   return {
     ...p,
+    multiDevice: snapshot.multiDevice
+      ? {
+          ...structuredClone(snapshot.multiDevice),
+          viewVersion: (p.multiDevice?.viewVersion || 0) + 1,
+        }
+      : undefined,
     layers: structuredClone(snapshot.layers),
     assets: structuredClone(snapshot.assets),
     target: snapshot.target,
