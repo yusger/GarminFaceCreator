@@ -38,6 +38,7 @@ test("atomic conflict protects equal revisions without BroadcastChannel and offe
   const second = await context.newPage();
   second.on("dialog", (d) => d.accept());
   await second.goto("/");
+  await second.getByRole("button", { name: "我的表盘", exact: true }).click();
   await second
     .getByRole("button", { name: "打开 存储测试", exact: true })
     .click();
