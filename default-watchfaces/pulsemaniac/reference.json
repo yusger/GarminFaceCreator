@@ -141,7 +141,7 @@
     },
     {
       "file": "notices/PermanentMarker-Regular-METADATA.pb",
-      "publishName": "PermanentMarker-Regular-METADATA.pb"
+      "publishName": "PermanentMarker-Regular-METADATA.pb.txt"
     },
     {
       "file": "notices/MaShanZheng-Regular-OFL.txt",
@@ -149,7 +149,7 @@
     },
     {
       "file": "notices/MaShanZheng-Regular-METADATA.pb",
-      "publishName": "MaShanZheng-Regular-METADATA.pb"
+      "publishName": "MaShanZheng-Regular-METADATA.pb.txt"
     },
     {
       "file": "fonts/sources.json",

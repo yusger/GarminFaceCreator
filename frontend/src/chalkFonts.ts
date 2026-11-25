@@ -20,14 +20,28 @@ export function chalkPlans(p: Project) {
   for (const l of p.layers.filter(
     (l) => chalkFont(l) && l.exportIncluded !== false,
   )) {
+    if (!["time", "date", "metric", "text"].includes(l.kind))
+      throw Error("粉笔字体仅支持时间、日期、数据和文字");
+    if (l.kind === "date" && l.dateLocale === "zh" && l.garminFont === "chalk")
+      throw Error("中文日期请使用粉笔中文字体");
+    const ascii =
+      Array.from({ length: 95 }, (_, i) => String.fromCharCode(i + 32)).join(
+        "",
+      ) + "°";
     const glyphs =
-      l.garminFont === "chalkHan"
-        ? l.text || "彻底疯狂"
-        : l.kind === "time"
-          ? "0123456789:"
-          : Array.from({ length: 95 }, (_, i) =>
-              String.fromCharCode(i + 32),
-            ).join("") + "°";
+      l.kind === "time"
+        ? "0123456789:"
+        : l.kind === "text"
+          ? l.text || " "
+          : ascii +
+            (l.garminFont === "chalkHan"
+              ? (l.label || "") +
+                (l.unit || "") +
+                (l.missingValue || "") +
+                (l.kind === "date" && l.dateLocale === "zh"
+                  ? "周日一二三四五六月"
+                  : "")
+              : "");
     if (
       l.garminFont === "chalk" &&
       /[^\x20-\x7e°]/.test(

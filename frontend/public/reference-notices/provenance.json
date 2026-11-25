@@ -283,9 +283,9 @@
         "PulseManiac-PROMPTS.md",
         "repository-LICENSE.txt",
         "PermanentMarker-Regular-LICENSE.txt",
-        "PermanentMarker-Regular-METADATA.pb",
+        "PermanentMarker-Regular-METADATA.pb.txt",
         "MaShanZheng-Regular-OFL.txt",
-        "MaShanZheng-Regular-METADATA.pb",
+        "MaShanZheng-Regular-METADATA.pb.txt",
         "PulseManiac-Font-Sources.json"
       ],
       "path": "/default-watchfaces/pulsemaniac/project.json",

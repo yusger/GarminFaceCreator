@@ -78,7 +78,7 @@ test("protected BAWF copy exports complete notices and compiles before and after
       meta.templateSources.some(
         (t: any) =>
           t.version ===
-          (language === "default" ? "basic-14-white" : "basic-16-image-scale"),
+          (language === "default" ? "basic-14-white" : "basic-17-chalk-fonts"),
       ),
     ).toBe(true);
     expect(files.get("notices/BAWF-original-App.mc.txt")!.toString()).toContain(
