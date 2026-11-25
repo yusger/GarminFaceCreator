@@ -9,7 +9,7 @@
 
 `authorship: self` 显示“自主”，仅表示本项目的设计归属；不替代素材和第三方代码许可。
 `generation.mode: native` 原样打包原生代码，编辑布局不会擅自重写原生实现。
-`generation.mode: deterministic` 从设计与共享生成器生成原生代码快照（目前为 PulseManiac）。
+`generation.mode: deterministic` 从设计与共享生成器生成原生代码快照（目前为 PulseManiac、SONAR）。
 
 维护流程：修改本目录 → `npm run build` → 提交 → 部署验收。图片更新时同时更新 reference.json 中 SHA-256。
 新增项目：复制同模式目录，修改 slug、独立项目 UUID/appId、设计、来源和许可，再构建。新社区项目必须具备已核实许可证及固定上游 commit；无许可证不导入。
@@ -21,4 +21,4 @@
 
 PulseManiac 字体/心形快照维护命令：`node scripts/generate-pulse-font-snapshots.mjs`（本机 Edge；不启动服务）。然后执行 `npm run build`。字体来源记录与完整许可保留在包内。
 
-设计方的新表盘交付请遵循[表盘设计包接入规范 v1.1](../docs/watchface-package-standard.md)。该交换格式需经转换后进入本目录；当前尚无直接自动导入入口，首个验证对象为SONAR。
+设计方的新表盘交付请遵循[表盘设计包接入规范 v1.1](../docs/watchface-package-standard.md)。该交换格式需经转换后进入本目录；首个SONAR包已完成受限命令行转换，尚无网页任意包自动导入入口。
