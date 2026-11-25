@@ -170,6 +170,13 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
         "large",
         "numberHot",
       ],
+      geometry: {
+        positiveWidthAndHeight: true,
+        maxWidthAndHeight: 908,
+        coordinateRange: [-454, 908],
+        fontSize: [1, 200],
+        rotation: [-360, 360],
+      },
       noNativeFiles: true,
     },
   };
@@ -227,6 +234,18 @@ export function parseDesign(
       !/^#[0-9a-f]{6}$/i.test(v.color)
     )
       throw Error("图层字段、类型、唯一ID或几何不完整，请重试或调整要求");
+    if (
+      v.x < -454 ||
+      v.y < -454 ||
+      v.x > 908 ||
+      v.y > 908 ||
+      v.w < 1 ||
+      v.h < 1 ||
+      v.w > 908 ||
+      v.h > 908 ||
+      Math.abs(v.rotation ?? 0) > 360
+    )
+      throw Error("设计几何超出允许范围");
     ids.add(v.id);
     for (const [k, value] of Object.entries(v)) {
       if (k === "thresholdRules") continue;

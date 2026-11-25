@@ -166,6 +166,7 @@ test("stored legacy project loads migrated and future schema fails visibly witho
     legacy,
   );
   await page.reload();
+  await page.getByRole("button", { name: "我的表盘", exact: true }).click();
   await page
     .getByRole("button", { name: "打开 旧版本项目", exact: true })
     .click();

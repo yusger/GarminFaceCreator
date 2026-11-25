@@ -179,6 +179,7 @@ test("AI design protocol rejects native files, unknown fields, malformed binding
   );
   check((x) => (x.layers[0].timePart = "seconds"));
   check((x) => (x.layers[0].effectPrompt = 42));
+  check((x) => (x.layers[0].w = 1e100));
   check(
     (x) => (x.layers[0].thresholdRules = [{ color: "#fff000", script: "bad" }]),
   );
@@ -296,10 +297,19 @@ for (const size of ["45mm", "41mm"])
       await setup(page);
       await page.getByLabel("AI项目名称").fill("AI" + size);
       await page.getByLabel("AI手表尺寸").selectOption(size);
+      if (size === "41mm")
+        await page.screenshot({
+          path: "docs/screenshots/ai-create-device.png",
+          fullPage: true,
+        });
       await next(page);
       if (size === "41mm") {
         await page.getByLabel("时间风格").selectOption("HYBRID");
         await page.getByLabel("显示秒数", { exact: true }).check();
+        await page.screenshot({
+          path: "docs/screenshots/ai-create-options.png",
+          fullPage: true,
+        });
       }
       await next(page);
       await page
@@ -366,6 +376,7 @@ for (const size of ["45mm", "41mm"])
 test("reference image is sent directly to the model; native effects reach engineering only on explicit request", async ({
   page,
 }) => {
+  test.setTimeout(150000);
   let calls = 0,
     engineering: any;
   await page.route("https://api.example.com/v1/chat/completions", async (r) => {
@@ -459,6 +470,25 @@ test("reference image is sent directly to the model; native effects reach engine
   expect(hr.effectPrompt).toContain("CURRENT edited");
   expect(engineering.design.assets.length).toBeGreaterThan(0);
   expect(engineering.design.designBrief).toContain("style");
+  if (process.env.GFC_TEST_URL) {
+    await page.getByLabel("原生效果说明").fill("");
+    await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
+    await page
+      .getByRole("button", { name: "本地生成（试验）", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "应用生成结果", exact: true })
+      .click();
+    await page
+      .getByRole("button", { name: "编译", exact: true })
+      .first()
+      .click();
+    await expect(page.locator(".build-drawer pre")).toContainText(
+      "BUILD SUCCESSFUL",
+      { timeout: 120000 },
+    );
+    expect(calls).toBe(2);
+  }
 });
 
 test("invalid or truncated designs do not save a project; cancellation ignores late responses and retry preserves inputs", async ({
@@ -510,6 +540,12 @@ test("invalid or truncated designs do not save a project; cancellation ignores l
   await expect(
     page.getByRole("button", { name: "采用设计并编辑", exact: true }),
   ).toHaveCount(0);
+  await page.getByText("模型响应", { exact: true }).click();
+  const rawDownload = page.waitForEvent("download");
+  await page.getByRole("button", { name: "下载模型响应", exact: true }).click();
+  expect(await readFile((await (await rawDownload).path())!, "utf8")).toBe(
+    '{"files":[]}',
+  );
   mode = "truncated";
   await generate.click();
   await expect(page.getByRole("alert")).toContainText("截断");

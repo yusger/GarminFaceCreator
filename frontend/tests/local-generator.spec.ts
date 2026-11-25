@@ -90,6 +90,7 @@ test("changing generation source requires confirmation and retains recoverable c
     p,
   );
   await page.reload();
+  await page.getByRole("button", { name: "我的表盘", exact: true }).click();
   await page
     .getByRole("button", { name: "打开 Switch Source", exact: true })
     .click();

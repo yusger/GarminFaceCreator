@@ -339,7 +339,7 @@ export async function requestDesign(
       method: "POST",
       body: JSON.stringify({
         model: profile.model,
-        ...completionParameters(profile, Math.min(profile.tokens, 8192)),
+        ...completionParameters(profile),
         stream: false,
         messages: [
           {
