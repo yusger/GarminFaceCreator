@@ -57,6 +57,12 @@ export async function buildDefaultWatchfaces() {
       apps.has(p.appId)
     )
       throw Error("Invalid/duplicate identity: " + slug);
+    if (
+      r.attribution.id !== p.id ||
+      r.attribution.name !== p.name ||
+      r.attribution.template !== slug
+    )
+      throw Error("Attribution identity mismatch: " + slug);
     ids.add(p.id);
     apps.add(p.appId);
     p.files = await Promise.all(
@@ -136,7 +142,7 @@ export async function buildDefaultWatchfaces() {
       ...r.attribution,
       authorship: r.authorship,
       generation: r.generation,
-      owned: slug === "pulsemaniac",
+      owned: r.authorship === "self" && !r.attribution.legacy,
       bundlePath: base + "/project.json",
       files: r.notices.map((n) => n.publishName),
     };
