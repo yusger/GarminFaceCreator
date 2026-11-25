@@ -503,3 +503,12 @@ P0 与 P1 清单已完成。P2、架构试点、素材库和新增参考项目�
 - 明确标记 TEST 的 [HR110 预备](screenshots/pulsemaniac-test-ready-native.png)、[HR130 扭动](screenshots/pulsemaniac-test-twist-native.png)、[HR158 疯狂](screenshots/pulsemaniac-test-maniac-native.png)、[心率缺失](screenshots/pulsemaniac-test-missing-native.png) 四份样本均真实 SDK 编译并进入原生绘制，核对黑脸闭眼、黄/红心率、中文装饰及 -- 回退。样本仅替换心率输入，生产源码无固定心率。直接置 null 会让测试编译器将值收窄为常量 Null，已通过可空返回类型保留真实缺失路径；没有修改生产缺失判定规避测试。
 - [网页静息](screenshots/pulsemaniac-0.png)、[预备](screenshots/pulsemaniac-1.png)、[扭动](screenshots/pulsemaniac-2.png)、[疯狂](screenshots/pulsemaniac-3.png)、[息屏](screenshots/pulsemaniac-aod.png) 留档。没有姿态动画或动画计时器；模拟器已恢复 High Power 并关闭所有本轮自有模拟器/Java 连接。短间隔启动器曾退出，等待旧进程完全退出后已复现成功，无本机常驻服务。
 - PM-01/02 完成。字体、功耗、烧屏保护和缓存时效仍需真机检验，I-04 不据模拟器结果勾选；未扩展为动画系统或保证所有型号硬件一致。
+
+
+## 阶段 53：PulseManiac 默认参考卡片与保护
+
+- 实现提交 `4c6ec87`。PulseManiac 接入统一参考登记、项目列表卡片及“默认参考 · 不可删除”标签；移除单独创建入口。默认项目使用固定身份，点击“使用 PulseManiac”创建独立项目/应用身份的可编辑副本；已有个人项目继续独立保存。
+- 自有设计在统一参考列表中保留 owned 标识与素材/生成器指纹，不伪造外部上游提交或许可证核验。构建仅允许已知 PulseManiac 自有包进入该分支，并校验五份素材哈希；原外部参考的固定提交及许可准入要求继续执行。参考总数为11，BYOD仍仅研究资料。
+- 在浏览器载入自有包时验证并准备完整原生工程，保留四态分组和所有21个图层；副本修改 manifest 应用身份并可直接编译。源码 ZIP 去重 PulseManiac 来源/提示词声明，检查无重复 ZIP 条目；保留原有独立素材权利范围说明。
+- 本地生产构建和 .NET 发布通过，先提交后部署指定环境；**23 项相关回归全部通过（2.4 分钟）**，覆盖11个参考指纹/原声明下载、默认标签及不可删除、副本独立身份、四态/息屏、修改数据源及45/41mm真实编译、完整源码ZIP、旧参考与编辑器/模型配置流程。
+- [默认参考卡片实际截图](screenshots/pulsemaniac-reference-card.png) 已查看，标签及入口与其他参考一致。没有修改人物素材或四态判定，也没有调用模型或启动本机常驻服务；真机验收范围沿用阶段52说明。
