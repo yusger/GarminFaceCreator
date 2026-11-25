@@ -62,3 +62,8 @@ Thanks to [NickSteen/BYOD-Watchface](https://github.com/NickSteen/BYOD-Watchface
 ## BAWF Creator adaptation
 
 Thanks to [Kevin Boone / BAWF](https://github.com/kevinboone/BAWF), pinned `243293ba4d2a4f03c4ed767bb072a7838386c741`. Both source headers explicitly state copyright (c)2018-2023 Kevin Boone and GNU Public Licence v3.0. Complete original source texts/README and a full GPLv3 copy are retained under `frontend/public/reference-notices/BAWF-*`; the initial default native source also includes the original header, and regenerated source exports retain the original texts/notices. The layout adaptation retains GPL-3.0-only scope, and Creator generator templates retain GPL-3.0-or-later scope. System fonts/line hands replace original artwork/outlined hand/buffer implementation; no original power claim is transferred. See [scope](frontend/public/reference-notices/BAWF-ADAPTATION.md).
+
+
+## Offline build-audit IP geolocation
+
+[IP2Region.Net 3.0.2](https://www.nuget.org/packages/IP2Region.Net/3.0.2) and [ip2region](https://github.com/lionsoul2014/ip2region), Apache-2.0, provide local IPv4/IPv6 geolocation for server build audit logs. Database sources, immutable upstream revision and SHA-256 checksums are recorded in `deploy/geoip-manifest.json`; the upstream license is downloaded alongside the databases. Runtime databases and visitor logs are excluded from Git and the web application. No visitor IP is sent to an external geolocation service.

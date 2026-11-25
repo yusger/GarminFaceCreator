@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/lionsoul2014/ip2region",
+  "commit": "f1781b7f9b7a17c96246433d83804404f0a22120",
+  "files": {
+    "ip2region_v4.xdb": {
+      "url": "https://raw.githubusercontent.com/lionsoul2014/ip2region/f1781b7f9b7a17c96246433d83804404f0a22120/data/ip2region_v4.xdb",
+      "sha256": "a29fb3e8b204dfdf45b9bc082e12845b5eaac18cd467849d2888baa9fde383c8"
+    },
+    "ip2region_v6.xdb": {
+      "url": "https://raw.githubusercontent.com/lionsoul2014/ip2region/f1781b7f9b7a17c96246433d83804404f0a22120/data/ip2region_v6.xdb",
+      "sha256": "1f0be1ffbbc3e4eeef10f354e01355f22f57ec649a496a17fd602539f3d384c1"
+    },
+    "LICENSE": {
+      "url": "https://raw.githubusercontent.com/lionsoul2014/ip2region/f1781b7f9b7a17c96246433d83804404f0a22120/LICENSE.md",
+      "sha256": "fe01f2f8fcaafac539154e6aa80b0b7f8af54e01dc4d52322f72971991c6280e"
+    }
+  }
+}

@@ -10,23 +10,43 @@ using Microsoft.AspNetCore.Http.Features;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<FormOptions>(o => o.MultipartBodyLengthLimit = 25 * 1024 * 1024);
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 25 * 1024 * 1024);
+builder.Services.AddSingleton<BuildAuditLog>();
 builder.Services.AddSingleton<BuildStore>();
 builder.Services.AddHostedService<BuildWorker>();
 builder.Services.AddHostedService<RetentionWorker>();
 var app = builder.Build();
-app.Use(async (ctx, next) => { try { await next(ctx); } catch (Exception e) when (e is ArgumentException or InvalidDataException or XmlException or JsonException or BadHttpRequestException) { if (!ctx.Response.HasStarted) { ctx.Response.StatusCode = 400; await ctx.Response.WriteAsJsonAsync(new { error = e.Message }); } } });
+app.Use(async (ctx, next) =>
+{
+    if (ctx.Request.Method != "POST" || !string.Equals(ctx.Request.Path.Value?.TrimEnd('/'), "/api/builds", StringComparison.OrdinalIgnoreCase)) { await next(ctx); return; }
+    var audit = ctx.RequestServices.GetRequiredService<BuildAuditLog>();
+    var entry = audit.CreateEntry(ctx.Connection.RemoteIpAddress);
+    ctx.Items[BuildAuditLog.ContextKey] = entry;
+    try
+    {
+        await next(ctx);
+        audit.Begin(entry);
+        if (ctx.Response.StatusCode >= 400) audit.Write(entry, $"请求拒绝 HTTP {ctx.Response.StatusCode}");
+    }
+    catch (Exception e) { audit.Begin(entry); audit.Write(entry, "请求异常：" + e); throw; }
+});
+app.Use(async (ctx, next) => { try { await next(ctx); } catch (Exception e) when (e is ArgumentException or InvalidDataException or XmlException or JsonException or BadHttpRequestException) { if (!ctx.Response.HasStarted) { if (ctx.Items[BuildAuditLog.ContextKey] is BuildAuditEntry auditEntry) { var audit = ctx.RequestServices.GetRequiredService<BuildAuditLog>(); audit.Begin(auditEntry); audit.Write(auditEntry, "请求校验失败：" + e.Message); } ctx.Response.StatusCode = 400; await ctx.Response.WriteAsJsonAsync(new { error = e.Message }); } } });
 app.UseDefaultFiles(); app.UseStaticFiles();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ok", framework = ".NET 10" }));
 app.MapGet("/api/capabilities", (BuildStore store) => new { sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, common = store.Readiness.Common(), devices = BuildStore.Targets.Select(store.Readiness.ForTarget), maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8, retention = store.Retention });
-app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, CancellationToken ct) =>
+app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, BuildAuditLog audit, CancellationToken ct) =>
 {
     if (!request.HasFormContentType) return Results.BadRequest(new { error = "Expected multipart form" });
     var form = await request.ReadFormAsync(ct); var meta = JsonSerializer.Deserialize<BuildRequest>(form["project"].ToString(), BuildStore.Json) ?? throw new ArgumentException("Missing project metadata");
+    var entry = (BuildAuditEntry)request.HttpContext.Items[BuildAuditLog.ContextKey]!;
+    entry.ProjectName = meta.ProjectName ?? "WatchFace";
+    audit.Begin(entry);
     if (!Guid.TryParse(meta.ProjectId, out _) || !Regex.IsMatch(meta.AppId ?? "", "^[a-fA-F0-9]{32}$") || !BuildStore.Targets.Contains(meta.Target) || meta.Revision < 0) throw new ArgumentException("Invalid project, appId or target");
     var readiness = store.Readiness.ForTarget(meta.Target);
     if (!readiness.Ready) return Results.Problem($"目标 {meta.Target} 编译环境未就绪：{string.Join("；", readiness.Reasons)}", statusCode: 503);
     if (form.Files.Count is < 2 or > 100) throw new ArgumentException("Expected 2 to 100 files");
     var job = store.Create(meta);
+    job.CallerIp = entry.Ip; job.CallerLocation = entry.Location; entry.JobId = job.Id;
+    audit.Write(entry, "创建编译任务，目标=" + meta.Target);
     _ = BuildStore.FileName(job); var work = store.Work(job.Id); Directory.CreateDirectory(work);
     try
     {
@@ -47,7 +67,7 @@ app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, Cancell
 }).DisableAntiforgery();
 app.MapGet("/api/builds/{id}", (string id, BuildStore s) => s.Jobs.TryGetValue(id, out var j) ? Results.Ok(s.View(j)) : Results.NotFound());
 app.MapGet("/api/builds/{id}/logs", (string id, int? after, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j)) return Results.NotFound(); lock (j.Gate) { var reset = after is < 0 || after > j.Logs.Count; var cursor = reset ? 0 : after ?? 0; return Results.Ok(new { lines = j.Logs.Skip(cursor).ToArray(), nextCursor = j.Logs.Count, reset }); } });
-app.MapPost("/api/builds/{id}/cancel", (string id, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j)) return Results.NotFound(); lock (j.Gate) { if (j.Status is "queued" or "running") { j.Cancel.Cancel(); j.Status = "cancelled"; j.Finished = DateTime.UtcNow; s.Persist(j); } } return Results.Ok(s.View(j)); });
+app.MapPost("/api/builds/{id}/cancel", (string id, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j)) return Results.NotFound(); lock (j.Gate) { if (j.Status is "queued" or "running") { j.Cancel.Cancel(); j.Status = "cancelled"; j.Finished = DateTime.UtcNow; s.Log(j, "用户取消编译任务"); s.Persist(j); } } return Results.Ok(s.View(j)); });
 app.MapGet("/api/builds/{id}/artifacts/{artifact}", (string id, string artifact, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j) || j.Status != "succeeded" || artifact != "watchface.prg") return Results.NotFound(); var path = s.ArtifactPath(j); return File.Exists(path) ? new ArtifactDownload(s, j) : Results.NotFound(); });
 app.MapFallback((HttpContext c) => c.Request.Path.StartsWithSegments("/api") ? Results.NotFound() : Results.File(Path.Combine(app.Environment.WebRootPath ?? "wwwroot", "index.html"), "text/html"));
 app.Run();
@@ -66,6 +86,8 @@ class BuildJob
     public string Target {get;set;} = "venu445mm";
     public string ProjectName {get;set;} = "WatchFace";
     public string? DeviceSize {get;set;}
+    public string CallerIp { get; set; } = "未知";
+    public string CallerLocation { get; set; } = "未知";
     public List<string> Logs { get; set; } = [];
     [System.Text.Json.Serialization.JsonIgnore] public object Gate { get; } = new(); [System.Text.Json.Serialization.JsonIgnore] public CancellationTokenSource Cancel { get; } = new();
 }
@@ -76,11 +98,12 @@ partial class BuildStore
     public string Root { get; } = Path.GetFullPath(Environment.GetEnvironmentVariable("GFC_DATA") ?? "data"); public string Sdk { get; } = Environment.GetEnvironmentVariable("GFC_SDK") ?? "/opt/connectiq"; public string Key { get; } = Environment.GetEnvironmentVariable("GFC_KEY") ?? "/run/secrets/developer_key";
     public BuildReadiness Readiness => new(Sdk, Key, Environment.GetEnvironmentVariable("GFC_DEVICES") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".Garmin", "ConnectIQ", "Devices"), Environment.GetEnvironmentVariable("GFC_JAVA") ?? "java");
     public bool Ready => Targets.Any(t => Readiness.ForTarget(t).Ready); public ConcurrentDictionary<string, BuildJob> Jobs { get; } = new(); public Channel<BuildJob> Queue { get; } = Channel.CreateBounded<BuildJob>(8);
-    public BuildStore() { Directory.CreateDirectory(Root); foreach (var path in Directory.EnumerateFiles(Root, "job.json", SearchOption.AllDirectories)) { var j = JsonSerializer.Deserialize<BuildJob>(File.ReadAllText(path), Json); if (j is null) continue; if (j.Status is "queued" or "running") { j.Status = "interrupted"; j.Finished = DateTime.UtcNow; j.Logs.Add("服务重启，任务中断，请重新提交。"); } Jobs[j.Id] = j; Persist(j); } }
+    readonly BuildAuditLog audit;
+    public BuildStore(BuildAuditLog audit) { this.audit = audit; Directory.CreateDirectory(Root); foreach (var path in Directory.EnumerateFiles(Root, "job.json", SearchOption.AllDirectories)) { var j = JsonSerializer.Deserialize<BuildJob>(File.ReadAllText(path), Json); if (j is null) continue; if (j.Status is "queued" or "running") { j.Status = "interrupted"; j.Finished = DateTime.UtcNow; j.Logs.Add("服务重启，任务中断，请重新提交。"); } Jobs[j.Id] = j; Persist(j); } }
     public BuildJob Create(BuildRequest r) => new() { ProjectId = r.ProjectId, AppId = r.AppId, Revision = r.Revision, Target = r.Target, ProjectName = r.ProjectName ?? "WatchFace", DeviceSize = r.DeviceSize }; public string Work(string id) => Path.Combine(Root, id, "project");
     public bool Enqueue(BuildJob j) { Jobs[j.Id] = j; Persist(j); if (Queue.Writer.TryWrite(j)) return true; Jobs.TryRemove(j.Id, out _); return false; }
     public void Persist(BuildJob j) { lock (j.Gate) { var dir = Path.Combine(Root, j.Id); Directory.CreateDirectory(dir); var tmp = Path.Combine(dir, "job.tmp"); File.WriteAllText(tmp, JsonSerializer.Serialize(j, Json)); File.Move(tmp, Path.Combine(dir, "job.json"), true); } }
-    public void Log(BuildJob j, string line) { lock (j.Gate) { if (j.Logs.Count < 6000) j.Logs.Add(line.Length > 4000 ? line[..4000] : line); } }
+    public void Log(BuildJob j, string line) { audit.Write(BuildAuditEntry.FromJob(j), line); lock (j.Gate) { if (j.Logs.Count < 6000) j.Logs.Add(line.Length > 4000 ? line[..4000] : line); } }
     public object View(BuildJob j) { lock (j.Gate) return new { buildId = j.Id, j.ProjectId, j.AppId, j.Revision, j.Target, j.Status, j.Created, j.Finished, j.ExitCode, j.ProjectExpired, j.ArtifactExpired, j.LogsExpired, artifacts = j.Status == "succeeded" && !j.ArtifactExpired ? new[] { new { id = "watchface.prg", fileName = FileName(j), url = $"/api/builds/{j.Id}/artifacts/watchface.prg" } } : Array.Empty<object>() }; }
     public static string Within(string root, string relative) { var path = Path.GetFullPath(Path.Combine(root, relative)); if (!path.StartsWith(Path.GetFullPath(root) + Path.DirectorySeparatorChar, StringComparison.Ordinal)) throw new ArgumentException("Path escapes project"); return path; }
     public static string FileName(BuildJob j) {
@@ -119,7 +142,7 @@ class BuildWorker(BuildStore store, ILogger<BuildWorker> logger) : BackgroundSer
                 lock (job.Gate) { job.Status = job.Cancel.IsCancellationRequested ? "cancelled" : timeout.IsCancellationRequested ? "failed" : proc.ExitCode == 0 && File.Exists(Path.Combine(output, "watchface.prg")) ? "succeeded" : "failed"; if (job.Status == "succeeded") File.Move(Path.Combine(output,"watchface.prg"),Path.Combine(output,BuildStore.FileName(job)),true); if (timeout.IsCancellationRequested) store.Log(job, "编译超时，进程已结束。"); }
             }
             catch (Exception e) { logger.LogWarning("Build {Id} failed: {Message}", job.Id, e.Message); lock (job.Gate) { job.Status = job.Cancel.IsCancellationRequested ? "cancelled" : "failed"; store.Log(job, "编译失败：" + e.Message); } }
-            finally { lock (job.Gate) { job.Finished = DateTime.UtcNow; job.WorkerActive = false; store.Persist(job); } }
+            finally { lock (job.Gate) { job.Finished = DateTime.UtcNow; job.WorkerActive = false; store.Log(job, $"编译结果：{job.Status}，退出码={job.ExitCode?.ToString() ?? "无"}"); store.Persist(job); } }
         }
     }
 }

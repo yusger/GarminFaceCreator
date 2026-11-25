@@ -31,3 +31,8 @@ developer_key*
 
 # Local temporary files
 /Temp/
+
+/backend/Logs/
+
+backend/tests/**/bin/
+backend/tests/**/obj/
