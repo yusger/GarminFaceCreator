@@ -233,7 +233,10 @@ test("ClownWatch reference cannot be deleted and its independent copy compiles",
   const download = await pending;
   expect(await download.failure()).toBeNull();
   await page.getByRole("button", { name: "项目", exact: true }).click();
+  await expect(reference).toHaveCount(0);
+  await page.getByRole("button", { name: "内置表盘", exact: true }).click();
   await expect(reference).toHaveCount(1);
+  await page.getByRole("button", { name: "我的表盘", exact: true }).click();
   page.once("dialog", (d) => d.accept());
   await page
     .getByRole("button", { name: "删除 ClownWatch 副本", exact: true })
@@ -242,6 +245,7 @@ test("ClownWatch reference cannot be deleted and its independent copy compiles",
     page.getByRole("button", { name: "打开 ClownWatch 副本", exact: true }),
   ).toHaveCount(0);
   await page.reload();
+  await page.getByRole("button", { name: "内置表盘", exact: true }).click();
   await expect(reference).toHaveCount(1);
   await expect(
     page.getByRole("button", { name: "删除 ClownWatch", exact: true }),
@@ -280,6 +284,7 @@ for (const name of ["SkyRing", "fine-o-clock"]) {
       await page.getByRole("link", { name: /^下载 .*\.prg$/ }).click();
       expect(await (await pending).failure()).toBeNull();
       await page.getByRole("button", { name: "项目", exact: true }).click();
+      await page.getByRole("button", { name: "内置表盘", exact: true }).click();
       await expect(page.locator(".reference-card")).toHaveCount(12);
     },
   );

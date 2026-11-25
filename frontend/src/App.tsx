@@ -125,6 +125,25 @@ export default function App() {
   } | null>(null);
   const [page, setPage] = useState("projects");
   const [projects, setProjects] = useState<Project[]>([]);
+  const [projectSection, setProjectSection] = useState<"builtins" | "mine">(
+    () => {
+      try {
+        return sessionStorage.getItem("gfc-project-section") === "mine"
+          ? "mine"
+          : "builtins";
+      } catch {
+        return "builtins";
+      }
+    },
+  );
+  function selectProjectSection(section: "builtins" | "mine") {
+    setProjectSection(section);
+    try {
+      sessionStorage.setItem("gfc-project-section", section);
+    } catch {
+      /* Navigation remains usable without session storage. */
+    }
+  }
   const [p, setProjectState] = useState<Project | null>(null);
   function setP(next: Project | null) {
     setProjectState((previous) => {
@@ -573,6 +592,7 @@ export default function App() {
         .catch(() => setNotice("创建副本失败，请检查浏览器存储"));
       return;
     }
+    selectProjectSection("mine");
     bases.current.set(item.id, item.storageVersion ?? 0);
     halted.current.delete(item.id);
     setSaveError("");
@@ -1344,6 +1364,16 @@ export default function App() {
       0,
     );
   }
+  const builtinCount = projects.filter(isReference).length;
+  const personalCount = projects.length - builtinCount;
+  const visibleProjects = projects
+    .filter((item) => isReference(item) === (projectSection === "builtins"))
+    .filter((item) => item.name.toLowerCase().includes(search.toLowerCase()))
+    .sort(
+      (a, b) =>
+        Number(referenceAttribution(b.id)?.authorship === "self") -
+        Number(referenceAttribution(a.id)?.authorship === "self"),
+    );
   return (
     <>
       <input
@@ -1546,10 +1576,30 @@ export default function App() {
       ) : page === "projects" ? (
         <div className="app-layout">
           <nav className="sidebar">
-            <button className="active">
+            <div className="sidebar-group-label">
               <Folder size={18} />
-              我的项目
-            </button>
+              表盘项目
+            </div>
+            <div className="project-submenu" role="group" aria-label="表盘项目">
+              <button
+                className={projectSection === "builtins" ? "active" : ""}
+                aria-current={
+                  projectSection === "builtins" ? "page" : undefined
+                }
+                aria-label="内置表盘"
+                onClick={() => selectProjectSection("builtins")}
+              >
+                内置表盘 <small>{builtinCount}</small>
+              </button>
+              <button
+                className={projectSection === "mine" ? "active" : ""}
+                aria-current={projectSection === "mine" ? "page" : undefined}
+                aria-label="我的表盘"
+                onClick={() => selectProjectSection("mine")}
+              >
+                我的表盘 <small>{personalCount}</small>
+              </button>
+            </div>
             <button onClick={() => setPage("models")}>
               <Settings size={18} />
               模型配置
@@ -1586,7 +1636,10 @@ export default function App() {
             </div>
             <div className="project-filters">
               <b>
-                全部项目 <small>{projects.length}</small>
+                {projectSection === "builtins" ? "内置表盘" : "我的表盘"}{" "}
+                <small>
+                  {projectSection === "builtins" ? builtinCount : personalCount}
+                </small>
               </b>
               <input
                 placeholder="搜索项目"
@@ -1606,100 +1659,106 @@ export default function App() {
                 <b>空白画布</b>
                 <span>让每一个像素都由你决定</span>
               </button>
-              {[...projects]
-                .sort((a, b) => Number(isReference(b)) - Number(isReference(a)))
-                .filter((x) =>
-                  x.name.toLowerCase().includes(search.toLowerCase()),
-                )
-                .map((item) => (
-                  <article
-                    className={
-                      "project-card" +
-                      (isReference(item) ? " reference-card" : "")
+              {visibleProjects.map((item) => (
+                <article
+                  className={
+                    "project-card" +
+                    (isReference(item) ? " reference-card" : "")
+                  }
+                  key={item.id}
+                >
+                  <button
+                    className="project-thumbnail"
+                    aria-label={
+                      (isReference(item) ? "使用 " : "打开 ") + item.name
                     }
-                    key={item.id}
+                    onClick={() => open(item)}
                   >
-                    <button
-                      className="project-thumbnail"
-                      aria-label={
-                        (isReference(item) ? "使用 " : "打开 ") + item.name
-                      }
-                      onClick={() => open(item)}
-                    >
-                      <Scene project={item} preview={preview} />
-                    </button>
-                    <ReferenceDetails id={item.referenceId || item.id} />
-                    <div className="project-card-info">
-                      <div>
-                        <b>{item.name}</b>
-                        {isReference(item) && (
+                    <Scene project={item} preview={preview} />
+                  </button>
+                  <ReferenceDetails id={item.referenceId || item.id} />
+                  <div className="project-card-info">
+                    <div>
+                      <b>{item.name}</b>
+                      {isReference(item) && (
+                        <span className="project-badges">
                           <span className="reference-badge">
                             默认参考 · 不可删除
                           </span>
-                        )}
-                        {isReference(item) &&
-                          referenceAttribution(item.id)?.authorship ===
+                          {referenceAttribution(item.id)?.authorship ===
                             "self" && (
                             <span className="authorship-badge">自主</span>
                           )}
-                        <p>
-                          {deviceLabel(item)} ·{" "}
-                          {isReference(item)
-                            ? "完整工程 · 点击创建副本"
-                            : new Date(item.updated).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <button
-                        aria-label={"导出 " + item.name}
-                        onClick={() => download(item.name + ".json", item)}
-                      >
-                        <Download size={15} />
-                      </button>
-                      {!isReference(item) && (
-                        <button
-                          aria-label={"删除 " + item.name}
-                          onClick={async () => {
-                            if (
-                              confirm(
-                                "删除本地项目 " +
-                                  item.name +
-                                  "？建议先导出备份。",
-                              )
-                            ) {
-                              try {
-                                await removeProject(item.id);
-                                setProjects(
-                                  projects.filter((x) => x.id !== item.id),
-                                );
-                                if (p?.id === item.id) setP(null);
-                              } catch {
-                                setNotice("删除失败");
-                              }
-                            }
-                          }}
-                        >
-                          <Trash2 size={15} />
-                        </button>
+                        </span>
                       )}
+                      <p>
+                        {deviceLabel(item)} ·{" "}
+                        {isReference(item)
+                          ? "完整工程 · 点击创建副本"
+                          : new Date(item.updated).toLocaleDateString()}
+                      </p>
                     </div>
-                  </article>
-                ))}
+                    <button
+                      aria-label={"导出 " + item.name}
+                      onClick={() => download(item.name + ".json", item)}
+                    >
+                      <Download size={15} />
+                    </button>
+                    {!isReference(item) && (
+                      <button
+                        aria-label={"删除 " + item.name}
+                        onClick={async () => {
+                          if (
+                            confirm(
+                              "删除本地项目 " +
+                                item.name +
+                                "？建议先导出备份。",
+                            )
+                          ) {
+                            try {
+                              await removeProject(item.id);
+                              setProjects(
+                                projects.filter((x) => x.id !== item.id),
+                              );
+                              if (p?.id === item.id) setP(null);
+                            } catch {
+                              setNotice("删除失败");
+                            }
+                          }
+                        }}
+                      >
+                        <Trash2 size={15} />
+                      </button>
+                    )}
+                  </div>
+                </article>
+              ))}
             </div>
-            {!projects.length && (
-              <div className="welcome">
-                <Sparkles size={20} />
-                <div>
-                  <b>第一次使用？试试基础数字表盘</b>
-                  <p>内置时间、秒环和两个数据控件，所有元素都可以自由调整。</p>
+            {ready &&
+              projectSection === "mine" &&
+              personalCount === 0 &&
+              !search && (
+                <div className="welcome">
+                  <Sparkles size={20} />
+                  <div>
+                    <b>第一次使用？试试基础数字表盘</b>
+                    <p>
+                      内置时间、秒环和两个数据控件，所有元素都可以自由调整。
+                    </p>
+                  </div>
+                  <button disabled={!ready} onClick={() => create()}>
+                    使用示例 <Plus size={14} />
+                  </button>
                 </div>
-                <button disabled={!ready} onClick={() => create()}>
-                  使用示例 <Plus size={14} />
-                </button>
-              </div>
+              )}
+            {ready && search && !visibleProjects.length && (
+              <p className="hint">当前分类中没有匹配的表盘。</p>
             )}
             <p className="hint">
-              内置参考项目不可删除。点击封面创建可编辑副本，可直接编译。
-              网页为近似或静态预览，实际效果以原生表盘为准。个人项目保存在当前浏览器。
+              {projectSection === "builtins"
+                ? "内置参考项目不可删除。点击封面创建可编辑副本，可直接编译。"
+                : "我的表盘保存在当前浏览器，可编辑、导出和删除。"}
+              网页为近似或静态预览，实际效果以原生表盘为准。
             </p>
           </main>
         </div>
