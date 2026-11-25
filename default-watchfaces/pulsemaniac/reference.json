@@ -1,0 +1,83 @@
+{
+  "format": 1,
+  "slug": "pulsemaniac",
+  "version": "1.0.0",
+  "authorship": "self",
+  "generation": {
+    "mode": "deterministic"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000011",
+    "name": "PulseManiac",
+    "appId": "1c527eb2365e4be49e09ac95f70747d8"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000011",
+    "name": "PulseManiac",
+    "template": "pulsemaniac",
+    "source": "https://github.com/yusger/GarminFaceCreator/blob/main/docs/pulsemaniac.md",
+    "status": "Owned user-provided PulseManiac design; Creator implementation GPL-3.0-or-later; generated artwork origin separately documented; no external upstream imported",
+    "summary": "自有 PulseManiac 设计；四态静态人物与独立数据控件；代码 GPLv3+，人物素材来源及提示词另行保留",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Owned design; source bundle, image hashes and generator fingerprints retained instead of an external upstream commit",
+    "legacy": false,
+    "verifiedLicense": false
+  },
+  "images": [
+    {
+      "layerId": "pulse-layer-1",
+      "file": "assets/pulse-background-v1.png",
+      "sha256": "6f2b6046b444d8f8ae383cca1c08bde84fa649d55ae639530fa05ba952c401e9",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-2",
+      "file": "assets/pulse-rest-v1.png",
+      "sha256": "66b1a79677384f491366de915362b8a3427ee4973a439f21cb9e1b94a461eb36",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-3",
+      "file": "assets/pulse-ready-v1.png",
+      "sha256": "445ecbe133eb372ae8cbd9d0eb881e0873b4d18262aecd44d71ec7dde6458fef",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-4",
+      "file": "assets/pulse-twist-v1.png",
+      "sha256": "89f1b5f2aa36d9871260ae40919018dbe3670d7d61e5dbbff54d018b34f95c43",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "pulse-layer-5",
+      "file": "assets/pulse-maniac-v1.png",
+      "sha256": "3a50281cd5c419defd5578702480df1f882d8b67ad5f9062a2a5f356333ff42b",
+      "mime": "image/png"
+    }
+  ],
+  "binaryAssets": [],
+  "notices": [
+    {
+      "file": "notices/PulseManiac-NOTICE.md",
+      "publishName": "PulseManiac-NOTICE.md"
+    },
+    {
+      "file": "notices/PulseManiac-PROMPTS.md",
+      "publishName": "PulseManiac-PROMPTS.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg",
+    "resources/drawables/gfc-icons.xml",
+    "source/GfcIcons.mc"
+  ]
+}

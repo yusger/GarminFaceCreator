@@ -1567,3 +1567,5 @@ label select {
 .adaptation-comparison > div {
   min-width: 0;
 }
+
+.authorship-badge{display:inline-flex;margin-left:6px;padding:3px 7px;border-radius:5px;background:#193c35;color:#86e7bc;font-size:11px;}

@@ -1,3 +1,4 @@
+import { referenceAttribution } from "./attribution";
 import VisibilityEditor from "./VisibilityEditor";
 import AdaptationAssistant from "./AdaptationAssistant";
 import { adaptationFingerprint, applyAdaptation } from "./adaptation";
@@ -1596,6 +1597,11 @@ export default function App() {
                             默认参考 · 不可删除
                           </span>
                         )}
+                        {isReference(item) &&
+                          referenceAttribution(item.id)?.authorship ===
+                            "self" && (
+                            <span className="authorship-badge">自主</span>
+                          )}
                         <p>
                           {deviceLabel(item)} ·{" "}
                           {isReference(item)

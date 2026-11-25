@@ -1,0 +1,130 @@
+{
+  "format": 1,
+  "slug": "fine-o-clock",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000003",
+    "name": "fine-o-clock",
+    "appId": "05837ab9-e910-421d-b23a-158dd258c9a6"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000003",
+    "name": "fine-o-clock",
+    "template": "fine-o-clock",
+    "source": "https://github.com/causeri3/fine-o-clock",
+    "status": "Upstream LICENCE is LGPLv3, README states GPLv3+; both statements retained, discrepancy unresolved",
+    "summary": "LICENCE 为 LGPLv3，README 声明 GPLv3+；原始说明均保留",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true
+  },
+  "images": [
+    {
+      "layerId": "8ddacfb6-f9fc-43fb-b601-6d05376c6c65",
+      "file": "assets/8ddacfb6-f9fc-43fb-b601-6d05376c6c65.png",
+      "sha256": "d7d83e2ff0d54180ee7f81f399d1df7779aa497cc3da417954a4db32895fa74c",
+      "mime": "image/png"
+    }
+  ],
+  "binaryAssets": [
+    {
+      "file": "resources/drawables/0.png",
+      "path": "resources/drawables/0.png",
+      "mime": "image/png",
+      "sha256": "d7d83e2ff0d54180ee7f81f399d1df7779aa497cc3da417954a4db32895fa74c"
+    },
+    {
+      "file": "resources/drawables/0_plain.png",
+      "path": "resources/drawables/0_plain.png",
+      "mime": "image/png",
+      "sha256": "5d761c16a55a0e6b3de76cb44a1bb7d265315e21bc54abb1613a3e97ee8a6d97"
+    },
+    {
+      "file": "resources/drawables/1.png",
+      "path": "resources/drawables/1.png",
+      "mime": "image/png",
+      "sha256": "e14ec497409e757c9c3d72a4b72d7516797c553d1cf32fd6ac62379a10a4e541"
+    },
+    {
+      "file": "resources/drawables/2.png",
+      "path": "resources/drawables/2.png",
+      "mime": "image/png",
+      "sha256": "d77c33a92bacd01096f56f7a86145442fee26dc9e8d4f72e5eec1b228149f455"
+    },
+    {
+      "file": "resources/drawables/3.png",
+      "path": "resources/drawables/3.png",
+      "mime": "image/png",
+      "sha256": "cf1964dedfe5a562bd016f5e4a6bdc7a7ac100404ab946a2a204f04d61bede25"
+    },
+    {
+      "file": "resources/drawables/4.png",
+      "path": "resources/drawables/4.png",
+      "mime": "image/png",
+      "sha256": "0ad50e1c48a14c7ad129ffbd48501fde482f6c4c8d83be96678fc79f4949bc21"
+    },
+    {
+      "file": "resources/drawables/launcher.png",
+      "path": "resources/drawables/launcher.png",
+      "mime": "image/png",
+      "sha256": "5aaebd40801910b8c755300f215030edf9bc7ac5fb64f94ca40388f137dc6350"
+    },
+    {
+      "file": "resources/fonts/TIFBig.png",
+      "path": "resources/fonts/TIFBig.png",
+      "mime": "image/png",
+      "sha256": "5625bf6f18f6b0cc74441bdd37f37140442fef778e020baa2f54fb3f44e20c53"
+    },
+    {
+      "file": "resources/fonts/TIFSmall.png",
+      "path": "resources/fonts/TIFSmall.png",
+      "mime": "image/png",
+      "sha256": "2f636e9bb7c8df55b45b89a0b9ce50e96bc31558f7253573b1ac1a1b525a0506"
+    },
+    {
+      "file": "resources/fonts/TIFTiny.png",
+      "path": "resources/fonts/TIFTiny.png",
+      "mime": "image/png",
+      "sha256": "61ed8b4c1b81e5a41f16ff28b23e57c1b5d6fa487b13e37e032e18f0dc72e8a4"
+    }
+  ],
+  "notices": [
+    {
+      "file": "notices/fine-o-clock-LICENCE.txt",
+      "publishName": "fine-o-clock-LICENCE.txt"
+    },
+    {
+      "file": "notices/fine-o-clock-README.md",
+      "publishName": "fine-o-clock-README.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/Animation.mc",
+    "source/Draw.mc",
+    "source/Fetch.mc",
+    "source/finoclockApp.mc",
+    "source/finoclockView.mc",
+    "source/Log.mc",
+    "source/Menu.mc",
+    "source/SafeStorage.mc",
+    "source/Settings.mc",
+    "resources/settings/properties.xml",
+    "resources/settings/settings.xml",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/fonts/fonts.xml",
+    "resources/fonts/TIFBig.fnt",
+    "resources/fonts/TIFSmall.fnt",
+    "resources/fonts/TIFTiny.fnt"
+  ]
+}

@@ -1,0 +1,3 @@
+// GarminFaceCreator fixed icon adapter icons-1. Weather categories are approximate pictograms, not severe-weather warnings.
+import Toybox.Graphics;import Toybox.WatchUi;import Toybox.Weather;class GfcIcons {static function draw_kiss_014(dc as Graphics.Dc,x,y) as Void {dc.drawBitmap(x,y,WatchUi.loadResource(Rez.Drawables.GfcIcon_kiss_014_static));}
+static function draw_kiss_015(dc as Graphics.Dc,x,y) as Void {dc.drawBitmap(x,y,WatchUi.loadResource(Rez.Drawables.GfcIcon_kiss_015_static));}}

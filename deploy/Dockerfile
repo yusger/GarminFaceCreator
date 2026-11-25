@@ -3,6 +3,8 @@ WORKDIR /src
 COPY package*.json ./
 RUN npm ci
 COPY frontend ./frontend
+COPY scripts ./scripts
+COPY default-watchfaces ./default-watchfaces
 COPY tsconfig.json ./
 RUN npm run build
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS backend

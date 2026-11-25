@@ -1,0 +1,62 @@
+{
+  "format": 1,
+  "slug": "bawf",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000010",
+    "name": "BAWF",
+    "appId": "c809e1e240394e5392c47e46c34f4098"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000010",
+    "name": "BAWF",
+    "template": "bawf",
+    "source": "https://github.com/kevinboone/BAWF",
+    "status": "Original source copyright headers explicitly GPLv3; Creator layout adaptation GPL-3.0-only, generator templates GPL-3.0-or-later; complete GPL text and original source notices retained",
+    "summary": "原源码版权头明确 GPLv3；可编辑黑白指针适配、完整原版权头与 GPL 原文保留；不继承原省电结论",
+    "upstreamCommit": "243293ba4d2a4f03c4ed767bb072a7838386c741",
+    "upstreamCommitStatus": "Pinned upstream revision; three original input hashes and explicit GPLv3 source headers checked; full GPLv3 copy supplied",
+    "legacy": false,
+    "verifiedLicense": true
+  },
+  "images": [],
+  "binaryAssets": [],
+  "notices": [
+    {
+      "file": "notices/BAWF-GPL-v3.txt",
+      "publishName": "BAWF-GPL-v3.txt"
+    },
+    {
+      "file": "notices/BAWF-README.md",
+      "publishName": "BAWF-README.md"
+    },
+    {
+      "file": "notices/BAWF-original-App.mc.txt",
+      "publishName": "BAWF-original-App.mc.txt"
+    },
+    {
+      "file": "notices/BAWF-original-View.mc.txt",
+      "publishName": "BAWF-original-View.mc.txt"
+    },
+    {
+      "file": "notices/BAWF-ADAPTATION.md",
+      "publishName": "BAWF-ADAPTATION.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg"
+  ]
+}

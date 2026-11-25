@@ -1,0 +1,58 @@
+{
+  "format": 1,
+  "slug": "yetanother",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000008",
+    "name": "YetAnother",
+    "appId": "0484ea1374504cc2b5a4aa7f10e758f4"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000008",
+    "name": "YetAnother",
+    "template": "yetanother",
+    "source": "https://github.com/Laverlin/Yet-Another-WatchFace",
+    "status": "Original Yet Another layout MIT; Creator native templates GPL-3.0-or-later; fixed UTC offset replaces automatic DST; no upstream font or icon binaries copied",
+    "summary": "原始布局 MIT；分列时间、活动数据、固定 UTC 偏移第二时区；Creator 原生模板 GPLv3+；完整原始声明与精简范围保留",
+    "upstreamCommit": "f9db8c2d3a1f10633c195e5516d96d45f0f61340",
+    "upstreamCommitStatus": "Pinned upstream revision; three original text/license/layout input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true
+  },
+  "images": [],
+  "binaryAssets": [],
+  "notices": [
+    {
+      "file": "notices/YetAnother-LICENSE.txt",
+      "publishName": "YetAnother-LICENSE.txt"
+    },
+    {
+      "file": "notices/YetAnother-README.md",
+      "publishName": "YetAnother-README.md"
+    },
+    {
+      "file": "notices/YetAnother-layout-454.xml",
+      "publishName": "YetAnother-layout-454.xml"
+    },
+    {
+      "file": "notices/YetAnother-ADAPTATION.md",
+      "publishName": "YetAnother-ADAPTATION.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg"
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "format": 1,
+  "slug": "skyring",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000002",
+    "name": "SkyRing",
+    "appId": "5b57eb6f382b4a5bbf0d9a7b3d1057d0"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000002",
+    "name": "SkyRing",
+    "template": "skyring",
+    "source": "https://github.com/daveshap/SkyRingGarmin",
+    "status": "Upstream license not verified; do not infer redistribution permission from public source",
+    "summary": "上游许可尚未确认，公开源码不等于获得再分发授权",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true
+  },
+  "images": [],
+  "binaryAssets": [
+    {
+      "file": "resources/drawables/launcher_icon.png",
+      "path": "resources/drawables/launcher_icon.png",
+      "mime": "image/png",
+      "sha256": "2adb44f0399728bad86e209429ac0ed0b6548af49019b5d21469333e876c2e26"
+    },
+    {
+      "file": "resources/fonts/icons16.png",
+      "path": "resources/fonts/icons16.png",
+      "mime": "image/png",
+      "sha256": "0899312817c8c4e241ca610529852d891d79a373fe3cda9491f001b2241749b0"
+    },
+    {
+      "file": "resources/fonts/icons22.png",
+      "path": "resources/fonts/icons22.png",
+      "mime": "image/png",
+      "sha256": "32771875d048a6e3d4470eb22acfafb7f7a49938ed736e2ae88de274ec9043ec"
+    }
+  ],
+  "notices": [
+    {
+      "file": "notices/SkyRing-README.md",
+      "publishName": "SkyRing-README.md"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/Astro.mc",
+    "source/ChartColors.mc",
+    "source/DaySteps.mc",
+    "source/Fmt.mc",
+    "source/HistoryBuckets.mc",
+    "source/Lunar.mc",
+    "source/RecoveryTime.mc",
+    "source/SkyRingApp.mc",
+    "source/SkyRingView.mc",
+    "source/WakeState.mc",
+    "resources/drawables/drawables.xml",
+    "resources/fonts/fonts.xml",
+    "resources/fonts/icons16.fnt",
+    "resources/fonts/icons22.fnt",
+    "resources/strings/strings.xml"
+  ]
+}

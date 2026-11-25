@@ -1,3 +1,2 @@
-// Keep owned design templates and upstream provenance reproducible before publishing.
-await import("./build-pulsemaniac.mjs");
+await import("./build-default-watchfaces.mjs");
 await import("./update-reference-provenance.mjs");

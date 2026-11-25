@@ -161,3 +161,6 @@ Editable components also include segmented goal meters, a three-week calendar, E
 
 
 See the [PulseManiac guide](docs/pulsemaniac.md) (Chinese) for creation, configuration, selected assets, generation prompts and actual browser/native screenshots. Original local drafting references are excluded from the repository.
+
+
+Default watchface packages are maintained in [default-watchfaces](default-watchfaces/README.md). ClownWatch and PulseManiac carry a self-authored badge; asset rights remain documented in each package’s notices.

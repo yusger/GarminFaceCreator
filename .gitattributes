@@ -21,3 +21,5 @@ docs/research/byod/** -text
 frontend/public/research/byod/** -text
 
 frontend/public/reference-notices/BAWF-* -text
+
+default-watchfaces/** -text

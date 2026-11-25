@@ -164,3 +164,6 @@ BYOD 的六分区/跨区思路已形成[圆屏组合控件研究方案](docs/byo
 
 
 PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际网页/原生截图；人物 PNG 及生成提示词随项目保存，原始草稿仍留在不提交的本地临时目录。
+
+
+默认参考表盘的独立目录与统一描述格式见 [default-watchfaces](default-watchfaces/README.md)。ClownWatch 与 PulseManiac 在卡片上标记“自主”；具体素材权利仍以各包 notices 为准。

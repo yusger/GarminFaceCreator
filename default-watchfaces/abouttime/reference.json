@@ -1,0 +1,63 @@
+{
+  "format": 1,
+  "slug": "abouttime",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000006",
+    "name": "AboutTime",
+    "appId": "f202c9ff7aad4dfda2ce6149e2e10cf9"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000006",
+    "name": "AboutTime",
+    "template": "abouttime",
+    "source": "https://github.com/samuelmr/garmin-abouttime",
+    "status": "Original About Time locale phrases MIT; Creator native generator/adapter templates GPL-3.0-or-later; system fonts, no upstream font or icon binaries copied",
+    "summary": "原始中英文译文 MIT；Creator 原生适配模板 GPLv3+；系统字体与完整原始声明保留",
+    "upstreamCommit": "4fdf09bcf784ecf385b9dce546af3f277e13caa5",
+    "upstreamCommitStatus": "Pinned upstream revision; four original text/license input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true
+  },
+  "images": [],
+  "binaryAssets": [],
+  "notices": [
+    {
+      "file": "notices/AboutTime-LICENSE.txt",
+      "publishName": "AboutTime-LICENSE.txt"
+    },
+    {
+      "file": "notices/AboutTime-README.md",
+      "publishName": "AboutTime-README.md"
+    },
+    {
+      "file": "notices/AboutTime-English-strings.xml",
+      "publishName": "AboutTime-English-strings.xml"
+    },
+    {
+      "file": "notices/AboutTime-Chinese-strings.xml",
+      "publishName": "AboutTime-Chinese-strings.xml"
+    },
+    {
+      "file": "notices/AboutTime-ADAPTATION.md",
+      "publishName": "AboutTime-ADAPTATION.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg",
+    "source/GfcWordTime.mc"
+  ]
+}

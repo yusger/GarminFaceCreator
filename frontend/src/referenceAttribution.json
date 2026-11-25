@@ -6,13 +6,19 @@
     "source": "https://github.com/yusger/GarminFaceCreator",
     "status": "Repository code GPL-3.0-or-later; Wildward portions MIT; character/artwork/font rights require separate review",
     "summary": "仓库代码 GPLv3+；Wildward 部分 MIT；角色、图片与字体分别核查",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true,
+    "authorship": "self",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/clownwatch/project.json",
     "files": [
       "repository-LICENSE.txt",
       "ClownWatch-Wildward-LICENSE.txt"
-    ],
-    "upstreamCommit": null,
-    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
-    "legacy": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000002",
@@ -21,12 +27,18 @@
     "source": "https://github.com/daveshap/SkyRingGarmin",
     "status": "Upstream license not verified; do not infer redistribution permission from public source",
     "summary": "上游许可尚未确认，公开源码不等于获得再分发授权",
-    "files": [
-      "SkyRing-README.md"
-    ],
     "upstreamCommit": null,
     "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
-    "legacy": true
+    "legacy": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/skyring/project.json",
+    "files": [
+      "SkyRing-README.md"
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000003",
@@ -35,14 +47,20 @@
     "source": "https://github.com/causeri3/fine-o-clock",
     "status": "Upstream LICENCE is LGPLv3, README states GPLv3+; both statements retained, discrepancy unresolved",
     "summary": "LICENCE 为 LGPLv3，README 声明 GPLv3+；原始说明均保留",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/fine-o-clock/project.json",
     "files": [
       "fine-o-clock-LICENCE.txt",
       "fine-o-clock-README.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": null,
-    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
-    "legacy": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000004",
@@ -51,17 +69,23 @@
     "source": "https://github.com/warmsound/crystal-face",
     "status": "Trimmed Creator layout adaptation GPL-3.0-only; system fonts; Lucide ISC and Feather MIT notices retained; no upstream font or icon binaries copied",
     "summary": "GPLv3 精简适配；系统字体与已核查 Lucide 图标；原始许可和修改说明保留",
+    "upstreamCommit": "bcc340484bd2a3a09f13b22a2d0d6dae3b4de9c7",
+    "upstreamCommitStatus": "Pinned upstream revision; referenced file SHA-256 checked by reproducible builder",
+    "legacy": false,
+    "verifiedLicense": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/crystal/project.json",
     "files": [
       "Crystal-LICENSE.txt",
       "Crystal-README.md",
       "Crystal-layout-454.xml",
       "Crystal-ADAPTATION.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": "bcc340484bd2a3a09f13b22a2d0d6dae3b4de9c7",
-    "upstreamCommitStatus": "Pinned upstream revision; referenced file SHA-256 checked by reproducible builder",
-    "legacy": false,
-    "verifiedLicense": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000005",
@@ -70,16 +94,22 @@
     "source": "https://github.com/KWottrich/TimelyFenix",
     "status": "Trimmed Creator layout adaptation GPL-3.0-only; system fonts and Meteocons MIT; original Pixeden font/icon binaries not copied",
     "summary": "GPLv3 精简适配；动态三周日历、Garmin 缓存天气与 MIT Meteocons；完整原许可和修改说明保留",
+    "upstreamCommit": "d38a347a548667780a9f17b84f5f02155687a72c",
+    "upstreamCommitStatus": "Pinned upstream revision; original input SHA-256 verified by reproducible builder",
+    "legacy": false,
+    "verifiedLicense": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/timelyfenix/project.json",
     "files": [
       "TimelyFenix-LICENSE.txt",
       "TimelyFenix-README.md",
       "TimelyFenix-ADAPTATION.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": "d38a347a548667780a9f17b84f5f02155687a72c",
-    "upstreamCommitStatus": "Pinned upstream revision; original input SHA-256 verified by reproducible builder",
-    "legacy": false,
-    "verifiedLicense": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000006",
@@ -88,6 +118,16 @@
     "source": "https://github.com/samuelmr/garmin-abouttime",
     "status": "Original About Time locale phrases MIT; Creator native generator/adapter templates GPL-3.0-or-later; system fonts, no upstream font or icon binaries copied",
     "summary": "原始中英文译文 MIT；Creator 原生适配模板 GPLv3+；系统字体与完整原始声明保留",
+    "upstreamCommit": "4fdf09bcf784ecf385b9dce546af3f277e13caa5",
+    "upstreamCommitStatus": "Pinned upstream revision; four original text/license input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/abouttime/project.json",
     "files": [
       "AboutTime-LICENSE.txt",
       "AboutTime-README.md",
@@ -95,11 +135,7 @@
       "AboutTime-Chinese-strings.xml",
       "AboutTime-ADAPTATION.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": "4fdf09bcf784ecf385b9dce546af3f277e13caa5",
-    "upstreamCommitStatus": "Pinned upstream revision; four original text/license input SHA-256 values checked",
-    "legacy": false,
-    "verifiedLicense": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000007",
@@ -108,16 +144,22 @@
     "source": "https://github.com/dbcm/KISSFace",
     "status": "Original KISSFace layout MIT; Creator native templates GPL-3.0-or-later; goal fill downgraded to dynamic segmented meters; no upstream font or icon binaries copied",
     "summary": "原始布局 MIT；独立彩色数字、缓存心率和动态目标条；Creator 原生模板 GPLv3+；保留完整来源与降级说明",
+    "upstreamCommit": "35617422cfc6e8db0c703b247c54835c3d77008c",
+    "upstreamCommitStatus": "Pinned upstream revision; two original text/license input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/kissface/project.json",
     "files": [
       "KISSFace-LICENSE.txt",
       "KISSFace-README.md",
       "KISSFace-ADAPTATION.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": "35617422cfc6e8db0c703b247c54835c3d77008c",
-    "upstreamCommitStatus": "Pinned upstream revision; two original text/license input SHA-256 values checked",
-    "legacy": false,
-    "verifiedLicense": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000008",
@@ -126,17 +168,23 @@
     "source": "https://github.com/Laverlin/Yet-Another-WatchFace",
     "status": "Original Yet Another layout MIT; Creator native templates GPL-3.0-or-later; fixed UTC offset replaces automatic DST; no upstream font or icon binaries copied",
     "summary": "原始布局 MIT；分列时间、活动数据、固定 UTC 偏移第二时区；Creator 原生模板 GPLv3+；完整原始声明与精简范围保留",
+    "upstreamCommit": "f9db8c2d3a1f10633c195e5516d96d45f0f61340",
+    "upstreamCommitStatus": "Pinned upstream revision; three original text/license/layout input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/yetanother/project.json",
     "files": [
       "YetAnother-LICENSE.txt",
       "YetAnother-README.md",
       "YetAnother-layout-454.xml",
       "YetAnother-ADAPTATION.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": "f9db8c2d3a1f10633c195e5516d96d45f0f61340",
-    "upstreamCommitStatus": "Pinned upstream revision; three original text/license/layout input SHA-256 values checked",
-    "legacy": false,
-    "verifiedLicense": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000009",
@@ -145,17 +193,23 @@
     "source": "https://github.com/Cutwell/garmin-celestial-watchface",
     "status": "Original Celestial theme/layout MIT; Creator native templates GPL-3.0-or-later; Garmin solar APIs replace upstream calculation; no original bitmap/font binaries copied",
     "summary": "原主题布局 MIT；可编辑昼夜场景与 Garmin 日出/日落、位置缺失回退；Creator 原生模板 GPLv3+；保留完整来源及修改说明",
+    "upstreamCommit": "c5d124c54866f23dbee7528a488c3802d120b715",
+    "upstreamCommitStatus": "Pinned upstream revision; three original license/readme/view input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/celestial/project.json",
     "files": [
       "Celestial-LICENSE.txt",
       "Celestial-README.md",
       "Celestial-original-View.mc.txt",
       "Celestial-ADAPTATION.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": "c5d124c54866f23dbee7528a488c3802d120b715",
-    "upstreamCommitStatus": "Pinned upstream revision; three original license/readme/view input SHA-256 values checked",
-    "legacy": false,
-    "verifiedLicense": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000010",
@@ -164,6 +218,16 @@
     "source": "https://github.com/kevinboone/BAWF",
     "status": "Original source copyright headers explicitly GPLv3; Creator layout adaptation GPL-3.0-only, generator templates GPL-3.0-or-later; complete GPL text and original source notices retained",
     "summary": "原源码版权头明确 GPLv3；可编辑黑白指针适配、完整原版权头与 GPL 原文保留；不继承原省电结论",
+    "upstreamCommit": "243293ba4d2a4f03c4ed767bb072a7838386c741",
+    "upstreamCommitStatus": "Pinned upstream revision; three original input hashes and explicit GPLv3 source headers checked; full GPLv3 copy supplied",
+    "legacy": false,
+    "verifiedLicense": true,
+    "authorship": "community",
+    "generation": {
+      "mode": "native"
+    },
+    "owned": false,
+    "bundlePath": "/default-watchfaces/bawf/project.json",
     "files": [
       "BAWF-GPL-v3.txt",
       "BAWF-README.md",
@@ -171,29 +235,29 @@
       "BAWF-original-View.mc.txt",
       "BAWF-ADAPTATION.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": "243293ba4d2a4f03c4ed767bb072a7838386c741",
-    "upstreamCommitStatus": "Pinned upstream revision; three original input hashes and explicit GPLv3 source headers checked; full GPLv3 copy supplied",
-    "legacy": false,
-    "verifiedLicense": true
+    ]
   },
   {
     "id": "00000000-0000-4000-8000-000000000011",
     "name": "PulseManiac",
     "template": "pulsemaniac",
-    "bundlePath": "/pulsemaniac/project.json",
-    "owned": true,
     "source": "https://github.com/yusger/GarminFaceCreator/blob/main/docs/pulsemaniac.md",
     "status": "Owned user-provided PulseManiac design; Creator implementation GPL-3.0-or-later; generated artwork origin separately documented; no external upstream imported",
     "summary": "自有 PulseManiac 设计；四态静态人物与独立数据控件；代码 GPLv3+，人物素材来源及提示词另行保留",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Owned design; source bundle, image hashes and generator fingerprints retained instead of an external upstream commit",
+    "legacy": false,
+    "verifiedLicense": false,
+    "authorship": "self",
+    "generation": {
+      "mode": "deterministic"
+    },
+    "owned": true,
+    "bundlePath": "/default-watchfaces/pulsemaniac/project.json",
     "files": [
       "PulseManiac-NOTICE.md",
       "PulseManiac-PROMPTS.md",
       "repository-LICENSE.txt"
-    ],
-    "upstreamCommit": null,
-    "upstreamCommitStatus": "Owned design; source bundle, image hashes and generator fingerprints retained instead of an external upstream commit",
-    "legacy": false,
-    "verifiedLicense": false
+    ]
   }
 ]

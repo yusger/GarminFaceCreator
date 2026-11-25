@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GarminFaceCreator default reference v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "slug",
+    "version",
+    "authorship",
+    "generation",
+    "identity",
+    "attribution",
+    "codeFiles",
+    "images",
+    "binaryAssets",
+    "notices"
+  ],
+  "properties": {
+    "format": {
+      "const": 1
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "authorship": {
+      "enum": [
+        "self",
+        "community"
+      ]
+    },
+    "generation": {
+      "type": "object",
+      "required": [
+        "mode"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "native",
+            "deterministic"
+          ]
+        }
+      }
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "appId"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "appId": {
+          "type": "string"
+        }
+      }
+    },
+    "attribution": {
+      "type": "object"
+    },
+    "codeFiles": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "images": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "layerId",
+          "file",
+          "sha256",
+          "mime"
+        ]
+      }
+    },
+    "binaryAssets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "file",
+          "path",
+          "id",
+          "sha256",
+          "mime"
+        ]
+      }
+    },
+    "notices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "file",
+          "publishName"
+        ]
+      }
+    }
+  }
+}

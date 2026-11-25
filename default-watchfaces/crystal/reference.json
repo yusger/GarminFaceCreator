@@ -1,0 +1,79 @@
+{
+  "format": 1,
+  "slug": "crystal",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000004",
+    "name": "Crystal",
+    "appId": "84c1375aac73414c8be59288312d9154"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000004",
+    "name": "Crystal",
+    "template": "crystal",
+    "source": "https://github.com/warmsound/crystal-face",
+    "status": "Trimmed Creator layout adaptation GPL-3.0-only; system fonts; Lucide ISC and Feather MIT notices retained; no upstream font or icon binaries copied",
+    "summary": "GPLv3 精简适配；系统字体与已核查 Lucide 图标；原始许可和修改说明保留",
+    "upstreamCommit": "bcc340484bd2a3a09f13b22a2d0d6dae3b4de9c7",
+    "upstreamCommitStatus": "Pinned upstream revision; referenced file SHA-256 checked by reproducible builder",
+    "legacy": false,
+    "verifiedLicense": true
+  },
+  "images": [
+    {
+      "layerId": "crystal_014",
+      "file": "assets/crystal_014.png",
+      "sha256": "a988ef3211e81856a52a570b35ce5e95baa51f233e459b19ce99492aee854482",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "crystal_015",
+      "file": "assets/crystal_015.png",
+      "sha256": "85bfec37614830f8d547880bf223976ba99d8a19d1e31f614faefcf63d903bf0",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "crystal_016",
+      "file": "assets/crystal_016.png",
+      "sha256": "64b86d2f89626ff2b64137bcbbfb4d0e54dea4f4a359727b6425329f987059b2",
+      "mime": "image/png"
+    }
+  ],
+  "binaryAssets": [],
+  "notices": [
+    {
+      "file": "notices/Crystal-LICENSE.txt",
+      "publishName": "Crystal-LICENSE.txt"
+    },
+    {
+      "file": "notices/Crystal-README.md",
+      "publishName": "Crystal-README.md"
+    },
+    {
+      "file": "notices/Crystal-layout-454.xml",
+      "publishName": "Crystal-layout-454.xml"
+    },
+    {
+      "file": "notices/Crystal-ADAPTATION.md",
+      "publishName": "Crystal-ADAPTATION.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg",
+    "resources/drawables/gfc-icons.xml",
+    "source/GfcIcons.mc"
+  ]
+}

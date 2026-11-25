@@ -1,0 +1,127 @@
+{
+  "format": 1,
+  "slug": "timelyfenix",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000005",
+    "name": "TimelyFenix",
+    "appId": "16ca8a4589744f049569ab92966f7ad5"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000005",
+    "name": "TimelyFenix",
+    "template": "timelyfenix",
+    "source": "https://github.com/KWottrich/TimelyFenix",
+    "status": "Trimmed Creator layout adaptation GPL-3.0-only; system fonts and Meteocons MIT; original Pixeden font/icon binaries not copied",
+    "summary": "GPLv3 精简适配；动态三周日历、Garmin 缓存天气与 MIT Meteocons；完整原许可和修改说明保留",
+    "upstreamCommit": "d38a347a548667780a9f17b84f5f02155687a72c",
+    "upstreamCommitStatus": "Pinned upstream revision; original input SHA-256 verified by reproducible builder",
+    "legacy": false,
+    "verifiedLicense": true
+  },
+  "images": [
+    {
+      "layerId": "timely_008",
+      "file": "assets/timely_008.png",
+      "sha256": "937f1bb0c9b26a76ef636c34e3e81336a46beec50aa2d6bc848296552bc73355",
+      "mime": "image/png"
+    }
+  ],
+  "binaryAssets": [
+    {
+      "file": "assets/timely_008_wx_clear.png",
+      "path": "assets/timely_008_wx_clear.png",
+      "id": "timely_008_clear",
+      "mime": "image/png",
+      "sha256": "937f1bb0c9b26a76ef636c34e3e81336a46beec50aa2d6bc848296552bc73355"
+    },
+    {
+      "file": "assets/timely_008_wx_partly.png",
+      "path": "assets/timely_008_wx_partly.png",
+      "id": "timely_008_partly",
+      "mime": "image/png",
+      "sha256": "acaca29963e5eded353f13613d818bb45bb58286ea303c8d157ddbb5a8657b2e"
+    },
+    {
+      "file": "assets/timely_008_wx_cloudy.png",
+      "path": "assets/timely_008_wx_cloudy.png",
+      "id": "timely_008_cloudy",
+      "mime": "image/png",
+      "sha256": "803dec4fcff626210391793c8d8929f18e2361add223c7423aeb189a1a18fd59"
+    },
+    {
+      "file": "assets/timely_008_wx_rain.png",
+      "path": "assets/timely_008_wx_rain.png",
+      "id": "timely_008_rain",
+      "mime": "image/png",
+      "sha256": "bf7fa5dc591697dfe87fb8c2a2c89d98569f82f90274cb948c3020f2075e2a86"
+    },
+    {
+      "file": "assets/timely_008_wx_snow.png",
+      "path": "assets/timely_008_wx_snow.png",
+      "id": "timely_008_snow",
+      "mime": "image/png",
+      "sha256": "ba26bdc3193abd68709d16abb61a831bf3a7c2342291b0e4aef87294350b2559"
+    },
+    {
+      "file": "assets/timely_008_wx_wind.png",
+      "path": "assets/timely_008_wx_wind.png",
+      "id": "timely_008_wind",
+      "mime": "image/png",
+      "sha256": "6a53bad0eb781d45fce2adc13d17d270a699ec159afd994b55f16abc7ddce137"
+    },
+    {
+      "file": "assets/timely_008_wx_thunder.png",
+      "path": "assets/timely_008_wx_thunder.png",
+      "id": "timely_008_thunder",
+      "mime": "image/png",
+      "sha256": "731062d0532ec9717920dfbbacfb3099eaf3739a9f7d285a6c7c53f9b5c66330"
+    },
+    {
+      "file": "assets/timely_008_wx_fog.png",
+      "path": "assets/timely_008_wx_fog.png",
+      "id": "timely_008_fog",
+      "mime": "image/png",
+      "sha256": "e5ecabb2cd42f4d3f1aa6e6bebcb48bbe18f54802a606d1074ee5d569051e2c7"
+    },
+    {
+      "file": "assets/timely_008_wx_missing.png",
+      "path": "assets/timely_008_wx_missing.png",
+      "id": "timely_008_missing",
+      "mime": "image/png",
+      "sha256": "dbaa6a8569a5638aef653143e8de5379b34119d97134785d6abb6aac3871a72f"
+    }
+  ],
+  "notices": [
+    {
+      "file": "notices/TimelyFenix-LICENSE.txt",
+      "publishName": "TimelyFenix-LICENSE.txt"
+    },
+    {
+      "file": "notices/TimelyFenix-README.md",
+      "publishName": "TimelyFenix-README.md"
+    },
+    {
+      "file": "notices/TimelyFenix-ADAPTATION.md",
+      "publishName": "TimelyFenix-ADAPTATION.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg",
+    "resources/drawables/gfc-icons.xml",
+    "source/GfcIcons.mc"
+  ]
+}

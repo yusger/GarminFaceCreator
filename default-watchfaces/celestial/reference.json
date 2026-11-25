@@ -1,0 +1,58 @@
+{
+  "format": 1,
+  "slug": "celestial",
+  "version": "1.0.0",
+  "authorship": "community",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000009",
+    "name": "Celestial",
+    "appId": "da2ef8b78ca14d51bfe15923811ba50f"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000009",
+    "name": "Celestial",
+    "template": "celestial",
+    "source": "https://github.com/Cutwell/garmin-celestial-watchface",
+    "status": "Original Celestial theme/layout MIT; Creator native templates GPL-3.0-or-later; Garmin solar APIs replace upstream calculation; no original bitmap/font binaries copied",
+    "summary": "原主题布局 MIT；可编辑昼夜场景与 Garmin 日出/日落、位置缺失回退；Creator 原生模板 GPLv3+；保留完整来源及修改说明",
+    "upstreamCommit": "c5d124c54866f23dbee7528a488c3802d120b715",
+    "upstreamCommitStatus": "Pinned upstream revision; three original license/readme/view input SHA-256 values checked",
+    "legacy": false,
+    "verifiedLicense": true
+  },
+  "images": [],
+  "binaryAssets": [],
+  "notices": [
+    {
+      "file": "notices/Celestial-LICENSE.txt",
+      "publishName": "Celestial-LICENSE.txt"
+    },
+    {
+      "file": "notices/Celestial-README.md",
+      "publishName": "Celestial-README.md"
+    },
+    {
+      "file": "notices/Celestial-original-View.mc.txt",
+      "publishName": "Celestial-original-View.mc.txt"
+    },
+    {
+      "file": "notices/Celestial-ADAPTATION.md",
+      "publishName": "Celestial-ADAPTATION.md"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg"
+  ]
+}

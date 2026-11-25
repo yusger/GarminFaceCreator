@@ -1,0 +1,61 @@
+{
+  "format": 1,
+  "slug": "clownwatch",
+  "version": "1.0.0",
+  "authorship": "self",
+  "generation": {
+    "mode": "native"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "name": "ClownWatch",
+    "appId": "d639e510a7024c798069e3b9650cbd43"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000001",
+    "name": "ClownWatch",
+    "template": "clownwatch",
+    "source": "https://github.com/yusger/GarminFaceCreator",
+    "status": "Repository code GPL-3.0-or-later; Wildward portions MIT; character/artwork/font rights require separate review",
+    "summary": "仓库代码 GPLv3+；Wildward 部分 MIT；角色、图片与字体分别核查",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Bundled legacy snapshot; original upstream commit was not recorded",
+    "legacy": true
+  },
+  "images": [
+    {
+      "layerId": "clownwatch-portal",
+      "file": "assets/clownwatch-portal.png",
+      "sha256": "f367c34e33b13ab43539c720848a30c7adb4ba14fad9a9892ae4071ef10d2cbc",
+      "mime": "image/png"
+    }
+  ],
+  "binaryAssets": [],
+  "notices": [
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    },
+    {
+      "file": "notices/ClownWatch-Wildward-LICENSE.txt",
+      "publishName": "ClownWatch-Wildward-LICENSE.txt"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/ClownActivityStats.mc",
+    "source/ClownConfig.mc",
+    "source/ClownData.mc",
+    "source/ClownRuneRing.mc",
+    "source/ClownSecondHand.mc",
+    "source/ClownSettings.mc",
+    "source/ClownWatchApp.mc",
+    "source/ClownWatchView.mc",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/launcher_icon.svg",
+    "resources/settings/properties.xml",
+    "resources/settings/settings.xml",
+    "resources/strings/strings.xml"
+  ]
+}

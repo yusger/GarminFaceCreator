@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<properties>
+    <property id="PreviewMode" type="boolean">false</property>
+    <property id="DataModeVersion" type="number">0</property>
+    <property id="TopLeft" type="number">1</property>
+    <property id="TopRight" type="number">2</property>
+    <property id="MiddleLeft" type="number">3</property>
+    <property id="MiddleRight" type="number">4</property>
+    <property id="BottomLeft" type="number">5</property>
+    <property id="BottomCenter" type="number">7</property>
+    <property id="BottomRight" type="number">6</property>
+    <property id="Footer" type="number">8</property>
+    <property id="AccentColor" type="number">56780</property>
+    <property id="TextColor" type="number">16777215</property>
+    <property id="BatteryColor" type="number">56780</property>
+    <property id="BackgroundColor" type="number">0</property>
+    <property id="TimeFormat" type="number">0</property>
+    <property id="TimeSize" type="number">1</property>
+    <property id="ShowRing" type="boolean">true</property>
+    <property id="ShowSmile" type="boolean">true</property>
+    <property id="ShowDividers" type="boolean">true</property>
+    <property id="ShowDate" type="boolean">true</property>
+    <property id="SecondHandColor" type="number">56780</property>
+    <property id="TongueColor" type="number">5614335</property>
+    <property id="EyeColor" type="number">16777215</property>
+    <property id="ShowSecondHand" type="boolean">true</property>
+    <property id="ShowPortalBackground" type="boolean">true</property>
+</properties>
