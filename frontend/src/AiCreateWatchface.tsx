@@ -257,7 +257,15 @@ export default function AiCreateWatchface({
                     <select
                       aria-label="AI手表尺寸"
                       value={device.size}
-                      onChange={(e) => change({ deviceSize: e.target.value })}
+                      onChange={(e) => {
+                        const d = devices.find(
+                          (d) =>
+                            d.series === device.series &&
+                            d.model === device.model &&
+                            d.size === e.target.value,
+                        )!;
+                        change({ target: d.id, deviceSize: d.size });
+                      }}
                     >
                       {devices
                         .filter(

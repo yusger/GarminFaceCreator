@@ -311,6 +311,7 @@ export function parseDesign(
     const item: Layer = {
       ...layer(v.kind),
       threshold: false,
+      metricDecoration: false,
       ...fields,
       hidden: false,
       locked: false,

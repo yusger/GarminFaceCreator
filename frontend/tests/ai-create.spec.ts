@@ -335,7 +335,9 @@ for (const size of ["45mm", "41mm"])
       await expect(page.getByLabel("字号", { exact: true })).toHaveValue("62");
       const exported = page.waitForEvent("download");
       await page.getByRole("button", { name: "导出项目", exact: true }).click();
-      const disk = JSON.parse(await readFile((await exported).path()!, "utf8"));
+      const disk = JSON.parse(
+        await readFile((await (await exported).path())!, "utf8"),
+      );
       expect(disk.files).toEqual([]);
       expect(disk.codeRevision).toBe(-1);
       expect(JSON.parse(disk.designBrief).style).toBe(
