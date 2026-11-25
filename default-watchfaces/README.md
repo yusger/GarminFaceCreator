@@ -20,3 +20,5 @@
 带字体的包可增加 fonts 清单（文件、发布名、SHA-256）。PulseManiac 的 FNT/PNG 是默认 454px 快照；编辑器编译/导出时按目标分辨率重新生成。更改其字体或字号时同步生成并保留默认快照。
 
 PulseManiac 字体/心形快照维护命令：`node scripts/generate-pulse-font-snapshots.mjs`（本机 Edge；不启动服务）。然后执行 `npm run build`。字体来源记录与完整许可保留在包内。
+
+设计方的新表盘交付请遵循[表盘设计包接入规范 v1.0](../docs/watchface-package-standard.md)。该交换格式需经转换后进入本目录；当前尚无直接自动导入入口，首个验证对象为SONAR。
