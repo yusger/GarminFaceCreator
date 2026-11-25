@@ -1,38 +1,31 @@
 # PulseManiac 四态静态表盘
 
-在项目首页找到 PulseManiac 默认参考卡片，点击“使用 PulseManiac”创建可编辑副本。卡片与其他默认参考统一显示“默认参考 · 不可删除”，默认参考本身受保护；副本使用独立项目/应用身份，可保存、导出、修改和删除，并可直接编译。编辑后使用本地生成器仍需遵循其 ASCII 项目名限制，可将副本重命名为 PulseManiacCopy。自有设计来源和素材说明独立保留，不虚构外部上游项目或许可。
+在首页点击“使用 PulseManiac”创建可编辑副本。默认卡片显示“自主”和“默认参考 · 不可删除”；副本使用独立项目/应用身份，可保存、导出和删除。使用本地生成器编辑后，将项目命名为 ASCII，例如 PulseManiacCopy。
 
-- 顶部第一行默认电量，第二行默认步数；选择对应图层，可修改数据源、标签、单位和颜色。首版本地生成器支持电量/步数/缓存心率/距离/总热量/秒数；选择其他来源时按已有提示使用 AI 生成并验证，不能假定本地生成器支持全部数据。
-- 胸口心率固定绑定最新可获取的 Garmin 心率缓存，数字独立于人物图片。四态使用同一心率锚点和明确的灰白/浅黄/黄/红颜色，不把数字画死在素材里。
-- 人物下方保留一次中文星期/月日和底部大号时间；顶部不重复显示心率、日期或时间。
-- HR<100 静息，100≤HR<120 预备，120≤HR≤140 扭动，HR>140 彻底疯狂。没有姿态动画、额外定时器或主动心率采样；条件按可用缓存判断。
-- 心率缺失时显示静息人物、心率 --。息屏固定静息人物和心率/时间，隐藏背景、日期和疯狂装饰。位图本身不自动套用 AOD 文字颜色；真机 AOD 功耗/烧屏限制需另行验证。
+## 布局和数据
 
-22 个图层包括共享背景、四个静态人物、四组独立胸口心率数字/心形、四个中文装饰字和四个共享数据/日期/时间控件。第二张预备态人物已按设计者要求将头部改为黑色，闭眼五官为白色，四张角色风格统一。角色 PNG 均为真实透明背景，原稿中的数字、日期、表圈没有进入人物素材。
+- 顶部默认电量、步数，16px 手写字、#8A93A0。选择对应图层修改数据源、标签、单位和颜色。本地生成支持电量、步数、缓存心率、公里距离、当日总热量、秒数和缓存天气温度；其它来源需使用 AI 生成并验证。
+- 四态人物胸口的完整心形包围实时心率数字；固定 heartRate，不允许切换其它数据源。颜色按灰白、浅黄、黄、红区分状态。四个控件共享锚点，数字不写死在人物素材中。
+- 人物下方保留小号日期与大号手写时间；顶部不重复显示心率或时间。日期可以隐藏。
+- HR<100 静息，100≤HR<120 预备，120≤HR≤140 扭动，HR>140 彻底疯狂。只切换四张静态人物，没有姿态动画、额外定时器或主动传感器采样。
+- 缺失心率时显示静息人物与 --；息屏固定静息人物、心形/心率和时间，隐藏纹理、圆环、日期和疯狂装饰。位图本身不自动变为 AOD 文字颜色。
 
-独立预览提供四态快捷按钮，也可手动输入心率测试100、120、140边界与缺失。新增设备可使用已有“适配设备”功能；四个状态和胸口数据需要一起校对位置，不自动保证所有硬件兼容。
+共22个图层：共享黑板纹理与手绘粉笔环、四张静态人物、四组独立心形/心率、四个疯狂态汉字、两行顶部数据、日期与时间。预备态保留黑色头部和白色闭眼五官；疯狂态增加静态残影、汗滴、速度线与红色闪电。
 
-`default-watchfaces/pulsemaniac/` 保存设计、原生源码快照、独立 PNG、字体及完整来源说明。构建前自动执行统一 `scripts/build-default-watchfaces.mjs`，固定图层身份和原始素材 SHA-256。创建时只读取固定同源素材路径；背景和粉笔环为独立 PNG，人物 PNG 保留原 alpha，原生尺寸由 Garmin 资源编译器按目标像素生成。浏览器备份保留素材；源码 ZIP 附完整 Monkey C、素材、适用许可与 PulseManiac 来源/提示词。原设计参考和草稿继续留在被忽略的 Temp 文件夹。
+## 维护与来源
 
+维护入口为 [`default-watchfaces/pulsemaniac`](../default-watchfaces/pulsemaniac/README.md)。统一 `reference.json` 描述身份、版本、代码、独立素材及完整 notices；`design.json` 保存布局和绑定，构建由共享确定性生成器生成原生快照。运行 `npm run build` 自动生成页面包与注册表，不直接编辑 frontend/public 下的输出。
 
-## 实际显示与验证范围
+时间、心率与辅助数字采用 [Permanent Marker](https://github.com/google/fonts/tree/main/apache/permanentmarker)，疯狂态中文采用 [Ma Shan Zheng](https://github.com/googlefonts/mashanzheng)。完整许可、固定源版本、SHA-256 见包内 `notices/`、`fonts/sources.json`。图片提示词和独立权利范围保留，不虚构外部上游表盘或素材许可。原始设计与草稿留在被忽略的 Temp 中。
 
-[静息网页](screenshots/pulsemaniac-0.png) · [黑脸预备态网页](screenshots/pulsemaniac-1.png) · [扭动网页](screenshots/pulsemaniac-2.png) · [疯狂网页](screenshots/pulsemaniac-3.png)
+原生 FNT/PNG 由本地浏览器按照目标屏幕像素生成；默认454px快照随参考包保存，改字号或设备后编译/导出会重新生成。维护默认快照使用 `node scripts/generate-pulse-font-snapshots.mjs`（需要本机 Edge，不启动服务）。源码 ZIP 包含完整 Monkey C、图片、原生字库、所用字体及许可；后端只需正常编译，不需要安装这些字体。图片资源按 screen 百分比换算并只缓存当前显示资源。
 
-[生产 PRG 亮屏](screenshots/pulsemaniac-native.png) · [生产 PRG 实际 Always-On](screenshots/pulsemaniac-native-aod.png) · [41mm 修改数据源后原生](screenshots/pulsemaniac-test-small-native.png)
+## 实际截图和验证范围
 
-[HR=110 预备态](screenshots/pulsemaniac-test-ready-native.png) · [HR=130 扭动态](screenshots/pulsemaniac-test-twist-native.png) · [HR=158 疯狂态](screenshots/pulsemaniac-test-maniac-native.png) · [缺失心率](screenshots/pulsemaniac-test-missing-native.png) 为明确的测试工程：只替换心率缓存输入，仍绘制相同生产资源、实时时间和日期。正式工程没有这些固定心率值，也没有动画计时器。
+[默认卡片](screenshots/pulsemaniac-reference-card.png) · [静息](screenshots/pulsemaniac-0.png) · [预备](screenshots/pulsemaniac-1.png) · [扭动](screenshots/pulsemaniac-2.png) · [疯狂](screenshots/pulsemaniac-3.png) · [网页息屏](screenshots/pulsemaniac-aod.png)
 
-首次完整图片编译暴露了资源参数单位：裸 scaleX/scaleY 被当前 SDK 按缩放倍率处理，已改为显式 screen 百分比并按目标像素换算。图片缓存只保留仍在显示的资源引用。模拟器还用于调整实际系统字体：顶部/胸口采用 XTINY，时间采用 LARGE，避免网页字号与原生字体档位不同造成重叠；中文使用 SYSTEM_XTINY。网页字体与设备字体仍不保证逐像素一致，真机功耗与清晰度待设备实测。
+[生产 PRG](screenshots/pulsemaniac-native.png) · [实际 Always-On](screenshots/pulsemaniac-native-aod.png) · [41mm 修改数据源后](screenshots/pulsemaniac-test-small-native.png)
 
-完整源工程和 PRG 在指定远程环境测试；验证记录见[阶段 51～52](stage-validation.md)。
+[HR=110](screenshots/pulsemaniac-test-ready-native.png) · [HR=130](screenshots/pulsemaniac-test-twist-native.png) · [HR=158](screenshots/pulsemaniac-test-maniac-native.png) · [缺失心率](screenshots/pulsemaniac-test-missing-native.png) 为专门测试工程：仅替换缓存输入，其余使用相同生产资源；正式代码没有固定心率值。
 
-
-默认参考卡片的[实际页面截图](screenshots/pulsemaniac-reference-card.png)显示与其他参考一致的“默认参考 · 不可删除”标签。首次使用创建副本，保留自有设计的素材来源说明。
-
-
-## 布局修订 v2
-
-根据设计者更新的布局说明，胸口心率放进完整心形轮廓中并固定 heartRate；顶部电量/步数改为 16px、#8A93A0，可在编辑器切换数据源。天气温度支持 Garmin 缓存读数，缺失显示 --。
-背景改为炭笔擦除纹理，外圈为独立粗粝粉笔位图；疯狂态补充静态残影与速度线，第二张黑脸保持。仍只有四张静态姿态，原有心率边界保持。
-底部时间及数字采用 Permanent Marker，疯狂态中文采用 Ma Shan Zheng；许可证、固定 commit、SHA-256 见包内 notices 与 fonts/sources.json。字体在本地浏览器按目标像素生成 FNT/PNG，原生字库随源码导出；服务端不需要安装字体。其它系统字体不保证与网页逐像素一致。
+支持独立预览四态快捷选择和手动边界测试，设备适配仍需逐型号验证。网页和模拟器不保证所有真机逐像素一致；缓存时效、AOD 功耗及烧屏保护需继续实测。阶段记录见 [stage-validation.md](stage-validation.md)。

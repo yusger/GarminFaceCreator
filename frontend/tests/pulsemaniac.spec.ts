@@ -245,6 +245,20 @@ test("PulseManiac creates an editable native project, previews all four static s
     ),
   ).toBe(true);
   await compile(edited, "venu441mm", "41mm");
+  await page.getByText("顶部数据2（默认步数）", { exact: true }).click();
+  await page.getByLabel("数据源", { exact: true }).selectOption("temperature");
+  await page.getByLabel("数据标签", { exact: true }).fill("TEMP");
+  await page.getByLabel("数据标签", { exact: true }).blur();
+  await page
+    .getByRole("button", { name: "本地生成（试验）", exact: true })
+    .click();
+  await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
+  const weather = unzip(await exported());
+  expect(weather.get("source/App.mc")!.toString()).toContain(
+    "Weather.getCurrentConditions()",
+  );
+  await compile(weather, "venu441mm", "41mm");
+
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.reload();
   await page
