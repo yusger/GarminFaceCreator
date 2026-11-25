@@ -20,3 +20,10 @@ Docker Compose 将宿主机 `./backend/Logs` 挂载到容器 `/data/logs`，`./r
 - 单条编译器输出最多保留 16,000 字符；文件写入故障会输出到容器错误日志，启动时会检查目录是否可写。
 
 验证：`dotnet run --project backend/tests/audit/AuditTests.csproj`；在线真实编译回归：`GFC_TEST_URL=<服务地址> node backend/tests/integration.mjs`。
+
+## 验证记录（2026-11-25）
+
+- 离线测试：IPv4/IPv6 查询、私网地址和 IPv4 映射地址、北京时间目录、100 条并发写入、防日志注入、缺库回退通过。
+- 测试服务器真实 SDK：中文项目名成功编译、含换行/括号的项目名编译失败、参数校验拒绝均正确落盘；编译器错误、结果状态和任务编号完整。
+- HTTP 验证：大小写/末尾斜线的编译路由、伪造 `X-Forwarded-For`/`X-Real-IP` 均符合预期；调用者 IP 不通过任务查询 API 返回。
+- 编译回归：PRG 下载、增量日志、失败无产物、任务取消均通过。
