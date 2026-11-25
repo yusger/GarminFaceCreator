@@ -21,4 +21,4 @@
 
 PulseManiac 字体/心形快照维护命令：`node scripts/generate-pulse-font-snapshots.mjs`（本机 Edge；不启动服务）。然后执行 `npm run build`。字体来源记录与完整许可保留在包内。
 
-设计方的新表盘交付请遵循[表盘设计包接入规范 v1.0](../docs/watchface-package-standard.md)。该交换格式需经转换后进入本目录；当前尚无直接自动导入入口，首个验证对象为SONAR。
+设计方的新表盘交付请遵循[表盘设计包接入规范 v1.1](../docs/watchface-package-standard.md)。该交换格式需经转换后进入本目录；当前尚无直接自动导入入口，首个验证对象为SONAR。
