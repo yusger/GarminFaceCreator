@@ -85,7 +85,7 @@ export async function exportSources(
   for (const name of new Set(chalkPlans(p).map((plan) => plan.font))) {
     for (const path of [
       "/fonts/" + name,
-      "/fonts/" + name.replace(/\.(ttf|otf)$/,"-LICENSE.txt"),
+      "/fonts/" + name.replace(/\.(ttf|otf)$/, "-LICENSE.txt"),
     ]) {
       const response = await fetch(path);
       if (!response.ok) throw Error("缺少字体或许可");
@@ -185,6 +185,9 @@ export async function exportSources(
       JSON.stringify(
         {
           schemaVersion: p.schemaVersion,
+          controls: p.controls,
+          controlValues: p.controlValues,
+          backgroundColor: p.backgroundColor,
           starterId: p.starterId,
           name: p.name,
           target: p.target,

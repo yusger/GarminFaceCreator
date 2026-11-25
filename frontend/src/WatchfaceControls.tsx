@@ -1,5 +1,5 @@
 import type { Project } from "./domain";
-import { controlValue, setControl } from "./projectControls";
+import { controlValue, setControl, resetControls } from "./projectControls";
 export default function WatchfaceControls({
   project: p,
   onChange,
@@ -64,15 +64,7 @@ export default function WatchfaceControls({
         {p.multiDevice?.scope === "device" && <p>请切换共享主设计后修改。</p>}
         <button
           disabled={p.multiDevice?.scope === "device"}
-          onClick={() =>
-            onChange({
-              ...p,
-              controlValues: undefined,
-              revision: p.revision + 1,
-              codeRevision: -1,
-              updated: Date.now(),
-            })
-          }
+          onClick={() => onChange(resetControls(p))}
         >
           恢复默认配置
         </button>

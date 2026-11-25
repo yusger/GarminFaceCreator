@@ -112,11 +112,9 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   test.setTimeout(300000);
   test.skip(!process.env.GFC_TEST_URL, "Requires deployed compiler");
   await page.goto("/");
-  const card = page
-    .locator(".reference-card")
-    .filter({
-      has: page.getByRole("button", { name: "使用 SONAR", exact: true }),
-    });
+  const card = page.locator(".reference-card").filter({
+    has: page.getByRole("button", { name: "使用 SONAR", exact: true }),
+  });
   await expect(card.locator(".authorship-badge")).toHaveText("自主");
   await expect(
     page.getByRole("button", { name: "删除 SONAR", exact: true }),
@@ -129,7 +127,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   await page.evaluate(() => document.fonts.ready);
   await page.locator(".watchface-controls summary").click();
   await page.getByLabel("右侧数据", { exact: true }).selectOption("distance");
-  const scene = page.locator(".stage svg.watch");
+  const scene = page.locator(".canvas-space svg.watch");
   await expect(scene.locator('[data-layer="sonar_steps_value"]')).toContainText(
     "6.42",
   );
@@ -172,6 +170,9 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   await writeFile(join(directory, "source.zip"), bytes);
   const files = unzip(bytes);
   expect(files.has("resources/settings/settings.xml")).toBe(true);
+  expect(
+    JSON.parse(files.get("design-source.json")!.toString()).controls,
+  ).toHaveLength(12);
   expect(files.has("source-assets/fonts/sonar-number-font.ttf")).toBe(true);
   expect(files.has("notices/SONAR-DESIGN-NOTICE.md")).toBe(true);
   async function compile(zip: Buffer, target: string, size: string) {

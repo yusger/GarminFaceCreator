@@ -214,3 +214,10 @@ export function remapControlIds(before: Project, after: Project) {
     ...(l.sourceLabelFor ? { sourceLabelFor: id(l.sourceLabelFor) } : {}),
   }));
 }
+
+export function resetControls(p: Project): Project {
+  const first = p.controls?.[0];
+  return first
+    ? { ...setControl(p, first.id, first.default), controlValues: undefined }
+    : p;
+}
