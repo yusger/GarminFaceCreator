@@ -170,3 +170,6 @@ Default watchface packages are maintained in [default-watchfaces](default-watchf
 
 
 [Watchface package specification v1.2 (Chinese)](docs/watchface-package-standard.md) covers the delivery format, settings and effects, compatibility, and current converter capabilities. [SONAR package notes (Chinese)](docs/sonar-package-review.md) retain its sample-specific checklist and historical reviews.
+
+
+[AI watchface creation (Chinese)](docs/ai-create.md) generates an editable design from device, time style, data selections, references and a prompt. Edit first, then explicitly generate native code and compile. See the [basic design specification v1.1 (Chinese)](docs/watchface-basic-spec.md) for supported and planned capabilities.

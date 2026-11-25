@@ -21,6 +21,7 @@ export type Kind =
   | "line";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  effectPrompt?: string;
   customFont?: { id: string; family: string; file: string };
   activeVisible?: boolean;
   imageFullColor?: boolean;
@@ -145,6 +146,7 @@ export type CodeVersion = {
 };
 export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
+  designBrief?: string;
   controls?: import("./projectControls").ProjectControl[];
   controlValues?: Record<string, string | boolean>;
   backgroundColor?: string;
@@ -160,6 +162,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
+  designBrief?: string;
   backgroundColor?: string;
   controls?: import("./projectControls").ProjectControl[];
   controlValues?: Record<string, string | boolean>;
@@ -186,7 +189,8 @@ export type Project = {
     | 19
     | 20
     | 21
-    | 22;
+    | 22
+    | 23;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -405,7 +409,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 22,
+    schemaVersion: 23,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -437,7 +441,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 22 ||
+    p.schemaVersion !== 23 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -478,7 +482,17 @@ export function validateProject(value: unknown): Project {
       typeof p.layoutGuide.showGuide !== "boolean")
   )
     throw Error("布局指导参数无效");
+  if (
+    p.designBrief !== undefined &&
+    (typeof p.designBrief !== "string" || p.designBrief.length > 12000)
+  )
+    throw Error("设计需求格式无效");
   for (const l of p.layers) {
+    if (
+      l.effectPrompt !== undefined &&
+      (typeof l.effectPrompt !== "string" || l.effectPrompt.length > 2000)
+    )
+      throw Error("效果说明最多2000字");
     validateVisibility(l.visibility);
     if (l.dateLocale !== undefined && !["en", "zh"].includes(l.dateLocale))
       throw Error("日期语言无效");

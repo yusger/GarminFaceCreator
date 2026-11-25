@@ -1,3 +1,4 @@
+import AiCreateWatchface from "./AiCreateWatchface";
 import WatchfaceControls from "./WatchfaceControls";
 import { resolveControls, setControl } from "./projectControls";
 import { preparedCodeFiles } from "./chalkFonts";
@@ -124,6 +125,7 @@ export default function App() {
     blank: boolean;
   } | null>(null);
   const [page, setPage] = useState("projects");
+  const [aiCreating, setAiCreating] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectSection, setProjectSection] = useState<"builtins" | "mine">(
     () => {
@@ -1659,6 +1661,17 @@ export default function App() {
                 <b>空白画布</b>
                 <span>让每一个像素都由你决定</span>
               </button>
+              <button
+                disabled={!ready}
+                className="new-project ai-project-card"
+                onClick={() => setAiCreating(true)}
+              >
+                <div>
+                  <Sparkles size={30} />
+                </div>
+                <b>AI 创建表盘</b>
+                <span>选择设备和数据，用参考图与描述生成设计</span>
+              </button>
               {visibleProjects.map((item) => (
                 <article
                   className={
@@ -2088,6 +2101,24 @@ export default function App() {
                         onChange={(e) => patch({ name: e.target.value })}
                       />
                     </label>
+                    <label>
+                      原生效果说明
+                      <textarea
+                        aria-label="原生效果说明"
+                        rows={3}
+                        maxLength={2000}
+                        value={current.effectPrompt || ""}
+                        onChange={(e) =>
+                          patch({ effectPrompt: e.target.value })
+                        }
+                        placeholder="可选：描述需要AI在生成工程时实现的额外效果。"
+                      />
+                    </label>
+                    {current.effectPrompt?.trim() && (
+                      <p className="hint">
+                        网页显示基础布局；效果在AI生成工程时实现。本地生成不会执行此说明。
+                      </p>
+                    )}
                     <h4>布局</h4>
                     <label>
                       坐标锚点
@@ -3907,6 +3938,24 @@ export default function App() {
             } catch (e) {
               setNotice((e as Error).message);
             }
+          }}
+        />
+      )}
+      {aiCreating && (
+        <AiCreateWatchface
+          profiles={profiles}
+          onProfiles={setProfiles}
+          preview={preview}
+          onClose={() => setAiCreating(false)}
+          onCreate={async (item) => {
+            if (batchBusy) throw Error("请等待设备编译队列结束");
+            if (p && persisted.current !== p)
+              throw Error("当前项目尚有未保存修改，请先保存或导出备份");
+            item.storageVersion = await saveProject(item);
+            setProjects((items) => [item, ...items]);
+            open(item);
+            setAiCreating(false);
+            setNotice("AI设计已保存，可继续调整；满意后再生成工程并编译。");
           }}
         />
       )}

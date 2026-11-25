@@ -234,6 +234,12 @@ function visibleDraw(l: Layer, aod: boolean, p: Project) {
   return code ? `if(${nativeVisibility(l, aod)}){${code}}` : "";
 }
 export function localGenerate(p: Project) {
+  if (
+    p.layers.some((l) => l.exportIncluded !== false && l.effectPrompt?.trim())
+  )
+    throw Error(
+      "设计含原生效果说明，请使用AI生成工程，或清除说明后使用本地生成；本地生成不会静默忽略效果。",
+    );
   validateControls(p);
   p = resolveControls(p);
   const settings = nativeControls(p);

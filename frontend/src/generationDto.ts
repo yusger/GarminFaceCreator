@@ -21,6 +21,7 @@ type Omitted =
   | "customFont";
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
+  effectPrompt: true,
   id: true,
   name: true,
   kind: true,
@@ -252,6 +253,7 @@ export function generationHeader(p: Project) {
   validateControls(p);
   return {
     schemaVersion: scalar(p.schemaVersion),
+    designBrief: scalar(p.designBrief),
     backgroundColor: scalar(p.backgroundColor),
     controls: p.controls?.map((c) => ({
       ...objectFields(c, ["id", "label", "type", "default"]),

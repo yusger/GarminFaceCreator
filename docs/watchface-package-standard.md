@@ -555,7 +555,7 @@ cases.id唯一；image路径相对包根目录；mode为active或aod。每个cas
 | groupId | 一层编辑组织元数据，无运行继承 | 内部有分组，CLI未映射groupId | 不保证导入分组保持 |
 | effects.rotation | 时钟/pivot及静态fallback | 无动态扫描适配，仅验收基础角度和fallback都为0的样本 | 报告记角度不等于非0角度已实际绘制 |
 | 文字透明度 | style.opacity最终合成 | 网页合成；原生按底色混合降亮 | 低亮度已验证，纹理上非逐像素透明，须记录降级 |
-| AI效果说明 | 尚非可执行格式字段 | 仍处讨论，不能替代effects或数据绑定 | 不是已实现/已验收能力 |
+| AI效果说明 | 外部formatVersion 1仍无该可执行字段 | 内部AI创建支持设计与effectPrompt说明，不能代替交换格式effects或绑定 | 网页仅基础预览，用户后续生成工程并逐项验收；见[AI创建](ai-create.md) |
 
 CLI入口：`node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`。必须先人工审阅，目标存在时拒绝覆盖。它不是完整schema校验器，未映射字段仍有遗漏风险；脚本未报错不能证明满足全部规范。运行效果、许可及字体快照维护见[默认参考说明](../default-watchfaces/README.md)和[SONAR样包记录](sonar-package-review.md)。
 

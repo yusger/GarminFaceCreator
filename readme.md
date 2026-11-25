@@ -173,3 +173,6 @@ PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际
 
 
 [表盘设计包接入规范 v1.2](docs/watchface-package-standard.md)：交付结构、配置与效果契约、兼容规则及当前转换能力；[SONAR样包记录](docs/sonar-package-review.md)独立保存专项清单和历史评审。
+
+
+[AI创建表盘](docs/ai-create.md)：设备、时间风格、子数据、参考图和提示词生成可编辑设计；手动调整后再单独生成工程与编译。[基础规范v1.1](docs/watchface-basic-spec.md)说明当前能力和规划边界。

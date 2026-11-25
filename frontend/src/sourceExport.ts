@@ -185,6 +185,7 @@ export async function exportSources(
       JSON.stringify(
         {
           schemaVersion: p.schemaVersion,
+          designBrief: p.designBrief,
           controls: p.controls,
           controlValues: p.controlValues,
           backgroundColor: p.backgroundColor,
