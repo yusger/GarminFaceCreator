@@ -55,10 +55,15 @@ for (const [name, hr] of [
       continue;
     const data =
       path === "source/App.mc"
-        ? source.replace(
-            marker,
-            `dataheartRate=${hr === null ? "null" : hr};System.println("PulseManiac TEST HR=${hr}");${marker}`,
-          )
+        ? source
+            .replace(
+              "function px(value)",
+              `function fixtureHeartRate() as Toybox.Lang.Number or Null {return ${hr === null ? "null" : hr};}\n function px(value)`,
+            )
+            .replace(
+              marker,
+              `dataheartRate=fixtureHeartRate();System.println("PulseManiac TEST HR=${hr}");${marker}`,
+            )
         : bytes;
     form.append("files", new Blob([data]), path);
   }
