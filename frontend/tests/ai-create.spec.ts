@@ -224,6 +224,7 @@ test("only explicit material references become runtime assets; style references 
 });
 
 async function setup(page: Page) {
+  page.on("dialog", (d) => d.accept());
   await page.addInitScript(() => {
     if (!localStorage.getItem("gfc-profiles"))
       localStorage.setItem(
