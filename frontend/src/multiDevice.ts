@@ -5,7 +5,7 @@ import type {
   CodeVersion,
   CodeProvenance,
 } from "./domain";
-import { devices, deviceFor } from "./devices";
+import { devices, deviceFor } from "./devices.ts";
 export const overrideKeys = [
   "x",
   "y",

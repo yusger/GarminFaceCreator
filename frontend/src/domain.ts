@@ -1,4 +1,4 @@
-import { validateMultiDevice, importedDevices } from "./multiDevice";
+import { validateMultiDevice, importedDevices } from "./multiDevice.ts";
 import { validateThresholds } from "./thresholds.ts";
 import { migrateProject } from "./migrations.ts";
 import { devices } from "./devices.ts";
