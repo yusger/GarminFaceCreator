@@ -167,3 +167,6 @@ Default watchface packages are maintained in [default-watchfaces](default-watchf
 
 
 [SONAR reference](docs/sonar.md): 18 editable layers, 12 controls, continuous progress and packaged fonts; static scan fallback.
+
+
+[Watchface package specification v1.2 (Chinese)](docs/watchface-package-standard.md) covers the delivery format, settings and effects, compatibility, and current converter capabilities. [SONAR package notes (Chinese)](docs/sonar-package-review.md) retain its sample-specific checklist and historical reviews.

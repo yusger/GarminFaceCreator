@@ -1,16 +1,18 @@
-# GarminFaceCreator 表盘设计包接入规范 v1.1
+# GarminFaceCreator 表盘设计包接入规范 v1.2
 
-状态：设计交付标准，已依据首个 SONAR 样包进行资料与可转换性审阅，尚未实际转换。文档修订为 v1.1，交换格式 formatVersion 仍为1；本轮补全未明确的语义及验收规则。本文定义新交换格式；已实现首个SONAR样包的受限命令行转换，尚无网页端任意设计包自动导入入口。满足规范表示资料足以进入转换验收，不表示已经通过 Garmin 编译或真机验证。
+状态：设计交付标准。文档版本为 **v1.2**，主体交换格式 **formatVersion 仍为1**。SONAR1.1.0已完成首个受限转换及原生验收，尚无网页端任意设计包自动导入入口。符合格式表示资料可进入转换验收，不表示当前程序已支持所有字段或通过设备验收。
+
+通用契约与当前实现分别见正文和第13节；SONAR专属清单及历史评审见[样包记录](sonar-package-review.md)，实际效果见[SONAR说明](sonar.md)。
 
 设计方可直接依据本文件制作交付包。无需编写 Monkey C，无需生成 reference.json、design.json、manifest.xml、monkey.jungle、签名密钥或 PRG。接入方负责转换成现有 default-watchfaces 内部参考包、生成原生工程、编译和验收。
 
 ## 1. 交付目录
 
 ```text
-sonar/
+example-face/
 ├── watchface.json                     必须：唯一主体文件，固定名称
-├── preview.png                        必须：默认亮屏效果，454×454
-├── preview-aod.png                    必须：息屏效果，454×454
+├── preview.png                        必须：默认亮屏，基准设备实际屏幕像素
+├── preview-aod.png                    必须：息屏，尺寸与默认亮屏一致
 ├── resources/
 │   ├── drawables/                     图片资源；透明图片用 PNG
 │   │   ├── dial-rings.png              示例：静态刻度及测距圆环
@@ -36,23 +38,25 @@ sonar/
 
 以下为顶层字段约定。后文示例是字段片段，不可直接拼成完整交付包。
 
-| 字段 | 类型 | 要求 |
-| --- | --- | --- |
-| `format` | string | 固定为 `gfc-watchface-package` |
-| `formatVersion` | integer | 固定为 `1`；不同于内部项目 schemaVersion |
-| `id` | string | 稳定 slug，匹配 `[a-z0-9-]+`，更新设计时不改变 |
-| `name` | string | 显示名称，例如 SONAR |
-| `version` | string | 三段版本，例如 `1.0.0` |
-| `origin` | object | 作者类别、作者、来源与说明文件，见下文 |
-| `canvas` | object | 逻辑坐标、裁剪与安全区 |
-| `referenceTarget` | object | 效果图对应的基准设备，不能只写物理尺寸 |
-| `previewData` | object | 固定的效果核对数据，不能作为生产读数 |
-| `previewCasesFile` | string/null | 可选：额外验收图的数据清单路径；提供额外验收图时必须填写 |
-| `resources` | array | 所有被引用资源的声明 |
-| `layers` | array | 按语义拆分的完整图层 |
-| `thresholds` | array | 阈值组；无阈值填 `[]` |
-| `effects` | array | 扫描等特殊效果；无特殊效果填 `[]` |
-| `settingsFile` | string/null | 配置文件路径；无配置填 null |
+| 字段 | 类型 | 必填 / 可空 | 约束 |
+| --- | --- | --- | --- |
+| format | string | 必填，不可空 | 固定gfc-watchface-package |
+| formatVersion | integer | 必填，不可空 | 固定1，不同于文档版本及内部schemaVersion |
+| id | string | 必填，不可空 | 稳定slug，匹配 `[a-z0-9-]+` |
+| name | string | 必填，不可空 | 非空显示名称 |
+| version | string | 必填，不可空 | 包内容三段版本，如1.0.0 |
+| origin | object | 必填，不可空 | 作者、来源与权利说明 |
+| canvas | object | 必填，不可空 | 逻辑尺寸、形状、底色和安全区 |
+| referenceTarget | object | 必填，不可空 | 基准deviceId及实际屏幕像素，不能只写表壳尺寸 |
+| previewData | object | 必填，不可空 | 至少有localDateTime，不作为生产数据 |
+| previewCasesFile | string/null | 可选，可为null | 缺省或null表示无额外case；有额外图时必须填路径 |
+| resources | array | 必填，不可为null | 无资源时允许[] |
+| layers | array | 必填，不可为null | 至少一个图层 |
+| thresholds | array | 必填，不可为null | 无阈值时填[] |
+| effects | array | 必填，不可为null | 无特殊效果时填[] |
+| settingsFile | string/null | 必填，可为null | 无配置显式null；有配置指向实际文件 |
+
+除明确允许null的字段外，不得用null代替缺省或空数组；预览传感器值的null表示缺失，另按第10节处理。ID、版本和路径不可为空字符串。
 
 示例身份及画布：
 
@@ -60,8 +64,8 @@ sonar/
 {
   "format": "gfc-watchface-package",
   "formatVersion": 1,
-  "id": "sonar",
-  "name": "SONAR",
+  "id": "example-face",
+  "name": "Example Face",
   "version": "1.0.0",
   "origin": {
     "kind": "self",
@@ -87,13 +91,15 @@ sonar/
 }
 ```
 
-`origin.kind` 仅允许 `self`、`community`。authors 填写人类设计者/权利主体；协助整理或生成素材的 AI 工具列在 noticeFile 中，不代替作者。主体和说明中的作者角色应一致，例如区分“设计者 yusger”和“辅助工具 WorkBuddy”，不能给出互相矛盾的作者归属。self 用于自主设计，不自动覆盖第三方字体、图片或参考代码的权利。community 必须另外提供原项目 sourceUrl、40位 upstreamCommit、完整许可文件及修改说明；无许可证的社区项目不接入。设计方不用分配内部 UUID/appId，接入方统一生成并保持默认参考身份稳定。
+`origin.kind` 仅允许 `self`、`community`。authors 填写人类设计者/权利主体；协助整理或生成素材的 AI 工具列在 noticeFile 中，不代替作者。主体和说明中的作者角色应一致，设计者与辅助工具角色应分别标注，不能给出互相矛盾的作者归属。self 用于自主设计，不自动覆盖第三方字体、图片或参考代码的权利。community 必须另外提供原项目 sourceUrl、40位十六进制的完整SHA-1 upstreamCommit（不接受短哈希）、完整许可文件及修改说明；无许可证的社区项目不接入。设计方不用分配内部 UUID/appId，接入方统一生成并保持默认参考身份稳定。
+
+origin.authors为至少一个非空名称的数组；noticeFile必须为包内路径。self的sourceUrl可为null，community必须指向原项目。来源URL是许可元数据，不是允许运行时下载资源的声明。
 
 首版只要求一个基准设备。其它尺寸由后续适配流程生成并逐设备验收；454逻辑坐标不等于已经适配所有454屏幕设备，更不等于支持所有手表型号。
 
 ## 3. 坐标、层级与文字定位
 
-- 原点左上角，x 向右、y 向下；所有数值使用逻辑像素，允许有限小数。454圆屏中心为 `(227,227)`，半径227；SONAR重要内容安全半径为215。
+- 原点左上角，x向右、y向下，逻辑坐标允许有限小数。canvas.width/height为正整数，首版shape仅circle且宽高相同。中心为(width/2,height/2)，安全半径为width/2-safeInset；safeInset非负且小于半径，由设计声明，不对所有表盘固定同一数值。
 - 非指针图层使用 `bounds: {"x":0,"y":0,"width":100,"height":40}`，表示旋转前的绝对位置和尺寸；除line外，尺寸必须大于0。line允许width或height为0以表示竖线/横线，但不能两者同时为0；line的bounds描述端点几何，实际包围范围另计线宽/端帽。字体大小和线宽也使用逻辑像素。
 - `zIndex` 为整数，小值先绘制；同值按 layers 数组顺序绘制。数组和 ID 都必须稳定，不因调整顺序而重新生成 ID。
 - hand 的 pivot 为画布绝对坐标，length/tailLength 从 pivot 起算，线宽、圆头一并计入可见范围。hand 可额外附带 bounds 作为编辑器命中框，但不能据此缩放、裁剪或重定位指针；接入方应按 length/tailLength/width 重算包围范围。
@@ -102,6 +108,18 @@ sonar/
 - 文字 `align` 为 left/center/right，`verticalAlign` 为 top/middle/bottom，默认均为 center/middle；对齐作用于字形可见区域。`fontSize` 是字体 em 大小，不是可见字形高度。
 - 图片必须给出 `fit`：contain（完整保留比例）、cover（保持比例裁剪）或 stretch（允许变形）。透明留白属于图片布局，禁止导入时自动裁掉。
 - 不使用“左侧”“底部”“大字号”“大约居中”等描述替代实际坐标。针对同一区域做多态时，必须共用锚点并明确各状态尺寸。
+
+### 3.1 旋转与退化几何
+
+| 图层类型 | 旋转中心 | 约定 |
+| --- | --- | --- |
+| image/text/time/date/metric/meter/rect/circle | 旋转前bounds中心 | 检查旋转后的可见边界 |
+| line | 两端点中点，即bounds中心 | 宽或高可为0，两者不可同时为0 |
+| hand | 画布绝对pivot | bounds只作命中参考，不参与绘制缩放或裁剪 |
+
+rotation必须为有限数。circle宽高必须相等，不等时报错，不自动取最小边或改成椭圆。负尺寸、非有限坐标及非正字号/线宽报错，不悄悄修复。rect.cornerRadius为非负数且不超过短边一半。
+
+line的butt端帽不越过端点，round端帽在端点外延半线宽；实际边界包含描边，旋转后取可见描边的轴对齐包围框。编辑器可另加命中容差，但容差不改变运行几何、安全区与裁剪验收。
 
 ## 4. 资源声明
 
@@ -126,9 +144,11 @@ sonar/
 ]
 ```
 
-图片使用 sRGB PNG；人物、图标和叠加层需要真实 alpha，不接受棋盘格伪透明。首版优先交付 PNG，SVG 可作为源稿附带；依赖 SVG 渐变、滤镜、文字或动画的内容须另交 PNG 或完整行为说明，不能假定可直接用于原生资源。
+运行图片使用sRGB PNG；人物、图标和叠加层需要真实alpha，不接受棋盘格伪透明。SVG仅作源稿附带，不替代首版运行PNG；动画另按effects声明。
 
-字体交付 TTF/OTF、具体字重、完整许可及来源。接入前应核对字体内部 family/weight 与资源声明、cmap 是否覆盖所需字符；文件名正确不等于字形齐备。noticeFile 应记录具体上游项目或下载地址，已知版本一并记录；“来自 Google Fonts”只能作为概述。不得只写浏览器字体回退链；不得直接复制本机系统字体冒充可分发素材。必须覆盖时间数字、冒号、单位、英文日期、负号、百分号、度数符号和缺失占位等实际使用字符。若使用中文或特殊符文，另列所需字符。原生 FNT/PNG 的生成与目标像素换算由接入方负责。
+PNG内在宽高取文件头，单位为资源像素；bounds是逻辑像素。1x交付即可，也允许2x等更高分辨率，不强制倍数或通过文件名猜密度。接入方将源图完整范围按bounds和fit映射，再按目标屏幕尺寸生成运行资源。contain等比取最小缩放并居中，cover等比取最大缩放并在bounds居中裁剪，stretch分别缩放两轴。透明留白参与映射；同一资源可有不同bounds，不能直接把源像素当作屏幕坐标。当前fit实现限制见第13节。
+
+字体交付 TTF/OTF、具体字重、完整许可及来源。接入前应核对字体内部 family/weight 与资源声明、cmap 是否覆盖所需字符；文件名正确不等于字形齐备。noticeFile 应记录具体上游项目或下载地址，已知版本一并记录；“来自 Google Fonts”只能作为概述。不得只写浏览器字体回退链；不得直接复制本机系统字体冒充可分发素材。必须覆盖时间数字、冒号、单位、英文日期、负号、百分号、度数符号和缺失占位等实际使用字符。若使用中文或特殊符文，另列所需字符。字体资源可用可选charset字符串逐字列出Unicode字符，不使用范围表达式或脚本。未提供时接入方从静态文字、格式、缺失占位、全部可选数据源的标签和单位推导；提供时必须覆盖所有实际字符而非仅默认预览。不能推导的自定义文字在notice补充，缺字报错，不依赖系统回退。原生 FNT/PNG 的生成与目标像素换算由接入方负责。
 
 整张表盘截图只用于预览核对。动态时间、日期、数字、进度条和指针不能烘焙进背景。静态刻度可合成独立装饰图片；默认参考仍须能选择、替换和移动各数据控件。
 
@@ -152,16 +172,20 @@ sonar/
 | --- | --- |
 | image | `resourceId`、`fit` |
 | text | `text` 为静态字符串；或使用下文 textFrom 二选一；style 包含 font、fontSize、align、verticalAlign |
-| time | `format` 为 HH:mm / HH / mm / ss；跟随手表本地时间，禁止用 previewData 作为实际来源 |
-| date | `format` 为 MM.DD ddd 或 ddd DD，`locale` 为 en / zh-CN；第一种需要转换器补齐格式支持 |
+| time | format为HH:mm/HH/mm/ss，仅24h；文本样式同text。读取手表本地时间，不用previewData作为生产来源 |
+| date | format/locale的封闭组合见第5.2节，文本样式同text；当前转换范围见第13节 |
 | metric | binding、format、style，见第6节 |
-| hand | `part` 为 hour/minute/second，`pivot:{x,y}`、`length`、`tailLength`、`style:{color,width,cap}`；cap 为 round/butt。0度指12点，顺时针；时/分针应计入更小时间单位 |
+| hand | 可选bounds仅作命中参考，不参与绘制缩放或裁剪；`part` 为 hour/minute/second，`pivot:{x,y}`、`length`、`tailLength`、`style:{color,width,cap}`；cap 为 round/butt。0度指12点，顺时针；时/分针应计入更小时间单位 |
 | meter | `binding`、`goal`、`shape:"bar"`、`segments`、`gap`、`style:{color,dimColor}`；从左向右点亮；值/goal截断至0～1；缺失时全部使用 dimColor |
 | rect | style 包含 fill、stroke、strokeWidth、cornerRadius |
 | circle | style 包含 fill、stroke、strokeWidth；bounds 应为正方形 |
 | line | bounds 的左上点到右下点；style 包含 color、width、cap；逆向线段可用 rotation 表达 |
 
+所有text/metric/date/time统一使用style.font（必填字体资源ID）、fontSize（必填有限正数）、align（默认center）和verticalAlign（默认middle）。格式及单位变化后重新核对字形覆盖和bounds。
+
 `style.font` 引用字体资源 ID；字重以该资源声明及实际字体为准，不使用浏览器合成粗体或自动换字体。style.opacity 默认1，作用于整层的最终合成；不修改颜色字符串本身。未使用的类型专属字段不填写。描边宽度应计入视觉边界；rect/circle 的描边按内侧绘制以保持 bounds 明确。普通文字字距固定0，不依赖 CSS text-shadow；特殊排版另行列入 effects。
+
+groupId为可选非空英文分组标识，同ID用于编辑器组织。首版仅一层分组，不形成父子坐标、继承变换、分组显隐或配置作用域，不改变zIndex。转换器未映射该元数据时必须报告，不视为运行分组已支持。
 
 ### 5.1 连续进度条与分段进度条
 
@@ -172,11 +196,22 @@ meter 的 segments 必须为正整数，goal 为正数，gap 为非负数。固�
 - 数值缺失时显示全暗轨道；有效0同样全暗，但数字控件显示0。不得把负值或超出数据源有效范围的值直接夹到0伪装有效读数。
 - 先按逻辑几何计算比例，再在目标分辨率栅格化。不得把 segments=1 改为很多细段来近似连续填充，除非明确作为经同意的降级。
 
-SONAR 的8420/10000对应84.2%连续填充，72逻辑像素宽约为60.624逻辑像素；10000和超过目标的有效步数都填满。当前内部生成器的单段仪表不能直接表达此连续效果，需要转换适配，不能只按字段名映射。
+有效读数超过goal时填满；无效来源值不能伪装成目标完成。连续进度已有内部实现，当前CLI仍仅接入连续bar；分段交付需另行适配。
 
 ### 5.2 日期和时分秒
 
-HH/mm/ss 均为两位数字，HH使用24小时制；日期 MM/DD 为两位数字。en 的 ddd 固定输出大写 SUN/MON/TUE/WED/THU/FRI/SAT，zh-CN 固定输出周日/周一/周二/周三/周四/周五/周六。分隔符按format原样输出，例如 MM.DD ddd → 11.25 WED，不根据宿主浏览器语言替换。
+time.format封闭为HH:mm、HH、mm、ss；均使用两位数字，HH仅24小时制。12小时制、AM/PM和自由格式串未纳入formatVersion 1，不能用notes暗示启用。
+
+date首版允许以下组合；这是交换契约，不代表当前转换器全部支持。
+
+| locale | format | 示例 | ddd字符规则 |
+| --- | --- | --- | --- |
+| en | MM.DD ddd | 11.25 WED | SUN/MON/TUE/WED/THU/FRI/SAT |
+| en | ddd DD | WED 25 | 同上 |
+| zh-CN | MM.DD ddd | 11.25 周三 | 周日/周一/周二/周三/周四/周五/周六 |
+| zh-CN | ddd DD | 周三 25 | 同上 |
+
+MM/DD补足两位，分隔符按format原样输出，不随浏览器语言改变。中文“11月25日”等月日格式和其他格式预留后续版本。当前CLI仅验收en + MM.DD ddd，其他组合须补适配或阻止转换，不能强行替换为已支持格式。
 
 时针角度为30×(hour%12+minute/60+second/3600)，分针为6×(minute+second/60)，秒针为6×second；second 为整数秒，不要求子秒动画。AOD隐藏秒针/秒数字，保留时/分针在实际刷新时刻的位置，刷新频率由设备生命周期决定。
 
@@ -193,7 +228,9 @@ HH/mm/ss 均为两位数字，HH使用24小时制；日期 MM/DD 为两位数字
 
 ## 6. 数据绑定、格式与缺失
 
-统一 source 名称，禁止混用 sensor.steps、device.battery、device.time.second 等别名。
+formatVersion 1的source为下表七项组成的**封闭集合**，不是程序内部全部数据源列表。压力、海拔、风速、通知数、血氧等暂不开放，不能自行命名后假定支持。新增source须扩展交换格式版本，并补数值单位/有效性、缺失、默认精度、sourceLabel、预览与验收规则。
+
+统一source名称，禁止混用sensor.steps、device.battery、device.time.second等别名。condition另受第7节更小子集约束。
 
 | source | 含义 / 输出数值 | 有效零值 | sourceLabel |
 | --- | --- | --- | --- |
@@ -207,7 +244,11 @@ HH/mm/ss 均为两位数字，HH使用24小时制；日期 MM/DD 为两位数字
 
 heartRate须为有限正数；steps/calories/distance须为有限非负数；battery须在0～100；seconds须为0～59整数；temperature允许有限负数。读数不满足对应范围或类型时按缺失处理，不把数值字符串隐式转成数值。整数显示的来源仍按原始数值匹配阈值，不能先四舍五入后变色。
 
-时间/日期使用 time、date 图层；预览数字只放 previewData。NaN、无穷值、null、没有样本及超出数据源有效范围的读数按缺失处理。缺失数字统一 `--`；不能用0填充缺失步数或电量。源原始单位转换由接入方处理，设计方不得通过修改单位文本把公里变成英里。
+时间/日期使用 time、date 图层；预览数字只放 previewData。NaN、无穷值、null、没有样本及超出数据源有效范围的读数按缺失处理。缺失数字统一 `--`；不能用0填充缺失步数或电量。源原始单位转换由接入方处理，设计方不得通过修改单位文本把公里变成英里。distance/temperature在交换层分别为公里/摄氏度；当前不声明自动跟随设备单位制式。英里/华氏度需要明确的数值转换和同步单位规则，未补适配前不能仅改custom单位。
+
+数字秒优先用time + format:ss；seconds来源用于数值数据槽或进度，从同一设备本地时钟取值，不复制另一份预览读数。seconds不在首版condition来源集合中。
+
+缺失时：有生效的thresholdGroup使用该组fallbackColor，无阈值组或因来源切换停用时使用style.color，不进入正常或告警档位；有效读数落在阈值空档也用fallbackColor。meter缺失仍使用dimColor全暗轨道。静态图片不因邻近数字缺失而自动染色。AOD最后按显式前景色覆盖，不保留亮屏告警色。
 
 metric 示例（完整图层）：
 
@@ -238,7 +279,7 @@ metric 示例（完整图层）：
 }
 ```
 
-`format.precision` 为0～3或字符串auto；groupThousands 为 boolean；unitMode 为 auto/custom/none，custom 时必须另填 unit。auto 使用上表单位，seconds/steps 无后缀，temperature 为 °C。seconds 固定两位补零。默认精度 heartRate/steps/battery/calories/seconds 为0，distance 为2，temperature 为1；可配置数据槽的options包含不同默认精度的来源时，必须使用 `precision:"auto"` 自动采用该源默认值；例如 steps/calories/distance 不能统一固定precision:0，把6.42km显示成6。固定来源允许显式0～3。数字先以原值判断阈值，再按precision格式化；groupThousands仅对整数部分每三位加英文逗号，小数点固定英文句点。unitMode:none允许单位通过派生标签单独展示，但不允许错误标注量纲。
+`format.precision` 为0～3或字符串auto；groupThousands 为 boolean；unitMode 为 auto/custom/none，custom 时必须另填 unit。auto 使用上表单位，seconds/steps 无后缀，temperature 为 °C。seconds固定precision:0或auto，不分组且两位补零；冲突的小数精度或分组选项报错。默认精度 heartRate/steps/battery/calories/seconds 为0，distance 为2，temperature 为1；可配置数据槽的options包含不同默认精度的来源时，必须使用 `precision:"auto"` 自动采用该源默认值；例如 steps/calories/distance 不能统一固定precision:0，把6.42km显示成6。固定来源允许显式0～3。数字先以原值判断阈值，再按precision格式化；groupThousands仅对整数部分每三位加英文逗号，小数点固定英文句点。unitMode:none允许单位通过派生标签单独展示，但不允许错误标注量纲。
 
 format.groupThousands 默认false，unitMode 默认auto，missing 固定为 --；precision 缺省等同auto。缺失只显示 --，不附加数值单位；独立的单位/来源标签仍可显示，除非设计另有显隐条件。
 
@@ -262,9 +303,9 @@ format.groupThousands 默认false，unitMode 默认auto，missing 固定为 --�
 }
 ```
 
-电量对应三段：`[null,10)` 红、`[10,30)` 橙、`[30,null)` 青；先限定有效0～100。因此29.5仍属于警告，0%属于有效低电量。禁止使用 max:119 / min:120 这类可能遗漏小数的区间。
+以下仅为电量阈值示例，不规定所有设计使用相同分档：`[null,10)` 红、`[10,30)` 橙、`[30,null)` 青；先限定有效0～100。因此29.5仍属于警告，0%属于有效低电量。禁止使用 max:119 / min:120 这类可能遗漏小数的区间。
 
-首版 SONAR 的 hysteresis 必须为0，直接按阈值变色。原稿±3/±2的滞回保留为后续需求，不能假装已实现。如将来启用非0滞回，须另定义初始分类、跨越边界、跳跃多档、缺失后重置规则并扩展版本。
+首版hysteresis缺省为0且仅接受0，直接按阈值变色；非0滞回未纳入首版执行能力，不能假装已实现。如将来启用非0滞回，须另定义初始分类、跨越边界、跳跃多档、缺失后重置规则并扩展版本。
 
 可选条件字段：
 
@@ -280,15 +321,31 @@ format.groupThousands 默认false，unitMode 默认auto，missing 固定为 --�
 }
 ```
 
-默认 min 含端点、max不含端点；可通过 minExclusive/maxInclusive 修改。condition.source 首版仅 heartRate/steps/battery。visibility 条件与颜色阈值是两套独立规则；AOD 默认继承条件，如需无条件中性状态，在 aod 内声明 `conditionMode:"always"`，否则为 inherit。
+默认 min 含端点、max不含端点；可通过 minExclusive/maxInclusive 修改。condition.source首版封闭为heartRate/steps/battery，是第6节主集合子集，不含seconds。visibility 条件与颜色阈值是两套独立规则；AOD 默认继承条件，如需无条件中性状态，在 aod 内声明 `conditionMode:"always"`，否则为 inherit。
 
 ## 8. AOD 与特殊效果
 
 每层都显式设置 aod.visible；未保留的层不参与息屏绘制。亮屏 visible 与 aod.visible 独立：visible:false/aod.visible:true 表示只在AOD显示，禁止导入时先过滤visible:false而删除该层。保留的文字、形状和指针须给出 aod.color；也可使用 aod.fontSize、aod.opacity 覆盖字号或透明度。未覆盖的字号/透明度继承style，不再额外自动降亮；aod.opacity为0～1。aod.color覆盖前景颜色，rect/circle的非空fill与stroke均替换为此颜色，空填充/空描边保持为空。几何位置和层级不变；需要AOD另行排版时必须先扩展规范，不得仅依效果图移动控件。AOD 图片若需降亮，须提供单独 `aod.resourceId` 的暗色图片，或明确保留原图；不能假定设置 color 就会给彩色图片染色。
 
-SONAR 息屏保留时针、分针、数字时分、心率与其单位、电量与其单位；隐藏秒针、数字秒、日期、步数及进度、扫描束、测距圆环和其它装饰。背景使用纯黑，交付 `canvas.aodBackground:"#000000"`。息屏颜色以图层 aod 覆盖为准，不应用亮屏阈值颜色，不允许动画。
+canvas.aodBackground缺省#000000，若声明须为#RRGGBB。首版AOD不启用effects和秒数动画；保留层由各层aod.visible决定，不对所有设计固定同一名单。AOD颜色覆盖亮屏阈值。当前CLI只验收黑色AOD底色，其他底色需另行适配与设备验收。
 
-亮屏扫描束作为独立 image 图层和可选 effects 项描述，不能写在一张完整表盘图中。首版允许仅静态显示并明确记录，推荐以下降级约定：
+### 8.1 effects字段与降级
+
+effects始终为数组，无效果填[]。首版type封闭为rotation，目标为独立image层；其它效果、任意脚本、自由提示词不是可执行契约。
+
+| 字段 | 必填 / 默认 | 约束 |
+| --- | --- | --- |
+| id | 必填 | 包内效果ID唯一，非空英文ID |
+| type | 必填 | 仅rotation |
+| layerId | 必填 | 引用已有image，同层首版最多一项rotation |
+| required | 可选，false | boolean；true表示无适配必须阻止接入 |
+| enabledByDefault | 可选，false | boolean；亮屏默认开关，不自动创建设置项 |
+| pivot | 必填 | x/y为画布绝对有限坐标，不是图片局部坐标 |
+| periodSeconds | 必填 | 有限正数，旋转一周的目标周期 |
+| maxFramesPerSecond | 必填 | 首版为整数1，仅期望上限，不保证设备刷新率 |
+| fallback | 必填 | mode固定static，angle为有限数的绝对角度 |
+
+required:false也须提供完整fallback。默认关闭时使用fallback；默认开启而无适配时，只能在明确接受差异后静态降级。required:true缺适配时，即使默认关闭也不能绕过能力检查。例如：
 
 ```json
 {
@@ -304,7 +361,7 @@ SONAR 息屏保留时针、分针、数字时分、心率与其单位、电量�
 }
 ```
 
-以手表本地时钟当天秒数取 periodSeconds 的余数计算亮屏旋转角，再加图层基础 rotation；不是从页面打开时重新计时。fallback.angle 是停用/不支持时覆盖的绝对角度。required:true 的效果不支持时阻止接入；false 时只能按已声明的 fallback 静态显示，必须在验收差异中列出，不能悄悄删掉。首版不承诺CSS平滑旋转、12秒连续渐变或高帧率效果。
+已支持且启用时，亮屏角度为 `rotation + 360 × ((当天本地秒数 % periodSeconds) / periodSeconds)`，绕效果pivot旋转；不是从页面打开时重新计时。fallback.angle 是停用/不支持时覆盖的绝对角度。required:true 的效果不支持时阻止接入；false 时只能按已声明的 fallback 静态显示，必须在验收差异中列出，不能悄悄删掉。首版不承诺CSS平滑旋转、连续渐变或高帧率效果。fallback必须应用到实际输出并记录目标层、期望及实际角度；仅写报告不算完成降级。当前CLI仅验收基础rotation=0且fallback.angle=0的样本，不保证非0fallback或动态旋转。
 
 ## 9. 配置文件
 
@@ -347,13 +404,40 @@ settings.json 格式：
 }
 ```
 
-上例引用的图层均须存在。type 首版为 color/boolean/dataSource/number；number 必须填写 min、max、step，默认值须在范围内。dataSource 的 options 必须是第6节中的源，default 必须在 options 中。目标数据层 binding.configurable 须为true；condition 的状态驱动来源不能通过此配置切换。
+上例引用的图层均须存在。交换契约type为color/boolean/dataSource/number；当前程序仅支持前三项，number为待适配能力，转换前必须报告并阻止未支持的必需配置进入执行。number须填写有限min/max/step，min≤max、step>0，default在范围内且与min按step对齐。dataSource 的 options 必须是第6节中的源，default 必须在 options 中。dataSource目标层的binding.configurable须为true；condition 的状态驱动来源不能通过此配置切换。
 
 settings.json的items及targets顺序不影响最终结果。default必须与主体在相同类型下相等，所有目标ID都必须存在。binding.configurable表示允许被来源配置控制，不会自行新增配置项。
 
-targets 为受限声明，不是任意对象路径：layer 仅允许 style.color、visible、binding.source、style.fontSize；thresholdBand 允许引用全包唯一的 band.id 并修改 color。禁止配置项目身份、资源路径或脚本。绑定阈值时需用 thresholdBand 修改各档颜色，不能假设 style.color 会覆盖阈值。
+设置id包内唯一且匹配 `[a-zA-Z0-9_-]+`；targets为非空数组，使用以下封闭白名单，不是任意对象路径：
 
-配置默认值必须与主体一致，多目标更新必须一次生效，不能出现同一属性被多个配置项控制。更换来源时，派生标签和 auto 单位/精度同步更新；不匹配来源的阈值组停用并记录。SONAR 的步数进度条只对steps来源显示，切为calories或distance时隐藏，避免继续展示伪步数进度；在该配置项填写 `hideWhenChangedFromDefault:["steps-progress"]`。
+| type | scope | property | 约束 |
+| --- | --- | --- | --- |
+| color | layer | style.color | 具有前景色的层，不意味着PNG染色 |
+| color | thresholdBand | color | 引用全包唯一band.id |
+| boolean | layer | visible | 只影响默认亮屏显隐 |
+| dataSource | layer | binding.source | metric/meter且binding.configurable:true |
+| number | layer | style.fontSize | text/metric/date/time且字号为正，当前待实现 |
+
+除binding.source要求configurable:true外，其他白名单属性不需额外图层侧开关。configurable:false只锁定来源，不代表禁止改颜色或字号。配置type必须匹配目标字段；同一scope/id/property只能由一项配置控制，targets内也不能重复。禁止配置项目身份、资源路径或脚本。绑定阈值时需用 thresholdBand 修改各档颜色，不能假设 style.color 会覆盖阈值。
+
+配置默认值必须与主体一致，多目标更新必须一次生效，不能出现同一属性被多个配置项控制。更换来源时，派生标签和 auto 单位/精度同步更新；不匹配来源的阈值组停用并记录。仅适用于默认来源的关联图层由dataSource配置项的hideWhenChangedFromDefault声明，不把某个表盘的默认步数值变成通用规则。
+
+number声明片段如下；假定digital-time的style.fontSize为28，当前CLI须报告不支持，不能生成一个无效控件：
+
+```json
+{
+  "id": "time-font-size",
+  "label": "时间字号",
+  "type": "number",
+  "min": 12,
+  "max": 60,
+  "step": 1,
+  "default": 28,
+  "targets": [
+    { "scope": "layer", "id": "digital-time", "property": "style.fontSize" }
+  ]
+}
+```
 
 配置值以只读主体为基础求值得到，不直接覆盖并遗失原始设计。hideWhenChangedFromDefault 是dataSource配置项专属的图层ID数组，含义为：该配置当前值≠default时，对列出图层增加一项亮屏隐藏条件；恢复default时解除这项条件，恢复该层设计/其它配置原本决定的显隐，不能强行改为visible:true。多个隐藏条件按逻辑或叠加，任何一项要求隐藏就隐藏。数据缺失不属于“切换了来源”。
 
@@ -361,45 +445,7 @@ targets 为受限声明，不是任意对象路径：layer 仅允许 style.color
 
 配置作用于设计的亮屏值，不能自动使原本AOD隐藏的组件在AOD出现；绑定配置必须在共享主设计修改，设备覆盖只调整允许的布局与外观。此文件描述配置需求，编辑器配置和手表端设置是否生成由接入验收单独列明，不能把浏览器配置文件直接当成Garmin设置XML。
 
-## 10. SONAR 专项交付清单
-
-基于原设计重整，原HTML可保留为辅助说明。交付以下独立图层，名字可中文，ID按表稳定：
-
-| ID | 类型/内容 | AOD |
-| --- | --- | --- |
-| dial-rings | image，静态刻度、测距圆环；透明背景 | 隐藏 |
-| scan-beam | image，独立透明扫描扇区；可选旋转效果 | 隐藏 |
-| date | date，顶部 MM.DD ddd | 隐藏 |
-| heart-icon | image，心率装饰 | 隐藏 |
-| heart-rate | metric，心率数值 | 保留 |
-| heart-rate-unit | text，bpm | 保留 |
-| steps-value | metric，默认步数 | 隐藏 |
-| steps-label | textFrom，跟随右侧数据槽 | 隐藏 |
-| steps-progress | meter，步数目标10000，缺失全暗 | 隐藏 |
-| battery-icon | image，电池装饰；动态填充若需要另写效果 | 隐藏 |
-| battery-value | metric，电量，带%后缀 | 保留 |
-| battery-label | text，batt；亮屏可隐藏 | 保留 |
-| digital-time | time，底部 HH:mm | 保留 |
-| digital-second | time，底部 ss | 隐藏 |
-| analog-hour | hand，中心时针 | 保留 |
-| analog-minute | hand，中心分针 | 保留 |
-| analog-second | hand，中心秒针 | 隐藏 |
-| hand-pivot | circle，中心轴帽 | 保留，使用AOD颜色 |
-
-canvas.background 负责纯色盘底，不需要另做一整张背景截图。心率图标若也要随心率变色，必须提供分色资源及明确的条件方案；首轮可声明为固定青色装饰，并在效果图保持一致。
-
-必须修正原 sonar-design.json 中的以下缺口：
-
-1. 使用新顶层结构和 layers，逐层给出坐标、尺寸、层级、字体、颜色和AOD行为；现有 components 只有语义和左右位置，不足以自动布局。
-2. 将原 sensor.heartRate、sensor.steps、device.battery 等来源名换成统一source；时间改用标准 time/hand/date 类型。
-3. 缺失步数改为 `--`，真实0步仍显示0；0%电量为有效低电量。数字缺失、阈值兜底和进度全暗保持一致。
-4. 将119/149、29/9等整数上界改为120/150、30/10的右开边界；首轮移除±3/±2滞回，hysteresis统一0。
-5. 提供实际字体及许可。按原稿采用 Share Tech Mono / Barlow Semi Condensed 时填写具体文件、字重；不能仅引用 Google Fonts CSS。
-6. AOD单独核对：删除扫描、秒针、步数和圆环；背景纯黑，保留项使用明确的低亮度颜色。
-7. 扫描扇区独立成素材，静态降级与动态目标分别写清楚；不要要求60FPS。首轮默认静态。
-8. 配置至少覆盖主要文字色、时/分/秒针颜色、阈值各档颜色、右侧数据槽及显示秒数。需要固定的心率/电量控件明确 configurable:false。
-
-## 11. 预览核对数据与交付验收
+## 10. 预览核对数据与交付验收
 
 主体必须填写固定的 previewData，例如：
 
@@ -415,7 +461,7 @@ canvas.background 负责纯色盘底，不需要另做一整张背景截图。�
 }
 ```
 
-localDateTime 为无时区的本地墙上时间，仅用于预览，日期locale固定在图层。默认亮屏和AOD图使用同一组数据；关闭浏览器CSS动画及随机内容后截图，不能每次打开得到不同布局。动画启用的说明另外交付，不混入基准截图。
+previewData仅允许localDateTime及第6节除seconds外的来源字段；秒数由localDateTime推导，不另接收seconds。localDateTime为有效无时区ISO本地时间，精确到整数秒，不带Z或偏移；日期locale固定在图层。默认亮屏和AOD图使用同一组数据；关闭浏览器CSS动画及随机内容后截图，不能每次打开得到不同布局。动画启用的说明另外交付，不混入基准截图。
 
 提供额外验收图时，须提供 previewCasesFile，例如 previews/cases.json。不能仅靠图片文件名推断改动了哪些数据或配置：
 
@@ -443,9 +489,9 @@ localDateTime 为无时区的本地墙上时间，仅用于预览，日期locale
 
 cases.id唯一；image路径相对包根目录；mode为active或aod。每个case独立从主体previewData及所有配置default开始，再浅覆盖dataOverrides和settingsOverrides，不继承上个case。dataOverrides只允许previewData已定义字段，settingsOverrides只允许已有配置ID；明确的null表示缺失，未提供的字段继承基准值。日期及默认截图仍由previewData决定；若同一case提供了未声明字段应报错。需要模拟某数据源缺失时，应先在previewData显式提供该源字段（可为null）。
 
-默认preview.png、preview-aod.png不得包含表壳、网页边框、说明文字或展示板；必须是454×454纯盘面。额外验收图放 previews/：hr-120.png、hr-150.png、battery-29.png、battery-9.png、zero.png、missing.png，各图只改变对应数据，zero同时使用steps=0/battery=0，missing使用null且进度全暗。截图与资源、JSON必须属于同一版本。
+默认preview.png、preview-aod.png不得包含表壳、网页边框、说明文字或展示板，须为referenceTarget.screenWidth×screenHeight纯盘面。额外图放previews/，文件名不固定，由cases清单解释；零值和缺失分别核对，meter缺失全暗。截图、资源及JSON须属于同一包版本。
 
-额外必核对的语义用例：心率119.9/120/149.9/150，电量9.9/10/29.9/30/0及缺失；进度0/8420/10000/超过目标/缺失；右侧来源steps→distance→steps、显示秒数开→关→开、保存后重开。配置切至distance时必须能读到6.42及km派生标签，进度隐藏；恢复steps后不能遗留隐藏状态。这些用例可以采用报告中的数值/状态断言，不强制每项都再交PNG；cases清单至少覆盖所有已交PNG及一组来源切换对照图。
+按设计实际使用能力生成用例：阈值每个边界两侧及边界本身、有效0与缺失、进度0/中间比例/到达及超过goal/缺失、每个可选来源的标签/精度/单位、配置往返恢复、保存后重开、亮屏/AOD独立显隐。未使用的来源无需制造额外图片。数值和状态可在报告断言，不强制每项PNG；已交PNG必须全部列入cases，有来源配置时至少覆盖默认与非默认来源对照。SONAR具体边界和图片清单见样包记录。
 
 预览图不能反过来决定绑定和颜色；JSON是事实来源。字体抗锯齿允许平台差异，先核对内容、几何、填充比例和显隐，不以单个边缘像素颜色推断实际样式。
 
@@ -454,67 +500,69 @@ cases.id唯一；image路径相对包根目录；mode为active或aod。每个cas
 - [ ] JSON可解析、ID唯一、所有引用可解析，文件名大小写一致。
 - [ ] 资源、字体、来源及完整许可齐备；没有本机路径或在线依赖。
 - [ ] 时间、数据、指针、标签和进度保持独立；所有重要元素有具体坐标。
-- [ ] 基准设备明确为Venu 4 45mm / 454×454；安全边距12。
+- [ ] 基准deviceId与实际屏幕像素明确，canvas/safeInset与图层安全区一致。
 - [ ] 0、缺失、小数阈值边界、AOD行为一致；预览没有伪读数。
-- [ ] 最宽数字、--、两位数电量、100%及12/3/6/9点指针方向已核对。
+- [ ] 所使用控件的最宽数字、--、单位及满值已核对；有指针时核对12/3/6/9点方向。
 - [ ] 设置默认值与主体一致，可变来源使用正确精度，切换再恢复时标签/单位/进度正确；配置默认隐藏和只在AOD显示的层没有丢失。
 - [ ] 额外PNG具有cases清单，明确数据和配置覆盖，能独立复现。
 - [ ] 静态装饰与特殊效果分离，有fallback；基准截图关闭动画。
 
 接入方验收顺序：格式/资源检查 → 能力差异报告 → 生成可编辑设计 → 对照同数据亮屏/AOD → 生成原生工程 → 基准设备SDK编译 → 模拟器/真机检查 → 加入默认参考。资料不全退回补齐；未支持的必要能力先补适配，不以整盘截图替代全部控件。
 
-设计方不必实现自动导入工具。首个SONAR转换已补齐包内字体、MM.DD ddd日期、连续进度、派生标签、独立AOD显隐和12项配置联动；扫描按包内静态fallback。其它格式或效果仍需逐项确认转换能力，不能据首个样包成功推导任意JSON控件都能直接执行。
+设计方不必实现自动导入工具。当前能力见第13节；不能据一个样包成功推导任意JSON控件均可直接执行。验收分别记录资料齐备、语义确定、转换能力、SDK编译、模拟器及真机核对，前一项不推导出后一项。
 
-## 12. 与内部参考目录的关系
+## 11. 与内部参考目录的关系
 
 交付包的watchface.json是设计唯一事实来源；preview仅供核对，HTML不是运行输入。首次接入转换为内部reference.json（身份、来源、资源清单）和design.json（控件布局/绑定），同时保留接入版本与差异记录。程序内部文件不是设计方的第二套编辑入口。
 
 现有native模式社区项目继续保留原生代码；不会强行用本规范重新生成。设计包生成的源码、FNT/PNG和设置XML属于转换输出。默认参考受保护，用户从卡片创建独立副本。维护规则参见[default-watchfaces说明](../default-watchfaces/README.md)。
 
 
-## 13. SONAR 初始1.0.0样包的规范审阅记录（文档v1.1）
 
-本节只记录规范审阅，不修改设计包、不生成内部项目或PRG，也不宣称SDK编译通过。以下“通过”仅指此次资料检查范围。
 
-| 检查项 | 结果 | 对规范的影响 |
+## 12. 版本、兼容与未知字段
+
+| 版本字段 | 含义 | 当前值 |
 | --- | --- | --- |
-| 主体与配置 | JSON可解析；18图层、6资源、12配置项，检查到的资源/标签/配置引用与默认值一致 | 基础结构足够进入人工转换，不必退回重做整体设计 |
-| 图片与预览 | 4张素材为RGBA PNG；默认亮屏、AOD及6张额外验收图均454×454 | 图片独立、透明、固定预览的交付约定可继续采用 |
-| 字体 | 两份TTF的内部family/weight与声明一致；已检查的数字、单位和英文日期字符存在，许可文件齐备 | 明确文件级核对，不仅核对字体文件名；具体来源应可追溯，不在本轮声称完成许可真实性核验 |
-| 连续进度 | 样包segments=1，预览填充84.2%；若直接映射现有单段仪表会变成未达目标全暗 | 第5.1节固定连续填充语义；属于接入方需要补的能力，不要求设计方改成碎段 |
-| 来源切换精度 | 右槽允许steps/calories/distance，但precision固定0，distance为6.42时将按声明显示6 | 第6节要求混合精度数据槽使用auto；样包后续需据此调整，暂不代改 |
-| AOD独立显隐 | battery-label亮屏visible:false、AOD为true | 第8节禁止按亮屏可见性提前删除AOD专属图层 |
-| 指针命中框 | 样包同时提供bounds和pivot/length，命中框未包含所有圆头/线宽余量 | 明确pivot/length为绘制依据、bounds不裁剪指针，转换时重算命中范围 |
-| 配置恢复 | 已提供hideWhenChangedFromDefault，但原规范未说明如何恢复或与其它隐藏条件组合 | 第9节规定从只读设计重新求值和恢复规则，补来源往返用例 |
-| 验收数据 | 已有边界PNG，但没有逐图数据/配置清单 | 第11节增加cases清单，避免推断图片文件名、未记录小数边界和来源切换 |
-| 作者说明 | JSON authors为yusger，notice把WorkBuddy写成设计作者 | 第2节区分设计者/权利主体与AI辅助工具，要求说明角色一致 |
+| 本文v1.2 | 人工阅读的规范修订 | 澄清规则与能力边界，不等于程序升级 |
+| watchface.json的formatVersion | 主体交换格式协议 | 1 |
+| watchface.json的version | 具体设计包内容版本 | 设计方维护，如1.1.0 |
+| settings.json的formatVersion | 设置文件子格式 | 1 |
+| cases.json的formatVersion | 预览清单子格式 | 1 |
+| 内部schemaVersion | Creator内部项目迁移版本 | 不替代外部格式版本 |
 
-结论：样包具备可转换所需的主体布局、独立资源和绑定信息，没有发现需要靠猜测重建整张表盘的缺失；尚不能称为可无差异直接自动转换。首轮转换前应按v1.1补精度、验收case及作者角色说明；通用字体/日期、连续meter、派生标签、AOD及配置联动由接入适配实现。扫描束已有明确静态fallback，可按该约定作为首轮效果，不要求实现旋转。
+主体、settings、cases独立识别版本。首版只接受(1,1,1)组合，后两文件未提供时不参与检查；不是三个版本号必须同步递增。任一子格式升级时，应公布兼容组合及迁移方式。
 
-验证结论分开记录：**资料齐备**、**语义可确定**、**当前转换器能力齐备**、**SDK编译通过**、**模拟器核对**、**真机验收**。前一项通过不推导出后一项通过，不把程序尚未支持的能力误判为设计资料缺失。
+更高或未识别的formatVersion须停止转换，提示升级或人工迁移，不能按版本1猜测。已知字段的未知枚举/非法值报错；未知字段报告完整路径，运行含义不确定时阻止转换。人工接受省略纯说明性元数据时记录被省略内容，不能静默丢弃。notes只存说明，不用于表达必须执行的逻辑。
 
+文档修订可澄清已有字段，不自动改写已交付包。可选说明字段如charset仍需接入方识别或显式报告，不假定旧转换器必然接受。改变既有含义、扩大封闭执行枚举或增加必需字段，须升级交换格式并给出迁移，不在相同formatVersion下偷偷改默认值。废弃字段保留识别和告警期；删除或改类型按不兼容升级处理。
 
-### 13.1 更新包1.1.0复审
+## 13. 当前能力与接入边界
 
-复审仍只检查设计交付及转换信息，不执行实际转换、SDK编译或运行验证。文档规则保持v1.1，没有为此次复审增加新的强制字段。
+下表依据v1.2修订时的代码及实际验收，不是完整自动校验器承诺。内部编辑器拥有某能力不代表外部CLI已映射；未支持/未验证项应在接入前阻止或提出明确且获接受的降级。
 
-- 结构检查：18图层、6资源、12配置项、10个预览case；资源文件、字体引用、派生标签引用、配置目标及默认值检查通过。10张交付PNG均在cases清单中声明，均为454×454；数据/配置覆盖字段及枚举可解析。
-- 上次待补项已更新：包版本1.1.0，主体填写previewCasesFile；右槽precision为auto；设计者/权利主体为yusger，WorkBuddy标记为辅助工具；字体具体上游路径和取得信息已补充。字体family/weight及检查所需字符覆盖匹配，未在本轮核验上游许可真实性。
-- 已查看里程切换、关闭秒数、AOD及心率150的截图：里程显示6.42及km标签，进度条隐藏；关闭秒数同时隐藏秒针和数字秒；AOD保留电量专属标签。图像区域检查另确认心率120/150、电量29/9/0的档位颜色，以及缺失/零值/里程切换时进度全暗。
-- 连续meter与静态扫描的语义已明确：8420/10000按84.2%填充，扫描采用已声明的静态fallback。未把segments=1视作目标完成开关；没有要求本次实现动态扫描。
-- steps→distance→steps、秒数开→关→开及保存重开目前是设计方给出的语义断言；可据此编写后续转换验收，但不据文字说明宣称已通过程序运行测试。
+| 能力 | 格式契约 | 当前CLI / 网页 | 原生及验收范围 |
+| --- | --- | --- | --- |
+| 设备/作者 | 一个明确基准设备，self/community | CLI限定self、454逻辑方形画布、venu445mm，非社区源码通用导入器 | SONAR基准45mm及补充41mm分别编译/模拟器核对 |
+| 独立图层及字体 | 保留布局、绑定、字体许可 | 已转换SONAR18层，按目标生成FNT/PNG | 两个尺寸已验证，不保证任意字体字形 |
+| 图片fit/密度/alpha | 源像素映射bounds/fit，保留alpha | 仅验收SONAR布局，CLI未完整映射contain/cover差异 | PNG透明扫描已验证，其他fit需适配 |
+| 连续/分段meter | 单段连续，多段floor比例 | CLI仅连续bar/segments=1/gap=0，内部另有分段能力 | 连续中间比例、满值、缺失已验证 |
+| 日期 | 第5.2节组合 | CLI固定en + MM.DD ddd，其它未接入 | 英文已验证，内部中文能力不代表外部支持 |
+| 时间/派生标签/精度 | 24h四格式、sourceLabel、auto精度 | 已转换时分秒及steps/calories/distance联动 | 两位里程和秒数开关已验证 |
+| 阈值/条件 | 有效性优先，条件三源子集 | 阈值已接入，CLI未映射condition及完整通用有效性约束 | SONAR边界/缺失已验证，其他来源需逐项验收 |
+| AOD显隐及覆盖 | visible独立，显式资源/透明度等 | 显隐、颜色、字号已映射，aod.resourceId/aod.opacity和非黑底未完整映射 | SONAR Always-On已核对，非任意AOD组合 |
+| 配置 | 四种type及属性白名单 | color/boolean/dataSource和来源隐藏联动已支持，number/fontSize配置未支持 | 12项原生资源已编译，真实手机/商店设置仍待验收 |
+| groupId | 一层编辑组织元数据，无运行继承 | 内部有分组，CLI未映射groupId | 不保证导入分组保持 |
+| effects.rotation | 时钟/pivot及静态fallback | 无动态扫描适配，仅验收基础角度和fallback都为0的样本 | 报告记角度不等于非0角度已实际绘制 |
+| 文字透明度 | style.opacity最终合成 | 网页合成；原生按底色混合降亮 | 低亮度已验证，纹理上非逐像素透明，须记录降级 |
+| AI效果说明 | 尚非可执行格式字段 | 仍处讨论，不能替代effects或数据绑定 | 不是已实现/已验收能力 |
 
-复审结论：本包已具备进入转换工作的资料条件，本轮未发现新的阻断性信息缺口；上节1.0.0包的精度、cases及作者角色问题已修复。接下来需要解决的是转换器的通用字体/日期格式、连续进度条、派生标签、独立AOD显隐和配置联动能力；尚不代表当前程序能直接导入或已完成默认参考接入。继续保留原包，不在审阅中代改素材或生成工程。
+CLI入口：`node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`。必须先人工审阅，目标存在时拒绝覆盖。它不是完整schema校验器，未映射字段仍有遗漏风险；脚本未报错不能证明满足全部规范。运行效果、许可及字体快照维护见[默认参考说明](../default-watchfaces/README.md)和[SONAR样包记录](sonar-package-review.md)。
 
+## 14. v1.2修订摘要
 
-## 14. 首个转换实现范围
-
-SONAR 1.1.0 已转换到 `default-watchfaces/sonar`，18个独立图层与12项配置保留。原始交付只读留档在handoff，conversion-report.json记录输入指纹、图层ID映射和静态效果降级；后续维护以规范化design.json为准，避免同时修改原包与内部设计。
-
-首轮工具为 `node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`，需先按本文人工审阅，仅覆盖已验证的自主454px Venu4设计能力子集，不是完整通用校验器。目标目录存在时拒绝覆盖。默认字体快照使用 `node scripts/generate-reference-fonts.mjs sonar`，然后统一构建；字体和图片仍是独立资源。已有原生社区项目继续按原方式维护。
-
-Garmin原生列表设置使用数字枚举，转换后仍保持外部标准与网页的steps/calories/distance语义；具体整数映射在生成的设置XML和读取代码中一致生成。PNG透明扫描扇区必须保留alpha，不能因资源自动调色板而消失；本次采用PNG打包并关闭自动调色板和抖动，参考[Garmin资源说明](https://developer.garmin.com/connect-iq/articles/core-topics/Resources.html)。
-
-文字透明度要单独检查原生输出，不能从网页效果或SDK编译成功推导一致。SONAR首版按底色混合文字颜色降亮；纹理背景上的逐像素合成尚未支持，该降级需记录。抗锯齿字体不能使用调色板缓冲，字体图集alpha也不作为已验证的运行时透明度方案。
-
-运行验收、已知限制和实际截图见[SONAR使用说明](sonar.md)及[阶段记录](stage-validation.md)。图层已转换、设置XML已生成、SDK编译通过和真机验收仍是分开记录的状态，不因提供转换脚本就合并为全部完成。
+- 明确顶层必填、空值/数组、封闭枚举及缺失颜色优先级。
+- 补effects、像素密度换算、文本字体、旋转/退化几何、groupId与number配置；字段声明不自动增加实现能力。
+- 区分文档、设计包、主体/设置/cases及内部项目版本，定义未知字段和高版本处理。
+- SONAR专属清单、边界数值及历史审阅移至独立文档；正文JSON为可复用片段，不要求其他设计采用相同坐标、阈值、名称或字体。
+- 修正“尚未转换”等过时状态，增加契约/转换/预览/原生验收对照。不改写SONAR原始交付、内部设计或运行代码。

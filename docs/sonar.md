@@ -16,3 +16,6 @@ SONAR 1.1.0 设计包转换为18个独立可编辑图层。默认卡片标记“
 测试工程截图：[84.2%进度](screenshots/sonar-test-baseline-native.png) · [里程及关闭秒数](screenshots/sonar-test-distance-native.png) · [告警状态](screenshots/sonar-test-alert-native.png) · [缺失数据](screenshots/sonar-test-missing-native.png)。测试工程只替换缓存读数、时钟与属性默认值，正式源码仍读取真实设备缓存，没有固定心率、步数、时间或动画定时器。
 
 原生文字透明度按底色混合为低亮度颜色，叠加扫描纹理时与网页逐像素透明合成有细微差异；不使用会导致抗锯齿字体异常的调色板缓冲。网页和原生字体抗锯齿、16位颜色量化也可能存在差异；设备续航、AOD烧屏保护及缓存时效仍需真机测试。基准45mm及补充41mm分别生成字库与编译，不宣称所有型号已验收。
+
+
+交付规范与历史审阅分别见[接入规范v1.2](watchface-package-standard.md)和[SONAR样包记录](sonar-package-review.md)。原始交付按当时v1.1保存，不因文档更新改写。

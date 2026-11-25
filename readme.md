@@ -170,3 +170,6 @@ PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际
 
 
 [SONAR默认参考](docs/sonar.md)：18个独立图层、12项配置、连续进度与包内字体；扫描首版静态。
+
+
+[表盘设计包接入规范 v1.2](docs/watchface-package-standard.md)：交付结构、配置与效果契约、兼容规则及当前转换能力；[SONAR样包记录](docs/sonar-package-review.md)独立保存专项清单和历史评审。
