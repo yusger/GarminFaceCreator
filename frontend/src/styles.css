@@ -1549,3 +1549,21 @@ label select {
   min-height: 62px;
   height: auto;
 }
+
+.adaptation-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: #0009;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+}
+.adaptation-assistant {
+  color: #dce6ee;
+  box-sizing: border-box;
+  min-width: 0;
+}
+.adaptation-comparison > div {
+  min-width: 0;
+}

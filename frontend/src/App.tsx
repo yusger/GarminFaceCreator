@@ -3755,7 +3755,15 @@ export default function App() {
               return;
             }
             try {
-              setP(applyAdaptation(current, changes));
+              setP(
+                applyAdaptation(
+                  saveDesignSnapshot(
+                    current,
+                    "AI 适配前 " + new Date().toLocaleString(),
+                  ),
+                  changes,
+                ),
+              );
               setPast([]);
               setFuture([]);
               setFiles([]);

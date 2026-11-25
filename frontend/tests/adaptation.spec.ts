@@ -161,6 +161,12 @@ test("AI adaptation previews a mocked layout patch, applies only after review an
     .click();
   await expect(dialog.getByText("建议效果", { exact: true })).toBeVisible();
   await expect(dialog.locator(".adaptation-comparison .watch")).toHaveCount(2);
+  const bounds = await dialog.boundingBox();
+  expect(bounds!.x).toBeGreaterThanOrEqual(0);
+  expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(1600);
+  await expect(
+    dialog.getByRole("button", { name: "关闭适配助手", exact: true }),
+  ).toBeInViewport();
   await page.screenshot({ path: "docs/screenshots/ai-device-adaptation.png" });
   await dialog
     .getByRole("button", { name: "应用到当前设备", exact: true })
@@ -174,6 +180,9 @@ test("AI adaptation previews a mocked layout patch, applies only after review an
   await expect(page.locator(".adaptation-panel")).toContainText("1 层微调");
   await page.getByLabel("适配编辑范围", { exact: true }).selectOption("master");
   await page.getByRole("button", { name: /^适配设备/ }).click();
-  const svg = page.locator(".canvas-area svg.watch");
+  await expect(page.locator("svg.watch [data-layer] text")).not.toHaveAttribute(
+    "fill",
+    "#ff0000",
+  );
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
 });

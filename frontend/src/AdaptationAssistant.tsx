@@ -73,7 +73,7 @@ export default function AdaptationAssistant({
     }
   }
   return (
-    <div className="loading">
+    <div className="adaptation-overlay">
       <section
         role="dialog"
         aria-modal="true"
