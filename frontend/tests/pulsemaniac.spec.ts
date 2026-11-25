@@ -11,15 +11,14 @@ function unzip(bytes: Buffer) {
       n = bytes.readUInt16LE(offset + 26),
       e = bytes.readUInt16LE(offset + 28),
       start = offset + 30 + n + e;
-    files.set(
-      bytes.subarray(offset + 30, offset + 30 + n).toString(),
-      bytes.subarray(start, start + size),
-    );
+    const path = bytes.subarray(offset + 30, offset + 30 + n).toString();
+    expect(files.has(path), "Duplicate ZIP entry: " + path).toBe(false);
+    files.set(path, bytes.subarray(start, start + size));
     offset = start + size;
   }
   return files;
 }
-test("owned PulseManiac package pins all selected transparent assets and leaves upstream reference registry independent", async ({
+test("owned PulseManiac package pins all selected transparent assets and registers a protected owned reference without fabricating an upstream commit", async ({
   request,
 }) => {
   const bundle = await (await request.get("/pulsemaniac/project.json")).json();
@@ -54,7 +53,7 @@ test("owned PulseManiac package pins all selected transparent assets and leaves 
   expect(
     (await (await request.get("/reference-notices/provenance.json")).json())
       .bundles,
-  ).toHaveLength(10);
+  ).toHaveLength(11);
 });
 test("PulseManiac creates an editable native project, previews all four static states and AOD, exports notices and compiles after data and device changes", async ({
   page,
@@ -62,9 +61,28 @@ test("PulseManiac creates an editable native project, previews all four static s
   test.setTimeout(240000);
   test.skip(!process.env.GFC_TEST_URL, "Requires deployed SDK");
   await page.goto("/");
+  const card = page.locator(".reference-card").filter({
+    has: page.getByRole("button", { name: "使用 PulseManiac", exact: true }),
+  });
+  await expect(card).toHaveCount(1);
+  await expect(card.locator(".reference-badge")).toHaveText(
+    "默认参考 · 不可删除",
+  );
+  await card.screenshot({
+    path: "docs/screenshots/pulsemaniac-reference-card.png",
+  });
+  await expect(
+    page.getByRole("button", { name: "删除 PulseManiac", exact: true }),
+  ).toHaveCount(0);
   await page
-    .getByRole("button", { name: "创建 PulseManiac 四态表盘", exact: true })
+    .getByRole("button", { name: "使用 PulseManiac", exact: true })
     .click();
+  await expect(page.locator(".project-title")).toContainText(
+    "PulseManiac 副本",
+  );
+  page.once("dialog", (d) => d.accept("PulseManiac"));
+  await page.locator(".project-title button").click();
+  page.on("dialog", (d) => d.accept());
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await expect(page.locator(".layer-row")).toHaveCount(21);
   async function exported() {
@@ -82,6 +100,13 @@ test("PulseManiac creates an editable native project, previews all four static s
   expect(files.has("notices/PulseManiac-PROMPTS.md")).toBe(true);
   const meta = JSON.parse(files.get("gfc-export.json")!.toString());
   expect(meta.starterId).toBe("pulsemaniac");
+  expect(meta.reference.id).toBe("00000000-0000-4000-8000-000000000011");
+  expect(meta.projectId).not.toBe(meta.reference.id);
+  expect(
+    [...files.keys()].filter(
+      (name) => name === "notices/PulseManiac-NOTICE.md",
+    ),
+  ).toHaveLength(1);
   expect(meta.appId).not.toBe("1c527eb2365e4be49e09ac95f70747d8");
   const directory = join(tmpdir(), "gfc-pulsemaniac");
   await mkdir(directory, { recursive: true });

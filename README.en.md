@@ -34,9 +34,9 @@ The screenshots show the current Chinese interface.
 - Independent preview with the current time, random heart rate, increasing step count, scenario presets, playback controls, and active / always-on comparison.
 - Watch series, model, and case-size selection with actual screen resolution; a project can share one master design across devices with individual overrides, code histories, and sequential builds.
 - Optional AI layout suggestions for the current device, with payload review, before/after previews, explicit application, and a recoverable design snapshot.
-- Owned PulseManiac starter: four static HR-driven poses, configurable top data slots, independent chest HR, Chinese local date and bottom clock; the ready pose uses a matching black face.
+- Owned PulseManiac default reference: four static HR-driven poses, configurable top data slots, independent chest HR, Chinese local date and bottom clock; the ready pose uses a matching black face.
 - Data-driven layer visibility with explicit range boundaries, missing/AOD fallback, and target-sized static PNG resources.
-- Ten protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, and BAWF; each creates an independent editable copy.
+- Eleven protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, BAWF, and PulseManiac; each creates an independent editable copy.
 - AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
 - Separate design/code snapshots and retention limits; generation, raw failure recovery, review, and stale-code protection.
 - Configurable rings, threshold ranges/fallbacks, metric typography, independent AOD styles, and round-screen clipping inspection.

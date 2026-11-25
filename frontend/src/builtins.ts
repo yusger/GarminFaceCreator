@@ -1,3 +1,4 @@
+import { loadPulseManiacReference } from "./pulseManiac";
 import { referenceAttributions } from "./attribution";
 import { organizeReferenceLayers } from "./groups";
 import { migrateProject } from "./migrations";
@@ -40,7 +41,10 @@ export function copyReference(
     appId,
     referenceId: reference.id,
     codeProvenance: { primary: "reference" },
-    layers: organizeReferenceLayers(reference.layers),
+    layers:
+      reference.starterId === "pulsemaniac"
+        ? structuredClone(reference.layers)
+        : organizeReferenceLayers(reference.layers),
     name,
     updated: Date.now(),
     files: reference.files.map((file) =>
@@ -58,6 +62,7 @@ export async function loadReferences(): Promise<Project[]> {
     ...referenceAttributions
       .filter((r) => r.id !== CLOWN_REFERENCE_ID)
       .map(async (descriptor) => {
+        if (descriptor.owned) return loadPulseManiacReference();
         const name = descriptor.template;
         const response = await fetch(`/templates/${name}.json`, {
           signal: AbortSignal.timeout(15000),

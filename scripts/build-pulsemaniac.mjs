@@ -1,4 +1,4 @@
-import { readFile, writeFile, mkdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, copyFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { project, layer } from "../frontend/src/domain.ts";
 const root = "frontend/public/pulsemaniac/";
@@ -262,3 +262,10 @@ console.log(
   imageAssets.length,
   "static assets",
 );
+
+await mkdir("frontend/public/reference-notices", { recursive: true });
+for (const name of ["NOTICE.md", "PROMPTS.md"])
+  await copyFile(
+    root + name,
+    "frontend/public/reference-notices/PulseManiac-" + name,
+  );

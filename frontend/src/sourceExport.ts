@@ -71,6 +71,7 @@ export async function exportSources(
   const referenceId = await referenceOf(p),
     reference = referenceId ? referenceNotices[referenceId] : undefined;
   for (const file of reference?.files || []) {
+    if (entries.some((entry) => entry.path === "notices/" + file)) continue;
     const response = await fetch("/reference-notices/" + file);
     if (!response.ok) throw Error("缺少素材许可声明：" + file);
     entries.push({

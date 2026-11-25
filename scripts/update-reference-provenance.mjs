@@ -24,7 +24,17 @@ for (const ref of refs) {
       "Only existing reference packages may retain legacy uncertainty",
     );
   if (
+    ref.owned &&
+    (ref.id !== "00000000-0000-4000-8000-000000000011" ||
+      ref.template !== "pulsemaniac" ||
+      ref.bundlePath !== "/pulsemaniac/project.json" ||
+      ref.source !==
+        "https://github.com/yusger/GarminFaceCreator/blob/main/docs/pulsemaniac.md")
+  )
+    throw Error("Unknown owned reference");
+  if (
     !ref.legacy &&
+    !ref.owned &&
     (!/^[a-f0-9]{40}$/.test(ref.upstreamCommit || "") ||
       ref.verifiedLicense !== true)
   )
@@ -32,9 +42,33 @@ for (const ref of refs) {
       "New references require a pinned upstream commit and verified license",
     );
 
-  const path = "/templates/" + ref.template + ".json",
+  const path = ref.owned
+      ? ref.bundlePath
+      : "/templates/" + ref.template + ".json",
     data = await readFile(resolve(root, "frontend/public" + path));
-  const p = JSON.parse(data);
+  const bundle = JSON.parse(data),
+    p = ref.owned ? bundle.project : bundle;
+  if (ref.owned) {
+    if (
+      bundle.format !== 1 ||
+      p?.starterId !== "pulsemaniac" ||
+      !Array.isArray(bundle.images) ||
+      bundle.images.length !== 5
+    )
+      throw Error("Invalid owned reference bundle");
+    for (const asset of bundle.images) {
+      if (
+        !/^\/pulsemaniac\/(?:rest|ready|twist|maniac)\.png$/.test(asset.path) &&
+        asset.path !== "/pulsemaniac/background.svg"
+      )
+        throw Error("Invalid owned asset path");
+      if (
+        hash(await readFile(resolve(root, "frontend/public" + asset.path))) !==
+        asset.sha256
+      )
+        throw Error("Owned asset hash mismatch");
+    }
+  }
   if (p.id !== ref.id || p.name !== ref.name)
     throw Error("Reference identity mismatch: " + ref.template);
   for (const file of ref.files) await readFile(resolve(out, file));

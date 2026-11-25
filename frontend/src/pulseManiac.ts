@@ -9,7 +9,7 @@ async function dataURL(blob: Blob): Promise<string> {
     reader.readAsDataURL(blob);
   });
 }
-export async function createPulseManiac(): Promise<Project> {
+async function hydratePulseManiacReference(): Promise<Project> {
   const response = await fetch("/pulsemaniac/project.json", {
     signal: AbortSignal.timeout(15000),
   });
@@ -56,6 +56,21 @@ export async function createPulseManiac(): Promise<Project> {
     if (!l) throw Error("人物图层不存在");
     l.image = image;
   }
-  const p = validateProject(bundle.project);
+  validateProject(bundle.project);
+  // Preserve the default reference's fixed identity; copyReference assigns user identities.
+  const p = bundle.project as Project;
+  if (
+    p.id !== "00000000-0000-4000-8000-000000000011" ||
+    p.appId !== "1c527eb2365e4be49e09ac95f70747d8"
+  )
+    throw Error("PulseManiac 默认参考身份无效");
   return addCodeVersion(p, localGenerate(p), LOCAL_PROVENANCE);
+}
+
+let pending: Promise<Project> | undefined;
+export function loadPulseManiacReference(): Promise<Project> {
+  return (pending ??= hydratePulseManiacReference().catch((error) => {
+    pending = undefined;
+    throw error;
+  }));
 }

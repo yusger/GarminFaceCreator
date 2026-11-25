@@ -200,6 +200,27 @@
       "verifiedLicense": true,
       "path": "/templates/bawf.json",
       "sha256": "0a56b4686edbe36165efe544d4abd2046d165a960178b01eee5083ec5e5479f5"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000011",
+      "name": "PulseManiac",
+      "template": "pulsemaniac",
+      "bundlePath": "/pulsemaniac/project.json",
+      "owned": true,
+      "source": "https://github.com/yusger/GarminFaceCreator/blob/main/docs/pulsemaniac.md",
+      "status": "Owned user-provided PulseManiac design; Creator implementation GPL-3.0-or-later; generated artwork origin separately documented; no external upstream imported",
+      "summary": "自有 PulseManiac 设计；四态静态人物与独立数据控件；代码 GPLv3+，人物素材来源及提示词另行保留",
+      "files": [
+        "PulseManiac-NOTICE.md",
+        "PulseManiac-PROMPTS.md",
+        "repository-LICENSE.txt"
+      ],
+      "upstreamCommit": null,
+      "upstreamCommitStatus": "Owned design; source bundle, image hashes and generator fingerprints retained instead of an external upstream commit",
+      "legacy": false,
+      "verifiedLicense": false,
+      "path": "/pulsemaniac/project.json",
+      "sha256": "f5700f55abdeb4e8dba632cdd891d9aa4a3792a7569cfe6edeb3f8db424cf197"
     }
   ],
   "generators": [
