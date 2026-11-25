@@ -72,6 +72,10 @@ test("SONAR conversion preserves generic fonts, native controls, continuous prog
     code.find((f) => f.path === "resources/drawables/drawables.xml")!.content,
   ).toContain('packingFormat="png" automaticPalette="false" dithering="none"');
   expect(source).toContain("dateMonthDayWeek");
+  expect(source).toContain("drawAlphaText");
+  expect(source).toContain(
+    ":tintColor=>Graphics.createColor(alpha,255,255,255)",
+  );
   expect(source).toContain("cfg_right_slot_source");
   expect(source).toContain("datadistance");
   expect(source).toContain("Application.Properties.getValue");
