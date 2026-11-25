@@ -73,8 +73,7 @@ test("SONAR conversion preserves generic fonts, native controls, continuous prog
   ).toContain('packingFormat="png" automaticPalette="false" dithering="none"');
   expect(source).toContain("dateMonthDayWeek");
   expect(source).not.toContain("drawAlphaText");
-  expect(source).toContain("_a158");
-  expect(chalkPlans(p).some((plan) => plan.opacity === 0.62)).toBe(true);
+  expect(source).toContain("mixTextInk(0xDCE9F0,158,bg)");
   expect(source).toContain("cfg_right_slot_source");
   expect(source).toContain("datadistance");
   expect(source).toContain("Application.Properties.getValue");

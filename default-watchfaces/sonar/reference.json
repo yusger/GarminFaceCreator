@@ -51,11 +51,11 @@
   ],
   "binaryAssets": [
     {
-      "id": "GfcCustom_sonar_label_font_16_a184",
-      "path": "resources/fonts/GfcCustom_sonar_label_font_16_a184.png",
-      "file": "resources/fonts/GfcCustom_sonar_label_font_16_a184.png",
+      "id": "GfcCustom_sonar_label_font_16",
+      "path": "resources/fonts/GfcCustom_sonar_label_font_16.png",
+      "file": "resources/fonts/GfcCustom_sonar_label_font_16.png",
       "mime": "image/png",
-      "sha256": "e13577610f5c97ec06578b7dc2cd9852e7b3c7732add8d5b392ae379d1a8ef91"
+      "sha256": "4de6324b9a7ec3e629203d06b57b110e3dda0ccdd84a206adc7d3758a069f38f"
     },
     {
       "id": "GfcCustom_sonar_number_font_29",
@@ -65,11 +65,11 @@
       "sha256": "f360f852b434a165877d6c16ec34307fedc6a61dd82dd52c2cddadd785fb6e3e"
     },
     {
-      "id": "GfcCustom_sonar_label_font_14_a158",
-      "path": "resources/fonts/GfcCustom_sonar_label_font_14_a158.png",
-      "file": "resources/fonts/GfcCustom_sonar_label_font_14_a158.png",
+      "id": "GfcCustom_sonar_label_font_14",
+      "path": "resources/fonts/GfcCustom_sonar_label_font_14.png",
+      "file": "resources/fonts/GfcCustom_sonar_label_font_14.png",
       "mime": "image/png",
-      "sha256": "fd7a57c67543090c679efdc1ee70127f5b4b9f977ddce2379d6367c6dd7d17dd"
+      "sha256": "613c9906ea94be3adbf2c1de17723e42557435a04e7dfc39ef784f4d54224a3e"
     },
     {
       "id": "GfcCustom_sonar_number_font_38",
@@ -100,11 +100,11 @@
       "sha256": "7b024f999ccbf1bb3597d44f58e87ac192b8ea82871b0972889969ecb203e6d0"
     },
     {
-      "id": "GfcCustom_sonar_label_font_12_a158",
-      "path": "resources/fonts/GfcCustom_sonar_label_font_12_a158.png",
-      "file": "resources/fonts/GfcCustom_sonar_label_font_12_a158.png",
+      "id": "GfcCustom_sonar_label_font_12",
+      "path": "resources/fonts/GfcCustom_sonar_label_font_12.png",
+      "file": "resources/fonts/GfcCustom_sonar_label_font_12.png",
       "mime": "image/png",
-      "sha256": "57d86537796a695e95b0d520dd0bc10c141f341aa764d95d1ca29260bcf678a8"
+      "sha256": "be856a3ab6c5b9eb7a95eddb72cfbbc1bbe5dc77e328d13b08f545765e9a6a06"
     },
     {
       "id": "GfcCustom_sonar_number_font_30",
@@ -179,14 +179,14 @@
     "resources/strings/strings.xml",
     "resources/drawables/drawables.xml",
     "resources/drawables/icon.svg",
-    "resources/fonts/GfcCustom_sonar_label_font_16_a184.fnt",
+    "resources/fonts/GfcCustom_sonar_label_font_16.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_29.fnt",
-    "resources/fonts/GfcCustom_sonar_label_font_14_a158.fnt",
+    "resources/fonts/GfcCustom_sonar_label_font_14.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_38.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_34.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_16.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_15.fnt",
-    "resources/fonts/GfcCustom_sonar_label_font_12_a158.fnt",
+    "resources/fonts/GfcCustom_sonar_label_font_12.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_30.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_28.fnt",
     "resources/fonts/GfcCustom_sonar_number_font_19.fnt"

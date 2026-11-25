@@ -216,7 +216,10 @@ function draw(l: Layer, aod: boolean) {
     }
     suffix = "}";
   }
-  const ink = paint;
+  const ink =
+    (l.opacity ?? 1) < 1
+      ? `mixTextInk(${paint},${Math.round((l.opacity ?? 1) * 255)},bg)`
+      : paint;
   return (
     prefix +
     `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
@@ -398,6 +401,7 @@ import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import To
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.controls?.length ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
+ function mixTextInk(ink,alpha,bg){var r=(((ink>>16)&255)*alpha+((bg>>16)&255)*(255-alpha))/255;var g=(((ink>>8)&255)*alpha+((bg>>8)&255)*(255-alpha))/255;var b=((ink&255)*alpha+(bg&255)*(255-alpha))/255;return (r.toNumber()<<16)|(g.toNumber()<<8)|b.toNumber();}
  ${settings.helpers}
  ${chalk.length ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
  function initialize(){WatchFace.initialize();}
@@ -461,7 +465,7 @@ class GeneratedView extends WatchUi.WatchFace {
       "",
     )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
   ${included.some((l) => l.dateFormat === "monthDayWeek") ? 'var dateMonthDayWeek=calendar.month.format("%02d")+"."+calendar.day.format("%02d")+" "+["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1];' : ""}
-  ${p.backgroundColor ? `var bg=sleeping?Graphics.COLOR_BLACK:${color(p.backgroundColor)};dc.setColor(bg,bg);` : "dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);"}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
+  ${`var bg=sleeping?Graphics.COLOR_BLACK:${color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   if(sleeping){${included.map((l) => visibleDraw(l, true, p)).join("\n")}}else{${included.map((l) => visibleDraw(l, false, p)).join("\n")}}
   ${imageLayers.length ? "trimImages();" : ""}
  }

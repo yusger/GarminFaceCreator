@@ -7,8 +7,7 @@ export const chalkId = (l: Layer, aod = false) =>
   (l.customFont
     ? "GfcCustom_" + l.customFont.id + "_"
     : "GfcChalk" + (l.garminFont === "chalkHan" ? "Han" : "Latin") + "") +
-  Math.round(aod ? l.aodSize || l.size : l.size) +
-  ((l.opacity ?? 1) < 1 ? "_a" + Math.round((l.opacity ?? 1) * 255) : "");
+  Math.round(aod ? l.aodSize || l.size : l.size);
 const fontName = (id: string) =>
   id.includes("Han")
     ? "MaShanZheng-Regular.ttf"
@@ -16,7 +15,7 @@ const fontName = (id: string) =>
 export function chalkPlans(p: Project) {
   const plans = new Map<
     string,
-    { id: string; size: number; glyphs: string; font: string; opacity: number }
+    { id: string; size: number; glyphs: string; font: string }
   >();
   const device = generationDevice(p);
   for (const l of p.layers.filter(
@@ -70,7 +69,6 @@ export function chalkPlans(p: Project) {
         ),
         glyphs: merged,
         font: l.customFont?.file || fontName(id),
-        opacity: l.opacity ?? 1,
       });
     }
   }
@@ -97,7 +95,6 @@ export function preparedChalk(p: Project) {
         plan.size,
         plan.glyphs,
         plan.id + ".png",
-        plan.opacity,
       );
       files.push({
         path: "resources/fonts/" + plan.id + ".fnt",

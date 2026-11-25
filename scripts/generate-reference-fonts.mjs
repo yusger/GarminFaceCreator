@@ -39,7 +39,6 @@ try {
             plan.size,
             plan.glyphs,
             plan.id + ".png",
-            plan.opacity,
           ),
         { bytes: bytes.toString("base64"), plan },
       );
