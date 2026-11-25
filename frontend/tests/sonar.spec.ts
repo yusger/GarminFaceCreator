@@ -1,3 +1,4 @@
+import { devices } from "../src/devices";
 import { enableDevices, addDevice, selectDevice } from "../src/multiDevice";
 import {
   saveDesignSnapshot,
@@ -99,7 +100,10 @@ test("SONAR conversion preserves generic fonts, native controls, continuous prog
 test("SONAR shared controls survive snapshots and import, and reset invalidates every device target", async () => {
   let p = await canonical();
   p = selectDevice(
-    addDevice(enableDevices(p), "venu441mm", "41mm"),
+    addDevice(
+      enableDevices(p),
+      devices.find((d) => d.id === "venu441mm")!,
+    ),
     "venu441mm:41mm",
     "master",
   );
