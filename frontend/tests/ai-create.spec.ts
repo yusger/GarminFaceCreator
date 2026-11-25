@@ -215,6 +215,15 @@ test("only explicit material references become runtime assets; style references 
       { ...refs[0], usage: "style" },
     ]),
   ).toThrow("实际素材");
+  const zh = { ...choices, dateLocale: "zh" as const };
+  const zhBody = response(zh);
+  expect(
+    parseDesign(JSON.stringify(zhBody), zh, []).layers.some(
+      (l) => l.kind === "date" && l.dateLocale === "zh",
+    ),
+  ).toBe(true);
+  zhBody.layers.find((l) => l.kind === "date").dateFormat = "monthDayWeek";
+  expect(() => parseDesign(JSON.stringify(zhBody), zh, [])).toThrow("日期格式");
   for (const style of ["DIGITAL", "ANALOG", "HYBRID"] as const) {
     const c = { ...choices, style, sources: [], date: false };
     expect(
@@ -565,4 +574,54 @@ test("invalid or truncated designs do not save a project; cancellation ignores l
   ).toBeVisible();
   expect(calls).toBe(4);
   await expect(page.getByLabel("设计提示词")).toContainText("简洁清晰");
+});
+
+test("failed browser save retains the valid AI design and allows backup and retry without another model request", async ({
+  page,
+}) => {
+  let calls = 0;
+  await page.route("https://api.example.com/v1/chat/completions", async (r) => {
+    calls++;
+    const p = decode(r.request().postDataJSON());
+    await r.fulfill({
+      json: {
+        choices: [
+          { message: { content: JSON.stringify(response(p.choices)) } },
+        ],
+      },
+    });
+  });
+  await setup(page);
+  await next(page);
+  await next(page);
+  await page.getByRole("button", { name: "生成表盘项目", exact: true }).click();
+  const adopt = page.getByRole("button", {
+    name: "采用设计并编辑",
+    exact: true,
+  });
+  await expect(adopt).toBeVisible();
+  await page.evaluate(() => {
+    const original = IDBDatabase.prototype.transaction;
+    let fail = true;
+    IDBDatabase.prototype.transaction = function (...args: any[]) {
+      if (args[1] === "readwrite" && fail) {
+        fail = false;
+        throw new DOMException("test full", "QuotaExceededError");
+      }
+      return (original as any).apply(this, args);
+    } as typeof original;
+  });
+  await adopt.click();
+  await expect(page.getByRole("alert")).toContainText("有效设计仍保留");
+  await expect(adopt).toBeVisible();
+  const exported = page.waitForEvent("download");
+  await page.getByRole("button", { name: "下载设计备份", exact: true }).click();
+  const disk = JSON.parse(
+    await readFile((await (await exported).path())!, "utf8"),
+  );
+  expect(disk.files).toEqual([]);
+  expect(disk.layers.length).toBeGreaterThan(0);
+  await adopt.click();
+  await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
+  expect(calls).toBe(1);
 });
