@@ -2,6 +2,7 @@ import { test, expect } from "@playwright/test";
 import { project, layer, validateProject } from "../src/domain";
 import { devices } from "../src/devices";
 import {
+  clearDeviceCode,
   enableDevices,
   addDevice,
   selectDevice,
@@ -96,6 +97,11 @@ test("multi-device import validates nested designs and remaps identities while d
     addCodeVersion(p, localGenerate(p), LOCAL_PROVENANCE),
   )!;
   const copy = validateProject(JSON.parse(JSON.stringify(p)));
+  const reordered = structuredClone(p);
+  reordered.layers = reordered.layers.map(
+    (l) => Object.fromEntries(Object.entries(l).reverse()) as typeof l,
+  );
+  expect(() => validateProject(reordered)).not.toThrow();
   expect(copy.id).not.toBe(p.id);
   expect(copy.appId).not.toBe(p.appId);
   expect(
@@ -184,4 +190,35 @@ test("multi-device editor persists per-device changes and compiles both target P
     .selectOption("venu445mm:45mm");
   await expect(page.locator(".device")).toContainText("454");
   await page.screenshot({ path: "docs/screenshots/multi-device-editor.png" });
+});
+
+test("conflict copies discard all target code and task identities while retaining device-specific design", () => {
+  let p = enableDevices(seed());
+  p = reconcileDevices(
+    p,
+    addCodeVersion(p, localGenerate(p), LOCAL_PROVENANCE),
+  )!;
+  p = addDevice(p, small);
+  p = reconcileDevices(p, {
+    ...p,
+    layers: p.layers.map((l) => ({ ...l, x: 88 })),
+    revision: p.revision + 1,
+  })!;
+  p = reconcileDevices(
+    p,
+    addCodeVersion(p, localGenerate(p), LOCAL_PROVENANCE),
+  )!;
+  const copy = clearDeviceCode({ ...p, id: "new-id", appId: "0".repeat(32) });
+  expect(
+    copy.multiDevice!.variants.every(
+      (v) =>
+        v.code.files.length === 0 &&
+        v.code.versions.length === 0 &&
+        v.code.codeRevision === -1 &&
+        !v.buildId,
+    ),
+  ).toBe(true);
+  expect(copy.layers[0].x).toBe(88);
+  expect(copy.multiDevice!.master[0].x).toBe(60);
+  expect(selectDevice(copy, "venu445mm:45mm", "device").files).toEqual([]);
 });

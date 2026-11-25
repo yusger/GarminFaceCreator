@@ -1,7 +1,12 @@
 import AdaptationAssistant from "./AdaptationAssistant";
 import { adaptationFingerprint, applyAdaptation } from "./adaptation";
 import DeviceAdaptations from "./DeviceAdaptations";
-import { reconcileDevices, deviceKey, projectForDevice } from "./multiDevice";
+import {
+  clearDeviceCode,
+  reconcileDevices,
+  deviceKey,
+  projectForDevice,
+} from "./multiDevice";
 import ReferenceDetails from "./ReferenceDetails";
 import IconDetails from "./IconDetails";
 import IconGallery from "./IconGallery";
@@ -343,7 +348,7 @@ export default function App() {
         persisted.current = p;
         open(latest);
       } else {
-        const copy = {
+        const copy = clearDeviceCode({
           ...structuredClone(p),
           id: uid(),
           appId: uid().replaceAll("-", ""),
@@ -353,7 +358,7 @@ export default function App() {
           files: [],
           versions: [],
           codeRevision: -1,
-        };
+        });
         copy.storageVersion = await saveProject(copy);
         setProjects((items) => [copy, ...items]);
         halted.current.delete(p.id);

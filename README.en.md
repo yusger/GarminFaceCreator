@@ -32,7 +32,8 @@ The screenshots show the current Chinese interface.
 - Round canvas with four-corner resizing, marquee/Shift selection, snapping, batch actions, alignment, undo, and redo.
 - Time, date, metrics, text, images, rings, and basic shapes.
 - Independent preview with the current time, random heart rate, increasing step count, scenario presets, playback controls, and active / always-on comparison.
-- Watch series, model, and case-size selection when creating a project, with the actual screen resolution displayed.
+- Watch series, model, and case-size selection with actual screen resolution; a project can share one master design across devices with individual overrides, code histories, and sequential builds.
+- Optional AI layout suggestions for the current device, with payload review, before/after previews, explicit application, and a recoverable design snapshot.
 - Ten protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, and BAWF; each creates an independent editable copy.
 - AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
 - Separate design/code snapshots and retention limits; generation, raw failure recovery, review, and stale-code protection.
@@ -41,7 +42,7 @@ The screenshots show the current Chinese interface.
 - Per-target compiler readiness, incremental logs/reconnection, cancellation, timeouts, retention, and signed PRG downloads.
 - Download names follow `Model_Size_ProjectName.prg`, with whitespace removed and invalid filename characters handled.
 
-User-triggered AI repair supports up to two rounds with diff review and scoped files. Automatic canvas editing, unattended repair, and full native simulator previews remain future work. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
+User-triggered AI repair supports up to two rounds with diff review and scoped files. Reviewed AI device-layout suggestions are available; unattended editing/repair and full native simulator previews remain future work. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
 
 ## Supported devices
 
@@ -53,7 +54,7 @@ User-triggered AI repair supports up to two rounds with diff review and scoped f
 | Forerunner | Forerunner 970 | 47 mm | 454×454 |
 | fēnix | fēnix 8 AMOLED | 43 / 47 / 51 mm | 416×416 / 454×454 / 454×454 |
 
-All listed screens are round AMOLED displays. Designs use a normalized 454×454 coordinate system. Generation prompts include the target model, actual resolution, and scaling requirements. Built-in native reference projects currently target Venu 4 45 mm; compatibility with other devices is not automatically guaranteed.
+All listed screens are round AMOLED displays. Designs use a normalized 454×454 coordinate system. Generation prompts include the target model, actual resolution, and scaling requirements. Built-in native reference projects currently target Venu 4 45 mm; copies can add device adaptations, with separate generation, compilation, and validation required. See the [multi-device guide](docs/multi-device.md) (Chinese).
 
 ## Architecture and data flow
 

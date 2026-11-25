@@ -1,10 +1,4 @@
-import type {
-  Project,
-  Layer,
-  CodeFile,
-  CodeVersion,
-  CodeProvenance,
-} from "./domain";
+import type { Project, Layer } from "./domain";
 import { devices, deviceFor } from "./devices.ts";
 export const overrideKeys = [
   "x",
@@ -246,6 +240,17 @@ export function projectForDevice(p: Project, key: string): Project {
   return { ...resolved, multiDevice: undefined };
 }
 
+function canonical(value: unknown) {
+  return JSON.stringify(value, (_key, v) =>
+    v && typeof v === "object" && !Array.isArray(v)
+      ? Object.fromEntries(
+          Object.keys(v)
+            .sort()
+            .map((key) => [key, v[key]]),
+        )
+      : v,
+  );
+}
 export function validateMultiDevice(
   p: Project,
   validate: (p: Project) => unknown,
@@ -306,10 +311,8 @@ export function validateMultiDevice(
   if (!keys.has(deviceKey(p))) throw Error("当前设备不在适配列表中");
   const v = m.variants.find((v) => v.key === deviceKey(p))!;
   if (
-    JSON.stringify(p.layers) !==
-    JSON.stringify(
-      m.scope === "master" ? m.master : effectiveLayers(m.master, v),
-    )
+    canonical(p.layers) !==
+    canonical(m.scope === "master" ? m.master : effectiveLayers(m.master, v))
   )
     throw Error("当前图层与适配配置不一致");
 }
@@ -322,7 +325,13 @@ export function importedDevices(original: Project, imported: Project): Project {
   return {
     ...imported,
     multiDevice: {
-      master: m.master.map((l) => ({ ...l, id: ids.get(l.id)! })),
+      master: m.master.map((l, i) => ({
+        ...l,
+        id: ids.get(l.id)!,
+        ...(imported.layers[i].assetId
+          ? { assetId: imported.layers[i].assetId }
+          : {}),
+      })),
       scope: m.scope,
       variants: m.variants.map((v) => ({
         ...v,
@@ -338,5 +347,26 @@ export function importedDevices(original: Project, imported: Project): Project {
         ),
       })),
     },
+  };
+}
+
+// A conflict copy receives a new application identity; no cached target source may follow it.
+export function clearDeviceCode(p: Project): Project {
+  return {
+    ...p,
+    ...emptyCode(),
+    activeCodeVersion: undefined,
+    codeProvenance: undefined,
+    multiDevice: p.multiDevice
+      ? {
+          ...p.multiDevice,
+          variants: p.multiDevice.variants.map((v) => ({
+            ...v,
+            code: emptyCode(),
+            buildId: undefined,
+            buildStatus: undefined,
+          })),
+        }
+      : undefined,
   };
 }
