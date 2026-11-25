@@ -72,10 +72,9 @@ test("SONAR conversion preserves generic fonts, native controls, continuous prog
     code.find((f) => f.path === "resources/drawables/drawables.xml")!.content,
   ).toContain('packingFormat="png" automaticPalette="false" dithering="none"');
   expect(source).toContain("dateMonthDayWeek");
-  expect(source).toContain("drawAlphaText");
-  expect(source).toContain(
-    "surface.setPalette([Graphics.COLOR_TRANSPARENT,Graphics.createColor(alpha,",
-  );
+  expect(source).not.toContain("drawAlphaText");
+  expect(source).toContain("_a158");
+  expect(chalkPlans(p).some((plan) => plan.opacity === 0.62)).toBe(true);
   expect(source).toContain("cfg_right_slot_source");
   expect(source).toContain("datadistance");
   expect(source).toContain("Application.Properties.getValue");

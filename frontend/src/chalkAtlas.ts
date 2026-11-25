@@ -5,6 +5,7 @@ export async function chalkAtlas(
   size: number,
   glyphs: string,
   filename: string,
+  opacity = 1,
 ) {
   const face = await new FontFace(family, bytes).load();
   document.fonts.add(face);
@@ -15,6 +16,7 @@ export async function chalkAtlas(
     const ctx = canvas.getContext("2d")!;
     ctx.font = `${size}px "${family}"`;
     ctx.fillStyle = "#fff";
+    ctx.globalAlpha = opacity;
     ctx.textBaseline = "alphabetic";
     const chars = [...new Set([...glyphs])],
       metrics = chars.map((c) => ctx.measureText(c));

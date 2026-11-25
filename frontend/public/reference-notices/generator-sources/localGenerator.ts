@@ -217,13 +217,6 @@ function draw(l: Layer, aod: boolean) {
     suffix = "}";
   }
   const ink = paint;
-  if ((l.opacity ?? 1) < 1) {
-    return (
-      prefix +
-      `drawAlphaText(dc,${JSON.stringify(l.id)},px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}),${font(l, aod)},${content},${ink},${Math.round((l.opacity ?? 1) * 255)},${align === "left" ? 0 : align === "right" ? 2 : 1});` +
-      suffix
-    );
-  }
   return (
     prefix +
     `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
@@ -406,27 +399,6 @@ class GeneratedApp extends Application.AppBase {var mainView=null;function initi
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
  ${settings.helpers}
-${
-  included.some(
-    (l) =>
-      ["text", "time", "date", "metric"].includes(l.kind) &&
-      (l.opacity ?? 1) < 1,
-  )
-    ? `var textBuffers={};
- function drawAlphaText(dc,id,x,y,w,h,font,text,ink,alpha,align){
-  var signature=text+":"+ink.format("%d")+":"+w.format("%d")+":"+h.format("%d")+":"+alpha.format("%d")+":"+font.toString();
-  if(!textBuffers.hasKey(id) || !textBuffers[id][0].equals(signature)){
-   var ref=Graphics.createBufferedBitmap({:width=>w+16,:height=>h+16,:palette=>[Graphics.COLOR_TRANSPARENT,ink]});
-   var surface=ref.get();var target=surface.getDc();target.setColor(ink,Graphics.COLOR_TRANSPARENT);target.clear();
-   var justify=align==0?Graphics.TEXT_JUSTIFY_LEFT:(align==2?Graphics.TEXT_JUSTIFY_RIGHT:Graphics.TEXT_JUSTIFY_CENTER);
-   target.drawText(8+(align==0?0:(align==2?w:w/2)),8+h/2,font,text,justify|Graphics.TEXT_JUSTIFY_VCENTER);
-   surface.setPalette([Graphics.COLOR_TRANSPARENT,Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255)]);
-   textBuffers[id]=[signature,ref];
-  }
-  dc.drawBitmap(x-8,y-8,textBuffers[id][1].get());
- }`
-    : ""
-}
  ${chalk.length ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
