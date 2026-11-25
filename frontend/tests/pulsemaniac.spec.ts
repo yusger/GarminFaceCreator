@@ -36,7 +36,7 @@ test("owned PulseManiac package pins all selected transparent assets and leaves 
     ).toBe(asset.sha256);
   }
   const states = bundle.project.layers.filter(
-    (l: any) => l.kind === "image" && l.visibility,
+    (l: any) => l.kind === "image" && l.visibility && !l.libraryIcon,
   );
   expect(states).toHaveLength(4);
   expect(states.every((l: any) => l.x === 117 && l.y === 104)).toBe(true);
@@ -87,7 +87,7 @@ test("PulseManiac creates an editable native project, previews all four static s
   await mkdir(directory, { recursive: true });
   await writeFile(join(directory, "source.zip"), originalBytes);
   const bodies = design.layers.filter(
-    (l: any) => l.kind === "image" && l.visibility,
+    (l: any) => l.kind === "image" && l.visibility && !l.libraryIcon,
   );
   await page.getByRole("button", { name: "预览", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "表盘独立预览" });

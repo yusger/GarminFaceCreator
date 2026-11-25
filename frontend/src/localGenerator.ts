@@ -12,7 +12,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-15-conditions";
+export const LOCAL_GENERATOR_VERSION = "basic-16-image-scale";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -162,7 +162,7 @@ function draw(l: Layer, aod: boolean) {
     );
   }
   if (l.kind === "image" && !l.libraryIcon)
-    return `dc.drawBitmap(px(${num(l.x)}),px(${num(l.y)}),WatchUi.loadResource(Rez.Drawables.${bitmapId(l)}));`;
+    return `drawStaticImage(dc,Rez.Drawables.${bitmapId(l)},px(${num(l.x)}),px(${num(l.y)}));`;
   if (l.kind === "image" && l.libraryIcon)
     return `GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
   if (["rect", "circle", "line"].includes(l.kind))
@@ -264,7 +264,7 @@ export function localGenerate(p: Project) {
   const imageResources = imageLayers
     .map(
       (l) =>
-        `<bitmap id="${bitmapId(l)}" filename="../../${imageAssetPath(l)}" scaleX="${Math.max(1, Math.round((l.w * device.screenWidth) / 454))}" scaleY="${Math.max(1, Math.round((l.h * device.screenHeight) / 454))}" scaleRelativeTo="image"/>`,
+        `<bitmap id="${bitmapId(l)}" filename="../../${imageAssetPath(l)}" scaleX="${((Math.max(1, Math.round((l.w * device.screenWidth) / 454)) / device.screenWidth) * 100).toFixed(8)}%" scaleY="${((Math.max(1, Math.round((l.h * device.screenHeight) / 454)) / device.screenHeight) * 100).toFixed(8)}%" scaleRelativeTo="screen"/>`,
     )
     .join("");
   const requirements = generationRequirements(p);
@@ -412,9 +412,16 @@ class GeneratedView extends WatchUi.WatchFace {
  `
      : ""
  }
+ ${
+   imageLayers.length
+     ? `var bitmapCache={};var bitmapUsed={};
+ function drawStaticImage(dc,id,x,y){bitmapUsed[id]=true;if(!bitmapCache.hasKey(id)){bitmapCache[id]=WatchUi.loadResource(id);}dc.drawBitmap(x,y,bitmapCache[id]);}
+ function trimImages(){var keys=bitmapCache.keys();for(var i=0;i<keys.size();i++){if(!bitmapUsed.hasKey(keys[i])){bitmapCache.remove(keys[i]);}}}`
+     : ""
+ }
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
-  scale=dc.getWidth()/454.0;var clock=System.getClockTime();${celestial ? "var solar=sleeping?solarCached:getSolarState();" : ""}${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources
+  ${imageLayers.length ? "bitmapUsed={};" : ""}scale=dc.getWidth()/454.0;var clock=System.getClockTime();${celestial ? "var solar=sleeping?solarCached:getSolarState();" : ""}${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources
     .filter((s) => s !== "seconds")
     .map((s) => `var data${s}=null;`)
     .join(
@@ -422,6 +429,7 @@ class GeneratedView extends WatchUi.WatchFace {
     )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
   dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   if(sleeping){${included.map((l) => visibleDraw(l, true)).join("\n")}}else{${included.map((l) => visibleDraw(l, false)).join("\n")}}
+  ${imageLayers.length ? "trimImages();" : ""}
  }
 }`;
   return parseFiles(
