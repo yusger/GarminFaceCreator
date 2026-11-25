@@ -366,4 +366,4 @@ R-C01～06 的勾选对应本次已接入的 R-01～07 的明确适配范围。�
 - [x] 11 个默认表盘独立到 default-watchfaces，统一 reference.json / design.json / source / resources / assets / notices。
 - [x] 自动生成注册表、统一加载和兼容输出；ClownWatch、PulseManiac 标记“自主”。
 - [x] 迁移核对：10 个原生项目共 100 个代码文件逐字节一致，图层 ID 保持。
-- [ ] 113 环境验收后记录验证提交。
+- [x] 113 环境验收：16 项测试通过（1.7 分钟），含 11 包素材/源码一致性、自主标签、PulseManiac 双尺寸编译与导出回编。
