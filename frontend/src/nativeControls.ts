@@ -167,7 +167,7 @@ export function nativeControls(p: Project) {
         controls
           .map(
             (c) =>
-              `var ${variable(c.id)}=settingsCache[${JSON.stringify(key(c.id))}];`,
+              `var ${variable(c.id)}=settingsCache[${JSON.stringify(key(c.id))}] as Toybox.Lang.${c.type === "color" ? "Number" : c.type === "boolean" ? "Boolean" : "String"};`,
           )
           .join("")
       : "",
