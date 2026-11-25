@@ -3,6 +3,7 @@ import {
   project,
   validateProject,
   metrics,
+  uid,
   type Layer,
   type Project,
 } from "./domain";
@@ -453,7 +454,7 @@ export async function readDesignReference(
       .getContext("2d")!
       .drawImage(bitmap, 0, 0, canvas.width, canvas.height);
     return {
-      id: "ref_" + crypto.randomUUID().replaceAll("-", ""),
+      id: "ref_" + uid().replaceAll("-", ""),
       name: file.name,
       data: canvas.toDataURL("image/png"),
       usage: "style",
