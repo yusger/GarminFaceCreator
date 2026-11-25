@@ -340,6 +340,9 @@ export function importedDevices(original: Project, imported: Project): Project {
       master: m.master.map((l, i) => ({
         ...l,
         id: ids.get(l.id)!,
+        ...(l.sourceLabelFor
+          ? { sourceLabelFor: ids.get(l.sourceLabelFor)! }
+          : {}),
         ...(imported.layers[i].assetId
           ? { assetId: imported.layers[i].assetId }
           : {}),

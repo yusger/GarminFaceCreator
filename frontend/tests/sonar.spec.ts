@@ -123,6 +123,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   await expect(page.locator(".layer-row")).toHaveCount(18);
   page.once("dialog", (d) => d.accept("SONAR"));
   await page.locator(".project-title button").click();
+  page.on("dialog", (d) => d.accept());
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   await page.locator(".watchface-controls summary").click();
@@ -141,6 +142,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   await expect(scene.locator('[data-layer="sonar_analog_second"]')).toHaveCount(
     0,
   );
+  await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: "打开 SONAR", exact: true }).click();
   await page.locator(".watchface-controls summary").click();
@@ -238,6 +240,16 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   await page.screenshot({ path: "docs/screenshots/sonar-editor.png" });
   await page.getByRole("button", { name: "预览", exact: true }).click();
   const dialog = page.getByRole("dialog", { name: "表盘独立预览" });
+  await dialog.getByLabel("实时模拟", { exact: true }).uncheck();
+  await dialog.getByLabel("预览日期", { exact: true }).fill("2026-11-25");
+  await dialog.getByLabel("模拟时间", { exact: true }).fill("10:24");
+  const seconds = dialog.getByLabel("模拟秒数", { exact: true });
+  await seconds.focus();
+  await seconds.press("Home");
+  for (let i = 0; i < 7; i++) await seconds.press("ArrowRight");
+  await dialog.getByLabel("模拟心率", { exact: true }).fill("72");
+  await dialog.getByLabel("模拟步数", { exact: true }).fill("8420");
+  await dialog.getByLabel("模拟电量", { exact: true }).fill("86");
   await dialog.getByLabel("预览显示模式", { exact: true }).selectOption("亮屏");
   await page.screenshot({ path: "docs/screenshots/sonar-active.png" });
   await dialog.getByLabel("预览显示模式", { exact: true }).selectOption("息屏");
