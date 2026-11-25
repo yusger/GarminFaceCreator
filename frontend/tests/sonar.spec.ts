@@ -140,6 +140,39 @@ test("SONAR shared controls survive snapshots and import, and reset invalidates 
     '<property id="Gfc_right_slot_source" type="number">0</property>',
   );
 });
+test("initial reference loading cannot overwrite a newly created calendar", async ({
+  page,
+}) => {
+  let release = () => {};
+  const gate = new Promise<void>((r) => (release = r));
+  await page.route(
+    "**/default-watchfaces/sonar/project.json",
+    async (route) => {
+      await gate;
+      await route.continue();
+    },
+  );
+  try {
+    await page.goto("/");
+    const blank = page.getByText("空白画布", { exact: true });
+    await expect(blank).toBeDisabled();
+    release();
+    await expect(blank).toBeEnabled();
+    page.on("dialog", (d) => d.accept("StartupCalendar"));
+    await blank.click();
+    await page.getByLabel("初始布局", { exact: true }).selectOption("blank");
+    await page.getByRole("button", { name: "创建项目", exact: true }).click();
+    await page.getByRole("button", { name: "三周日历", exact: true }).click();
+    await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
+    await page.reload();
+    await page
+      .getByRole("button", { name: "打开 StartupCalendar", exact: true })
+      .click();
+    await expect(page.locator(".layer-row")).toHaveCount(1);
+  } finally {
+    release();
+  }
+});
 function unzip(bytes: Buffer) {
   const files = new Map<string, Buffer>();
   let offset = 0;
