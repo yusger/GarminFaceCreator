@@ -156,6 +156,9 @@ test("initial reference loading cannot overwrite a newly created calendar", asyn
     await page.goto("/");
     const blank = page.getByText("空白画布", { exact: true });
     await expect(blank).toBeDisabled();
+    await expect(
+      page.getByRole("button", { name: "新建表盘", exact: true }),
+    ).toBeDisabled();
     release();
     await expect(blank).toBeEnabled();
     page.on("dialog", (d) => d.accept("StartupCalendar"));

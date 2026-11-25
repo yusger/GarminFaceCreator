@@ -1519,7 +1519,10 @@ export default function App() {
               <Folder size={18} />
               项目
             </button>
-            <button onClick={() => (p ? setPage("editor") : create())}>
+            <button
+              disabled={!ready && !p}
+              onClick={() => (p ? setPage("editor") : create())}
+            >
               <MousePointer2 size={18} />
               表盘编辑器
             </button>
@@ -1571,7 +1574,11 @@ export default function App() {
                   <Upload size={16} />
                   导入项目
                 </button>
-                <button className="primary" onClick={() => create()}>
+                <button
+                  disabled={!ready}
+                  className="primary"
+                  onClick={() => create()}
+                >
                   <Plus size={16} />
                   新建表盘
                 </button>
@@ -1685,7 +1692,7 @@ export default function App() {
                   <b>第一次使用？试试基础数字表盘</b>
                   <p>内置时间、秒环和两个数据控件，所有元素都可以自由调整。</p>
                 </div>
-                <button onClick={() => create()}>
+                <button disabled={!ready} onClick={() => create()}>
                   使用示例 <Plus size={14} />
                 </button>
               </div>
