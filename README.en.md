@@ -2,7 +2,7 @@
 
 [简体中文](readme.md) | **English**
 
-A visual watch-face designer for Garmin Connect IQ. Arrange components, layers, and assets in a web editor, use your own AI provider to generate a Monkey C project from the browser, and compile it into a PRG with the .NET backend.
+A visual watch-face designer for Garmin Connect IQ. Start with a blank canvas, a built-in reference, or an AI-created editable design. Refine the design first, then explicitly generate a Monkey C project with your own AI provider and compile it into a PRG with the .NET backend.
 
 > This project is under development. Web previews use simulated data. A successful build does not mean the watch face has been validated on a physical device.
 
@@ -10,7 +10,19 @@ A visual watch-face designer for Garmin Connect IQ. Arrange components, layers, 
 
 ### Projects and reference watch faces
 
-![Project management and reference watch faces](docs/screenshots/projects.png)
+![Built-in watch faces, self-authored references, and AI creation](docs/screenshots/projects-builtins.png)
+
+The Watchface Projects navigation separates built-in references from projects saved in your browser. Built-ins are protected and create editable copies; self-authored references appear first.
+
+### AI watch-face creation
+
+Choose a time style, seconds, date, and metrics, then add device settings, an AI model, reference images, and a prompt.
+
+![AI creation: time and metric selection](docs/screenshots/ai-create-options.png)
+
+![AI creation: preview and adopt an editable design](docs/screenshots/ai-create-45mm.png)
+
+These wizard screenshots use fixed test responses to demonstrate the workflow, not a real model-quality benchmark. See also [device selection](docs/screenshots/ai-create-device.png) and the [hybrid example](docs/screenshots/ai-create-41mm.png).
 
 ### Visual editor
 
@@ -28,7 +40,10 @@ The screenshots show the current Chinese interface.
 
 ## Features
 
-- Atomic browser saves with conflict recovery, schema migration, and design JSON import/export.
+- Separate built-in and personal watchface lists, scoped search, self-authored badges and ordering; atomic browser saves, conflict recovery, schema migration, and design JSON import/export.
+- AI-created editable designs from watch series/model/size, digital/analog/hybrid styles, seconds/date/metrics, reference images, and a prompt. Preview the result before adopting it.
+- Separate design, engineering, and compilation actions. Manual edits do not call a model; generation supports cancellation, error/truncation feedback, raw-response downloads, and backup/retry after a failed browser save.
+- Optional per-layer native-effect instructions are saved with the design and sent during later AI code generation. Web previews show the base layout; local generation explicitly rejects unsupported instructions.
 - Round canvas with four-corner resizing, marquee/Shift selection, snapping, batch actions, alignment, undo, and redo.
 - Time, date, metrics, text, images, rings, and basic shapes.
 - Independent preview with the current time, random heart rate, increasing step count, scenario presets, playback controls, and active / always-on comparison.
@@ -45,6 +60,21 @@ The screenshots show the current Chinese interface.
 - Download names follow `Model_Size_ProjectName.prg`, with whitespace removed and invalid filename characters handled.
 
 User-triggered AI repair supports up to two rounds with diff review and scoped files. Reviewed AI device-layout suggestions are available; unattended editing/repair and full native simulator previews remain future work. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
+
+## From design to PRG
+
+| Step | Action | Model request |
+| --- | --- | --- |
+| 1. Create a design | Choose AI creation beside the blank canvas; select a device, time style, metrics, references, and a prompt, then generate the design | One explicit request; no automatic retries |
+| 2. Refine it | Preview, adopt, then move components, change colors/fonts/sources, replace assets, and save | None |
+| 3. Generate engineering files | Use the existing AI code generation action, review the files, and apply them; alternatively use local generation within its supported subset | AI generation makes a request; local generation does not |
+| 4. Compile and download | Start the build, inspect logs, and download the PRG | None |
+
+Design edits mark existing code as stale while preserving its history; they never trigger automatic regeneration. You can also start from a built-in copy or design manually on a blank canvas without AI design creation.
+
+The initial wizard supports 24-hour time and integer seconds. 12-hour/AM–PM, lunar dates, solar terms, holidays, notification counts, and smooth sweeping seconds are not enabled. References can guide style/layout or serve as actual assets; only explicitly used assets enter the project. Image input requires a vision-capable model. Automatic raster-image generation is not included.
+
+Custom native effects are implemented during later AI code generation. The web editor shows a basic or static approximation; actual effects require simulator/device checks. See the [AI creation guide](docs/ai-create.md) and [basic specification v1.1](docs/watchface-basic-spec.md), currently in Chinese.
 
 ## Supported devices
 
@@ -63,15 +93,17 @@ All listed screens are round AMOLED displays. Designs use a normalized 454×454 
 ```mermaid
 flowchart LR
     Browser[React web editor] <--> Local[Browser storage]
-    Browser -->|Design and asset inventory| AI[User-configured AI service]
-    AI -->|Project files| Browser
-    Browser -->|Source and required assets| API[ASP.NET Core / .NET 10]
+    Browser -->|AI creation: requirements and optional references| AI[User-configured AI service]
+    AI -->|Editable design JSON| Browser
+    Browser -->|Explicit engineering: current design and asset inventory| AI
+    AI -->|Monkey C project files| Browser
+    Browser -->|Explicit compilation: source and required assets| API[ASP.NET Core / .NET 10]
     API --> SDK[Linux Connect IQ SDK]
     SDK -->|Logs and signed PRG| Browser
 ```
 
 - API keys stay in the browser, either for the current session or persistently if requested. They are excluded from prompts, standard project exports, and build requests.
-- Images are stored in the browser. The current build workflow uploads required assets to the backend; asset handling is not fully offline.
+- Reference images go directly from the browser to the chosen model, not to the build service during design creation. Images adopted as runtime assets stay in the local project and are uploaded when required for compilation.
 - The browser calls AI providers directly, so the provider must allow CORS. The backend does not proxy AI requests.
 - The build service does not execute uploaded shell or build scripts.
 - The application is currently intended for personal self-hosting. Authentication and multi-user isolation are not implemented.
@@ -96,6 +128,10 @@ See the [backend deployment guide](docs/backend-deployment.md) for deployment, S
 
 The detailed guides are currently in Chinese:
 
+- [AI creation: design, editing, engineering, and compilation](docs/ai-create.md)
+- [Basic watchface specification v1.1](docs/watchface-basic-spec.md)
+- [Design-package specification v1.2](docs/watchface-package-standard.md)
+- [SONAR sample and historical reviews](docs/sonar-package-review.md)
 - [Editor usage and feature scope](docs/frontend-running.md)
 - [Backend API and container deployment](docs/backend-deployment.md)
 - [Frontend design plan](docs/frontend-design.md)
@@ -128,7 +164,7 @@ License review: SkyRing upstream licensing is not verified. fine-o-clock README 
 
 Preview uses browser rendering and simulated metrics. Native fonts, color depth, AOD lifecycle and refresh limits need target-device checks; no power estimate is inferred from the web preview. See [preview limitations (Chinese)](docs/preview-limitations.md). Use the bilingual [issue forms](https://github.com/yusger/GarminFaceCreator/issues/new/choose) for bug reports or feature requests, with credentials and private data removed.
 
-A limited browser-local generator supports unrotated time, ASCII text and basic shapes without an AI call. Manual AI repair accepts selected text files and reviewed redacted logs, allows at most two requests per generation root in the current browser, and requires diff review before applying. Existing source is snapshotted and patch provenance is recorded. See [local generation](docs/local-generator.md) and [bounded repair](docs/ai-repair.md).
+An optional browser-local generator handles a supported subset of time, data, shapes, images, and other components without an AI call. Nonempty native-effect instructions require AI engineering or explicit removal; they are never silently ignored. Manual AI repair accepts selected text files and reviewed redacted logs, allows at most two requests per generation root in the current browser, and requires diff review before applying. Existing source is snapshotted and patch provenance is recorded. See [local generation](docs/local-generator.md) and [bounded repair](docs/ai-repair.md).
 
 The static icon gallery includes pinned Lucide and Meteocons originals with attribution. Search and insert icons, change colors and Lucide stroke width, and export only referenced raster assets with their original SVGs and full notices. Monochrome icons can bind to cached Garmin weather with manual day/night styles and a missing-data fallback; see [icon library](docs/icon-library.md).
 
@@ -163,13 +199,7 @@ Editable components also include segmented goal meters, a three-week calendar, E
 See the [PulseManiac guide](docs/pulsemaniac.md) (Chinese) for creation, configuration, selected assets, generation prompts and actual browser/native screenshots. Original local drafting references are excluded from the repository.
 
 
-Default watchface packages are maintained in [default-watchfaces](default-watchfaces/README.md). ClownWatch and PulseManiac carry a self-authored badge; asset rights remain documented in each package’s notices.
+Default watchface packages are maintained in [default-watchfaces](default-watchfaces/README.md). ClownWatch, PulseManiac, and SONAR carry a self-authored badge on built-in cards; asset rights remain documented in each package’s notices.
 
 
 [SONAR reference](docs/sonar.md): 18 editable layers, 12 controls, continuous progress and packaged fonts; static scan fallback.
-
-
-[Watchface package specification v1.2 (Chinese)](docs/watchface-package-standard.md) covers the delivery format, settings and effects, compatibility, and current converter capabilities. [SONAR package notes (Chinese)](docs/sonar-package-review.md) retain its sample-specific checklist and historical reviews.
-
-
-[AI watchface creation (Chinese)](docs/ai-create.md) generates an editable design from device, time style, data selections, references and a prompt. Edit first, then explicitly generate native code and compile. See the [basic design specification v1.1 (Chinese)](docs/watchface-basic-spec.md) for supported and planned capabilities.
