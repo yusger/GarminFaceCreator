@@ -1,3 +1,5 @@
+import AdaptationAssistant from "./AdaptationAssistant";
+import { adaptationFingerprint, applyAdaptation } from "./adaptation";
 import DeviceAdaptations from "./DeviceAdaptations";
 import { reconcileDevices, deviceKey, projectForDevice } from "./multiDevice";
 import ReferenceDetails from "./ReferenceDetails";
@@ -161,6 +163,7 @@ export default function App() {
   const [drawer, setDrawer] = useState("");
   const [busy, setBusy] = useState(false);
   const [batchBusy, setBatchBusy] = useState(false);
+  const [showAdaptation, setShowAdaptation] = useState(false);
   const [batchResults, setBatchResults] = useState<
     {
       key: string;
@@ -508,7 +511,10 @@ export default function App() {
     });
   }
   function open(item: Project) {
-    if (batchBusy) { setNotice("请等待设备编译队列结束后切换项目。"); return; }
+    if (batchBusy) {
+      setNotice("请等待设备编译队列结束后切换项目。");
+      return;
+    }
     setBatchResults([]);
     if (p && item.id !== p.id && persisted.current !== p) {
       setNotice("当前项目有未保存修改，请先完成保存或使用恢复选项并导出备份。");
@@ -1410,6 +1416,12 @@ export default function App() {
             </button>
             {p.multiDevice && (
               <>
+                <button
+                  disabled={busy || batchBusy}
+                  onClick={() => setShowAdaptation(true)}
+                >
+                  AI 辅助适配
+                </button>
                 <button
                   disabled={busy || batchBusy}
                   onClick={generateAllDevices}
@@ -3728,6 +3740,33 @@ export default function App() {
             </footer>
           </>
         )
+      )}
+      {showAdaptation && p?.multiDevice && (
+        <AdaptationAssistant
+          key={p.id + deviceKey(p)}
+          project={p}
+          profile={generationProfile}
+          preview={preview}
+          onClose={() => setShowAdaptation(false)}
+          onApply={(fingerprint, changes) => {
+            const current = activeProject.current;
+            if (!current || adaptationFingerprint(current) !== fingerprint) {
+              setNotice("设计或设备已变化，请重新请求适配建议。");
+              return;
+            }
+            try {
+              setP(applyAdaptation(current, changes));
+              setPast([]);
+              setFuture([]);
+              setFiles([]);
+              setGenProjectId("");
+              setShowAdaptation(false);
+              setNotice("已应用到当前设备，代码已过期，请重新生成后编译。");
+            } catch (e) {
+              setNotice((e as Error).message);
+            }
+          }}
+        />
       )}
       {newProject && (
         <DevicePicker

@@ -1501,3 +1501,51 @@ label select {
 .adaptation-panel button {
   margin: 6px 6px 6px 0;
 }
+
+.adaptation-panel {
+  white-space: normal;
+}
+.adaptation-assistant {
+  background: #17202c;
+  padding: 24px;
+  border-radius: 14px;
+  width: min(960px, 95vw);
+  max-height: 90vh;
+  overflow: auto;
+  white-space: normal;
+}
+.adaptation-assistant header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.adaptation-assistant textarea {
+  display: block;
+  width: 100%;
+  min-height: 70px;
+}
+.adaptation-assistant pre {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  max-height: 240px;
+  overflow: auto;
+}
+.adaptation-assistant button {
+  margin: 8px;
+}
+.adaptation-comparison {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.adaptation-comparison .watch {
+  width: 100%;
+  max-height: 300px;
+}
+.header-actions {
+  flex-wrap: wrap;
+}
+.topbar {
+  min-height: 62px;
+  height: auto;
+}
