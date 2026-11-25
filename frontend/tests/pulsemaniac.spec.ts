@@ -245,8 +245,14 @@ test("PulseManiac creates an editable native project, previews all four static s
     ),
   ).toBe(true);
   await compile(edited, "venu441mm", "41mm");
+  await page.getByRole("button", { name: /^适配设备/ }).click();
+  await page.getByLabel("适配编辑范围", { exact: true }).selectOption("master");
+  await page.getByRole("button", { name: /^适配设备/ }).click();
   await page.getByText("顶部数据2（默认步数）", { exact: true }).click();
   await page.getByLabel("数据源", { exact: true }).selectOption("temperature");
+  await expect(page.getByLabel("数据源", { exact: true })).toHaveValue(
+    "temperature",
+  );
   await page.getByLabel("数据标签", { exact: true }).fill("TEMP");
   await page.getByLabel("数据标签", { exact: true }).blur();
   await page
