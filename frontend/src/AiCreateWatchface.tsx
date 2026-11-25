@@ -135,6 +135,16 @@ export default function AiCreateWatchface({
       }
     }
   }
+  function downloadResponse() {
+    const url = URL.createObjectURL(
+      new Blob([raw], { type: "text/plain;charset=utf-8" }),
+    );
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "ai-design-response.txt";
+    link.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
   async function adopt() {
     if (!result) return;
     setSaving(true);
@@ -516,9 +526,7 @@ export default function AiCreateWatchface({
               <details>
                 <summary>模型响应</summary>
                 <pre className="ai-design-raw">{raw}</pre>
-                <button onClick={() => download("ai-design-response.txt", raw)}>
-                  下载模型响应
-                </button>
+                <button onClick={downloadResponse}>下载模型响应</button>
               </details>
             )}
           </div>

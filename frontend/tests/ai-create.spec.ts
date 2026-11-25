@@ -420,7 +420,9 @@ test("reference image is sent directly to the model; native effects reach engine
   await page.locator('.ai-design-form input[type="file"]').setInputFiles({
     name: "material.png",
     mimeType: "image/png",
-    buffer: Buffer.from(tiny.split(",")[1], "base64"),
+    buffer: await readFile(
+      "default-watchfaces/sonar/assets/sonar_heart_icon.png",
+    ),
   });
   await page.getByLabel("参考图用途 material.png").selectOption("asset");
   await page.getByRole("button", { name: "生成表盘项目", exact: true }).click();

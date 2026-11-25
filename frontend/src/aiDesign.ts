@@ -307,6 +307,12 @@ export function parseDesign(
       throw Error("指针须明确时/分/秒");
     if (v.kind === "date" && (!c.date || v.dateLocale !== c.dateLocale))
       throw Error("日期显示与所选语言不一致");
+    if (
+      v.dateFormat !== undefined &&
+      (v.dateFormat !== "monthDayWeek" ||
+        (v.kind === "date" && v.dateLocale === "zh"))
+    )
+      throw Error("日期格式与当前语言不兼容");
     const { referenceId, ...fields } = v;
     const item: Layer = {
       ...layer(v.kind),

@@ -78,6 +78,7 @@ test("legacy history remains readable and can be reduced without deleting active
     p,
   );
   await page.reload();
+  await page.getByRole("button", { name: "我的表盘", exact: true }).click();
   await page
     .getByRole("button", { name: "打开 历史测试", exact: true })
     .click();
