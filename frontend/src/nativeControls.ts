@@ -97,13 +97,13 @@ export function nativeControls(p: Project) {
   for (const c of controls) {
     const id = key(c.id),
       v = controlValue(p, c),
-      def = c.type === "color" ? hex(String(v)) : String(v),
-      type =
+      def =
         c.type === "color"
-          ? "number"
-          : c.type === "boolean"
-            ? "boolean"
-            : "string";
+          ? hex(String(v))
+          : c.type === "dataSource"
+            ? String(c.options!.indexOf(String(v)))
+            : String(v),
+      type = c.type === "boolean" ? "boolean" : "number";
     properties.push(
       `<property id="${id}" type="${type}">${xml(def)}</property>`,
     );
@@ -121,7 +121,7 @@ export function nativeControls(p: Project) {
               strings.push(
                 `<string id="${label}">${xml(c.type === "dataSource" ? { steps: "步数", calories: "当日总热量", distance: "当日距离", battery: "电量", heartRate: "心率", temperature: "天气温度", seconds: "秒数" }[entry] || entry : entry)}</string>`,
               );
-              return `<listEntry value="${xml(c.type === "color" ? hex(entry) : entry)}">@Strings.${label}</listEntry>`;
+              return `<listEntry value="${xml(c.type === "color" ? hex(entry) : String(i))}">@Strings.${label}</listEntry>`;
             })
             .join("")}</settingConfig>`;
     settings.push(
@@ -138,8 +138,8 @@ export function nativeControls(p: Project) {
             ? "v instanceof Toybox.Lang.Number && v>=0 && v<=16777215"
             : c.type === "boolean"
               ? "v instanceof Toybox.Lang.Boolean"
-              : `v instanceof Toybox.Lang.String && (${c.options!.map((x) => `v.equals(${JSON.stringify(x)})`).join(" || ")})`;
-      return `{var v=null;try{v=Application.Properties.getValue(${JSON.stringify(id)});}catch(e){}settingsCache[${JSON.stringify(id)}]=(v!=null && (${valid}))?v:${fallback};}`;
+              : `v instanceof Toybox.Lang.Number && v>=0 && v<${c.options!.length} && v.toNumber()==v`;
+      return `{var v=null;try{v=Application.Properties.getValue(${JSON.stringify(id)});}catch(e){}settingsCache[${JSON.stringify(id)}]=(v!=null && (${valid}))?${c.type === "dataSource" ? `[${c.options!.map((x) => JSON.stringify(x)).join(",")}][v.toNumber()]` : "v"}:${fallback};}`;
     })
     .join("");
   return {

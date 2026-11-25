@@ -315,7 +315,7 @@
         "repository-LICENSE.txt"
       ],
       "path": "/default-watchfaces/sonar/project.json",
-      "sha256": "0c473c0ca72c57070c415899ae05c34dea3d9c4682cd0144ab817215070c68bd"
+      "sha256": "6288d99f8959998ff89cbf4e900055243b9e2eb9818e760012ee5843692149db"
     }
   ],
   "generators": [

@@ -1,3 +1,9 @@
+import { enableDevices, addDevice, selectDevice } from "../src/multiDevice";
+import {
+  saveDesignSnapshot,
+  restoreDesignSnapshot,
+} from "../src/designHistory";
+import { resetControls } from "../src/projectControls";
 import { test, expect } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";
@@ -89,6 +95,43 @@ test("SONAR conversion preserves generic fonts, native controls, continuous prog
   )!.content;
   expect(shared).toContain("ink=cfg_hr_normal_color");
   expect(shared).toContain("ink=cfg_hr_warning_color");
+});
+test("SONAR shared controls survive snapshots and import, and reset invalidates every device target", async () => {
+  let p = await canonical();
+  p = selectDevice(
+    addDevice(enableDevices(p), "venu441mm", "41mm"),
+    "venu441mm:41mm",
+    "master",
+  );
+  p = setControl(p, "right-slot-source", "distance");
+  p = saveDesignSnapshot(p, "distance");
+  const id = p.activeDesignSnapshot!;
+  const snapshot = restoreDesignSnapshot(
+    setControl(p, "right-slot-source", "steps"),
+    id,
+  );
+  expect(
+    resolveControls(snapshot).layers.find((l) => l.id === "sonar_steps_value")!
+      .source,
+  ).toBe("distance");
+  const imported = validateProject(snapshot);
+  expect(() =>
+    validateControls({ ...imported, layers: imported.multiDevice!.master }),
+  ).not.toThrow();
+  const reset = resetControls(snapshot);
+  expect(
+    resolveControls(reset).layers.find((l) => l.id === "sonar_steps_value")!
+      .source,
+  ).toBe("steps");
+  expect(
+    reset.multiDevice!.variants.every((v) => v.code.codeRevision === -1),
+  ).toBe(true);
+  const code = localGenerate(reset);
+  expect(
+    code.find((f) => f.path === "resources/settings/properties.xml")!.content,
+  ).toContain(
+    '<property id="Gfc_right_slot_source" type="number">0</property>',
+  );
 });
 function unzip(bytes: Buffer) {
   const files = new Map<string, Buffer>();
