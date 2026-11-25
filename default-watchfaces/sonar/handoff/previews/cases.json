@@ -1,0 +1,96 @@
+{
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "default-active",
+      "image": "preview.png",
+      "mode": "active",
+      "dataOverrides": {},
+      "settingsOverrides": {}
+    },
+    {
+      "id": "default-aod",
+      "image": "preview-aod.png",
+      "mode": "aod",
+      "dataOverrides": {},
+      "settingsOverrides": {}
+    },
+    {
+      "id": "hr-120",
+      "image": "previews/hr-120.png",
+      "mode": "active",
+      "dataOverrides": {
+        "heartRate": 120
+      },
+      "settingsOverrides": {}
+    },
+    {
+      "id": "hr-150",
+      "image": "previews/hr-150.png",
+      "mode": "active",
+      "dataOverrides": {
+        "heartRate": 150
+      },
+      "settingsOverrides": {}
+    },
+    {
+      "id": "battery-29",
+      "image": "previews/battery-29.png",
+      "mode": "active",
+      "dataOverrides": {
+        "battery": 29
+      },
+      "settingsOverrides": {}
+    },
+    {
+      "id": "battery-9",
+      "image": "previews/battery-9.png",
+      "mode": "active",
+      "dataOverrides": {
+        "battery": 9
+      },
+      "settingsOverrides": {}
+    },
+    {
+      "id": "zero",
+      "image": "previews/zero.png",
+      "mode": "active",
+      "dataOverrides": {
+        "steps": 0,
+        "battery": 0
+      },
+      "settingsOverrides": {}
+    },
+    {
+      "id": "missing",
+      "image": "previews/missing.png",
+      "mode": "active",
+      "dataOverrides": {
+        "heartRate": null,
+        "steps": null,
+        "battery": null
+      },
+      "settingsOverrides": {}
+    },
+    {
+      "id": "distance-slot",
+      "image": "previews/distance-slot.png",
+      "mode": "active",
+      "dataOverrides": {
+        "distance": 6.42
+      },
+      "settingsOverrides": {
+        "right-slot-source": "distance"
+      }
+    },
+    {
+      "id": "seconds-off",
+      "image": "previews/seconds-off.png",
+      "mode": "active",
+      "dataOverrides": {},
+      "settingsOverrides": {
+        "show-seconds": false
+      }
+    }
+  ]
+}

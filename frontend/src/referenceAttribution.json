@@ -264,5 +264,29 @@
       "MaShanZheng-Regular-METADATA.pb.txt",
       "PulseManiac-Font-Sources.json"
     ]
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000012",
+    "name": "SONAR",
+    "template": "sonar",
+    "source": "https://github.com/yusger/GarminFaceCreator/tree/main/default-watchfaces/sonar",
+    "status": "Self-authored design; generated native implementation GPL-3.0-or-later; supplied artwork/font notices retained separately",
+    "summary": "自主声呐混合表盘；独立数据控件、连续进度条、可配置颜色与数据来源；首版静态扫描扇区",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Self-authored design package with retained source, notices and fingerprints",
+    "legacy": false,
+    "verifiedLicense": false,
+    "authorship": "self",
+    "generation": {
+      "mode": "deterministic"
+    },
+    "owned": true,
+    "bundlePath": "/default-watchfaces/sonar/project.json",
+    "files": [
+      "SONAR-DESIGN-NOTICE.md",
+      "SONAR-number-font-LICENSE.txt",
+      "SONAR-label-font-LICENSE.txt",
+      "repository-LICENSE.txt"
+    ]
   }
 ]

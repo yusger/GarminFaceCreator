@@ -84,7 +84,7 @@ test("protected Celestial copy exports complete notices and compiles before and 
       meta.templateSources.some(
         (t: any) =>
           t.version ===
-          (language === "default" ? "basic-11-solar-events" : "basic-17-chalk-fonts"),
+          (language === "default" ? "basic-11-solar-events" : "basic-18-design-packages"),
       ),
     ).toBe(true);
     expect(files.get("notices/Celestial-LICENSE.txt")!.toString()).toContain(

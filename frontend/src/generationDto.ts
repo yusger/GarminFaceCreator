@@ -1,3 +1,4 @@
+import { validateControls } from "./projectControls";
 import { validateVisibility } from "./visibility";
 import { meterPolygons } from "./meters";
 import { defaultThresholds } from "./thresholds";
@@ -16,7 +17,8 @@ type Omitted =
   | "libraryIcon"
   | "weatherIcon"
   | "thresholdRules"
-  | "visibility";
+  | "visibility"
+  | "customFont";
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   id: true,
@@ -36,6 +38,15 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   strokeWidth: true,
   metricDecoration: true,
   sourceLocked: true,
+  fixedSource: true,
+  activeVisible: true,
+  sourceLabelFor: true,
+  autoPrecision: true,
+  groupThousands: true,
+  meterContinuous: true,
+  meterDimColor: true,
+  dateFormat: true,
+  handCap: true,
   wordLanguage: true,
   wordRow: true,
   handType: true,
@@ -112,6 +123,9 @@ export function generationLayer(l: Layer) {
   );
   return {
     ...result,
+    ...(l.customFont
+      ? { customFont: objectFields(l.customFont, ["id", "family", "file"]) }
+      : {}),
     ...(l.visibility
       ? {
           visibility: objectFields(l.visibility, [
@@ -234,8 +248,23 @@ export function generationLayer(l: Layer) {
   };
 }
 export function generationHeader(p: Project) {
+  validateControls(p);
   return {
     schemaVersion: scalar(p.schemaVersion),
+    backgroundColor: scalar(p.backgroundColor),
+    controls: p.controls?.map((c) => ({
+      ...objectFields(c, ["id", "label", "type", "default"]),
+      options: c.options?.map(scalar),
+      targets: c.targets.map((t) => objectFields(t, ["layerId", "property"])),
+      hideWhenChangedFromDefault: c.hideWhenChangedFromDefault?.map(scalar),
+    })),
+    controlValues: p.controlValues
+      ? Object.fromEntries(
+          (p.controls || [])
+            .filter((c) => p.controlValues?.[c.id] !== undefined)
+            .map((c) => [c.id, scalar(p.controlValues![c.id])]),
+        )
+      : undefined,
     appId: scalar(p.appId),
     name: scalar(p.name),
     revision: scalar(p.revision),

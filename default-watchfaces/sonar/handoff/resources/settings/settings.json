@@ -1,0 +1,189 @@
+{
+  "formatVersion": 1,
+  "items": [
+    {
+      "id": "primary-color",
+      "label": "主要文字颜色",
+      "type": "color",
+      "default": "#DCE9F0",
+      "targets": [
+        {
+          "scope": "layer",
+          "id": "digital-time",
+          "property": "style.color"
+        },
+        {
+          "scope": "layer",
+          "id": "steps-value",
+          "property": "style.color"
+        },
+        {
+          "scope": "layer",
+          "id": "date",
+          "property": "style.color"
+        }
+      ]
+    },
+    {
+      "id": "hour-hand-color",
+      "label": "时针颜色",
+      "type": "color",
+      "default": "#DCE9F0",
+      "targets": [
+        {
+          "scope": "layer",
+          "id": "analog-hour",
+          "property": "style.color"
+        }
+      ]
+    },
+    {
+      "id": "minute-hand-color",
+      "label": "分针颜色",
+      "type": "color",
+      "default": "#DCE9F0",
+      "targets": [
+        {
+          "scope": "layer",
+          "id": "analog-minute",
+          "property": "style.color"
+        }
+      ]
+    },
+    {
+      "id": "second-hand-color",
+      "label": "秒针与数字秒颜色",
+      "type": "color",
+      "default": "#F2A65F",
+      "targets": [
+        {
+          "scope": "layer",
+          "id": "analog-second",
+          "property": "style.color"
+        },
+        {
+          "scope": "layer",
+          "id": "digital-second",
+          "property": "style.color"
+        }
+      ]
+    },
+    {
+      "id": "hr-normal-color",
+      "label": "心率正常档颜色",
+      "type": "color",
+      "default": "#4FD1C5",
+      "targets": [
+        {
+          "scope": "thresholdBand",
+          "id": "hr-normal",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "hr-warning-color",
+      "label": "心率警戒档颜色",
+      "type": "color",
+      "default": "#F2A65F",
+      "targets": [
+        {
+          "scope": "thresholdBand",
+          "id": "hr-warning",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "hr-alert-color",
+      "label": "心率告警档颜色",
+      "type": "color",
+      "default": "#FF6B6B",
+      "targets": [
+        {
+          "scope": "thresholdBand",
+          "id": "hr-alert",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "batt-normal-color",
+      "label": "电量正常档颜色",
+      "type": "color",
+      "default": "#4FD1C5",
+      "targets": [
+        {
+          "scope": "thresholdBand",
+          "id": "batt-normal",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "batt-warning-color",
+      "label": "电量警告档颜色",
+      "type": "color",
+      "default": "#F2A65F",
+      "targets": [
+        {
+          "scope": "thresholdBand",
+          "id": "batt-warning",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "batt-alert-color",
+      "label": "电量低电档颜色",
+      "type": "color",
+      "default": "#FF6B6B",
+      "targets": [
+        {
+          "scope": "thresholdBand",
+          "id": "batt-alert",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "right-slot-source",
+      "label": "右侧数据",
+      "type": "dataSource",
+      "default": "steps",
+      "options": [
+        "steps",
+        "calories",
+        "distance"
+      ],
+      "hideWhenChangedFromDefault": [
+        "steps-progress"
+      ],
+      "targets": [
+        {
+          "scope": "layer",
+          "id": "steps-value",
+          "property": "binding.source"
+        }
+      ]
+    },
+    {
+      "id": "show-seconds",
+      "label": "显示秒针及数字秒",
+      "type": "boolean",
+      "default": true,
+      "targets": [
+        {
+          "scope": "layer",
+          "id": "analog-second",
+          "property": "visible"
+        },
+        {
+          "scope": "layer",
+          "id": "digital-second",
+          "property": "visible"
+        }
+      ]
+    }
+  ]
+}

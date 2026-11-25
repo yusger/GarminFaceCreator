@@ -1,3 +1,5 @@
+import { resolveControls } from "./projectControls";
+import { fontFamily, loadCustomFonts } from "./customFonts";
 import { conditionVisible } from "./visibility";
 import { timeText, timeInOffset } from "./timeParts";
 import Hand from "./Hand";
@@ -15,7 +17,7 @@ import LibraryImage from "./LibraryImage";
 import { guideInsetDesign } from "./layouts";
 import type { Box } from "./selection";
 import { thresholdInk } from "./thresholds";
-import { useId } from "react";
+import { useId, useEffect } from "react";
 import type { Project, Layer } from "./domain";
 export type Preview = {
   missing?: boolean;
@@ -62,9 +64,20 @@ export function reading(l: Layer, d: Preview) {
     return timeText(
       timeInOffset(d.time, l.timeUtcOffset, localOffset),
       l.timePart,
+      d.seconds,
     );
   }
   if (l.kind === "date") {
+    if (l.dateFormat === "monthDayWeek") {
+      const date = new Date((d.calendarDate || "2026-11-23") + "T12:00:00");
+      return Number.isFinite(date.getTime())
+        ? String(date.getMonth() + 1).padStart(2, "0") +
+            "." +
+            String(date.getDate()).padStart(2, "0") +
+            " " +
+            ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][date.getDay()]
+        : "--";
+    }
     if (l.dateLocale === "zh") {
       const date = d.calendarDate
         ? new Date(d.calendarDate + "T12:00:00")
@@ -89,7 +102,12 @@ export function reading(l: Layer, d: Preview) {
     const prefix = l.label ? l.label + " " : "";
     if (d.missing || !validMetricValue(l.source, value))
       return prefix + (l.missingValue ?? "--");
-    const text = formatMetricValue(l.source, value, l.precision);
+    const text = formatMetricValue(
+      l.source,
+      value,
+      l.precision,
+      l.groupThousands,
+    );
     return prefix + text + (l.unit ?? units[l.source] ?? "");
   }
   return "";
@@ -154,6 +172,13 @@ export default function Scene({
     resize?: number,
   ) => void;
 }) {
+  project = resolveControls(project);
+  const fontKey = JSON.stringify(
+    project.layers.map((l) => l.customFont).filter(Boolean),
+  );
+  useEffect(() => {
+    void loadCustomFonts(project).catch(() => {});
+  }, [fontKey]);
   const clipId = useId().replaceAll(":", "");
   return (
     <svg
@@ -170,7 +195,7 @@ export default function Scene({
         cx="227"
         cy="227"
         r="227"
-        fill={aod ? "#000" : "#07131d"}
+        fill={aod ? "#000" : project.backgroundColor || "#07131d"}
         stroke="#53616d"
         strokeWidth="0.7"
       />
@@ -192,6 +217,7 @@ export default function Scene({
           .filter(
             (l) =>
               (exact ? l.exportIncluded !== false : !l.hidden) &&
+              (aod || l.activeVisible !== false) &&
               conditionVisible(
                 l.visibility,
                 preview.missing ? {} : metricValues(preview),
@@ -360,15 +386,9 @@ export default function Scene({
                         ? "end"
                         : "middle"
                   }
-                  fontFamily={
-                    l.garminFont === "chalk"
-                      ? "GfcChalkLatin"
-                      : l.garminFont === "chalkHan"
-                        ? "GfcChalkHan"
-                        : "Arial, sans-serif"
-                  }
+                  fontFamily={fontFamily(l)}
                   letterSpacing={
-                    l.garminFont?.startsWith("chalk")
+                    l.customFont || l.garminFont?.startsWith("chalk")
                       ? 0
                       : l.kind === "time"
                         ? -4
@@ -376,10 +396,11 @@ export default function Scene({
                   }
                   fontSize={aod ? l.aodSize || l.size : l.size}
                   fontWeight={
-                    l.garminFont?.startsWith("chalk")
+                    l.customFont || l.garminFont?.startsWith("chalk")
                       ? 400
                       : l.fontWeight || (l.kind === "time" ? 600 : 400)
                   }
+                  opacity={l.opacity ?? 1}
                   fill={aod ? l.aodColor || "#777777" : ink(l, preview)}
                 >
                   {l.kind === "metric" && l.metricDecoration !== false

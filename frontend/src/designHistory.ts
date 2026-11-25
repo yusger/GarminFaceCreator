@@ -39,6 +39,9 @@ export function saveDesignSnapshot(p: Project, name: string): Project {
     name,
     at: Date.now(),
     layers: structuredClone(p.layers),
+    controls: structuredClone(p.controls),
+    controlValues: structuredClone(p.controlValues),
+    backgroundColor: p.backgroundColor,
     multiDevice: p.multiDevice
       ? {
           ...structuredClone(p.multiDevice),
@@ -89,6 +92,9 @@ export function restoreDesignSnapshot(p: Project, id: string): Project {
     ...(selected?.code || {}),
     multiDevice,
     layers: structuredClone(snapshot.layers),
+    controls: structuredClone(snapshot.controls),
+    controlValues: structuredClone(snapshot.controlValues),
+    backgroundColor: snapshot.backgroundColor,
     assets: structuredClone(snapshot.assets),
     target: snapshot.target,
     layoutGuide: structuredClone(snapshot.layoutGuide),

@@ -36,7 +36,7 @@ The screenshots show the current Chinese interface.
 - Optional AI layout suggestions for the current device, with payload review, before/after previews, explicit application, and a recoverable design snapshot.
 - Owned PulseManiac default reference: four static HR-driven poses, configurable top data slots, live HR inside a chest heart, subdued auxiliary data and a handwritten chalk clock; the ready pose uses a matching black face.
 - Data-driven layer visibility with explicit range boundaries, missing/AOD fallback, and target-sized static PNG resources.
-- Eleven protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, BAWF, and PulseManiac; each creates an independent editable copy.
+- Twelve protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, BAWF, PulseManiac, and SONAR; each creates an independent editable copy.
 - AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
 - Separate design/code snapshots and retention limits; generation, raw failure recovery, review, and stale-code protection.
 - Configurable rings, threshold ranges/fallbacks, metric typography, independent AOD styles, and round-screen clipping inspection.
@@ -164,3 +164,6 @@ See the [PulseManiac guide](docs/pulsemaniac.md) (Chinese) for creation, configu
 
 
 Default watchface packages are maintained in [default-watchfaces](default-watchfaces/README.md). ClownWatch and PulseManiac carry a self-authored badge; asset rights remain documented in each package’s notices.
+
+
+[SONAR reference](docs/sonar.md): 18 editable layers, 12 controls, continuous progress and packaged fonts; static scan fallback.

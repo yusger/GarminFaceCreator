@@ -1,3 +1,5 @@
+import { resolveControls, validateControls } from "./projectControls.ts";
+import { nativeControls, nativeControlledDraw } from "./nativeControls.ts";
 import { chalkFont, chalkId, chalkPlans } from "./chalkFonts.ts";
 import { nativeVisibility, validateVisibility } from "./visibility.ts";
 import { imageAssetPath } from "./assets.ts";
@@ -13,7 +15,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-17-chalk-fonts";
+export const LOCAL_GENERATOR_VERSION = "basic-18-design-packages";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -112,6 +114,7 @@ function primitive(l: Layer, aod: boolean) {
   );
 }
 function draw(l: Layer, aod: boolean) {
+  if (!aod && l.activeVisible === false) return "";
   if (
     aod &&
     (!l.aod ||
@@ -122,7 +125,7 @@ function draw(l: Layer, aod: boolean) {
     return "";
   if (l.kind === "hand") {
     if (aod && l.handType === "second" && l.aodSeconds === "hide") return "";
-    return `drawHand(dc,clock,${l.handType === "second" ? 2 : l.handType === "minute" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX ?? 0.5)},${num(l.handPivotY ?? 0.5)},${num(l.handReach ?? 0.58)},${num(l.handTail ?? 0.08)},${num(l.strokeWidth || 6)},${color(aod ? l.aodColor || "#777777" : l.color)},${aod ? "true" : "false"});`;
+    return `drawHand(dc,clock,${l.handType === "second" ? 2 : l.handType === "minute" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX ?? 0.5)},${num(l.handPivotY ?? 0.5)},${num(l.handReach ?? 0.58)},${num(l.handTail ?? 0.08)},${num(l.strokeWidth || 6)},${color(aod ? l.aodColor || "#777777" : l.color)},${aod ? "true" : "false"},${l.handCap === "round" ? "true" : "false"});`;
   }
   if (l.kind === "celestial")
     return `drawCelestial(dc,solar,${l.solarPart === "body" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${color(aod ? l.aodColor || "#777777" : l.color)},${color(aod ? l.aodColor || "#777777" : l.solarNightColor || (l.solarPart === "body" ? "#dfedff" : "#0b1829"))},${color(aod ? l.aodColor || "#777777" : l.solarMissingColor || "#17212c")});`;
@@ -147,6 +150,14 @@ function draw(l: Layer, aod: boolean) {
       ),
       todayText = color(l.calendarTodayText || "#07131d");
     return `drawCalendar(dc,calendar,${l.calendarStart === "sunday" ? 0 : 1},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${font(l, aod)},${normal},${muted},${header},${highlight},${todayText});`;
+  }
+  if (l.kind === "meter" && l.meterContinuous) {
+    const raw = "data" + l.source,
+      base = color(
+        aod ? l.aodColor || "#777777" : l.meterDimColor || "#16324a",
+      ),
+      ink = color(aod ? l.aodColor || "#777777" : l.color);
+    return `{dc.setColor(${base},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}));var ratio=0.0;if(${raw}!=null && ${raw}==${raw} && ${raw}>=0 && ${raw}<1.0e12 ${l.source === "battery" ? "&& " + raw + "<=100" : ""}){ratio=${raw}*1.0/${num(l.meterGoal || 10000)};if(ratio>1){ratio=1;}}dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}*ratio),px(${num(l.h)}));}`;
   }
   if (l.kind === "meter") {
     const ink = color(aod ? l.aodColor || "#777777" : l.color),
@@ -175,11 +186,13 @@ function draw(l: Layer, aod: boolean) {
     l.kind === "time"
       ? nativeTimeText(l.timePart, nativeClock(l.timeUtcOffset))
       : l.kind === "date"
-        ? l.dateLocale === "zh"
-          ? "dateZh"
-          : "dateText"
+        ? l.dateFormat === "monthDayWeek"
+          ? "dateMonthDayWeek"
+          : l.dateLocale === "zh"
+            ? "dateZh"
+            : "dateText"
         : l.kind === "metric"
-          ? `metricText(value,${JSON.stringify(l.source)},${JSON.stringify(l.label ? l.label + " " : "")},${JSON.stringify(l.unit ?? metricDisplayUnits[l.source] ?? "")},${l.precision ?? -1},${JSON.stringify(l.missingValue ?? "--")})`
+          ? `metricText(value,${JSON.stringify(l.source)},${JSON.stringify(l.label ? l.label + " " : "")},${JSON.stringify(l.unit ?? metricDisplayUnits[l.source] ?? "")},${l.precision ?? -1},${JSON.stringify(l.missingValue ?? "--")},${(l.groupThousands ?? (l.source === "steps" && l.precision === undefined)) ? "true" : "false"})`
           : JSON.stringify(l.text);
   let paint = color(aod ? l.aodColor || "#777777" : l.color),
     prefix = "",
@@ -206,18 +219,21 @@ function draw(l: Layer, aod: boolean) {
   const ink = paint;
   return (
     prefix +
-    `dc.setFill(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(255,(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
+    `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${font(l, aod)},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
     suffix
   );
 }
 function bitmapId(l: Layer) {
   return "GfcImage_" + l.id.replace(/[^a-zA-Z0-9]/g, "_");
 }
-function visibleDraw(l: Layer, aod: boolean) {
-  const code = draw(l, aod);
+function visibleDraw(l: Layer, aod: boolean, p: Project) {
+  const code = nativeControlledDraw(p, l, aod, (input) => draw(input, aod));
   return code ? `if(${nativeVisibility(l, aod)}){${code}}` : "";
 }
 export function localGenerate(p: Project) {
+  validateControls(p);
+  p = resolveControls(p);
+  const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
   const included = p.layers.filter((l) => l.exportIncluded !== false);
   const unsupported = included.filter(
@@ -296,12 +312,15 @@ export function localGenerate(p: Project) {
   const chalk = chalkPlans(p);
   const meters = included.filter((l) => l.kind === "meter");
   const dataSources = [
-    ...new Set(
-      included.flatMap((l) => [
+    ...new Set([
+      ...(p.controls || []).flatMap((c) =>
+        c.type === "dataSource" ? c.options || [] : [],
+      ),
+      ...included.flatMap((l) => [
         ...(l.kind === "metric" || l.kind === "meter" ? [l.source] : []),
         ...(l.visibility ? [l.visibility.source] : []),
       ]),
-    ),
+    ]),
   ];
   const activitySources = dataSources.filter((s) =>
     ["steps", "distance", "calories"].includes(s),
@@ -362,21 +381,24 @@ export function localGenerate(p: Project) {
     : "";
   const dataHelpers = metrics
     ? `function metricValid(value,battery){return value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100);}
- function metricText(value,source,label,unit,precision,missing){
+ function metricText(value,source,label,unit,precision,missing,group){
   if(source.equals("temperature") ? (value==null || value!=value || value < -273.15 || value>1000) : !metricValid(value,source.equals("battery"))){return label+missing;}
   var text="";
   if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
   else if(source.equals("seconds")){text=value.toNumber().format("%02d");}
   else if(source.equals("steps")){var digits=value.toNumber().format("%d");var length=digits.length();for(var i=0;i<length;i++){if(i>0 && (length-i)%3==0){text+=",";}text+=digits.substring(i,i+1);}}
   else {text=value.toFloat().format("%.6f");while(text.length()>0 && text.substring(text.length()-1,text.length()).equals("0")){text=text.substring(0,text.length()-1);}if(text.substring(text.length()-1,text.length()).equals(".")){text=text.substring(0,text.length()-1);}}
+  if(group && !source.equals("steps")){var cut=text.length();for(var c=0;c<text.length();c++){if(text.substring(c,c+1).equals(".")){cut=c;break;}}var grouped="";for(var k=0;k<text.length();k++){if(k>0 && k<cut && (cut-k)%3==0 && !text.substring(k-1,k).equals("-")){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
+  if(group && source.equals("steps") && precision>=0){var grouped="";for(var k=0;k<text.length();k++){if(k>0 && (text.length()-k)%3==0){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
   return label+text+unit;
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands ? "import Toybox.Math;" : ""}
-class GeneratedApp extends Application.AppBase {function initialize(){AppBase.initialize();} function getInitialView(){return [new GeneratedView()];}}
+class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.controls?.length ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
+ ${settings.helpers}
  ${chalk.length ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
@@ -385,11 +407,12 @@ class GeneratedView extends WatchUi.WatchFace {
  ${dataHelpers}
  ${
    hands
-     ? `function drawHand(dc,clock,kind,x,y,w,h,pvx,pvy,reach,tail,stroke,ink,low){
+     ? `function drawHand(dc,clock,kind,x,y,w,h,pvx,pvy,reach,tail,stroke,ink,low,roundCap){
   var cx=w*pvx;var cy=h*pvy;var radius=cx;if(w-cx<radius){radius=w-cx;}if(cy<radius){radius=cy;}if(h-cy<radius){radius=h-cy;}radius-=stroke/2.0;if(radius<0){radius=0;}
   var sec=low?0:clock.sec;var degrees=kind==0?((clock.hour%12)+clock.min/60.0+sec/3600.0)*30:(kind==1?(clock.min+sec/60.0)*6:sec*6);var a=degrees*Math.PI/180.0;var dx=Math.sin(a);var dy=-Math.cos(a);
   dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setPenWidth(px(stroke)>0?px(stroke):1);
   dc.drawLine(px(x+cx-dx*radius*tail),px(y+cy-dy*radius*tail),px(x+cx+dx*radius*reach),px(y+cy+dy*radius*reach));
+  if(roundCap){dc.fillCircle(px(x+cx-dx*radius*tail),px(y+cy-dy*radius*tail),px(stroke/2));dc.fillCircle(px(x+cx+dx*radius*reach),px(y+cy+dy*radius*reach),px(stroke/2));}
  }`
      : ""
  }
@@ -431,14 +454,15 @@ class GeneratedView extends WatchUi.WatchFace {
  }
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
-  ${imageLayers.length ? "bitmapUsed={};" : ""}scale=dc.getWidth()/454.0;var clock=System.getClockTime();${celestial ? "var solar=sleeping?solarCached:getSolarState();" : ""}${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources
+  ${imageLayers.length ? "bitmapUsed={};" : ""}${settings.frame}scale=dc.getWidth()/454.0;var clock=System.getClockTime();${celestial ? "var solar=sleeping?solarCached:getSolarState();" : ""}${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources
     .filter((s) => s !== "seconds")
     .map((s) => `var data${s}=null;`)
     .join(
       "",
     )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
-  dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
-  if(sleeping){${included.map((l) => visibleDraw(l, true)).join("\n")}}else{${included.map((l) => visibleDraw(l, false)).join("\n")}}
+  ${included.some((l) => l.dateFormat === "monthDayWeek") ? 'var dateMonthDayWeek=calendar.month.format("%02d")+"."+calendar.day.format("%02d")+" "+["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1];' : ""}
+  ${p.backgroundColor ? `var bg=sleeping?Graphics.COLOR_BLACK:${color(p.backgroundColor)};dc.setColor(bg,bg);` : "dc.setColor(Graphics.COLOR_BLACK,Graphics.COLOR_BLACK);"}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
+  if(sleeping){${included.map((l) => visibleDraw(l, true, p)).join("\n")}}else{${included.map((l) => visibleDraw(l, false, p)).join("\n")}}
   ${imageLayers.length ? "trimImages();" : ""}
  }
 }`;
@@ -454,6 +478,7 @@ class GeneratedView extends WatchUi.WatchFace {
               "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n",
           },
           { path: "source/App.mc", content: source },
+          ...settings.files,
           ...(chalk.length
             ? [
                 {

@@ -1,0 +1,38 @@
+{
+  "format": 1,
+  "packageVersion": "1.1.0",
+  "sourceSha256": "3eb210937044811d2174ac441ed24de1c0919db7ebd821019829309b2e5f739f",
+  "layerMapping": {
+    "dial-rings": "sonar_dial_rings",
+    "scan-beam": "sonar_scan_beam",
+    "date": "sonar_date",
+    "steps-value": "sonar_steps_value",
+    "steps-label": "sonar_steps_label",
+    "steps-progress": "sonar_steps_progress",
+    "heart-icon": "sonar_heart_icon",
+    "heart-rate": "sonar_heart_rate",
+    "heart-rate-unit": "sonar_heart_rate_unit",
+    "battery-icon": "sonar_battery_icon",
+    "battery-value": "sonar_battery_value",
+    "battery-label": "sonar_battery_label",
+    "digital-time": "sonar_digital_time",
+    "digital-second": "sonar_digital_second",
+    "analog-hour": "sonar_analog_hour",
+    "analog-minute": "sonar_analog_minute",
+    "analog-second": "sonar_analog_second",
+    "hand-pivot": "sonar_hand_pivot"
+  },
+  "effects": [
+    {
+      "id": "scan-rotation",
+      "status": "static-fallback",
+      "angle": 0
+    }
+  ],
+  "settings": "Editor controls and Connect IQ app settings; no on-watch menu delegate",
+  "notes": [
+    "Images remain independent layers",
+    "Generic font atlases regenerated per target",
+    "Continuous bar, source labels, independent active/AOD visibility retained"
+  ]
+}

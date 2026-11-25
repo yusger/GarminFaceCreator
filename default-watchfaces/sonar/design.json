@@ -1,0 +1,792 @@
+{
+  "schemaVersion": 22,
+  "id": "00000000-0000-4000-8000-000000000012",
+  "appId": "4a47f6640ed668b1f7ab71e08a792719",
+  "name": "SONAR",
+  "updated": 0,
+  "revision": 0,
+  "layers": [
+    {
+      "id": "sonar_dial_rings",
+      "name": "静态刻度与测距环",
+      "kind": "image",
+      "x": 0,
+      "y": 0,
+      "w": 454,
+      "h": 454,
+      "color": "#DCE9F0",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": true,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "assetId": "sonar_dial_rings"
+    },
+    {
+      "id": "sonar_scan_beam",
+      "name": "扫描扇区",
+      "kind": "image",
+      "x": 0,
+      "y": 0,
+      "w": 454,
+      "h": 454,
+      "color": "#DCE9F0",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": true,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "assetId": "sonar_scan_beam"
+    },
+    {
+      "id": "sonar_date",
+      "name": "日期",
+      "kind": "date",
+      "x": 160,
+      "y": 74,
+      "w": 134,
+      "h": 32,
+      "color": "#DCE9F0",
+      "size": 16,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 16,
+      "opacity": 0.72,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "dateLocale": "en",
+      "dateFormat": "monthDayWeek"
+    },
+    {
+      "id": "sonar_steps_value",
+      "name": "右侧数据数值",
+      "kind": "metric",
+      "x": 304,
+      "y": 206,
+      "w": 96,
+      "h": 40,
+      "color": "#DCE9F0",
+      "size": 29,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "steps",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 29,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_number_font",
+        "family": "Share Tech Mono",
+        "file": "sonar-number-font.ttf"
+      },
+      "sourceLocked": false,
+      "label": "",
+      "unit": "",
+      "autoPrecision": true,
+      "groupThousands": true,
+      "missingValue": "--"
+    },
+    {
+      "id": "sonar_steps_label",
+      "name": "右侧数据标签",
+      "kind": "text",
+      "x": 314,
+      "y": 242,
+      "w": 76,
+      "h": 22,
+      "color": "#DCE9F0",
+      "size": 14,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 14,
+      "opacity": 0.62,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "sourceLabelFor": "sonar_steps_value"
+    },
+    {
+      "id": "sonar_steps_progress",
+      "name": "步数目标进度",
+      "kind": "meter",
+      "x": 316,
+      "y": 264,
+      "w": 72,
+      "h": 4,
+      "color": "#4FD1C5",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "steps",
+      "meterShape": "bar",
+      "meterCount": 1,
+      "meterGoal": 10000,
+      "meterDim": 0.35,
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "meterContinuous": true,
+      "meterDimColor": "#16324A"
+    },
+    {
+      "id": "sonar_heart_icon",
+      "name": "心率装饰图标",
+      "kind": "image",
+      "x": 82,
+      "y": 178,
+      "w": 32,
+      "h": 32,
+      "color": "#DCE9F0",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "assetId": "sonar_heart_icon"
+    },
+    {
+      "id": "sonar_heart_rate",
+      "name": "心率数值",
+      "kind": "metric",
+      "x": 48,
+      "y": 206,
+      "w": 100,
+      "h": 44,
+      "color": "#4FD1C5",
+      "size": 38,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": true,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 34,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_number_font",
+        "family": "Share Tech Mono",
+        "file": "sonar-number-font.ttf"
+      },
+      "sourceLocked": true,
+      "label": "",
+      "unit": "",
+      "autoPrecision": false,
+      "precision": 0,
+      "groupThousands": false,
+      "missingValue": "--",
+      "thresholdRules": [
+        {
+          "max": 120,
+          "color": "#4FD1C5"
+        },
+        {
+          "min": 120,
+          "max": 150,
+          "color": "#F2A65F"
+        },
+        {
+          "min": 150,
+          "color": "#FF6B6B"
+        }
+      ],
+      "thresholdFallback": "#7C93A8",
+      "fixedSource": "heartRate"
+    },
+    {
+      "id": "sonar_heart_rate_unit",
+      "name": "心率单位",
+      "kind": "text",
+      "x": 58,
+      "y": 248,
+      "w": 80,
+      "h": 22,
+      "color": "#DCE9F0",
+      "size": 14,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "bpm",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 14,
+      "opacity": 0.62,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      }
+    },
+    {
+      "id": "sonar_battery_icon",
+      "name": "电池装饰图标",
+      "kind": "image",
+      "x": 316,
+      "y": 330,
+      "w": 28,
+      "h": 14,
+      "color": "#DCE9F0",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "assetId": "sonar_battery_icon"
+    },
+    {
+      "id": "sonar_battery_value",
+      "name": "电量数值",
+      "kind": "metric",
+      "x": 300,
+      "y": 344,
+      "w": 64,
+      "h": 24,
+      "color": "#4FD1C5",
+      "size": 16,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "battery",
+      "aod": true,
+      "threshold": true,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 15,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_number_font",
+        "family": "Share Tech Mono",
+        "file": "sonar-number-font.ttf"
+      },
+      "sourceLocked": true,
+      "label": "",
+      "autoPrecision": false,
+      "precision": 0,
+      "groupThousands": false,
+      "missingValue": "--",
+      "thresholdRules": [
+        {
+          "max": 10,
+          "color": "#FF6B6B"
+        },
+        {
+          "min": 10,
+          "max": 30,
+          "color": "#F2A65F"
+        },
+        {
+          "min": 30,
+          "color": "#4FD1C5"
+        }
+      ],
+      "thresholdFallback": "#7C93A8",
+      "fixedSource": "battery"
+    },
+    {
+      "id": "sonar_battery_label",
+      "name": "电量标签",
+      "kind": "text",
+      "x": 300,
+      "y": 366,
+      "w": 64,
+      "h": 18,
+      "color": "#DCE9F0",
+      "size": 12,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "batt",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "activeVisible": false,
+      "aodColor": "#5E7C93",
+      "aodSize": 12,
+      "opacity": 0.62,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      }
+    },
+    {
+      "id": "sonar_digital_time",
+      "name": "数字时分",
+      "kind": "time",
+      "x": 148,
+      "y": 336,
+      "w": 110,
+      "h": 40,
+      "color": "#DCE9F0",
+      "size": 30,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_number_font",
+        "family": "Share Tech Mono",
+        "file": "sonar-number-font.ttf"
+      },
+      "timePart": "full"
+    },
+    {
+      "id": "sonar_digital_second",
+      "name": "数字秒",
+      "kind": "time",
+      "x": 254,
+      "y": 342,
+      "w": 44,
+      "h": 28,
+      "color": "#F2A65F",
+      "size": 19,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 19,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "customFont": {
+        "id": "sonar_number_font",
+        "family": "Share Tech Mono",
+        "file": "sonar-number-font.ttf"
+      },
+      "timePart": "seconds"
+    },
+    {
+      "id": "sonar_analog_hour",
+      "name": "时针",
+      "kind": "hand",
+      "x": 124,
+      "y": 124,
+      "w": 206,
+      "h": 206,
+      "color": "#DCE9F0",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "handType": "hour",
+      "handPivotX": 0.5,
+      "handPivotY": 0.5,
+      "handReach": 1,
+      "handTail": 0,
+      "strokeWidth": 10,
+      "aod": true,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "handCap": "round"
+    },
+    {
+      "id": "sonar_analog_minute",
+      "name": "分针",
+      "kind": "hand",
+      "x": 86,
+      "y": 86,
+      "w": 282,
+      "h": 282,
+      "color": "#DCE9F0",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "handType": "minute",
+      "handPivotX": 0.5,
+      "handPivotY": 0.5,
+      "handReach": 1,
+      "handTail": 0,
+      "strokeWidth": 6,
+      "aod": true,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "handCap": "round"
+    },
+    {
+      "id": "sonar_analog_second",
+      "name": "秒针",
+      "kind": "hand",
+      "x": 67.9,
+      "y": 67.9,
+      "w": 318.2,
+      "h": 318.2,
+      "color": "#F2A65F",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "handType": "second",
+      "handPivotX": 0.5,
+      "handPivotY": 0.5,
+      "handReach": 1,
+      "handTail": 0.189873417721519,
+      "strokeWidth": 2.2,
+      "aod": false,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "handCap": "round"
+    },
+    {
+      "id": "sonar_hand_pivot",
+      "name": "中心轴帽",
+      "kind": "circle",
+      "x": 219,
+      "y": 219,
+      "w": 16,
+      "h": 16,
+      "color": "#4FD1C5",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "activeVisible": true,
+      "aodColor": "#5E7C93",
+      "aodSize": 28,
+      "opacity": 1,
+      "metricDecoration": false,
+      "allowClip": false,
+      "textAlign": "center",
+      "fontWeight": 400,
+      "fillEnabled": true,
+      "strokeEnabled": true,
+      "strokeColor": "#0B1B2B",
+      "strokeWidth": 3
+    }
+  ],
+  "files": [],
+  "codeRevision": 0,
+  "versions": [],
+  "backgroundColor": "#0B1B2B",
+  "target": "venu445mm",
+  "deviceSize": "45mm",
+  "controls": [
+    {
+      "id": "primary-color",
+      "label": "主要文字颜色",
+      "type": "color",
+      "default": "#DCE9F0",
+      "targets": [
+        {
+          "layerId": "sonar_digital_time",
+          "property": "color"
+        },
+        {
+          "layerId": "sonar_steps_value",
+          "property": "color"
+        },
+        {
+          "layerId": "sonar_date",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "hour-hand-color",
+      "label": "时针颜色",
+      "type": "color",
+      "default": "#DCE9F0",
+      "targets": [
+        {
+          "layerId": "sonar_analog_hour",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "minute-hand-color",
+      "label": "分针颜色",
+      "type": "color",
+      "default": "#DCE9F0",
+      "targets": [
+        {
+          "layerId": "sonar_analog_minute",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "second-hand-color",
+      "label": "秒针与数字秒颜色",
+      "type": "color",
+      "default": "#F2A65F",
+      "targets": [
+        {
+          "layerId": "sonar_analog_second",
+          "property": "color"
+        },
+        {
+          "layerId": "sonar_digital_second",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "hr-normal-color",
+      "label": "心率正常档颜色",
+      "type": "color",
+      "default": "#4FD1C5",
+      "targets": [
+        {
+          "layerId": "sonar_heart_rate",
+          "property": "thresholdRules.0.color"
+        }
+      ]
+    },
+    {
+      "id": "hr-warning-color",
+      "label": "心率警戒档颜色",
+      "type": "color",
+      "default": "#F2A65F",
+      "targets": [
+        {
+          "layerId": "sonar_heart_rate",
+          "property": "thresholdRules.1.color"
+        }
+      ]
+    },
+    {
+      "id": "hr-alert-color",
+      "label": "心率告警档颜色",
+      "type": "color",
+      "default": "#FF6B6B",
+      "targets": [
+        {
+          "layerId": "sonar_heart_rate",
+          "property": "thresholdRules.2.color"
+        }
+      ]
+    },
+    {
+      "id": "batt-normal-color",
+      "label": "电量正常档颜色",
+      "type": "color",
+      "default": "#4FD1C5",
+      "targets": [
+        {
+          "layerId": "sonar_battery_value",
+          "property": "thresholdRules.2.color"
+        }
+      ]
+    },
+    {
+      "id": "batt-warning-color",
+      "label": "电量警告档颜色",
+      "type": "color",
+      "default": "#F2A65F",
+      "targets": [
+        {
+          "layerId": "sonar_battery_value",
+          "property": "thresholdRules.1.color"
+        }
+      ]
+    },
+    {
+      "id": "batt-alert-color",
+      "label": "电量低电档颜色",
+      "type": "color",
+      "default": "#FF6B6B",
+      "targets": [
+        {
+          "layerId": "sonar_battery_value",
+          "property": "thresholdRules.0.color"
+        }
+      ]
+    },
+    {
+      "id": "right-slot-source",
+      "label": "右侧数据",
+      "type": "dataSource",
+      "default": "steps",
+      "options": [
+        "steps",
+        "calories",
+        "distance"
+      ],
+      "hideWhenChangedFromDefault": [
+        "sonar_steps_progress"
+      ],
+      "targets": [
+        {
+          "layerId": "sonar_steps_value",
+          "property": "source"
+        }
+      ]
+    },
+    {
+      "id": "show-seconds",
+      "label": "显示秒针及数字秒",
+      "type": "boolean",
+      "default": true,
+      "targets": [
+        {
+          "layerId": "sonar_analog_second",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "sonar_digital_second",
+          "property": "activeVisible"
+        }
+      ]
+    }
+  ]
+}

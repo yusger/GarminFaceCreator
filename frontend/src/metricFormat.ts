@@ -9,7 +9,14 @@ export function formatMetricValue(
   source: string,
   value: number,
   precision?: number,
+  groupThousands?: boolean,
 ) {
+  if (groupThousands !== undefined)
+    return value.toLocaleString("en-US", {
+      useGrouping: groupThousands,
+      minimumFractionDigits: precision ?? 0,
+      maximumFractionDigits: precision ?? 0,
+    });
   if (precision !== undefined) return value.toFixed(precision);
   if (source === "steps") return value.toLocaleString("en-US");
   if (source === "seconds") return String(value).padStart(2, "0");

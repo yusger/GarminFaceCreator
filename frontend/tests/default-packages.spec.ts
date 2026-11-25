@@ -16,7 +16,7 @@ test("all canonical references publish equivalent independent source, assets and
     expect(ids.has(ref.identity.id)).toBe(false);
     ids.add(ref.identity.id);
     expect(ref.authorship).toBe(
-      ["clownwatch", "pulsemaniac"].includes(entry.name) ? "self" : "community",
+      ["clownwatch", "pulsemaniac", "sonar"].includes(entry.name) ? "self" : "community",
     );
     for (const file of bundle.project.files)
       expect(file.content).toBe(await readFile(root + "/" + file.path, "utf8"));
@@ -30,17 +30,17 @@ test("all canonical references publish equivalent independent source, assets and
       ).toBe(image.sha256);
     }
   }
-  expect(ids.size).toBe(11);
+  expect(ids.size).toBe(12);
 });
 test("self-authored badges remain distinct from protected defaults", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.locator(".reference-card")).toHaveCount(11);
+  await expect(page.locator(".reference-card")).toHaveCount(12);
   await expect(page.locator(".reference-card .authorship-badge")).toHaveCount(
-    2,
+    3,
   );
-  for (const name of ["ClownWatch", "PulseManiac"]) {
+  for (const name of ["ClownWatch", "PulseManiac", "SONAR"]) {
     const card = page
       .locator(".reference-card")
       .filter({

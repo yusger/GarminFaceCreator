@@ -90,8 +90,11 @@ const maxApi = (a: string, b: string) => {
 export function generationRequirements(p: Project) {
   const layers = p.layers.filter((l) => l.exportIncluded !== false);
   const sources = [
-    ...new Set(
-      layers.flatMap((l) => [
+    ...new Set([
+      ...(p.controls || []).flatMap((c) =>
+        c.type === "dataSource" ? c.options || [] : [],
+      ),
+      ...layers.flatMap((l) => [
         ...(l.visibility ? [l.visibility.source] : []),
         ...(l.kind === "celestial"
           ? ["solarScene"]
@@ -103,7 +106,7 @@ export function generationRequirements(p: Project) {
                 ? [l.ringSource || "seconds"].filter((s) => s !== "static")
                 : []),
       ]),
-    ),
+    ]),
   ].sort();
   const dataSources = sources.map((source) => {
     const adapter = adapters[source];

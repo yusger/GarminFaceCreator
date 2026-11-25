@@ -2,10 +2,11 @@ import type { Layer, Project, CodeFile } from "./domain.ts";
 import { generationDevice } from "./devices.ts";
 import { chalkAtlas } from "./chalkAtlas.ts";
 export const chalkFont = (l: Layer) =>
-  l.garminFont === "chalk" || l.garminFont === "chalkHan";
+  !!l.customFont || l.garminFont === "chalk" || l.garminFont === "chalkHan";
 export const chalkId = (l: Layer, aod = false) =>
-  "GfcChalk" +
-  (l.garminFont === "chalkHan" ? "Han" : "Latin") +
+  (l.customFont
+    ? "GfcCustom_" + l.customFont.id + "_"
+    : "GfcChalk" + (l.garminFont === "chalkHan" ? "Han" : "Latin") + "") +
   Math.round(aod ? l.aodSize || l.size : l.size);
 const fontName = (id: string) =>
   id.includes("Han")
@@ -31,7 +32,7 @@ export function chalkPlans(p: Project) {
     const glyphs =
       l.kind === "time"
         ? "0123456789:"
-        : l.kind === "text"
+        : l.kind === "text" && !l.sourceLabelFor
           ? l.text || " "
           : ascii +
             (l.garminFont === "chalkHan"
@@ -67,7 +68,7 @@ export function chalkPlans(p: Project) {
           ),
         ),
         glyphs: merged,
-        font: fontName(id),
+        font: l.customFont?.file || fontName(id),
       });
     }
   }

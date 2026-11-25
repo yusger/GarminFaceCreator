@@ -34,7 +34,7 @@
 - 可选 AI 辅助设备适配：查看发送内容、对比建议效果后应用到当前设备，自动保留调整前设计快照。
 - 自有设计 PulseManiac 四态静态默认参考：按心率切换人物，顶部数据区可配置，完整胸口心形内实时心率、低亮度顶部数据与手写粉笔时间；预备态已统一为黑色头部。
 - 图层可按心率、步数或电量条件显示，支持上下限、缺失及息屏回退；静态 PNG 按目标设备尺寸编译。
-- 11 个受保护的默认参考：ClownWatch、SkyRing、fine-o-clock、Crystal、TimelyFenix、AboutTime、KISSFace、YetAnother、Celestial、BAWF、PulseManiac；使用时创建独立副本。
+- 12 个受保护的默认参考：ClownWatch、SkyRing、fine-o-clock、Crystal、TimelyFenix、AboutTime、KISSFace、YetAnother、Celestial、BAWF、PulseManiac、SONAR；使用时创建独立副本。
 - 模型服务商预设、自定义兼容接口、连接测试和模型列表获取。
 - 独立设计/代码快照及保留策略；代码生成、失败原文恢复、审阅和过期检测。
 - 可配置圆环、阈值兜底、文字/数据格式及独立息屏样式；网页边界检查与定位。
@@ -167,3 +167,6 @@ PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际
 
 
 默认参考表盘的独立目录与统一描述格式见 [default-watchfaces](default-watchfaces/README.md)。ClownWatch 与 PulseManiac 在卡片上标记“自主”；具体素材权利仍以各包 notices 为准。
+
+
+[SONAR默认参考](docs/sonar.md)：18个独立图层、12项配置、连续进度与包内字体；扫描首版静态。

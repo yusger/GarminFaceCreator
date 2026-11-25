@@ -21,6 +21,7 @@ export default function Hand({
       y2={p.y2}
       stroke={aod ? l.aodColor || "#777777" : l.color}
       strokeWidth={l.strokeWidth || 6}
+      strokeLinecap={l.handCap || "butt"}
     />
   );
 }

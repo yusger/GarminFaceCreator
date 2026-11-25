@@ -1,0 +1,648 @@
+{
+  "format": "gfc-watchface-package",
+  "formatVersion": 1,
+  "id": "sonar",
+  "name": "SONAR",
+  "version": "1.1.0",
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "sourceUrl": null,
+    "noticeFile": "notices/DESIGN-NOTICE.md"
+  },
+  "canvas": {
+    "width": 454,
+    "height": 454,
+    "shape": "circle",
+    "safeInset": 12,
+    "background": "#0B1B2B",
+    "aodBackground": "#000000",
+    "scaleMode": "uniform-fit"
+  },
+  "referenceTarget": {
+    "deviceId": "venu445mm",
+    "displayName": "Venu 4 45mm",
+    "screenWidth": 454,
+    "screenHeight": 454
+  },
+  "previewData": {
+    "localDateTime": "2026-11-25T10:24:07",
+    "heartRate": 72,
+    "steps": 8420,
+    "battery": 86,
+    "calories": 426,
+    "distance": 6.42,
+    "temperature": 22
+  },
+  "previewCasesFile": "previews/cases.json",
+  "resources": [
+    {
+      "id": "dial-rings",
+      "type": "image",
+      "file": "resources/drawables/dial-rings.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "scan-beam",
+      "type": "image",
+      "file": "resources/drawables/scan-beam.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "heart-icon",
+      "type": "image",
+      "file": "resources/drawables/heart.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "battery-icon",
+      "type": "image",
+      "file": "resources/drawables/battery-icon.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "number-font",
+      "type": "font",
+      "file": "resources/fonts/ShareTechMono-Regular.ttf",
+      "family": "Share Tech Mono",
+      "weight": 400,
+      "noticeFile": "notices/number-font-LICENSE.txt"
+    },
+    {
+      "id": "label-font",
+      "type": "font",
+      "file": "resources/fonts/BarlowSemiCondensed-Medium.ttf",
+      "family": "Barlow Semi Condensed",
+      "weight": 500,
+      "noticeFile": "notices/label-font-LICENSE.txt"
+    }
+  ],
+  "layers": [
+    {
+      "id": "dial-rings",
+      "name": "静态刻度与测距环",
+      "type": "image",
+      "zIndex": 1,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 454,
+        "height": 454
+      },
+      "visible": true,
+      "style": {},
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "dial-rings",
+      "fit": "contain",
+      "safeArea": "decoration",
+      "notes": "60 格分钟刻度与三道测距环合成透明 PNG；AOD 隐藏。"
+    },
+    {
+      "id": "scan-beam",
+      "name": "扫描扇区",
+      "type": "image",
+      "zIndex": 2,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 454,
+        "height": 454
+      },
+      "visible": true,
+      "style": {},
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "scan-beam",
+      "fit": "contain",
+      "safeArea": "decoration",
+      "rotation": 0,
+      "notes": "独立透明扇区；首版静态显示，旋转目标见 effects.scan-rotation。"
+    },
+    {
+      "id": "date",
+      "name": "日期",
+      "type": "date",
+      "zIndex": 10,
+      "bounds": {
+        "x": 160,
+        "y": 74,
+        "width": 134,
+        "height": 32
+      },
+      "visible": true,
+      "style": {
+        "font": "label-font",
+        "fontSize": 16,
+        "color": "#DCE9F0",
+        "opacity": 0.72,
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "format": "MM.DD ddd",
+      "locale": "en"
+    },
+    {
+      "id": "steps-value",
+      "name": "右侧数据数值",
+      "type": "metric",
+      "zIndex": 20,
+      "bounds": {
+        "x": 304,
+        "y": 206,
+        "width": 96,
+        "height": 40
+      },
+      "visible": true,
+      "style": {
+        "font": "number-font",
+        "fontSize": 29,
+        "color": "#DCE9F0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "binding": {
+        "source": "steps",
+        "configurable": true
+      },
+      "format": {
+        "precision": "auto",
+        "groupThousands": true,
+        "unitMode": "none",
+        "missing": "--"
+      }
+    },
+    {
+      "id": "steps-label",
+      "name": "右侧数据标签",
+      "type": "text",
+      "zIndex": 21,
+      "bounds": {
+        "x": 314,
+        "y": 242,
+        "width": 76,
+        "height": 22
+      },
+      "visible": true,
+      "style": {
+        "font": "label-font",
+        "fontSize": 14,
+        "color": "#DCE9F0",
+        "opacity": 0.62,
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "textFrom": {
+        "layerId": "steps-value",
+        "field": "sourceLabel"
+      }
+    },
+    {
+      "id": "steps-progress",
+      "name": "步数目标进度",
+      "type": "meter",
+      "zIndex": 22,
+      "bounds": {
+        "x": 316,
+        "y": 264,
+        "width": 72,
+        "height": 4
+      },
+      "visible": true,
+      "style": {
+        "color": "#4FD1C5",
+        "dimColor": "#16324A"
+      },
+      "aod": {
+        "visible": false
+      },
+      "binding": {
+        "source": "steps",
+        "configurable": true
+      },
+      "goal": 10000,
+      "shape": "bar",
+      "segments": 1,
+      "gap": 0,
+      "notes": "仅 steps 来源显示；切为 calories/distance 时隐藏。"
+    },
+    {
+      "id": "heart-icon",
+      "name": "心率装饰图标",
+      "type": "image",
+      "zIndex": 30,
+      "bounds": {
+        "x": 82,
+        "y": 178,
+        "width": 32,
+        "height": 32
+      },
+      "visible": true,
+      "style": {},
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "heart-icon",
+      "fit": "contain",
+      "safeArea": "content",
+      "notes": "固定青色装饰，首版不随心率阈值变色。"
+    },
+    {
+      "id": "heart-rate",
+      "name": "心率数值",
+      "type": "metric",
+      "zIndex": 31,
+      "bounds": {
+        "x": 48,
+        "y": 206,
+        "width": 100,
+        "height": 44
+      },
+      "visible": true,
+      "style": {
+        "font": "number-font",
+        "fontSize": 38,
+        "color": "#4FD1C5",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93",
+        "fontSize": 34
+      },
+      "binding": {
+        "source": "heartRate",
+        "configurable": false,
+        "refreshSeconds": 30
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": false,
+        "unitMode": "none",
+        "missing": "--"
+      },
+      "thresholdGroup": "hr-zone"
+    },
+    {
+      "id": "heart-rate-unit",
+      "name": "心率单位",
+      "type": "text",
+      "zIndex": 32,
+      "bounds": {
+        "x": 58,
+        "y": 248,
+        "width": 80,
+        "height": 22
+      },
+      "visible": true,
+      "style": {
+        "font": "label-font",
+        "fontSize": 14,
+        "color": "#DCE9F0",
+        "opacity": 0.62,
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93"
+      },
+      "text": "bpm"
+    },
+    {
+      "id": "battery-icon",
+      "name": "电池装饰图标",
+      "type": "image",
+      "zIndex": 40,
+      "bounds": {
+        "x": 316,
+        "y": 330,
+        "width": 28,
+        "height": 14
+      },
+      "visible": true,
+      "style": {},
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "battery-icon",
+      "fit": "contain",
+      "safeArea": "content",
+      "notes": "静态空框；动态填充若需要另写效果，首版未实现。"
+    },
+    {
+      "id": "battery-value",
+      "name": "电量数值",
+      "type": "metric",
+      "zIndex": 41,
+      "bounds": {
+        "x": 300,
+        "y": 344,
+        "width": 64,
+        "height": 24
+      },
+      "visible": true,
+      "style": {
+        "font": "number-font",
+        "fontSize": 16,
+        "color": "#4FD1C5",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93",
+        "fontSize": 15
+      },
+      "binding": {
+        "source": "battery",
+        "configurable": false,
+        "refreshSeconds": 900
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": false,
+        "unitMode": "auto",
+        "missing": "--"
+      },
+      "thresholdGroup": "battery-zone"
+    },
+    {
+      "id": "battery-label",
+      "name": "电量标签",
+      "type": "text",
+      "zIndex": 42,
+      "bounds": {
+        "x": 300,
+        "y": 366,
+        "width": 64,
+        "height": 18
+      },
+      "visible": false,
+      "style": {
+        "font": "label-font",
+        "fontSize": 12,
+        "color": "#DCE9F0",
+        "opacity": 0.62,
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93"
+      },
+      "text": "batt",
+      "notes": "亮屏隐藏，AOD 保留低亮度标签。"
+    },
+    {
+      "id": "digital-time",
+      "name": "数字时分",
+      "type": "time",
+      "zIndex": 50,
+      "bounds": {
+        "x": 148,
+        "y": 336,
+        "width": 110,
+        "height": 40
+      },
+      "visible": true,
+      "style": {
+        "font": "number-font",
+        "fontSize": 30,
+        "color": "#DCE9F0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93",
+        "fontSize": 28
+      },
+      "format": "HH:mm"
+    },
+    {
+      "id": "digital-second",
+      "name": "数字秒",
+      "type": "time",
+      "zIndex": 51,
+      "bounds": {
+        "x": 254,
+        "y": 342,
+        "width": 44,
+        "height": 28
+      },
+      "visible": true,
+      "style": {
+        "font": "number-font",
+        "fontSize": 19,
+        "color": "#F2A65F",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "format": "ss"
+    },
+    {
+      "id": "analog-hour",
+      "name": "时针",
+      "type": "hand",
+      "zIndex": 60,
+      "bounds": {
+        "x": 129,
+        "y": 129,
+        "width": 196,
+        "height": 196
+      },
+      "visible": true,
+      "style": {
+        "color": "#DCE9F0",
+        "width": 10,
+        "cap": "round"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93"
+      },
+      "part": "hour",
+      "pivot": {
+        "x": 227,
+        "y": 227
+      },
+      "length": 98,
+      "tailLength": 0,
+      "notes": "bounds 为旋转命中盒；几何由 pivot/length/tailLength 决定。"
+    },
+    {
+      "id": "analog-minute",
+      "name": "分针",
+      "type": "hand",
+      "zIndex": 61,
+      "bounds": {
+        "x": 89,
+        "y": 89,
+        "width": 276,
+        "height": 276
+      },
+      "visible": true,
+      "style": {
+        "color": "#DCE9F0",
+        "width": 6,
+        "cap": "round"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93"
+      },
+      "part": "minute",
+      "pivot": {
+        "x": 227,
+        "y": 227
+      },
+      "length": 138,
+      "tailLength": 0,
+      "notes": "bounds 为旋转命中盒；几何由 pivot/length/tailLength 决定。"
+    },
+    {
+      "id": "analog-second",
+      "name": "秒针",
+      "type": "hand",
+      "zIndex": 62,
+      "bounds": {
+        "x": 69,
+        "y": 69,
+        "width": 316,
+        "height": 316
+      },
+      "visible": true,
+      "style": {
+        "color": "#F2A65F",
+        "width": 2.2,
+        "cap": "round"
+      },
+      "aod": {
+        "visible": false
+      },
+      "part": "second",
+      "pivot": {
+        "x": 227,
+        "y": 227
+      },
+      "length": 158,
+      "tailLength": 30,
+      "notes": "bounds 为旋转命中盒；几何由 pivot/length/tailLength 决定。"
+    },
+    {
+      "id": "hand-pivot",
+      "name": "中心轴帽",
+      "type": "circle",
+      "zIndex": 70,
+      "bounds": {
+        "x": 219,
+        "y": 219,
+        "width": 16,
+        "height": 16
+      },
+      "visible": true,
+      "style": {
+        "fill": "#4FD1C5",
+        "stroke": "#0B1B2B",
+        "strokeWidth": 3
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5E7C93"
+      }
+    }
+  ],
+  "thresholds": [
+    {
+      "id": "hr-zone",
+      "source": "heartRate",
+      "fallbackColor": "#7C93A8",
+      "hysteresis": 0,
+      "bands": [
+        {
+          "id": "hr-normal",
+          "min": null,
+          "max": 120,
+          "color": "#4FD1C5"
+        },
+        {
+          "id": "hr-warning",
+          "min": 120,
+          "max": 150,
+          "color": "#F2A65F"
+        },
+        {
+          "id": "hr-alert",
+          "min": 150,
+          "max": null,
+          "color": "#FF6B6B"
+        }
+      ]
+    },
+    {
+      "id": "battery-zone",
+      "source": "battery",
+      "fallbackColor": "#7C93A8",
+      "hysteresis": 0,
+      "bands": [
+        {
+          "id": "batt-alert",
+          "min": null,
+          "max": 10,
+          "color": "#FF6B6B"
+        },
+        {
+          "id": "batt-warning",
+          "min": 10,
+          "max": 30,
+          "color": "#F2A65F"
+        },
+        {
+          "id": "batt-normal",
+          "min": 30,
+          "max": null,
+          "color": "#4FD1C5"
+        }
+      ]
+    }
+  ],
+  "effects": [
+    {
+      "id": "scan-rotation",
+      "type": "rotation",
+      "layerId": "scan-beam",
+      "required": false,
+      "enabledByDefault": false,
+      "pivot": {
+        "x": 227,
+        "y": 227
+      },
+      "periodSeconds": 12,
+      "maxFramesPerSecond": 1,
+      "fallback": {
+        "mode": "static",
+        "angle": 0
+      },
+      "notes": "首版默认静态。启用时按本地当天秒数取 periodSeconds 余数计算角度，再加图层 rotation；不承诺平滑动画。"
+    }
+  ],
+  "settingsFile": "resources/settings/settings.json"
+}

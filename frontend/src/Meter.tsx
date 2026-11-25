@@ -11,6 +11,31 @@ export default function Meter({
   missing?: boolean;
   aod?: boolean;
 }) {
+  if (l.meterContinuous) {
+    const valid =
+        !missing &&
+        Number.isFinite(value) &&
+        value! >= 0 &&
+        (l.source !== "battery" || value! <= 100),
+      ratio = valid
+        ? Math.max(0, Math.min(1, value! / (l.meterGoal || 10000)))
+        : 0;
+    return (
+      <>
+        <rect
+          width={l.w}
+          height={l.h}
+          fill={aod ? l.aodColor || "#777777" : l.meterDimColor || "#16324a"}
+        />
+        <rect
+          data-continuous-fill="true"
+          width={l.w * ratio}
+          height={l.h}
+          fill={aod ? l.aodColor || "#777777" : l.color}
+        />
+      </>
+    );
+  }
   const lit = meterLit(l, value, missing);
   return (
     <>

@@ -1,9 +1,14 @@
 import type { Layer } from "./domain";
-export function timeText(time: string, part: Layer["timePart"] = "full") {
+export function timeText(
+  time: string,
+  part: Layer["timePart"] = "full",
+  seconds = 0,
+) {
   if (!/^([01]\d|2[0-3]):[0-5]\d$/.test(time)) return "--";
   const [h, m] = time.split(":");
   const values = {
     full: time,
+    seconds: String(Math.max(0, Math.min(59, seconds))).padStart(2, "0"),
     hours: h,
     minutes: m,
     hourTens: h[0],
@@ -18,6 +23,7 @@ export function nativeTimeText(
   clock = "clock",
 ) {
   const values: Record<NonNullable<Layer["timePart"]>, string> = {
+    seconds: 'clock.sec.format("%02d")',
     full: 'clock.hour.format("%02d")+":"+clock.min.format("%02d")',
     hours: 'clock.hour.format("%02d")',
     minutes: 'clock.min.format("%02d")',

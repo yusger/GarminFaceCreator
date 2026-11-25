@@ -63,7 +63,7 @@ test("owned PulseManiac package pins all selected transparent assets and registe
   expect(
     (await (await request.get("/reference-notices/provenance.json")).json())
       .bundles,
-  ).toHaveLength(11);
+  ).toHaveLength(12);
 });
 test("PulseManiac creates an editable native project, previews all four static states and AOD, exports notices and compiles after data and device changes", async ({
   page,

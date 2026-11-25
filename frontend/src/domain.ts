@@ -1,3 +1,4 @@
+import { validateControls, remapControlIds } from "./projectControls.ts";
 import { validateVisibility } from "./visibility.ts";
 import { validateMultiDevice, importedDevices } from "./multiDevice.ts";
 import { validateThresholds } from "./thresholds.ts";
@@ -20,6 +21,15 @@ export type Kind =
   | "line";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  customFont?: { id: string; family: string; file: string };
+  activeVisible?: boolean;
+  sourceLabelFor?: string;
+  autoPrecision?: boolean;
+  groupThousands?: boolean;
+  meterContinuous?: boolean;
+  meterDimColor?: string;
+  dateFormat?: "monthDayWeek";
+  handCap?: "round" | "butt";
   visibility?: import("./visibility").VisibilityCondition;
   id: string;
   name: string;
@@ -74,12 +84,14 @@ export type Layer = {
     | "full"
     | "hours"
     | "minutes"
+    | "seconds"
     | "hourTens"
     | "hourOnes"
     | "minuteTens"
     | "minuteOnes";
   metricDecoration?: boolean;
   sourceLocked?: boolean;
+  fixedSource?: string;
   textAlign?: "left" | "center" | "right";
   fontWeight?: 400 | 600 | 700;
   garminFont?:
@@ -132,6 +144,9 @@ export type CodeVersion = {
 };
 export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
+  controls?: import("./projectControls").ProjectControl[];
+  controlValues?: Record<string, string | boolean>;
+  backgroundColor?: string;
   multiDevice?: import("./multiDevice").MultiDevice;
   id: string;
   name: string;
@@ -144,6 +159,9 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
+  backgroundColor?: string;
+  controls?: import("./projectControls").ProjectControl[];
+  controlValues?: Record<string, string | boolean>;
   starterId?: "pulsemaniac";
   schemaVersion:
     | 1
@@ -166,7 +184,8 @@ export type Project = {
     | 18
     | 19
     | 20
-    | 21;
+    | 21
+    | 22;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -385,7 +404,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 21,
+    schemaVersion: 22,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -417,7 +436,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 21 ||
+    p.schemaVersion !== 22 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -487,7 +506,7 @@ export function validateProject(value: unknown): Project {
           !["bar", "left", "right"].includes(l.meterShape)) ||
         (l.meterCount !== undefined &&
           (!Number.isInteger(l.meterCount) ||
-            l.meterCount < 4 ||
+            l.meterCount < (l.meterContinuous ? 1 : 4) ||
             l.meterCount > 32)) ||
         (l.meterGoal !== undefined &&
           (!Number.isFinite(l.meterGoal) ||
@@ -542,6 +561,7 @@ export function validateProject(value: unknown): Project {
           "full",
           "hours",
           "minutes",
+          "seconds",
           "hourTens",
           "hourOnes",
           "minuteTens",
@@ -680,9 +700,10 @@ export function validateProject(value: unknown): Project {
       l.sourceLocked !== undefined &&
       (typeof l.sourceLocked !== "boolean" ||
         l.kind !== "metric" ||
-        (l.sourceLocked && l.source !== "heartRate"))
+        (l.sourceLocked && l.source !== (l.fixedSource || "heartRate")))
     )
       throw Error("固定心率数据源无效");
+  validateControls(p);
   validateMultiDevice(p, validateProject);
   const imported: Project = {
     ...p,
@@ -708,6 +729,7 @@ export function validateProject(value: unknown): Project {
       id: uid(),
     })),
   };
+  remapControlIds(p, imported);
   return importedDevices(p, imported);
 }
 export function parseFiles(text: string): CodeFile[] {

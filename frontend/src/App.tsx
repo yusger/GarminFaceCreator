@@ -1,3 +1,5 @@
+import WatchfaceControls from "./WatchfaceControls";
+import { resolveControls, setControl } from "./projectControls";
 import { preparedCodeFiles } from "./chalkFonts";
 import { referenceAttribution } from "./attribution";
 import VisibilityEditor from "./VisibilityEditor";
@@ -230,7 +232,9 @@ export default function App() {
     before: Layer[];
     changed: boolean;
   } | null>(null);
-  const current = p?.layers.find((l) => l.id === selected);
+  const current = p
+    ? resolveControls(p).layers.find((l) => l.id === selected)
+    : undefined;
   const textMeasure = useRef<CanvasRenderingContext2D | null>(null);
   textMeasure.current ||= document.createElement("canvas").getContext("2d");
   const boundaryWarnings = (p?.layers || []).filter((l) => {
@@ -490,6 +494,23 @@ export default function App() {
       setNotice("请先解锁图层再编辑属性");
       return;
     }
+    for (const c of p.controls || [])
+      for (const t of c.targets.filter((t) => t.layerId === selected)) {
+        const value =
+          t.property === "source"
+            ? v.source
+            : t.property === "color"
+              ? v.color
+              : undefined;
+        if (value !== undefined) {
+          try {
+            setP(setControl(p, c.id, value));
+          } catch (e) {
+            setNotice((e as Error).message);
+          }
+          return;
+        }
+      }
     const transaction =
       propertyEdit.current?.projectId === p.id ? propertyEdit.current : null;
     if (transaction) transaction.changed = true;
@@ -1406,6 +1427,7 @@ export default function App() {
                 {deviceFor(p).pixels} × {deviceFor(p).pixels}
               </small>
             </span>
+            <WatchfaceControls project={p} onChange={setP} />
             <button onClick={() => setShowPreview(!showPreview)}>
               <Play size={14} />
               预览
@@ -1791,7 +1813,7 @@ export default function App() {
                   </button>
                 </div>
                 <LayerList
-                  layers={p.layers}
+                  layers={resolveControls(p).layers}
                   selection={selection}
                   preview={preview}
                   onSelect={selectLayer}
@@ -1805,7 +1827,7 @@ export default function App() {
                   onChange={editLayers}
                 />
                 <Palette
-                  layers={p.layers}
+                  layers={resolveControls(p).layers}
                   selection={selection}
                   onChange={editLayers}
                 />

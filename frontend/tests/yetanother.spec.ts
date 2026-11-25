@@ -83,7 +83,7 @@ test("protected YetAnother copy exports complete notices and compiles before and
       meta.templateSources.some(
         (t: any) =>
           t.version ===
-          (language === "default" ? "basic-9-fixed-zone" : "basic-17-chalk-fonts"),
+          (language === "default" ? "basic-9-fixed-zone" : "basic-18-design-packages"),
       ),
     ).toBe(true);
     expect(files.get("notices/YetAnother-LICENSE.txt")!.toString()).toContain(
