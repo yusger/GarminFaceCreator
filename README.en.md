@@ -34,6 +34,8 @@ The screenshots show the current Chinese interface.
 - Independent preview with the current time, random heart rate, increasing step count, scenario presets, playback controls, and active / always-on comparison.
 - Watch series, model, and case-size selection with actual screen resolution; a project can share one master design across devices with individual overrides, code histories, and sequential builds.
 - Optional AI layout suggestions for the current device, with payload review, before/after previews, explicit application, and a recoverable design snapshot.
+- Owned PulseManiac starter: four static HR-driven poses, configurable top data slots, independent chest HR, Chinese local date and bottom clock; the ready pose uses a matching black face.
+- Data-driven layer visibility with explicit range boundaries, missing/AOD fallback, and target-sized static PNG resources.
 - Ten protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, and BAWF; each creates an independent editable copy.
 - AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
 - Separate design/code snapshots and retention limits; generation, raw failure recovery, review, and stale-code protection.
@@ -156,3 +158,6 @@ BYOD inspired a [round-screen modular layout proposal](docs/byod-modular-layout.
 **Editable BAWF analog reference**: thanks to [Kevin Boone / BAWF](https://github.com/kevinboone/BAWF). Explicit GPLv3 source copyright headers and complete license are retained. Hands, numerals, date and battery are editable; black/white variants use the same fixed Jungle after changing design colors. See [adaptation scope](frontend/public/reference-notices/BAWF-ADAPTATION.md); upstream power claims are not inherited.
 
 Editable components also include segmented goal meters, a three-week calendar, English/Chinese word time, fixed-UTC-offset clocks, solar scenes and configurable-pivot clock hands. See [todo](todo.md) and [staged validation](docs/stage-validation.md) for scope and evidence.
+
+
+See the [PulseManiac guide](docs/pulsemaniac.md) (Chinese) for creation, configuration, selected assets, generation prompts and actual browser/native screenshots. Original local drafting references are excluded from the repository.
