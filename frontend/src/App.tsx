@@ -1,3 +1,4 @@
+import { createPulseManiac } from "./pulseManiac";
 import VisibilityEditor from "./VisibilityEditor";
 import AdaptationAssistant from "./AdaptationAssistant";
 import { adaptationFingerprint, applyAdaptation } from "./adaptation";
@@ -557,6 +558,23 @@ export default function App() {
     setFiles([]);
     setGenerationFailure(null);
     setPage("editor");
+  }
+  async function createPulseProject() {
+    if (busy || batchBusy) return;
+    setBusy(true);
+    try {
+      const item = await createPulseManiac();
+      item.storageVersion = await saveProject(item);
+      setProjects((items) => [item, ...items]);
+      open(item);
+      setNotice(
+        "PulseManiac 已创建。预览中可调整心率查看四种静态状态；顶部数据区可编辑数据源、标签和单位。",
+      );
+    } catch (e) {
+      setNotice((e as Error).message);
+    } finally {
+      setBusy(false);
+    }
   }
   async function create(blank = false) {
     const name = prompt(
@@ -1558,6 +1576,20 @@ export default function App() {
               />
             </div>
             <div className="project-grid">
+              <button
+                className="new-project pulse-starter"
+                disabled={busy}
+                onClick={createPulseProject}
+                aria-label="创建 PulseManiac 四态表盘"
+              >
+                <img
+                  src="/pulsemaniac/rest.png"
+                  alt=""
+                  style={{ width: 80, height: 80, objectFit: "contain" }}
+                />
+                <b>PulseManiac 四态表盘</b>
+                <span>心率切换 · 静态人物 · 可编辑</span>
+              </button>
               <button className="new-project" onClick={() => create(true)}>
                 <div>
                   <Plus size={30} />

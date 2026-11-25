@@ -141,6 +141,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
+  starterId?: "pulsemaniac";
   schemaVersion:
     | 1
     | 2
@@ -432,6 +433,8 @@ export function validateProject(value: unknown): Project {
       ))
   )
     throw Error("素材格式无效");
+  if (p.starterId !== undefined && p.starterId !== "pulsemaniac")
+    throw Error("自有设计模板标识无效");
   if (
     p.target &&
     !devices.some(

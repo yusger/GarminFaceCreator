@@ -338,6 +338,33 @@ export default function PreviewStudio({
                 </label>
               </>
             )}
+            {project.starterId === "pulsemaniac" && (
+              <>
+                <h3>PulseManiac 四态</h3>
+                <div className="preview-presets">
+                  {[
+                    ["静息态", 72],
+                    ["预备态", 110],
+                    ["扭动态", 130],
+                    ["彻底疯狂态", 158],
+                  ].map(([label, hr]) => (
+                    <button
+                      key={label}
+                      onClick={() => {
+                        manualPause();
+                        setPreview((p) => ({
+                          ...p,
+                          missing: false,
+                          heartRate: Number(hr),
+                        }));
+                      }}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
             <h3>数据场景</h3>
             <div className="preview-presets">
               {["日常", "运动", "低电量", "数据缺失"].map((name) => (

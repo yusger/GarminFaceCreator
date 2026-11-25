@@ -41,6 +41,16 @@ export async function exportSources(
       path: file.path,
       data: text.encode(file.content),
     }));
+  if (p.starterId === "pulsemaniac") {
+    for (const name of ["NOTICE.md", "PROMPTS.md"]) {
+      const r = await fetch("/pulsemaniac/" + name);
+      if (!r.ok) throw Error("PulseManiac 素材来源说明不可用");
+      entries.push({
+        path: "notices/PulseManiac-" + name,
+        data: new Uint8Array(await r.arrayBuffer()),
+      });
+    }
+  }
   const jungle = entries.find((file) => file.path === "monkey.jungle")!;
   jungle.data = text.encode(
     "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n",
@@ -158,6 +168,7 @@ export async function exportSources(
       JSON.stringify(
         {
           schemaVersion: p.schemaVersion,
+          starterId: p.starterId,
           name: p.name,
           target: p.target,
           deviceSize: p.deviceSize,
@@ -208,6 +219,7 @@ export async function exportSources(
         h: l.h,
       })),
 
+    starterId: p.starterId,
     format: "GarminFaceCreator source export",
     projectId: p.id,
     appId: p.appId,
