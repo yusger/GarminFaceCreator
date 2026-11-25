@@ -1,3 +1,4 @@
+import { designSourceUnit } from "./generationRequirements";
 import {
   layer,
   project,
@@ -152,6 +153,13 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       safeInset: 12,
     },
     choices: c,
+    dataSources: c.sources.map((source) => ({
+      source,
+      label: metrics[source],
+      unit: designSourceUnit(source),
+      missing: "--",
+      precision: source === "distance" ? 2 : source === "temperature" ? 1 : 0,
+    })),
     references: refs.map(({ id, name, usage }) => ({ id, name, usage })),
     contract: {
       kinds,
@@ -333,6 +341,18 @@ export function parseDesign(
         (v.kind === "date" && v.dateLocale === "zh"))
     )
       throw Error("日期格式与当前语言不兼容");
+    if (
+      v.kind === "metric" &&
+      v.unit !== undefined &&
+      v.unit !== "" &&
+      v.unit !== designSourceUnit(v.source)
+    )
+      throw Error(
+        "数据单位与实际来源不符：" +
+          v.source +
+          "应使用" +
+          designSourceUnit(v.source),
+      );
     const { referenceId, ...fields } = v;
     const item: Layer = {
       ...layer(v.kind),

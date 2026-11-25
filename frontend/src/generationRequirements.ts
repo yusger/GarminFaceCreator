@@ -81,6 +81,12 @@ const adapters: Record<string, Adapter> = {
     unit: "h",
   },
 };
+// Shared by design-only requests; numeric units come from the same adapter as native code.
+export function designSourceUnit(source: string) {
+  const adapter = adapters[source];
+  if (!adapter) throw Error("数据源没有已核查的适配规则：" + source);
+  return adapter.unit || "";
+}
 const maxApi = (a: string, b: string) => {
   const x = a.split(".").map(Number),
     y = b.split(".").map(Number);

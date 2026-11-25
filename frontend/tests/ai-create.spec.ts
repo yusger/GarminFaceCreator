@@ -207,6 +207,23 @@ test("only explicit material references become runtime assets; style references 
   const body = response(choices, refs);
   const payload = designPayload(choices, refs);
   expect(JSON.stringify(payload)).not.toContain("base64");
+  const units = {
+    ...choices,
+    sources: ["altitude", "distance", "temperature", "windSpeed"],
+  };
+  expect(designPayload(units, []).dataSources.map((s) => s.unit)).toEqual([
+    "ft",
+    "km",
+    "°C",
+    "m/s",
+  ]);
+  const altitude = { ...choices, sources: ["altitude"] };
+  const badUnit = response(altitude);
+  badUnit.layers.find((l) => l.kind === "metric").unit = "m";
+  expect(() => parseDesign(JSON.stringify(badUnit), altitude, [])).toThrow(
+    "数据单位",
+  );
+
   const p = parseDesign(JSON.stringify(body), choices, refs);
   expect(p.layers[0].image).toBe(tiny);
   expect(p.layers[0].imageFullColor).toBe(true);

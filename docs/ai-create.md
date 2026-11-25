@@ -15,3 +15,7 @@
 当前开放24h整数秒，组合日期及内部现有数据目录；不开放12h/AMPM、农历、节气、节假日、通知数和平滑扫秒。meter只支持步数/电量，ring另支持秒/心率/静态。设备API和缓存可用性仍需检查；实际字体和特殊原生效果通过模拟器/真机核对。
 
 实现使用内部schema23，旧项目迁移保留身份及图层；外部接入规范formatVersion仍为1，不因AI入口扩大字段集合。详见[基础规范v1.1](watchface-basic-spec.md)和[设计包接入规范v1.2](watchface-package-standard.md)。
+
+设计请求的数据单位来自原生适配器：当前距离km、海拔ft、天气温度°C、风速m/s；模型不得只换单位文字伪装数值转换。
+
+测试截图（固定模型响应，用于核对界面及数据链路）：[设备选择](screenshots/ai-create-device.png) · [时间与数据](screenshots/ai-create-options.png) · [数字设计](screenshots/ai-create-45mm.png) · [混合设计](screenshots/ai-create-41mm.png)。
