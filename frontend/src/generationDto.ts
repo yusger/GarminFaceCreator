@@ -40,6 +40,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   sourceLocked: true,
   fixedSource: true,
   activeVisible: true,
+  imageFullColor: true,
   sourceLabelFor: true,
   autoPrecision: true,
   groupThousands: true,

@@ -283,7 +283,7 @@ export function localGenerate(p: Project) {
   const imageResources = imageLayers
     .map(
       (l) =>
-        `<bitmap id="${bitmapId(l)}" filename="../../${imageAssetPath(l)}" scaleX="${((Math.max(1, Math.round((l.w * device.screenWidth) / 454)) / device.screenWidth) * 100).toFixed(8)}%" scaleY="${((Math.max(1, Math.round((l.h * device.screenHeight) / 454)) / device.screenHeight) * 100).toFixed(8)}%" scaleRelativeTo="screen"/>`,
+        `<bitmap id="${bitmapId(l)}" filename="../../${imageAssetPath(l)}" ${l.imageFullColor ? 'packingFormat="png" automaticPalette="false" dithering="none" ' : ""}scaleX="${((Math.max(1, Math.round((l.w * device.screenWidth) / 454)) / device.screenWidth) * 100).toFixed(8)}%" scaleY="${((Math.max(1, Math.round((l.h * device.screenHeight) / 454)) / device.screenHeight) * 100).toFixed(8)}%" scaleRelativeTo="screen"/>`,
     )
     .join("");
   const requirements = generationRequirements(p);

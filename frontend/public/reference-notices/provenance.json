@@ -315,7 +315,7 @@
         "repository-LICENSE.txt"
       ],
       "path": "/default-watchfaces/sonar/project.json",
-      "sha256": "6288d99f8959998ff89cbf4e900055243b9e2eb9818e760012ee5843692149db"
+      "sha256": "8d447dd8097e85abd45e03f256a6372d329ef140fdce63194e5a86ba0c3ceb37"
     }
   ],
   "generators": [
@@ -323,7 +323,7 @@
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
       "version": "basic-18-design-packages",
-      "sha256": "ced548cc3a0caa245f442c2f1e400815a7e3fae67bfff54a7c5d839e0c9b46cb",
+      "sha256": "438ee8fff85e567cfd1e9ef240aa16e9133ce8844c4b4e2cb46a4f66a967152c",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },

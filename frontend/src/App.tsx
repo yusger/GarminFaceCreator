@@ -264,8 +264,14 @@ export default function App() {
         } catch (error) {
           setNotice((error as Error).message);
         }
-        setProjects(items);
-        if (items.length) {
+        setProjects((current) => [
+          ...items.filter(isReference),
+          ...current.filter((x) => !isReference(x)),
+          ...items.filter(
+            (x) => !isReference(x) && !current.some((c) => c.id === x.id),
+          ),
+        ]);
+        if (items.length && !activeProject.current) {
           const active = items.find(
             (x) => x.id === localStorage.getItem("gfc-active"),
           );
@@ -1582,7 +1588,11 @@ export default function App() {
               />
             </div>
             <div className="project-grid">
-              <button className="new-project" onClick={() => create(true)}>
+              <button
+                disabled={!ready}
+                className="new-project"
+                onClick={() => create(true)}
+              >
                 <div>
                   <Plus size={30} />
                 </div>

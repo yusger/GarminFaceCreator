@@ -68,6 +68,9 @@ test("SONAR conversion preserves generic fonts, native controls, continuous prog
   const code = localGenerate(p),
     source = code.find((f) => f.path === "source/App.mc")!.content;
   expect(source).toContain("var ratio=0.0");
+  expect(
+    code.find((f) => f.path === "resources/drawables/drawables.xml")!.content,
+  ).toContain('packingFormat="png" automaticPalette="false" dithering="none"');
   expect(source).toContain("dateMonthDayWeek");
   expect(source).toContain("cfg_right_slot_source");
   expect(source).toContain("datadistance");

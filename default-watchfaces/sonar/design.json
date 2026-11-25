@@ -31,7 +31,8 @@
       "allowClip": true,
       "textAlign": "center",
       "fontWeight": 400,
-      "assetId": "sonar_dial_rings"
+      "assetId": "sonar_dial_rings",
+      "imageFullColor": true
     },
     {
       "id": "sonar_scan_beam",
@@ -58,7 +59,8 @@
       "allowClip": true,
       "textAlign": "center",
       "fontWeight": 400,
-      "assetId": "sonar_scan_beam"
+      "assetId": "sonar_scan_beam",
+      "imageFullColor": true
     },
     {
       "id": "sonar_date",
@@ -219,7 +221,8 @@
       "allowClip": false,
       "textAlign": "center",
       "fontWeight": 400,
-      "assetId": "sonar_heart_icon"
+      "assetId": "sonar_heart_icon",
+      "imageFullColor": true
     },
     {
       "id": "sonar_heart_rate",
@@ -332,7 +335,8 @@
       "allowClip": false,
       "textAlign": "center",
       "fontWeight": 400,
-      "assetId": "sonar_battery_icon"
+      "assetId": "sonar_battery_icon",
+      "imageFullColor": true
     },
     {
       "id": "sonar_battery_value",

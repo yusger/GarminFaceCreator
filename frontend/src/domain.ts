@@ -23,6 +23,7 @@ export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
   customFont?: { id: string; family: string; file: string };
   activeVisible?: boolean;
+  imageFullColor?: boolean;
   sourceLabelFor?: string;
   autoPrecision?: boolean;
   groupThousands?: boolean;

@@ -111,6 +111,7 @@ export function validateControls(p: Project) {
       throw Error("数据标签引用缺失");
     for (const key of [
       "activeVisible",
+      "imageFullColor",
       "autoPrecision",
       "groupThousands",
       "meterContinuous",

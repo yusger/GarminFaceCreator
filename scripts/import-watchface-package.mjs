@@ -163,6 +163,7 @@ for (const raw of [...pkg.layers].sort((a, b) => a.zIndex - b.zIndex)) {
   };
   if (raw.style.font) l.customFont = fontDefs.get(raw.style.font);
   if (raw.type === "image") {
+    l.imageFullColor = true;
     l.assetId = id(raw.resourceId);
     const r = resources.get(raw.resourceId);
     const bytes = await readFile(safe(r.file));
