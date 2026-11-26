@@ -21,6 +21,7 @@ import { thresholdInk } from "./thresholds";
 import { useId, useEffect } from "react";
 import type { Project, Layer } from "./domain";
 export type Preview = {
+  values?: Record<string,number|null>;
   missing?: boolean;
   weatherCondition?: number | null;
   date?: string;
@@ -51,6 +52,7 @@ export function metricValues(d: Preview): Record<string, number> {
     altitude: -59,
     windSpeed: 6,
     seconds: d.seconds,
+    ...Object.fromEntries(Object.entries(d.values||{}).map(([key,value])=>[key,value??NaN])),
   };
 }
 export function reading(l: Layer, d: Preview) {

@@ -1,3 +1,5 @@
+import {previewStress,previewBoundaries,withPreviewValues} from "./previewCases";
+import {metrics} from "./domain";
 import {
   localDateKey,
   calendarDateLabel,
@@ -60,6 +62,7 @@ export default function PreviewStudio({
       ...currentClock(),
       heartRate,
       steps: 4500,
+      values:undefined,
       missing: false,
     }));
   }, [dynamic, setPreview]);
@@ -374,6 +377,7 @@ export default function PreviewStudio({
                     manualPause();
                     setPreview((p) => ({
                       ...p,
+                      values:undefined,
                       missing: name === "数据缺失",
                       heartRate: name === "运动" ? 155 : 72,
                       battery: name === "低电量" ? 8 : 78,
@@ -385,6 +389,11 @@ export default function PreviewStudio({
                 </button>
               ))}
             </div>
+            <h3>边界与长读数检查</h3>
+            <div className="preview-presets">{([["long","最长读数"],["short","零值与短读数"],["negative","负温度与海拔"]] as const).map(([id,label])=><button key={id} onClick={()=>{manualPause();setPreview(p=>previewStress(p,id));}}>{label}</button>)}</div>
+            <label>阈值及进度边界<select aria-label="阈值及进度边界" value="" onChange={e=>{const c=previewBoundaries(project)[Number(e.target.value)];if(c){manualPause();setPreview(p=>withPreviewValues(p,{[c.source]:c.value}));}}}><option value="">选择边界测试值</option>{previewBoundaries(project).map((c,i)=><option key={c.source+":"+c.value} value={i}>{metrics[c.source]||c.source} = {c.value}</option>)}</select></label>
+            {!previewBoundaries(project).length&&<p className="hint">当前设计没有阈值、条件显隐或进度目标。</p>}
+            <p className="hint">测试值仅用于检查排版，不代表设备上限或真实测量；边界清单包含区间两侧，越过有效范围时应显示缺失状态。</p>
             <label>
               预览日期
               <input
