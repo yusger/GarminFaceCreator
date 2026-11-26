@@ -1,3 +1,4 @@
+import { buildFetch as fetch } from "./build-client.mjs";
 // Repeatable visual test artifacts only. Never use fixed HR values in production code.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";

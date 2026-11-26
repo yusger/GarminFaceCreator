@@ -1,3 +1,4 @@
+import { buildFetch as fetch } from "./build-client.mjs";
 ﻿import assert from "node:assert/strict";
 import { mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";

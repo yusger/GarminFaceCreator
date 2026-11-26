@@ -1,3 +1,4 @@
+import { buildFetch as fetch } from "./build-client.mjs";
 import assert from 'node:assert/strict';
 import {files} from './fixture.mjs';
 const base=process.env.GFC_TEST_URL||'http://localhost:18380';

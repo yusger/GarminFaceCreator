@@ -1,3 +1,4 @@
+import { buildFetch as fetch } from "./build-client.mjs";
 // Test-only native fixtures. Production sources and package data are never overwritten.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { join } from "node:path";

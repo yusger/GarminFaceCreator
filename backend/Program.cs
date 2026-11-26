@@ -12,6 +12,7 @@ using System.Net;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<FormOptions>(o => o.MultipartBodyLengthLimit = 25 * 1024 * 1024);
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 25 * 1024 * 1024);
+builder.Services.AddSingleton<PublicBuildPolicy>();
 builder.Services.AddSingleton<BuildAuditLog>();
 builder.Services.AddSingleton<BuildStore>();
 builder.Services.AddHostedService<BuildWorker>();
@@ -28,8 +29,49 @@ if (!string.IsNullOrWhiteSpace(proxyAddress))
         options.ForwardLimit = 1;
     });
 }
+builder.Services.AddRateLimiter(options =>
+{
+    options.RejectionStatusCode = 429;
+    options.GlobalLimiter = System.Threading.RateLimiting.PartitionedRateLimiter.Create<HttpContext, string>(ctx =>
+        System.Threading.RateLimiting.RateLimitPartition.GetFixedWindowLimiter(PublicBuildPolicy.Ip(ctx), _ => new()
+        { PermitLimit = PublicBuildPolicy.Read("GFC_API_PER_MINUTE", 240, 60, 10000), Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
+    options.OnRejected = async (context, ct) =>
+    {
+        context.HttpContext.Response.Headers.RetryAfter = "60";
+        await context.HttpContext.Response.WriteAsJsonAsync(new { error = "访问过于频繁，请稍后重试" }, ct);
+    };
+});
 var app = builder.Build();
 if (!string.IsNullOrWhiteSpace(proxyAddress)) app.UseForwardedHeaders();
+app.UseWhen(ctx => ctx.Request.Path.StartsWithSegments("/api", StringComparison.OrdinalIgnoreCase), branch => branch.UseRateLimiter());
+app.Use(async (ctx, next) =>
+{
+    var segments = (ctx.Request.Path.Value ?? "").Trim('/').Split('/');
+    if (segments.Length < 2 || !segments[0].Equals("api", StringComparison.OrdinalIgnoreCase) || !segments[1].Equals("builds", StringComparison.OrdinalIgnoreCase)) { await next(ctx); return; }
+    ctx.Response.Headers.CacheControl = "no-store";
+    ctx.Response.Headers["Referrer-Policy"] = "no-referrer";
+    var origin = ctx.Request.Headers.Origin.ToString();
+    if (ctx.Request.Method == "POST" && origin.Length > 0 && (!Uri.TryCreate(origin, UriKind.Absolute, out var source) || source.GetLeftPart(UriPartial.Authority) != $"{ctx.Request.Scheme}://{ctx.Request.Host}"))
+    { ctx.Response.StatusCode = 403; await ctx.Response.WriteAsJsonAsync(new { error = "不允许跨站调用编译接口" }); return; }
+    var store = ctx.RequestServices.GetRequiredService<BuildStore>();
+    if (segments.Length >= 3)
+    {
+        if (!store.Jobs.TryGetValue(segments[2], out var job) || !PublicBuildPolicy.Authorize(job, ctx)) { ctx.Response.StatusCode = 404; return; }
+        await next(ctx); return;
+    }
+    if (ctx.Request.Method != "POST") { await next(ctx); return; }
+    var policy = ctx.RequestServices.GetRequiredService<PublicBuildPolicy>();
+    var ip = PublicBuildPolicy.Ip(ctx);
+    var denied = policy.Enter(ip, store);
+    if (denied is not null) { ctx.Response.StatusCode = 429; ctx.Response.Headers.RetryAfter = "60"; await ctx.Response.WriteAsJsonAsync(new { error = denied }); return; }
+    try
+    {
+        var reservations = store.Jobs.Values.Count(j => j.Status is "queued" or "running") + 2;
+        if (!policy.HasSpace(store.Root, reservations)) { ctx.Response.StatusCode = 507; await ctx.Response.WriteAsJsonAsync(new { error = "编译存储空间不足，请稍后重试" }); return; }
+        await next(ctx);
+    }
+    finally { policy.Leave(ip); }
+});
 app.Use(async (ctx, next) =>
 {
     if (ctx.Request.Method != "POST" || !string.Equals(ctx.Request.Path.Value?.TrimEnd('/'), "/api/builds", StringComparison.OrdinalIgnoreCase)) { await next(ctx); return; }
@@ -48,7 +90,7 @@ app.Use(async (ctx, next) => { try { await next(ctx); } catch (Exception e) when
 app.UseDefaultFiles(); app.UseStaticFiles();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ok", framework = ".NET 10" }));
 app.MapGet("/api/capabilities", (BuildStore store) => new { sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, common = store.Readiness.Common(), devices = BuildStore.Targets.Select(store.Readiness.ForTarget), maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8, retention = store.Retention });
-app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, BuildAuditLog audit, CancellationToken ct) =>
+app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, BuildAuditLog audit, PublicBuildPolicy policy, CancellationToken ct) =>
 {
     if (!request.HasFormContentType) return Results.BadRequest(new { error = "Expected multipart form" });
     var form = await request.ReadFormAsync(ct); var meta = JsonSerializer.Deserialize<BuildRequest>(form["project"].ToString(), BuildStore.Json) ?? throw new ArgumentException("Missing project metadata");
@@ -60,6 +102,9 @@ app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, BuildAu
     if (!readiness.Ready) return Results.Problem($"目标 {meta.Target} 编译环境未就绪：{string.Join("；", readiness.Reasons)}", statusCode: 503);
     if (form.Files.Count is < 2 or > 100) throw new ArgumentException("Expected 2 to 100 files");
     var job = store.Create(meta);
+    job.CallerIpKey = PublicBuildPolicy.Hash(PublicBuildPolicy.Ip(request.HttpContext));
+    var accessToken = Convert.ToHexString(System.Security.Cryptography.RandomNumberGenerator.GetBytes(32));
+    job.AccessTokenHash = PublicBuildPolicy.Hash(accessToken);
     job.CallerIp = entry.Ip; job.CallerLocation = entry.Location; entry.JobId = job.Id;
     audit.Write(entry, "创建编译任务，目标=" + meta.Target);
     _ = BuildStore.FileName(job); var work = store.Work(job.Id); Directory.CreateDirectory(work);
@@ -75,8 +120,11 @@ app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, BuildAu
         }
         // Never execute or trust uploaded Jungle directives or build scripts.
         await File.WriteAllTextAsync(Path.Combine(work, "monkey.jungle"), "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n", ct);
+        if (!policy.Charge(PublicBuildPolicy.Ip(request.HttpContext))) { Directory.Delete(Path.GetDirectoryName(work)!, true); return Results.Json(new { error = "今日编译配额已用完" }, statusCode: 429); }
         if (!store.Enqueue(job)) { Directory.Delete(Path.GetDirectoryName(work)!, true); return Results.Problem("Build queue is full", statusCode: 503); }
-        return Results.Accepted($"/api/builds/{job.Id}", store.View(job));
+        var accepted = JsonSerializer.SerializeToNode(store.View(job), BuildStore.Json)!.AsObject();
+        accepted["accessToken"] = accessToken;
+        return Results.Accepted($"/api/builds/{job.Id}", accepted);
     }
     catch { var path = Path.GetDirectoryName(work)!; if (Directory.Exists(path)) Directory.Delete(path, true); throw; }
 }).DisableAntiforgery();
@@ -101,6 +149,8 @@ class BuildJob
     public string Target {get;set;} = "venu445mm";
     public string ProjectName {get;set;} = "WatchFace";
     public string? DeviceSize {get;set;}
+    public string AccessTokenHash { get; set; } = "";
+    public string CallerIpKey { get; set; } = "";
     public string CallerIp { get; set; } = "未知";
     public string CallerLocation { get; set; } = "未知";
     public List<string> Logs { get; set; } = [];
@@ -142,7 +192,7 @@ partial class BuildStore
     }
     public static XDocument ReadXml(string file) { using var reader = XmlReader.Create(file, new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit, XmlResolver = null, MaxCharactersInDocument = 4 * 1024 * 1024 }); return XDocument.Load(reader); }
 }
-class BuildWorker(BuildStore store, ILogger<BuildWorker> logger) : BackgroundService
+class BuildWorker(BuildStore store, PublicBuildPolicy policy, ILogger<BuildWorker> logger) : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
@@ -153,7 +203,16 @@ class BuildWorker(BuildStore store, ILogger<BuildWorker> logger) : BackgroundSer
                 lock (job.Gate) { if (job.Cancel.IsCancellationRequested) continue; job.Status = "running"; job.WorkerActive = true; store.Persist(job); }
                 var output = Path.Combine(store.Root, job.Id, "output"); Directory.CreateDirectory(output); var psi = new ProcessStartInfo(Environment.GetEnvironmentVariable("GFC_JAVA") ?? "java") { WorkingDirectory = store.Work(job.Id), UseShellExecute = false, RedirectStandardOutput = true, RedirectStandardError = true, CreateNoWindow = true }; foreach (var a in new[] { "-Xmx512m", "-Dfile.encoding=UTF-8", "-jar", Path.Combine(store.Sdk, "bin", "monkeybrains.jar"), "-f", "monkey.jungle", "-d", job.Target, "-o", Path.Combine(output, "watchface.prg"), "-y", store.Key, "-r", "-w" }) psi.ArgumentList.Add(a);
                 store.Log(job, "SDK 编译开始：" + job.Target); using var proc = Process.Start(psi) ?? throw new InvalidOperationException("Could not start compiler"); using var cancel = linked.Token.Register(() => { try { if (!proc.HasExited) proc.Kill(true); } catch (InvalidOperationException) { } }); async Task Drain(StreamReader r) { while (await r.ReadLineAsync() is { } line) store.Log(job, line); }
-                await Task.WhenAll(Drain(proc.StandardOutput), Drain(proc.StandardError), proc.WaitForExitAsync()); job.ExitCode = proc.ExitCode;
+                async Task Monitor()
+                {
+                    while (!proc.HasExited)
+                    {
+                        await Task.Delay(500);
+                        if (!proc.HasExited && (PublicBuildPolicy.Size(Path.Combine(store.Root, job.Id)) > policy.MaxJobBytes || !policy.HasSpace(store.Root, 0)))
+                        { store.Log(job, "编译超出存储限制，已终止"); timeout.Cancel(); }
+                    }
+                }
+                await Task.WhenAll(Drain(proc.StandardOutput), Drain(proc.StandardError), proc.WaitForExitAsync(), Monitor()); job.ExitCode = proc.ExitCode;
                 lock (job.Gate) { job.Status = job.Cancel.IsCancellationRequested ? "cancelled" : timeout.IsCancellationRequested ? "failed" : proc.ExitCode == 0 && File.Exists(Path.Combine(output, "watchface.prg")) ? "succeeded" : "failed"; if (job.Status == "succeeded") File.Move(Path.Combine(output,"watchface.prg"),Path.Combine(output,BuildStore.FileName(job)),true); if (timeout.IsCancellationRequested) store.Log(job, "编译超时，进程已结束。"); }
             }
             catch (Exception e) { logger.LogWarning("Build {Id} failed: {Message}", job.Id, e.Message); lock (job.Gate) { job.Status = job.Cancel.IsCancellationRequested ? "cancelled" : "failed"; store.Log(job, "编译失败：" + e.Message); } }

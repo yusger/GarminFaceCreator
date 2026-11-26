@@ -5,10 +5,12 @@ services:
     ports: !reset []
     environment:
       GFC_TRUSTED_PROXY: 172.30.88.2
-    networks:
-      default: {}
+    networks: !override
       https_proxy:
         ipv4_address: 172.30.88.3
+    read_only: true
+    tmpfs:
+      - /tmp:size=128m,mode=1777
   caddy:
     image: ${GFC_CADDY_IMAGE:-garminfacecreator-caddy:local}
     restart: unless-stopped
@@ -30,8 +32,14 @@ services:
       - ./runtime/caddy/data:/data
       - ./runtime/caddy/config:/config
     networks:
+      default: {}
       https_proxy:
         ipv4_address: 172.30.88.2
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
     mem_limit: 256m
     cpus: 0.5
     pids_limit: 100
@@ -42,6 +50,7 @@ services:
       - /tmp:size=16m,mode=1777
 networks:
   https_proxy:
+    internal: true
     ipam:
       config:
         - subnet: 172.30.88.0/29

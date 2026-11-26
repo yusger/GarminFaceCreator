@@ -1,3 +1,4 @@
+import { buildFetch as fetch } from "./build-client.mjs";
 ﻿import assert from "node:assert/strict";
 const base = process.env.GFC_TEST_URL || "http://localhost:18380";
 const cap = await (await fetch(base + "/api/capabilities")).json();

@@ -1,3 +1,4 @@
+import { buildFetch as fetch } from "./build-client.mjs";
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 const root = path.resolve(process.argv[2]);

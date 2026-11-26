@@ -1,3 +1,4 @@
+import { buildFetch, downloadBuild } from "./buildAccess";
 import AiCreateWatchface from "./AiCreateWatchface";
 import WatchfaceControls from "./WatchfaceControls";
 import { resolveControls, setControl } from "./projectControls";
@@ -1246,7 +1247,7 @@ export default function App() {
           await (await fetch(asset.data)).blob(),
           asset.path,
         );
-      const r = await fetch("/api/builds", {
+      const r = await buildFetch("/api/builds", {
         method: "POST",
         body: form,
         signal: AbortSignal.timeout(30000),
@@ -1287,7 +1288,7 @@ export default function App() {
     let failures = 0;
     for (let attempt = 0; attempt < 240; attempt++) {
       try {
-        const stateResponse = await fetch(`/api/builds/${id}`, {
+        const stateResponse = await buildFetch(`/api/builds/${id}`, {
           signal: AbortSignal.timeout(10000),
         });
         if (!stateResponse.ok)
@@ -1297,7 +1298,7 @@ export default function App() {
               : "获取构建状态失败",
           );
         const state = await stateResponse.json();
-        const logResponse = await fetch(
+        const logResponse = await buildFetch(
           `/api/builds/${id}/logs?after=${logBuffer.current.cursor}`,
           { signal: AbortSignal.timeout(10000) },
         );
@@ -3626,7 +3627,7 @@ export default function App() {
                             <li key={r.key}>
                               {r.label} · {r.status}
                               {r.artifacts?.map((a) => (
-                                <a key={a.url} href={a.url} download>
+                                <a key={a.url} href={a.url} onClick={(event) => { event.preventDefault(); void downloadBuild(a.url, a.fileName || "watchface.prg").catch(e => setNotice(e.message)); }} download>
                                   {" "}
                                   下载 {a.fileName || "PRG"}
                                 </a>
@@ -3656,7 +3657,7 @@ export default function App() {
                         <button
                           onClick={async () => {
                             try {
-                              const r = await fetch(
+                              const r = await buildFetch(
                                 `/api/builds/${encodeURIComponent(buildId)}/cancel`,
                                 { method: "POST" },
                               );
@@ -3707,6 +3708,7 @@ export default function App() {
                           className="download-link"
                           key={a.id}
                           href={a.url}
+                          onClick={(event) => { event.preventDefault(); void downloadBuild(a.url, a.fileName || a.id).catch(e => setNotice(e.message)); }}
                           download={a.fileName || a.id}
                         >
                           <Download size={16} />

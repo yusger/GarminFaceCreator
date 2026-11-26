@@ -83,6 +83,19 @@ sealed class BuildAuditLog : IDisposable
     }
     // Prevent project names/compiler output from forging additional log records.
     static string Clean(string value) => string.Concat(value.Take(16000).Select(c => char.IsControl(c) || c is '\u2028' or '\u2029' ? " " : c is '[' ? "［" : c is ']' ? "］" : c.ToString()));
+    readonly long maxFileBytes = PublicBuildPolicy.Read("GFC_AUDIT_FILE_MB", 10, 1, 100) * 1024L * 1024;
+    readonly long maxTotalBytes = PublicBuildPolicy.Read("GFC_AUDIT_TOTAL_MB", 100, 2, 10240) * 1024L * 1024;
+    readonly int keepDays = PublicBuildPolicy.Read("GFC_AUDIT_DAYS", 14, 1, 365);
+    void Trim(string current, long incoming)
+    {
+        if (File.Exists(current) && new FileInfo(current).Length + incoming > Math.Min(maxFileBytes, maxTotalBytes))
+            File.Move(current, Path.Combine(Path.GetDirectoryName(current)!, Path.GetFileNameWithoutExtension(current) + "-" + DateTime.UtcNow.ToString("HHmmssfffffff") + ".log"));
+        var files = Directory.EnumerateDirectories(root).Where(dir => System.Text.RegularExpressions.Regex.IsMatch(Path.GetFileName(dir), "^[0-9]{8}$") && !File.GetAttributes(dir).HasFlag(FileAttributes.ReparsePoint))
+            .SelectMany(dir => Directory.EnumerateFiles(dir, "*.log")).Select(path => new FileInfo(path)).Where(file => !file.Attributes.HasFlag(FileAttributes.ReparsePoint)).OrderBy(file => file.LastWriteTimeUtc).ToList();
+        long total = files.Sum(file => file.Length);
+        foreach (var file in files)
+            if (file.FullName != current && (file.LastWriteTimeUtc < DateTime.UtcNow.AddDays(-keepDays) || total + incoming > maxTotalBytes)) { total -= file.Length; file.Delete(); }
+    }
     public void Write(BuildAuditEntry entry, string message)
     {
         var now = DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8));
@@ -96,7 +109,9 @@ sealed class BuildAuditLog : IDisposable
             {
                 var directory = Path.Combine(root, now.ToString("yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture));
                 Directory.CreateDirectory(directory);
-                File.AppendAllText(Path.Combine(directory, now.ToString("MMdd", System.Globalization.CultureInfo.InvariantCulture) + ".log"), text + "\n", new UTF8Encoding(false));
+                var current = Path.Combine(directory, now.ToString("MMdd", System.Globalization.CultureInfo.InvariantCulture) + ".log");
+                Trim(current, Encoding.UTF8.GetByteCount(text + "\n"));
+                File.AppendAllText(current, text + "\n", new UTF8Encoding(false));
             }
         }
         catch (Exception e) when (e is IOException or UnauthorizedAccessException)
