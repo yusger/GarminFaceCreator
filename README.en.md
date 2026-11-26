@@ -227,3 +227,5 @@ Default watchface packages are maintained in [default-watchfaces](resources/defa
 
 [SONAR reference](docs/sonar.md): 18 editable layers, 12 controls, continuous progress and packaged fonts; static scan fallback.
 
+
+- [AI design assistant: conversational editing](docs/design-chat.md) (Chinese guide)

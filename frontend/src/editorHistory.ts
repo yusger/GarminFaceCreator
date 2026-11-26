@@ -1,11 +1,12 @@
 import type { Layer, Project } from "./domain";
 export type EditorFrame = Pick<
   Project,
-  "layers" | "controls" | "controlValues"
+  "layers" | "controls" | "controlValues" | "backgroundColor"
 >;
 export function editorFrame(p: Project, layers = p.layers): EditorFrame {
   return structuredClone({
     layers,
+    backgroundColor: p.backgroundColor,
     controls: p.controls,
     controlValues: p.controlValues,
   });

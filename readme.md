@@ -230,3 +230,5 @@ PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际
 
 [SONAR默认参考](docs/sonar.md)：18个独立图层、12项配置、连续进度与包内字体；扫描首版静态。
 
+
+- [AI 设计助手：对话调整表盘](docs/design-chat.md)

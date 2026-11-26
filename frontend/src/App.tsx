@@ -1,3 +1,5 @@
+import DesignChat from "./DesignChatPanel";
+import {chatFingerprint} from "./designChat";
 import {resizeModelLayers} from "./selection";
 import CompoundInspector from "./CompoundInspector";
 import WidgetPicker from "./WidgetPicker";
@@ -138,6 +140,7 @@ export default function App() {
   } | null>(null);
   const [page, setPage] = useState("projects");
   const [aiCreating, setAiCreating] = useState(false);
+  const [chatOpen,setChatOpen]=useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectSection, setProjectSection] = useState<"builtins" | "mine">(
     () => {
@@ -1483,6 +1486,7 @@ export default function App() {
               </small>
             </span>
             <WatchfaceControls project={p} onChange={setP} />
+            <button onClick={()=>setChatOpen(v=>!v)} aria-pressed={chatOpen}><Sparkles size={15}/> AI 设计助手</button>
             <button onClick={() => setShowPreview(!showPreview)}>
               <Play size={14} />
               预览
@@ -2082,6 +2086,11 @@ export default function App() {
                   </div>
                 </div>
               </main>
+              <DesignChat key={p.id} project={p} profiles={profiles} selection={selection} open={chatOpen} disabled={busy||batchBusy} onClose={()=>setChatOpen(false)} onModels={()=>setPage("models")} canUndo={!!past.length} onUndo={()=>undo()} onApply={(fingerprint,next)=>{
+                const latest=activeProject.current;
+                if(!latest||chatFingerprint(latest)!==fingerprint)throw Error("等待期间设计已变化，本轮未应用；请基于最新设计重新发送。");
+                if(chatFingerprint(next)!==fingerprint){editLayers(next.layers,true,next);selectOne("");}
+              }}/>
               <aside
                 className="inspector"
                 onFocusCapture={beginProperty}
