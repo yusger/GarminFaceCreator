@@ -1,3 +1,4 @@
+import { reconcileDevices } from "./multiDevice.ts";
 import catalog from "./widgetCatalog.json" with { type: "json" };
 import {
   layer,
@@ -72,8 +73,14 @@ export function insertWidget(p: Project, id: string): Project {
     codeRevision: -1,
     updated: Date.now(),
   };
-  validateProject(next);
-  return next;
+  const result = reconcileDevices(p, next)!;
+  if (result.multiDevice)
+    result.multiDevice = {
+      ...result.multiDevice,
+      viewVersion: (p.multiDevice?.viewVersion || 0) + 1,
+    };
+  validateProject(result);
+  return result;
 }
 export function validateWidgetOrigin(o: WidgetOrigin | undefined) {
   if (

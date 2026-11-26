@@ -1,3 +1,4 @@
+import { enableDevices, selectDevice, deviceKey } from "../src/multiDevice";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { project, validateProject } from "../src/domain";
@@ -17,6 +18,18 @@ const ids = [
 ];
 test("widget instances have independent parameters, portable notices and valid deletion history", () => {
   expect(widgets).toHaveLength(4);
+  const multi = insertWidget(
+    enableDevices(project("MultiWidgets", true)),
+    "capsule-metric",
+  );
+  validateProject(multi);
+  expect(multi.multiDevice!.master).toHaveLength(5);
+  expect(() =>
+    insertWidget(
+      selectDevice(multi, deviceKey(multi), "device"),
+      "capsule-metric",
+    ),
+  ).toThrow("共享主设计");
   let p = project("Widgets", true);
   for (const id of ids) p = insertWidget(p, id);
   expect(p.layers).toHaveLength(36);
