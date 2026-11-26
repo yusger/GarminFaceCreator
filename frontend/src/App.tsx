@@ -2918,8 +2918,8 @@ export default function App() {
                             <option value="700">粗体</option>
                           </select>
                         </label>
+                        <button onClick={()=>setFontsOpen(true)} type="button">字体素材库</button>
                         <label>
-                          <button onClick={()=>setFontsOpen(true)} type="button">字体素材库</button>
                           Garmin 字体
                           <select
                             aria-label="Garmin 字体"
