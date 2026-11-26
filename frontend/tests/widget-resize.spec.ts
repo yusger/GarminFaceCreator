@@ -111,6 +111,9 @@ function brokenProject() {
 test("known damaged placeholders rebuild explicitly with defaults and preserved geometry", () => {
   const p = brokenProject(),
     old = p.layers[0];
+  old.groupId = "parent-group";
+  old.groupName = "Existing group";
+  old.effectPrompt = "Preserve my design intent";
   expect(isDamagedWidget(old)).toBe(true);
   const fixed = rebuildWidget(p, old.id);
   validateProject(fixed);
@@ -119,6 +122,8 @@ test("known damaged placeholders rebuild explicitly with defaults and preserved 
   expect(fixed.layers[0].w).toBe(288);
   expect(fixed.layers[0].h).toBe(96);
   expect(fixed.codeRevision).toBe(-1);
+  expect(fixed.layers[0].groupId).toBe(old.groupId);
+  expect(fixed.layers[0].effectPrompt).toBe(old.effectPrompt);
   expect(isDamagedWidget(fixed.layers[0])).toBe(false);
   expect(p.layers[0].compound).toBeUndefined();
 });
@@ -127,13 +132,11 @@ test("saved blank placeholder offers default rebuild and undo keeps the original
 }) => {
   await page.goto("/");
   page.on("dialog", (d) => d.accept());
-  await page
-    .locator('input[accept=".json"]')
-    .setInputFiles({
-      name: "broken.json",
-      mimeType: "application/json",
-      buffer: Buffer.from(JSON.stringify(brokenProject())),
-    });
+  await page.locator('input[accept=".json"]').setInputFiles({
+    name: "broken.json",
+    mimeType: "application/json",
+    buffer: Buffer.from(JSON.stringify(brokenProject())),
+  });
   await page.locator(".layer-row").first().click();
   await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(0);
   await expect(page.getByText(/使用默认颜色和部件设置/)).toBeVisible();
