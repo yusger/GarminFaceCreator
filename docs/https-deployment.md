@@ -17,3 +17,7 @@ HTTP and HTTPS have separate browser storage: export projects from the old HTTP 
 HTTPS protects transport. Authentication, task ownership, request limits and disk quotas remain separate requirements before broadly advertising an anonymous build service.
 
 Implementation validation: the backend forwarding change passed real-SDK success/failure/download/cancellation and spoofed-header audit tests on the staging deployment before switching the public listener.
+
+After enabling HTTPS, manage the deployment with `sh deploy/manage-https.sh ps`, `sh deploy/manage-https.sh up -d --no-build`, or `sh deploy/manage-https.sh restart caddy`. Always include the HTTPS overlay; running only the base Compose file would publish plain HTTP again.
+
+Public validation (2026-11-26): trusted TLS 1.3 hostname/chain verification, real PRG builds/downloads, errors/cancellation and 20 browser tests passed. Verified original visitor IP survives the proxy and forged forwarded headers are ignored; compiler container has no DNS credentials or published host port. Proxy restart reused the same persisted certificate. Automatic renewal is configured; future scheduled renewal has not yet occurred. Configure `COMPOSE_FILE` in the private deployment `.env` to include all required overlays so ordinary Compose commands retain HTTPS.
