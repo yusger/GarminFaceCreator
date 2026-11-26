@@ -1,6 +1,6 @@
 import { resizeModelLayers } from "../src/selection";
-import { project, validateProject, type Layer } from "../src/domain";
-import { insertWidget, isDamagedWidget, rebuildWidget } from "../src/widgets";
+import { project, validateProject } from "../src/domain";
+import { insertWidget } from "../src/widgets";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 const cases = [
@@ -90,73 +90,6 @@ for (const [id, count] of cases)
       expect(data.layers[0].w / data.layers[0].h).toBeCloseTo(ratio, 4);
     },
   );
-
-function brokenProject() {
-  const p = insertWidget(project("BrokenWidget", true), "capsule-metric");
-  p.layers = [
-    {
-      ...p.layers[0],
-      kind: "rect",
-      compound: undefined,
-      compoundOverrides: undefined,
-      fillEnabled: true,
-      strokeEnabled: false,
-      opacity: 0,
-      cornerRadius: 0,
-      w: 288,
-      h: 96,
-    },
-  ];
-  return p;
-}
-test("known damaged placeholders rebuild explicitly with defaults and preserved geometry", () => {
-  const p = brokenProject(),
-    old = p.layers[0];
-  old.groupId = "parent-group";
-  old.groupName = "Existing group";
-  old.effectPrompt = "Preserve my design intent";
-  expect(isDamagedWidget(old)).toBe(true);
-  const fixed = rebuildWidget(p, old.id);
-  validateProject(fixed);
-  expect(fixed.layers[0].id).toBe(old.id);
-  expect(fixed.layers[0].compound!.layers).toHaveLength(5);
-  expect(fixed.layers[0].w).toBe(288);
-  expect(fixed.layers[0].h).toBe(96);
-  expect(fixed.codeRevision).toBe(-1);
-  expect(fixed.layers[0].groupId).toBe(old.groupId);
-  expect(fixed.layers[0].effectPrompt).toBe(old.effectPrompt);
-  expect(isDamagedWidget(fixed.layers[0])).toBe(false);
-  expect(p.layers[0].compound).toBeUndefined();
-});
-test("saved blank placeholder offers default rebuild and undo keeps the original", async ({
-  page,
-}) => {
-  await page.goto("/");
-  page.on("dialog", (d) => d.accept());
-  await page.locator('input[accept=".json"]').setInputFiles({
-    name: "broken.json",
-    mimeType: "application/json",
-    buffer: Buffer.from(JSON.stringify(brokenProject())),
-  });
-  await page.locator(".layer-row").first().click();
-  await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(0);
-  await expect(page.getByText(/使用默认颜色和部件设置/)).toBeVisible();
-  await expect(
-    page.getByRole("img", { name: "待恢复的复合控件", exact: true }),
-  ).toBeVisible();
-  await expect(page.locator(".layer-row")).toContainText("待恢复");
-  await page
-    .getByRole("button", { name: "按默认样式重建复合控件", exact: true })
-    .click();
-  await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(5);
-  await expect(page.getByLabel("复合控件w")).toHaveValue("288");
-  await page.getByTitle("撤销", { exact: true }).click();
-  await expect(
-    page.getByRole("button", { name: "按默认样式重建复合控件", exact: true }),
-  ).toBeVisible();
-  await page.getByTitle("重做", { exact: true }).click();
-  await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(5);
-});
 
 test("resize writeback discards view proxy fields and preserves the model", () => {
   const p = insertWidget(project("StrictGeometry", true), "capsule-metric"),

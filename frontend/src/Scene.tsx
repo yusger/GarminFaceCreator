@@ -1,4 +1,3 @@
-import {isDamagedWidget} from "./widgets";
 import {expandWidgets} from "./compound";
 import { resolveControls } from "./projectControls";
 import { fontFamily, loadCustomFonts } from "./customFonts";
@@ -415,7 +414,6 @@ export default function Scene({
                   {reading(l, aod ? { ...preview, seconds: 0 } : preview)}
                 </text>
               )}
-              {!exact&&sourceLayers.has(l.id)&&isDamagedWidget(sourceLayers.get(l.id)!)&&<g role="img" aria-label="待恢复的复合控件" pointerEvents="none"><rect width={l.w} height={l.h} fill="#3c2d1e" fillOpacity="0.8" stroke="#f2a65f" strokeDasharray="5 4"/><text x={l.w/2} y={l.h/2} textAnchor="middle" dominantBaseline="central" fontSize={Math.min(14,l.w/10,l.h/3)} fill="#f2c48e">内部部件待恢复</text></g>}
               {selection.includes(l.id) && (
                 <>
                   <rect

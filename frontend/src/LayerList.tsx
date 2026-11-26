@@ -1,4 +1,3 @@
-import {isDamagedWidget} from "./widgets";
 import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
@@ -185,7 +184,7 @@ export default function LayerList({
                 onClick={(e) => onSelect(l.id, e.shiftKey)}
               >
                 <Thumbnail layer={l} preview={preview} />
-                <span>{l.name}</span>{l.kind==="widget"&&<small>复合</small>}{isDamagedWidget(l)&&<small>待恢复</small>}
+                <span>{l.name}</span>{l.kind==="widget"&&<small>复合</small>}
                 {l.exportIncluded === false && (
                   <small title="不包含在原生导出">
                     {l.guide ? "辅助" : "不导出"}

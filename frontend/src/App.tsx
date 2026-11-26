@@ -1,7 +1,7 @@
 import {resizeModelLayers} from "./selection";
 import CompoundInspector from "./CompoundInspector";
 import WidgetPicker from "./WidgetPicker";
-import {insertWidget,cloneCompound,decomposeWidget,isDamagedWidget,rebuildWidget} from "./widgets";
+import {insertWidget,cloneCompound,decomposeWidget} from "./widgets";
 import {editorFrame,withEditorLayers,type EditorFrame} from "./editorHistory";
 import { handImageSets,handImagePatch,createHandImageSet } from "./handImages";
 import { handStyles,handStylePatch } from "./handStyles";
@@ -786,7 +786,6 @@ export default function App() {
     if (!selection.includes(l.id)) selectOne(l.id);
     else setSelected(l.id);
     if (!p || l.locked || e.button !== 0) return;
-    if(isDamagedWidget(l))setNotice("此对象当前缺少复合控件内部定义；可先撤销此前缩放，或在右侧按默认样式重建。");
     endProperty();
     const svg = e.currentTarget.ownerSVGElement!;
     const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(
@@ -2114,7 +2113,6 @@ export default function App() {
                   <b>{current?.name || "画布属性"}</b>
                   <SlidersHorizontal size={16} />
                 </div>
-                {current&&isDamagedWidget(current)&&<div className="recovery"><p>这个空白对象缺少内部定义。可先撤销缩放或恢复设计快照；也可按内置默认样式重建，使用默认颜色和部件设置。</p><button disabled={p.multiDevice?.scope==="device"} onClick={()=>{try{const next=rebuildWidget(p,current.id);editLayers(next.layers,true,next);setNotice("已按内置默认样式重建复合控件，可撤销此操作。");}catch(e){setNotice((e as Error).message);}}}>按默认样式重建复合控件</button></div>}
                 {current?.kind==="widget" ? (<CompoundInspector key={current.id} layer={current} project={p} onChange={patch} onDecompose={()=>{try{const next=decomposeWidget(p,current.id);editLayers(next.layers,true,next);selectOne(next.layers.find(l=>!p.layers.some(old=>old.id===l.id))?.id||"");setNotice("已拆解为基础图层，可撤销恢复复合控件。");}catch(e){setNotice((e as Error).message);}}}/>) : current ? (
                   <>
                     <label>
