@@ -33,12 +33,12 @@ export async function buildDefaultWatchfaces() {
   const registry = [],
     ids = new Set(),
     apps = new Set();
-  for (const entry of await readdir(resolve(root, "default-watchfaces"), {
+  for (const entry of await readdir(resolve(root, "resources/default-watchfaces"), {
     withFileTypes: true,
   })) {
     if (!entry.isDirectory()) continue;
     const slug = entry.name,
-      dir = "default-watchfaces/" + slug,
+      dir = "resources/default-watchfaces/" + slug,
       r = json(await read(dir + "/reference.json")),
       p = json(await read(dir + "/design.json"));
     if (

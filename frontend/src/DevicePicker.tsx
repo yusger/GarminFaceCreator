@@ -1,3 +1,6 @@
+import { layoutTemplates, layoutTemplate } from "./layoutTemplates";
+import BackgroundPicker from "./BackgroundPicker";
+import { defaultBackground, type BackgroundChoice } from "./background";
 import { layoutPresets, suggestedLayout, type LayoutChoice } from "./layouts";
 import { useState } from "react";
 import { devices } from "./devices";
@@ -5,15 +8,19 @@ export default function DevicePicker({
   onChoose,
   onCancel,
   blank = false,
+  templateId,
 }: {
   onChoose: (device: (typeof devices)[number], layout: LayoutChoice) => void;
   blank?: boolean;
+  templateId?: string;
   onCancel: () => void;
 }) {
   const [series, setSeries] = useState("Venu"),
     [model, setModel] = useState("Venu 4"),
     [size, setSize] = useState("45mm");
-  const [presetId, setPresetId] = useState(blank ? "blank" : "basic");
+  const [presetId, setPresetId] = useState(templateId ? "template:"+templateId : blank ? "blank" : "basic");
+  const [background,setBackground]=useState<BackgroundChoice>(defaultBackground);
+  const [backgroundBusy,setBackgroundBusy]=useState(false);
   const [inset, setInset] = useState<number | null>(null);
   const [showGuide, setShowGuide] = useState(true);
   const options = devices.filter(
@@ -100,8 +107,11 @@ export default function DevicePicker({
                 {p.name}
               </option>
             ))}
+            {layoutTemplates.map(t=><option key={t.id} value={"template:"+t.id}>{t.name} · {t.mode==="DIGITAL"?"数字":t.mode==="ANALOG"?"指针":"混合"}模板</option>)}
           </select>
         </label>
+        {presetId.startsWith("template:")&&<img width="160" height="160" src={"/layout-templates/"+presetId.slice(9)+"/preview.svg"} alt={(layoutTemplate(presetId.slice(9))?.name||"")+"模板预览"}/>}
+        <BackgroundPicker value={background} onChange={setBackground} onBusy={setBackgroundBusy}/>
         <label>
           安全边距（设备像素）
           <input
@@ -131,11 +141,13 @@ export default function DevicePicker({
           <button onClick={onCancel}>取消</button>
           <button
             className="primary"
+            disabled={backgroundBusy || (background.mode==="image"&&!background.image)}
             onClick={() =>
               onChoose(selected, {
                 ...suggestedLayout(selected, presetId),
                 safeInsetPx: inset ?? suggestedLayout(selected).safeInsetPx,
                 showGuide,
+                background,
               })
             }
           >

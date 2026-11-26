@@ -22,4 +22,7 @@ frontend/public/research/byod/** -text
 
 frontend/public/reference-notices/BAWF-* -text
 
-default-watchfaces/** -text
+resources/default-watchfaces/** -text
+
+resources/shared/fonts/** -text
+resources/default-imgs/** -text

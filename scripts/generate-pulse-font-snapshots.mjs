@@ -9,7 +9,7 @@ const root = process.cwd(),
 const { chalkPlans } = await import(
   pathToFileURL(root + "/frontend/src/chalkFonts.ts")
 );
-const dir = root + "/default-watchfaces/pulsemaniac",
+const dir = root + "/resources/default-watchfaces/pulsemaniac",
   p = JSON.parse(await readFile(dir + "/design.json", "utf8")),
   r = JSON.parse(await readFile(dir + "/reference.json", "utf8"));
 const source = stripTypeScriptTypes(

@@ -1,3 +1,7 @@
+import TemplatePicker from "./TemplatePicker";
+import BackgroundPicker from "./BackgroundPicker";
+import { layoutTemplate } from "./layoutTemplates";
+import { applyBackground, defaultBackground, type BackgroundChoice } from "./background";
 import { useEffect, useRef, useState } from "react";
 import { Sparkles, Plus, X } from "lucide-react";
 import type { Profile, Project } from "./domain";
@@ -39,6 +43,8 @@ export default function AiCreateWatchface({
     sources: ["heartRate", "steps", "battery"],
     instruction: "简洁清晰，时间突出，青色点缀，保留独立可编辑的数据控件。",
   });
+  const [background,setBackground]=useState<BackgroundChoice>(defaultBackground);
+  const [backgroundBusy,setBackgroundBusy]=useState(false);
   const [step, setStep] = useState(0),
     [profileId, setProfileId] = useState(profiles[0]?.id || ""),
     [configuring, setConfiguring] = useState(false);
@@ -99,6 +105,7 @@ export default function AiCreateWatchface({
     }
   }
   async function run() {
+    if (backgroundBusy || (background.mode==="image"&&!background.image)) { setError("请先选择并处理背景图片");return; }
     if (!profile?.model.trim()) {
       setError("请先配置并选择模型");
       return;
@@ -119,7 +126,7 @@ export default function AiCreateWatchface({
           : choices.instruction,
       };
       const candidate = parseDesign(text, safe, refs);
-      setResult(candidate);
+      setResult(applyBackground(candidate,background));
     } catch (e) {
       if (!alive.current) return;
       if (e instanceof GenerationFailure) setRaw(e.raw);
@@ -197,7 +204,7 @@ export default function AiCreateWatchface({
           {["设备", "时间与数据", "参考与生成"].map((title, i) => (
             <button
               key={title}
-              disabled={busy || saving || loadingImages}
+              disabled={busy || saving || loadingImages || backgroundBusy}
               aria-current={i === step ? "step" : undefined}
               className={i === step ? "active" : ""}
               onClick={() => setStep(i)}
@@ -208,7 +215,7 @@ export default function AiCreateWatchface({
         </nav>
         <div className="ai-design-body">
           <div className="ai-design-form">
-            <fieldset disabled={busy || saving || loadingImages}>
+            <fieldset disabled={busy || saving || loadingImages || backgroundBusy}>
               {step === 0 && (
                 <>
                   <label>
@@ -298,13 +305,16 @@ export default function AiCreateWatchface({
               )}
               {step === 1 && (
                 <>
+                  <TemplatePicker value={choices.layoutTemplateId||""} onChange={id=>{const t=layoutTemplate(id);change({layoutTemplateId:id||undefined,...(t?{style:t.mode,sources:t.defaultSources,date:t.layers.some(l=>l.kind==="date"),seconds:false}:{})});}}/>
+                  <p className="hint">模板作为构图起点，选择后可继续修改时间模式和数据；更换时间模式会取消原模板选择。</p>
+                  <BackgroundPicker value={background} onBusy={setBackgroundBusy} onChange={value=>{setBackground(value);change({backgroundPreference:value.mode==="auto"?undefined:{mode:value.mode,color:value.color}});}}/>
                   <label>
                     时间风格
                     <select
                       aria-label="时间风格"
                       value={choices.style}
                       onChange={(e) =>
-                        change({ style: e.target.value as DesignStyle })
+                        change({ style: e.target.value as DesignStyle, layoutTemplateId:undefined })
                       }
                     >
                       <option value="DIGITAL">数字模式</option>
@@ -476,7 +486,7 @@ export default function AiCreateWatchface({
             <div className="inline ai-design-actions">
               {step > 0 && (
                 <button
-                  disabled={busy || saving || loadingImages}
+                  disabled={busy || saving || loadingImages || backgroundBusy}
                   onClick={() => setStep(step - 1)}
                 >
                   上一步
@@ -547,7 +557,7 @@ export default function AiCreateWatchface({
                 </p>
                 <button
                   className="primary"
-                  disabled={busy || saving || loadingImages}
+                  disabled={busy || saving || loadingImages || backgroundBusy}
                   onClick={() => void adopt()}
                 >
                   {saving ? "正在保存…" : "采用设计并编辑"}

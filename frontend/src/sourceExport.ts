@@ -1,3 +1,4 @@
+import handImageAttribution from "./handImageAttribution.json" with {type:"json"};
 import { preparedCodeFiles, chalkPlans } from "./chalkFonts";
 import {
   referenceAttributions,
@@ -44,6 +45,9 @@ export async function exportSources(
       path: file.path,
       data: text.encode(file.content),
     }));
+  for(const notice of handImageAttribution) if(p.layers.some(l=>l.handBitmap?.packId===notice.packId || l.assetId?.startsWith("hand-image-"+notice.packId+"-"))) {
+    entries.push({path:"notices/"+notice.packId+"-NOTICE.md",data:text.encode(notice.notice)},{path:"notices/"+notice.packId+"-LICENSE.txt",data:text.encode(notice.license)});
+  }
   if (p.starterId === "pulsemaniac") {
     for (const name of ["NOTICE.md", "PROMPTS.md"]) {
       const r = await fetch("/pulsemaniac/" + name);

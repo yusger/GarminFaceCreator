@@ -67,6 +67,14 @@
 
 已提供用户主动触发、最多两轮的受控 AI 修复与差异审阅，以及目标、格式、许可和来源约束。已提供受审阅的 AI 设备布局建议；无人值守调整/修复和完整原生模拟器预览仍是后续方向。部分参考项目包含近似图层或动画静帧，实际绘制以原生工程为准。
 
+## 布局模板与素材交付
+
+空白创建和 AI 创建均可选择 12 个可编辑布局模板，再选择纯色或本地图片背景。背景图片在浏览器中处理，不会自动作为模型参考图发送；编译时随工程提交。素材库提供 10 套原图指针及 3 种矢量样式，支持整套添加后逐个调整。
+
+统一维护目录为 `resources/`，包含默认表盘、布局模板、控件、图片及共享字体。构建过程发布网页资源，已保存项目的旧资源 URL 保持兼容。
+
+第三方交付请参阅[自定义控件规范](docs/custom-widget-standard.md)、[布局模板规范](docs/layout-template-standard.md)和[指针素材规范](docs/hand-resource-standard.md)。当前控件规范支持已实现图层的组合；新增运行时效果仍需程序支持。
+
 ## 从设计到 PRG
 
 | 步骤 | 操作 | 是否调用模型 |
@@ -211,7 +219,7 @@ BYOD 的六分区/跨区思路已形成[圆屏组合控件研究方案](docs/byo
 PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际网页/原生截图；人物 PNG 及生成提示词随项目保存，原始草稿仍留在不提交的本地临时目录。
 
 
-默认参考表盘的独立目录与统一描述格式见 [default-watchfaces](default-watchfaces/README.md)。ClownWatch、PulseManiac 与 SONAR 在内置卡片上标记“自主”；具体素材权利仍以各包 notices 为准。
+默认参考表盘的独立目录与统一描述格式见 [default-watchfaces](resources/default-watchfaces/README.md)。ClownWatch、PulseManiac 与 SONAR 在内置卡片上标记“自主”；具体素材权利仍以各包 notices 为准。
 
 
 [SONAR默认参考](docs/sonar.md)：18个独立图层、12项配置、连续进度与包内字体；扫描首版静态。

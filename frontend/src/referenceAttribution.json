@@ -269,7 +269,7 @@
     "id": "00000000-0000-4000-8000-000000000012",
     "name": "SONAR",
     "template": "sonar",
-    "source": "https://github.com/yusger/GarminFaceCreator/tree/main/default-watchfaces/sonar",
+    "source": "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/sonar",
     "status": "Self-authored design; generated native implementation GPL-3.0-or-later; supplied artwork/font notices retained separately",
     "summary": "自主声呐混合表盘；独立数据控件、连续进度条、可配置颜色与数据来源；首版静态扫描扇区",
     "upstreamCommit": null,

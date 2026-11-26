@@ -4,10 +4,10 @@ import { createHash } from "node:crypto";
 test("all canonical references publish equivalent independent source, assets and metadata", async ({
   request,
 }) => {
-  const entries = await readdir("default-watchfaces", { withFileTypes: true });
+  const entries = await readdir("resources/default-watchfaces", { withFileTypes: true });
   const ids = new Set<string>();
   for (const entry of entries.filter((e) => e.isDirectory())) {
-    const root = "default-watchfaces/" + entry.name;
+    const root = "resources/default-watchfaces/" + entry.name;
     const ref = JSON.parse(await readFile(root + "/reference.json", "utf8"));
     const bundle = await (
       await request.get("/default-watchfaces/" + entry.name + "/project.json")

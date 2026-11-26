@@ -515,7 +515,7 @@ cases.id唯一；image路径相对包根目录；mode为active或aod。每个cas
 
 交付包的watchface.json是设计唯一事实来源；preview仅供核对，HTML不是运行输入。首次接入转换为内部reference.json（身份、来源、资源清单）和design.json（控件布局/绑定），同时保留接入版本与差异记录。程序内部文件不是设计方的第二套编辑入口。
 
-现有native模式社区项目继续保留原生代码；不会强行用本规范重新生成。设计包生成的源码、FNT/PNG和设置XML属于转换输出。默认参考受保护，用户从卡片创建独立副本。维护规则参见[default-watchfaces说明](../default-watchfaces/README.md)。
+现有native模式社区项目继续保留原生代码；不会强行用本规范重新生成。设计包生成的源码、FNT/PNG和设置XML属于转换输出。默认参考受保护，用户从卡片创建独立副本。维护规则参见[default-watchfaces说明](../resources/default-watchfaces/README.md)。
 
 
 
@@ -557,7 +557,7 @@ cases.id唯一；image路径相对包根目录；mode为active或aod。每个cas
 | 文字透明度 | style.opacity最终合成 | 网页合成；原生按底色混合降亮 | 低亮度已验证，纹理上非逐像素透明，须记录降级 |
 | AI效果说明 | 外部formatVersion 1仍无该可执行字段 | 内部AI创建支持设计与effectPrompt说明，不能代替交换格式effects或绑定 | 网页仅基础预览，用户后续生成工程并逐项验收；见[AI创建](ai-create.md) |
 
-CLI入口：`node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`。必须先人工审阅，目标存在时拒绝覆盖。它不是完整schema校验器，未映射字段仍有遗漏风险；脚本未报错不能证明满足全部规范。运行效果、许可及字体快照维护见[默认参考说明](../default-watchfaces/README.md)和[SONAR样包记录](sonar-package-review.md)。
+CLI入口：`node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`。必须先人工审阅，目标存在时拒绝覆盖。它不是完整schema校验器，未映射字段仍有遗漏风险；脚本未报错不能证明满足全部规范。运行效果、许可及字体快照维护见[默认参考说明](../resources/default-watchfaces/README.md)和[SONAR样包记录](sonar-package-review.md)。
 
 ## 14. v1.2修订摘要
 

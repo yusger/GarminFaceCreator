@@ -1,0 +1,43 @@
+{
+  "format": "gfc-hand-style",
+  "formatVersion": 1,
+  "id": "diamond",
+  "version": "1.0.0",
+  "name": "菱形",
+  "preferredRoles": [
+    "hour",
+    "minute",
+    "second"
+  ],
+  "geometry": {
+    "kind": "normalized-polygon",
+    "points": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0.3
+      ],
+      [
+        0,
+        -1
+      ],
+      [
+        -1,
+        0.3
+      ]
+    ]
+  },
+  "defaultWidth": 12,
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "GarminFaceCreator contributors"
+    ],
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "LICENSE"
+  },
+  "preview": "preview.svg"
+}

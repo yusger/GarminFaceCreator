@@ -7,7 +7,7 @@ import { chromium } from "@playwright/test";
 import { chalkPlans } from "../frontend/src/chalkFonts.ts";
 const slug = process.argv[2];
 if (!/^[-a-z0-9]+$/.test(slug || "")) throw Error("Pass a reference slug");
-const dir = resolve("default-watchfaces", slug),
+const dir = resolve("resources/default-watchfaces", slug),
   p = JSON.parse(await readFile(dir + "/design.json", "utf8")),
   r = JSON.parse(await readFile(dir + "/reference.json", "utf8"));
 const source = stripTypeScriptTypes(

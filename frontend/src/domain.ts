@@ -32,6 +32,8 @@ export type Layer = {
   meterDimColor?: string;
   dateFormat?: "monthDayWeek";
   handCap?: "round" | "butt";
+  handBitmap?: {packId:string;setId:string;role:"hour"|"minute"|"second";version:string};
+  handShape?: {id:string;version:string;points:[number,number][]};
   visibility?: import("./visibility").VisibilityCondition;
   id: string;
   name: string;
@@ -190,7 +192,8 @@ export type Project = {
     | 20
     | 21
     | 22
-    | 23;
+    | 23
+    | 24;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -409,7 +412,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 23,
+    schemaVersion: 24,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -441,7 +444,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 23 ||
+    p.schemaVersion !== 24 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -476,9 +479,7 @@ export function validateProject(value: unknown): Project {
       p.layoutGuide.safeInsetPx > 40 ||
       !Number.isFinite(p.layoutGuide.minFontPx) ||
       !Number.isFinite(p.layoutGuide.numberFontPx) ||
-      !["basic", "large-time", "fitness", "blank"].includes(
-        p.layoutGuide.presetId,
-      ) ||
+      (!["basic", "large-time", "fitness", "blank"].includes(p.layoutGuide.presetId) && !/^template:[a-z][a-z0-9-]{0,79}$/.test(p.layoutGuide.presetId)) ||
       typeof p.layoutGuide.showGuide !== "boolean")
   )
     throw Error("布局指导参数无效");
@@ -561,6 +562,8 @@ export function validateProject(value: unknown): Project {
         (!Number.isFinite(value) || value < min || value > max)
       )
         throw Error("指针转动中心或长度无效");
+    if (l.handBitmap!==undefined && (l.kind!=="hand" || l.handShape!==undefined || !l.image?.startsWith("data:image/png;base64,") || !/^[a-z][a-z0-9-]{0,79}$/.test(l.handBitmap.packId) || !/^[a-z][a-z0-9-]{0,79}$/.test(l.handBitmap.setId) || !/^\d+\.\d+\.\d+$/.test(l.handBitmap.version) || l.handBitmap.role!==(l.handType||"hour"))) throw Error("图片指针绑定或尺寸无效");
+    if (l.handShape !== undefined && (l.kind!=="hand" || !/^[a-z][a-z0-9-]{0,79}$/.test(l.handShape.id) || !/^\d+\.\d+\.\d+$/.test(l.handShape.version) || !Array.isArray(l.handShape.points) || l.handShape.points.length<3 || l.handShape.points.length>32 || l.handShape.points.some(point=>!Array.isArray(point)||point.length!==2||point.some(n=>!Number.isFinite(n)||n<-1||n>1)))) throw Error("指针外形数据无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (

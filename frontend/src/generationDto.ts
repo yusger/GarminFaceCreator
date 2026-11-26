@@ -18,7 +18,9 @@ type Omitted =
   | "weatherIcon"
   | "thresholdRules"
   | "visibility"
-  | "customFont";
+  | "customFont"
+  | "handShape"
+  | "handBitmap";
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   effectPrompt: true,
@@ -125,6 +127,8 @@ export function generationLayer(l: Layer) {
   );
   return {
     ...result,
+    ...(l.handBitmap?{handBitmap:objectFields(l.handBitmap,["packId","setId","role","version"])}:{}),
+    ...(l.handShape?{handShape:{...objectFields(l.handShape,["id","version"]),points:l.handShape.points.map(point=>point.map(scalar))}}:{}),
     ...(l.customFont
       ? { customFont: objectFields(l.customFont, ["id", "family", "file"]) }
       : {}),

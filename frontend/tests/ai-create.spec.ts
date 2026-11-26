@@ -459,7 +459,7 @@ test("reference image is sent directly to the model; native effects reach engine
     name: "material.png",
     mimeType: "image/png",
     buffer: await readFile(
-      "default-watchfaces/sonar/assets/sonar_heart_icon.png",
+      "resources/default-watchfaces/sonar/assets/sonar_heart_icon.png",
     ),
   });
   await page.getByLabel("参考图用途 material.png").selectOption("asset");

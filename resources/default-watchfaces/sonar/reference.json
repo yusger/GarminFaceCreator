@@ -1,0 +1,194 @@
+{
+  "format": 1,
+  "slug": "sonar",
+  "version": "1.1.0",
+  "authorship": "self",
+  "generation": {
+    "mode": "deterministic"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000012",
+    "name": "SONAR",
+    "appId": "4a47f6640ed668b1f7ab71e08a792719"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000012",
+    "name": "SONAR",
+    "template": "sonar",
+    "source": "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/sonar",
+    "status": "Self-authored design; generated native implementation GPL-3.0-or-later; supplied artwork/font notices retained separately",
+    "summary": "自主声呐混合表盘；独立数据控件、连续进度条、可配置颜色与数据来源；首版静态扫描扇区",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Self-authored design package with retained source, notices and fingerprints",
+    "legacy": false,
+    "verifiedLicense": false
+  },
+  "images": [
+    {
+      "layerId": "sonar_dial_rings",
+      "file": "assets/sonar_dial_rings.png",
+      "sha256": "e8654e961c2fc98250b2a44c7d0680761232c37ae380bebd79ac4609cad1f586",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "sonar_scan_beam",
+      "file": "assets/sonar_scan_beam.png",
+      "sha256": "77dcdbd4fe8430d6167e3e5eeef613c501f5e0ab52adc765548c0c3e04129a94",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "sonar_heart_icon",
+      "file": "assets/sonar_heart_icon.png",
+      "sha256": "2059f10c1bf16ed118e9b6c19f70d2f3a6b821f5ee06287a4a05ddde7ac46f07",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "sonar_battery_icon",
+      "file": "assets/sonar_battery_icon.png",
+      "sha256": "acfdc493f3bc5c6f1366ecd837fe6e62650608ed2889a76292dbaa3aa96ecdbe",
+      "mime": "image/png"
+    }
+  ],
+  "binaryAssets": [
+    {
+      "id": "GfcCustom_sonar_label_font_16",
+      "path": "resources/fonts/GfcCustom_sonar_label_font_16.png",
+      "file": "resources/fonts/GfcCustom_sonar_label_font_16.png",
+      "mime": "image/png",
+      "sha256": "4de6324b9a7ec3e629203d06b57b110e3dda0ccdd84a206adc7d3758a069f38f"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_29",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_29.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_29.png",
+      "mime": "image/png",
+      "sha256": "f360f852b434a165877d6c16ec34307fedc6a61dd82dd52c2cddadd785fb6e3e"
+    },
+    {
+      "id": "GfcCustom_sonar_label_font_14",
+      "path": "resources/fonts/GfcCustom_sonar_label_font_14.png",
+      "file": "resources/fonts/GfcCustom_sonar_label_font_14.png",
+      "mime": "image/png",
+      "sha256": "613c9906ea94be3adbf2c1de17723e42557435a04e7dfc39ef784f4d54224a3e"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_38",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_38.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_38.png",
+      "mime": "image/png",
+      "sha256": "45be77d48262fb795a4d6f2fee020b67c2a22e6bee3188eea83958ffacbc3875"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_34",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_34.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_34.png",
+      "mime": "image/png",
+      "sha256": "30031f3a366b30456f4c153394c5572410259435856eacb7c40aa412379b9b15"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_16",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_16.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_16.png",
+      "mime": "image/png",
+      "sha256": "bc9f19a4f26e448def21ea94caf7b2a4f900dee51c44b81f93bf9e35230a7b78"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_15",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_15.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_15.png",
+      "mime": "image/png",
+      "sha256": "7b024f999ccbf1bb3597d44f58e87ac192b8ea82871b0972889969ecb203e6d0"
+    },
+    {
+      "id": "GfcCustom_sonar_label_font_12",
+      "path": "resources/fonts/GfcCustom_sonar_label_font_12.png",
+      "file": "resources/fonts/GfcCustom_sonar_label_font_12.png",
+      "mime": "image/png",
+      "sha256": "be856a3ab6c5b9eb7a95eddb72cfbbc1bbe5dc77e328d13b08f545765e9a6a06"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_30",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_30.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_30.png",
+      "mime": "image/png",
+      "sha256": "3179b4c2818ce67d1cb583065cc889379a88aa17bb04a33a2a73f166655f956e"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_28",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_28.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_28.png",
+      "mime": "image/png",
+      "sha256": "f278e4eb058783228046e686046ad9b1c5f248fb51ab97b2c20c27a824f2df52"
+    },
+    {
+      "id": "GfcCustom_sonar_number_font_19",
+      "path": "resources/fonts/GfcCustom_sonar_number_font_19.png",
+      "file": "resources/fonts/GfcCustom_sonar_number_font_19.png",
+      "mime": "image/png",
+      "sha256": "ed3d457b467613d9ac9b28330224a88dcdbfffa63865b67b6cd4688aa43c445a"
+    }
+  ],
+  "notices": [
+    {
+      "file": "notices/DESIGN-NOTICE.md",
+      "publishName": "SONAR-DESIGN-NOTICE.md"
+    },
+    {
+      "file": "notices/number-font-LICENSE.txt",
+      "publishName": "SONAR-number-font-LICENSE.txt"
+    },
+    {
+      "file": "notices/label-font-LICENSE.txt",
+      "publishName": "SONAR-label-font-LICENSE.txt"
+    },
+    {
+      "file": "notices/repository-LICENSE.txt",
+      "publishName": "repository-LICENSE.txt"
+    }
+  ],
+  "fonts": [
+    {
+      "file": "resources/fonts/ShareTechMono-Regular.ttf",
+      "publishName": "sonar-number-font.ttf",
+      "sha256": "9ceab1f87414829af259c0f537573ae03ef7dd3147c0b27a36a1a0beb6732677"
+    },
+    {
+      "file": "notices/number-font-LICENSE.txt",
+      "publishName": "sonar-number-font-LICENSE.txt",
+      "sha256": "9d96f445b6e9c701428811d0177f894874f8d6f07ecc30d568c506542368f3ff"
+    },
+    {
+      "file": "resources/fonts/BarlowSemiCondensed-Medium.ttf",
+      "publishName": "sonar-label-font.ttf",
+      "sha256": "4998b693a190b76f2b11315844345a8546c1e2e6a320905507a9eed04edf8b48"
+    },
+    {
+      "file": "notices/label-font-LICENSE.txt",
+      "publishName": "sonar-label-font-LICENSE.txt",
+      "sha256": "186d750eb496a4c17a76385f82be6aea2ac1cf2de074a811d63786cf374ea73f"
+    }
+  ],
+  "codeFiles": [
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/settings/properties.xml",
+    "resources/settings/settings.xml",
+    "resources/settings/strings.xml",
+    "resources/fonts/fonts.xml",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg",
+    "resources/fonts/GfcCustom_sonar_label_font_16.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_29.fnt",
+    "resources/fonts/GfcCustom_sonar_label_font_14.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_38.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_34.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_16.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_15.fnt",
+    "resources/fonts/GfcCustom_sonar_label_font_12.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_30.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_28.fnt",
+    "resources/fonts/GfcCustom_sonar_number_font_19.fnt"
+  ]
+}

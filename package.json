@@ -6,7 +6,8 @@
     "build": "tsc --noEmit && vite build --config frontend/vite.config.ts",
     "dev": "vite --config frontend/vite.config.ts",
     "test": "playwright test",
-    "prebuild": "node scripts/prebuild.mjs"
+    "prebuild": "node scripts/prebuild.mjs",
+    "predev": "node scripts/prebuild.mjs"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.1",

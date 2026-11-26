@@ -14,7 +14,7 @@
 
 ## 维护与来源
 
-维护入口为 [`default-watchfaces/pulsemaniac`](../default-watchfaces/pulsemaniac/README.md)。统一 `reference.json` 描述身份、版本、代码、独立素材及完整 notices；`design.json` 保存布局和绑定，构建由共享确定性生成器生成原生快照。运行 `npm run build` 自动生成页面包与注册表，不直接编辑 frontend/public 下的输出。
+维护入口为 [`resources/default-watchfaces/pulsemaniac`](../resources/default-watchfaces/pulsemaniac/README.md)。统一 `reference.json` 描述身份、版本、代码、独立素材及完整 notices；`design.json` 保存布局和绑定，构建由共享确定性生成器生成原生快照。运行 `npm run build` 自动生成页面包与注册表，不直接编辑 frontend/public 下的输出。
 
 时间、心率与辅助数字采用 [Permanent Marker](https://github.com/google/fonts/tree/main/apache/permanentmarker)，疯狂态中文采用 [Ma Shan Zheng](https://github.com/googlefonts/mashanzheng)。完整许可、固定源版本、SHA-256 见包内 `notices/`、`fonts/sources.json`。图片提示词和独立权利范围保留，不虚构外部上游表盘或素材许可。原始设计与草稿留在被忽略的 Temp 中。
 

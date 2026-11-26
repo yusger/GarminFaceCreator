@@ -516,7 +516,7 @@ P0 与 P1 清单已完成。P2、架构试点、素材库和新增参考项目�
 
 ## 阶段 54：独立默认参考包与自主标签
 
-- 实现 `d9fe9d1`，验收 `23e3edb`。11 个默认项目拆入 `default-watchfaces/<slug>`，统一 reference.json / design.json / 原生源码 / 独立素材 / 完整 notices；自动发现目录生成登记表、页面包及旧路径兼容输出。
+- 实现 `d9fe9d1`，验收 `23e3edb`。11 个默认项目拆入 `resources/default-watchfaces/<slug>`，统一 reference.json / design.json / 原生源码 / 独立素材 / 完整 notices；自动发现目录生成登记表、页面包及旧路径兼容输出。
 - native 模式保留原实现，deterministic 模式按共享生成器生成快照。迁移前后对 10 个原生项目的100个代码文件与图层 ID 比对一致，没有把其原生实现重新生成成近似版本。ClownWatch 和 PulseManiac 默认卡片显示“自主”，不替代第三方代码或素材的原始许可。
 - 本地 TypeScript/Vite 构建和 .NET 发布通过；实现提交后部署指定环境，16项测试通过（1.7分钟）：11包源码/图片哈希、标签与不可删除、复制独立身份、多设备、源码导出和45/41mm编译。维护说明和统一 JSON Schema 已保留。
 

@@ -23,7 +23,7 @@ if (
   throw Error(
     "First converter requires a reviewed self-authored 454px Venu4 45mm design package",
   );
-const dir = resolve("default-watchfaces", pkg.id);
+const dir = resolve("resources/default-watchfaces", pkg.id);
 try {
   await access(dir);
   throw Error(
@@ -77,7 +77,7 @@ const ref = {
     name: p.name,
     template: pkg.id,
     source:
-      "https://github.com/yusger/GarminFaceCreator/tree/main/default-watchfaces/" +
+      "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/" +
       pkg.id,
     status:
       "Self-authored design; generated native implementation GPL-3.0-or-later; supplied artwork/font notices retained separately",

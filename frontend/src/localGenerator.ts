@@ -15,7 +15,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-18-design-packages";
+export const LOCAL_GENERATOR_VERSION = "basic-19-resource-library";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -123,9 +123,15 @@ function draw(l: Layer, aod: boolean) {
         l.aodSeconds === "hide"))
   )
     return "";
+  if(l.kind==="ring") {
+    const source=l.ringSource||"seconds",goal=source==="static"?1:l.ringGoal||(source==="steps"?10000:source==="battery"?100:source==="seconds"?60:180);
+    const value=source==="static"?"1":source==="seconds"?(aod?"0":"clock.sec"):"data"+source;
+    return `drawTickRing(dc,${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${l.ringTicks||60},${num(l.ringStart??0)},${num(l.ringEnd??360)},${color(aod?l.aodColor||"#777777":l.color)},${num(l.ringDim??.25)},${value},${num(goal)},${source==="battery"?"true":"false"},${source==="heartRate"?"true":"false"},${aod?"true":"false"},${num(l.ringWidth||2)});`;
+  }
   if (l.kind === "hand") {
     if (aod && l.handType === "second" && l.aodSeconds === "hide") return "";
-    return `drawHand(dc,clock,${l.handType === "second" ? 2 : l.handType === "minute" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX ?? 0.5)},${num(l.handPivotY ?? 0.5)},${num(l.handReach ?? 0.58)},${num(l.handTail ?? 0.08)},${num(l.strokeWidth || 6)},${color(aod ? l.aodColor || "#777777" : l.color)},${aod ? "true" : "false"},${l.handCap === "round" ? "true" : "false"});`;
+    if(l.handBitmap) return `drawBitmapHand(dc,clock,Rez.Drawables.${bitmapId(l)},${l.handType === "second"?2:l.handType === "minute"?1:0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX??.5)},${num(l.handPivotY??.5)},${aod?"true":"false"},${color(l.aodColor||"#777777")});`;
+    return `drawHand(dc,clock,${l.handType === "second" ? 2 : l.handType === "minute" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX ?? 0.5)},${num(l.handPivotY ?? 0.5)},${num(l.handReach ?? 0.58)},${num(l.handTail ?? 0.08)},${num(l.strokeWidth || 6)},${color(aod ? l.aodColor || "#777777" : l.color)},${aod ? "true" : "false"},${l.handCap === "round" ? "true" : "false"},${l.handShape?JSON.stringify(l.handShape.points):"null"});`;
   }
   if (l.kind === "celestial")
     return `drawCelestial(dc,solar,${l.solarPart === "body" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${color(aod ? l.aodColor || "#777777" : l.color)},${color(aod ? l.aodColor || "#777777" : l.solarNightColor || (l.solarPart === "body" ? "#dfedff" : "#0b1829"))},${color(aod ? l.aodColor || "#777777" : l.solarMissingColor || "#17212c")});`;
@@ -253,6 +259,7 @@ export function localGenerate(p: Project) {
         "calendar",
         "celestial",
         "hand",
+        "ring",
         "wordTime",
         "metric",
         "text",
@@ -284,7 +291,7 @@ export function localGenerate(p: Project) {
         unsupported.map((l) => l.name).join("、"),
     );
   const imageLayers = included.filter(
-    (l) => l.kind === "image" && !l.libraryIcon,
+    (l) => (l.kind === "image" || !!l.handBitmap) && !l.libraryIcon,
   );
   if (new Set(imageLayers.map(bitmapId)).size !== imageLayers.length)
     throw Error("图片资源标识重复");
@@ -326,7 +333,7 @@ export function localGenerate(p: Project) {
         c.type === "dataSource" ? c.options || [] : [],
       ),
       ...included.flatMap((l) => [
-        ...(l.kind === "metric" || l.kind === "meter" ? [l.source] : []),
+        ...(l.kind === "metric" || l.kind === "meter" ? [l.source] : l.kind==="ring" && l.ringSource!=="static" ? [l.ringSource||"seconds"] : []),
         ...(l.visibility ? [l.visibility.source] : []),
       ]),
     ]),
@@ -357,6 +364,7 @@ export function localGenerate(p: Project) {
         .map((l) => l.timeUtcOffset!),
     ),
   ];
+  const rings = included.some(l=>l.kind==="ring");
   const hands = included.some((l) => l.kind === "hand");
   const celestial = included.some((l) => l.kind === "celestial");
   const calendars = included.some((l) => l.kind === "calendar");
@@ -403,7 +411,7 @@ export function localGenerate(p: Project) {
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands ? "import Toybox.Math;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands || rings || imageLayers.length ? "import Toybox.Math;" : ""}
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.controls?.length ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
@@ -417,10 +425,11 @@ class GeneratedView extends WatchUi.WatchFace {
  ${dataHelpers}
  ${
    hands
-     ? `function drawHand(dc,clock,kind,x,y,w,h,pvx,pvy,reach,tail,stroke,ink,low,roundCap){
+     ? `function drawHand(dc,clock,kind,x,y,w,h,pvx,pvy,reach,tail,stroke,ink,low,roundCap,shape){
   var cx=w*pvx;var cy=h*pvy;var radius=cx;if(w-cx<radius){radius=w-cx;}if(cy<radius){radius=cy;}if(h-cy<radius){radius=h-cy;}radius-=stroke/2.0;if(radius<0){radius=0;}
   var sec=low?0:clock.sec;var degrees=kind==0?((clock.hour%12)+clock.min/60.0+sec/3600.0)*30:(kind==1?(clock.min+sec/60.0)*6:sec*6);var a=degrees*Math.PI/180.0;var dx=Math.sin(a);var dy=-Math.cos(a);
   dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setPenWidth(px(stroke)>0?px(stroke):1);
+  if(shape!=null){var points=[];for(var si=0;si<shape.size();si++){var point=shape[si];var along=point[1]*radius*(point[1]>=0?reach:tail);var across=point[0]*stroke/2.0;points.add([px(x+cx+dx*along-dy*across),px(y+cy+dy*along+dx*across)]);}dc.fillPolygon(points);return;}
   dc.drawLine(px(x+cx-dx*radius*tail),px(y+cy-dy*radius*tail),px(x+cx+dx*radius*reach),px(y+cy+dy*radius*reach));
   if(roundCap){dc.fillCircle(px(x+cx-dx*radius*tail),px(y+cy-dy*radius*tail),px(stroke/2));dc.fillCircle(px(x+cx+dx*radius*reach),px(y+cy+dy*radius*reach),px(stroke/2));}
  }`
@@ -459,9 +468,11 @@ class GeneratedView extends WatchUi.WatchFace {
    imageLayers.length
      ? `var bitmapCache={};var bitmapUsed={};
  function drawStaticImage(dc,id,x,y){bitmapUsed[id]=true;if(!bitmapCache.hasKey(id)){bitmapCache[id]=WatchUi.loadResource(id);}dc.drawBitmap(x,y,bitmapCache[id]);}
+ function drawBitmapHand(dc,clock,id,kind,x,y,w,h,pvx,pvy,low,tint){bitmapUsed[id]=true;if(!bitmapCache.hasKey(id)){bitmapCache[id]=WatchUi.loadResource(id);}var bitmap=bitmapCache[id];var cx=w*pvx;var cy=h*pvy;var r=cx;if(w-cx<r){r=w-cx;}if(cy<r){r=cy;}if(h-cy<r){r=h-cy;}if(r<=0){return;}var sec=low?0:clock.sec;var deg=kind==0?((clock.hour%12)+clock.min/60.0+sec/3600.0)*30:(kind==1?(clock.min+sec/60.0)*6:sec*6);var a=deg*Math.PI/180.0;var transform=new Graphics.AffineTransform();transform.translate((px(x+cx)*1.0),(px(y+cy)*1.0));transform.rotate(a);transform.scale(px(r*2)*1.0/bitmap.getWidth(),px(r*2)*1.0/bitmap.getHeight());transform.translate(-bitmap.getWidth()/2.0,-bitmap.getHeight()/2.0);var options={:transform=>transform};if(low){options[:tintColor]=tint;}dc.drawBitmap2(0,0,bitmap,options);}
  function trimImages(){var keys=bitmapCache.keys();for(var i=0;i<keys.size();i++){if(!bitmapUsed.hasKey(keys[i])){bitmapCache.remove(keys[i]);}}}`
      : ""
  }
+ ${rings?`function drawTickRing(dc,x,y,w,h,count,start,end,ink,dim,value,goal,battery,hr,low,stroke){var lit=0;if(!low && value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100) && (!hr || value>0)){lit=value>=goal?count:(value*1.0/goal*count).toNumber();}var span=end-start;var divisor=Math.abs(span)==360?count:count-1;var major=(count/12.0+0.5).toNumber();if(major<1){major=1;}for(var i=0;i<count;i++){var a=(start+i*span/divisor)*Math.PI/180.0;var alpha=i<lit?255:(dim*255).toNumber();dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));var pen=px(stroke*(i%major==0?1.5:1.0));dc.setPenWidth(pen>0?pen:1);dc.drawLine(px(x+w/2.0+Math.sin(a)*(w/2.0-9)),px(y+h/2.0-Math.cos(a)*(h/2.0-9)),px(x+w/2.0+Math.sin(a)*w/2.0),px(y+h/2.0-Math.cos(a)*h/2.0));}}`:""}
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {
   ${imageLayers.length ? "bitmapUsed={};" : ""}${settings.frame}scale=dc.getWidth()/454.0;var clock=System.getClockTime();${celestial ? "var solar=sleeping?solarCached:getSolarState();" : ""}${zones.length ? "var zoneNow=Time.now();" + zones.map((offset) => `var ${nativeClock(offset)}=Gregorian.utcInfo(new Time.Moment(zoneNow.value()+${offset * 60}),Time.FORMAT_SHORT);`).join("") : ""}${dataSources

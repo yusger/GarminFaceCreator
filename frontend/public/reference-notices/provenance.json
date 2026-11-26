@@ -289,13 +289,13 @@
         "PulseManiac-Font-Sources.json"
       ],
       "path": "/default-watchfaces/pulsemaniac/project.json",
-      "sha256": "4648df2f9ade15cffa85f40938bbd9e8b9d0a55b2aaaa7b0822a2b72174f01a8"
+      "sha256": "032f310b82cd61710ddac2a6cd4912eb0b3366423e97e227d2615087e1d6f75b"
     },
     {
       "id": "00000000-0000-4000-8000-000000000012",
       "name": "SONAR",
       "template": "sonar",
-      "source": "https://github.com/yusger/GarminFaceCreator/tree/main/default-watchfaces/sonar",
+      "source": "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/sonar",
       "status": "Self-authored design; generated native implementation GPL-3.0-or-later; supplied artwork/font notices retained separately",
       "summary": "自主声呐混合表盘；独立数据控件、连续进度条、可配置颜色与数据来源；首版静态扫描扇区",
       "upstreamCommit": null,
@@ -315,15 +315,15 @@
         "repository-LICENSE.txt"
       ],
       "path": "/default-watchfaces/sonar/project.json",
-      "sha256": "96f4e1ded5d4bb92c875a9fdf15e8ca29d587b3713526932e962883dfd4dd13c"
+      "sha256": "2b3b0908484dcba0be0f40c17cb09f48896a65fd88b53916ff09bfadfb340c93"
     }
   ],
   "generators": [
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-18-design-packages",
-      "sha256": "17f8b15333ff7fa3ec16fb55b7137fb358038e9905c9cc21c7162293bddedba2",
+      "version": "basic-19-resource-library",
+      "sha256": "3978e8bc31b263ddb41a771108ea4b196a07bbb268012c274c5341008cc144cc",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },

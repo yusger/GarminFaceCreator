@@ -1,4 +1,4 @@
-﻿# GarminFaceCreator
+# GarminFaceCreator
 
 [简体中文](readme.md) | **English**
 
@@ -68,6 +68,14 @@ The screenshots show the current Chinese interface.
 - Download names follow `Model_Size_ProjectName.prg`, with whitespace removed and invalid filename characters handled.
 
 User-triggered AI repair supports up to two rounds with diff review and scoped files. Reviewed AI device-layout suggestions are available; unattended editing/repair and full native simulator previews remain future work. Some reference previews use approximate layers or animation stills; the native project determines the actual rendering.
+
+## Layout templates and resource packages
+
+Blank and AI creation can start from 12 editable layout templates, with solid colors or a local background image. Background images are processed in the browser and are not automatically sent as model references; compilation includes them in the submitted project. The material library provides 10 original bitmap hand sets and 3 polygon styles, with editable individual hands.
+
+Canonical resources live in `resources/`: default watchfaces, layout templates, controls, images and shared fonts. Builds publish browser assets while preserving existing resource URLs.
+
+See the [control package contract](docs/custom-widget-standard.md), [layout template contract](docs/layout-template-standard.md) and [hand asset contract](docs/hand-resource-standard.md). Custom control packages compose supported layers; new runtime effects still require application support.
 
 ## From design to PRG
 
@@ -208,7 +216,7 @@ Editable components also include segmented goal meters, a three-week calendar, E
 See the [PulseManiac guide](docs/pulsemaniac.md) (Chinese) for creation, configuration, selected assets, generation prompts and actual browser/native screenshots. Original local drafting references are excluded from the repository.
 
 
-Default watchface packages are maintained in [default-watchfaces](default-watchfaces/README.md). ClownWatch, PulseManiac, and SONAR carry a self-authored badge on built-in cards; asset rights remain documented in each package’s notices.
+Default watchface packages are maintained in [default-watchfaces](resources/default-watchfaces/README.md). ClownWatch, PulseManiac, and SONAR carry a self-authored badge on built-in cards; asset rights remain documented in each package’s notices.
 
 
 [SONAR reference](docs/sonar.md): 18 editable layers, 12 controls, continuous progress and packaged fonts; static scan fallback.

@@ -133,6 +133,7 @@ export function ringLit(l: Layer, d: Preview, aod = false) {
           battery: d.battery,
           heartRate: d.heartRate,
         }[source];
+  if(!Number.isFinite(value)||value<0||(source==="battery"&&value>100)||(source==="heartRate"&&value<=0))return 0;
   const goal =
     source === "static"
       ? 1

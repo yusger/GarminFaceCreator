@@ -1,0 +1,29 @@
+{
+  "format": "gfc-resource-library",
+  "formatVersion": 1,
+  "collections": [
+    {
+      "id": "default-watchfaces",
+      "directory": "default-watchfaces",
+      "descriptor": "reference.json"
+    },
+    {
+      "id": "default-watchfaces-template",
+      "directory": "default-watchfaces-template",
+      "descriptor": "template.json"
+    },
+    {
+      "id": "default-controls",
+      "directory": "default-controls",
+      "descriptor": "widget.json"
+    },
+    {
+      "id": "default-imgs",
+      "directory": "default-imgs"
+    },
+    {
+      "id": "shared-fonts",
+      "directory": "shared/fonts"
+    }
+  ]
+}

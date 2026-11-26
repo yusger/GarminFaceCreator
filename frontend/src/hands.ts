@@ -42,5 +42,18 @@ export function handPoints(
     y2: cy + dy * radius * reach,
     cx,
     cy,
+    angle: degrees,
   };
+}
+
+export function handPolygon(l:Layer,time:string,seconds:number,aod=false) {
+ if(!l.handShape)return null;
+ const p=handPoints(l,time,seconds,aod);if(!p)return null;
+ const {radius}=handOrbit(l),reach=l.handReach??.58,tail=l.handTail??.08;
+ const span=radius*reach;if(span<=0)return null;
+ const dx=(p.x2-p.cx)/span,dy=(p.y2-p.cy)/span;
+ return l.handShape.points.map(([u,v])=>{
+  const along=v*radius*(v>=0?reach:tail),across=u*(l.strokeWidth||6)/2;
+  return [p.cx+dx*along-dy*across,p.cy+dy*along+dx*across] as [number,number];
+ });
 }

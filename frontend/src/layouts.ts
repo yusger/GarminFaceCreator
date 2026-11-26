@@ -1,3 +1,5 @@
+import { applyTemplate } from "./layoutTemplates";
+import { applyBackground, type BackgroundChoice } from "./background";
 ﻿import { layer, project as newProject, type Project } from "./domain.ts";
 import { deviceFor } from "./devices.ts";
 export const layoutPresets = [
@@ -8,6 +10,7 @@ export const layoutPresets = [
 ] as const;
 export type LayoutChoice = {
   presetId: string;
+  background?: BackgroundChoice;
   safeInsetPx: number;
   minFontPx: number;
   numberFontPx: number;
@@ -26,6 +29,7 @@ export function suggestedLayout(
   };
 }
 export function applyLayout(p: Project, choice: LayoutChoice): Project {
+  if (choice.presetId.startsWith("template:")) p = applyTemplate(p, choice.presetId.slice(9));
   const device = deviceFor(p),
     timeSize = Math.max(87, Math.ceil((75 * 454) / device.pixels));
   let layers = choice.presetId === "blank" ? [] : p.layers;
@@ -117,12 +121,8 @@ export function applyLayout(p: Project, choice: LayoutChoice): Project {
           size: l.size * factor,
         },
   );
-  return {
-    ...p,
-    layers,
-    layoutGuide: { ...choice, safeInsetPx: inset },
-    updated: Date.now(),
-  };
+  const {background,...guide}=choice;
+  return applyBackground({...p,layers,layoutGuide:{...guide,safeInsetPx:inset},updated:Date.now()},background);
 }
 export function guideInsetDesign(p: Project) {
   return ((p.layoutGuide?.safeInsetPx ?? 20) * 454) / deviceFor(p).pixels;

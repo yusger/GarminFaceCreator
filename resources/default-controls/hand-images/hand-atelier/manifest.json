@@ -1,0 +1,141 @@
+{
+  "format": "gfc-hand-image-pack",
+  "formatVersion": 1,
+  "id": "hand-atelier",
+  "name": "HAND ATELIER · 表针图片资源库",
+  "authors": [
+    "yusger"
+  ],
+  "canvas": {
+    "width": 400,
+    "height": 400,
+    "pivot": {
+      "x": 200,
+      "y": 200
+    },
+    "orient": "up"
+  },
+  "note": "所有表针为透明 PNG，针尖朝上，旋转中心 (200,200)。使用时以中心对齐表盘圆心并旋转。",
+  "sets": [
+    {
+      "id": "silver-sword",
+      "name": "银剑",
+      "description": "剑形针身 · 中脊高光 · 夜光槽",
+      "resources": {
+        "hour": "hands/silver-sword-hour.png",
+        "minute": "hands/silver-sword-minute.png",
+        "second": "hands/silver-sword-second.png",
+        "cap": "hands/silver-sword-cap.png"
+      }
+    },
+    {
+      "id": "mercedes",
+      "name": "奔驰",
+      "description": "三角镂空 · 三层阶梯 · 夜光边",
+      "resources": {
+        "hour": "hands/mercedes-hour.png",
+        "minute": "hands/mercedes-minute.png",
+        "second": "hands/mercedes-second.png",
+        "cap": "hands/mercedes-cap.png"
+      }
+    },
+    {
+      "id": "breguet",
+      "name": "宝玑",
+      "description": "偏心镂空圆环 · 蓝钢抛光",
+      "resources": {
+        "hour": "hands/breguet-hour.png",
+        "minute": "hands/breguet-minute.png",
+        "second": "hands/breguet-second.png",
+        "cap": "hands/breguet-cap.png"
+      }
+    },
+    {
+      "id": "skeleton",
+      "name": "骨架",
+      "description": "大面积镂空 · 双层框 · 夜光芯",
+      "resources": {
+        "hour": "hands/skeleton-hour.png",
+        "minute": "hands/skeleton-minute.png",
+        "second": "hands/skeleton-second.png",
+        "cap": "hands/skeleton-cap.png"
+      }
+    },
+    {
+      "id": "leopard",
+      "name": "箭羽",
+      "description": "分段箭头 · 撞色夜光 · 尾部配重",
+      "resources": {
+        "hour": "hands/leopard-hour.png",
+        "minute": "hands/leopard-minute.png",
+        "second": "hands/leopard-second.png",
+        "cap": "hands/leopard-cap.png"
+      }
+    },
+    {
+      "id": "hammer",
+      "name": "锤头",
+      "description": "矩形锤头 · 双线杆 · 工业感",
+      "resources": {
+        "hour": "hands/hammer-hour.png",
+        "minute": "hands/hammer-minute.png",
+        "second": "hands/hammer-second.png",
+        "cap": "hands/hammer-cap.png"
+      }
+    },
+    {
+      "id": "dagger",
+      "name": "匕首",
+      "description": "双刃对称 · 中央血槽 · 冷色调",
+      "resources": {
+        "hour": "hands/dagger-hour.png",
+        "minute": "hands/dagger-minute.png",
+        "second": "hands/dagger-second.png",
+        "cap": "hands/dagger-cap.png"
+      }
+    },
+    {
+      "id": "arrowhead",
+      "name": "箭尖",
+      "description": "宽大三角箭头 · 双层描边 · 荧光槽",
+      "resources": {
+        "hour": "hands/arrowhead-hour.png",
+        "minute": "hands/arrowhead-minute.png",
+        "second": "hands/arrowhead-second.png",
+        "cap": "hands/arrowhead-cap.png"
+      }
+    },
+    {
+      "id": "lume",
+      "name": "潜航",
+      "description": "宽体夜光填充 · 细金属包边",
+      "resources": {
+        "hour": "hands/lume-hour.png",
+        "minute": "hands/lume-minute.png",
+        "second": "hands/lume-second.png",
+        "cap": "hands/lume-cap.png"
+      }
+    },
+    {
+      "id": "fin",
+      "name": "鳍形",
+      "description": "流线S形 · 渐变高光 · 镂空鳍孔",
+      "resources": {
+        "hour": "hands/fin-hour.png",
+        "minute": "hands/fin-minute.png",
+        "second": "hands/fin-second.png",
+        "cap": "hands/fin-cap.png"
+      }
+    }
+  ],
+  "version": "1.0.0",
+  "license": "GPL-3.0-or-later",
+  "licenseFile": "LICENSE",
+  "aod": {
+    "hour": true,
+    "minute": true,
+    "second": false,
+    "cap": false,
+    "tintColor": "#777777"
+  }
+}

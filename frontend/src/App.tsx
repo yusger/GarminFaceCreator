@@ -1,3 +1,6 @@
+import { handImageSets,handImagePatch,createHandImageSet } from "./handImages";
+import { handStyles,handStylePatch } from "./handStyles";
+import TemplatePicker from "./TemplatePicker";
 import { buildFetch, downloadBuild } from "./buildAccess";
 import AiCreateWatchface from "./AiCreateWatchface";
 import WatchfaceControls from "./WatchfaceControls";
@@ -121,9 +124,12 @@ const tools = [
   ["line", "直线", Minus],
 ] as const;
 export default function App() {
+  const [handImageSet,setHandImageSet]=useState("hand-atelier/silver-sword");
+  const [libraryTemplate,setLibraryTemplate]=useState("monolith");
   const [newProject, setNewProject] = useState<{
     name: string;
     blank: boolean;
+    templateId?: string;
   } | null>(null);
   const [page, setPage] = useState("projects");
   const [aiCreating, setAiCreating] = useState(false);
@@ -1848,6 +1854,8 @@ export default function App() {
                 )}
                 {leftTab === "素材" && (
                   <div className="asset-list">
+                    <details><summary>布局模板</summary><TemplatePicker label="素材库布局模板" value={libraryTemplate} onChange={setLibraryTemplate}/><button disabled={!libraryTemplate} onClick={()=>setNewProject({name:"模板表盘",blank:true,templateId:libraryTemplate})}>使用模板创建表盘</button></details>
+                    <details><summary>图片指针套装</summary><label>指针套装<select aria-label="指针套装" value={handImageSet} onChange={e=>setHandImageSet(e.target.value)}>{handImageSets.map(s=><option key={s.key} value={s.key}>{s.name}</option>)}</select></label><img width="130" height="130" alt="指针套装预览" src={handImageSets.find(s=>s.key===handImageSet)?.images.minute}/><button onClick={()=>{const items=createHandImageSet(handImageSet);editLayers([...p.layers,...items]);selectOne(items[0].id);}}>添加整套指针</button></details>
                     <IconGallery onInsert={insertLibraryIcon} />
                     <button onClick={() => add("image")}>
                       <Upload size={16} />
@@ -2477,6 +2485,9 @@ export default function App() {
                             <option value="second">秒针</option>
                           </select>
                         </label>
+                        <label>指针样式<select aria-label="指针样式" value={current.handBitmap?"bitmap:"+current.handBitmap.packId+"/"+current.handBitmap.setId:current.handShape?.id||""} onChange={e=>patch(e.target.value.startsWith("bitmap:")?handImagePatch(e.target.value.slice(7),current.handType):handStylePatch(e.target.value))}><option value="">直线</option>{handStyles.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}{handImageSets.map(s=><option key={s.key} value={"bitmap:"+s.key}>{s.name} · 图片</option>)}</select></label>
+                        {current.handBitmap&&<p className="hint">图片指针保留原始配色；控件宽高决定尺寸，几何长度与线宽设置只作用于矢量样式。息屏使用灰色。</p>}
+                        {current.handShape&&<img width="70" height="130" src={"/hand-styles/"+current.handShape.id+"/preview.svg"} alt="指针样式预览"/>}
                         {(
                           [
                             ["handPivotX", "转动中心 X", 0.5, 0, 1],
@@ -3964,6 +3975,7 @@ export default function App() {
       {newProject && (
         <DevicePicker
           blank={newProject.blank}
+          templateId={newProject.templateId}
           onChoose={finishCreate}
           onCancel={() => setNewProject(null)}
         />

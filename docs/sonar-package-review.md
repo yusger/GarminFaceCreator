@@ -5,7 +5,7 @@
 ## 样包专属参数与用例
 
 - 基准Venu4 45mm，454×454；safeInset=12、安全半径215，不作为所有设计的固定参数。
-- 18图层、6资源、12配置项及10个预览case，见[原始交付](../default-watchfaces/sonar/handoff/)。
+- 18图层、6资源、12配置项及10个预览case，见[原始交付](../resources/default-watchfaces/sonar/handoff/)。
 - 8420/10000对应84.2%连续进度，72逻辑像素宽填充约60.624；有效超过目标时填满，缺失时全暗。
 - 心率119.9/120/149.9/150；电量9.9/10/29.9/30/0及缺失；不能把0%当成缺失。
 - hr-120、hr-150、battery-29、battery-9、zero、missing等图片由cases声明覆盖数据，文件名不是通用固定枚举。
@@ -92,7 +92,7 @@ canvas.background 负责纯色盘底，不需要另做一整张背景截图。�
 
 ### 首个转换实现范围
 
-SONAR 1.1.0 已转换到 `default-watchfaces/sonar`，18个独立图层与12项配置保留。原始交付只读留档在handoff，conversion-report.json记录输入指纹、图层ID映射和静态效果降级；后续维护以规范化design.json为准，避免同时修改原包与内部设计。
+SONAR 1.1.0 已转换到 `resources/default-watchfaces/sonar`，18个独立图层与12项配置保留。原始交付只读留档在handoff，conversion-report.json记录输入指纹、图层ID映射和静态效果降级；后续维护以规范化design.json为准，避免同时修改原包与内部设计。
 
 首轮工具为 `node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`，需先按本文人工审阅，仅覆盖已验证的自主454px Venu4设计能力子集，不是完整通用校验器。目标目录存在时拒绝覆盖。默认字体快照使用 `node scripts/generate-reference-fonts.mjs sonar`，然后统一构建；字体和图片仍是独立资源。已有原生社区项目继续按原方式维护。
 

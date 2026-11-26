@@ -19,15 +19,15 @@ import { localGenerate } from "../src/localGenerator";
 import { chalkPlans } from "../src/chalkFonts";
 async function canonical() {
   const p = JSON.parse(
-    await readFile("default-watchfaces/sonar/design.json", "utf8"),
+    await readFile("resources/default-watchfaces/sonar/design.json", "utf8"),
   ) as Project;
   const ref = JSON.parse(
-    await readFile("default-watchfaces/sonar/reference.json", "utf8"),
+    await readFile("resources/default-watchfaces/sonar/reference.json", "utf8"),
   );
   for (const a of ref.images)
     p.layers.find((l) => l.id === a.layerId)!.image =
       "data:image/png;base64," +
-      (await readFile("default-watchfaces/sonar/" + a.file)).toString("base64");
+      (await readFile("resources/default-watchfaces/sonar/" + a.file)).toString("base64");
   return p;
 }
 test("SONAR source settings preserve defaults, resolve distance precisely, and restore progress without mutating the design", async () => {

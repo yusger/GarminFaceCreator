@@ -1,0 +1,35 @@
+{
+  "format": "gfc-layout-template",
+  "formatVersion": 1,
+  "id": "monolith",
+  "version": "1.0.0",
+  "name": "巨幕",
+  "mode": "DIGITAL",
+  "canvas": {
+    "width": 454,
+    "height": 454,
+    "shape": "circle",
+    "safeInset": 12
+  },
+  "layoutFile": "layout.json",
+  "preview": "preview.svg",
+  "previewAod": "preview-aod.svg",
+  "defaultSources": [
+    "battery",
+    "heartRate",
+    "steps"
+  ],
+  "description": "V1 构图骨架，创建后各图层可独立编辑。",
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "LICENSE"
+  },
+  "background": {
+    "solid": true,
+    "uploadImage": true
+  }
+}

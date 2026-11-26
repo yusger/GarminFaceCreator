@@ -1,3 +1,4 @@
+import { layoutTemplate } from "./layoutTemplates";
 import { designSourceUnit } from "./generationRequirements";
 import {
   layer,
@@ -27,6 +28,8 @@ export type DesignChoices = {
   dateLocale: "en" | "zh";
   sources: string[];
   instruction: string;
+  layoutTemplateId?: string;
+  backgroundPreference?: {mode:"solid"|"image";color:string};
 };
 export const designSources = Object.entries(metrics).filter(
   ([id]) => id !== "seconds",
@@ -96,6 +99,7 @@ export const designFields = [
   "handReach",
   "handTail",
   "handCap",
+  "handShape",
   "strokeWidth",
   "fillEnabled",
   "strokeEnabled",
@@ -126,6 +130,8 @@ export function validateDesignChoices(
     c.sources.some((s) => !designSources.some(([id]) => id === s))
   )
     throw Error("请检查项目名称、时间选项、数据项和提示词");
+  if (c.layoutTemplateId && !layoutTemplate(c.layoutTemplateId)) throw Error("布局模板不存在");
+  if (c.backgroundPreference && (!["solid","image"].includes(c.backgroundPreference.mode)||!/^#[a-fA-F0-9]{6}$/.test(c.backgroundPreference.color))) throw Error("背景选项无效");
   generationDevice(c);
   if (
     refs.length > 3 ||
@@ -153,6 +159,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       safeInset: 12,
     },
     choices: c,
+    layoutTemplate: c.layoutTemplateId ? (()=>{const t=layoutTemplate(c.layoutTemplateId)!;return {id:t.id,version:t.version,mode:t.mode,backgroundColor:t.backgroundColor,layers:t.layers,policy:"Use as editable composition guidance; current selected sources/time style override template defaults. Do not add unselected data."};})() : undefined,
     dataSources: c.sources.map((source) => ({
       source,
       label: metrics[source],
@@ -222,6 +229,8 @@ export function parseDesign(
     dateLocale: c.dateLocale,
     sources: c.sources,
     instruction: c.instruction,
+    layoutTemplate: c.layoutTemplateId?{id:c.layoutTemplateId,version:layoutTemplate(c.layoutTemplateId)!.version}:undefined,
+    backgroundPreference:c.backgroundPreference,
     references: refs.map(({ id, name, usage }) => ({ id, name, usage })),
   });
   const ids = new Set<string>();

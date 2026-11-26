@@ -36,3 +36,13 @@ developer_key*
 
 backend/tests/**/bin/
 backend/tests/**/obj/
+
+# Built from the canonical resources library
+/frontend/public/fonts/
+/frontend/public/icon-library/
+
+/frontend/public/layout-templates/
+
+/frontend/public/hand-styles/
+
+/frontend/public/hand-images/
