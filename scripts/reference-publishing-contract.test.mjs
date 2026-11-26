@@ -27,3 +27,10 @@ test('OpenAPI local references, operation IDs, path parameters and credential bo
  for(const [path,item] of Object.entries(api.paths))for(const op of Object.values(item)){assert.ok(op.operationId);assert.ok(!ids.has(op.operationId));ids.add(op.operationId);const params=(op.parameters||[]).filter(p=>p.in==='path');assert.deepEqual(new Set([...path.matchAll(/\{([^}]+)\}/g)].map(m=>m[1])),new Set(params.map(p=>p.name)));if(path.startsWith('/api/internal/'))assert.notDeepEqual(op.security??api.security,[]);else assert.deepEqual(op.security,[]);}
  assert.equal(api.paths['/api/internal/reference-publications'].post.requestBody.content['multipart/form-data'].schema.additionalProperties,false);
 });
+
+test('deterministic-v1 rejects rotations and implicit heart decoration before submission',()=>{
+ const rotated=structuredClone(design);rotated.layers[0].rotation=30;assert.equal(validators[1](rotated),false);
+ const heart=structuredClone(design);heart.layers[0].kind='metric';heart.layers[0].source='heartRate';assert.equal(validators[1](heart),false);heart.layers[0].metricDecoration=true;assert.equal(validators[1](heart),false);heart.layers[0].metricDecoration=false;assert.equal(validators[1](heart),true,JSON.stringify(validators[1].errors));
+ const unsupported=structuredClone(heart);unsupported.layers[0].source='stress';assert.equal(validators[1](unsupported),false);
+ const meter=structuredClone(design);meter.layers[0].kind='meter';meter.layers[0].source='calories';assert.equal(validators[1](meter),false);meter.layers[0].source='battery';assert.equal(validators[1](meter),true);
+});

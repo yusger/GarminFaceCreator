@@ -81,6 +81,25 @@ publisherId、完整库ID、引用项目ID、Garmin appId、来源类别标签�
 
 发布处理器可在.NET任务编排之外使用版本固定的受限生成worker，复用TypeScript验证/生成与字体管线；该worker只运行平台代码，不能执行包内脚本。不能假定现有.NET编译服务已经具备此功能。
 
+### 5.1 deterministic-v1已知能力限制（样包评审补充）
+
+本节补全2026-11-26样包评审发现的交付缺口，适用于当前生成器能力。格式仍为formatVersion 1，文档仍为v1.0-draft；未改变schema26编辑器本身允许的内容。**编辑器能画出或Project校验通过，不等于该发布配置能生成。**
+
+| 项目 | 首版发布要求 | 处理建议 |
+| --- | --- | --- |
+| 图层旋转 | 发布图层rotation必须为0；复合控件展开后的基础层也须遵守 | 旋转装饰可在设计侧烘焙为局部透明PNG，以顶层image＋bindings提交；不得悄悄清零角度改变设计 |
+| 心率装饰 | metric且source=heartRate时必须显式metricDecoration:false | 使用纯数字心率；需要图标时使用独立受支持的文字或图片层 |
+| metric数值来源 | 当前限steps、battery、seconds、distance、calories、heartRate、temperature | cases支持的预览数据字段更广，不代表均可用于确定性生成的metric |
+| meter来源 | 当前限steps或battery | 其他来源不能通过改标签或预览值冒充绑定 |
+| 装饰层source | text/rect/circle/line等非数据层可为空字符串；time层不通过source决定时间 | 不要求为装饰层伪造心率等数据绑定 |
+| 缺失读数 | metric缺省沿用--，也可显式missingValue:"--" | 合法0与缺失分开核对 |
+
+对话、控件公开参数或配置允许切换到heartRate时，也须确保切换后的有效metric满足metricDecoration:false；不能只检查默认来源。上述限制适用于所有亮屏/AOD和配置用例。
+
+rotation=0指不使用图层整体旋转变换，不禁止hand按真实时间转动或ring按秒数点亮；它们通过已定义的时间/数据绑定绘制。PNG替换只用于装甲、纹理等静态局部装饰，时间、心率、步数、电量必须继续作为独立动态控件。图片文件、许可/来源、bindings、files哈希及受影响的cases需同步更新。
+
+项目结构Schema现已加入顶层rotation、metric/meter来源和纯数字心率的检查。它仍不覆盖所有Layer语义、复合控件私有层或配置后的组合；不能以Schema通过代替完整发布门禁。后续支持任意旋转时须显式扩展能力配置与验收，不倒推当前包已经支持。
+
 ## 6. 资源及完整性
 
 files中的bytes是解压后的实际字节数，sha256是原始文件内容SHA-256；媒体类型与实际内容必须一致。publish.json文件本身不列入清单，避免自引用哈希。API额外校验整个ZIP的SHA-256，二者用途不同。

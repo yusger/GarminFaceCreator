@@ -142,9 +142,8 @@
             "maximum": 200
           },
           "rotation": {
-            "type": "number",
-            "minimum": -360,
-            "maximum": 360
+            "const": 0,
+            "description": "deterministic-v1 does not accept layer transforms; time-driven hand angles are separate."
           },
           "hidden": {
             "const": false
@@ -174,10 +173,90 @@
           "assetId": false,
           "effectPrompt": {
             "const": ""
+          },
+          "metricDecoration": {
+            "type": "boolean"
           }
         },
         "additionalProperties": true,
-        "description": "Structural envelope only. All extra Layer fields require the pinned schema26 semantic validator, closed field allowlist, and capability profile. Passing JSON Schema alone is insufficient."
+        "description": "Structural envelope only. All extra Layer fields require the pinned schema26 semantic validator, closed field allowlist, and capability profile. Passing JSON Schema alone is insufficient.",
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "metric"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "properties": {
+                "source": {
+                  "enum": [
+                    "steps",
+                    "battery",
+                    "seconds",
+                    "distance",
+                    "calories",
+                    "heartRate",
+                    "temperature"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "meter"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "properties": {
+                "source": {
+                  "enum": [
+                    "steps",
+                    "battery"
+                  ]
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "metric"
+                },
+                "source": {
+                  "const": "heartRate"
+                }
+              },
+              "required": [
+                "kind",
+                "source"
+              ]
+            },
+            "then": {
+              "properties": {
+                "metricDecoration": {
+                  "const": false
+                }
+              },
+              "required": [
+                "metricDecoration"
+              ]
+            }
+          }
+        ]
       }
     },
     "controls": {
