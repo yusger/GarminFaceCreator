@@ -6,6 +6,14 @@ A visual watch-face designer for Garmin Connect IQ. Start with a blank canvas, a
 
 > This project is under development. Web previews use simulated data. A successful build does not mean the watch face has been validated on a physical device.
 
+## Live demo
+
+[Open the GarminFaceCreator public demo](https://ddd.yusg.xyz:61888)
+
+Try editing, previews, AI creation and real PRG compilation. Default anonymous limits are 6 submission attempts per minute and 30 builds per day per IP, with 200 builds per day across the service. Daily quotas reset at midnight UTC+8; visitors sharing a public IP share its quota. Configure your own model provider; provider usage charges apply.
+
+Each task requires a separate access token for status, logs, downloads and cancellation. Tokens stay in the current browser session and are excluded from project exports. Rebuild after losing the session or for tasks created before this protection was introduced. Do not upload sensitive projects to the demo; self-host for production use. See [public demo protections and limitations](docs/public-demo-security.md).
+
 ## Screenshots
 
 ### Projects and reference watch faces
@@ -106,7 +114,7 @@ flowchart LR
 - Reference images go directly from the browser to the chosen model, not to the build service during design creation. Images adopted as runtime assets stay in the local project and are uploaded when required for compilation.
 - The browser calls AI providers directly, so the provider must allow CORS. The backend does not proxy AI requests.
 - The build service does not execute uploaded shell or build scripts.
-- The application is currently intended for personal self-hosting. Authentication and multi-user isolation are not implemented.
+- Anonymous use has rate limits, daily quotas and per-task access tokens. Account login, full tenant isolation and professional DDoS protection are not implemented; see [deployment protections](docs/public-demo-security.md).
 
 ## Getting started
 
