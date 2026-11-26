@@ -2,6 +2,7 @@ import { reconcileDevices } from "./multiDevice.ts";
 import { compoundState, expandedChildren, expandWidgets } from "./compound.ts";
 import catalog from "./widgetCatalog.json" with { type: "json" };
 import {
+  project as newProject,
   layer,
   uid,
   validateProject,
@@ -214,4 +215,46 @@ export function widgetNotices(p: Project) {
     notices.set(key, o);
   }
   return [...notices.values()];
+}
+
+export function isDamagedWidget(l: Layer) {
+  return (
+    l.kind === "rect" &&
+    !l.compound &&
+    !!l.widgetOrigin &&
+    widgets.some((w) => w.id === l.widgetOrigin!.id) &&
+    l.opacity === 0 &&
+    l.fillEnabled === true &&
+    l.strokeEnabled === false &&
+    l.cornerRadius === 0
+  );
+}
+export function rebuildWidget(p: Project, id: string): Project {
+  if (p.multiDevice?.scope === "device") throw Error("请切换共享主设计后重建");
+  const old = p.layers.find((l) => l.id === id);
+  if (!old || !isDamagedWidget(old))
+    throw Error("此对象不符合已知的空白控件特征");
+  const fresh = insertWidget(newProject("Recovery", true), old.widgetOrigin!.id)
+    .layers[0];
+  const restored = {
+    ...fresh,
+    id: old.id,
+    name: old.name,
+    x: old.x,
+    y: old.y,
+    w: old.w,
+    h: old.h,
+    hidden: old.hidden,
+    locked: old.locked,
+    aod: old.aod,
+    activeVisible: old.activeVisible,
+    exportIncluded: old.exportIncluded,
+  };
+  return topology(p, {
+    ...p,
+    layers: p.layers.map((l) => (l.id === id ? restored : l)),
+    revision: p.revision + 1,
+    codeRevision: -1,
+    updated: Date.now(),
+  });
 }
