@@ -1,0 +1,120 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "battery-capsule",
+  "version": "1.0.0",
+  "name": "电量胶囊",
+  "category": "progress",
+  "canvas": {
+    "width": 220,
+    "height": 80,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "GarminFaceCreator contributors"
+    ],
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.rect",
+    "core.text",
+    "core.metric",
+    "core.meter",
+    "data.battery"
+  ],
+  "layers": [
+    {
+      "id": "label",
+      "name": "label",
+      "kind": "text",
+      "x": 12,
+      "y": 6,
+      "w": 110,
+      "h": 24,
+      "color": "#45D6BE",
+      "size": 22,
+      "aod": false,
+      "aodColor": "#777777",
+      "text": "BATTERY",
+      "garminFont": "small",
+      "activeVisible": true
+    },
+    {
+      "id": "value",
+      "name": "value",
+      "kind": "metric",
+      "x": 130,
+      "y": 6,
+      "w": 78,
+      "h": 26,
+      "color": "#45D6BE",
+      "size": 22,
+      "aod": false,
+      "aodColor": "#777777",
+      "source": "battery",
+      "precision": 0,
+      "unit": "%",
+      "missingValue": "--",
+      "garminFont": "small"
+    },
+    {
+      "id": "progress",
+      "name": "progress",
+      "kind": "meter",
+      "x": 12,
+      "y": 44,
+      "w": 196,
+      "h": 12,
+      "color": "#45D6BE",
+      "size": 22,
+      "aod": false,
+      "aodColor": "#777777",
+      "source": "battery",
+      "meterGoal": 100,
+      "meterCount": 1,
+      "meterContinuous": true,
+      "meterDimColor": "#203C44",
+      "meterShape": "bar"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "主题颜色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "value",
+          "property": "color"
+        },
+        {
+          "layerId": "progress",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "show-label",
+      "label": "显示标题",
+      "type": "boolean",
+      "default": true,
+      "targets": [
+        {
+          "layerId": "label",
+          "property": "activeVisible"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.svg",
+    "aod": "preview-aod.svg"
+  },
+  "casesFile": "cases.json"
+}

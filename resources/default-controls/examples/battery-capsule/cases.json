@@ -1,0 +1,109 @@
+{
+  "format": "gfc-control-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "zero",
+      "data": {
+        "battery": 0
+      },
+      "parameters": {},
+      "expect": {
+        "value": "0%",
+        "fillFraction": 0.0
+      }
+    },
+    {
+      "id": "low",
+      "data": {
+        "battery": 9
+      },
+      "parameters": {},
+      "expect": {
+        "value": "9%",
+        "fillFraction": 0.09
+      }
+    },
+    {
+      "id": "boundary-29",
+      "data": {
+        "battery": 29
+      },
+      "parameters": {},
+      "expect": {
+        "value": "29%",
+        "fillFraction": 0.29
+      }
+    },
+    {
+      "id": "boundary-30",
+      "data": {
+        "battery": 30
+      },
+      "parameters": {},
+      "expect": {
+        "value": "30%",
+        "fillFraction": 0.3
+      }
+    },
+    {
+      "id": "normal",
+      "data": {
+        "battery": 78
+      },
+      "parameters": {},
+      "expect": {
+        "value": "78%",
+        "fillFraction": 0.78
+      }
+    },
+    {
+      "id": "full",
+      "data": {
+        "battery": 100
+      },
+      "parameters": {},
+      "expect": {
+        "value": "100%",
+        "fillFraction": 1.0
+      }
+    },
+    {
+      "id": "missing",
+      "data": {
+        "battery": null
+      },
+      "parameters": {},
+      "expect": {
+        "value": "--",
+        "fillFraction": null
+      }
+    },
+    {
+      "id": "aod",
+      "aod": true,
+      "data": {
+        "battery": 78
+      },
+      "parameters": {},
+      "expect": {
+        "visibleLayers": []
+      }
+    },
+    {
+      "id": "configured",
+      "data": {
+        "battery": 78
+      },
+      "parameters": {
+        "accent": "#FFAA00",
+        "show-label": false
+      },
+      "expect": {
+        "value": "78%",
+        "labelVisible": false,
+        "color": "#FFAA00"
+      }
+    }
+  ]
+}

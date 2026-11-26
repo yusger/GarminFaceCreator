@@ -1,0 +1,785 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/yusger/GarminFaceCreator/resources/schemas/widget.schema.json",
+  "title": "GFC control package v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "format",
+    "formatVersion",
+    "id",
+    "version",
+    "name",
+    "category",
+    "canvas",
+    "origin",
+    "requirements",
+    "layers",
+    "parameters",
+    "resources",
+    "previews",
+    "casesFile"
+  ],
+  "properties": {
+    "format": {
+      "const": "gfc-control-package"
+    },
+    "formatVersion": {
+      "const": 1
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,79}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "category": {
+      "enum": [
+        "time",
+        "data",
+        "progress",
+        "decoration",
+        "hands"
+      ]
+    },
+    "canvas": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "width",
+        "height",
+        "scaleMode"
+      ],
+      "properties": {
+        "width": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 454
+        },
+        "height": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 454
+        },
+        "scaleMode": {
+          "const": "uniform-fit"
+        }
+      }
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "authors",
+        "license",
+        "licenseFile",
+        "sourceUrl"
+      ],
+      "properties": {
+        "kind": {
+          "enum": [
+            "self",
+            "community"
+          ]
+        },
+        "authors": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "licenseFile": {
+          "type": "string",
+          "pattern": "^(LICENSE|notices/[A-Za-z0-9_.-]+)$"
+        },
+        "sourceUrl": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^https://"
+        }
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9.-]+$"
+      }
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 40,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "kind",
+          "x",
+          "y",
+          "w",
+          "h",
+          "color",
+          "size",
+          "aod",
+          "aodColor"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,79}$"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "kind": {
+            "enum": [
+              "text",
+              "time",
+              "date",
+              "metric",
+              "rect",
+              "circle",
+              "line",
+              "image",
+              "meter",
+              "ring",
+              "hand"
+            ]
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "w": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "h": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "color": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "size": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 200
+          },
+          "aod": {
+            "type": "boolean"
+          },
+          "aodColor": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "source": {
+            "enum": [
+              "heartRate",
+              "steps",
+              "calories",
+              "battery",
+              "altitude",
+              "pressure",
+              "temperature",
+              "distance",
+              "seconds"
+            ]
+          },
+          "garminFont": {
+            "enum": [
+              "auto",
+              "xtiny",
+              "tiny",
+              "small",
+              "medium",
+              "large",
+              "numberHot",
+              "systemXTiny"
+            ]
+          },
+          "resourceId": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,79}$"
+          },
+          "rotation": {
+            "type": "number",
+            "minimum": -360,
+            "maximum": 360
+          },
+          "strokeWidth": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 32
+          },
+          "strokeColor": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "fillEnabled": {
+            "type": "boolean"
+          },
+          "strokeEnabled": {
+            "type": "boolean"
+          },
+          "cornerRadius": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "textAlign": {
+            "enum": [
+              "left",
+              "center",
+              "right"
+            ]
+          },
+          "precision": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 3
+          },
+          "unit": {
+            "type": "string",
+            "maxLength": 12
+          },
+          "missingValue": {
+            "const": "--"
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "groupThousands": {
+            "type": "boolean"
+          },
+          "thresholdFallback": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "thresholdRules": {
+            "type": "array",
+            "maxItems": 8,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "color"
+              ],
+              "properties": {
+                "min": {
+                  "type": "number"
+                },
+                "max": {
+                  "type": "number"
+                },
+                "color": {
+                  "type": "string",
+                  "pattern": "^#[0-9A-Fa-f]{6}$"
+                }
+              }
+            }
+          },
+          "meterContinuous": {
+            "type": "boolean"
+          },
+          "meterDimColor": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          },
+          "meterShape": {
+            "const": "bar"
+          },
+          "meterCount": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 32
+          },
+          "meterGoal": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "ringSource": {
+            "enum": [
+              "static",
+              "battery",
+              "steps",
+              "heartRate",
+              "seconds"
+            ]
+          },
+          "ringTicks": {
+            "type": "integer",
+            "minimum": 4,
+            "maximum": 180
+          },
+          "ringGoal": {
+            "type": "number",
+            "exclusiveMinimum": 0
+          },
+          "ringDim": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "ringWidth": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 32
+          },
+          "ringStart": {
+            "type": "number"
+          },
+          "ringEnd": {
+            "type": "number"
+          },
+          "timePart": {
+            "enum": [
+              "full",
+              "hours",
+              "minutes",
+              "seconds"
+            ]
+          },
+          "dateLocale": {
+            "enum": [
+              "en",
+              "zh"
+            ]
+          },
+          "handType": {
+            "enum": [
+              "hour",
+              "minute",
+              "second"
+            ]
+          },
+          "handPivotX": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "handPivotY": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "handReach": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 1
+          },
+          "handTail": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 0.3
+          },
+          "handCap": {
+            "enum": [
+              "butt",
+              "round"
+            ]
+          },
+          "aodSeconds": {
+            "enum": [
+              "hide",
+              "zero"
+            ]
+          },
+          "activeVisible": {
+            "type": "boolean"
+          },
+          "threshold": {
+            "type": "boolean"
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "text"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "text",
+                "garminFont"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "metric"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "source",
+                "precision",
+                "unit",
+                "missingValue",
+                "garminFont"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "image"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "resourceId"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "meter"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "source",
+                "meterGoal",
+                "meterCount",
+                "meterContinuous",
+                "meterDimColor",
+                "meterShape"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "ring"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "ringSource",
+                "ringTicks",
+                "ringGoal",
+                "ringDim",
+                "ringWidth"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "hand"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "handType",
+                "handPivotX",
+                "handPivotY",
+                "handReach",
+                "handTail",
+                "strokeWidth",
+                "aodSeconds"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "time"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "timePart",
+                "garminFont"
+              ]
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "kind": {
+                  "const": "date"
+                }
+              },
+              "required": [
+                "kind"
+              ]
+            },
+            "then": {
+              "required": [
+                "dateLocale",
+                "garminFont"
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "parameters": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "type",
+          "default",
+          "targets"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,79}$"
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          },
+          "type": {
+            "enum": [
+              "color",
+              "boolean",
+              "dataSource"
+            ]
+          },
+          "default": {
+            "type": [
+              "string",
+              "boolean"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "minItems": 1,
+            "uniqueItems": true,
+            "items": {
+              "enum": [
+                "heartRate",
+                "steps",
+                "calories",
+                "battery",
+                "altitude",
+                "pressure",
+                "temperature",
+                "distance",
+                "seconds"
+              ]
+            }
+          },
+          "targets": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 40,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "layerId",
+                "property"
+              ],
+              "properties": {
+                "layerId": {
+                  "type": "string",
+                  "pattern": "^[a-z][a-z0-9-]{0,79}$"
+                },
+                "property": {
+                  "type": "string",
+                  "pattern": "^(color|activeVisible|source|thresholdRules\\.[0-7]\\.color)$"
+                }
+              }
+            }
+          }
+        },
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "color"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "string",
+                  "pattern": "^#[0-9A-Fa-f]{6}$"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "boolean"
+                }
+              }
+            },
+            "then": {
+              "properties": {
+                "default": {
+                  "type": "boolean"
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "const": "dataSource"
+                }
+              }
+            },
+            "then": {
+              "required": [
+                "options"
+              ],
+              "properties": {
+                "default": {
+                  "enum": [
+                    "heartRate",
+                    "steps",
+                    "calories",
+                    "battery",
+                    "altitude",
+                    "pressure",
+                    "temperature",
+                    "distance",
+                    "seconds"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "resources": {
+      "type": "array",
+      "maxItems": 40,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "type",
+          "file",
+          "noticeFile"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,79}$"
+          },
+          "type": {
+            "const": "image"
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^resources/drawables/[A-Za-z0-9_-]+\\.png$"
+          },
+          "noticeFile": {
+            "type": "string",
+            "pattern": "^notices/[A-Za-z0-9_.-]+$"
+          }
+        }
+      }
+    },
+    "previews": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "active",
+        "aod"
+      ],
+      "properties": {
+        "active": {
+          "type": "string",
+          "pattern": "^preview\\.(png|svg)$"
+        },
+        "aod": {
+          "type": "string",
+          "pattern": "^preview-aod\\.(png|svg)$"
+        }
+      }
+    },
+    "casesFile": {
+      "const": "cases.json"
+    }
+  }
+}
