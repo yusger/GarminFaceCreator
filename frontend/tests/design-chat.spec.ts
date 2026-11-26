@@ -214,6 +214,7 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
   await expect(page.locator(".layer-row")).toHaveCount(1);
   await send(page, "放大时间并改成冰蓝");
   await expect(page.getByRole("log")).toContainText("调整：AI时间");
+  await page.screenshot({ path: "test-results/design-chat.png" });
   expect((await exported(page)).layers[0].size).toBe(72);
   await page.getByRole("button", { name: "撤销上次编辑", exact: true }).click();
   expect((await exported(page)).layers[0].size).toBe(60);
