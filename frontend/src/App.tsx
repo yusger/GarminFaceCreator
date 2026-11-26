@@ -1,3 +1,4 @@
+import ArrangeTools from "./ArrangeTools";
 import DesignChat from "./DesignChatPanel";
 import {chatFingerprint} from "./designChat";
 import {resizeModelLayers} from "./selection";
@@ -1976,6 +1977,7 @@ export default function App() {
               </aside>
               <main className="canvas-panel">
                 <div className="canvas-toolbar">
+                  <ArrangeTools project={p} selection={selection} onError={setNotice} onChange={next=>editLayers(next.layers,true,next)}/>
                   <button
                     title="撤销"
                     disabled={!past.length}
