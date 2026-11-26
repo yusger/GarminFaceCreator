@@ -15,3 +15,5 @@ Validate the Caddyfile with credentials loaded inside a temporary container; do 
 HTTP and HTTPS have separate browser storage: export projects from the old HTTP origin before switching; import them at the HTTPS origin and reconfigure model credentials there. An HTTP request to the same TLS-only port is not an automatic HTTPS redirect.
 
 HTTPS protects transport. Authentication, task ownership, request limits and disk quotas remain separate requirements before broadly advertising an anonymous build service.
+
+Implementation validation: the backend forwarding change passed real-SDK success/failure/download/cancellation and spoofed-header audit tests on the staging deployment before switching the public listener.
