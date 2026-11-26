@@ -48,6 +48,8 @@ The screenshots show the current Chinese interface.
 
 ## Features
 
+- Four reusable widget packages: capsule metric, segmented battery, vitals column and stacked tiers; editable layer groups, independent color/label settings and source-export license notices.
+
 - Separate built-in and personal watchface lists, scoped search, self-authored badges and ordering; atomic browser saves, conflict recovery, schema migration, and design JSON import/export.
 - AI-created editable designs from watch series/model/size, digital/analog/hybrid styles, seconds/date/metrics, reference images, and a prompt. Preview the result before adopting it.
 - Separate design, engineering, and compilation actions. Manual edits do not call a model; generation supports cancellation, error/truncation feedback, raw-response downloads, and backup/retry after a failed browser save.
@@ -223,4 +225,3 @@ Default watchface packages are maintained in [default-watchfaces](resources/defa
 
 [SONAR reference](docs/sonar.md): 18 editable layers, 12 controls, continuous progress and packaged fonts; static scan fallback.
 
-- Four reusable widget packages: capsule metric, segmented battery, vitals column and stacked tiers; editable layer groups, independent color/label settings and source-export license notices.

@@ -117,10 +117,6 @@ test("material library inserts four editable widgets, configures, deletes, undoe
     expect(
       zip.includes(Buffer.from("notices/widget-" + id + "-1.0.0-LICENSE.txt")),
     ).toBe(true);
-  await page.screenshot({
-    path: "docs/screenshots/custom-widgets.png",
-    fullPage: true,
-  });
 });
 async function compile(p: ReturnType<typeof project>) {
   const base = process.env.GFC_TEST_URL!;
