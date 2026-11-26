@@ -10,7 +10,7 @@ Default limits (single backend instance):
 | `GFC_BUILD_PER_DAY` | 30 | Validated compilation submissions/IP/Beijing calendar day |
 | `GFC_GLOBAL_BUILD_PER_DAY` | 200 | All validated compilation submissions/day |
 | `GFC_API_PER_MINUTE` | 240 | API calls/IP/minute |
-| `GFC_UPLOAD_SECONDS` | 45 | Absolute multipart upload deadline; slow uploads return 408 |
+| `GFC_UPLOAD_SECONDS` | 45 | Absolute multipart upload deadline; timeout returns 408 where possible, or closes an incomplete connection |
 | Concurrent uploads | 2 | Global upload parsing limit and at most two unfinished tasks/uploads per IP |
 | Build worker / queue | 1 / 8 | One Java compiler process, bounded queue |
 | `GFC_STORAGE_MB` | 2048 | Jobs and metadata storage budget |
@@ -27,3 +27,10 @@ Existing job TTL cleanup is retained. Admission reserves space for queued/runnin
 The HTTPS overlay keeps only the proxy public. The backend has a read-only root filesystem, a 128 MB /tmp tmpfs, read-only SDK/device/key mounts and an internal Docker network without Internet egress. Caddy alone has the separate egress network and DNS credentials. Trusted forwarding is limited to the fixed proxy IP, preventing client X-Forwarded-For from changing quota identity. Cross-origin browser POST requests are rejected; command-line clients remain supported. Shared/NAT IPs share quota.
 
 This is defense against ordinary anonymous-service misuse, not a claim of complete security, full multi-user isolation, a per-build VM sandbox or DDoS protection. Code is compiled in a common restricted container and is not run on the server. An SDK vulnerability remains a risk. Do not upload confidential projects to a public demo; use a private deployment for sensitive work. Keep backups and monitor host capacity and available SDK/runtime updates.
+
+## Staging validation (2026-11-26)
+
+- Real SDK compilation with read-only root and bounded tmpfs succeeded. Task status/log/download/cancel all require a matching capability; missing/wrong/query-string credentials and cross-origin POSTs were rejected.
+- Separate low-quota containers verified HTTP 429 and Retry-After, daily counters surviving restart, API polling limits and HTTP 507 before body parsing. A 1-second test deadline terminated a stalled multipart upload without affecting health. Test containers/volume were removed afterwards.
+- Policy unit tests covered IP/global daily limits, submission concurrency, persistent counters, storage admission and token hashes. Audit tests verified rotation/file/total-byte caps and concurrent writes.
+- Existing 20-browser-test editing/AI-creation/preview/download suite passed on the staging service, using permissive staging quotas so regression traffic does not consume public demo capacity.
