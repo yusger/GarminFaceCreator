@@ -75,6 +75,8 @@
 
 ![布局模板与图片指针：亮屏／息屏预览](docs/screenshots/templates-hands.png)
 
+![复合控件：单个对象与内部部件配置](docs/screenshots/compound-widget.png)
+
 第三方交付请参阅[自定义控件规范](docs/custom-widget-standard.md)、[布局模板规范](docs/layout-template-standard.md)和[指针素材规范](docs/hand-resource-standard.md)。当前控件规范支持已实现图层的组合；新增运行时效果仍需程序支持。
 
 ## 从设计到 PRG

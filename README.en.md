@@ -79,6 +79,8 @@ Canonical resources live in `resources/`: default watchfaces, layout templates, 
 
 ![Layout template and bitmap hands: active / AOD preview](docs/screenshots/templates-hands.png)
 
+![Composite widget: one object and component visibility](docs/screenshots/compound-widget.png)
+
 See the [control package contract](docs/custom-widget-standard.md), [layout template contract](docs/layout-template-standard.md) and [hand asset contract](docs/hand-resource-standard.md). Custom control packages compose supported layers; new runtime effects still require application support.
 
 ## From design to PRG
