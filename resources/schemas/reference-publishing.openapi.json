@@ -1,0 +1,1471 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "GFC intranet reference publishing API",
+    "version": "1.0.0-draft",
+    "description": "DESIGN CONTRACT ONLY. Not deployed. Management operations are intranet-only and require publisher-scoped credentials. No native source/script uploads in v1; no AI calls. Package contracts are reference-release*.schema.json."
+  },
+  "servers": [
+    {
+      "url": "https://gfc-publish.internal",
+      "description": "Placeholder, not a working deployment"
+    }
+  ],
+  "security": [
+    {
+      "PublisherToken": []
+    }
+  ],
+  "paths": {
+    "/api/internal/reference-publishing/capabilities": {
+      "get": {
+        "operationId": "getReferencePublishingCapabilities",
+        "summary": "Query authenticated publisher identity, limits, ready targets and profiles",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Capabilities"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "x-required-scopes": [
+          "reference:read"
+        ]
+      }
+    },
+    "/api/internal/reference-publications": {
+      "post": {
+        "operationId": "submitReferencePublication",
+        "summary": "Upload a ready-to-generate design package; asynchronous validation and publication",
+        "responses": {
+          "200": {
+            "description": "Idempotent replay",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            }
+          },
+          "202": {
+            "description": "Accepted; detailed validation is asynchronous",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            },
+            "headers": {
+              "Location": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "integer",
+                  "minimum": 1
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "413": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "415": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "Idempotency-Key",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9._-]{1,128}$"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "package": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "packageSha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "intent": {
+                    "enum": [
+                      "validate",
+                      "publish"
+                    ]
+                  },
+                  "expectedCurrentVersion": {
+                    "type": "string",
+                    "pattern": "^(none|(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*))$"
+                  }
+                },
+                "required": [
+                  "package",
+                  "packageSha256",
+                  "intent",
+                  "expectedCurrentVersion"
+                ]
+              },
+              "encoding": {
+                "package": {
+                  "contentType": "application/zip"
+                }
+              }
+            }
+          }
+        },
+        "x-required-scopes": [
+          "reference:submit"
+        ],
+        "description": "intent=publish also requires reference:publish; namespace ownership always enforced."
+      }
+    },
+    "/api/internal/reference-publications/{jobId}": {
+      "get": {
+        "operationId": "getReferencePublication",
+        "summary": "Read own publication task",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Publication"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "410": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "x-required-scopes": [
+          "reference:read"
+        ]
+      }
+    },
+    "/api/internal/reference-publications/{jobId}/report": {
+      "get": {
+        "operationId": "getReferencePublicationReport",
+        "summary": "Read own validation diagnostics; task failures use this report",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Report"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "410": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "x-required-scopes": [
+          "reference:read"
+        ]
+      }
+    },
+    "/api/internal/reference-publications/{jobId}/publish": {
+      "post": {
+        "operationId": "publishValidatedReference",
+        "summary": "Promote a ready candidate using its original expectedCurrentVersion",
+        "responses": {
+          "202": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Publication"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "410": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "x-required-scopes": [
+          "reference:publish"
+        ]
+      }
+    },
+    "/api/internal/reference-publications/{jobId}/cancel": {
+      "post": {
+        "operationId": "cancelReferencePublication",
+        "summary": "Cancel before publication commit; repeated cancelled request is idempotent",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Publication"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "jobId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "x-required-scopes": [
+          "reference:submit"
+        ]
+      }
+    },
+    "/api/internal/reference-library/{slug}/versions": {
+      "get": {
+        "operationId": "getReferenceVersions",
+        "summary": "Read published versions in authenticated publisher namespace",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Versions"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "x-required-scopes": [
+          "reference:read"
+        ]
+      }
+    },
+    "/api/internal/reference-library/{slug}/activate": {
+      "post": {
+        "operationId": "activateReferenceVersion",
+        "summary": "Atomically activate an own historical published version",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActivationResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "401": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "403": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "409": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "429": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        },
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActivationRequest"
+              }
+            }
+          }
+        },
+        "x-required-scopes": [
+          "reference:activate"
+        ]
+      }
+    },
+    "/api/reference-library": {
+      "get": {
+        "operationId": "getReferenceLibrary",
+        "summary": "Public merged catalog of built-in and published references",
+        "security": [],
+        "parameters": [
+          {
+            "name": "If-None-Match",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Catalog"
+                }
+              }
+            },
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "304": {
+            "description": "Catalog unchanged"
+          },
+          "503": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/api/reference-library/releases/{publisherId}/{slug}/{version}/bundle": {
+      "get": {
+        "operationId": "getPublishedReferenceBundle",
+        "summary": "Public immutable published bundle; no drafts",
+        "security": [],
+        "parameters": [
+          {
+            "name": "publisherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Bundle"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    },
+    "/api/reference-library/releases/{publisherId}/{slug}/{version}/files/{fileId}": {
+      "get": {
+        "operationId": "getPublishedReferenceFile",
+        "summary": "Public immutable file selected by opaque release-scoped fileId, never a filesystem path",
+        "security": [],
+        "parameters": [
+          {
+            "name": "publisherId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "slug",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "version",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "fileId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]{1,120}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Published allowlisted content; never arbitrary filesystem content",
+            "headers": {
+              "ETag": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "content": {
+              "image/png": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/markdown": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/Problem"
+          },
+          "404": {
+            "$ref": "#/components/responses/Problem"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "PublisherToken": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Opaque revocable publisher-scoped token, unrelated to model API keys"
+      }
+    },
+    "responses": {
+      "Problem": {
+        "description": "Error; see stable code and diagnostics",
+        "content": {
+          "application/problem+json": {
+            "schema": {
+              "$ref": "#/components/schemas/Problem"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Problem": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "status": {
+            "type": "integer"
+          },
+          "code": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "detail": {
+            "type": "string"
+          },
+          "traceId": {
+            "type": "string"
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Diagnostic"
+            }
+          }
+        },
+        "required": [
+          "status",
+          "code",
+          "title",
+          "detail",
+          "traceId"
+        ]
+      },
+      "Diagnostic": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "stage": {
+            "type": "string"
+          },
+          "path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "layerId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "caseId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "target": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "hint": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "stage",
+          "message"
+        ]
+      },
+      "Checks": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "structure": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          },
+          "resources": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          },
+          "capabilities": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          },
+          "cases": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          },
+          "sdk": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          },
+          "visual": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          },
+          "simulator": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          },
+          "device": {
+            "enum": [
+              "passed",
+              "failed",
+              "not_run",
+              "not_applicable"
+            ]
+          }
+        },
+        "required": [
+          "structure",
+          "resources",
+          "capabilities",
+          "cases",
+          "sdk",
+          "visual",
+          "simulator",
+          "device"
+        ]
+      },
+      "Publication": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "jobId": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "validating",
+              "generating",
+              "compiling",
+              "ready",
+              "publishing",
+              "published",
+              "failed",
+              "cancelled"
+            ]
+          },
+          "intent": {
+            "enum": [
+              "validate",
+              "publish"
+            ]
+          },
+          "key": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "version": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "packageSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "stage": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          },
+          "expiresAt": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "checks": {
+            "$ref": "#/components/schemas/Checks"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "statusUrl": {
+            "type": "string"
+          },
+          "reportUrl": {
+            "type": "string"
+          },
+          "releaseUrl": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "jobId",
+          "status",
+          "intent",
+          "key",
+          "version",
+          "packageSha256",
+          "stage",
+          "createdAt",
+          "updatedAt",
+          "expiresAt",
+          "checks",
+          "summary",
+          "statusUrl",
+          "reportUrl",
+          "releaseUrl"
+        ]
+      },
+      "Accepted": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "jobId": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "queued",
+              "validating",
+              "generating",
+              "compiling",
+              "ready",
+              "publishing",
+              "published",
+              "failed",
+              "cancelled"
+            ]
+          },
+          "intent": {
+            "enum": [
+              "validate",
+              "publish"
+            ]
+          },
+          "packageSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "statusUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobId",
+          "status",
+          "intent",
+          "packageSha256",
+          "statusUrl"
+        ]
+      },
+      "Report": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "jobId": {
+            "type": "string"
+          },
+          "checks": {
+            "$ref": "#/components/schemas/Checks"
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Diagnostic"
+            }
+          },
+          "summary": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "jobId",
+          "checks",
+          "diagnostics",
+          "summary"
+        ]
+      },
+      "Capabilities": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "apiVersion": {
+            "const": "1"
+          },
+          "publisherId": {
+            "type": "string"
+          },
+          "scopes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "packageFormatVersions": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "projectSchemaVersions": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
+          "profiles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "generatorVersion": {
+                  "type": "string"
+                },
+                "capabilityIds": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "generatorVersion",
+                "capabilityIds"
+              ]
+            }
+          },
+          "targets": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "target": {
+                  "type": "string"
+                },
+                "deviceSize": {
+                  "type": "string"
+                },
+                "screenWidth": {
+                  "type": "integer"
+                },
+                "screenHeight": {
+                  "type": "integer"
+                },
+                "ready": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "target",
+                "deviceSize",
+                "screenWidth",
+                "screenHeight",
+                "ready"
+              ]
+            }
+          },
+          "fonts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "family": {
+                  "type": "string"
+                },
+                "file": {
+                  "type": "string"
+                },
+                "license": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "id",
+                "family",
+                "file",
+                "license"
+              ]
+            }
+          },
+          "limits": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "zipBytes": {
+                "type": "integer"
+              },
+              "expandedBytes": {
+                "type": "integer"
+              },
+              "maxFiles": {
+                "type": "integer"
+              },
+              "maxFileBytes": {
+                "type": "integer"
+              },
+              "maxImageSide": {
+                "type": "integer"
+              },
+              "maxExpandedLayers": {
+                "type": "integer"
+              },
+              "maxCompressionRatio": {
+                "type": "number"
+              },
+              "candidateRetentionSeconds": {
+                "type": "integer"
+              },
+              "idempotencyRetentionSeconds": {
+                "type": "integer"
+              },
+              "queueCapacity": {
+                "type": "integer"
+              },
+              "concurrency": {
+                "type": "integer"
+              },
+              "submissionsPerMinutePerPublisher": {
+                "type": "integer"
+              },
+              "publishesPerDayPerPublisher": {
+                "type": "integer"
+              },
+              "publishesPerDayGlobal": {
+                "type": "integer"
+              },
+              "maxActiveEntries": {
+                "type": "integer"
+              },
+              "maxDesignBytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "maxManifestBytes": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "maxTopLevelLayers": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "maxCases": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "maxDecodedPixelsPerImage": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "maxDecodedPixelsTotal": {
+                "type": "integer",
+                "minimum": 1
+              }
+            },
+            "required": [
+              "zipBytes",
+              "expandedBytes",
+              "maxFiles",
+              "maxFileBytes",
+              "maxImageSide",
+              "maxExpandedLayers",
+              "maxCompressionRatio",
+              "candidateRetentionSeconds",
+              "idempotencyRetentionSeconds",
+              "queueCapacity",
+              "concurrency",
+              "submissionsPerMinutePerPublisher",
+              "publishesPerDayPerPublisher",
+              "publishesPerDayGlobal",
+              "maxActiveEntries",
+              "maxDesignBytes",
+              "maxManifestBytes",
+              "maxTopLevelLayers",
+              "maxCases",
+              "maxDecodedPixelsPerImage",
+              "maxDecodedPixelsTotal"
+            ]
+          },
+          "requiredChecks": {
+            "type": "array",
+            "items": {
+              "enum": [
+                "structure",
+                "resources",
+                "capabilities",
+                "cases",
+                "sdk",
+                "visual",
+                "simulator",
+                "device"
+              ]
+            }
+          },
+          "workerReady": {
+            "type": "boolean"
+          },
+          "sdkReady": {
+            "type": "boolean"
+          },
+          "autoPublishEnabled": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "apiVersion",
+          "publisherId",
+          "scopes",
+          "packageFormatVersions",
+          "projectSchemaVersions",
+          "profiles",
+          "targets",
+          "fonts",
+          "limits",
+          "requiredChecks",
+          "workerReady",
+          "sdkReady",
+          "autoPublishEnabled"
+        ]
+      },
+      "Release": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+          },
+          "packageSha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "publishedAt": {
+            "type": "string"
+          },
+          "active": {
+            "type": "boolean"
+          },
+          "checks": {
+            "$ref": "#/components/schemas/Checks"
+          }
+        },
+        "required": [
+          "version",
+          "packageSha256",
+          "publishedAt",
+          "active",
+          "checks"
+        ]
+      },
+      "Versions": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "currentVersion": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+          },
+          "indexRevision": {
+            "type": "string"
+          },
+          "versions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Release"
+            }
+          }
+        },
+        "required": [
+          "key",
+          "currentVersion",
+          "indexRevision",
+          "versions"
+        ]
+      },
+      "ActivationRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+          },
+          "expectedCurrentVersion": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+          }
+        },
+        "required": [
+          "version",
+          "expectedCurrentVersion"
+        ]
+      },
+      "ActivationResult": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "key": {
+            "type": "string"
+          },
+          "currentVersion": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+          },
+          "indexRevision": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "key",
+          "currentVersion",
+          "indexRevision"
+        ]
+      },
+      "Entry": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "referenceId": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "summary": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+          },
+          "category": {
+            "enum": [
+              "builtin",
+              "publisher"
+            ]
+          },
+          "publisherId": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "source": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "checks": {
+            "$ref": "#/components/schemas/Checks"
+          },
+          "bundleUrl": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "referenceId",
+          "name",
+          "summary",
+          "version",
+          "category",
+          "publisherId",
+          "source",
+          "checks",
+          "bundleUrl"
+        ]
+      },
+      "Catalog": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "catalogVersion": {
+            "const": 1
+          },
+          "revision": {
+            "type": "string"
+          },
+          "entries": {
+            "type": "array",
+            "maxItems": 1000,
+            "items": {
+              "$ref": "#/components/schemas/Entry"
+            }
+          }
+        },
+        "required": [
+          "catalogVersion",
+          "revision",
+          "entries"
+        ]
+      },
+      "Bundle": {
+        "type": "object",
+        "required": [
+          "format",
+          "project",
+          "images",
+          "binaryAssets"
+        ],
+        "properties": {
+          "format": {
+            "const": 1
+          },
+          "project": {
+            "type": "object"
+          },
+          "images": {
+            "type": "array"
+          },
+          "binaryAssets": {
+            "type": "array"
+          }
+        },
+        "description": "Existing frontend bundle format; adapter pins project schema and version-scoped asset URLs."
+      }
+    }
+  }
+}

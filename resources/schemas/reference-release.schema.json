@@ -1,0 +1,276 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gfc:reference-release:1",
+  "title": "GFC automatic reference release manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "gfc-reference-release"
+    },
+    "formatVersion": {
+      "const": 1
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{2,59}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "summary": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500
+    },
+    "designFile": {
+      "const": "design.json"
+    },
+    "casesFile": {
+      "const": "cases.json"
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "const": "deterministic"
+        },
+        "profile": {
+          "const": "deterministic-v1"
+        }
+      },
+      "required": [
+        "mode",
+        "profile"
+      ]
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "projectSchemaVersion": {
+          "const": 26
+        },
+        "targets": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "target": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 64
+              },
+              "deviceSize": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 16
+              }
+            },
+            "required": [
+              "target",
+              "deviceSize"
+            ]
+          }
+        },
+        "requirements": {
+          "type": "array",
+          "maxItems": 100,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9.-]{1,99}$"
+          }
+        }
+      },
+      "required": [
+        "projectSchemaVersion",
+        "targets",
+        "requirements"
+      ]
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "authors": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 20,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80
+          }
+        },
+        "kind": {
+          "enum": [
+            "original",
+            "adaptation"
+          ]
+        },
+        "sourceUrl": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 500,
+          "pattern": "^https://[^\\s]+$"
+        },
+        "upstreamCommit": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-fA-F0-9]{40}$"
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "licenseFile": {
+          "type": "string",
+          "maxLength": 200,
+          "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:])[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+        }
+      },
+      "required": [
+        "authors",
+        "kind",
+        "sourceUrl",
+        "upstreamCommit",
+        "license",
+        "licenseFile"
+      ]
+    },
+    "previews": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "active": {
+          "const": "preview.png"
+        },
+        "aod": {
+          "const": "preview-aod.png"
+        }
+      },
+      "required": [
+        "active",
+        "aod"
+      ]
+    },
+    "bindings": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "layerId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "file": {
+            "type": "string",
+            "maxLength": 200,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:])[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+          },
+          "noticeFiles": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 10,
+            "uniqueItems": true,
+            "items": {
+              "type": "string",
+              "maxLength": 200,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:])[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+            }
+          }
+        },
+        "required": [
+          "layerId",
+          "file",
+          "noticeFiles"
+        ]
+      }
+    },
+    "files": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "maxLength": 200,
+            "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*[\\\\:])[A-Za-z0-9_.-]+(?:/[A-Za-z0-9_.-]+)*$"
+          },
+          "role": {
+            "enum": [
+              "design",
+              "cases",
+              "preview",
+              "image",
+              "notice"
+            ]
+          },
+          "mediaType": {
+            "enum": [
+              "application/json",
+              "image/png",
+              "text/plain",
+              "text/markdown"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8388608
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "path",
+          "role",
+          "mediaType",
+          "bytes",
+          "sha256"
+        ]
+      }
+    }
+  },
+  "required": [
+    "format",
+    "formatVersion",
+    "slug",
+    "version",
+    "name",
+    "summary",
+    "designFile",
+    "casesFile",
+    "generation",
+    "compatibility",
+    "origin",
+    "previews",
+    "bindings",
+    "files"
+  ]
+}

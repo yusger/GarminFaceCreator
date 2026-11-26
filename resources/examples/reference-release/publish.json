@@ -1,0 +1,85 @@
+{
+  "format": "gfc-reference-release",
+  "formatVersion": 1,
+  "slug": "minimal-time",
+  "version": "1.0.0",
+  "name": "Minimal Time",
+  "summary": "Single editable clock example for the future intranet publication contract.",
+  "designFile": "design.json",
+  "casesFile": "cases.json",
+  "generation": {
+    "mode": "deterministic",
+    "profile": "deterministic-v1"
+  },
+  "compatibility": {
+    "projectSchemaVersion": 26,
+    "targets": [
+      {
+        "target": "venu445mm",
+        "deviceSize": "45mm"
+      }
+    ],
+    "requirements": [
+      "core.time"
+    ]
+  },
+  "origin": {
+    "authors": [
+      "GarminFaceCreator contributors"
+    ],
+    "kind": "original",
+    "sourceUrl": "https://github.com/yusger/GarminFaceCreator",
+    "upstreamCommit": null,
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "LICENSE"
+  },
+  "previews": {
+    "active": "preview.png",
+    "aod": "preview-aod.png"
+  },
+  "bindings": [],
+  "files": [
+    {
+      "path": "design.json",
+      "role": "design",
+      "mediaType": "application/json",
+      "bytes": 927,
+      "sha256": "6d5eee462c9caaa8548fc614e880d2b032ef0ffa568a63cebdd5bdf532c883e1"
+    },
+    {
+      "path": "cases.json",
+      "role": "cases",
+      "mediaType": "application/json",
+      "bytes": 1077,
+      "sha256": "208f63b41001310be78f3b39be01ff53cd6aca92cf5a91e0149bf7eeae60da29"
+    },
+    {
+      "path": "preview.png",
+      "role": "preview",
+      "mediaType": "image/png",
+      "bytes": 5630,
+      "sha256": "a5c02d6ca16bac2b70a00bb619984b29ebb2c726c458eb3d18b75cd6aa53d47d"
+    },
+    {
+      "path": "preview-aod.png",
+      "role": "preview",
+      "mediaType": "image/png",
+      "bytes": 4937,
+      "sha256": "290a19f42dad2f1814009b8c1252d5ed1d60842ba93e821209631dbaba2188b2"
+    },
+    {
+      "path": "LICENSE",
+      "role": "notice",
+      "mediaType": "text/plain",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "README.md",
+      "role": "notice",
+      "mediaType": "text/markdown",
+      "bytes": 1186,
+      "sha256": "e23bfd6b3e0cd4a001991025b154c1d7953cec6528fb2394f07565c601d81ffb"
+    }
+  ]
+}

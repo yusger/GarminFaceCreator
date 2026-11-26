@@ -1,0 +1,43 @@
+{
+  "schemaVersion": 26,
+  "id": "20000000-0000-4000-8000-000000000001",
+  "appId": "30000000000040008000000000000001",
+  "name": "Minimal Time",
+  "updated": 0,
+  "revision": 0,
+  "codeRevision": -1,
+  "versions": [],
+  "files": [],
+  "assets": [],
+  "target": "venu445mm",
+  "deviceSize": "45mm",
+  "backgroundColor": "#07131D",
+  "layers": [
+    {
+      "id": "10000000-0000-4000-8000-000000000001",
+      "name": "主时间",
+      "kind": "time",
+      "x": 80,
+      "y": 175,
+      "w": 294,
+      "h": 90,
+      "color": "#FFFFFF",
+      "size": 72,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "aodColor": "#666666",
+      "aodSize": 72,
+      "threshold": false,
+      "timePart": "full",
+      "textAlign": "center",
+      "fontWeight": 600,
+      "garminFont": "auto"
+    }
+  ],
+  "controls": [],
+  "controlValues": {}
+}

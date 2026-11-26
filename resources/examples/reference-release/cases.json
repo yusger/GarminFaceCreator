@@ -1,0 +1,50 @@
+{
+  "format": "gfc-reference-release-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "default-active",
+      "mode": "active",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "10000000-0000-4000-8000-000000000001"
+        ],
+        "readings": {
+          "10000000-0000-4000-8000-000000000001": "09:41"
+        }
+      }
+    },
+    {
+      "id": "default-aod",
+      "mode": "aod",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "10000000-0000-4000-8000-000000000001"
+        ],
+        "readings": {
+          "10000000-0000-4000-8000-000000000001": "09:41"
+        }
+      }
+    }
+  ]
+}
