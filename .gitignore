@@ -48,3 +48,6 @@ backend/tests/**/obj/
 /frontend/public/hand-images/
 
 /frontend/public/widgets/
+
+/frontend/public/brand/
+/frontend/public/favicon.ico

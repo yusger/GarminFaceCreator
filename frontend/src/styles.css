@@ -166,11 +166,11 @@ label select {
   border-right: 1px solid #35404e;
   border-radius: 0;
 }
-.brand strong {
-  font-size: 26px;
-  font-style: italic;
-  letter-spacing: -2px;
-  color: #45d6be;
+.brand-mark {
+  display: block;
+  width: 36px;
+  height: 36px;
+  flex: none;
 }
 .brand span {
   font-size: 15px;

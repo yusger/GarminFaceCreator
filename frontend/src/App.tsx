@@ -1418,7 +1418,7 @@ export default function App() {
       )}
       <header className="topbar">
         <button className="brand" onClick={() => setPage("projects")}>
-          <strong>GFC</strong>
+          <img className="brand-mark" src="/brand/gfc-mark.svg" alt="GFC" width="36" height="36" />
           <span>GarminFaceCreator</span>
         </button>
         <div className="project-title">
