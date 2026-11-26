@@ -114,6 +114,7 @@ flowchart LR
 - Reference images go directly from the browser to the chosen model, not to the build service during design creation. Images adopted as runtime assets stay in the local project and are uploaded when required for compilation.
 - The browser calls AI providers directly, so the provider must allow CORS. The backend does not proxy AI requests.
 - The build service does not execute uploaded shell or build scripts.
+- Build quotas, upload deadlines, storage budgets and audit limits are configured in [backend/appsettings.json](backend/appsettings.json). Restart the backend after editing it; usage counters persist separately.
 - Anonymous use has rate limits, daily quotas and per-task access tokens. Account login, full tenant isolation and professional DDoS protection are not implemented; see [deployment protections](docs/public-demo-security.md).
 
 ## Getting started
