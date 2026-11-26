@@ -10,6 +10,7 @@ Default limits (single backend instance):
 | `GFC_BUILD_PER_DAY` | 30 | Validated compilation submissions/IP/Beijing calendar day |
 | `GFC_GLOBAL_BUILD_PER_DAY` | 200 | All validated compilation submissions/day |
 | `GFC_API_PER_MINUTE` | 240 | API calls/IP/minute |
+| `GFC_UPLOAD_SECONDS` | 45 | Absolute multipart upload deadline; slow uploads return 408 |
 | Concurrent uploads | 2 | Global upload parsing limit and at most two unfinished tasks/uploads per IP |
 | Build worker / queue | 1 / 8 | One Java compiler process, bounded queue |
 | `GFC_STORAGE_MB` | 2048 | Jobs and metadata storage budget |

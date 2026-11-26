@@ -24,6 +24,7 @@ sealed class PublicBuildPolicy
         quota = File.Exists(ledger) ? JsonSerializer.Deserialize<Quota>(File.ReadAllText(ledger)) ?? throw new InvalidDataException("Invalid quota ledger") : new();
     }
     static string Today => DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).ToString("yyyyMMdd");
+    public static string DailyRetry => Math.Max(1, (int)(DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).Date.AddDays(1) - DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).DateTime).TotalSeconds).ToString();
     public static string Ip(HttpContext ctx) => (ctx.Connection.RemoteIpAddress?.MapToIPv6().ToString() ?? "unknown");
     public static string Hash(string value) => Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(value)));
     public static bool Authorize(BuildJob job, HttpContext ctx)

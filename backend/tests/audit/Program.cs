@@ -40,4 +40,3 @@ Console.WriteLine("PASS bounded audit rotation and total byte limit");
 record BuildJob(string CallerIp, string CallerLocation, string ProjectName, string Id);
 
 static class PublicBuildPolicy { public static int Read(string name, int fallback, int min, int max) => int.TryParse(Environment.GetEnvironmentVariable(name), out var n) ? Math.Clamp(n, min, max) : fallback; }
-

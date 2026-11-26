@@ -63,14 +63,24 @@ app.Use(async (ctx, next) =>
     var policy = ctx.RequestServices.GetRequiredService<PublicBuildPolicy>();
     var ip = PublicBuildPolicy.Ip(ctx);
     var denied = policy.Enter(ip, store);
-    if (denied is not null) { ctx.Response.StatusCode = 429; ctx.Response.Headers.RetryAfter = "60"; await ctx.Response.WriteAsJsonAsync(new { error = denied }); return; }
+    if (denied is not null) { ctx.Response.StatusCode = 429; ctx.Response.Headers.RetryAfter = denied.Contains("配额") ? PublicBuildPolicy.DailyRetry : "60"; await ctx.Response.WriteAsJsonAsync(new { error = denied }); return; }
+    var originalAbort = ctx.RequestAborted;
+    using var uploadDeadline = CancellationTokenSource.CreateLinkedTokenSource(originalAbort);
+    uploadDeadline.CancelAfter(TimeSpan.FromSeconds(PublicBuildPolicy.Read("GFC_UPLOAD_SECONDS", 45, 1, 300)));
+    ctx.RequestAborted = uploadDeadline.Token;
     try
     {
         var reservations = store.Jobs.Values.Count(j => j.Status is "queued" or "running") + 2;
         if (!policy.HasSpace(store.Root, reservations)) { ctx.Response.StatusCode = 507; await ctx.Response.WriteAsJsonAsync(new { error = "编译存储空间不足，请稍后重试" }); return; }
         await next(ctx);
     }
-    finally { policy.Leave(ip); }
+    catch (OperationCanceledException) when (uploadDeadline.IsCancellationRequested && !originalAbort.IsCancellationRequested && !ctx.Response.HasStarted)
+    {
+        ctx.RequestAborted = originalAbort;
+        ctx.Response.StatusCode = 408;
+        await ctx.Response.WriteAsJsonAsync(new { error = "工程上传超时，请重试" });
+    }
+    finally { ctx.RequestAborted = originalAbort; policy.Leave(ip); }
 });
 app.Use(async (ctx, next) =>
 {
@@ -120,7 +130,7 @@ app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, BuildAu
         }
         // Never execute or trust uploaded Jungle directives or build scripts.
         await File.WriteAllTextAsync(Path.Combine(work, "monkey.jungle"), "project.manifest = manifest.xml\nbase.sourcePath = source\nbase.resourcePath = resources\n", ct);
-        if (!policy.Charge(PublicBuildPolicy.Ip(request.HttpContext))) { Directory.Delete(Path.GetDirectoryName(work)!, true); return Results.Json(new { error = "今日编译配额已用完" }, statusCode: 429); }
+        if (!policy.Charge(PublicBuildPolicy.Ip(request.HttpContext))) { request.HttpContext.Response.Headers.RetryAfter = PublicBuildPolicy.DailyRetry; Directory.Delete(Path.GetDirectoryName(work)!, true); return Results.Json(new { error = "今日编译配额已用完" }, statusCode: 429); }
         if (!store.Enqueue(job)) { Directory.Delete(Path.GetDirectoryName(work)!, true); return Results.Problem("Build queue is full", statusCode: 503); }
         var accepted = JsonSerializer.SerializeToNode(store.View(job), BuildStore.Json)!.AsObject();
         accepted["accessToken"] = accessToken;
