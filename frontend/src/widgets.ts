@@ -170,7 +170,13 @@ export function decomposeWidget(p: Project, id: string): Project {
   const next = {
     ...p,
     layers: p.layers.flatMap((l) => (l.id === id ? children : [l])),
-    controls: [...(p.controls || []), ...b.controls],
+    controls: [
+      ...(p.controls || []),
+      ...b.controls.map((c) => ({
+        ...c,
+        label: root.name + " · " + c.label.split(" · ").at(-1),
+      })),
+    ],
     controlValues: { ...p.controlValues, ...b.controlValues },
     revision: p.revision + 1,
     codeRevision: -1,

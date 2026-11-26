@@ -205,7 +205,11 @@ export function expandWidgets(p: Project, hitBoxes = false): Project {
       });
     layers.push(...children);
     for (const c of l.compound!.controls) {
-      controls.push({ ...c, targets: c.targets.map((t) => ({ ...t })) });
+      controls.push({
+        ...c,
+        label: l.name + " · " + c.label.split(" · ").at(-1),
+        targets: c.targets.map((t) => ({ ...t })),
+      });
       if (l.compound!.controlValues?.[c.id] !== undefined)
         values[c.id] = l.compound!.controlValues[c.id];
     }

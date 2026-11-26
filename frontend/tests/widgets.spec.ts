@@ -1,3 +1,4 @@
+import { meterPolygons } from "../src/meters";
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { layer, project, validateProject, type Project } from "../src/domain";
@@ -57,6 +58,26 @@ test("compound objects keep private children, independent copies and coherent pa
   validateProject(p);
   expect(widgetNotices(p)).toHaveLength(4);
   expect(generationRequirements(p).dataSources).toBeDefined();
+  const meter = p.layers[1];
+  const beforeMeter = expandWidgets(p).layers.find((l) => l.kind === "meter")!;
+  const scaled = structuredClone(meter);
+  scaled.w *= 0.5;
+  scaled.h *= 0.5;
+  const afterMeter = expandWidgets({ ...p, layers: [scaled] }).layers.find(
+    (l) => l.kind === "meter",
+  )!;
+  expect(meterPolygons(afterMeter)).toEqual(
+    meterPolygons(beforeMeter).map((poly) =>
+      poly.map(([x, y]) => [x * 0.5, y * 0.5]),
+    ),
+  );
+  const row = p.layers[2];
+  expect(row.compound!.parts).toHaveLength(4);
+  row.compound!.disabledLayers = [row.compound!.layers[0].id];
+  const rowCopy = cloneCompound(row);
+  expect(rowCopy.compound!.disabledLayers).toEqual([
+    rowCopy.compound!.layers[0].id,
+  ]);
   const root = p.layers[0],
     copy = cloneCompound(root);
   copy.x += 20;
@@ -228,6 +249,14 @@ test("one layer node supports part switches, copy/delete, undo, save and source 
   await page.getByRole("button", { name: "添加控件", exact: true }).click();
   await expect(page.locator(".layer-row")).toHaveCount(1);
   await expect(page.getByLabel("复合控件名称")).toHaveValue("胶囊数据行 #1");
+  await page.locator("svg.watch").getByText("6.4km", { exact: true }).click();
+  await page.keyboard.press("ArrowRight");
+  await expect(page.getByLabel("复合控件x")).toHaveValue("108");
+  await page.getByRole("button", { name: "编辑内部结构", exact: true }).click();
+  await page.getByLabel("内部部件启用", { exact: true }).uncheck();
+  await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(4);
+  await page.getByLabel("内部部件启用", { exact: true }).check();
+  await page.getByRole("button", { name: "收起内部编辑", exact: true }).click();
   await page.getByLabel("图标 启用", { exact: true }).uncheck();
   await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(4);
   await page.getByLabel("图标 启用", { exact: true }).check();
@@ -344,9 +373,12 @@ test("native compilation expands compounds and preserves part AOD on both Venu 4
     b.parts.find((part) => part.id === "titles")!.active = false;
     b.parts.find((part) => part.id === "titles")!.aod = true;
     b.controlValues = { [b.controls[0].id]: "#FFAA00" };
-    p.layers[1].compound!.parts.find(
-      (part) => part.id === "progress",
-    )!.enabled = false;
+    p.layers[1].w *= 0.8;
+    p.layers[1].h *= 0.8;
+    if (size === "41mm")
+      p.layers[1].compound!.parts.find(
+        (part) => part.id === "progress",
+      )!.enabled = false;
     await compile(p);
   }
 });
