@@ -229,3 +229,5 @@ Default watchface packages are maintained in [default-watchfaces](resources/defa
 
 
 - [AI design assistant: conversational editing](docs/design-chat.md) (Chinese guide)
+
+- [Precision editing: preview stress cases, circular layouts and font assets](docs/editor-quality.md) (Chinese guide)

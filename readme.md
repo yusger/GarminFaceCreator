@@ -232,3 +232,5 @@ PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际
 
 
 - [AI 设计助手：对话调整表盘](docs/design-chat.md)
+
+- [精细表盘编辑：边界预览、圆周排版与字体素材](docs/editor-quality.md)
