@@ -1597,3 +1597,5 @@ label select {
 @media(max-width:760px) { .ai-design-overlay { padding:8px; }.ai-design-body { grid-template-columns:1fr; }.ai-design-result { border-left:0;border-top:1px solid #344253; }.ai-design-heading,.ai-design-form { padding:18px; }.ai-design-steps { padding:12px;gap:6px; }.ai-design-references > div { grid-template-columns:44px minmax(0,1fr) 100px; }.ai-design-references button { grid-column:2; } }
 
 .background-swatches{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.template-picker figure{margin:8px 0}.template-picker img{border-radius:50%;max-width:100%}.template-picker figcaption{font-size:12px;color:#9bb0c0}.background-picker{margin:14px 0;padding:10px;border:1px solid #334554;border-radius:8px}
+
+.widget-previews{display:flex;gap:8px;align-items:center;margin:12px 0}.widget-previews img{width:calc(50% - 4px);height:100px;object-fit:contain;background:#000;border-radius:6px}.widget-picker>button{width:100%}

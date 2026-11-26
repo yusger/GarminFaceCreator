@@ -1,0 +1,146 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "capsule-metric",
+  "version": "1.0.0",
+  "name": "胶囊数据行",
+  "category": "data",
+  "canvas": {
+    "width": 240,
+    "height": 80,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.circle",
+    "core.line",
+    "core.metric",
+    "core.rect",
+    "core.text",
+    "data.distance"
+  ],
+  "layers": [
+    {
+      "id": "capsule",
+      "name": "胶囊底",
+      "kind": "rect",
+      "x": 4,
+      "y": 6,
+      "w": 232,
+      "h": 68,
+      "color": "#14242E",
+      "size": 12,
+      "aod": true,
+      "aodColor": "#000000",
+      "cornerRadius": 24
+    },
+    {
+      "id": "dot",
+      "name": "色点",
+      "kind": "circle",
+      "x": 18,
+      "y": 34,
+      "w": 10,
+      "h": 10,
+      "color": "#45D6BE",
+      "size": 10,
+      "aod": false,
+      "aodColor": "#666666"
+    },
+    {
+      "id": "label",
+      "name": "标题",
+      "kind": "text",
+      "x": 36,
+      "y": 26,
+      "w": 82,
+      "h": 24,
+      "color": "#45D6BE",
+      "size": 14,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "DISTANCE",
+      "garminFont": "small",
+      "activeVisible": true
+    },
+    {
+      "id": "divider",
+      "name": "分隔线",
+      "kind": "line",
+      "x": 124,
+      "y": 18,
+      "w": 2,
+      "h": 44,
+      "color": "#EAF2F5",
+      "size": 2,
+      "aod": false,
+      "aodColor": "#333333",
+      "strokeWidth": 2,
+      "strokeColor": "#2A4450"
+    },
+    {
+      "id": "value",
+      "name": "距离值",
+      "kind": "metric",
+      "x": 138,
+      "y": 16,
+      "w": 88,
+      "h": 42,
+      "color": "#EAF2F5",
+      "size": 32,
+      "aod": true,
+      "aodColor": "#9AA9B0",
+      "source": "distance",
+      "precision": 1,
+      "unit": "km",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "textAlign": "right",
+      "threshold": false
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "主题色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "label",
+          "property": "color"
+        },
+        {
+          "layerId": "dot",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "show-label",
+      "label": "显示标题",
+      "type": "boolean",
+      "default": true,
+      "targets": [
+        {
+          "layerId": "label",
+          "property": "activeVisible"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.png",
+    "aod": "preview-aod.png"
+  },
+  "casesFile": "cases.json"
+}

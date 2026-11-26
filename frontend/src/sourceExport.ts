@@ -1,3 +1,4 @@
+import {widgetNotices} from "./widgets";
 import handImageAttribution from "./handImageAttribution.json" with {type:"json"};
 import { preparedCodeFiles, chalkPlans } from "./chalkFonts";
 import {
@@ -45,6 +46,7 @@ export async function exportSources(
       path: file.path,
       data: text.encode(file.content),
     }));
+  for(const o of widgetNotices(p)) entries.push({path:"notices/widget-"+o.id+"-"+o.version+"-LICENSE.txt",data:text.encode(o.license)},{path:"notices/widget-"+o.id+"-"+o.version+"-NOTICE.md",data:text.encode(o.notice)});
   for(const notice of handImageAttribution) if(p.layers.some(l=>l.handBitmap?.packId===notice.packId || l.assetId?.startsWith("hand-image-"+notice.packId+"-"))) {
     entries.push({path:"notices/"+notice.packId+"-NOTICE.md",data:text.encode(notice.notice)},{path:"notices/"+notice.packId+"-LICENSE.txt",data:text.encode(notice.license)});
   }

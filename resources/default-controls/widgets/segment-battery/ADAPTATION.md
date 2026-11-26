@@ -1,0 +1,1 @@
+Imported from the author-delivered gfc-control-package v1. Original design and MIT license retained. Missing threshold flags are explicitly false. HR=0 expectations use --. Original Temp input is unchanged. Preview PNGs are author illustrations; system fonts and native output require device verification.

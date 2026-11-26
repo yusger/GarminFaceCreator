@@ -1,3 +1,4 @@
+import {validateWidgetOrigin,type WidgetOrigin} from "./widgets.ts";
 import { validateControls, remapControlIds } from "./projectControls.ts";
 import { validateVisibility } from "./visibility.ts";
 import { validateMultiDevice, importedDevices } from "./multiDevice.ts";
@@ -21,6 +22,7 @@ export type Kind =
   | "line";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  widgetOrigin?: WidgetOrigin;
   effectPrompt?: string;
   customFont?: { id: string; family: string; file: string };
   activeVisible?: boolean;
@@ -193,7 +195,8 @@ export type Project = {
     | 21
     | 22
     | 23
-    | 24;
+    | 24
+    | 25;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -412,7 +415,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 24,
+    schemaVersion: 25,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -444,7 +447,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 24 ||
+    p.schemaVersion !== 25 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -495,6 +498,7 @@ export function validateProject(value: unknown): Project {
     )
       throw Error("效果说明最多2000字");
     validateVisibility(l.visibility);
+      validateWidgetOrigin(l.widgetOrigin);
     if (l.dateLocale !== undefined && !["en", "zh"].includes(l.dateLocale))
       throw Error("日期语言无效");
     if (

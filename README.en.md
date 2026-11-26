@@ -222,3 +222,5 @@ Default watchface packages are maintained in [default-watchfaces](resources/defa
 
 
 [SONAR reference](docs/sonar.md): 18 editable layers, 12 controls, continuous progress and packaged fonts; static scan fallback.
+
+- Four reusable widget packages: capsule metric, segmented battery, vitals column and stacked tiers; editable layer groups, independent color/label settings and source-export license notices.

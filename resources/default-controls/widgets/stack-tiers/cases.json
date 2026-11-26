@@ -1,0 +1,115 @@
+{
+  "format": "gfc-control-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "normal",
+      "data": {
+        "heartRate": 148,
+        "steps": 10689,
+        "calories": 234
+      },
+      "parameters": {},
+      "expect": {
+        "heartRate": "148bpm",
+        "steps": "10689",
+        "calories": "234kcal"
+      }
+    },
+    {
+      "id": "zero",
+      "data": {
+        "heartRate": 0,
+        "steps": 0,
+        "calories": 0
+      },
+      "parameters": {},
+      "expect": {
+        "heartRate": "--",
+        "steps": "0",
+        "calories": "0kcal"
+      }
+    },
+    {
+      "id": "missing",
+      "data": {
+        "heartRate": null,
+        "steps": null,
+        "calories": null
+      },
+      "parameters": {},
+      "expect": {
+        "heartRate": "--",
+        "steps": "--",
+        "calories": "--"
+      }
+    },
+    {
+      "id": "max",
+      "data": {
+        "heartRate": 255,
+        "steps": 50000,
+        "calories": 9999
+      },
+      "parameters": {},
+      "expect": {
+        "heartRate": "255bpm",
+        "steps": "50000",
+        "calories": "9999kcal"
+      }
+    },
+    {
+      "id": "boundary",
+      "data": {
+        "heartRate": 120,
+        "steps": 10000,
+        "calories": 500
+      },
+      "parameters": {},
+      "expect": {
+        "heartRate": "120bpm",
+        "steps": "10000",
+        "calories": "500kcal"
+      }
+    },
+    {
+      "id": "aod",
+      "aod": true,
+      "data": {
+        "heartRate": 148,
+        "steps": 10689,
+        "calories": 234
+      },
+      "parameters": {},
+      "expect": {
+        "visibleLayers": [
+          "heartrate-panel",
+          "heartrate-value"
+        ]
+      }
+    },
+    {
+      "id": "configured",
+      "data": {
+        "heartRate": 148,
+        "steps": 10689,
+        "calories": 234
+      },
+      "parameters": {
+        "accent": "#FFAA00",
+        "show-label": false
+      },
+      "expect": {
+        "heartRate": "148bpm",
+        "steps": "10689",
+        "calories": "234kcal",
+        "parameters": {
+          "accent": "#FFAA00",
+          "show-label": false
+        },
+        "color@accent": "#FFAA00",
+        "visible@show-label": false
+      }
+    }
+  ]
+}

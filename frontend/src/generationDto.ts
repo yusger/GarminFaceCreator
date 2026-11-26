@@ -20,7 +20,8 @@ type Omitted =
   | "visibility"
   | "customFont"
   | "handShape"
-  | "handBitmap";
+  | "handBitmap"
+  | "widgetOrigin";
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   effectPrompt: true,

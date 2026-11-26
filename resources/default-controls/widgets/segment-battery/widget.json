@@ -1,0 +1,177 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "segment-battery",
+  "version": "1.0.0",
+  "name": "分段电量轨",
+  "category": "progress",
+  "canvas": {
+    "width": 260,
+    "height": 100,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.meter",
+    "core.metric",
+    "core.rect",
+    "core.text",
+    "data.battery"
+  ],
+  "layers": [
+    {
+      "id": "panel",
+      "name": "面板",
+      "kind": "rect",
+      "x": 4,
+      "y": 4,
+      "w": 252,
+      "h": 92,
+      "color": "#14242E",
+      "size": 12,
+      "aod": true,
+      "aodColor": "#000000",
+      "cornerRadius": 14
+    },
+    {
+      "id": "meter",
+      "name": "分段条",
+      "kind": "meter",
+      "x": 20,
+      "y": 44,
+      "w": 220,
+      "h": 24,
+      "color": "#45D6BE",
+      "size": 20,
+      "aod": false,
+      "aodColor": "#4A5F66",
+      "source": "battery",
+      "meterGoal": 100,
+      "meterCount": 10,
+      "meterContinuous": false,
+      "meterDimColor": "#203C44",
+      "meterShape": "bar"
+    },
+    {
+      "id": "value",
+      "name": "电量值",
+      "kind": "metric",
+      "x": 20,
+      "y": 10,
+      "w": 110,
+      "h": 32,
+      "color": "#45D6BE",
+      "size": 28,
+      "aod": true,
+      "aodColor": "#9AA9B0",
+      "source": "battery",
+      "precision": 0,
+      "unit": "%",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "threshold": false
+    },
+    {
+      "id": "label",
+      "name": "标题",
+      "kind": "text",
+      "x": 140,
+      "y": 14,
+      "w": 100,
+      "h": 24,
+      "color": "#7C93A8",
+      "size": 13,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "BATTERY",
+      "garminFont": "small",
+      "textAlign": "right",
+      "activeVisible": true
+    },
+    {
+      "id": "min",
+      "name": "零点",
+      "kind": "text",
+      "x": 18,
+      "y": 74,
+      "w": 30,
+      "h": 16,
+      "color": "#7C93A8",
+      "size": 11,
+      "aod": false,
+      "aodColor": "#555555",
+      "text": "0",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    },
+    {
+      "id": "max",
+      "name": "满点",
+      "kind": "text",
+      "x": 212,
+      "y": 74,
+      "w": 32,
+      "h": 16,
+      "color": "#7C93A8",
+      "size": 11,
+      "aod": false,
+      "aodColor": "#555555",
+      "text": "100",
+      "garminFont": "xtiny",
+      "textAlign": "right",
+      "activeVisible": true
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "主题色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "meter",
+          "property": "color"
+        },
+        {
+          "layerId": "value",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "show-label",
+      "label": "显示标题",
+      "type": "boolean",
+      "default": true,
+      "targets": [
+        {
+          "layerId": "label",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "min",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "max",
+          "property": "activeVisible"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.png",
+    "aod": "preview-aod.png"
+  },
+  "casesFile": "cases.json"
+}

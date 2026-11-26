@@ -1,0 +1,95 @@
+{
+  "format": "gfc-control-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "normal",
+      "data": {
+        "distance": 6.42
+      },
+      "parameters": {},
+      "expect": {
+        "distance": "6.4km",
+        "value": "6.4km"
+      }
+    },
+    {
+      "id": "zero",
+      "data": {
+        "distance": 0
+      },
+      "parameters": {},
+      "expect": {
+        "distance": "0.0km",
+        "value": "0.0km"
+      }
+    },
+    {
+      "id": "missing",
+      "data": {
+        "distance": null
+      },
+      "parameters": {},
+      "expect": {
+        "distance": "--",
+        "value": "--"
+      }
+    },
+    {
+      "id": "max",
+      "data": {
+        "distance": 42.2
+      },
+      "parameters": {},
+      "expect": {
+        "distance": "42.2km",
+        "value": "42.2km"
+      }
+    },
+    {
+      "id": "boundary",
+      "data": {
+        "distance": 10
+      },
+      "parameters": {},
+      "expect": {
+        "distance": "10.0km",
+        "value": "10.0km"
+      }
+    },
+    {
+      "id": "aod",
+      "aod": true,
+      "data": {
+        "distance": 6.42
+      },
+      "parameters": {},
+      "expect": {
+        "visibleLayers": [
+          "capsule",
+          "value"
+        ]
+      }
+    },
+    {
+      "id": "configured",
+      "data": {
+        "distance": 6.42
+      },
+      "parameters": {
+        "accent": "#FFAA00",
+        "show-label": false
+      },
+      "expect": {
+        "distance": "6.4km",
+        "value": "6.4km",
+        "parameters": {
+          "accent": "#FFAA00",
+          "show-label": false
+        },
+        "color@accent": "#FFAA00",
+        "visible@show-label": false
+      }
+    }
+  ]
+}

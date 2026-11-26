@@ -1,3 +1,4 @@
+await import("./build-widgets.mjs");
 await import("./build-hand-images.mjs");
 await import("./build-hand-styles.mjs");
 await import("./build-layout-templates.mjs");

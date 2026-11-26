@@ -1,0 +1,227 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "stack-tiers",
+  "version": "1.0.0",
+  "name": "三色数据层叠",
+  "category": "data",
+  "canvas": {
+    "width": 200,
+    "height": 224,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.metric",
+    "core.rect",
+    "core.text",
+    "data.calories",
+    "data.heartrate",
+    "data.steps"
+  ],
+  "layers": [
+    {
+      "id": "heartrate-panel",
+      "name": "heartRate色带",
+      "kind": "rect",
+      "x": 4,
+      "y": 8,
+      "w": 192,
+      "h": 62,
+      "color": "#14242E",
+      "size": 12,
+      "aod": true,
+      "aodColor": "#000000",
+      "cornerRadius": 10
+    },
+    {
+      "id": "heartrate-value",
+      "name": "heartRate数值",
+      "kind": "metric",
+      "x": 16,
+      "y": 14,
+      "w": 168,
+      "h": 38,
+      "color": "#FF5C57",
+      "size": 32,
+      "aod": true,
+      "aodColor": "#9AA9B0",
+      "source": "heartRate",
+      "precision": 0,
+      "unit": "bpm",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "threshold": false
+    },
+    {
+      "id": "heartrate-label",
+      "name": "heartRate标题",
+      "kind": "text",
+      "x": 16,
+      "y": 50,
+      "w": 168,
+      "h": 16,
+      "color": "#45D6BE",
+      "size": 11,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "HEART RATE",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    },
+    {
+      "id": "steps-panel",
+      "name": "steps色带",
+      "kind": "rect",
+      "x": 4,
+      "y": 80,
+      "w": 192,
+      "h": 62,
+      "color": "#14242E",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#000000",
+      "cornerRadius": 10
+    },
+    {
+      "id": "steps-value",
+      "name": "steps数值",
+      "kind": "metric",
+      "x": 16,
+      "y": 86,
+      "w": 168,
+      "h": 38,
+      "color": "#45D6BE",
+      "size": 32,
+      "aod": false,
+      "aodColor": "#9AA9B0",
+      "source": "steps",
+      "precision": 0,
+      "unit": "",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "threshold": false
+    },
+    {
+      "id": "steps-label",
+      "name": "steps标题",
+      "kind": "text",
+      "x": 16,
+      "y": 122,
+      "w": 168,
+      "h": 16,
+      "color": "#45D6BE",
+      "size": 11,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "STEPS",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    },
+    {
+      "id": "calories-panel",
+      "name": "calories色带",
+      "kind": "rect",
+      "x": 4,
+      "y": 152,
+      "w": 192,
+      "h": 62,
+      "color": "#14242E",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#000000",
+      "cornerRadius": 10
+    },
+    {
+      "id": "calories-value",
+      "name": "calories数值",
+      "kind": "metric",
+      "x": 16,
+      "y": 158,
+      "w": 168,
+      "h": 38,
+      "color": "#F4A259",
+      "size": 32,
+      "aod": false,
+      "aodColor": "#9AA9B0",
+      "source": "calories",
+      "precision": 0,
+      "unit": "kcal",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "threshold": false
+    },
+    {
+      "id": "calories-label",
+      "name": "calories标题",
+      "kind": "text",
+      "x": 16,
+      "y": 194,
+      "w": 168,
+      "h": 16,
+      "color": "#45D6BE",
+      "size": 11,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "KCAL",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "主题色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "heartrate-label",
+          "property": "color"
+        },
+        {
+          "layerId": "steps-label",
+          "property": "color"
+        },
+        {
+          "layerId": "calories-label",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "show-label",
+      "label": "显示标题",
+      "type": "boolean",
+      "default": true,
+      "targets": [
+        {
+          "layerId": "heartrate-label",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "steps-label",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "calories-label",
+          "property": "activeVisible"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.png",
+    "aod": "preview-aod.png"
+  },
+  "casesFile": "cases.json"
+}

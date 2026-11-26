@@ -1,0 +1,909 @@
+[
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "capsule-metric",
+    "version": "1.0.0",
+    "name": "胶囊数据行",
+    "category": "data",
+    "canvas": {
+      "width": 240,
+      "height": 80,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.circle",
+      "core.line",
+      "core.metric",
+      "core.rect",
+      "core.text",
+      "data.distance"
+    ],
+    "layers": [
+      {
+        "id": "capsule",
+        "name": "胶囊底",
+        "kind": "rect",
+        "x": 4,
+        "y": 6,
+        "w": 232,
+        "h": 68,
+        "color": "#14242E",
+        "size": 12,
+        "aod": true,
+        "aodColor": "#000000",
+        "cornerRadius": 24
+      },
+      {
+        "id": "dot",
+        "name": "色点",
+        "kind": "circle",
+        "x": 18,
+        "y": 34,
+        "w": 10,
+        "h": 10,
+        "color": "#45D6BE",
+        "size": 10,
+        "aod": false,
+        "aodColor": "#666666"
+      },
+      {
+        "id": "label",
+        "name": "标题",
+        "kind": "text",
+        "x": 36,
+        "y": 26,
+        "w": 82,
+        "h": 24,
+        "color": "#45D6BE",
+        "size": 14,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "DISTANCE",
+        "garminFont": "small",
+        "activeVisible": true
+      },
+      {
+        "id": "divider",
+        "name": "分隔线",
+        "kind": "line",
+        "x": 124,
+        "y": 18,
+        "w": 2,
+        "h": 44,
+        "color": "#EAF2F5",
+        "size": 2,
+        "aod": false,
+        "aodColor": "#333333",
+        "strokeWidth": 2,
+        "strokeColor": "#2A4450"
+      },
+      {
+        "id": "value",
+        "name": "距离值",
+        "kind": "metric",
+        "x": 138,
+        "y": 16,
+        "w": 88,
+        "h": 42,
+        "color": "#EAF2F5",
+        "size": 32,
+        "aod": true,
+        "aodColor": "#9AA9B0",
+        "source": "distance",
+        "precision": 1,
+        "unit": "km",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "textAlign": "right",
+        "threshold": false
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "主题色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "label",
+            "property": "color"
+          },
+          {
+            "layerId": "dot",
+            "property": "color"
+          }
+        ]
+      },
+      {
+        "id": "show-label",
+        "label": "显示标题",
+        "type": "boolean",
+        "default": true,
+        "targets": [
+          {
+            "layerId": "label",
+            "property": "activeVisible"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.png",
+      "aod": "preview-aod.png"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "胶囊数据行 / capsule-metric v1.0.0 / yusger / MIT\nImported from the author-delivered gfc-control-package v1. Original design and MIT license retained. Missing threshold flags are explicitly false. HR=0 expectations use --. Original Temp input is unchanged. Preview PNGs are author illustrations; system fonts and native output require device verification.\n"
+  },
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "segment-battery",
+    "version": "1.0.0",
+    "name": "分段电量轨",
+    "category": "progress",
+    "canvas": {
+      "width": 260,
+      "height": 100,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.meter",
+      "core.metric",
+      "core.rect",
+      "core.text",
+      "data.battery"
+    ],
+    "layers": [
+      {
+        "id": "panel",
+        "name": "面板",
+        "kind": "rect",
+        "x": 4,
+        "y": 4,
+        "w": 252,
+        "h": 92,
+        "color": "#14242E",
+        "size": 12,
+        "aod": true,
+        "aodColor": "#000000",
+        "cornerRadius": 14
+      },
+      {
+        "id": "meter",
+        "name": "分段条",
+        "kind": "meter",
+        "x": 20,
+        "y": 44,
+        "w": 220,
+        "h": 24,
+        "color": "#45D6BE",
+        "size": 20,
+        "aod": false,
+        "aodColor": "#4A5F66",
+        "source": "battery",
+        "meterGoal": 100,
+        "meterCount": 10,
+        "meterContinuous": false,
+        "meterDimColor": "#203C44",
+        "meterShape": "bar"
+      },
+      {
+        "id": "value",
+        "name": "电量值",
+        "kind": "metric",
+        "x": 20,
+        "y": 10,
+        "w": 110,
+        "h": 32,
+        "color": "#45D6BE",
+        "size": 28,
+        "aod": true,
+        "aodColor": "#9AA9B0",
+        "source": "battery",
+        "precision": 0,
+        "unit": "%",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "threshold": false
+      },
+      {
+        "id": "label",
+        "name": "标题",
+        "kind": "text",
+        "x": 140,
+        "y": 14,
+        "w": 100,
+        "h": 24,
+        "color": "#7C93A8",
+        "size": 13,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "BATTERY",
+        "garminFont": "small",
+        "textAlign": "right",
+        "activeVisible": true
+      },
+      {
+        "id": "min",
+        "name": "零点",
+        "kind": "text",
+        "x": 18,
+        "y": 74,
+        "w": 30,
+        "h": 16,
+        "color": "#7C93A8",
+        "size": 11,
+        "aod": false,
+        "aodColor": "#555555",
+        "text": "0",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      },
+      {
+        "id": "max",
+        "name": "满点",
+        "kind": "text",
+        "x": 212,
+        "y": 74,
+        "w": 32,
+        "h": 16,
+        "color": "#7C93A8",
+        "size": 11,
+        "aod": false,
+        "aodColor": "#555555",
+        "text": "100",
+        "garminFont": "xtiny",
+        "textAlign": "right",
+        "activeVisible": true
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "主题色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "meter",
+            "property": "color"
+          },
+          {
+            "layerId": "value",
+            "property": "color"
+          }
+        ]
+      },
+      {
+        "id": "show-label",
+        "label": "显示标题",
+        "type": "boolean",
+        "default": true,
+        "targets": [
+          {
+            "layerId": "label",
+            "property": "activeVisible"
+          },
+          {
+            "layerId": "min",
+            "property": "activeVisible"
+          },
+          {
+            "layerId": "max",
+            "property": "activeVisible"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.png",
+      "aod": "preview-aod.png"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "分段电量轨 / segment-battery v1.0.0 / yusger / MIT\nImported from the author-delivered gfc-control-package v1. Original design and MIT license retained. Missing threshold flags are explicitly false. HR=0 expectations use --. Original Temp input is unchanged. Preview PNGs are author illustrations; system fonts and native output require device verification.\n"
+  },
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "stack-tiers",
+    "version": "1.0.0",
+    "name": "三色数据层叠",
+    "category": "data",
+    "canvas": {
+      "width": 200,
+      "height": 224,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.metric",
+      "core.rect",
+      "core.text",
+      "data.calories",
+      "data.heartrate",
+      "data.steps"
+    ],
+    "layers": [
+      {
+        "id": "heartrate-panel",
+        "name": "heartRate色带",
+        "kind": "rect",
+        "x": 4,
+        "y": 8,
+        "w": 192,
+        "h": 62,
+        "color": "#14242E",
+        "size": 12,
+        "aod": true,
+        "aodColor": "#000000",
+        "cornerRadius": 10
+      },
+      {
+        "id": "heartrate-value",
+        "name": "heartRate数值",
+        "kind": "metric",
+        "x": 16,
+        "y": 14,
+        "w": 168,
+        "h": 38,
+        "color": "#FF5C57",
+        "size": 32,
+        "aod": true,
+        "aodColor": "#9AA9B0",
+        "source": "heartRate",
+        "precision": 0,
+        "unit": "bpm",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "threshold": false
+      },
+      {
+        "id": "heartrate-label",
+        "name": "heartRate标题",
+        "kind": "text",
+        "x": 16,
+        "y": 50,
+        "w": 168,
+        "h": 16,
+        "color": "#45D6BE",
+        "size": 11,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "HEART RATE",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      },
+      {
+        "id": "steps-panel",
+        "name": "steps色带",
+        "kind": "rect",
+        "x": 4,
+        "y": 80,
+        "w": 192,
+        "h": 62,
+        "color": "#14242E",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#000000",
+        "cornerRadius": 10
+      },
+      {
+        "id": "steps-value",
+        "name": "steps数值",
+        "kind": "metric",
+        "x": 16,
+        "y": 86,
+        "w": 168,
+        "h": 38,
+        "color": "#45D6BE",
+        "size": 32,
+        "aod": false,
+        "aodColor": "#9AA9B0",
+        "source": "steps",
+        "precision": 0,
+        "unit": "",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "threshold": false
+      },
+      {
+        "id": "steps-label",
+        "name": "steps标题",
+        "kind": "text",
+        "x": 16,
+        "y": 122,
+        "w": 168,
+        "h": 16,
+        "color": "#45D6BE",
+        "size": 11,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "STEPS",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      },
+      {
+        "id": "calories-panel",
+        "name": "calories色带",
+        "kind": "rect",
+        "x": 4,
+        "y": 152,
+        "w": 192,
+        "h": 62,
+        "color": "#14242E",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#000000",
+        "cornerRadius": 10
+      },
+      {
+        "id": "calories-value",
+        "name": "calories数值",
+        "kind": "metric",
+        "x": 16,
+        "y": 158,
+        "w": 168,
+        "h": 38,
+        "color": "#F4A259",
+        "size": 32,
+        "aod": false,
+        "aodColor": "#9AA9B0",
+        "source": "calories",
+        "precision": 0,
+        "unit": "kcal",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "threshold": false
+      },
+      {
+        "id": "calories-label",
+        "name": "calories标题",
+        "kind": "text",
+        "x": 16,
+        "y": 194,
+        "w": 168,
+        "h": 16,
+        "color": "#45D6BE",
+        "size": 11,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "KCAL",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "主题色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "heartrate-label",
+            "property": "color"
+          },
+          {
+            "layerId": "steps-label",
+            "property": "color"
+          },
+          {
+            "layerId": "calories-label",
+            "property": "color"
+          }
+        ]
+      },
+      {
+        "id": "show-label",
+        "label": "显示标题",
+        "type": "boolean",
+        "default": true,
+        "targets": [
+          {
+            "layerId": "heartrate-label",
+            "property": "activeVisible"
+          },
+          {
+            "layerId": "steps-label",
+            "property": "activeVisible"
+          },
+          {
+            "layerId": "calories-label",
+            "property": "activeVisible"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.png",
+      "aod": "preview-aod.png"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "三色数据层叠 / stack-tiers v1.0.0 / yusger / MIT\nImported from the author-delivered gfc-control-package v1. Original design and MIT license retained. Missing threshold flags are explicitly false. HR=0 expectations use --. Original Temp input is unchanged. Preview PNGs are author illustrations; system fonts and native output require device verification.\n"
+  },
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "vitals-column",
+    "version": "1.0.0",
+    "name": "图标数据列",
+    "category": "data",
+    "canvas": {
+      "width": 220,
+      "height": 216,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.circle",
+      "core.metric",
+      "core.text",
+      "data.battery",
+      "data.calories",
+      "data.heartrate",
+      "data.steps"
+    ],
+    "layers": [
+      {
+        "id": "heartrate-icon",
+        "name": "heartRate图标底",
+        "kind": "circle",
+        "x": 8,
+        "y": 8,
+        "w": 44,
+        "h": 44,
+        "color": "#1B2C36",
+        "size": 12,
+        "aod": true,
+        "aodColor": "#111111"
+      },
+      {
+        "id": "heartrate-glyph",
+        "name": "heartRate图标",
+        "kind": "text",
+        "x": 8,
+        "y": 17,
+        "w": 44,
+        "h": 26,
+        "color": "#FF5C57",
+        "size": 17,
+        "aod": true,
+        "aodColor": "#66747C",
+        "text": "H",
+        "garminFont": "small",
+        "textAlign": "center"
+      },
+      {
+        "id": "heartrate-label",
+        "name": "heartRate标题",
+        "kind": "text",
+        "x": 60,
+        "y": 20,
+        "w": 76,
+        "h": 22,
+        "color": "#45D6BE",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "HEART RATE",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      },
+      {
+        "id": "heartrate-value",
+        "name": "heartRate数值",
+        "kind": "metric",
+        "x": 128,
+        "y": 14,
+        "w": 84,
+        "h": 32,
+        "color": "#EAF2F5",
+        "size": 22,
+        "aod": true,
+        "aodColor": "#9AA9B0",
+        "source": "heartRate",
+        "precision": 0,
+        "unit": "",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "textAlign": "right",
+        "threshold": false
+      },
+      {
+        "id": "steps-icon",
+        "name": "steps图标底",
+        "kind": "circle",
+        "x": 8,
+        "y": 60,
+        "w": 44,
+        "h": 44,
+        "color": "#1B2C36",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#111111"
+      },
+      {
+        "id": "steps-glyph",
+        "name": "steps图标",
+        "kind": "text",
+        "x": 8,
+        "y": 69,
+        "w": 44,
+        "h": 26,
+        "color": "#45D6BE",
+        "size": 17,
+        "aod": false,
+        "aodColor": "#66747C",
+        "text": "S",
+        "garminFont": "small",
+        "textAlign": "center"
+      },
+      {
+        "id": "steps-label",
+        "name": "steps标题",
+        "kind": "text",
+        "x": 60,
+        "y": 72,
+        "w": 76,
+        "h": 22,
+        "color": "#45D6BE",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "STEPS",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      },
+      {
+        "id": "steps-value",
+        "name": "steps数值",
+        "kind": "metric",
+        "x": 128,
+        "y": 66,
+        "w": 84,
+        "h": 32,
+        "color": "#EAF2F5",
+        "size": 22,
+        "aod": false,
+        "aodColor": "#9AA9B0",
+        "source": "steps",
+        "precision": 0,
+        "unit": "",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "textAlign": "right",
+        "threshold": false
+      },
+      {
+        "id": "calories-icon",
+        "name": "calories图标底",
+        "kind": "circle",
+        "x": 8,
+        "y": 112,
+        "w": 44,
+        "h": 44,
+        "color": "#1B2C36",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#111111"
+      },
+      {
+        "id": "calories-glyph",
+        "name": "calories图标",
+        "kind": "text",
+        "x": 8,
+        "y": 121,
+        "w": 44,
+        "h": 26,
+        "color": "#F4A259",
+        "size": 17,
+        "aod": false,
+        "aodColor": "#66747C",
+        "text": "K",
+        "garminFont": "small",
+        "textAlign": "center"
+      },
+      {
+        "id": "calories-label",
+        "name": "calories标题",
+        "kind": "text",
+        "x": 60,
+        "y": 124,
+        "w": 76,
+        "h": 22,
+        "color": "#45D6BE",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "KCAL",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      },
+      {
+        "id": "calories-value",
+        "name": "calories数值",
+        "kind": "metric",
+        "x": 128,
+        "y": 118,
+        "w": 84,
+        "h": 32,
+        "color": "#EAF2F5",
+        "size": 22,
+        "aod": false,
+        "aodColor": "#9AA9B0",
+        "source": "calories",
+        "precision": 0,
+        "unit": "",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "textAlign": "right",
+        "threshold": false
+      },
+      {
+        "id": "battery-icon",
+        "name": "battery图标底",
+        "kind": "circle",
+        "x": 8,
+        "y": 164,
+        "w": 44,
+        "h": 44,
+        "color": "#1B2C36",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#111111"
+      },
+      {
+        "id": "battery-glyph",
+        "name": "battery图标",
+        "kind": "text",
+        "x": 8,
+        "y": 173,
+        "w": 44,
+        "h": 26,
+        "color": "#A98CF7",
+        "size": 17,
+        "aod": false,
+        "aodColor": "#66747C",
+        "text": "B",
+        "garminFont": "small",
+        "textAlign": "center"
+      },
+      {
+        "id": "battery-label",
+        "name": "battery标题",
+        "kind": "text",
+        "x": 60,
+        "y": 176,
+        "w": 76,
+        "h": 22,
+        "color": "#45D6BE",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#666666",
+        "text": "BATTERY",
+        "garminFont": "xtiny",
+        "activeVisible": true
+      },
+      {
+        "id": "battery-value",
+        "name": "battery数值",
+        "kind": "metric",
+        "x": 128,
+        "y": 170,
+        "w": 84,
+        "h": 32,
+        "color": "#EAF2F5",
+        "size": 22,
+        "aod": false,
+        "aodColor": "#9AA9B0",
+        "source": "battery",
+        "precision": 0,
+        "unit": "%",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "textAlign": "right",
+        "threshold": false
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "标签色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "heartrate-label",
+            "property": "color"
+          },
+          {
+            "layerId": "steps-label",
+            "property": "color"
+          },
+          {
+            "layerId": "calories-label",
+            "property": "color"
+          },
+          {
+            "layerId": "battery-label",
+            "property": "color"
+          }
+        ]
+      },
+      {
+        "id": "show-label",
+        "label": "显示标题",
+        "type": "boolean",
+        "default": true,
+        "targets": [
+          {
+            "layerId": "heartrate-label",
+            "property": "activeVisible"
+          },
+          {
+            "layerId": "steps-label",
+            "property": "activeVisible"
+          },
+          {
+            "layerId": "calories-label",
+            "property": "activeVisible"
+          },
+          {
+            "layerId": "battery-label",
+            "property": "activeVisible"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.png",
+      "aod": "preview-aod.png"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "图标数据列 / vitals-column v1.0.0 / yusger / MIT\nImported from the author-delivered gfc-control-package v1. Original design and MIT license retained. Missing threshold flags are explicitly false. HR=0 expectations use --. Original Temp input is unchanged. Preview PNGs are author illustrations; system fonts and native output require device verification.\n"
+  }
+]

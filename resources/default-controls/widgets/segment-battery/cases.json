@@ -1,0 +1,101 @@
+{
+  "format": "gfc-control-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "normal",
+      "data": {
+        "battery": 78
+      },
+      "parameters": {},
+      "expect": {
+        "battery": "78%",
+        "value": "78%",
+        "fillFraction": 0.78
+      }
+    },
+    {
+      "id": "zero",
+      "data": {
+        "battery": 0
+      },
+      "parameters": {},
+      "expect": {
+        "battery": "0%",
+        "value": "0%",
+        "fillFraction": 0
+      }
+    },
+    {
+      "id": "missing",
+      "data": {
+        "battery": null
+      },
+      "parameters": {},
+      "expect": {
+        "battery": "--",
+        "value": "--",
+        "fillFraction": null
+      }
+    },
+    {
+      "id": "max",
+      "data": {
+        "battery": 100
+      },
+      "parameters": {},
+      "expect": {
+        "battery": "100%",
+        "value": "100%",
+        "fillFraction": 1
+      }
+    },
+    {
+      "id": "boundary",
+      "data": {
+        "battery": 30
+      },
+      "parameters": {},
+      "expect": {
+        "battery": "30%",
+        "value": "30%",
+        "fillFraction": 0.3
+      }
+    },
+    {
+      "id": "aod",
+      "aod": true,
+      "data": {
+        "battery": 78
+      },
+      "parameters": {},
+      "expect": {
+        "visibleLayers": [
+          "panel",
+          "value"
+        ]
+      }
+    },
+    {
+      "id": "configured",
+      "data": {
+        "battery": 78
+      },
+      "parameters": {
+        "accent": "#FFAA00",
+        "show-label": false
+      },
+      "expect": {
+        "battery": "78%",
+        "value": "78%",
+        "fillFraction": 0.78,
+        "parameters": {
+          "accent": "#FFAA00",
+          "show-label": false
+        },
+        "color@accent": "#FFAA00",
+        "visible@show-label": false
+      }
+    }
+  ]
+}

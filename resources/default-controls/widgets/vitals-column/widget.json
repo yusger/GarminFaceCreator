@@ -1,0 +1,349 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "vitals-column",
+  "version": "1.0.0",
+  "name": "图标数据列",
+  "category": "data",
+  "canvas": {
+    "width": 220,
+    "height": 216,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.circle",
+    "core.metric",
+    "core.text",
+    "data.battery",
+    "data.calories",
+    "data.heartrate",
+    "data.steps"
+  ],
+  "layers": [
+    {
+      "id": "heartrate-icon",
+      "name": "heartRate图标底",
+      "kind": "circle",
+      "x": 8,
+      "y": 8,
+      "w": 44,
+      "h": 44,
+      "color": "#1B2C36",
+      "size": 12,
+      "aod": true,
+      "aodColor": "#111111"
+    },
+    {
+      "id": "heartrate-glyph",
+      "name": "heartRate图标",
+      "kind": "text",
+      "x": 8,
+      "y": 17,
+      "w": 44,
+      "h": 26,
+      "color": "#FF5C57",
+      "size": 17,
+      "aod": true,
+      "aodColor": "#66747C",
+      "text": "H",
+      "garminFont": "small",
+      "textAlign": "center"
+    },
+    {
+      "id": "heartrate-label",
+      "name": "heartRate标题",
+      "kind": "text",
+      "x": 60,
+      "y": 20,
+      "w": 76,
+      "h": 22,
+      "color": "#45D6BE",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "HEART RATE",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    },
+    {
+      "id": "heartrate-value",
+      "name": "heartRate数值",
+      "kind": "metric",
+      "x": 128,
+      "y": 14,
+      "w": 84,
+      "h": 32,
+      "color": "#EAF2F5",
+      "size": 22,
+      "aod": true,
+      "aodColor": "#9AA9B0",
+      "source": "heartRate",
+      "precision": 0,
+      "unit": "",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "textAlign": "right",
+      "threshold": false
+    },
+    {
+      "id": "steps-icon",
+      "name": "steps图标底",
+      "kind": "circle",
+      "x": 8,
+      "y": 60,
+      "w": 44,
+      "h": 44,
+      "color": "#1B2C36",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#111111"
+    },
+    {
+      "id": "steps-glyph",
+      "name": "steps图标",
+      "kind": "text",
+      "x": 8,
+      "y": 69,
+      "w": 44,
+      "h": 26,
+      "color": "#45D6BE",
+      "size": 17,
+      "aod": false,
+      "aodColor": "#66747C",
+      "text": "S",
+      "garminFont": "small",
+      "textAlign": "center"
+    },
+    {
+      "id": "steps-label",
+      "name": "steps标题",
+      "kind": "text",
+      "x": 60,
+      "y": 72,
+      "w": 76,
+      "h": 22,
+      "color": "#45D6BE",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "STEPS",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    },
+    {
+      "id": "steps-value",
+      "name": "steps数值",
+      "kind": "metric",
+      "x": 128,
+      "y": 66,
+      "w": 84,
+      "h": 32,
+      "color": "#EAF2F5",
+      "size": 22,
+      "aod": false,
+      "aodColor": "#9AA9B0",
+      "source": "steps",
+      "precision": 0,
+      "unit": "",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "textAlign": "right",
+      "threshold": false
+    },
+    {
+      "id": "calories-icon",
+      "name": "calories图标底",
+      "kind": "circle",
+      "x": 8,
+      "y": 112,
+      "w": 44,
+      "h": 44,
+      "color": "#1B2C36",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#111111"
+    },
+    {
+      "id": "calories-glyph",
+      "name": "calories图标",
+      "kind": "text",
+      "x": 8,
+      "y": 121,
+      "w": 44,
+      "h": 26,
+      "color": "#F4A259",
+      "size": 17,
+      "aod": false,
+      "aodColor": "#66747C",
+      "text": "K",
+      "garminFont": "small",
+      "textAlign": "center"
+    },
+    {
+      "id": "calories-label",
+      "name": "calories标题",
+      "kind": "text",
+      "x": 60,
+      "y": 124,
+      "w": 76,
+      "h": 22,
+      "color": "#45D6BE",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "KCAL",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    },
+    {
+      "id": "calories-value",
+      "name": "calories数值",
+      "kind": "metric",
+      "x": 128,
+      "y": 118,
+      "w": 84,
+      "h": 32,
+      "color": "#EAF2F5",
+      "size": 22,
+      "aod": false,
+      "aodColor": "#9AA9B0",
+      "source": "calories",
+      "precision": 0,
+      "unit": "",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "textAlign": "right",
+      "threshold": false
+    },
+    {
+      "id": "battery-icon",
+      "name": "battery图标底",
+      "kind": "circle",
+      "x": 8,
+      "y": 164,
+      "w": 44,
+      "h": 44,
+      "color": "#1B2C36",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#111111"
+    },
+    {
+      "id": "battery-glyph",
+      "name": "battery图标",
+      "kind": "text",
+      "x": 8,
+      "y": 173,
+      "w": 44,
+      "h": 26,
+      "color": "#A98CF7",
+      "size": 17,
+      "aod": false,
+      "aodColor": "#66747C",
+      "text": "B",
+      "garminFont": "small",
+      "textAlign": "center"
+    },
+    {
+      "id": "battery-label",
+      "name": "battery标题",
+      "kind": "text",
+      "x": 60,
+      "y": 176,
+      "w": 76,
+      "h": 22,
+      "color": "#45D6BE",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#666666",
+      "text": "BATTERY",
+      "garminFont": "xtiny",
+      "activeVisible": true
+    },
+    {
+      "id": "battery-value",
+      "name": "battery数值",
+      "kind": "metric",
+      "x": 128,
+      "y": 170,
+      "w": 84,
+      "h": 32,
+      "color": "#EAF2F5",
+      "size": 22,
+      "aod": false,
+      "aodColor": "#9AA9B0",
+      "source": "battery",
+      "precision": 0,
+      "unit": "%",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "textAlign": "right",
+      "threshold": false
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "标签色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "heartrate-label",
+          "property": "color"
+        },
+        {
+          "layerId": "steps-label",
+          "property": "color"
+        },
+        {
+          "layerId": "calories-label",
+          "property": "color"
+        },
+        {
+          "layerId": "battery-label",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "show-label",
+      "label": "显示标题",
+      "type": "boolean",
+      "default": true,
+      "targets": [
+        {
+          "layerId": "heartrate-label",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "steps-label",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "calories-label",
+          "property": "activeVisible"
+        },
+        {
+          "layerId": "battery-label",
+          "property": "activeVisible"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.png",
+    "aod": "preview-aod.png"
+  },
+  "casesFile": "cases.json"
+}

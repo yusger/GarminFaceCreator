@@ -1,3 +1,6 @@
+import WidgetPicker from "./WidgetPicker";
+import {insertWidget} from "./widgets";
+import {editorFrame,withEditorLayers,type EditorFrame} from "./editorHistory";
 import { handImageSets,handImagePatch,createHandImageSet } from "./handImages";
 import { handStyles,handStylePatch } from "./handStyles";
 import TemplatePicker from "./TemplatePicker";
@@ -239,8 +242,8 @@ export default function App() {
     "按当前画布生成完整表盘，保留数据绑定和息屏布局。",
   );
   const [search, setSearch] = useState("");
-  const [past, setPast] = useState<Layer[][]>([]);
-  const [future, setFuture] = useState<Layer[][]>([]);
+  const [past, setPast] = useState<EditorFrame[]>([]);
+  const [future, setFuture] = useState<EditorFrame[]>([]);
   const fileInput = useRef<HTMLInputElement>(null);
   const importInput = useRef<HTMLInputElement>(null);
   const abort = useRef<AbortController | null>(null);
@@ -476,15 +479,14 @@ export default function App() {
       p.layers.map((l) => (selection.includes(l.id) ? { ...l, locked } : l)),
     );
   }
-  function editLayers(layers: Layer[], record = true) {
-    if (!p) return;
+  function editLayers(layers: Layer[], record = true, base = p) {
+    if (!p || !base) return;
     if (record) {
-      setPast((x) => [...x.slice(-49), structuredClone(p.layers)]);
+      setPast((x) => [...x.slice(-49), editorFrame(p)]);
       setFuture([]);
     }
     setP({
-      ...p,
-      layers,
+      ...withEditorLayers(base, layers),
       revision: p.revision + (renderChanged(p.layers, layers) ? 1 : 0),
       updated: Date.now(),
     });
@@ -511,7 +513,7 @@ export default function App() {
       JSON.stringify(edit.before) !==
         JSON.stringify(activeProject.current.layers)
     ) {
-      setPast((items) => [...items.slice(-49), edit.before]);
+      setPast((items) => [...items.slice(-49), editorFrame(activeProject.current!,edit.before)]);
       setFuture([]);
     }
   }
@@ -557,18 +559,19 @@ export default function App() {
     if (!p) return;
     const from = redo ? future : past;
     if (!from.length) return;
-    const layers = from[from.length - 1];
+    const frame = from[from.length - 1];
+    const layers = frame.layers;
     if (redo) {
-      setPast([...past, p.layers]);
+      setPast([...past, editorFrame(p)]);
       setFuture(future.slice(0, -1));
     } else {
-      setFuture([...future, p.layers]);
+      setFuture([...future, editorFrame(p)]);
       setPast(past.slice(0, -1));
     }
     selectOne((id) => (layers.some((l) => l.id === id) ? id : ""));
     setP({
       ...p,
-      layers,
+      ...frame,
       revision: p.revision + (renderChanged(p.layers, layers) ? 1 : 0),
       updated: Date.now(),
     });
@@ -940,7 +943,7 @@ export default function App() {
       setSaveAttempt((n) => n + 1);
       return;
     }
-    setPast((items) => [...items.slice(-49), d.before]);
+    setPast((items) => [...items.slice(-49), editorFrame(d.project,d.before)]);
     setFuture([]);
     setP({
       ...d.project,
@@ -966,7 +969,7 @@ export default function App() {
       const png = await rasterIcon(l, p);
       if (activeProject.current?.id !== projectId) return;
       const latest = activeProject.current;
-      setPast((items) => [...items.slice(-49), structuredClone(latest.layers)]);
+      setPast((items) => [...items.slice(-49), editorFrame(latest)]);
       setFuture([]);
       setP({
         ...latest,
@@ -1854,6 +1857,7 @@ export default function App() {
                 )}
                 {leftTab === "素材" && (
                   <div className="asset-list">
+                    <WidgetPicker disabled={p.multiDevice?.scope === "device"} onInsert={id=>{try {const next=insertWidget(p,id);editLayers(next.layers,true,next);const added=next.layers.slice(p.layers.length);setSelection(added.map(l=>l.id));setSelected(added[0].id);setNotice("已添加可编辑控件；顶部表盘配置可调整颜色与标题显示。");}catch(e){setNotice((e as Error).message);}}}/>
                     <details><summary>布局模板</summary><TemplatePicker label="素材库布局模板" value={libraryTemplate} onChange={setLibraryTemplate}/><button disabled={!libraryTemplate} onClick={()=>setNewProject({name:"模板表盘",blank:true,templateId:libraryTemplate})}>使用模板创建表盘</button></details>
                     <details><summary>图片指针套装</summary><label>指针套装<select aria-label="指针套装" value={handImageSet} onChange={e=>setHandImageSet(e.target.value)}>{handImageSets.map(s=><option key={s.key} value={s.key}>{s.name}</option>)}</select></label><img width="130" height="130" alt="指针套装预览" src={handImageSets.find(s=>s.key===handImageSet)?.images.minute}/><button onClick={()=>{const items=createHandImageSet(handImageSet);editLayers([...p.layers,...items]);selectOne(items[0].id);}}>添加整套指针</button></details>
                     <IconGallery onInsert={insertLibraryIcon} />

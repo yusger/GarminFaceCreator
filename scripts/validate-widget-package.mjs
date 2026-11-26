@@ -47,7 +47,7 @@ export async function validateWidgetPackage(directory) {
     if (layer.kind==="image" && !resources.has(layer.resourceId)) throw Error("Missing image resource");
     if (["circle","ring","hand"].includes(layer.kind) && layer.w!==layer.h) throw Error("Rotation/circle bounds must be square");
     const source=layer.kind==="ring"?layer.ringSource:["metric","meter"].includes(layer.kind)?layer.source:null;
-    if (source && source!=="static" && !capabilities.has("data."+source)) throw Error("Missing data requirement");
+    if (source && source!=="static" && !capabilities.has("data."+source.toLowerCase())) throw Error("Missing data requirement");
     if (layer.kind==="meter" && (!["battery","steps"].includes(layer.source) || (layer.source==="battery" && layer.meterGoal!==100) || (layer.meterContinuous && layer.meterCount!==1) || (!layer.meterContinuous && layer.meterCount<4))) throw Error("Invalid native meter contract");
     let end=-Infinity;
     for (const band of layer.thresholdRules || []) {
