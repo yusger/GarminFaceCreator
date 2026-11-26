@@ -41,3 +41,14 @@ export function insideBox(l: Layer, box: Box) {
     b.y + b.h <= box.y + box.h
   );
 }
+
+// Persist only geometry; view-layer flags and derived objects must never replace model data.
+export function resizeModelLayers(
+  layers: Layer[],
+  id: string,
+  box: Box,
+): Layer[] {
+  return layers.map((l) =>
+    l.id === id ? { ...l, x: box.x, y: box.y, w: box.w, h: box.h } : l,
+  );
+}

@@ -1,3 +1,4 @@
+import {resizeModelLayers} from "./selection";
 import CompoundInspector from "./CompoundInspector";
 import WidgetPicker from "./WidgetPicker";
 import {insertWidget,cloneCompound,decomposeWidget,isDamagedWidget,rebuildWidget} from "./widgets";
@@ -785,6 +786,7 @@ export default function App() {
     if (!selection.includes(l.id)) selectOne(l.id);
     else setSelected(l.id);
     if (!p || l.locked || e.button !== 0) return;
+    if(isDamagedWidget(l))setNotice("此对象当前缺少复合控件内部定义；可先撤销此前缩放，或在右侧按默认样式重建。");
     endProperty();
     const svg = e.currentTarget.ownerSVGElement!;
     const pt = new DOMPoint(e.clientX, e.clientY).matrixTransform(
@@ -867,7 +869,7 @@ export default function App() {
       );
       return d.latest;
     }
-    d.latest = d.before.map((l) => (l.id === d.id ? changed : l));
+    d.latest = resizeModelLayers(d.before,d.id,changed);
     return d.latest;
   }
   function canvasPoint(e: React.PointerEvent<HTMLDivElement>) {

@@ -1,3 +1,4 @@
+import {isDamagedWidget} from "./widgets";
 import {expandWidgets} from "./compound";
 import { resolveControls } from "./projectControls";
 import { fontFamily, loadCustomFonts } from "./customFonts";
@@ -174,6 +175,7 @@ export default function Scene({
     resize?: number,
   ) => void;
 }) {
+  const sourceLayers=new Map(project.layers.map(l=>[l.id,l]));
   const owners=new Map(project.layers.filter(l=>l.kind==="widget").flatMap(l=>l.compound!.layers.map(c=>[c.id,l] as const)));
   project = resolveControls(expandWidgets(project,!!onDown));
   const fontKey = JSON.stringify(
@@ -241,7 +243,7 @@ export default function Scene({
               data-widget-part={owners.has(l.id)?l.id:undefined}
               data-guide={l.guide ? "true" : undefined}
               transform={`translate(${l.x} ${l.y}) rotate(${l.rotation} ${l.w / 2} ${l.h / 2})`}
-              onPointerDown={(e) => onDown?.(e, owners.get(l.id)||l)}
+              onPointerDown={(e) => onDown?.(e, owners.get(l.id)||sourceLayers.get(l.id)||l)}
               style={{
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
@@ -413,6 +415,7 @@ export default function Scene({
                   {reading(l, aod ? { ...preview, seconds: 0 } : preview)}
                 </text>
               )}
+              {!exact&&sourceLayers.has(l.id)&&isDamagedWidget(sourceLayers.get(l.id)!)&&<g role="img" aria-label="待恢复的复合控件" pointerEvents="none"><rect width={l.w} height={l.h} fill="#3c2d1e" fillOpacity="0.8" stroke="#f2a65f" strokeDasharray="5 4"/><text x={l.w/2} y={l.h/2} textAnchor="middle" dominantBaseline="central" fontSize={Math.min(14,l.w/10,l.h/3)} fill="#f2c48e">内部部件待恢复</text></g>}
               {selection.includes(l.id) && (
                 <>
                   <rect
@@ -439,7 +442,7 @@ export default function Scene({
                         stroke="#45d6be"
                         onPointerDown={(e) => {
                           e.stopPropagation();
-                          onDown?.(e, l, i);
+                          onDown?.(e, owners.get(l.id)||sourceLayers.get(l.id)||l, i);
                         }}
                         aria-label={
                           ["左上缩放", "右上缩放", "左下缩放", "右下缩放"][i]

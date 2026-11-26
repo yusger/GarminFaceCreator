@@ -1,3 +1,4 @@
+import { resizeModelLayers } from "../src/selection";
 import { project, validateProject, type Layer } from "../src/domain";
 import { insertWidget, isDamagedWidget, rebuildWidget } from "../src/widgets";
 import { test, expect } from "@playwright/test";
@@ -140,6 +141,10 @@ test("saved blank placeholder offers default rebuild and undo keeps the original
   await page.locator(".layer-row").first().click();
   await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(0);
   await expect(page.getByText(/使用默认颜色和部件设置/)).toBeVisible();
+  await expect(
+    page.getByRole("img", { name: "待恢复的复合控件", exact: true }),
+  ).toBeVisible();
+  await expect(page.locator(".layer-row")).toContainText("待恢复");
   await page
     .getByRole("button", { name: "按默认样式重建复合控件", exact: true })
     .click();
@@ -151,4 +156,26 @@ test("saved blank placeholder offers default rebuild and undo keeps the original
   ).toBeVisible();
   await page.getByTitle("重做", { exact: true }).click();
   await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(5);
+});
+
+test("resize writeback discards view proxy fields and preserves the model", () => {
+  const p = insertWidget(project("StrictGeometry", true), "capsule-metric"),
+    root = p.layers[0];
+  const proxy = {
+    ...root,
+    kind: "rect",
+    compound: undefined,
+    opacity: 0,
+    x: 30,
+    y: 40,
+    w: 300,
+    h: 100,
+  };
+  const next = resizeModelLayers(p.layers, root.id, proxy);
+  expect(next[0].kind).toBe("widget");
+  expect(next[0].compound).toBe(root.compound);
+  expect(next[0].opacity).toBe(root.opacity);
+  expect(next[0].x).toBe(30);
+  expect(next[0].w).toBe(300);
+  validateProject({ ...p, layers: next });
 });
