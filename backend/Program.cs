@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Text.Json;
@@ -12,6 +13,7 @@ using System.Net;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<FormOptions>(o => o.MultipartBodyLengthLimit = 25 * 1024 * 1024);
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 25 * 1024 * 1024);
+builder.Services.AddBuildOptions(builder.Configuration);
 builder.Services.AddSingleton<PublicBuildPolicy>();
 builder.Services.AddSingleton<BuildAuditLog>();
 builder.Services.AddSingleton<BuildStore>();
@@ -29,12 +31,13 @@ if (!string.IsNullOrWhiteSpace(proxyAddress))
         options.ForwardLimit = 1;
     });
 }
-builder.Services.AddRateLimiter(options =>
+builder.Services.AddRateLimiter(_ => { });
+builder.Services.AddOptions<Microsoft.AspNetCore.RateLimiting.RateLimiterOptions>().Configure<IOptions<BuildLimitsOptions>>((options, limits) =>
 {
     options.RejectionStatusCode = 429;
     options.GlobalLimiter = System.Threading.RateLimiting.PartitionedRateLimiter.Create<HttpContext, string>(ctx =>
         System.Threading.RateLimiting.RateLimitPartition.GetFixedWindowLimiter(PublicBuildPolicy.Ip(ctx), _ => new()
-        { PermitLimit = PublicBuildPolicy.Read("GFC_API_PER_MINUTE", 240, 60, 10000), Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
+        { PermitLimit = limits.Value.ApiRequestsPerMinutePerIp, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
     options.OnRejected = async (context, ct) =>
     {
         context.HttpContext.Response.Headers.RetryAfter = "60";
@@ -66,7 +69,7 @@ app.Use(async (ctx, next) =>
     if (denied is not null) { ctx.Response.StatusCode = 429; ctx.Response.Headers.RetryAfter = denied.Contains("配额") ? PublicBuildPolicy.DailyRetry : "60"; await ctx.Response.WriteAsJsonAsync(new { error = denied }); return; }
     var originalAbort = ctx.RequestAborted;
     using var uploadDeadline = CancellationTokenSource.CreateLinkedTokenSource(originalAbort);
-    uploadDeadline.CancelAfter(TimeSpan.FromSeconds(PublicBuildPolicy.Read("GFC_UPLOAD_SECONDS", 45, 1, 300)));
+    uploadDeadline.CancelAfter(TimeSpan.FromSeconds(policy.UploadTimeoutSeconds));
     ctx.RequestAborted = uploadDeadline.Token;
     try
     {

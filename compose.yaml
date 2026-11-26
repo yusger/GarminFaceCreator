@@ -8,10 +8,10 @@ services:
     environment:
       GFC_LOGS: /data/logs
       GFC_GEOIP: /data/geoip
-      GFC_BUILD_PER_MINUTE: ${GFC_BUILD_PER_MINUTE:-6}
-      GFC_BUILD_PER_DAY: ${GFC_BUILD_PER_DAY:-30}
-      GFC_GLOBAL_BUILD_PER_DAY: ${GFC_GLOBAL_BUILD_PER_DAY:-200}
-      GFC_API_PER_MINUTE: ${GFC_API_PER_MINUTE:-240}
+    # Optional standard .NET environment overrides; defaults live in backend/appsettings.json.
+    env_file:
+      - path: ./runtime/backend.env
+        required: false
     logging:
       driver: json-file
       options:
@@ -19,6 +19,7 @@ services:
         max-file: "3"
     restart: unless-stopped
     volumes:
+      - ./backend/appsettings.json:/app/appsettings.json:ro
       - ./runtime/jobs:/data/jobs
       - ./backend/Logs:/data/logs
       - ./runtime/geoip:/data/geoip:ro

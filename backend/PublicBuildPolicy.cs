@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Security.Cryptography;
 using System.Text;
@@ -9,16 +10,18 @@ sealed class PublicBuildPolicy
     readonly Dictionary<string, (DateTime Window, int Count)> attempts = new();
     readonly Dictionary<string, int> uploads = new();
     readonly string ledger = Path.Combine(Path.GetFullPath(Environment.GetEnvironmentVariable("GFC_DATA") ?? "data"), "quota.json");
-    public int PerMinute { get; } = Read("GFC_BUILD_PER_MINUTE", 6, 1, 600);
-    public int PerDay { get; } = Read("GFC_BUILD_PER_DAY", 30, 1, 10000);
-    public int GlobalPerDay { get; } = Read("GFC_GLOBAL_BUILD_PER_DAY", 200, 1, 100000);
-    public long MaxStorage { get; } = Read("GFC_STORAGE_MB", 2048, 64, 1048576) * 1024L * 1024;
-    public long MinimumFree { get; } = Read("GFC_MIN_FREE_MB", 1024, 32, 1048576) * 1024L * 1024;
-    public long MaxJobBytes { get; } = Read("GFC_JOB_MB", 64, 32, 512) * 1024L * 1024;
-    public static int Read(string name, int fallback, int min, int max) => int.TryParse(Environment.GetEnvironmentVariable(name), out var value) ? Math.Clamp(value, min, max) : fallback;
+    readonly BuildLimitsOptions settings;
+    public int PerMinute => settings.SubmissionsPerMinutePerIp;
+    public int PerDay => settings.BuildsPerDayPerIp;
+    public int GlobalPerDay => settings.BuildsPerDayGlobal;
+    public int UploadTimeoutSeconds => settings.UploadTimeoutSeconds;
+    public long MaxStorage => settings.StorageMb * 1024L * 1024;
+    public long MinimumFree => settings.MinimumFreeMb * 1024L * 1024;
+    public long MaxJobBytes => settings.JobMb * 1024L * 1024;
     Quota quota;
-    public PublicBuildPolicy()
+    public PublicBuildPolicy(IOptions<BuildLimitsOptions> options)
     {
+        settings = options.Value;
         Directory.CreateDirectory(Path.GetDirectoryName(ledger)!);
         // Fail closed on corrupt persistent counters instead of silently resetting quotas.
         quota = File.Exists(ledger) ? JsonSerializer.Deserialize<Quota>(File.ReadAllText(ledger)) ?? throw new InvalidDataException("Invalid quota ledger") : new();

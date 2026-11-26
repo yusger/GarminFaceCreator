@@ -1,3 +1,4 @@
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -23,9 +24,12 @@ sealed class BuildAuditLog : IDisposable
     readonly ILogger<BuildAuditLog> logger;
     readonly Searcher? ipv4;
     readonly Searcher? ipv6;
-    public BuildAuditLog(ILogger<BuildAuditLog> logger)
+    public BuildAuditLog(ILogger<BuildAuditLog> logger, IOptions<AuditLogOptions> options)
     {
         this.logger = logger;
+        maxFileBytes = options.Value.FileMb * 1024L * 1024;
+        maxTotalBytes = options.Value.TotalMb * 1024L * 1024;
+        keepDays = options.Value.RetentionDays;
         Directory.CreateDirectory(root);
         var probe = Path.Combine(root, ".write-test");
         File.WriteAllText(probe, ""); File.Delete(probe);
@@ -83,9 +87,9 @@ sealed class BuildAuditLog : IDisposable
     }
     // Prevent project names/compiler output from forging additional log records.
     static string Clean(string value) => string.Concat(value.Take(16000).Select(c => char.IsControl(c) || c is '\u2028' or '\u2029' ? " " : c is '[' ? "［" : c is ']' ? "］" : c.ToString()));
-    readonly long maxFileBytes = PublicBuildPolicy.Read("GFC_AUDIT_FILE_MB", 10, 1, 100) * 1024L * 1024;
-    readonly long maxTotalBytes = PublicBuildPolicy.Read("GFC_AUDIT_TOTAL_MB", 100, 2, 10240) * 1024L * 1024;
-    readonly int keepDays = PublicBuildPolicy.Read("GFC_AUDIT_DAYS", 14, 1, 365);
+    readonly long maxFileBytes;
+    readonly long maxTotalBytes;
+    readonly int keepDays;
     void Trim(string current, long incoming)
     {
         if (File.Exists(current) && new FileInfo(current).Length + incoming > Math.Min(maxFileBytes, maxTotalBytes))

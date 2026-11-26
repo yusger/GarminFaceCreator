@@ -9,7 +9,7 @@
 2026-11-25 18:00:01.000 +08:00 [203.0.113.1](未知)[ClownWatch][任务:任务编号] ERROR: 编译器错误内容
 ```
 
-Docker Compose 将宿主机 `./backend/Logs` 挂载到容器 `/data/logs`，`./runtime/geoip` 只读挂载到 `/data/geoip`。首次部署需创建 Logs 目录并赋予容器 app 用户（UID 1654）写权限；建议目录由 UID 1654 所有、组设为宿主机部署账号的 GID，目录权限 2750（新子目录继承部署账号组），已有日志文件可设为 640，以便部署账号读取；日志和离线库不提交 Git、不放入前端静态文件，容器重建不清空日志。当前日志不自动删除，由管理员按需归档。
+Docker Compose 将宿主机 `./backend/Logs` 挂载到容器 `/data/logs`，`./runtime/geoip` 只读挂载到 `/data/geoip`。首次部署需创建 Logs 目录并赋予容器 app 用户（UID 1654）写权限；建议目录由 UID 1654 所有、组设为宿主机部署账号的 GID，目录权限 2750（新子目录继承部署账号组），已有日志文件可设为 640，以便部署账号读取；日志和离线库不提交 Git、不放入前端静态文件，容器重建不清空日志。日志按 `backend/appsettings.json` 的 `AuditLog` 配置轮转清理，默认单文件 10 MB、总量 100 MB、保留 14 天。
 
 - `GFC_LOGS`：日志根目录，非容器默认 `backend/Logs`。
 - `GFC_GEOIP`：离线 IP 库目录，非容器默认 `runtime/geoip`。
