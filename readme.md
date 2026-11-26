@@ -73,6 +73,8 @@
 
 统一维护目录为 `resources/`，包含默认表盘、布局模板、控件、图片及共享字体。构建过程发布网页资源，已保存项目的旧资源 URL 保持兼容。
 
+![布局模板与图片指针：亮屏／息屏预览](docs/screenshots/templates-hands.png)
+
 第三方交付请参阅[自定义控件规范](docs/custom-widget-standard.md)、[布局模板规范](docs/layout-template-standard.md)和[指针素材规范](docs/hand-resource-standard.md)。当前控件规范支持已实现图层的组合；新增运行时效果仍需程序支持。
 
 ## 从设计到 PRG

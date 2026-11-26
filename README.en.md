@@ -75,6 +75,8 @@ Blank and AI creation can start from 12 editable layout templates, with solid co
 
 Canonical resources live in `resources/`: default watchfaces, layout templates, controls, images and shared fonts. Builds publish browser assets while preserving existing resource URLs.
 
+![Layout template and bitmap hands: active / AOD preview](docs/screenshots/templates-hands.png)
+
 See the [control package contract](docs/custom-widget-standard.md), [layout template contract](docs/layout-template-standard.md) and [hand asset contract](docs/hand-resource-standard.md). Custom control packages compose supported layers; new runtime effects still require application support.
 
 ## From design to PRG
