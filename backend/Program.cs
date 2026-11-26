@@ -6,6 +6,8 @@ using System.Threading.Channels;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.HttpOverrides;
+using System.Net;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.Configure<FormOptions>(o => o.MultipartBodyLengthLimit = 25 * 1024 * 1024);
@@ -14,7 +16,20 @@ builder.Services.AddSingleton<BuildAuditLog>();
 builder.Services.AddSingleton<BuildStore>();
 builder.Services.AddHostedService<BuildWorker>();
 builder.Services.AddHostedService<RetentionWorker>();
+// Trust only the explicitly configured reverse proxy; ignore client-supplied forwarding headers otherwise.
+var proxyAddress = Environment.GetEnvironmentVariable("GFC_TRUSTED_PROXY");
+if (!string.IsNullOrWhiteSpace(proxyAddress))
+{
+    if (!IPAddress.TryParse(proxyAddress, out var proxy)) throw new InvalidOperationException("GFC_TRUSTED_PROXY must be a single IP address");
+    builder.Services.Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        options.KnownIPNetworks.Clear(); options.KnownProxies.Clear(); options.KnownProxies.Add(proxy);
+        options.ForwardLimit = 1;
+    });
+}
 var app = builder.Build();
+if (!string.IsNullOrWhiteSpace(proxyAddress)) app.UseForwardedHeaders();
 app.Use(async (ctx, next) =>
 {
     if (ctx.Request.Method != "POST" || !string.Equals(ctx.Request.Path.Value?.TrimEnd('/'), "/api/builds", StringComparison.OrdinalIgnoreCase)) { await next(ctx); return; }

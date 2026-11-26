@@ -1,0 +1,9 @@
+# Build with a context containing the official custom Linux/amd64 binary named caddy.
+# RUNTIME_IMAGE may reuse an existing trusted Ubuntu-based application image.
+ARG RUNTIME_IMAGE=mcr.microsoft.com/dotnet/aspnet:10.0-noble
+FROM ${RUNTIME_IMAGE}
+USER root
+COPY --chmod=755 caddy /usr/local/bin/caddy
+RUN mkdir -p /data /config && chown 1654:1654 /data /config
+USER 1654:1654
+ENTRYPOINT ["/usr/local/bin/caddy"]

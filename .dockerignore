@@ -13,3 +13,5 @@ Temp
 *.key
 *.pem
 *.der
+
+backend/Logs
