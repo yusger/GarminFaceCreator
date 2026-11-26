@@ -1,6 +1,6 @@
 # SONAR 样包交付与历史评审记录
 
-从接入规范v1.1拆出，保存SONAR专属要求与历史结论。历史段落的“尚未转换”等描述当时状态，不是当前能力声明。通用契约以[接入规范v1.2](watchface-package-standard.md)为准；当前SONAR1.1.0已完成转换，实际验收见[SONAR说明](sonar.md)和[阶段56记录](stage-validation.md)。原始handoff保持原样。
+从接入规范v1.1拆出，保存SONAR专属要求与历史结论。历史段落的“尚未转换”等描述当时状态，不是当前能力声明。通用契约以[接入规范v1.2](standards/watchface-package-standard.md)为准；当前SONAR1.1.0已完成转换，实际验收见[SONAR说明](sonar.md)和[阶段56记录](stage-validation.md)。原始handoff保持原样。
 
 ## 样包专属参数与用例
 

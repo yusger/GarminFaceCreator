@@ -2,7 +2,7 @@
 
 状态：设计交付标准。文档版本为 **v1.2**，主体交换格式 **formatVersion 仍为1**。SONAR1.1.0已完成首个受限转换及原生验收，尚无网页端任意设计包自动导入入口。符合格式表示资料可进入转换验收，不表示当前程序已支持所有字段或通过设备验收。
 
-通用契约与当前实现分别见正文和第13节；SONAR专属清单及历史评审见[样包记录](sonar-package-review.md)，实际效果见[SONAR说明](sonar.md)。
+通用契约与当前实现分别见正文和第13节；SONAR专属清单及历史评审见[样包记录](../sonar-package-review.md)，实际效果见[SONAR说明](../sonar.md)。
 
 设计方可直接依据本文件制作交付包。无需编写 Monkey C，无需生成 reference.json、design.json、manifest.xml、monkey.jungle、签名密钥或 PRG。接入方负责转换成现有 default-watchfaces 内部参考包、生成原生工程、编译和验收。
 
@@ -515,7 +515,7 @@ cases.id唯一；image路径相对包根目录；mode为active或aod。每个cas
 
 交付包的watchface.json是设计唯一事实来源；preview仅供核对，HTML不是运行输入。首次接入转换为内部reference.json（身份、来源、资源清单）和design.json（控件布局/绑定），同时保留接入版本与差异记录。程序内部文件不是设计方的第二套编辑入口。
 
-现有native模式社区项目继续保留原生代码；不会强行用本规范重新生成。设计包生成的源码、FNT/PNG和设置XML属于转换输出。默认参考受保护，用户从卡片创建独立副本。维护规则参见[default-watchfaces说明](../resources/default-watchfaces/README.md)。
+现有native模式社区项目继续保留原生代码；不会强行用本规范重新生成。设计包生成的源码、FNT/PNG和设置XML属于转换输出。默认参考受保护，用户从卡片创建独立副本。维护规则参见[default-watchfaces说明](../../resources/default-watchfaces/README.md)。
 
 
 
@@ -555,9 +555,9 @@ cases.id唯一；image路径相对包根目录；mode为active或aod。每个cas
 | groupId | 一层编辑组织元数据，无运行继承 | 内部有分组，CLI未映射groupId | 不保证导入分组保持 |
 | effects.rotation | 时钟/pivot及静态fallback | 无动态扫描适配，仅验收基础角度和fallback都为0的样本 | 报告记角度不等于非0角度已实际绘制 |
 | 文字透明度 | style.opacity最终合成 | 网页合成；原生按底色混合降亮 | 低亮度已验证，纹理上非逐像素透明，须记录降级 |
-| AI效果说明 | 外部formatVersion 1仍无该可执行字段 | 内部AI创建支持设计与effectPrompt说明，不能代替交换格式effects或绑定 | 网页仅基础预览，用户后续生成工程并逐项验收；见[AI创建](ai-create.md) |
+| AI效果说明 | 外部formatVersion 1仍无该可执行字段 | 内部AI创建支持设计与effectPrompt说明，不能代替交换格式effects或绑定 | 网页仅基础预览，用户后续生成工程并逐项验收；见[AI创建](../ai-create.md) |
 
-CLI入口：`node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`。必须先人工审阅，目标存在时拒绝覆盖。它不是完整schema校验器，未映射字段仍有遗漏风险；脚本未报错不能证明满足全部规范。运行效果、许可及字体快照维护见[默认参考说明](../resources/default-watchfaces/README.md)和[SONAR样包记录](sonar-package-review.md)。
+CLI入口：`node scripts/import-watchface-package.mjs PACKAGE_DIRECTORY`。必须先人工审阅，目标存在时拒绝覆盖。它不是完整schema校验器，未映射字段仍有遗漏风险；脚本未报错不能证明满足全部规范。运行效果、许可及字体快照维护见[默认参考说明](../../resources/default-watchfaces/README.md)和[SONAR样包记录](../sonar-package-review.md)。
 
 ### 13.1 稳定交付与验收结论
 

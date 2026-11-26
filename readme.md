@@ -79,7 +79,7 @@
 
 ![复合控件：单个对象与内部部件配置](docs/screenshots/compound-widget.png)
 
-第三方交付请参阅[自定义控件规范](docs/custom-widget-standard.md)、[布局模板规范](docs/layout-template-standard.md)和[指针素材规范](docs/hand-resource-standard.md)。当前控件规范支持已实现图层的组合；新增运行时效果仍需程序支持。
+第三方交付请参阅[自定义控件规范](docs/standards/custom-widget-standard.md)、[布局模板规范](docs/standards/layout-template-standard.md)和[指针素材规范](docs/standards/hand-resource-standard.md)。当前控件规范支持已实现图层的组合；新增运行时效果仍需程序支持。
 
 ## 从设计到 PRG
 
@@ -94,7 +94,7 @@
 
 AI创建首版提供24小时制和整数秒；12h/AMPM、农历、节气、节假日、通知数及平滑扫秒暂未开放。参考图分为风格参考、布局参考和实际素材；仅实际素材被引用后进入项目。图片输入需要模型支持图片理解，首版不提供自动生图。
 
-特殊原生效果在生成工程时由模型实现，网页仅显示基础或静态近似，实际效果需模拟器/真机核对。详见[AI创建操作说明](docs/ai-create.md)及[基础规范v1.1](docs/watchface-basic-spec.md)。
+特殊原生效果在生成工程时由模型实现，网页仅显示基础或静态近似，实际效果需模拟器/真机核对。详见[AI创建操作说明](docs/ai-create.md)及[基础规范v1.1](docs/standards/watchface-basic-spec.md)。
 
 ## 支持设备
 
@@ -148,8 +148,8 @@ dotnet build backend/GarminFaceCreator.Api.csproj -c Release
 ## 文档与目录
 
 - [AI创建表盘：设计、调整、生成工程与编译](docs/ai-create.md)
-- [表盘设计基础规范v1.1](docs/watchface-basic-spec.md)
-- [设计包接入规范v1.2](docs/watchface-package-standard.md)
+- [表盘设计基础规范v1.1](docs/standards/watchface-basic-spec.md)
+- [设计包接入规范v1.2](docs/standards/watchface-package-standard.md)
 - [SONAR样包与历史评审](docs/sonar-package-review.md)
 - [页面使用与功能范围](docs/frontend-running.md)
 - [后端 API 与容器部署](docs/backend-deployment.md)

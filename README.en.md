@@ -81,7 +81,7 @@ Canonical resources live in `resources/`: default watchfaces, layout templates, 
 
 ![Composite widget: one object and component visibility](docs/screenshots/compound-widget.png)
 
-See the [control package contract](docs/custom-widget-standard.md), [layout template contract](docs/layout-template-standard.md) and [hand asset contract](docs/hand-resource-standard.md). Custom control packages compose supported layers; new runtime effects still require application support.
+See the [control package contract](docs/standards/custom-widget-standard.md), [layout template contract](docs/standards/layout-template-standard.md) and [hand asset contract](docs/standards/hand-resource-standard.md). Custom control packages compose supported layers; new runtime effects still require application support.
 
 ## From design to PRG
 
@@ -96,7 +96,7 @@ Design edits mark existing code as stale while preserving its history; they neve
 
 The initial wizard supports 24-hour time and integer seconds. 12-hour/AM–PM, lunar dates, solar terms, holidays, notification counts, and smooth sweeping seconds are not enabled. References can guide style/layout or serve as actual assets; only explicitly used assets enter the project. Image input requires a vision-capable model. Automatic raster-image generation is not included.
 
-Custom native effects are implemented during later AI code generation. The web editor shows a basic or static approximation; actual effects require simulator/device checks. See the [AI creation guide](docs/ai-create.md) and [basic specification v1.1](docs/watchface-basic-spec.md), currently in Chinese.
+Custom native effects are implemented during later AI code generation. The web editor shows a basic or static approximation; actual effects require simulator/device checks. See the [AI creation guide](docs/ai-create.md) and [basic specification v1.1](docs/standards/watchface-basic-spec.md), currently in Chinese.
 
 ## Supported devices
 
@@ -152,8 +152,8 @@ See the [backend deployment guide](docs/backend-deployment.md) for deployment, S
 The detailed guides are currently in Chinese:
 
 - [AI creation: design, editing, engineering, and compilation](docs/ai-create.md)
-- [Basic watchface specification v1.1](docs/watchface-basic-spec.md)
-- [Design-package specification v1.2](docs/watchface-package-standard.md)
+- [Basic watchface specification v1.1](docs/standards/watchface-basic-spec.md)
+- [Design-package specification v1.2](docs/standards/watchface-package-standard.md)
 - [SONAR sample and historical reviews](docs/sonar-package-review.md)
 - [Editor usage and feature scope](docs/frontend-running.md)
 - [Backend API and container deployment](docs/backend-deployment.md)
