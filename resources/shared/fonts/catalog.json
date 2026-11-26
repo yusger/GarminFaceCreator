@@ -1,0 +1,34 @@
+[
+  {
+    "id": "chalk",
+    "name": "粉笔手写",
+    "family": "Permanent Marker",
+    "file": "PermanentMarker-Regular.ttf",
+    "license": "Apache-2.0",
+    "usage": "数字与英文"
+  },
+  {
+    "id": "chalkHan",
+    "name": "毛笔中文",
+    "family": "Ma Shan Zheng",
+    "file": "MaShanZheng-Regular.ttf",
+    "license": "SIL OFL 1.1",
+    "usage": "中文与数字"
+  },
+  {
+    "id": "sonar_label_font",
+    "name": "窄体信息字",
+    "family": "Barlow Semi Condensed",
+    "file": "sonar-label-font.ttf",
+    "license": "SIL OFL 1.1",
+    "usage": "紧凑数据与标签"
+  },
+  {
+    "id": "sonar_number_font",
+    "name": "等宽科技字",
+    "family": "Share Tech Mono",
+    "file": "sonar-number-font.ttf",
+    "license": "SIL OFL 1.1",
+    "usage": "时间与仪表数字"
+  }
+]

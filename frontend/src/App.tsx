@@ -1,3 +1,4 @@
+import FontLibrary from "./FontLibraryPanel";
 import ArrangeTools from "./ArrangeTools";
 import DesignChat from "./DesignChatPanel";
 import {chatFingerprint} from "./designChat";
@@ -142,6 +143,7 @@ export default function App() {
   const [page, setPage] = useState("projects");
   const [aiCreating, setAiCreating] = useState(false);
   const [chatOpen,setChatOpen]=useState(false);
+  const [fontsOpen,setFontsOpen]=useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [projectSection, setProjectSection] = useState<"builtins" | "mine">(
     () => {
@@ -2088,6 +2090,7 @@ export default function App() {
                   </div>
                 </div>
               </main>
+              {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onApply={patch}/>}
               <DesignChat key={p.id} project={p} profiles={profiles} selection={selection} open={chatOpen} disabled={busy||batchBusy} onClose={()=>setChatOpen(false)} onModels={()=>setPage("models")} canUndo={!!past.length} onUndo={()=>undo()} onApply={(fingerprint,next)=>{
                 const latest=activeProject.current;
                 if(!latest||chatFingerprint(latest)!==fingerprint)throw Error("等待期间设计已变化，本轮未应用；请基于最新设计重新发送。");
@@ -2668,6 +2671,7 @@ export default function App() {
                             value={current.garminFont || "xtiny"}
                             onChange={(e) =>
                               patch({
+                                customFont:undefined,
                                 garminFont: e.target
                                   .value as Layer["garminFont"],
                               })
@@ -2915,12 +2919,14 @@ export default function App() {
                           </select>
                         </label>
                         <label>
+                          <button onClick={()=>setFontsOpen(true)} type="button">字体素材库</button>
                           Garmin 字体
                           <select
                             aria-label="Garmin 字体"
                             value={current.garminFont || "auto"}
                             onChange={(e) =>
                               patch({
+                                customFont:undefined,
                                 garminFont: e.target
                                   .value as Layer["garminFont"],
                               })
