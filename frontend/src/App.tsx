@@ -1,5 +1,6 @@
+import CompoundInspector from "./CompoundInspector";
 import WidgetPicker from "./WidgetPicker";
-import {insertWidget} from "./widgets";
+import {insertWidget,cloneCompound,decomposeWidget} from "./widgets";
 import {editorFrame,withEditorLayers,type EditorFrame} from "./editorHistory";
 import { handImageSets,handImagePatch,createHandImageSet } from "./handImages";
 import { handStyles,handStylePatch } from "./handStyles";
@@ -678,7 +679,7 @@ export default function App() {
         if (l.groupId && !copiedGroups.has(l.groupId))
           copiedGroups.set(l.groupId, uid());
         return {
-          ...l,
+          ...cloneCompound(l),
           groupId: l.groupId ? copiedGroups.get(l.groupId) : undefined,
           groupName: l.groupName ? l.groupName + " 副本" : undefined,
           id: uid(),
@@ -816,8 +817,9 @@ export default function App() {
         localY = -dx * sin + dy * cos;
       const left = d.resize === 0 || d.resize === 2,
         top = d.resize === 0 || d.resize === 1;
-      const w = Math.max(10, d.original.w + (left ? -localX : localX));
-      const h = Math.max(10, d.original.h + (top ? -localY : localY));
+      let w = Math.max(10, d.original.w + (left ? -localX : localX));
+      let h = Math.max(10, d.original.h + (top ? -localY : localY));
+      if(d.original.kind==="widget"){const ratio=Math.max(10/d.original.w,10/d.original.h,Math.abs(w/d.original.w-1)>Math.abs(h/d.original.h-1)?w/d.original.w:h/d.original.h);w=d.original.w*ratio;h=d.original.h*ratio;}
       const shiftX = (w - d.original.w) * (left ? -0.5 : 0.5),
         shiftY = (h - d.original.h) * (top ? -0.5 : 0.5);
       changed = {
@@ -1857,6 +1859,7 @@ export default function App() {
                 )}
                 {leftTab === "素材" && (
                   <div className="asset-list">
+                    {p.layers.some(l=>l.widgetOrigin&&l.groupId&&l.kind!=="widget")&&<p className="hint">部分历史控件含交错图层或跨组配置，已保留原结构以维持原效果。新添加的控件采用复合对象。</p>}
                     <WidgetPicker disabled={p.multiDevice?.scope === "device"} onInsert={id=>{try {const next=insertWidget(p,id);editLayers(next.layers,true,next);const added=next.layers.slice(p.layers.length);setSelection(added.map(l=>l.id));setSelected(added[0].id);setNotice("已添加可编辑控件；顶部表盘配置可调整颜色与标题显示。");}catch(e){setNotice((e as Error).message);}}}/>
                     <details><summary>布局模板</summary><TemplatePicker label="素材库布局模板" value={libraryTemplate} onChange={setLibraryTemplate}/><button disabled={!libraryTemplate} onClick={()=>setNewProject({name:"模板表盘",blank:true,templateId:libraryTemplate})}>使用模板创建表盘</button></details>
                     <details><summary>图片指针套装</summary><label>指针套装<select aria-label="指针套装" value={handImageSet} onChange={e=>setHandImageSet(e.target.value)}>{handImageSets.map(s=><option key={s.key} value={s.key}>{s.name}</option>)}</select></label><img width="130" height="130" alt="指针套装预览" src={handImageSets.find(s=>s.key===handImageSet)?.images.minute}/><button onClick={()=>{const items=createHandImageSet(handImageSet);editLayers([...p.layers,...items]);selectOne(items[0].id);}}>添加整套指针</button></details>
@@ -2105,7 +2108,7 @@ export default function App() {
                   <b>{current?.name || "画布属性"}</b>
                   <SlidersHorizontal size={16} />
                 </div>
-                {current ? (
+                {current?.kind==="widget" ? (<CompoundInspector key={current.id} layer={current} project={p} onChange={patch} onDecompose={()=>{try{const next=decomposeWidget(p,current.id);editLayers(next.layers,true,next);selectOne(next.layers.find(l=>!p.layers.some(old=>old.id===l.id))?.id||"");setNotice("已拆解为基础图层，可撤销恢复复合控件。");}catch(e){setNotice((e as Error).message);}}}/>) : current ? (
                   <>
                     <label>
                       图层名称

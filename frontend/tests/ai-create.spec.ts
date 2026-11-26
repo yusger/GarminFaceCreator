@@ -136,7 +136,7 @@ test("AI design parser creates fresh editable identities and carries requirement
   expect(a.files).toEqual([]);
   expect(a.codeRevision).toBe(-1);
   expect(a.versions).toEqual([]);
-  expect(a.schemaVersion).toBe(25);
+  expect(a.schemaVersion).toBe(26);
   a.layers[0].effectPrompt = "Draw extra native markers; static in AOD.";
   const snapshot = saveDesignSnapshot(a, "AI design");
   const restored = restoreDesignSnapshot(

@@ -1,3 +1,4 @@
+import {validateCompound,type Compound,type CompoundStyle} from "./compound.ts";
 import {validateWidgetOrigin,type WidgetOrigin} from "./widgets.ts";
 import { validateControls, remapControlIds } from "./projectControls.ts";
 import { validateVisibility } from "./visibility.ts";
@@ -6,6 +7,7 @@ import { validateThresholds } from "./thresholds.ts";
 import { migrateProject } from "./migrations.ts";
 import { devices } from "./devices.ts";
 export type Kind =
+  | "widget"
   | "time"
   | "date"
   | "metric"
@@ -22,6 +24,8 @@ export type Kind =
   | "line";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  compound?: Compound;
+  compoundOverrides?: Record<string,CompoundStyle>;
   widgetOrigin?: WidgetOrigin;
   effectPrompt?: string;
   customFont?: { id: string; family: string; file: string };
@@ -82,6 +86,7 @@ export type Layer = {
   calendarHeaderColor?: string;
   meterShape?: "bar" | "left" | "right";
   meterCount?: number;
+  meterGap?: number;
   meterGoal?: number;
   meterDim?: number;
   dateLocale?: "en" | "zh";
@@ -196,7 +201,8 @@ export type Project = {
     | 22
     | 23
     | 24
-    | 25;
+    | 25
+    | 26;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -268,6 +274,7 @@ export function layer(kind: Kind): Layer {
   return {
     id: uid(),
     name: {
+      widget: "复合控件",
       time: "时间",
       date: "日期",
       metric: "数据",
@@ -415,7 +422,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 25,
+    schemaVersion: 26,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -430,6 +437,7 @@ export function project(name = "极夜 01", blank = false): Project {
 export function validateProject(value: unknown): Project {
   const p = migrateProject(value);
   const kinds = [
+    "widget",
     "time",
     "date",
     "metric",
@@ -447,7 +455,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 25 ||
+    p.schemaVersion !== 26 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -499,6 +507,7 @@ export function validateProject(value: unknown): Project {
       throw Error("效果说明最多2000字");
     validateVisibility(l.visibility);
       validateWidgetOrigin(l.widgetOrigin);
+    validateCompound(l,p,validateProject);
     if (l.dateLocale !== undefined && !["en", "zh"].includes(l.dateLocale))
       throw Error("日期语言无效");
     if (
@@ -568,6 +577,7 @@ export function validateProject(value: unknown): Project {
         throw Error("指针转动中心或长度无效");
     if (l.handBitmap!==undefined && (l.kind!=="hand" || l.handShape!==undefined || !l.image?.startsWith("data:image/png;base64,") || !/^[a-z][a-z0-9-]{0,79}$/.test(l.handBitmap.packId) || !/^[a-z][a-z0-9-]{0,79}$/.test(l.handBitmap.setId) || !/^\d+\.\d+\.\d+$/.test(l.handBitmap.version) || l.handBitmap.role!==(l.handType||"hour"))) throw Error("图片指针绑定或尺寸无效");
     if (l.handShape !== undefined && (l.kind!=="hand" || !/^[a-z][a-z0-9-]{0,79}$/.test(l.handShape.id) || !/^\d+\.\d+\.\d+$/.test(l.handShape.version) || !Array.isArray(l.handShape.points) || l.handShape.points.length<3 || l.handShape.points.length>32 || l.handShape.points.some(point=>!Array.isArray(point)||point.length!==2||point.some(n=>!Number.isFinite(n)||n<-1||n>1)))) throw Error("指针外形数据无效");
+    if(l.meterGap!==undefined&&(!Number.isFinite(l.meterGap)||l.meterGap<0||l.meterGap>64))throw Error("进度间距无效");
     if (l.w <= 0 || l.h <= 0 || l.size < 1 || l.size > 200)
       throw Error("图层尺寸无效");
     if (
@@ -725,6 +735,10 @@ export function validateProject(value: unknown): Project {
         (l.sourceLocked && l.source !== (l.fixedSource || "heartRate")))
     )
       throw Error("固定心率数据源无效");
+  const nodes=p.layers.flatMap(l=>[l,...(l.compound?.layers||[])]);
+  if(nodes.length>200||new Set(nodes.map(l=>l.id)).size!==nodes.length)throw Error("对象及内部图层重复或超过200个");
+  const allControls=[...(p.controls||[]),...p.layers.flatMap(l=>l.compound?.controls||[])];
+  if(allControls.length>40||new Set(allControls.map(c=>c.id)).size!==allControls.length)throw Error("配置项重复或超过40个");
   validateControls(p);
   validateMultiDevice(p, validateProject);
   const imported: Project = {

@@ -1,3 +1,4 @@
+import {expandWidgets} from "./compound";
 import { resolveControls } from "./projectControls";
 import { fontFamily, loadCustomFonts } from "./customFonts";
 import { conditionVisible } from "./visibility";
@@ -173,7 +174,8 @@ export default function Scene({
     resize?: number,
   ) => void;
 }) {
-  project = resolveControls(project);
+  const owners=new Map(project.layers.filter(l=>l.kind==="widget").flatMap(l=>l.compound!.layers.map(c=>[c.id,l] as const)));
+  project = resolveControls(expandWidgets(project,!!onDown));
   const fontKey = JSON.stringify(
     project.layers.map((l) => l.customFont).filter(Boolean),
   );
@@ -235,10 +237,11 @@ export default function Scene({
           .map((l) => (
             <g
               key={l.id}
-              data-layer={l.id}
+              data-layer={owners.get(l.id)?.id||l.id}
+              data-widget-part={owners.has(l.id)?l.id:undefined}
               data-guide={l.guide ? "true" : undefined}
               transform={`translate(${l.x} ${l.y}) rotate(${l.rotation} ${l.w / 2} ${l.h / 2})`}
-              onPointerDown={(e) => onDown?.(e, l)}
+              onPointerDown={(e) => onDown?.(e, owners.get(l.id)||l)}
               style={{
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}

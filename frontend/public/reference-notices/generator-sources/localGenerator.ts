@@ -1,3 +1,4 @@
+import {expandWidgets} from "./compound.ts";
 import { resolveControls, validateControls } from "./projectControls.ts";
 import { nativeControls, nativeControlledDraw } from "./nativeControls.ts";
 import { chalkFont, chalkId, chalkPlans } from "./chalkFonts.ts";
@@ -15,7 +16,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-20-widget-packages";
+export const LOCAL_GENERATOR_VERSION = "basic-21-compound-widgets";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -262,6 +263,7 @@ function visibleDraw(l: Layer, aod: boolean, p: Project) {
   return code ? `if(${nativeVisibility(l, aod)}){${code}}` : "";
 }
 export function localGenerate(p: Project) {
+  p=expandWidgets(p);
   if (
     p.layers.some((l) => l.exportIncluded !== false && l.effectPrompt?.trim())
   )

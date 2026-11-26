@@ -1,3 +1,4 @@
+import {expandWidgets} from "./compound";
 import {
   designPayload,
   type DesignChoices,
@@ -136,6 +137,7 @@ export async function generate(
   instruction: string,
   signal: AbortSignal,
 ) {
+  project=expandWidgets(project);
   const device = generationDevice(project);
   const scene = {
     ...generationHeader(project),

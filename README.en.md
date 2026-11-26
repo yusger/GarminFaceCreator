@@ -48,7 +48,7 @@ The screenshots show the current Chinese interface.
 
 ## Features
 
-- Four reusable widget packages: capsule metric, segmented battery, vitals column and stacked tiers; editable layer groups, independent color/label settings and source-export license notices.
+- Four reusable widget packages: capsule metric, segmented battery, vitals column and stacked tiers; single composite objects, whole-object operations, per-component active/AOD visibility, internal editing, explicit decomposition and source-export license notices.
 
 - Separate built-in and personal watchface lists, scoped search, self-authored badges and ordering; atomic browser saves, conflict recovery, schema migration, and design JSON import/export.
 - AI-created editable designs from watch series/model/size, digital/analog/hybrid styles, seconds/date/metrics, reference images, and a prompt. Preview the result before adopting it.

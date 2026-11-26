@@ -10,7 +10,7 @@ export default function Palette({
   onChange: (layers: Layer[]) => void;
 }) {
   const colors = [
-    ...new Set(layers.filter((l) => l.kind !== "image").map((l) => l.color)),
+    ...new Set(layers.filter((l) => l.kind !== "image" && l.kind !== "widget").map((l) => l.color)),
   ];
   const [from, setFrom] = useState(colors[0] || "#ffffff"),
     [to, setTo] = useState("#45d6be"),
@@ -62,7 +62,7 @@ export default function Palette({
         onClick={() => {
           let count = 0;
           const next = layers.map((l) =>
-            l.kind !== "image" &&
+            l.kind !== "image" && l.kind !== "widget" &&
             !l.locked &&
             (!selection.length ||
               scope === "all" ||

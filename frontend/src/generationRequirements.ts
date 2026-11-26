@@ -1,3 +1,4 @@
+import {expandWidgets} from "./compound.ts";
 import { wordTimeGlyphs } from "./wordTime.ts";
 import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
 import type { Project } from "./domain";
@@ -94,6 +95,7 @@ const maxApi = (a: string, b: string) => {
   return a;
 };
 export function generationRequirements(p: Project) {
+  p=expandWidgets(p);
   const layers = p.layers.filter((l) => l.exportIncluded !== false);
   const sources = [
     ...new Set([

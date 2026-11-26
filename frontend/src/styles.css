@@ -1599,3 +1599,5 @@ label select {
 .background-swatches{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.template-picker figure{margin:8px 0}.template-picker img{border-radius:50%;max-width:100%}.template-picker figcaption{font-size:12px;color:#9bb0c0}.background-picker{margin:14px 0;padding:10px;border:1px solid #334554;border-radius:8px}
 
 .widget-previews{display:flex;gap:8px;align-items:center;margin:12px 0}.widget-previews img{width:calc(50% - 4px);height:100px;object-fit:contain;background:#000;border-radius:6px}.widget-picker>button{width:100%}
+
+.compound-inspector fieldset{border:0;padding:0;margin:0;min-width:0}.compound-inspector h4{margin:16px 0 8px}.compound-part,.compound-part-head{display:grid;grid-template-columns:minmax(0,1fr) 38px 38px 38px;align-items:center;gap:4px;padding:8px 0;border-bottom:1px solid #263340}.compound-part-head{color:#8793a3;font-size:11px}.compound-part input{margin:auto}.compound-part>span{font-size:12px}.compound-inner{margin-top:12px;padding:10px;background:#111923;border-radius:8px}.compound-inspector>button,.compound-inspector fieldset>button{margin-top:12px;width:100%}

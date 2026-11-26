@@ -21,7 +21,9 @@ type Omitted =
   | "customFont"
   | "handShape"
   | "handBitmap"
-  | "widgetOrigin";
+  | "widgetOrigin"
+  | "compound"
+  | "compoundOverrides";
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   effectPrompt: true,
@@ -69,6 +71,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   calendarHeaderColor: true,
   meterShape: true,
   meterCount: true,
+  meterGap: true,
   meterGoal: true,
   meterDim: true,
   timePart: true,
@@ -115,6 +118,7 @@ function objectFields(value: unknown, keys: string[]) {
   return Object.fromEntries(keys.map((key) => [key, scalar(o[key])]));
 }
 export function generationLayer(l: Layer) {
+  if(l.kind==="widget")throw Error("复合控件必须先展开后生成工程");
   validateVisibility(l.visibility);
   const rules =
     l.thresholdRules ??

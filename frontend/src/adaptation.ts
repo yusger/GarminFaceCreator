@@ -33,14 +33,14 @@ export function adaptationPayload(
     designCoordinates: { width: 454, height: 454 },
     instruction: redactRepair(instruction.slice(0, 4000), [profile.key]),
     constraints: {
-      allowedProperties: overrideKeys,
+      allowedProperties: overrideKeys.filter(k=>k!=="compoundOverrides"),
       keepIds: true,
       noAddDelete: true,
       noBindingChange: true,
       lockedLayersUnchanged: true,
     },
     layers: resolved.layers.map((l) => {
-      const safe = Object.fromEntries(overrideKeys.map((k) => [k, l[k]]));
+      const safe = Object.fromEntries(overrideKeys.filter(k=>k!=="compoundOverrides").map((k) => [k, l[k]]));
       return {
         ...safe,
         id: l.id,
@@ -82,6 +82,7 @@ export function parseAdaptation(p: Project, raw: string): AdaptationChange[] {
     const l = resolved.layers.find((l) => l.id === change.id);
     if (!l || l.locked) throw Error("不能修改不存在或已锁定的图层");
     for (const [key, value] of Object.entries(change.patch)) {
+      if(key==="compoundOverrides"||(l.kind==="widget"&&key==="rotation"&&value!==0))throw Error("复合控件内部微调由编辑器维护，整体适配不支持旋转");
       if (!overrideKeys.includes(key as any))
         throw Error("适配不能更改绑定、图片、身份或源码");
       if (

@@ -3,7 +3,7 @@ import type { Layer } from "./domain";
 export function meterPolygons(l: Layer): number[][][] {
   const count = l.meterCount ?? 16;
   if ((l.meterShape || "bar") === "bar") {
-    const gap = Math.min(3, (l.w / count) * 0.25),
+    const gap = Math.min(l.meterGap ?? 3, (l.w / count) * 0.25),
       step = l.w / count;
     return Array.from({ length: count }, (_, i) => [
       [i * step + gap / 2, 0],

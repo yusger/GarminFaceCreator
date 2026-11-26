@@ -37,7 +37,7 @@ export default function WidgetPicker({
         />
       </div>
       <p className="hint">
-        原作者参考图；添加后为可编辑图层。颜色和标题开关位于顶部“表盘配置”。
+        原作者参考图；添加后为一个复合对象。选中后在右侧设置部件、颜色及亮屏/息屏显示。
       </p>
       <button disabled={disabled} onClick={() => onInsert(id)}>
         添加控件

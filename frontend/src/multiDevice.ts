@@ -1,6 +1,8 @@
+import {validateCompoundOverrides} from "./compound.ts";
 import type { Project, Layer } from "./domain";
 import { devices, deviceFor } from "./devices.ts";
 export const overrideKeys = [
+  "compoundOverrides",
   "x",
   "y",
   "w",
@@ -304,6 +306,7 @@ export function validateMultiDevice(
       )
         throw Error("设备图层微调无效");
       for (const [key, value] of Object.entries(patch)) {
+        if(key==="compoundOverrides"){validateCompoundOverrides(m.master.find(l=>l.id===id)!,value as any);continue;}
         if (
           ["aod", "exportIncluded", "hidden"].includes(key)
             ? typeof value !== "boolean"
