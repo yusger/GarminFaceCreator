@@ -1,3 +1,4 @@
+import {controlSettingKey,legacySettingKey,sourceCode,nativeSourceSettings} from "./nativeSettingIds.ts";
 import { nativeThemeMenu } from "./nativeThemeMenu.ts";
 import { themeIndex, layerThemeIndex, activeTheme,themeCode } from "./themes.ts";
 import { sourceSlotLayer,sourceSlotLabel,sourceSlotThresholds } from "./dataSlots.ts";
@@ -7,7 +8,6 @@ import {
   resolvedLayer,
   sourceLabels,
 } from "./projectControls.ts";
-const key = (id: string) => "Gfc_" + id.replaceAll("-", "_");
 const variable = (id: string) => "cfg_" + id.replaceAll("-", "_");
 const hex = (v: string) => "0x" + v.slice(1);
 const xml = (s: string) =>
@@ -105,15 +105,16 @@ export function nativeControls(p: Project) {
     settings = [],
     strings = [];
   for (const c of controls) {
-    const id = key(c.id),
+    const id = controlSettingKey(c),
       v = controlValue(p, c),
       def =
         c.type === "color"
           ? hex(String(v))
           : c.type === "dataSource"
-            ? String(c.options!.indexOf(String(v)))
+            ? "-1"
             : String(v),
       type = c.type === "boolean" ? "boolean" : "number";
+    if(c.type==="dataSource")properties.push(`<property id="${legacySettingKey(c.id)}" type="number">-1</property>`);
     properties.push(
       `<property id="${id}" type="${type}">${xml(def)}</property>`,
     );
@@ -131,7 +132,7 @@ export function nativeControls(p: Project) {
               strings.push(
                 `<string id="${label}">${xml(c.type === "dataSource" ? { steps: "步数", calories: "当日总热量", distance: "当日距离", battery: "电量", heartRate: "心率", temperature: "天气温度", seconds: "秒数" }[entry] || entry : entry)}</string>`,
               );
-              return `<listEntry value="${xml(c.type === "color" ? hex(entry) : String(i))}">@Strings.${label}</listEntry>`;
+              return `<listEntry value="${xml(c.type === "color" ? hex(entry) : String(sourceCode(entry)))}">@Strings.${label}</listEntry>`;
             })
             .join("")}</settingConfig>`;
     settings.push(
@@ -162,7 +163,7 @@ export function nativeControls(p: Project) {
     : "";
   const reads = controls
     .map((c) => {
-      const id = key(c.id),
+      const id = controlSettingKey(c),
         v = controlValue(p, c),
         fallback = c.type === "color" ? hex(String(v)) : JSON.stringify(v),
         valid =
@@ -171,7 +172,8 @@ export function nativeControls(p: Project) {
             : c.type === "boolean"
               ? "v instanceof Toybox.Lang.Boolean"
               : `v instanceof Toybox.Lang.Number && v>=0 && v<${c.options!.length} && v.toNumber()==v`;
-      return `{var v=null;try{v=Application.Properties.getValue(${JSON.stringify(id)});}catch(e){}settingsCache[${JSON.stringify(id)}]=(v!=null && (${valid}))?${c.type === "dataSource" ? `[${c.options!.map((x) => JSON.stringify(x)).join(",")}][v.toNumber()]` : "v"}:${fallback};}`;
+      if(c.type==="dataSource")return `settingsCache[${JSON.stringify(id)}]=gfcSourceSetting(${JSON.stringify(id)},${JSON.stringify(legacySettingKey(c.id))},${JSON.stringify(c.legacySourceOptions||c.options)},${JSON.stringify(c.options!.map(sourceCode))},${JSON.stringify(c.options)},${fallback});`;
+      return `{var v=null;try{v=Application.Properties.getValue(${JSON.stringify(id)});}catch(e){}settingsCache[${JSON.stringify(id)}]=(v!=null && (${valid}))?v:${fallback};}`;
     })
     .join("");
   return {
@@ -206,7 +208,7 @@ export function nativeControls(p: Project) {
         ] satisfies CodeFile[])
       : [],
     helpers: hasSettings
-      ? `var settingsCache=null;function prepareSettings(){if(settingsCache==null){settingsCache={};${reads}${themeReads}}}`
+      ? `${controls.some(c=>c.type==="dataSource")?nativeSourceSettings:""}var settingsCache=null;function prepareSettings(){if(settingsCache==null){settingsCache={};${reads}${themeReads}}}`
       : "",
     frame: hasSettings
       ? "prepareSettings();" +
@@ -214,7 +216,7 @@ export function nativeControls(p: Project) {
         controls
           .map(
             (c) =>
-              `var ${variable(c.id)}=settingsCache[${JSON.stringify(key(c.id))}] as Toybox.Lang.${c.type === "color" ? "Number" : c.type === "boolean" ? "Boolean" : "String"};`,
+              `var ${variable(c.id)}=settingsCache[${JSON.stringify(controlSettingKey(c))}] as Toybox.Lang.${c.type === "color" ? "Number" : c.type === "boolean" ? "Boolean" : "String"};`,
           )
           .join("")
       : "",

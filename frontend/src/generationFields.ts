@@ -1,5 +1,5 @@
 import type {Layer} from "./domain";
-export const GENERATION_FIELD_CONTRACT_VERSION="fields-2-chart";
+export const GENERATION_FIELD_CONTRACT_VERSION="fields-3-stable-controls";
 type Omitted =
   | "chart"
   | "polygonPoints"

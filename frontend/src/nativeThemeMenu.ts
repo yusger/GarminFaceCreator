@@ -1,3 +1,4 @@
+import {controlSettingKey,sourceCode} from "./nativeSettingIds.ts";
 import type { Project, CodeFile } from "./domain.ts";
 import { activeTheme,themeCode } from "./themes.ts";
 export const settingKey = (id: string) => "Gfc_" + id.replaceAll("-", "_");
@@ -24,7 +25,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
     c.type === "color"
       ? "0x" + String(c.default).slice(1)
       : c.type === "dataSource"
-        ? String(c.options!.indexOf(String(c.default)))
+        ? String(sourceCode(String(c.default)))
         : String(c.default);
   const common = controls.filter(
     (c) => !themes.some((t) => t.controlIds.includes(c.id)),
@@ -50,7 +51,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
           : c.type === "color"
             ? colorEntries(c)
             : c.options!;
-      return `if(control.equals(${q(c.id)})){${entries.map((value, i) => item(c.type === "boolean" ? (value ? "On" : "Off") : String(value), `{:action=>"set",:key=>${q(settingKey(c.id))},:value=>${c.type === "boolean" ? value : c.type === "color" ? "0x" + String(value).slice(1) : i}}`)).join("")}}`;
+      return `if(control.equals(${q(c.id)})){${entries.map((value, i) => item(c.type === "boolean" ? (value ? "On" : "Off") : String(value), `{:action=>"set",:key=>${q(controlSettingKey(c))},:value=>${c.type === "boolean" ? value : c.type === "color" ? "0x" + String(value).slice(1) : sourceCode(String(value))}}`)).join("")}}`;
     })
     .join("");
   const resets = themes
@@ -60,7 +61,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
           .filter((c) => t.controlIds.includes(c.id))
           .map(
             (c) =>
-              `Application.Properties.setValue(${q(settingKey(c.id))},${defaultValue(c)});`,
+              `Application.Properties.setValue(${q(controlSettingKey(c))},${defaultValue(c)});`,
           )
           .join("")}}`,
     )

@@ -1,3 +1,4 @@
+import {sourceCode} from "./nativeSettingIds.ts";
 import {activeTheme,themeLayers,themeBackground} from "./themes.ts";
 import { validateDataSlots, sourceSlotLayer,sourceSlotLabel } from "./dataSlots.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
@@ -13,6 +14,7 @@ export type ProjectControl = {
   type: "color" | "boolean" | "dataSource";
   default: string | boolean;
   options?: string[];
+  legacySourceOptions?:string[];
   targets: ControlTarget[];
   hideWhenChangedFromDefault?: string[];
   slot?: true;
@@ -82,6 +84,8 @@ export function validateControls(p: Project) {
       }
     }
     if(c.type === "dataSource" && (!c.options || c.options.length>7 || new Set(c.options).size!==c.options.length)) throw Error("数据源配置选项须唯一且最多7项");
+    if(c.legacySourceOptions!==undefined && (c.type!=="dataSource"||!Array.isArray(c.legacySourceOptions)||c.legacySourceOptions.length>7||new Set(c.legacySourceOptions).size!==c.legacySourceOptions.length||c.legacySourceOptions.some(s=>!["heartRate","steps","battery","calories","distance","temperature","seconds"].includes(s))))throw Error("旧数据源顺序映射无效");
+    if(c.type==="dataSource" && new Set(c.options!.map(sourceCode)).size!==c.options!.length)throw Error("数据源稳定码冲突");
     const valid = (v: unknown) =>
       c.type === "boolean"
         ? typeof v === "boolean"

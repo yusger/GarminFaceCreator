@@ -139,7 +139,7 @@ test("SONAR shared controls survive snapshots and import, and reset invalidates 
   expect(
     code.find((f) => f.path === "resources/settings/properties.xml")!.content,
   ).toContain(
-    '<property id="Gfc_right_slot_source" type="number">0</property>',
+    '<property id="Gfc_right_slot_source" type="number">-1</property>',
   );
 });
 test("initial reference loading cannot overwrite a newly created calendar", async ({
@@ -214,7 +214,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   page.on("dialog", (d) => d.accept());
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
-  await page.locator(".watchface-controls summary").click();
+  await page.locator(".watchface-controls > summary").click();
   await page.getByLabel("右侧数据", { exact: true }).selectOption("distance");
   const scene = page.locator(".canvas-space svg.watch");
   await expect(scene.locator('[data-layer="sonar_steps_value"]')).toContainText(
@@ -233,7 +233,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.reload();
   await page.getByRole("button", { name: "打开 SONAR", exact: true }).click();
-  await page.locator(".watchface-controls summary").click();
+  await page.locator(".watchface-controls > summary").click();
   await expect(page.getByLabel("右侧数据", { exact: true })).toHaveValue(
     "distance",
   );
@@ -242,7 +242,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
   await expect(
     scene.locator('[data-layer="sonar_steps_progress"]'),
   ).toHaveCount(1);
-  await page.locator(".watchface-controls summary").click();
+  await page.locator(".watchface-controls > summary").click();
   await page
     .getByRole("button", { name: "本地生成（试验）", exact: true })
     .click();

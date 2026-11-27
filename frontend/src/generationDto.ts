@@ -1,3 +1,4 @@
+import {controlSettingKey,sourceCode} from "./nativeSettingIds.ts";
 import {chartConfig,chartFields,validateChart} from "./charts";
 import {themeCode,themeBackground} from "./themes";
 import {nativeFontBindings,nativeFontFiles} from "./nativeFontResources";
@@ -189,9 +190,10 @@ export function generationHeader(p: Project) {
     backgroundColor: scalar(p.backgroundColor),
     controls: p.controls?.map((c) => ({
       ...objectFields(c, ["id", "label", "type", "default"]),
-        propertyKey:"Gfc_"+c.id.replaceAll("-","_"),
-        nativeStorage:c.type==="boolean"?"boolean":c.type==="color"?"24bit integer":"zero-based option index",
+        propertyKey:controlSettingKey(c),
+        nativeStorage:c.type==="boolean"?"boolean":c.type==="color"?"24bit integer":"stable source code; never array index",
       options: c.options?.map(scalar),
+      ...(c.type==="dataSource"?{optionCodes:Object.fromEntries(c.options!.map(s=>[s,sourceCode(s)])),legacySourceOptions:(c.legacySourceOptions||c.options)!.map(scalar)}:{}),
       ...(c.sourcePrecisions?{sourcePrecisions:Object.fromEntries(Object.entries(c.sourcePrecisions).map(([key,value])=>[key,scalar(value)]))}:{}),
       ...(c.sourceLabels?{sourceLabels:Object.fromEntries(Object.entries(c.sourceLabels).map(([key,value])=>[key,scalar(value)]))}:{}),
       ...(c.sourceUnits?{sourceUnits:Object.fromEntries(Object.entries(c.sourceUnits).map(([key,value])=>[key,scalar(value)]))}:{}),

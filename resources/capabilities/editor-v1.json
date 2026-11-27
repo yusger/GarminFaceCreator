@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.10.0",
-  "projectSchemaVersion": 38,
+  "version": "1.10.1",
+  "projectSchemaVersion": 39,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
