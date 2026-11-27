@@ -210,6 +210,7 @@ export default function NativeVerificationPanel({
         <p>{nativeFailureMessage(state.error)}。编译结果与PRG保持独立。</p>
       )}
       {["failed", "cancelled", "interrupted"].includes(state.status) &&
+        service.enabled &&
         !state.canRetry &&
         !state.expired && (
           <p className="hint">

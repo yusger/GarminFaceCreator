@@ -26,8 +26,11 @@ export function acceptGeneratedProvenance(p:Project,files:CodeFile[],provenance:
   const items=generationDiagnostics(p).filter(d=>d.status==="approximation").map(({code,path,layerId,message})=>({code,path,layerId,message}));
   return {...bound,...(items.length?{acceptedApproximations:{decision:"apply-generated-code" as const,at:Date.now(),items}}:{})};
 }
+export function currentGenerationContext(p:Project) {
+  try {return p.codeRevision===p.revision && !!p.codeProvenance?.context && JSON.stringify(p.codeProvenance.context)===JSON.stringify(generationContext(p,p.files));}
+  catch {return false;}
+}
 export function currentApproximationReceipt(p:Project) {
-  const provenance=p.codeProvenance;
-  if(!provenance?.acceptedApproximations || !provenance.context)return false;
-  return JSON.stringify(provenance.context)===JSON.stringify(generationContext(p,p.files));
+  const receipt=p.codeProvenance?.acceptedApproximations;
+  return receipt?.decision==="apply-generated-code" && Array.isArray(receipt.items) && receipt.items.every(i=>i && typeof i.code==="string" && typeof i.path==="string" && typeof i.message==="string") && currentGenerationContext(p);
 }

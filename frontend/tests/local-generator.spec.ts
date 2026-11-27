@@ -58,6 +58,10 @@ test("local generation works without a model and provenance survives reload", as
   await page
     .getByRole("button", { name: "打开 Local Clock", exact: true })
     .click();
+  const checks=page.locator("[data-generation-checks]");await checks.locator(":scope > summary").click();
+  await expect(checks.locator('[data-diagnostic-status="degraded"]')).toContainText("本版本已采用近似");
+  await expect(checks.locator('[data-diagnostic-status="supported"]')).toContainText("确定性工程");
+  await expect(checks.locator('[data-diagnostic-status="unverified"]')).toContainText("功耗");
   await page.getByRole("button", { name: "历史", exact: true }).click();
   await expect(
     page.getByText(new RegExp("代码版本.*deterministic.*"+LOCAL_PROVENANCE.generatorVersion)),

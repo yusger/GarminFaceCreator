@@ -31,3 +31,9 @@ test("only explicit apply records approximations, scoped to exact code and desig
  expect(repaired.versions[0].provenance?.acceptedApproximations).toBeDefined();
  expect(acceptGeneratedProvenance(p,files,{primary:"ai"}).acceptedApproximations).toBeUndefined();
 });
+
+test("malformed imported receipt metadata is not promoted to accepted status",()=>{
+ const p=project("Malformed",true);p.layers=[layer("time")];const files=localGenerate(p),q=addCodeVersion(p,files,LOCAL_PROVENANCE);
+ q.codeProvenance!.acceptedApproximations={decision:"apply-generated-code",at:1,items:"INVALID"} as any;
+ expect(currentApproximationReceipt(q)).toBe(false);
+});

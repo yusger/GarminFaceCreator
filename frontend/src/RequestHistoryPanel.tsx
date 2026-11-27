@@ -35,6 +35,7 @@ export default function RequestHistoryPanel() {
               {new Date(r.at).toLocaleString()} ·{" "}
               {r.usage ? JSON.stringify(r.usage) : "用量未知"}
             </small>
+            {r.context && <small data-request-context><br/>{r.context.target || "目标未知"} · {r.context.width && r.context.height ? `${r.context.width}×${r.context.height}` : "像素未知"} · 图片{r.context.imageCount}张 · {r.context.version}<br/>输入身份 {r.context.inputFingerprint}{r.context.template ? ` · 模板 ${r.context.template.id}/${r.context.template.version}` : ""}</small>}
           </p>
         ))}
     </details>
