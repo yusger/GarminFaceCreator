@@ -139,6 +139,7 @@ test("font generation filters unused glyphs, manages XML/helpers and snapshots e
   expect(fnt.content).toContain("chars count=2");
   expect(fnt.content).not.toContain("char id=32");
   expect(fnt.content).toContain("kernings count=0");
+  const unsupported={...p,target:"venu3",deviceSize:"45mm"};expect(bitmapFontDiagnostics(unsupported).length).toBeGreaterThan(0);
   const helper = files.find((f) => f.path === "source/GfcBitmapText.mc")!;
   expect(helper.content).toContain("65=>{86=>-2}");
   expect(helper.content).toContain("text.toCharArray()");
@@ -208,7 +209,7 @@ for (const target of ["venu445mm", "venu441mm"])
         revision: p.revision,
       }),
     );
-    for (const f of localGenerate(p))
+    for (const f of [...localGenerate(p), ...bitmapFontFiles(p)])
       form.append("files", new Blob([f.content]), f.path);
     form.append(
       "files",

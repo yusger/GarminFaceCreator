@@ -366,6 +366,7 @@ export function bitmapFontDiagnostics(p: Project) {
       continue;
     }
     const info = bitmapFontInfo(f);
+    if (!["venu445mm", "venu441mm"].includes(generationDevice(p).target)) out.push({layerId:l.id,message:"位图字体原生指标当前仅核验 Venu 4 45mm/41mm"});
     if (
       !["text", "time", "date", "metric"].includes(l.kind) ||
       l.customFont ||
@@ -416,7 +417,7 @@ export function bitmapFontFiles(p: Project): CodeFile[] {
         .map(
           (g) =>
             "char " +
-            Object.entries(g)
+            Object.entries({...g,xadvance:Math.max(g.xadvance,g.xoffset+g.width)})
               .map(([k, v]) => k + "=" + v)
               .join(" "),
         );

@@ -93,7 +93,7 @@ export async function captureWatchface(
         await fileData(new Blob([bytes], { type: "font/ttf" })),
       );
     } else if (
-      ["time", "date", "text", "metric", "calendar", "wordTime", "arcText"].includes(
+      !l.bitmapFontId && ["time", "date", "text", "metric", "calendar", "wordTime", "arcText"].includes(
         l.kind,
       )
     )
