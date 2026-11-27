@@ -105,4 +105,9 @@ for (const [target, size] of [
       )
       .toBe("succeeded");
     expect(state.artifacts.length).toBeGreaterThan(0);
+    if(process.env.GFC_TEST_ARTIFACT_DIR){
+      const {mkdir,writeFile}=await import("node:fs/promises"),{join}=await import("node:path");
+      const download=await request.get(state.artifacts[0].url,{headers:job.accessToken?{Authorization:"Bearer "+job.accessToken}:{}});expect(download.status()).toBe(200);
+      await mkdir(process.env.GFC_TEST_ARTIFACT_DIR,{recursive:true});await writeFile(join(process.env.GFC_TEST_ARTIFACT_DIR,target+".prg"),await download.body());
+    }
   });
