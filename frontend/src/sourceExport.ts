@@ -1,3 +1,5 @@
+import {needsNativeMoon} from "./nativeMoon.ts";
+import {suncalcLicense} from "./suncalcNotice.ts";
 import {usedBitmapFonts,bitmapFontResourceId,bitmapPngBytes,bitmapFontInfo} from "./bitmapFonts.ts";
 import { expandWidgets } from "./compound";
 import {widgetNotices} from "./widgets";
@@ -91,6 +93,7 @@ export async function exportSources(
       data: new Uint8Array(await response.arrayBuffer()),
     });
   }
+  if(needsNativeMoon(p))entries.push({path:"notices/suncalc-1.9.0-LICENSE.txt",data:text.encode(suncalcLicense)});
   for(const f of usedBitmapFonts(p)){const id=bitmapFontResourceId(f.id);entries.push({path:"source-assets/fonts/"+id+"/original.fnt",data:text.encode(f.descriptor)},{path:"source-assets/fonts/"+id+"/"+bitmapFontInfo(f).page,data:bitmapPngBytes(f.atlasData,bitmapFontInfo(f))},{path:"source-assets/fonts/"+id+"/LICENSE.txt",data:text.encode(f.license+"\nSource: "+f.source)});}
   for (const name of new Set(chalkPlans(p).map((plan) => plan.font))) {
     const local=p.localFonts?.find(f=>f.file===name);

@@ -36,6 +36,12 @@
             "type": "string",
             "pattern": "^[a-zA-Z0-9_-]{1,100}$"
           },
+          "moonHemisphere": {
+            "enum": [
+              "north",
+              "south"
+            ]
+          },
           "chart": {
             "type": "object",
             "additionalProperties": false,
@@ -193,7 +199,8 @@
               "image",
               "polygon",
               "arcText",
-              "chart"
+              "chart",
+              "moon"
             ]
           },
           "x": {
@@ -276,7 +283,8 @@
               "precipitationChance",
               "windBearing",
               "sunrise",
-              "sunset"
+              "sunset",
+              "moonIllumination"
             ]
           },
           "activeVisible": {

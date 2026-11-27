@@ -26,6 +26,7 @@ export type ProjectControl = {
   preserveFormatFor?: string[];
 };
 export const sourceLabels: Record<string, string> = {
+  moonIllumination:"MOON",
   heartRate: "bpm",
   steps: "steps",
   battery: "batt",

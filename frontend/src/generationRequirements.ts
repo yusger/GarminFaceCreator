@@ -28,7 +28,7 @@ export function generationRequirements(p: Project) {
       ),
       ...layers.flatMap((l) => [
         ...(l.visibility ? [l.visibility.source] : []),
-        ...(l.kind === "celestial"
+        ...(l.kind === "moon" ? ["moonPhase"] : l.kind === "celestial"
           ? ["solarScene"]
           : l.weatherIcon
             ? ["weatherIcon"]

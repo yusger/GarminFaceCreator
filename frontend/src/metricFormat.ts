@@ -2,6 +2,7 @@ export const metricLimits: Record<
   string,
   { min: number; max?: number; exclusiveMin?: boolean }
 > = {
+  moonIllumination:{min:0,max:100},
   sunrise:{min:0,max:86399},
   sunset:{min:0,max:86399},
   oxygenSaturation:{min:0,exclusiveMin:true,max:100},
@@ -42,17 +43,18 @@ export function formatMetricValue(
   precision?: number,
   groupThousands?: boolean,
 ) {
+  const estimate=source==="moonIllumination"?"~":"";
   if(source==="sunrise"||source==="sunset")return String(Math.floor(value/3600)).padStart(2,"0")+":"+String(Math.floor(value%3600/60)).padStart(2,"0");
   if (groupThousands !== undefined)
-    return value.toLocaleString("en-US", {
+    return estimate+value.toLocaleString("en-US", {
       useGrouping: groupThousands,
       minimumFractionDigits: precision ?? 0,
       maximumFractionDigits: precision ?? 0,
     });
-  if (precision !== undefined) return value.toFixed(precision);
-  if (source === "steps") return value.toLocaleString("en-US");
+  if (precision !== undefined) return estimate+value.toFixed(precision);
+  if (source === "steps") return estimate+value.toLocaleString("en-US");
   if (source === "seconds") return String(value).padStart(2, "0");
-  return Number(value.toFixed(6)).toString();
+  return estimate+Number(value.toFixed(6)).toString();
 }
 // Numeric units and presentation come from the versioned source contract.
 export {sourceDisplayUnits as metricDisplayUnits,sourceDecorations as metricDecorations} from "./sourceAdapters.ts";

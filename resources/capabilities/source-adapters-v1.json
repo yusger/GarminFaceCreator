@@ -1,6 +1,6 @@
 {
   "format": "gfc-source-adapters",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "policy": "Canonical numeric units, display suffixes, API floors and permissions for existing AI source adapters. API knowledge does not enable deterministic mapping or certify hardware support. A display label alone never converts a numeric value.",
   "elevationEvidence": {
     "url": "https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html#getElevationHistory-instance_function",
@@ -175,6 +175,20 @@
       "permission": "ComplicationSubscriber",
       "unit": "seconds-since-local-midnight",
       "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "moonPhase": {
+      "api": "1.0.0",
+      "read": "Managed GfcMoon.read(lowPower): [estimated phase0..1, illuminated fraction0..1]; UTC2000..2037,10-minute cache, no GPS/network; hemisphere is diagram mirror only",
+      "unit": "cycle",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "moonIllumination": {
+      "api": "1.0.0",
+      "read": "GfcMoon.read(lowPower)[1]*100 when non-null; geocentric estimated visible illumination percent; not cycle progress;UTC2000..2037,10-minute active cache,AOD frozen; formatter must always prefix ~ even when decoration is disabled",
+      "unit": "percent",
+      "defaultDisplayUnit": "%",
       "decoration": ""
     }
   },

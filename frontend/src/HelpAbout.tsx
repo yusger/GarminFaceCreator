@@ -1,3 +1,4 @@
+import {suncalcLicense} from "./suncalcNotice";
 import {useEffect,useRef,useState} from "react";
 import {ArrowRight,BookOpen,Download,HelpCircle,Lightbulb,Info,Search,ExternalLink,RefreshCw,CheckCircle2} from "lucide-react";
 import packageInfo from "../../package.json" with {type:"json"};
@@ -29,6 +30,7 @@ export default function HelpAbout({onProjects,onModels,onEditor}:{onProjects:()=
   <div className="help-content" ref={content}>
    {searching?<><div className="help-section-heading"><h2>搜索结果</h2><p role="status">找到{results.length}条相关内容</p></div>{results.length?results.map(({section:s,article})=><Article key={article.id} article={article} sectionLabel={s.label}/>):<div className="help-empty"><Search size={28}/><h3>没有找到相关帮助</h3><p>试试“安装”“字体”或“备份”，也可以查看其他分类。</p><button onClick={()=>setQuery("")}>查看全部分类</button></div>}</>:<><div className="help-section-heading"><h2>{current.label}</h2><p>{current.description}</p></div>{section==="start" && <div className="help-flow" aria-label="从设计到安装"><span>可编辑设计</span><ArrowRight size={14}/><span>生成工程</span><ArrowRight size={14}/><span>编译PRG</span><ArrowRight size={14}/><span>验证与安装</span></div>}{section==="install" && <div className="help-export-table"><table><caption>下载文件用途对照</caption><thead><tr><th scope="col">文件</th><th scope="col">用途</th><th scope="col">能否安装</th></tr></thead><tbody>{exportTypes.map(row=><tr key={row.type}><th scope="row">{row.type}</th><td>{row.use}</td><td>{row.install}</td></tr>)}</tbody></table></div>}{current.articles.map(article=><Article key={article.id} article={article} faq={section==="faq"}/>)}</>}
   </div>
+  {section==="about"&&!searching&&<details><summary>SunCalc 月相算法许可（BSD-2-Clause）</summary><p>月相算法改编自 SunCalc 1.9.0；为地心估算，不代表观测地的月面倾角。</p><pre style={{whiteSpace:"pre-wrap"}}>{suncalcLicense}</pre></details>}
   <footer className="help-footer"><CheckCircle2 size={15}/><span>设计、网页预览、SDK编译、原生模拟和真机验收分别核对。</span><a href="https://github.com/yusger/GarminFaceCreator/issues" target="_blank" rel="noopener noreferrer">反馈问题<ExternalLink size={12}/></a></footer>
  </main>;
 }

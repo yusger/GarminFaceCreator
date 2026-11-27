@@ -27,3 +27,5 @@
 - [AOD像素分析](aod-pixel-analysis.md)：像素分母、已核验设备参照与验证边界。
 
 - [本地位图字体](bitmap-font-import.md)：单页FNT＋灰度PNG、固定像素及授权边界。
+
+- [月相估算](moon-phase.md)：UTC时间、照明与周期区别、示意方向、缓存和许可。

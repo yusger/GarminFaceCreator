@@ -46,7 +46,7 @@ export function requiredFontGlyphs(p: Project, l: Layer) {
           p.layers,
         );
         return (
-          "0123456789-. " +
+          "0123456789-. " + (source==="moonIllumination"?"~":"") +
           (["sunrise", "sunset"].includes(source) ? ":" : "") +
           (current.groupThousands !== false ? "," : "") +
           (current.label || "") +

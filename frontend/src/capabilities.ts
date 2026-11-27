@@ -51,6 +51,7 @@ export function localLayerDiagnostics(l: Layer): CapabilityDiagnostic[] {
       "rotation",
       "当前本地生成仅支持rect/line/circle/polygon旋转",
     );
+  if(l.kind==="moon"&&(Math.min(l.w,l.h)<16||Math.max(l.w,l.h)>128||(l.opacity??1)!==1))add("LOCAL_MOON_STYLE","w","月相图标首版尺寸16–128设计单位，颜色不透明；方向为南北示意");
   if(l.kind==="chart"){try{validateChart(l);}catch(e){add("LOCAL_CHART_INVALID","chart",(e as Error).message);}}
   if (l.kind === "arcText") {
     if (
@@ -118,6 +119,7 @@ export function designCapabilityContext() {
       },
       arcText: catalog.rules.arcText,
       bitmapFonts:catalog.rules.bitmapFonts,
+      moon:catalog.rules.moon,
       ringStyles: ["ticks", "continuous"],
       ringCaps: ["butt", "round"],
       ringAod: "dim track only; no seconds animation",

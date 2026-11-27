@@ -1,3 +1,4 @@
+import {mergeNativeMoon} from "./nativeMoon";
 import {needsNativeWeather,nativeWeatherFile} from "./nativeWeather";
 import {mergeNativeFrameReporter} from "./nativeFrameReporter";
 import {mergeNativeFonts} from "./nativeFontResources";
@@ -249,7 +250,7 @@ export async function generate(
       JSON.stringify({
         files: mergeNativeFrameReporter(project,mergeNativeFonts(project,mergeNativeWordTime(
           project,
-          mergeNativeIcons(project, parseFiles(content)),
+          mergeNativeIcons(project, mergeNativeMoon(project,parseFiles(content))),
         ))),
       }),
     );

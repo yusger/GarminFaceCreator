@@ -142,6 +142,7 @@ const tools = [
   ["calendar", "三周日历", Calendar],
   ["chart", "历史图表", SlidersHorizontal],
   ["celestial", "昼夜场景", Circle],
+  ["moon", "月相", Circle],
   ["hand", "指针", Clock],
   ["wordTime", "文字报时", Type],
   ["rect", "矩形", Square],
@@ -2617,6 +2618,7 @@ export default function App() {
                         </p>
                       </>
                     )}
+                    {current.kind==="moon"&&<fieldset><legend>月相估算</legend><label>示意方向<select aria-label="月相示意方向" value={current.moonHemisphere||"north"} onChange={e=>patch({moonHemisphere:e.target.value as "north"|"south"})}><option value="north">北半球示意</option><option value="south">南半球示意（镜像）</option></select></label><label>暗面颜色<input aria-label="月相暗面颜色" type="color" value={current.solarNightColor||"#263344"} onChange={e=>patch({solarNightColor:e.target.value})}/></label><small>UTC地心估算，2000–2037；10分钟缓存。方向为示意，不代表本地天空倾角。16–128设计单位、不透明；息屏只画轮廓。</small></fieldset>}
                     {current.kind === "celestial" && (
                       <>
                         <h4>昼夜场景</h4>

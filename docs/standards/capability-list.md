@@ -1,6 +1,6 @@
 # 编辑器能力清单
 
-由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.16.0，内部项目版本 45。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
+由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.17.0，内部项目版本 46。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
 
 | 能力 | 网页 | AI创建 | 对话添加 | 本地生成 | 限制 | 回归 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -44,6 +44,8 @@
 | data.windbearing | 支持 | 支持 | 支持 | 有条件支持 | GfcWeather.read(false).windBearing, cached weather degrees; North0/East90/South180/West270; not device heading; numeric metrics only, source-slot/meter support has separate whitelist. | frontend/tests/additional-sources.spec.ts |
 | data.sunrise | 支持 | 支持 | 支持 | 有条件支持 | Garmin Complications seconds since local midnight0..86399, nullable. Fixed HH:mm display, precision/grouping do not change clock formatting. Active60s, date/zone/rollback invalidation. No active GPS or networking. Metric only; not an elapsed duration. | frontend/tests/solar-readouts.spec.ts |
 | data.sunset | 支持 | 支持 | 支持 | 有条件支持 | Garmin Complications seconds since local midnight0..86399, nullable. Fixed HH:mm display, precision/grouping do not change clock formatting. Active60s, date/zone/rollback invalidation. No active GPS or networking. Metric only; not an elapsed duration. | frontend/tests/solar-readouts.spec.ts |
+| core.moon | 未接入 | 支持 | 支持 | 有条件支持 | UTC geocentric estimate,2000–2037;16–128 design units,opaque,8 layers; diagram orientation,not local tilt;AOD cached outline | undefined |
+| data.moonIllumination | 未接入 | 支持 | 支持 | 有条件支持 | Estimated visible illuminated fraction percent; not elapsed lunar phase or sensor data;10-minute cache;UTC2000–2037 | undefined |
 
 设计层面的已知结构可以保留；生成器的必要限制不得静默降级。复合控件先展开再检查，图片需实际资源，meter仅steps/battery/oxygenSaturation/moveBarLevel，metric仅本清单已接入来源，心率关闭装饰，仅rect/line/circle/polygon支持围绕层中心顺时针旋转，其他图层rotation为0。外部发布包仍使用独立契约。
 
@@ -51,7 +53,7 @@
 
 ## 数据适配契约
 
-来自 resources/capabilities/source-adapters-v1.json，版本 1.3.0。API 下限指读取接口的引入版本，工程绘制工具可能要求更高 API；不代表目标硬件支持，也不改变上表的本地生成开放范围。显示后缀与数值单位分开，改标签不换算读数。海拔沿用 ft，SDK 原始米值由适配器换算。
+来自 resources/capabilities/source-adapters-v1.json，版本 1.4.0。API 下限指读取接口的引入版本，工程绘制工具可能要求更高 API；不代表目标硬件支持，也不改变上表的本地生成开放范围。显示后缀与数值单位分开，改标签不换算读数。海拔沿用 ft，SDK 原始米值由适配器换算。
 
 | 来源 | 读取 API 下限 | 数值单位 | 默认后缀 | 权限 |
 | --- | --- | --- | --- | --- |
@@ -79,12 +81,14 @@
 | windBearing | 3.2.0 | deg | ° | 无 |
 | sunrise | 4.2.0 | seconds-since-local-midnight | 无 | ComplicationSubscriber |
 | sunset | 4.2.0 | seconds-since-local-midnight | 无 | ComplicationSubscriber |
+| moonPhase | 1.0.0 | cycle | 无 | 无 |
+| moonIllumination | 1.0.0 | percent | % | 无 |
 
 海拔接口依据：[Garmin SensorHistory](https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html)。设备可用性和缺失数据仍须分别检查。
 
 ## 工程提示字段契约
 
-版本 fields-6-bitmap-fonts，来源 frontend/src/generationFields.ts；TypeScript保证Layer每个字段均有明确策略。下面是工程提示序列化策略，不是对话修改白名单，不会扩大外部发布包或复合私有层权限。默认值、kind约束与资源读取仍由生成适配器执行。新增字段必须作出策略选择。
+版本 fields-7-moon，来源 frontend/src/generationFields.ts；TypeScript保证Layer每个字段均有明确策略。下面是工程提示序列化策略，不是对话修改白名单，不会扩大外部发布包或复合私有层权限。默认值、kind约束与资源读取仍由生成适配器执行。新增字段必须作出策略选择。
 
 | 字段 | 工程提示策略 |
 | --- | --- |
@@ -137,6 +141,7 @@
 | meterShape | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | metricDecoration | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | missingValue | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| moonHemisphere | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | name | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | opacity | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | precision | 已知标量（字符串/有限数值/布尔）；按类型检查 |

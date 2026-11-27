@@ -1,3 +1,4 @@
+import MoonIcon from "./MoonIcon";
 import BitmapFontText from "./BitmapFontText";
 import ChartWidget from "./ChartWidget";
 import {
@@ -139,7 +140,7 @@ export default function Scene({
                 <CurvedText layer={l} aod={aod} />
               ) : l.kind === "hand" ? (
                 <Hand layer={l} preview={preview} aod={aod} />
-              ) : l.kind === "celestial" ? (
+              ) : l.kind === "moon" ? (<MoonIcon layer={l} preview={preview} aod={aod}/>) : l.kind === "celestial" ? (
                 <Celestial layer={l} preview={preview} aod={aod} />
               ) : l.kind === "wordTime" ? (
                 <WordTimeWidget

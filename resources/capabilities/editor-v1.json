@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.16.0",
-  "projectSchemaVersion": 45,
+  "version": "1.17.0",
+  "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -527,6 +527,26 @@
       "deviceVerification": "not_verified_by_catalog",
       "constraints": "Garmin Complications seconds since local midnight0..86399, nullable. Fixed HH:mm display, precision/grouping do not change clock formatting. Active60s, date/zone/rollback invalidation. No active GPS or networking. Metric only; not an elapsed duration.",
       "test": "frontend/tests/solar-readouts.spec.ts"
+    },
+    {
+      "id": "core.moon",
+      "kind": "moon",
+      "title": "月相估算",
+      "editor": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "constraints": "UTC geocentric estimate,2000–2037;16–128 design units,opaque,8 layers; diagram orientation,not local tilt;AOD cached outline"
+    },
+    {
+      "id": "data.moonIllumination",
+      "source": "moonIllumination",
+      "title": "月面照明（估算）",
+      "editor": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "constraints": "Estimated visible illuminated fraction percent; not elapsed lunar phase or sensor data;10-minute cache;UTC2000–2037"
     }
   ],
   "rules": {
@@ -644,6 +664,19 @@
         "venu441mm"
       ],
       "nativeCalibration": "SDK 9.3: measured 1px top inset compensation; glyph overhang retained; upgrades require screenshot revalidation"
+    },
+    "moon": {
+      "model": "SunCalc1.9.0 geocentric illumination,BSD-2-Clause",
+      "utcRange": "2000-01-01 <= t < 2038-01-01",
+      "cacheSeconds": 600,
+      "polygonPoints": 50,
+      "maxLayers": 8,
+      "designSize": [
+        16,
+        128
+      ],
+      "orientation": "north/south diagram,not local sky tilt",
+      "aod": "cached contour only"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

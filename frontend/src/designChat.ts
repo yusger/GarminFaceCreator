@@ -38,6 +38,7 @@ const bools = [
   "allowClip",
 ];
 const strings = [
+  "moonHemisphere",
   "name",
   "color",
   "text",

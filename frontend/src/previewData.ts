@@ -1,3 +1,4 @@
+import {previewMoon} from "./moon.ts";
 // Pure preview data semantics shared by rendering, export and offline validation.
 import type { Layer } from "./domain.ts";
 import { timeText, timeInOffset } from "./timeParts.ts";
@@ -25,7 +26,9 @@ export type Preview = {
   seconds: number;
 };
 export function metricValues(d: Preview): Record<string, number> {
+  const moon=previewMoon(d);
   return {
+    moonIllumination:moon?moon.illumination*100:NaN,
     heartRate: d.heartRate,
     steps: d.steps,
     battery: d.battery,

@@ -1,3 +1,4 @@
+import {nativeMoonFiles} from "./nativeMoon.ts";
 import {bitmapFontDiagnostics,bitmapFontResourceId,usedBitmapFonts} from "./bitmapFonts.ts";
 import {nativeBitmapFontFiles} from "./nativeBitmapFonts.ts";
 import {triangulatePolygon} from "./geometry.ts";
@@ -36,7 +37,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-59-bitmap-metrics";
+export const LOCAL_GENERATOR_VERSION = "basic-60-moon";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -161,6 +162,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
       return `drawBitmapHand(dc,clock,Rez.Drawables.${bitmapId(l)},${l.handType === "second" ? 2 : l.handType === "minute" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX ?? 0.5)},${num(l.handPivotY ?? 0.5)},${aod ? "true" : "false"},${color(l.aodColor || "#777777")});`;
     return `drawHand(dc,clock,${l.handType === "second" ? 2 : l.handType === "minute" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.handPivotX ?? 0.5)},${num(l.handPivotY ?? 0.5)},${num(l.handReach ?? 0.58)},${num(l.handTail ?? 0.08)},${num(l.strokeWidth || 6)},${color(aod ? l.aodColor || "#777777" : l.color)},${aod ? "true" : "false"},${l.handCap === "round" ? "true" : "false"},${l.handShape ? JSON.stringify(l.handShape.points) : "null"});`;
   }
+  if(l.kind==="moon")return `GfcMoon.draw(dc,px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}),${color(aod?l.aodColor||"#777777":l.color)},${color(l.solarNightColor||"#263344")},${l.moonHemisphere==="south"},${aod});`;
   if (l.kind === "celestial")
     return `drawCelestial(dc,solar,${l.solarPart === "body" ? 1 : 0},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${color(aod ? l.aodColor || "#777777" : l.color)},${color(aod ? l.aodColor || "#777777" : l.solarNightColor || (l.solarPart === "body" ? "#dfedff" : "#0b1829"))},${color(aod ? l.aodColor || "#777777" : l.solarMissingColor || "#17212c")});`;
   if (l.kind === "wordTime") {
@@ -343,6 +345,7 @@ export function localGenerate(p: Project) {
     );
   const chalk = chalkPlans(runtimeProject);
   const masks=included.filter(l=>l.iconMask);
+  if(included.filter(l=>l.kind==="moon").length>8)throw Error("月相图标超过8层预算");
   if(masks.length>96)throw Error("单色图标超过96个");
   const meters = included.filter((l) => l.kind === "meter");
   const dataSources = [
@@ -422,6 +425,7 @@ export function localGenerate(p: Project) {
  function metricText(value,source,label,unit,precision,missing,group){
   if(!metricValid(value,source)){return label+missing;}
   if(source.equals("sunrise")||source.equals("sunset")){return label+(value/3600).toNumber().format("%02d")+":"+((value%3600)/60).toNumber().format("%02d")+unit;}
+  if(source.equals("moonIllumination")){label+="~";}
   var text="";
   if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
   else if(source.equals("seconds")){text=value.toNumber().format("%02d");}
@@ -534,7 +538,7 @@ ${hourlyCharts?nativeHourlyChartHelpers:""}
       files: mergeNativeWordTime(
         p,
         mergeNativeIcons(p, [
-          ...settings.menuFiles,...nativeBitmapFontFiles(runtimeProject),
+          ...settings.menuFiles,...nativeBitmapFontFiles(runtimeProject),...nativeMoonFiles(runtimeProject),
           { path: "manifest.xml", content: generationManifest(p) },
           {
             path: "monkey.jungle",

@@ -44,6 +44,7 @@ export const designSources = Object.entries(metrics).filter(
 const kinds = createKinds;
 export const designFields = [
   "id",
+  "moonHemisphere",
   "chart",
   "name",
   "kind",
@@ -158,7 +159,7 @@ export function designResponseSchema(c:DesignChoices){
   id:{type:"string",pattern:"^[a-zA-Z0-9_-]{1,100}$"},name:{type:"string",minLength:1,maxLength:80},kind:{enum:kinds},
   color:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"},size:{type:"number",minimum:1,maximum:200},w:{type:"number",minimum:1,maximum:908},h:{type:"number",minimum:1,maximum:908},opacity:{type:"number",minimum:0,maximum:1},
   source:c.sources.length?{enum:c.sources}:false,timePart:{enum:["full","hours","minutes",...(c.seconds?["seconds"]:[])]},garminFont:{enum:["auto","xtiny","systemXTiny","tiny","small","medium","large","numberHot"]},
-  dateLocale:{enum:["en","zh"]},dateFormat:{enum:["monthDayWeek","weekdayDay"]},textAlign:{enum:["left","center","right"]},handType:{enum:["hour","minute",...(c.seconds?["second"]:[])]},handCap:{enum:["round","butt"]},ringStyle:{enum:["ticks","continuous"]},ringCap:{enum:["round","butt"]},ringSource:{enum:["static",...(c.seconds?["seconds"]:[]),...c.sources.filter(s=>["steps","battery","heartRate"].includes(s))]},
+  moonHemisphere:{enum:["north","south"]},dateLocale:{enum:["en","zh"]},dateFormat:{enum:["monthDayWeek","weekdayDay"]},textAlign:{enum:["left","center","right"]},handType:{enum:["hour","minute",...(c.seconds?["second"]:[])]},handCap:{enum:["round","butt"]},ringStyle:{enum:["ticks","continuous"]},ringCap:{enum:["round","butt"]},ringSource:{enum:["static",...(c.seconds?["seconds"]:[]),...c.sources.filter(s=>["steps","battery","heartRate"].includes(s))]},
   thresholdRules:{type:"array",maxItems:16,items:{type:"object",additionalProperties:false,required:["color"],properties:{min:{type:"number"},max:{type:"number"},color:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"}}}},
   polygonPoints:points(0,1),
   chart:chartSchema(),

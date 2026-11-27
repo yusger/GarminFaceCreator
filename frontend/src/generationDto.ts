@@ -1,3 +1,4 @@
+import {nativeMoonFiles} from "./nativeMoon.ts";
 import {nativeBitmapFontFiles} from "./nativeBitmapFonts.ts";
 import {controlSettingKey,sourceCode} from "./nativeSettingIds.ts";
 import {meterDefaultGoal} from "./meters.ts";
@@ -131,6 +132,7 @@ export function generationLayer(l: Layer) {
           handClock: "deviceLocal",
         }
       : {}),
+    ...(l.kind === "moon"?{moonHemisphere:l.moonHemisphere||"north",moonPolicy:"UTC geocentric estimated phase, diagram orientation only;10-minute active cache,AOD cached outline"}:{}),
     ...(l.kind === "celestial"
       ? {
           solarPart: l.solarPart || "sky",
@@ -183,6 +185,8 @@ export function generationHeader(p: Project) {
     dataSlotPolicy:"slot:true means linked source controls; metrics use matching units/precision, sourceLabelFor tracks labels; preserveSourceLabelDefault:true retains that layer raw text for the source-control default and uses sourceLabelStyle for alternatives, meter/ring targets use sourceGoals or design defaults (steps10000,battery100,heartRate180,seconds60). Source switches must not retain thresholds from unrelated sources. preserveFormatFor explicitly retains manual numeric formatting. Targets property source maps to ringSource on ring layers. Compile every allowed option and guard missing data in both modes.",
     schemaVersion: scalar(p.schemaVersion),
     nativeFontBindings:nativeFontBindings(p),
+    nativeMoonHelpers:nativeMoonFiles(p),
+    nativeMoonPolicy:"For moon kind call managed GfcMoon.draw(dc,pixelX,pixelY,pixelW,pixelH,ink,dark,south,lowPower); phase and illumination are estimated, no observer tilt/GPS/network. For moonIllumination read GfcMoon.read(lowPower)[1]*100 only when non-null; retain explicit estimate marker. AOD uses cached outline.",
     nativeFontHelpers:[...nativeFontFiles(p),...nativeBitmapFontFiles(p)].map(f=>({path:f.path,managed:true})),
     nativeFontPolicy:"Use the exact activeFontId/aodFontId for every supplied layer via WatchUi.loadResource(Rez.Fonts.ID), never substitute system fonts. Font FNT/PNG and the gfc-managed-fonts.xml declarations are merged by the frontend. Do not declare managed IDs elsewhere. For bitmapFontId bindings call the exact managed GfcBitmapText.draw using truncated target pixel x/y/w/h, a temporary font reference, bitmapFontId, text and textAlign; never bypass its advance/kerning layout with a whole-string drawText. Draw other fonts at stored bounds vertical center except iconMask glyphs which use top-left. Do not permanently cache resource/font references: obtain temporary references per draw and allow the graphics pool to manage lifetime. No SDK font redistribution.",
     iconMaskBindings:p.layers.filter(l=>l.iconMask&&l.exportIncluded!==false).map(l=>({layerId:l.id,fontId:iconMaskId(l),fontFile:"resources/fonts/"+iconMaskId(l)+".fnt",glyph:"A"})),

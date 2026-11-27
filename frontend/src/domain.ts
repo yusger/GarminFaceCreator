@@ -10,9 +10,10 @@ import { validateControls, remapControlIds } from "./projectControls.ts";
 import { validateVisibility } from "./visibility.ts";
 import { validateMultiDevice, importedDevices } from "./multiDevice.ts";
 import { validateThresholds } from "./thresholds.ts";
-import { migrateProject } from "./migrations.ts";
+import { migrateProject,CURRENT_SCHEMA } from "./migrations.ts";
 import { devices } from "./devices.ts";
 export type Kind =
+  | "moon"
   | "chart"
   | "widget"
   | "time"
@@ -33,6 +34,7 @@ export type Kind =
   | "arcText";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  moonHemisphere?:"north"|"south";
   chart?:ChartConfig;
   arcRadius?:number;
   arcStartAngle?:number;
@@ -255,7 +257,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41 | 42 | 43 | 44 | 45;
+    | 41 | 42 | 43 | 44 | 45 | 46;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -330,6 +332,7 @@ export const metrics: Record<string, string> = {
   windBearing:"风向（度）",
   sunrise:"日出时间",
   sunset:"日落时间",
+  moonIllumination:"月面照明（估算）",
 };
 export function layer(kind: Kind): Layer {
   return {
@@ -345,6 +348,7 @@ export function layer(kind: Kind): Layer {
       meter: "目标仪表",
       calendar: "三周日历",
       chart:"历史图表",
+      moon:"月相（估算）",
       celestial: "昼夜场景",
       hand: "指针",
       wordTime: "文字报时",
@@ -370,6 +374,7 @@ export function layer(kind: Kind): Layer {
     ...(kind === "arcText"?{x:67,y:67,w:320,h:320,size:18}:{}),
     source: kind === "meter"||kind==="chart" ? "steps" : "heartRate",
     ...(kind==="chart"?{x:77,y:140,w:300,h:180,size:11,chart:{...defaultChart},customFont:{id:"sonar_label_font",family:"Barlow Semi Condensed",file:"sonar-label-font.ttf"}}:{}),
+    ...(kind === "moon"?{x:187,y:187,w:80,h:80,color:"#dce9f0",moonHemisphere:"north" as const,solarNightColor:"#263344"}:{}),
     ...(kind === "meter"
       ? {
           w: 320,
@@ -490,7 +495,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 45,
+    schemaVersion: CURRENT_SCHEMA,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -508,6 +513,7 @@ export function validateProject(value: unknown): Project {
   validateBitmapFonts(p);
   validateThemes(p);
   const kinds = [
+    "moon",
     "chart",
     "widget",
     "time",
@@ -529,7 +535,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 45 ||
+    p.schemaVersion !== CURRENT_SCHEMA ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -579,6 +585,7 @@ export function validateProject(value: unknown): Project {
       (typeof l.effectPrompt !== "string" || l.effectPrompt.length > 2000)
     )
       throw Error("效果说明最多2000字");
+    if(l.moonHemisphere!==undefined&&(l.kind!=="moon"||!["north","south"].includes(l.moonHemisphere)))throw Error("月相示意方向无效");
     validateVisibility(l.visibility);
       validateWidgetOrigin(l.widgetOrigin);
     validateCompound(l,p,validateProject);
