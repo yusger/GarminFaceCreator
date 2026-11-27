@@ -1,3 +1,5 @@
+import ProgressArc from "./ProgressArc";
+import {ringProgress} from "./arc";
 import {layerTransform} from "./geometry";
 import {expandWidgets} from "./compound";
 import { resolveControls } from "./projectControls";
@@ -125,35 +127,7 @@ export function ink(l: Layer, d: Preview) {
   );
 }
 
-export function ringLit(l: Layer, d: Preview, aod = false) {
-  if (aod) return 0;
-  const source = l.ringSource || "seconds";
-  const value =
-    source === "static"
-      ? 1
-      : {
-          seconds: d.seconds,
-          steps: d.steps,
-          battery: d.battery,
-          heartRate: d.heartRate,
-        }[source];
-  if(!Number.isFinite(value)||value<0||(source==="battery"&&value>100)||(source==="heartRate"&&value<=0))return 0;
-  const goal =
-    source === "static"
-      ? 1
-      : l.ringGoal ||
-        (source === "seconds"
-          ? 60
-          : source === "steps"
-            ? 10000
-            : source === "battery"
-              ? 100
-              : 180);
-  return Math.floor(
-    (l.ringTicks || 60) *
-      Math.max(0, Math.min(1, Number.isFinite(value) ? value / goal : 0)),
-  );
-}
+export function ringLit(l:Layer,d:Preview,aod=false){return Math.floor((l.ringTicks||60)*ringProgress(l, l.ringSource==="seconds"||!l.ringSource?d.seconds:metricValues(d)[l.ringSource!],!!d.missing,aod));}
 export default function Scene({
   project,
   preview,
@@ -270,6 +244,8 @@ export default function Scene({
                   missing={preview.missing}
                   aod={aod}
                 />
+              ) : l.kind === "ring" && l.ringStyle === "continuous" ? (
+                <ProgressArc layer={l} aod={aod} progress={ringProgress(l,l.ringSource==="seconds"||!l.ringSource?preview.seconds:metricValues(preview)[l.ringSource!],!!preview.missing,aod)}/>
               ) : l.kind === "ring" ? (
                 Array.from({ length: l.ringTicks || 60 }, (_, i) => {
                   const count = l.ringTicks || 60,

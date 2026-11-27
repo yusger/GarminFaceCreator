@@ -127,6 +127,8 @@ export type Layer = {
   thresholdRules?: ThresholdRange[];
   thresholdFallback?: string;
   ringTicks?: number;
+  ringStyle?: "ticks"|"continuous";
+  ringCap?: "butt"|"round";
   ringStart?: number;
   ringEnd?: number;
   ringWidth?: number;
@@ -206,7 +208,8 @@ export type Project = {
     | 24
     | 25
     | 26
-    | 27;
+    | 27
+    | 28;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -429,7 +432,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 27,
+    schemaVersion: 28,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -463,7 +466,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 27 ||
+    p.schemaVersion !== 28 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -675,6 +678,7 @@ export function validateProject(value: unknown): Project {
     ])
       if (color !== undefined && !/^#[0-9a-f]{6}$/i.test(color))
         throw Error("颜色设置无效");
+    if((l.ringStyle!==undefined&&!(["ticks","continuous"] as unknown[]).includes(l.ringStyle))||(l.ringCap!==undefined&&!(["butt","round"] as unknown[]).includes(l.ringCap)))throw Error("圆环样式无效");
     if (
       (l.ringTicks !== undefined &&
         (!Number.isInteger(l.ringTicks) ||

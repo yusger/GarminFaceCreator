@@ -50,6 +50,8 @@ const strings = [
   "meterDimColor",
   "meterShape",
   "ringSource",
+  "ringStyle",
+  "ringCap",
   "handType",
   "handCap",
   "strokeColor",

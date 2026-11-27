@@ -1,5 +1,5 @@
-export const DESIGN_PROMPT_VERSION = "design-3-polygon";
-export const CHAT_PROMPT_VERSION = "chat-4-polygon";
+export const DESIGN_PROMPT_VERSION = "design-4-arc";
+export const CHAT_PROMPT_VERSION = "chat-5-arc";
 const KEY = "gfc-ai-request-history-v1";
 const MAX_BYTES = 512 * 1024;
 export type RequestSnapshot = {

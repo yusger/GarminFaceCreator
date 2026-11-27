@@ -77,6 +77,8 @@ export const designFields = [
   "meterCount",
   "meterGoal",
   "meterDim",
+  "ringStyle",
+  "ringCap",
   "ringTicks",
   "ringStart",
   "ringEnd",

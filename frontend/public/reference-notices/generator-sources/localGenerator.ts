@@ -1,3 +1,4 @@
+import {nativeArcMethod} from "./arc.ts";
 ﻿import { rotatePoint } from "./geometry.ts";
 import { localLayerDiagnostics } from "./capabilities.ts";
 import { expandWidgets } from "./compound.ts";
@@ -18,7 +19,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-24-convex-polygon";
+export const LOCAL_GENERATOR_VERSION = "basic-25-progress-arc";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -156,6 +157,7 @@ function draw(l: Layer, aod: boolean) {
             ? "0"
             : "clock.sec"
           : "data" + source;
+    if(l.ringStyle==="continuous") return `drawProgressArc(dc,${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.ringStart??0)},${num(l.ringEnd??360)},${num(l.ringWidth||2)},${color(aod?l.aodColor||"#777777":l.color)},${num(l.ringDim??0.25)},${value},${num(goal)},${source==="battery"?"true":"false"},${source==="heartRate"?"true":"false"},${aod?"true":"false"},${l.ringCap==="round"?"true":"false"});`;
     return `drawTickRing(dc,${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${l.ringTicks || 60},${num(l.ringStart ?? 0)},${num(l.ringEnd ?? 360)},${color(aod ? l.aodColor || "#777777" : l.color)},${num(l.ringDim ?? 0.25)},${value},${num(goal)},${source === "battery" ? "true" : "false"},${source === "heartRate" ? "true" : "false"},${aod ? "true" : "false"},${num(l.ringWidth || 2)});`;
   }
   if (l.kind === "hand") {
@@ -481,6 +483,7 @@ class GeneratedView extends WatchUi.WatchFace {
  function trimImages(){var keys=bitmapCache.keys();for(var i=0;i<keys.size();i++){if(!bitmapUsed.hasKey(keys[i])){bitmapCache.remove(keys[i]);}}}`
      : ""
  }
+ ${rings ? nativeArcMethod : ""}
  ${rings ? `function drawTickRing(dc,x,y,w,h,count,start,end,ink,dim,value,goal,battery,hr,low,stroke){var lit=0;if(!low && value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100) && (!hr || value>0)){lit=value>=goal?count:(value*1.0/goal*count).toNumber();}var span=end-start;var divisor=Math.abs(span)==360?count:count-1;var major=(count/12.0+0.5).toNumber();if(major<1){major=1;}for(var i=0;i<count;i++){var a=(start+i*span/divisor)*Math.PI/180.0;var alpha=i<lit?255:(dim*255).toNumber();dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));var pen=px(stroke*(i%major==0?1.5:1.0));dc.setPenWidth(pen>0?pen:1);dc.drawLine(px(x+w/2.0+Math.sin(a)*(w/2.0-9)),px(y+h/2.0-Math.cos(a)*(h/2.0-9)),px(x+w/2.0+Math.sin(a)*w/2.0),px(y+h/2.0-Math.cos(a)*h/2.0));}}` : ""}
  function px(value){return (value*scale).toNumber();}
  function onUpdate(dc as Graphics.Dc) as Void {

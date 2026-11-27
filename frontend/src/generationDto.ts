@@ -87,6 +87,8 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   missingValue: true,
   allowClip: true,
   thresholdFallback: true,
+  ringStyle:true,
+  ringCap:true,
   ringTicks: true,
   ringStart: true,
   ringEnd: true,
@@ -181,6 +183,8 @@ export function generationLayer(l: Layer) {
       : {}),
     ...(l.kind === "ring"
       ? {
+          ringStyle:l.ringStyle||"ticks",
+          ringCap:l.ringCap||"butt",
           ringTicks: l.ringTicks || 60,
           ringSource,
           ringGoal:
