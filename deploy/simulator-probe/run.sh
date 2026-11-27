@@ -4,6 +4,10 @@ set -euo pipefail
 [[ "$DEVICE" =~ ^[a-z0-9]+$ ]] || exit 2
 hold=${PROBE_HOLD_SECONDS:-0}
 [[ "$hold" =~ ^([0-9]|[12][0-9]|30)$ ]] || exit 2
+test -s /input/watchface.prg || exit 2
+: > /output/monkeydo.log
+: > /output/simulator.log
+: > /output/capture-metadata.txt
 mkdir -p "$HOME/.Garmin/ConnectIQ" /tmp/bin
 ln -s /sdk/share /tmp/share
 ln -s /sdk/resources /tmp/resources
@@ -70,6 +74,7 @@ if [ "${PROBE_CAPTURE_DIALOG:-0}" = 1 ]; then
   xdotool mousemove --window "$dialog" "$((width-50))" "$((height-24))" click 1
   sleep 2
   if [ -s "/output/$name" ]; then identify "/output/$name"; printf 'nativeCapture=%s\n' "$name" >> /output/capture-metadata.txt; else import -window root /output/capture-save-failed.png; echo "Native screenshot save failed"; exit 9; fi
+ else echo "Native screenshot dialog missing"; exit 9
  fi
 fi
 if [ "$hold" != 0 ]; then sleep "$hold"; fi
