@@ -1,0 +1,23 @@
+{
+  "fixtureVersion": "capture-gallery-1",
+  "rendererVersion": "browser-capture-2",
+  "browserVersion": "158.0.4370.33",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+  "viewport": {
+    "width": 1600,
+    "height": 1000
+  },
+  "deviceScaleFactor": 1,
+  "fonts": {
+    "PermanentMarker-Regular.ttf": "28f82c8a7943cb8e9d599f8554da1d4fc75dbcf69b9885ad6c0611d20c6946c5",
+    "MaShanZheng-Regular.ttf": "6d2546bb189c732a8ca29af9e22457b152387d158aa459e4ac2ce1e51788b7fb"
+  },
+  "iconCatalogSha256": "3c0b9aa2f3c76423bff5baa5304ec215a93b5eff96169cdf3a09b91afc0d77f1",
+  "target": "venu441mm",
+  "pixels": 390,
+  "mode": "active",
+  "tolerance": {
+    "maximumChangedChannels": 0,
+    "scope": "identical pinned browser and resources only"
+  }
+}
