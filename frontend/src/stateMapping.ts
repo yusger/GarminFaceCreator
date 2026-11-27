@@ -104,6 +104,7 @@ export function createStateGroup(
     layerIds: [c.id],
     enabled: true,
   }));
+  if(p.themes)next.themes={...p.themes,presets:p.themes.presets.map(t=>({...t,layerIds:t.layerIds.map(layerId=>layerId===id?root.id:layerId)}))};
   return next;
 }
 export function setPartCondition(

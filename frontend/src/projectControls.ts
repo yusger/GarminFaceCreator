@@ -16,6 +16,7 @@ export type ProjectControl = {
   targets: ControlTarget[];
   hideWhenChangedFromDefault?: string[];
   slot?: true;
+  sourceIcons?:Record<string,string[]>;
   sourceGoals?: Record<string,number>;
   preserveFormatFor?: string[];
 };
@@ -43,6 +44,7 @@ export function controlValue(p: Project, c: ProjectControl) {
 }
 export function validateControls(p: Project) {
   validateDataSlots(p);
+  const iconOwners=new Map<string,string>();
   const ids = new Set(p.layers.map((l) => l.id)),
     seen = new Set<string>(),
     targets = new Set<string>();
@@ -67,6 +69,13 @@ export function validateControls(p: Project) {
     )
       throw Error("表盘配置定义无效");
     seen.add(c.id);
+    if(c.sourceIcons!==undefined){
+      if(c.type!=="dataSource"||!c.sourceIcons||typeof c.sourceIcons!=="object"||Array.isArray(c.sourceIcons))throw Error("来源图标映射无效");
+      for(const [source,list] of Object.entries(c.sourceIcons)){
+       if(!c.options?.includes(source)||!Array.isArray(list)||list.length>48||new Set(list).size!==list.length)throw Error("来源图标选项无效");
+       for(const id of list){const icon=p.layers.find(l=>l.id===id);if(!icon||icon.kind!=="image"||icon.weatherIcon||c.hideWhenChangedFromDefault?.includes(id)||(iconOwners.has(id)&&iconOwners.get(id)!==c.id))throw Error("来源图标引用冲突或缺失");iconOwners.set(id,c.id);}
+      }
+    }
     if(c.type === "dataSource" && (!c.options || c.options.length>7 || new Set(c.options).size!==c.options.length)) throw Error("数据源配置选项须唯一且最多7项");
     const valid = (v: unknown) =>
       c.type === "boolean"
@@ -157,6 +166,7 @@ export function validateControls(p: Project) {
     for (const key of [
       "activeVisible",
       "imageFullColor",
+      "iconMask",
       "autoPrecision",
       "autoSourceFormat",
       "groupThousands",
@@ -164,6 +174,7 @@ export function validateControls(p: Project) {
     ] as const)
       if (l[key] !== undefined && typeof l[key] !== "boolean")
         throw Error("控件扩展属性无效");
+    if(l.iconMask && (l.kind!=="image"||!l.image||l.libraryIcon||l.w>128||l.h>128))throw Error("单色图标仅支持128逻辑像素内的本地透明位图");
     if (l.dateFormat !== undefined && l.dateFormat !== "monthDayWeek")
       throw Error("日期格式无效");
     if (l.meterContinuous && (l.kind !== "meter" || l.meterShape !== "bar"))
@@ -224,6 +235,10 @@ export function resolveControls(p: Project,allThemes=false): Project {
         const l = layers.find((l) => l.id === id);
         if (l) { l.activeVisible = false; l.aod = false; }
       }
+  for(const c of p.controls||[])if(c.sourceIcons){
+    const visible=new Set(c.sourceIcons[String(controlValue(p,c))]||[]);
+    for(const id of new Set(Object.values(c.sourceIcons).flat())){const icon=layers.find(l=>l.id===id);if(icon&&!visible.has(id)){icon.activeVisible=false;icon.aod=false;}}
+  }
   const slotted=layers.map(l=>{
     const c=p.controls?.find(c=>c.slot && c.targets.some(t=>t.layerId===l.id && t.property==="source"));
     return c?sourceSlotLayer(p,l,c,String(controlValue(p,c))):l;
@@ -271,6 +286,7 @@ export function remapControlIds(before: Project, after: Project) {
     ...c,
     targets: c.targets.map((t) => ({ ...t, layerId: id(t.layerId) })),
     hideWhenChangedFromDefault: c.hideWhenChangedFromDefault?.map(id),
+    ...(c.sourceIcons?{sourceIcons:Object.fromEntries(Object.entries(c.sourceIcons).map(([key,list])=>[key,list.map(id)]))}:{}),
     ...(c.preserveFormatFor?{preserveFormatFor:c.preserveFormatFor.map(id)}:{}),
   }));
   after.layers = after.layers.map((l) => ({
@@ -279,6 +295,11 @@ export function remapControlIds(before: Project, after: Project) {
   }));
 }
 
+export function setSourceIcon(p:Project,controlId:string,layerId:string,source:string|undefined):Project{
+ const c=p.controls?.find(c=>c.id===controlId);if(!c||c.type!=="dataSource"||(source!==undefined&&!c.options?.includes(source)))throw Error("来源图标配置无效");
+ const map=Object.fromEntries(Object.entries(c.sourceIcons||{}).map(([key,list])=>[key,list.filter(id=>id!==layerId)]));if(source)map[source]=[...(map[source]||[]),layerId];
+ const next={...setControl(p,c.id,controlValue(p,c)),controls:p.controls!.map(x=>x.id===c.id?{...x,sourceIcons:map,hideWhenChangedFromDefault:x.hideWhenChangedFromDefault?.filter(id=>id!==layerId)}:x)};validateControls(next);return next;
+}
 export function resetControls(p: Project): Project {
   const first = p.controls?.[0];
   return first

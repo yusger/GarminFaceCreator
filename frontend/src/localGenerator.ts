@@ -1,3 +1,4 @@
+import {iconMaskId} from "./iconMasks.ts";
 import {primitivePoints} from "./primitiveSampling.ts";
 import {mappedDraw} from "./sourceMap.ts";
 import { deviceMetadataVersion } from "./deviceMetadata.ts";
@@ -25,7 +26,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-41-theme-presets";
+export const LOCAL_GENERATOR_VERSION = "basic-42-icon-masks";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -194,6 +195,7 @@ function draw(l: Layer, aod: boolean, targetScale:number) {
       `}`
     );
   }
+  if(l.kind==="image"&&l.iconMask)return `dc.setColor(${color(aod?l.aodColor||l.color:l.color)},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(${color(aod?l.aodColor||l.color:l.color)}>>16)&255,(${color(aod?l.aodColor||l.color:l.color)}>>8)&255,${color(aod?l.aodColor||l.color:l.color)}&255));dc.setColor(${color(aod?l.aodColor||l.color:l.color)},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(l.x)}),px(${num(l.y)}),fontFor(Rez.Fonts.${iconMaskId(l)}),"A",Graphics.TEXT_JUSTIFY_LEFT);`;
   if (l.kind === "image" && !l.libraryIcon)
     return `drawStaticImage(dc,Rez.Drawables.${bitmapId(l)},px(${num(l.x)}),px(${num(l.y)}));`;
   if (l.kind === "image" && l.libraryIcon)
@@ -284,7 +286,7 @@ export function localGenerate(p: Project) {
         unsupported.map((l) => l.name+"（"+localLayerDiagnostics(l).map(d=>d.message).join("；")+"）").join("、"),
     );
   const imageLayers = included.filter(
-    (l) => (l.kind === "image" || !!l.handBitmap) && !l.libraryIcon,
+    (l) => (l.kind === "image" || !!l.handBitmap) && !l.libraryIcon && !l.iconMask,
   );
   if (new Set(imageLayers.map(bitmapId)).size !== imageLayers.length)
     throw Error("图片资源标识重复");
@@ -319,6 +321,8 @@ export function localGenerate(p: Project) {
       "本地生成只支持 ASCII 项目名；中文文字需指定已验证的 SYSTEM_XTINY 字体，其他字形请使用 AI 字体方案。",
     );
   const chalk = chalkPlans(p);
+  const masks=included.filter(l=>l.iconMask);
+  if(masks.length>48||new Set(masks.map(iconMaskId)).size!==masks.length)throw Error("单色图标超过48个或资源身份重复");
   const meters = included.filter((l) => l.kind === "meter");
   const dataSources = [
     ...new Set([
@@ -421,7 +425,7 @@ class GeneratedView extends WatchUi.WatchFace {
  ${included.some((l) => l.widgetOrigin) ? "function widgetFont(dc,text,preferred,w,h,size){var fonts=[preferred,Graphics.FONT_NUMBER_HOT,Graphics.FONT_LARGE,Graphics.FONT_MEDIUM,Graphics.FONT_SMALL,Graphics.FONT_TINY,Graphics.FONT_XTINY];var chosen=Graphics.FONT_XTINY;var best=0;for(var i=0;i<fonts.size();i++){var height=dc.getFontHeight(fonts[i]);if(height<=h && height<=size*1.35 && height>best && dc.getTextWidthInPixels(text,fonts[i])<=w){chosen=fonts[i];best=height;}}return chosen;}" : ""}
  ${curved.length?nativeCurvedText:""}
  ${settings.helpers}
- ${chalk.length ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
+ ${(chalk.length||masks.length) ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
@@ -511,11 +515,11 @@ class GeneratedView extends WatchUi.WatchFace {
           },
           { path: "source/App.mc", content: source },
           ...settings.files,
-          ...(chalk.length
+          ...((chalk.length||masks.length)
             ? [
                 {
                   path: "resources/fonts/fonts.xml",
-                  content: `<fonts>${chalk.map((plan) => `<font id="${plan.id}" filename="${plan.id}.fnt" antialias="true"/>`).join("")}</fonts>`,
+                  content: `<fonts>${[...chalk.map(plan=>plan.id),...masks.map(iconMaskId)].map(id=>`<font id="${id}" filename="${id}.fnt" antialias="true"/>`).join("")}</fonts>`,
                 },
               ]
             : []),

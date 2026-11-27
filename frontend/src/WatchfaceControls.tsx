@@ -1,4 +1,10 @@
-import {activeTheme,themeControls,selectTheme,resetTheme,themeLayers} from "./themes";
+import {
+  activeTheme,
+  themeControls,
+  selectTheme,
+  resetTheme,
+  themeLayers,
+} from "./themes";
 import { useState } from "react";
 import { createDataSlot, allowedSlotSources } from "./dataSlots";
 import type { Project } from "./domain";
@@ -7,6 +13,7 @@ import {
   setControl,
   resetControls,
   setSourceDecoration,
+  setSourceIcon,
 } from "./projectControls";
 export default function WatchfaceControls({
   project: p,
@@ -32,7 +39,22 @@ export default function WatchfaceControls({
       <div role="group" aria-label="表盘配置项">
         <p>配置同时用于预览和生成工程；修改后请重新生成代码。</p>
         <fieldset disabled={p.multiDevice?.scope === "device"}>
-          {p.themes&&<label>主题预设<select aria-label="主题预设" value={activeTheme(p)?.id} onChange={e=>onChange(selectTheme(p,e.target.value))}>{p.themes.presets.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}</select></label>}
+          {p.themes && (
+            <label>
+              主题预设
+              <select
+                aria-label="主题预设"
+                value={activeTheme(p)?.id}
+                onChange={(e) => onChange(selectTheme(p, e.target.value))}
+              >
+                {p.themes.presets.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+          )}
           {themeControls(p).map((c) => (
             <div key={c.id}>
               <label>
@@ -127,6 +149,53 @@ export default function WatchfaceControls({
                       ))}
                   </details>
                 )}
+              {c.type === "dataSource" && (
+                <details>
+                  <summary>{c.label}按来源选择图标</summary>
+                  <p className="hint">
+                    为每个静态图标选择其对应来源；不匹配时隐藏。固定显示不受来源影响。
+                  </p>
+                  {themeLayers(p)
+                    .filter(
+                      (l) => l.kind === "image" && !l.weatherIcon && !l.locked,
+                    )
+                    .map((l) => (
+                      <label key={l.id}>
+                        {l.name}
+                        <select
+                          aria-label={c.label + "的来源图标 " + l.name}
+                          value={
+                            Object.entries(c.sourceIcons || {}).find(
+                              ([, ids]) => ids.includes(l.id),
+                            )?.[0] || ""
+                          }
+                          onChange={(e) => {
+                            try {
+                              onChange(
+                                setSourceIcon(
+                                  p,
+                                  c.id,
+                                  l.id,
+                                  e.target.value || undefined,
+                                ),
+                              );
+                              setError("");
+                            } catch (err) {
+                              setError((err as Error).message);
+                            }
+                          }}
+                        >
+                          <option value="">固定显示</option>
+                          {c.options?.map((source) => (
+                            <option key={source} value={source}>
+                              {source}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    ))}
+                </details>
+              )}
             </div>
           ))}
           {!!eligible.length && (
@@ -173,9 +242,9 @@ export default function WatchfaceControls({
         {p.multiDevice?.scope === "device" && <p>请切换共享主设计后修改。</p>}
         <button
           disabled={p.multiDevice?.scope === "device"}
-          onClick={() => onChange(p.themes?resetTheme(p):resetControls(p))}
+          onClick={() => onChange(p.themes ? resetTheme(p) : resetControls(p))}
         >
-          {p.themes?"恢复当前主题默认值":"恢复默认配置"}
+          {p.themes ? "恢复当前主题默认值" : "恢复默认配置"}
         </button>
       </div>
     </details>

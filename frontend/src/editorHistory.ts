@@ -20,6 +20,7 @@ export function withEditorLayers(p: Project, layers: Layer[]): Project {
       ...c,
       targets: c.targets.filter((t) => ids.has(t.layerId)),
       preserveFormatFor:c.preserveFormatFor?.filter(id=>ids.has(id)),
+      ...(c.sourceIcons?{sourceIcons:Object.fromEntries(Object.entries(c.sourceIcons).map(([key,list])=>[key,list.filter(id=>ids.has(id))]))}:{}),
       hideWhenChangedFromDefault: c.hideWhenChangedFromDefault?.filter((id) =>
         ids.has(id),
       ),

@@ -27,6 +27,8 @@ export function nativeControlledDraw(
           (t) => t.layerId === sourceLayer && t.property === "source",
         ),
     );
+  const mappedIcon=controls.some(c=>c.sourceIcons&&Object.values(c.sourceIcons).some(list=>list.includes(l.id)));
+  if(mappedIcon)l={...l,...(aod?{aod:p.layers.find(x=>x.id===l.id)?.aod??l.aod}:{activeVisible:p.layers.find(x=>x.id===l.id)?.activeVisible??true})};
   const make = (input: Layer) => {
     const copy = {
         ...input,
@@ -76,6 +78,7 @@ export function nativeControlledDraw(
   for (const c of controls)
     if (c.hideWhenChangedFromDefault?.includes(l.id))
       conditions.push(`${variable(c.id)}.equals(${JSON.stringify(c.default)})`);
+  for(const c of controls)if(c.sourceIcons){const sources=Object.entries(c.sourceIcons).filter(([,list])=>list.includes(l.id)).map(([source])=>source);if(sources.length)conditions.push("("+sources.map(s=>`${variable(c.id)}.equals(${JSON.stringify(s)})`).join(" || ")+")");}
   const theme = layerThemeIndex(p, l.id);
   if (theme >= 0) conditions.push(`cfgTheme==${theme}`);
   if (conditions.length) code = `if(${conditions.join(" && ")}){${code}}`;

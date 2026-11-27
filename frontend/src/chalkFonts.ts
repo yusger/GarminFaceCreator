@@ -1,3 +1,4 @@
+import {preparedIconMasks} from "./iconMasks.ts";
 import {fontBytes} from "./localFonts.ts";
 import {sourceSlotLayer} from "./dataSlots.ts";
 import { missingGlyphs } from "./fontLibrary.ts";
@@ -223,6 +224,6 @@ export function preparedChalk(p: Project) {
 export async function preparedCodeFiles(p: Project) {
   const chalk = await preparedChalk(p),
     files = new Map(p.files.map((f) => [f.path, f]));
-  for (const f of chalk.files) files.set(f.path, f);
+  for (const f of [...chalk.files,...(await preparedIconMasks(p)).files]) files.set(f.path, f);
   return [...files.values()];
 }

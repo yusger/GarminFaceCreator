@@ -1,5 +1,5 @@
 import { weatherGroup, weatherIconId } from "./weatherIcons";
-import { useEffect, useState } from "react";
+import { useEffect, useState,useId } from "react";
 import type { Layer } from "./domain";
 import { styledIcon, svgDataUrl } from "./iconLibrary";
 export function useLibraryHref(
@@ -57,6 +57,8 @@ export default function LibraryImage({
   missing?: boolean;
 }) {
   const href = useLibraryHref(layer, condition, missing);
+  const id="icon-mask-"+useId().replaceAll(":","");
+  if(layer.iconMask)return <g opacity={layer.opacity??1}><defs><mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width={layer.w} height={layer.h} style={{maskType:"alpha"}}><image href={href} width={layer.w} height={layer.h} preserveAspectRatio="none"/></mask></defs><rect width={layer.w} height={layer.h} fill={layer.color} mask={"url(#"+id+")"}/></g>;
   return (
     <image
       href={href}

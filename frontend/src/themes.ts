@@ -97,7 +97,7 @@ export function validateThemes(p: Project) {
         typeof id !== "string" ||
         controls.has(id) ||
         !c ||
-        c.targets.some((x) => !t.layerIds.includes(x.layerId))
+        (c.targets.some((x) => !t.layerIds.includes(x.layerId))||Object.values(c.sourceIcons||{}).flat().some(id=>!t.layerIds.includes(id)))
       )
         throw Error("主题配置缺失或跨主题引用");
       controls.add(id);

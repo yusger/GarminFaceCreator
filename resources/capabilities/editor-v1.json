@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.8.0",
-  "projectSchemaVersion": 34,
+  "version": "1.8.1",
+  "projectSchemaVersion": 35,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -489,6 +489,14 @@
       "independentControls": true,
       "deviceSettings": "AppBase.getSettingsView + Menu2; requires native validation",
       "hardwareVerification": "pending"
+    },
+    "icons": {
+      "mask": "explicit uploaded alpha-to-glyph conversion; not automatic color image recolor",
+      "maxMaskPixels": 128,
+      "maxMasks": 48,
+      "sourceSwitch": "ProjectControl.sourceIcons; explicit members by allowed source",
+      "stateSwitch": "existing Compound visibility rules and images",
+      "test": "frontend/tests/icon-masks.spec.ts"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

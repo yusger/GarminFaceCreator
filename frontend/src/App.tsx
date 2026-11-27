@@ -2131,6 +2131,7 @@ export default function App() {
                   </div>
                 </div>
               </main>
+              {current?.kind==="image"&&!current.libraryIcon&&<label className="inline"><input type="checkbox" checked={!!current.iconMask} onChange={e=>patch({iconMask:e.target.checked})}/>透明位图作为可换色单色图标（最大128px）</label>}
               {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const fonts=[...(p.localFonts||[]).filter(x=>x.id!==f.id),f];const next={...p,localFonts:fonts};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,customFont:{id:f.id,family:f.family,file:f.file},fontWeight:400 as const,garminFont:"auto" as const}:l),true,next);}} onApply={patch}/>}
               <DesignChat key={p.id} project={p} preview={preview} profiles={profiles} selection={selection} open={chatOpen} disabled={busy||batchBusy} onClose={()=>setChatOpen(false)} onModels={()=>setPage("models")} canUndo={!!past.length} onUndo={()=>undo()} onApply={(fingerprint,next)=>{
                 const latest=activeProject.current;

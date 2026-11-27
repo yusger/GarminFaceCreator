@@ -49,6 +49,7 @@ export const generationScalarFields: Record<Exclude<keyof Layer, Omitted>, true>
   fixedSource: true,
   activeVisible: true,
   imageFullColor: true,
+  iconMask:true,
   sourceLabelFor: true,
   autoPrecision: true,
   autoSourceFormat: true,

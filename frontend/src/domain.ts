@@ -41,6 +41,7 @@ export type Layer = {
   customFont?: { id: string; family: string; file: string };
   activeVisible?: boolean;
   imageFullColor?: boolean;
+  iconMask?:boolean;
   sourceLabelFor?: string;
   autoPrecision?: boolean;
   autoSourceFormat?: boolean;
@@ -237,7 +238,8 @@ export type Project = {
     | 31
     | 32
     | 33
-    | 34;
+    | 34
+    | 35;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -463,7 +465,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 34,
+    schemaVersion: 35,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -500,7 +502,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 34 ||
+    p.schemaVersion !== 35 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200

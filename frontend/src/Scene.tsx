@@ -205,7 +205,7 @@ export default function Scene({
                 })
               ) : l.kind === "image" ? (
                 <LibraryImage
-                  layer={l}
+                  layer={aod&&l.iconMask?{...l,color:l.aodColor||"#777777"}:l}
                   condition={preview.weatherCondition}
                   missing={preview.missing}
                 />

@@ -1,3 +1,4 @@
+import {iconMaskId} from "./iconMasks.ts";
 import { validateControls } from "./projectControls";
 import { validateVisibility } from "./visibility";
 import { meterPolygons } from "./meters";
@@ -173,12 +174,15 @@ export function generationHeader(p: Project) {
     generationFieldContractVersion:GENERATION_FIELD_CONTRACT_VERSION,
     dataSlotPolicy:"slot:true means linked source controls; metrics use matching units/precision, sourceLabelFor tracks labels, meter/ring targets use sourceGoals or design defaults (steps10000,battery100,heartRate180,seconds60). Source switches must not retain thresholds from unrelated sources. preserveFormatFor explicitly retains manual numeric formatting. Targets property source maps to ringSource on ring layers. Compile every allowed option and guard missing data in both modes.",
     schemaVersion: scalar(p.schemaVersion),
+    iconMaskBindings:p.layers.filter(l=>l.iconMask&&l.exportIncluded!==false).map(l=>({layerId:l.id,fontId:iconMaskId(l),fontFile:"resources/fonts/"+iconMaskId(l)+".fnt",glyph:"A"})),
+    iconMaskPolicy:"iconMask uses uploaded image alpha as a recolorable glyph. Managed FNT/PNG files are merged automatically; declare each supplied fontId/fontFile in resources/fonts/fonts.xml and draw glyph A at layer top-left with foreground color and no vertical centering. Do not substitute raw RGB artwork or invent bitmap tint APIs. sourceIcons maps source-control option values to visible image IDs; compile every variant, preserve independent active/AOD inclusion and condition draw at runtime.",
     ...(p.themes?{themes:{version:1,activeId:p.themes.activeId,defaultId:p.themes.defaultId,presets:p.themes.presets.map(t=>({...objectFields(t,["id","name","version","backgroundColor"]),layerIds:t.layerIds.map(scalar),controlIds:t.controlIds.map(scalar)}))},themePolicy:"One application contains every theme. Runtime theme selects the complete preset, including active/AOD layout and background. Controls belong to individual themes, persist separately and reset current theme only. Never export only the current theme or switch by reinstalling a PRG. Provide AppBase.getSettingsView on-device settings."}:{}),
     designBrief: scalar(p.designBrief),
     backgroundColor: scalar(p.backgroundColor),
     controls: p.controls?.map((c) => ({
       ...objectFields(c, ["id", "label", "type", "default"]),
       options: c.options?.map(scalar),
+      ...(c.sourceIcons?{sourceIcons:Object.fromEntries(Object.entries(c.sourceIcons).map(([source,list])=>[source,list.map(scalar)]))}:{}),
       ...(c.slot?{slot:true,sourceGoals:c.sourceGoals?Object.fromEntries(Object.entries(c.sourceGoals).map(([k,v])=>[k,scalar(v)])):undefined,preserveFormatFor:c.preserveFormatFor?.map(scalar)}:{}),
       targets: c.targets.map((t) => objectFields(t, ["layerId", "property"])),
       hideWhenChangedFromDefault: c.hideWhenChangedFromDefault?.map(scalar),

@@ -1,4 +1,5 @@
 import { expandWidgets } from "./compound.ts";
+import {preparedIconMasks} from "./iconMasks";
 import { preparedChalk } from "./chalkFonts";
 import { iconVariants, iconResourcePath } from "./weatherIcons";
 import type { Layer, Project } from "./domain";
@@ -146,6 +147,6 @@ export async function preparedAssets(p: Project) {
       });
   }
 
-  for (const a of (await preparedChalk(p)).assets) assets.set(a.path, a);
+  for (const a of [...(await preparedChalk(p)).assets,...(await preparedIconMasks(p)).assets]) assets.set(a.path, a);
   return [...assets.values()];
 }
