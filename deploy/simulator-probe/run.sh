@@ -4,13 +4,15 @@ set -euo pipefail
 [[ "$DEVICE" =~ ^[a-z0-9]+$ ]] || exit 2
 mkdir -p "$HOME/.Garmin/ConnectIQ" /tmp/bin
 ln -s /sdk/share /tmp/share
+ln -s /sdk/resources /tmp/resources
+for entry in /sdk/bin/*; do name=$(basename "$entry"); case "$name" in simulator|shell) continue;; esac; ln -s "$entry" "/tmp/bin/$name"; done
 if [ -d /device-cache/Devices ]; then ln -s /device-cache/Devices "$HOME/.Garmin/ConnectIQ/Devices"; fi
 cp /sdk/bin/simulator /sdk/bin/shell /tmp/bin/
 chmod 700 /tmp/bin/simulator /tmp/bin/shell
 Xvfb :99 -screen 0 1200x1000x24 -nolisten tcp > /output/xvfb.log 2>&1 &
 xpid=$!
 spid=""
-cleanup(){ import -window root /output/desktop.png 2>/dev/null || true; if [ -n "$spid" ]; then kill "$spid" 2>/dev/null || true; fi; kill "$xpid" 2>/dev/null || true; }
+cleanup(){ cat /sys/fs/cgroup/memory.peak > /output/memory-peak-bytes.txt 2>/dev/null || true; import -window root /output/desktop.png 2>/dev/null || true; if [ -n "$spid" ]; then kill "$spid" 2>/dev/null || true; fi; kill "$xpid" 2>/dev/null || true; }
 trap cleanup EXIT
 for i in $(seq 1 30); do if xdpyinfo >/dev/null 2>&1; then break; fi; sleep 1; done
 cd /sdk/bin
