@@ -1,3 +1,4 @@
+import {activeTheme,themeControls,selectTheme,resetTheme,setThemeBackground,themeBackground} from "./themes";
 import {validateChart} from "./charts";
 import {generationContext} from "./generationContext";
 import {validPolygon} from "./geometry";
@@ -30,6 +31,7 @@ const bools = [
   "meterContinuous",
   "groupThousands",
   "autoSourceFormat",
+  "metricDecoration",
   "fillEnabled",
   "strokeEnabled",
   "allowClip",
@@ -73,6 +75,7 @@ export function chatFingerprint(p: Project) {
     target: p.target,
     deviceSize: p.deviceSize,
     layers: p.layers,
+    themes:p.themes,
     controls: p.controls,
     controlValues: p.controlValues,
     backgroundColor: p.backgroundColor,
@@ -117,10 +120,11 @@ export function chatPayload(p: Project, selected: string[]) {
     capabilities:designCapabilityContext(),
     device: generationDevice(p),
     coordinateSystem: { width: 454, height: 454, shape: "circle" },
-    backgroundColor: p.backgroundColor,
+    backgroundColor: scene.backgroundColor,
+    themes:p.themes?{activeId:activeTheme(p)?.id,defaultId:p.themes.defaultId,presets:p.themes.presets.map(t=>({id:t.id,name:t.name,version:t.version,backgroundColor:themeBackground(p,t.id),defaultBackgroundColor:t.backgroundColor})),policy:"Operations target current theme/common objects only. Select a different theme explicitly before adjusting it. Reset clears current user control/background overrides, not geometry/default definitions. Never modify private theme internals."}:undefined,
     selectedLayerIds: selected,
     layers: scene.layers.map(describe),
-    controls: p.controls?.map((c) => ({
+    controls: themeControls(p).map((c) => ({
       id: c.id,
       label: c.label,
       type: c.type,
@@ -144,6 +148,8 @@ export function chatPayload(p: Project, selected: string[]) {
       addKinds: kinds,
       maxOperations: 80,
       operations: [
+        {type:"theme",action:"select",themeId:"existing theme id"},
+        {type:"theme",action:"reset"},
         { type: "update", id: "existing id", patch: { x: 90 } },
         {
           type: "add",
@@ -184,6 +190,7 @@ function patchLayer(l: Layer, patch: unknown): Layer {
     throw Error("复合控件只能整体修改位置、尺寸或显示；配色请使用内部参数");
   for (const [k, v] of Object.entries(patch as Record<string, unknown>)) {
     if(k==="chart"){if(l.kind!=="chart"||!object(v))throw Error("AI图表配置无效");validateChart({...l,chart:v as Layer["chart"]});}
+    else if(k==="handShape"){if(l.kind!=="hand"||!object(v))throw Error("指针轮廓须为对象");}
     else if(k === "polygonPoints"){if(l.kind!=="polygon"||!validPolygon(v))throw Error("AI多边形无效");}
     else if (k === "thresholdRules") {
       if (
@@ -254,6 +261,7 @@ export function applyChat(
   )
     throw Error("AI 对话结果格式无效");
   let next = structuredClone(p);
+  if(next.themes)next.themes.activeId=activeTheme(next)!.id;
   const changes: string[] = [];
   for (const op of data.operations) {
     if (!object(op)) throw Error("AI 操作格式无效");
@@ -261,17 +269,21 @@ export function applyChat(
       keys(op, ["type", "color"]);
       if (typeof op.color !== "string" || !/^#[a-f0-9]{6}$/i.test(op.color))
         throw Error("背景色无效");
-      next.backgroundColor = op.color;
+      next=setThemeBackground(next,op.color);
       changes.push("背景色 → " + op.color);
+    } else if(op.type==="theme"){
+      if(op.action==="select"){keys(op,["type","action","themeId"]);next=selectTheme(next,op.themeId);changes.push("切换主题："+activeTheme(next)!.name);}
+      else if(op.action==="reset"){keys(op,["type","action"]);if(!next.themes)throw Error("当前项目没有主题");const affected=themeControls(next).filter(c=>activeTheme(next)!.controlIds.includes(c.id));if(affected.some(c=>c.targets.some(t=>next.layers.find(l=>l.id===t.layerId)?.locked)))throw Error("主题配置目标已锁定，不能重置");next=resetTheme(next);changes.push("恢复当前主题配置默认值");}
+      else throw Error("AI主题操作无效");
     } else if (op.type === "add") {
       keys(op, ["type", "kind", "patch"]);
       if (!kinds.includes(op.kind)) throw Error("不支持添加该控件类型");
       const added = patchLayer({ ...layer(op.kind), id: uid() }, op.patch);
-      next.layers.push(added);
+      next=withEditorLayers(next,[...next.layers,added]);
       changes.push("添加：" + added.name);
     } else if (op.type === "addWidget") {
       keys(op, ["type", "widgetId"]);
-      next = insertWidget(next, op.widgetId);
+      next=insertWidget(next,op.widgetId);
       changes.push("添加复合控件：" + next.layers.at(-1)!.name);
     } else if (op.type === "control") {
       keys(op, ["type", "id", "widgetId", "value"]);
@@ -282,6 +294,7 @@ export function applyChat(
         : undefined;
       if (op.widgetId && (!root?.compound || root.locked))
         throw Error("复合控件不存在或已锁定");
+      if(op.widgetId&&!resolveControls(next).layers.some(l=>l.id===op.widgetId))throw Error("只能修改当前主题可见复合控件");
       const target = root?.compound;
       const state = target
         ? {
@@ -292,7 +305,7 @@ export function applyChat(
             controlValues: target.controlValues,
           }
         : next;
-      const c = state.controls?.find((c) => c.id === op.id);
+      const c = (target?state.controls:themeControls(state))?.find((c) => c.id === op.id);
       if (!c) throw Error("配置项不存在");
       if (
         c.targets.some(
@@ -305,11 +318,11 @@ export function applyChat(
       else next = applied;
       changes.push("设置：" + c.label);
     } else {
-      const root = next.layers.find((l) => l.id === op.id);
+      const root = resolveControls(next).layers.find((l) => l.id === op.id);
       if (!root || root.locked) throw Error("目标控件不存在或已锁定");
       if (op.type === "update") {
         keys(op, ["type", "id", "patch"]);
-        const updated = patchLayer(root, op.patch);
+        patchLayer(root, op.patch);
         for (const c of next.controls || [])
           for (const t of c.targets.filter((t) => t.layerId === root.id)) {
             if (Object.hasOwn(op.patch, t.property))
@@ -320,7 +333,9 @@ export function applyChat(
             )
               throw Error("该阈值颜色由配置控制，请使用 control 操作");
           }
-        next.layers = next.layers.map((l) => (l.id === root.id ? updated : l));
+        const controlled=new Set((next.controls||[]).flatMap(c=>c.targets.filter(t=>t.layerId===root.id).map(t=>t.property)));
+        const rawPatch=Object.fromEntries(Object.entries(op.patch).filter(([key])=>!controlled.has(key as any)));
+        next.layers = next.layers.map((l) => (l.id === root.id ? {...l,...rawPatch} : l));
         changes.push("调整：" + root.name);
       } else if (op.type === "remove") {
         keys(op, ["type", "id"]);

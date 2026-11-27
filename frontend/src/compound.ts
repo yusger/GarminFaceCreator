@@ -334,6 +334,7 @@ export function validateCompound(
   validateCompoundOverrides(l, l.compoundOverrides);
   validate({
     ...p,
+    themes:undefined,
     multiDevice: undefined,
     layers: b.layers.map((c) => ({ ...c, ...l.compoundOverrides?.[c.id] })),
     controls: b.controls,

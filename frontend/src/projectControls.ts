@@ -1,4 +1,4 @@
-import {activeTheme,themeLayers} from "./themes.ts";
+import {activeTheme,themeLayers,themeBackground} from "./themes.ts";
 import { validateDataSlots, sourceSlotLayer,sourceSlotLabel } from "./dataSlots.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
 import type { Project, Layer } from "./domain.ts";
@@ -249,7 +249,7 @@ export function resolveControls(p: Project,allThemes=false): Project {
     const c=p.controls?.find(c=>c.slot && c.targets.some(t=>t.layerId===l.id && t.property==="source"));
     return c?sourceSlotLayer(p,l,c,String(controlValue(p,c))):l;
   });
-  const resolved={ ...p, layers: slotted.map((l) => resolvedLayer(l, slotted,p.controls)),backgroundColor:allThemes?p.backgroundColor:activeTheme(p)?.backgroundColor||p.backgroundColor };
+  const resolved={ ...p, layers: slotted.map((l) => resolvedLayer(l, slotted,p.controls)),backgroundColor:allThemes?p.backgroundColor:themeBackground(p) };
   return allThemes?resolved:{...resolved,layers:themeLayers(resolved)};
 }
 export function setControl(

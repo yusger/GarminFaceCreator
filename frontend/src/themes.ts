@@ -15,12 +15,20 @@ export type ThemeSet = {
   activeId: string;
   defaultId: string;
   presets: ThemePreset[];
+  overrides?:Record<string,{backgroundColor?:string}>;
 };
 export function activeTheme(p: Pick<Project, "themes">) {
   return (
     p.themes?.presets.find((t) => t.id === p.themes!.activeId) ||
     p.themes?.presets.find((t) => t.id === p.themes!.defaultId)
   );
+}
+export function themeBackground(p:Pick<Project,"themes"|"backgroundColor">,id=activeTheme(p)?.id){return (id?p.themes?.overrides?.[id]?.backgroundColor||p.themes?.presets.find(t=>t.id===id)?.backgroundColor:undefined)||p.backgroundColor||"#000000";}
+export function setThemeBackground(p:Project,color:string):Project{
+ if(p.multiDevice?.scope==="device")throw Error("请切换共享主设计后修改主题");
+ if(!/^#[0-9a-f]{6}$/i.test(color))throw Error("主题背景色无效");
+ const theme=activeTheme(p);if(!p.themes||!theme)return {...p,backgroundColor:color};
+ return {...p,themes:{...p.themes,overrides:{...p.themes.overrides,[theme.id]:{...p.themes.overrides?.[theme.id],backgroundColor:color}}}};
 }
 export function themeIndex(p: Pick<Project, "themes">) {
   return p.themes?.presets.findIndex((t) => t.id === activeTheme(p)?.id) ?? 0;
@@ -104,6 +112,7 @@ export function validateThemes(p: Project) {
       controls.add(id);
     }
   }
+  if(set.overrides!==undefined){if(!set.overrides||typeof set.overrides!=="object"||Array.isArray(set.overrides)||Object.entries(set.overrides).some(([id,v])=>!ids.has(id)||!v||typeof v!=="object"||Array.isArray(v)||Object.keys(v).some(k=>k!=="backgroundColor")||v.backgroundColor!==undefined&&!/^#[0-9a-f]{6}$/i.test(v.backgroundColor)))throw Error("主题覆盖引用或背景色无效");}
   if (!ids.has(set.defaultId)) throw Error("主题默认项不存在");
   for (const c of p.controls || [])
     if (!controls.has(c.id) && c.targets.some((x) => layers.has(x.layerId)))
@@ -129,7 +138,8 @@ export function resetTheme(p: Project): Project {
       ([id]) => !theme.controlIds.includes(id),
     ),
   );
-  return { ...selectTheme(p, theme.id), controlValues: values };
+  const next=selectTheme(p,theme.id),overrides={...next.themes!.overrides};delete overrides[theme.id];
+  return {...next,themes:{...next.themes!,overrides},controlValues:values};
 }
 // Layer-list operations operate only on the visible preset; other presets retain exact identities and order.
 export function mergeThemeLayers(p:Project,edited:Layer[]){

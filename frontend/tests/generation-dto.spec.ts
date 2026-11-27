@@ -1,3 +1,4 @@
+import {GENERATION_FIELD_CONTRACT_VERSION} from "../src/generationFields";
 import {readRequestHistory,ENGINEERING_PROMPT_VERSION} from "../src/aiRequestHistory";
 import { ink } from "../src/Scene";
 import { test, expect } from "@playwright/test";
@@ -91,7 +92,7 @@ test("model payload uses a schema whitelist and drops imported unknown metadata 
   ]);
   expect(design.layers[1].libraryIcon.strokeWidth).toBe(2);
   expect(readRequestHistory().at(-1)).toMatchObject({kind:"engineering",profileId:profile.id,promptVersion:ENGINEERING_PROMPT_VERSION,sourceContractVersion:"1.0.0"});
-  expect(design.generationFieldContractVersion).toBe("fields-1");
+  expect(design.generationFieldContractVersion).toBe(GENERATION_FIELD_CONTRACT_VERSION);
   expect(design.layers[2].polygonPoints).toEqual([[0.1,0],[0.9,0],[1,1],[0,1]]);
   expect(design.layoutGuide.safeInsetPx).toBe(20);
   expect(design.layoutGuide.showGuide).toBeUndefined();

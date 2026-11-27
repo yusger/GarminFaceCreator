@@ -1,3 +1,4 @@
+import {CURRENT_SCHEMA} from "../src/migrations";
 import { test, expect } from "@playwright/test";
 import { project, layer, validateProject } from "../src/domain";
 import { createDataSlot, sourceSlotLayer } from "../src/dataSlots";
@@ -81,7 +82,7 @@ test("invalid bindings reject atomically; IDs, overrides and snapshots survive i
   const restored = restoreDesignSnapshot(changed, snap.activeDesignSnapshot!);
   expect(resolveControls(restored).layers[0].source).toBe("steps");
   const imported = validateProject(p);
-  expect(imported.schemaVersion).toBe(37);
+  expect(imported.schemaVersion).toBe(CURRENT_SCHEMA);
   expect(imported.controls![0].targets[0].layerId).toBe(imported.layers[0].id);
   expect(editorFrame(changed).controlValues).toEqual(changed.controlValues);
   const removed = withEditorLayers(

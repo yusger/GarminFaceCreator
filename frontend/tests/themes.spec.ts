@@ -1,3 +1,5 @@
+import {applyChat,chatPayload,chatFingerprint} from "../src/designChat";
+import {themeBackground,setThemeBackground} from "../src/themes";
 import { test, expect } from "@playwright/test";
 import { project, layer, validateProject } from "../src/domain";
 import {
@@ -148,3 +150,31 @@ test("113 switches complete presets and preserves independent settings after rel
 });
 
 test("editing projected layers preserves raw defaults and updates controlled palette overrides",()=>{let p=themedFixture();p=setControl(p,"apex-color","#123456");const visible=resolveControls(p).layers;const moved=mergeThemeLayers(p,[{...visible[0],x:55}]);expect(moved[0].color).toBe("#FF6A1A");expect(moved[0].x).toBe(55);const palette=resolvedLayerEdits(p,[{...visible[0],color:"#ABCDEF"}]);expect(palette.controlValues!["apex-color"]).toBe("#ABCDEF");expect(resolveControls(palette).layers[0].color).toBe("#ABCDEF");expect(palette.layers[1]).toEqual(p.layers[1]);});
+
+const chat=(operations:unknown[])=>JSON.stringify({message:"已调整当前主题",operations});
+test("AI scopes controls/layers to the active theme and keeps preset defaults immutable",()=>{
+ const p=themedFixture(),context=chatPayload(p,[]);expect(context.controls.map(c=>c.id)).toEqual(["apex-color"]);expect(context.themes?.presets).toHaveLength(2);expect(context.backgroundColor).toBe("#0E1319");
+ const changed=applyChat(p,chat([{type:"update",id:"apex-time",patch:{color:"#123456",x:100}},{type:"background",color:"#112233"}])).project;
+ expect(changed.layers[0].color).toBe("#FF6A1A");expect(changed.layers[0].x).toBe(100);expect(resolveControls(changed).layers[0].color).toBe("#123456");expect(themeBackground(changed)).toBe("#112233");expect(changed.themes!.presets[0].backgroundColor).toBe("#0E1319");expect(themeBackground(selectTheme(changed,"trail"))).toBe("#17140E");expect(chatFingerprint(changed)).not.toBe(chatFingerprint(p));
+ for(const op of [{type:"update",id:"trail-time",patch:{color:"#123456"}},{type:"remove",id:"trail-time"},{type:"control",id:"trail-color",value:"#123456"}])expect(()=>applyChat(p,chat([op]))).toThrow();
+ const other=applyChat(changed,chat([{type:"theme",action:"select",themeId:"trail"},{type:"control",id:"trail-color",value:"#654321"}])).project;expect(other.controlValues!["trail-color"]).toBe("#654321");expect(other.controlValues!["apex-color"]).toBe("#123456");expect(p.controlValues).toBeUndefined();
+ const reset=applyChat(other,chat([{type:"theme",action:"select",themeId:"apex"},{type:"theme",action:"reset"}])).project;expect(themeBackground(reset)).toBe("#0E1319");expect(resolveControls(reset).layers[0].color).toBe("#FF6A1A");expect(reset.layers[0].x).toBe(100);expect(reset.controlValues!["trail-color"]).toBe("#654321");
+ expect(generationHeader(changed).themes!.presets[0].backgroundColor).toBe("#112233");expect(localGenerate(changed).find(f=>f.path==="source/App.mc")!.content).toContain("0x112233");
+});
+test("new AI objects belong to the active preset; invalid theme patches stay atomic and locks are respected",()=>{
+ const p=themedFixture(),next=applyChat(p,chat([{type:"add",kind:"text",patch:{text:"HELLO",x:150,y:200,w:100,h:30}}])).project,id=next.layers.at(-1)!.id;expect(next.themes!.presets[0].layerIds).toContain(id);expect(resolveControls(selectTheme(next,"trail")).layers.some(l=>l.id===id)).toBe(false);
+ const hidden=applyChat(p,chat([{type:"addWidget",widgetId:"capsule-metric"}])).project,w=hidden.layers.at(-1)!;expect(hidden.themes!.presets[0].layerIds).toContain(w.id);expect(()=>applyChat(selectTheme(hidden,"trail"),chat([{type:"part",id:w.id,partId:w.compound!.parts[0].id,patch:{enabled:false}}]))).toThrow();
+ expect(()=>applyChat(p,chat([{type:"control",id:"apex-color",value:"#123456"},{type:"theme",action:"select",themeId:"missing"}]))).toThrow();expect(p.controlValues).toBeUndefined();
+ const locked=structuredClone(p);locked.layers[0].locked=true;expect(()=>applyChat(locked,chat([{type:"theme",action:"reset"}]))).toThrow(/锁定/);
+ expect(()=>validateProject({...p,themes:{...p.themes!,overrides:{missing:{backgroundColor:"#123456"}}}})).toThrow(/覆盖/);
+ const copy=validateProject(setThemeBackground(p,"#123456"));expect(themeBackground(copy)).toBe("#123456");expect(themeBackground(resetTheme(copy))).toBe("#0E1319");
+});
+
+test("113 AI theme transaction switches preset, changes only its background, and supports undo",async({page})=>{
+ await page.addInitScript(()=>{localStorage.setItem("gfc-profiles",JSON.stringify([{id:"theme-test",name:"ThemeTest",url:"https://api.example.com/v1",model:"test-model",key:"",remember:false,temperature:.2,tokens:8192}]));sessionStorage.setItem("gfc-key-theme-test","test-only-key");});
+ const p=themedFixture();await page.goto("/");await page.evaluate(value=>new Promise<void>((resolve,reject)=>{const r=indexedDB.open("garmin-face-creator",2);r.onsuccess=()=>{const db=r.result,t=db.transaction("projects","readwrite");t.objectStore("projects").put(value);t.oncomplete=()=>{db.close();resolve();};t.onerror=()=>reject(t.error);};}),p);await page.reload();await page.getByRole("button",{name:"我的表盘",exact:true}).click();await page.getByRole("button",{name:"打开 ThemeFixture",exact:true}).click();
+ await page.route("https://api.example.com/v1/chat/completions",async route=>{const body=route.request().postDataJSON(),context=JSON.parse(body.messages.at(-1).content.split("CURRENT_DESIGN_CONTEXT\n")[1]);expect(context.themes.activeId).toBe("apex");expect(context.controls.map((c:any)=>c.id)).toEqual(["apex-color"]);await route.fulfill({json:{choices:[{message:{content:chat([{type:"theme",action:"select",themeId:"trail"},{type:"background",color:"#123456"},{type:"control",id:"trail-color",value:"#ABCDEF"}])}}]}});});
+ await page.getByRole("button",{name:"AI 设计助手",exact:true}).click();await page.getByLabel("设计对话输入").fill("切换Trail并调整配色");await page.getByRole("button",{name:"发送并调整",exact:true}).click();await expect(page.getByRole("log")).toContainText("切换主题：Trail");await page.getByRole("button",{name:"应用调整",exact:true}).click();
+ const download=page.waitForEvent("download");await page.getByRole("button",{name:"导出项目",exact:true}).click();const {readFile}=await import("node:fs/promises"),saved=JSON.parse(await readFile((await(await download).path())!,"utf8"));expect(saved.themes.activeId).toBe("trail");expect(saved.themes.overrides.trail.backgroundColor).toBe("#123456");expect(saved.controlValues["trail-color"]).toBe("#ABCDEF");expect(saved.layers[1].color).toBe("#FFC04A");expect(saved.themes.presets[0].backgroundColor).toBe("#0E1319");
+ await page.getByTitle("撤销",{exact:true}).click();await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();
+});

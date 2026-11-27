@@ -1,3 +1,5 @@
+import {capabilityVersion} from "../src/capabilities";
+import {GENERATION_FIELD_CONTRACT_VERSION} from "../src/generationFields";
 import { test, expect, type Page } from "@playwright/test";
 import { project, layer, validateProject } from "../src/domain";
 import { applyChat, chatPayload, chatFingerprint } from "../src/designChat";
@@ -174,8 +176,8 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
       const context = JSON.parse(
         body.messages.at(-1).content.split("CURRENT_DESIGN_CONTEXT\n")[1],
       );
-      expect(context.capabilities.catalogVersion).toBe("1.6.1");
-      expect(context.capabilities.generationFieldContractVersion).toBe("fields-1");
+      expect(context.capabilities.catalogVersion).toBe(capabilityVersion);
+      expect(context.capabilities.generationFieldContractVersion).toBe(GENERATION_FIELD_CONTRACT_VERSION);
       expect(context.capabilities.deterministic.rotation.supportedKinds).toEqual(["rect","line","circle","polygon"]);
       const operations =
         count === 1
@@ -245,7 +247,7 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
       (s: any) =>
         s.kind === "chat" &&
         s.status === "response" &&
-        s.promptVersion === "chat-9-design-identity" &&
+        s.promptVersion === "chat-10-theme-scope" &&
         s.profileId === "chat-test" && s.sourceContractVersion === "1.0.0" &&
         s.context?.version === "request-context-1" && s.context.target === "venu445mm" && s.context.inputFingerprint.startsWith("local-v1:"),
     ),

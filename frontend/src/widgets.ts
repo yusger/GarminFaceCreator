@@ -1,3 +1,4 @@
+import {withEditorLayers} from "./editorHistory.ts";
 import { groupBox } from "./selection.ts";
 import { compoundV1Kinds, compoundV2Kinds, makeParts } from "./compound.ts";
 import { reconcileDevices } from "./multiDevice.ts";
@@ -30,7 +31,8 @@ type Widget = {
 };
 export const widgets = catalog as unknown as Widget[];
 function topology(p: Project, next: Project) {
-  const result = reconcileDevices(p, next)!;
+  const scoped=withEditorLayers({...next,layers:p.layers},next.layers);
+  const result = reconcileDevices(p, scoped)!;
   if (result.multiDevice)
     result.multiDevice = {
       ...result.multiDevice,

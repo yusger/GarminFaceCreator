@@ -1,3 +1,4 @@
+import {themeBackground} from "./themes.ts";
 import {nativeChartDraw,nativeChartHelpers} from "./nativeCharts.ts";
 import {validateChart} from "./charts.ts";
 import {iconMaskId} from "./iconMasks.ts";
@@ -28,7 +29,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-45-daily-chart";
+export const LOCAL_GENERATOR_VERSION = "basic-46-theme-scope";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -505,7 +506,7 @@ class GeneratedView extends WatchUi.WatchFace {
       "",
     )}var currentActivityInfo=null;if(!sleeping){${dataReads}${charts.length?"refreshChartHistory(currentActivityInfo);":""}${dataSources.filter(s=>s!=="seconds").map(s=>`gfcMetricCache[:${s}]=data${s};`).join("")}}else{${dataSources.filter(s=>s!=="seconds").map(s=>`if(gfcMetricCache.hasKey(:${s})){data${s}=gfcMetricCache[:${s}];}`).join("")}}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
   ${included.some((l) => l.dateFormat === "monthDayWeek") ? 'var dateMonthDayWeek=calendar.month.format("%02d")+"."+calendar.day.format("%02d")+" "+["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1];' : ""}
-  ${`var bg=sleeping?Graphics.COLOR_BLACK:${p.themes?"["+p.themes.presets.map(t=>color(t.backgroundColor)).join(",")+"][cfgTheme]":color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
+  ${`var bg=sleeping?Graphics.COLOR_BLACK:${p.themes?"["+p.themes.presets.map(t=>color(themeBackground(p,t.id))).join(",")+"][cfgTheme]":color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   ${frameAssignments}
   if(sleeping){${renderCalls.aod.join("")}}else{${renderCalls.active.join("")}}
   frameContext=null;
