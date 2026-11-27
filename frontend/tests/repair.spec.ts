@@ -1,3 +1,4 @@
+import {repairResourceReferences} from "../src/repair";
 import { test, expect } from "@playwright/test";
 import { project, layer } from "../src/domain";
 import { localGenerate } from "../src/localGenerator";
@@ -194,3 +195,6 @@ test("cancelled repair leaves applied code unchanged and still consumes a round"
   await expect(page.locator(".history")).toContainText("1/20");
   await expect(page.locator(".history")).not.toContainText("已修补");
 });
+
+
+test("resource repairs receive real relative asset names and cannot invent new file references",()=>{const p=project("ResourceRepair",true);p.layers=[{...layer("image"),id:"picture",assetId:"actual",image:"data:image/png;base64,AAAA"}];p.files=[{path:"manifest.xml",content:"<manifest/>"},{path:"monkey.jungle",content:"project.manifest = manifest.xml"},{path:"source/App.mc",content:"// fixture"},{path:"resources/drawables/drawables.xml",content:'<drawables><bitmap id="Art" filename="wrong.png"/></drawables>'}];const paths=["resources/drawables/drawables.xml"],refs=repairResourceReferences(p,paths);expect(refs).toEqual([{file:paths[0],projectPath:"assets/actual.png",filename:"../../assets/actual.png"}]);const response=(filename:string)=>JSON.stringify({files:[{path:paths[0],content:`<drawables><bitmap id="Art" filename="${filename}"/></drawables>`}]});expect(()=>mergeRepair(p,paths,response("../../assets/actual.png"))).not.toThrow();expect(()=>mergeRepair(p,paths,response("../../secret.txt"))).toThrow("未授权素材路径");});

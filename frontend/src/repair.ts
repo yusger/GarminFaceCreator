@@ -1,3 +1,4 @@
+import {binaryAssets} from "./assets";
 import {
   parseFiles,
   type CodeFile,
@@ -33,6 +34,7 @@ export function redactRepair(text: string, secrets: string[] = []) {
       "[LOCAL_PATH]",
     );
 }
+export function repairResourceReferences(p:Project,paths:string[]){return paths.filter(path=>path.startsWith("resources/")&&path.endsWith(".xml")).flatMap(file=>binaryAssets(p).map(asset=>({file,projectPath:asset.path,filename:"../".repeat(file.split("/").length-1)+asset.path})));}
 export function repairPayload(
   p: Project,
   paths: string[],
@@ -78,8 +80,9 @@ export function repairPayload(
       content: redactRepair(f.content, [profile.key]),
     })),
     logs: redactRepair(logs, [profile.key]),
+    allowedResourceReferences:repairResourceReferences(p,paths),
     constraints:
-      "Only replace selected existing files. Do not add or delete files or alter manifest, jungle, identity, device, permissions, resource paths or build commands. No networking, shell, secrets or external resources. Preserve unrelated behavior and AOD lifecycle.",
+      "Only replace selected existing files. Do not add or delete files or alter manifest, jungle, identity, device, permissions or build commands. Resource filenames may only be corrected to an explicit filename in allowedResourceReferences for that selected file; do not invent paths. No networking, shell, secrets or external resources. Preserve unrelated behavior and AOD lifecycle.",
   };
 }
 export function mergeRepair(
@@ -100,6 +103,12 @@ export function mergeRepair(
       !f.content.trim()
     )
       throw Error("修复返回了未授权、重复或无效文件");
+    if(f.path.startsWith("resources/")&&f.path.endsWith(".xml")){
+      const filenames=(text:string)=>[...text.matchAll(/\bfilename\s*=\s*["']([^"']+)["']/g)].map(m=>m[1]);
+      const before=new Set(filenames(p.files.find(x=>x.path===f.path)!.content));
+      const allowed=new Set(repairResourceReferences(p,paths).filter(r=>r.file===f.path).map(r=>r.filename));
+      if(filenames(f.content).some(name=>!before.has(name)&&!allowed.has(name)))throw Error("修复引用了未授权素材路径");
+    }
     seen.add(f.path.toLowerCase());
   }
   const merged = p.files.map(
