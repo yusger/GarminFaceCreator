@@ -45,6 +45,7 @@ export function repairPayload(
         "source/GfcIcons.mc",
         "source/GfcWordTime.mc",
         "resources/drawables/gfc-icons.xml",
+        "resources/fonts/gfc-managed-fonts.xml",
       ].includes(path),
     )
   )

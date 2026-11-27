@@ -1,3 +1,4 @@
+import {nativeFontBindings,mergeNativeFonts} from "../src/nativeFontResources";
 import {iconMaskId} from "../src/iconMasks";
 import {test,expect} from "@playwright/test";
 import {readFile,mkdir,writeFile} from "node:fs/promises";
@@ -46,3 +47,9 @@ test("113 trail uses the protected default reference card and creates editable t
  for(const id of ["apex","trail","vital"]){await page.getByLabel("主题预设",{exact:true}).selectOption(id);await expect(page.getByLabel("主题预设",{exact:true})).toHaveValue(id);}
  await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();
 });
+
+
+test("complete native themes keep font resource references temporary and share text paint code",async()=>{const p=await fixture(),s=localGenerate(p).find(f=>f.path==="source/App.mc")!.content;expect(s).toContain("function fontFor(id){return WatchUi.loadResource(id);}");expect(s).not.toContain("var fonts={}");expect(s).toContain("textPaint(dc,");expect(s.match(/function textPaint/g)).toHaveLength(1);expect(s.length).toBeLessThan(260000);});
+
+
+test("AI engineering receives exact managed native fonts without font bytes or duplicate declarations",async()=>{const p=await fixture(),bindings=nativeFontBindings(p);expect(bindings.length).toBeGreaterThan(20);const id=bindings[0].activeFontId,files=mergeNativeFonts(p,[{path:"resources/fonts/fonts.xml",content:`<fonts><font id="${id}" filename="bad.fnt"/></fonts>`}]);expect(files.find(f=>f.path==="resources/fonts/fonts.xml")!.content).toBe("<fonts></fonts>");const managed=files.find(f=>f.path.endsWith("gfc-managed-fonts.xml"))!.content;expect(managed).toContain(id);expect(managed.match(new RegExp(`id="${id}"`,"g"))).toHaveLength(1);expect(JSON.stringify(bindings)).not.toContain("base64");});

@@ -26,7 +26,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-43-native454";
+export const LOCAL_GENERATOR_VERSION = "basic-44-resource-lifetime";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -199,7 +199,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
       `}`
     );
   }
-  if(l.kind==="image"&&l.iconMask)return `dc.setColor(${color(aod?l.aodColor||l.color:l.color)},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(${color(aod?l.aodColor||l.color:l.color)}>>16)&255,(${color(aod?l.aodColor||l.color:l.color)}>>8)&255,${color(aod?l.aodColor||l.color:l.color)}&255));dc.setColor(${color(aod?l.aodColor||l.color:l.color)},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(l.x)}),px(${num(l.y)}),fontFor(Rez.Fonts.${iconMaskId(l)}),"A",Graphics.TEXT_JUSTIFY_LEFT);`;
+  if(l.kind==="image"&&l.iconMask)return `textPaint(dc,${color(aod?l.aodColor||l.color:l.color)},255);dc.setColor(${color(aod?l.aodColor||l.color:l.color)},Graphics.COLOR_TRANSPARENT);dc.drawText(px(${num(l.x)}),px(${num(l.y)}),fontFor(Rez.Fonts.${iconMaskId(l)}),"A",Graphics.TEXT_JUSTIFY_LEFT);`;
   if (l.kind === "image" && !l.libraryIcon)
     return `drawStaticImage(dc,Rez.Drawables.${bitmapId(l)},px(${num(l.x)}),px(${num(l.y)}));`;
   if (l.kind === "image" && l.libraryIcon)
@@ -251,7 +251,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
       : paint;
   return (
     prefix +
-    `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.setStroke(Graphics.createColor(${Math.round((l.opacity ?? 1) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${nativeFont},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
+    `textPaint(dc,${ink},${Math.round((l.opacity ?? 1) * 255)});dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${nativeFont},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
     suffix
   );
 }
@@ -429,7 +429,8 @@ class GeneratedView extends WatchUi.WatchFace {
  ${included.some((l) => l.widgetOrigin) ? "function widgetFont(dc,text,preferred,w,h,size){var fonts=[preferred,Graphics.FONT_NUMBER_HOT,Graphics.FONT_LARGE,Graphics.FONT_MEDIUM,Graphics.FONT_SMALL,Graphics.FONT_TINY,Graphics.FONT_XTINY];var chosen=Graphics.FONT_XTINY;var best=0;for(var i=0;i<fonts.size();i++){var height=dc.getFontHeight(fonts[i]);if(height<=h && height<=size*1.35 && height>best && dc.getTextWidthInPixels(text,fonts[i])<=w){chosen=fonts[i];best=height;}}return chosen;}" : ""}
  ${curved.length?nativeCurvedText:""}
  ${settings.helpers}
- ${(chalk.length||masks.length) ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
+ function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));}
+ ${(chalk.length||masks.length) ? "function fontFor(id){return WatchUi.loadResource(id);}" : ""}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}

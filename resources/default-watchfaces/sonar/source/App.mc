@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-43-native454; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-44-resource-lifetime; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
@@ -8,7 +8,8 @@ class GeneratedView extends WatchUi.WatchFace {
  
  
  var settingsCache=null;function prepareSettings(){if(settingsCache==null){settingsCache={};{var v=null;try{v=Application.Properties.getValue("Gfc_primary_color");}catch(e){}settingsCache["Gfc_primary_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xDCE9F0;}{var v=null;try{v=Application.Properties.getValue("Gfc_hour_hand_color");}catch(e){}settingsCache["Gfc_hour_hand_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xDCE9F0;}{var v=null;try{v=Application.Properties.getValue("Gfc_minute_hand_color");}catch(e){}settingsCache["Gfc_minute_hand_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xDCE9F0;}{var v=null;try{v=Application.Properties.getValue("Gfc_second_hand_color");}catch(e){}settingsCache["Gfc_second_hand_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xF2A65F;}{var v=null;try{v=Application.Properties.getValue("Gfc_hr_normal_color");}catch(e){}settingsCache["Gfc_hr_normal_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0x4FD1C5;}{var v=null;try{v=Application.Properties.getValue("Gfc_hr_warning_color");}catch(e){}settingsCache["Gfc_hr_warning_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xF2A65F;}{var v=null;try{v=Application.Properties.getValue("Gfc_hr_alert_color");}catch(e){}settingsCache["Gfc_hr_alert_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xFF6B6B;}{var v=null;try{v=Application.Properties.getValue("Gfc_batt_normal_color");}catch(e){}settingsCache["Gfc_batt_normal_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0x4FD1C5;}{var v=null;try{v=Application.Properties.getValue("Gfc_batt_warning_color");}catch(e){}settingsCache["Gfc_batt_warning_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xF2A65F;}{var v=null;try{v=Application.Properties.getValue("Gfc_batt_alert_color");}catch(e){}settingsCache["Gfc_batt_alert_color"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<=16777215))?v:0xFF6B6B;}{var v=null;try{v=Application.Properties.getValue("Gfc_right_slot_source");}catch(e){}settingsCache["Gfc_right_slot_source"]=(v!=null && (v instanceof Toybox.Lang.Number && v>=0 && v<3 && v.toNumber()==v))?["steps","calories","distance"][v.toNumber()]:"steps";}{var v=null;try{v=Application.Properties.getValue("Gfc_show_seconds");}catch(e){}settingsCache["Gfc_show_seconds"]=(v!=null && (v instanceof Toybox.Lang.Boolean))?v:true;}}}
- var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}
+ function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));}
+ function fontFor(id){return WatchUi.loadResource(id);}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
@@ -55,19 +56,19 @@ if(true){drawStaticImage(dc,Rez.Drawables.GfcImage_sonar_scan_beam,px(0),px(0));
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_date%22%2C%22partId%22%3A%22sonar_date%22%2C%22capabilityId%22%3A%22core.date%22%2C%22mode%22%3A%22active%22%7D
-if(true){dc.setColor(mixTextInk(cfg_primary_color,184,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(184,(mixTextInk(cfg_primary_color,184,bg)>>16)&255,(mixTextInk(cfg_primary_color,184,bg)>>8)&255,mixTextInk(cfg_primary_color,184,bg)&255));dc.setStroke(Graphics.createColor(184,(mixTextInk(cfg_primary_color,184,bg)>>16)&255,(mixTextInk(cfg_primary_color,184,bg)>>8)&255,mixTextInk(cfg_primary_color,184,bg)&255));dc.drawText(px(227),px(90),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_16),dateMonthDayWeek,Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
+if(true){textPaint(dc,mixTextInk(cfg_primary_color,184,bg),184);dc.drawText(px(227),px(90),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_16),dateMonthDayWeek,Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_steps_value%22%2C%22partId%22%3A%22sonar_steps_value%22%2C%22capabilityId%22%3A%22core.metric%22%2C%22mode%22%3A%22active%22%7D
-if(true){if(cfg_right_slot_source.equals("steps")){{var value=datasteps;dc.setColor(cfg_primary_color,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.setStroke(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.drawText(px(352),px(226),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_29),metricText(value,"steps","","",0,"--",true),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}else if(cfg_right_slot_source.equals("calories")){{var value=datacalories;dc.setColor(cfg_primary_color,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.setStroke(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.drawText(px(352),px(226),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_29),metricText(value,"calories","","",0,"--",true),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}else if(cfg_right_slot_source.equals("distance")){{var value=datadistance;dc.setColor(cfg_primary_color,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.setStroke(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.drawText(px(352),px(226),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_29),metricText(value,"distance","","",2,"--",true),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}}
+if(true){if(cfg_right_slot_source.equals("steps")){{var value=datasteps;textPaint(dc,cfg_primary_color,255);dc.drawText(px(352),px(226),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_29),metricText(value,"steps","","",0,"--",true),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}else if(cfg_right_slot_source.equals("calories")){{var value=datacalories;textPaint(dc,cfg_primary_color,255);dc.drawText(px(352),px(226),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_29),metricText(value,"calories","","",0,"--",true),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}else if(cfg_right_slot_source.equals("distance")){{var value=datadistance;textPaint(dc,cfg_primary_color,255);dc.drawText(px(352),px(226),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_29),metricText(value,"distance","","",2,"--",true),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}}
 // GFC_LAYER_END
 
 }
 function render_active_1(dc as Graphics.Dc) as Void {var datasteps=frameContext[:datasteps];var dataheartRate=frameContext[:dataheartRate];var cfg_hr_normal_color=frameContext[:cfg_hr_normal_color] as Toybox.Lang.Number;var cfg_hr_warning_color=frameContext[:cfg_hr_warning_color] as Toybox.Lang.Number;var cfg_hr_alert_color=frameContext[:cfg_hr_alert_color] as Toybox.Lang.Number;var cfg_right_slot_source=frameContext[:cfg_right_slot_source] as Toybox.Lang.String;
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_steps_label%22%2C%22partId%22%3A%22sonar_steps_label%22%2C%22capabilityId%22%3A%22core.text%22%2C%22mode%22%3A%22active%22%7D
-if(true){if(cfg_right_slot_source.equals("steps")){dc.setColor(mixTextInk(0xDCE9F0,158,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.setStroke(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.drawText(px(352),px(253),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"steps",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}else if(cfg_right_slot_source.equals("calories")){dc.setColor(mixTextInk(0xDCE9F0,158,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.setStroke(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.drawText(px(352),px(253),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"kcal",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}else if(cfg_right_slot_source.equals("distance")){dc.setColor(mixTextInk(0xDCE9F0,158,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.setStroke(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.drawText(px(352),px(253),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"km",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
+if(true){if(cfg_right_slot_source.equals("steps")){textPaint(dc,mixTextInk(0xDCE9F0,158,bg),158);dc.drawText(px(352),px(253),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"steps",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}else if(cfg_right_slot_source.equals("calories")){textPaint(dc,mixTextInk(0xDCE9F0,158,bg),158);dc.drawText(px(352),px(253),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"kcal",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}else if(cfg_right_slot_source.equals("distance")){textPaint(dc,mixTextInk(0xDCE9F0,158,bg),158);dc.drawText(px(352),px(253),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"km",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
 // GFC_LAYER_END
 
 
@@ -82,14 +83,14 @@ if(true){drawStaticImage(dc,Rez.Drawables.GfcImage_sonar_heart_icon,px(82),px(17
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_heart_rate%22%2C%22partId%22%3A%22sonar_heart_rate%22%2C%22capabilityId%22%3A%22core.metric%22%2C%22mode%22%3A%22active%22%7D
-if(true){{var value=dataheartRate;var ink=0x7C93A8;if(metricValid(value,"heartRate")){if(true && value<120){ink=cfg_hr_normal_color;}else if(value>=120 && value<150){ink=cfg_hr_warning_color;}else if(value>=150 && true){ink=cfg_hr_alert_color;}}dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.drawText(px(98),px(228),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_38),metricText(value,"heartRate","","",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
+if(true){{var value=dataheartRate;var ink=0x7C93A8;if(metricValid(value,"heartRate")){if(true && value<120){ink=cfg_hr_normal_color;}else if(value>=120 && value<150){ink=cfg_hr_warning_color;}else if(value>=150 && true){ink=cfg_hr_alert_color;}}textPaint(dc,ink,255);dc.drawText(px(98),px(228),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_38),metricText(value,"heartRate","","",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
 // GFC_LAYER_END
 
 }
 function render_active_2(dc as Graphics.Dc) as Void {var clock=frameContext[:clock];var databattery=frameContext[:databattery];var cfg_primary_color=frameContext[:cfg_primary_color] as Toybox.Lang.Number;var cfg_batt_normal_color=frameContext[:cfg_batt_normal_color] as Toybox.Lang.Number;var cfg_batt_warning_color=frameContext[:cfg_batt_warning_color] as Toybox.Lang.Number;var cfg_batt_alert_color=frameContext[:cfg_batt_alert_color] as Toybox.Lang.Number;
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_heart_rate_unit%22%2C%22partId%22%3A%22sonar_heart_rate_unit%22%2C%22capabilityId%22%3A%22core.text%22%2C%22mode%22%3A%22active%22%7D
-if(true){dc.setColor(mixTextInk(0xDCE9F0,158,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.setStroke(Graphics.createColor(158,(mixTextInk(0xDCE9F0,158,bg)>>16)&255,(mixTextInk(0xDCE9F0,158,bg)>>8)&255,mixTextInk(0xDCE9F0,158,bg)&255));dc.drawText(px(98),px(259),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"bpm",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
+if(true){textPaint(dc,mixTextInk(0xDCE9F0,158,bg),158);dc.drawText(px(98),px(259),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"bpm",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
 
@@ -99,19 +100,19 @@ if(true){drawStaticImage(dc,Rez.Drawables.GfcImage_sonar_battery_icon,px(316),px
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_battery_value%22%2C%22partId%22%3A%22sonar_battery_value%22%2C%22capabilityId%22%3A%22core.metric%22%2C%22mode%22%3A%22active%22%7D
-if(true){{var value=databattery;var ink=0x7C93A8;if(metricValid(value,"battery")){if(true && value<10){ink=cfg_batt_alert_color;}else if(value>=10 && value<30){ink=cfg_batt_warning_color;}else if(value>=30 && true){ink=cfg_batt_normal_color;}}dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.drawText(px(332),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_16),metricText(value,"battery","","%",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
+if(true){{var value=databattery;var ink=0x7C93A8;if(metricValid(value,"battery")){if(true && value<10){ink=cfg_batt_alert_color;}else if(value>=10 && value<30){ink=cfg_batt_warning_color;}else if(value>=30 && true){ink=cfg_batt_normal_color;}}textPaint(dc,ink,255);dc.drawText(px(332),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_16),metricText(value,"battery","","%",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_digital_time%22%2C%22partId%22%3A%22sonar_digital_time%22%2C%22capabilityId%22%3A%22core.time%22%2C%22mode%22%3A%22active%22%7D
-if(true){dc.setColor(cfg_primary_color,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.setStroke(Graphics.createColor(255,(cfg_primary_color>>16)&255,(cfg_primary_color>>8)&255,cfg_primary_color&255));dc.drawText(px(203),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_30),clock.hour.format("%02d")+":"+clock.min.format("%02d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
+if(true){textPaint(dc,cfg_primary_color,255);dc.drawText(px(203),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_30),clock.hour.format("%02d")+":"+clock.min.format("%02d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
 }
 function render_active_3(dc as Graphics.Dc) as Void {var clock=frameContext[:clock];var cfg_hour_hand_color=frameContext[:cfg_hour_hand_color] as Toybox.Lang.Number;var cfg_minute_hand_color=frameContext[:cfg_minute_hand_color] as Toybox.Lang.Number;var cfg_second_hand_color=frameContext[:cfg_second_hand_color] as Toybox.Lang.Number;var cfg_show_seconds=frameContext[:cfg_show_seconds] as Toybox.Lang.Boolean;
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_digital_second%22%2C%22partId%22%3A%22sonar_digital_second%22%2C%22capabilityId%22%3A%22core.time%22%2C%22mode%22%3A%22active%22%7D
-if(true){if(cfg_show_seconds){dc.setColor(cfg_second_hand_color,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(cfg_second_hand_color>>16)&255,(cfg_second_hand_color>>8)&255,cfg_second_hand_color&255));dc.setStroke(Graphics.createColor(255,(cfg_second_hand_color>>16)&255,(cfg_second_hand_color>>8)&255,cfg_second_hand_color&255));dc.drawText(px(276),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_19),clock.sec.format("%02d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
+if(true){if(cfg_show_seconds){textPaint(dc,cfg_second_hand_color,255);dc.drawText(px(276),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_19),clock.sec.format("%02d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
 // GFC_LAYER_END
 
 
@@ -155,29 +156,29 @@ if(true){if(cfg_right_slot_source.equals("steps")){}}
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_heart_rate%22%2C%22partId%22%3A%22sonar_heart_rate%22%2C%22capabilityId%22%3A%22core.metric%22%2C%22mode%22%3A%22aod%22%7D
-if(true){{var value=dataheartRate;dc.setColor(0x5E7C93,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.setStroke(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.drawText(px(98),px(228),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_34),metricText(value,"heartRate","","",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
+if(true){{var value=dataheartRate;textPaint(dc,0x5E7C93,255);dc.drawText(px(98),px(228),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_34),metricText(value,"heartRate","","",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
 // GFC_LAYER_END
 
 }
 function render_aod_1(dc as Graphics.Dc) as Void {var clock=frameContext[:clock];var databattery=frameContext[:databattery];
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_heart_rate_unit%22%2C%22partId%22%3A%22sonar_heart_rate_unit%22%2C%22capabilityId%22%3A%22core.text%22%2C%22mode%22%3A%22aod%22%7D
-if(true){dc.setColor(mixTextInk(0x5E7C93,158,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(158,(mixTextInk(0x5E7C93,158,bg)>>16)&255,(mixTextInk(0x5E7C93,158,bg)>>8)&255,mixTextInk(0x5E7C93,158,bg)&255));dc.setStroke(Graphics.createColor(158,(mixTextInk(0x5E7C93,158,bg)>>16)&255,(mixTextInk(0x5E7C93,158,bg)>>8)&255,mixTextInk(0x5E7C93,158,bg)&255));dc.drawText(px(98),px(259),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"bpm",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
+if(true){textPaint(dc,mixTextInk(0x5E7C93,158,bg),158);dc.drawText(px(98),px(259),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"bpm",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_battery_value%22%2C%22partId%22%3A%22sonar_battery_value%22%2C%22capabilityId%22%3A%22core.metric%22%2C%22mode%22%3A%22aod%22%7D
-if(true){{var value=databattery;dc.setColor(0x5E7C93,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.setStroke(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.drawText(px(332),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_15),metricText(value,"battery","","%",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
+if(true){{var value=databattery;textPaint(dc,0x5E7C93,255);dc.drawText(px(332),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_15),metricText(value,"battery","","%",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_battery_label%22%2C%22partId%22%3A%22sonar_battery_label%22%2C%22capabilityId%22%3A%22core.text%22%2C%22mode%22%3A%22aod%22%7D
-if(true){dc.setColor(mixTextInk(0x5E7C93,158,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(158,(mixTextInk(0x5E7C93,158,bg)>>16)&255,(mixTextInk(0x5E7C93,158,bg)>>8)&255,mixTextInk(0x5E7C93,158,bg)&255));dc.setStroke(Graphics.createColor(158,(mixTextInk(0x5E7C93,158,bg)>>16)&255,(mixTextInk(0x5E7C93,158,bg)>>8)&255,mixTextInk(0x5E7C93,158,bg)&255));dc.drawText(px(332),px(375),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_12),"batt",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
+if(true){textPaint(dc,mixTextInk(0x5E7C93,158,bg),158);dc.drawText(px(332),px(375),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_12),"batt",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_digital_time%22%2C%22partId%22%3A%22sonar_digital_time%22%2C%22capabilityId%22%3A%22core.time%22%2C%22mode%22%3A%22aod%22%7D
-if(true){dc.setColor(0x5E7C93,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.setStroke(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.drawText(px(203),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_28),clock.hour.format("%02d")+":"+clock.min.format("%02d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
+if(true){textPaint(dc,0x5E7C93,255);dc.drawText(px(203),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_28),clock.hour.format("%02d")+":"+clock.min.format("%02d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
 }

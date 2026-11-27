@@ -1,3 +1,5 @@
+import {themeCode} from "./themes";
+import {nativeFontBindings,nativeFontFiles} from "./nativeFontResources";
 import {iconMaskId} from "./iconMasks.ts";
 import { validateControls } from "./projectControls";
 import { validateVisibility } from "./visibility";
@@ -174,13 +176,18 @@ export function generationHeader(p: Project) {
     generationFieldContractVersion:GENERATION_FIELD_CONTRACT_VERSION,
     dataSlotPolicy:"slot:true means linked source controls; metrics use matching units/precision, sourceLabelFor tracks labels, meter/ring targets use sourceGoals or design defaults (steps10000,battery100,heartRate180,seconds60). Source switches must not retain thresholds from unrelated sources. preserveFormatFor explicitly retains manual numeric formatting. Targets property source maps to ringSource on ring layers. Compile every allowed option and guard missing data in both modes.",
     schemaVersion: scalar(p.schemaVersion),
+    nativeFontBindings:nativeFontBindings(p),
+    nativeFontHelpers:nativeFontFiles(p).map(f=>({path:f.path,managed:true})),
+    nativeFontPolicy:"Use the exact activeFontId/aodFontId for every supplied layer via WatchUi.loadResource(Rez.Fonts.ID), never substitute system fonts. Font FNT/PNG and the gfc-managed-fonts.xml declarations are merged by the frontend. Do not declare managed IDs elsewhere. Draw at stored bounds vertical center except iconMask glyphs which use top-left. Do not permanently cache resource/font references: obtain temporary references per draw and allow the graphics pool to manage lifetime. No SDK font redistribution.",
     iconMaskBindings:p.layers.filter(l=>l.iconMask&&l.exportIncluded!==false).map(l=>({layerId:l.id,fontId:iconMaskId(l),fontFile:"resources/fonts/"+iconMaskId(l)+".fnt",glyph:"A"})),
-    iconMaskPolicy:"iconMask uses uploaded image alpha as a recolorable glyph. Managed FNT/PNG files are merged automatically; declare supplied fontId/fontFile once per distinct fontId in resources/fonts/fonts.xml and draw glyph A at layer top-left with foreground color and no vertical centering. Do not substitute raw RGB artwork or invent bitmap tint APIs. sourceIcons maps source-control option values to visible image IDs; compile every variant, preserve independent active/AOD inclusion and condition draw at runtime.",
-    ...(p.themes?{themes:{version:1,activeId:p.themes.activeId,defaultId:p.themes.defaultId,presets:p.themes.presets.map(t=>({...objectFields(t,["id","name","version","backgroundColor"]),layerIds:t.layerIds.map(scalar),controlIds:t.controlIds.map(scalar)}))},themePolicy:"One application contains every theme. Runtime theme selects the complete preset, including active/AOD layout and background. Controls belong to individual themes, persist separately and reset current theme only. Never export only the current theme or switch by reinstalling a PRG. Provide AppBase.getSettingsView on-device settings."}:{}),
+    iconMaskPolicy:"iconMask uses uploaded image alpha as a recolorable glyph. Managed FNT/PNG files are merged automatically; use supplied fontId; the managed font XML already declares each distinct fontId and draw glyph A at layer top-left with foreground color and no vertical centering. Do not substitute raw RGB artwork or invent bitmap tint APIs. sourceIcons maps source-control option values to visible image IDs; compile every variant, preserve independent active/AOD inclusion and condition draw at runtime.",
+    ...(p.themes?{themes:{version:1,activeId:p.themes.activeId,defaultId:p.themes.defaultId,presets:p.themes.presets.map(t=>({...objectFields(t,["id","name","version","backgroundColor"]),runtimeCode:themeCode(t.id),layerIds:t.layerIds.map(scalar),controlIds:t.controlIds.map(scalar)}))},themePolicy:"One application contains every theme. Runtime theme selects the complete preset, including active/AOD layout and background. Controls belong to individual themes, persist separately and reset current theme only. Never export only the current theme or switch by reinstalling a PRG. Provide AppBase.getSettingsView on-device settings."}:{}),
     designBrief: scalar(p.designBrief),
     backgroundColor: scalar(p.backgroundColor),
     controls: p.controls?.map((c) => ({
       ...objectFields(c, ["id", "label", "type", "default"]),
+        propertyKey:"Gfc_"+c.id.replaceAll("-","_"),
+        nativeStorage:c.type==="boolean"?"boolean":c.type==="color"?"24bit integer":"zero-based option index",
       options: c.options?.map(scalar),
       ...(c.sourcePrecisions?{sourcePrecisions:Object.fromEntries(Object.entries(c.sourcePrecisions).map(([key,value])=>[key,scalar(value)]))}:{}),
       ...(c.sourceLabels?{sourceLabels:Object.fromEntries(Object.entries(c.sourceLabels).map(([key,value])=>[key,scalar(value)]))}:{}),
