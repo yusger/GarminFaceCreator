@@ -2,7 +2,7 @@
 
 [简体中文](readme.md) | **English**
 
-A visual watch-face designer for Garmin Connect IQ. Start with a blank canvas, a built-in reference, or an AI-created editable design. Refine the design first, then explicitly generate a Monkey C project with your own AI provider and compile it into a PRG with the .NET backend.
+A visual watch-face designer for Garmin Connect IQ. Start with a blank canvas, a built-in reference, or an AI-created editable design. Refine the design first, then explicitly generate a Monkey C project with the deterministic local generator or your own AI provider and compile it into a PRG with the .NET backend.
 
 > This project is under development. Web previews use simulated data. A successful build does not mean the watch face has been validated on a physical device.
 
@@ -47,6 +47,8 @@ These wizard screenshots use fixed test responses to demonstrate the workflow, n
 The screenshots show the current Chinese interface.
 
 ## Features
+
+- Optional [native SDK verification](docs/native-verification.md): run new Venu 4 locally generated builds in an isolated Linux worker, view full captures and download protected PNG/metadata. Disabled by default; build, browser preview, simulator and physical-device results remain separate.
 
 - Four reusable widget packages: capsule metric, segmented battery, vitals column and stacked tiers; single composite objects, whole-object operations, per-component active/AOD visibility, internal editing, explicit decomposition and source-export license notices.
 
