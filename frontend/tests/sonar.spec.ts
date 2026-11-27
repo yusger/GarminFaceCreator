@@ -292,10 +292,10 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
       body: form,
     });
     expect(r.status, await r.clone().text()).toBe(202);
-    const job = await r.json();
+    const job = await r.json(),headers={Authorization:"Bearer "+job.accessToken};
     for (let i = 0; i < 180; i++) {
       const state = await (
-        await fetch(process.env.GFC_TEST_URL + "/api/builds/" + job.buildId)
+        await fetch(process.env.GFC_TEST_URL + "/api/builds/" + job.buildId,{headers})
       ).json();
       if (
         ["succeeded", "failed", "cancelled", "interrupted"].includes(
@@ -306,7 +306,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
           state.status,
           await (
             await fetch(
-              process.env.GFC_TEST_URL + "/api/builds/" + job.buildId + "/logs",
+              process.env.GFC_TEST_URL + "/api/builds/" + job.buildId + "/logs",{headers},
             )
           ).text(),
         ).toBe("succeeded");
@@ -314,7 +314,7 @@ test("SONAR protected copy previews settings, reloads, exports full sources and 
           join(directory, target + ".prg"),
           Buffer.from(
             await (
-              await fetch(process.env.GFC_TEST_URL + state.artifacts[0].url)
+              await fetch(process.env.GFC_TEST_URL + state.artifacts[0].url,{headers})
             ).arrayBuffer(),
           ),
         );
