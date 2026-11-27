@@ -104,13 +104,14 @@ export async function buildDefaultWatchfaces() {
       await put("frontend/public/fonts/" + safe(a.publishName), bytes);
     }
     if (r.generation.mode === "deterministic") {
-      const { localGenerate } =
+      const { localGenerate,LOCAL_PROVENANCE } =
         await import("../frontend/src/localGenerator.ts");
       p.files = [
         ...localGenerate(p),
         ...p.files.filter((f) => f.path.endsWith(".fnt")),
       ];
       p.codeRevision = p.revision;
+      p.codeProvenance = {...LOCAL_PROVENANCE};
       for (const f of p.files) await put(dir + "/" + safe(f.path), f.content);
       r.codeFiles = p.files.map((f) => f.path);
       await put(dir + "/reference.json", JSON.stringify(r, null, 2) + "\n");

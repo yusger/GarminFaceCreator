@@ -15,7 +15,7 @@ test("source icon alternatives share six native glyph resources across themes",a
 
 
 test("113 Native454 creates one project, prepares complete resources and runs SDK simulator",async({page,request})=>{
- test.skip(process.env.GFC_NATIVE_TEST!=="1","Explicit complete native test");test.setTimeout(300000);
+ test.skip(process.env.GFC_NATIVE_TEST!=="1","Explicit complete native test");test.setTimeout(300000);page.on("dialog",dialog=>dialog.accept());
  await page.goto("/");await page.getByRole("button",{name:"使用 trail",exact:true}).click();
  await expect(page.getByRole("button",{name:"本地生成（试验）",exact:true})).toBeVisible();
  await page.locator(".watchface-controls > summary").click();
