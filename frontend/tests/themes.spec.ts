@@ -5,6 +5,7 @@ import {
   resetTheme,
   validateThemes,
   mergeThemeLayers,
+  resolvedLayerEdits,
 } from "../src/themes";
 import { resolveControls, setControl } from "../src/projectControls";
 import { localGenerate } from "../src/localGenerator";
@@ -145,3 +146,5 @@ test("complete theme menu and branches compile with SDK", async ({
 test("113 switches complete presets and preserves independent settings after reload",async({page})=>{
  const p=themedFixture();await page.goto("/");await page.evaluate(value=>new Promise<void>((resolve,reject)=>{const r=indexedDB.open("garmin-face-creator",2);r.onsuccess=()=>{const db=r.result,t=db.transaction("projects","readwrite");t.objectStore("projects").put(value);t.oncomplete=()=>{db.close();resolve();};t.onerror=()=>reject(t.error);};}),p);await page.reload();await page.getByRole("button",{name:"我的表盘",exact:true}).click();await page.getByRole("button",{name:"打开 ThemeFixture",exact:true}).click();await page.locator(".watchface-controls > summary").click();await page.getByLabel("Apex Color",{exact:true}).fill("#123456");await page.getByLabel("主题预设",{exact:true}).selectOption("trail");await expect(page.getByLabel("Trail Color",{exact:true})).toHaveValue("#ffc04a");await page.getByLabel("Trail Color",{exact:true}).fill("#654321");await page.getByLabel("主题预设",{exact:true}).selectOption("apex");await expect(page.getByLabel("Apex Color",{exact:true})).toHaveValue("#123456");await page.getByRole("button",{name:"恢复当前主题默认值",exact:true}).click();await expect(page.getByLabel("Apex Color",{exact:true})).toHaveValue("#ff6a1a");await page.getByLabel("主题预设",{exact:true}).selectOption("trail");await expect(page.getByLabel("Trail Color",{exact:true})).toHaveValue("#654321");await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();await page.reload();await page.getByRole("button",{name:"打开 ThemeFixture",exact:true}).click();await page.locator(".watchface-controls > summary").click();await expect(page.getByLabel("主题预设",{exact:true})).toHaveValue("trail");await expect(page.getByLabel("Trail Color",{exact:true})).toHaveValue("#654321");
 });
+
+test("editing projected layers preserves raw defaults and updates controlled palette overrides",()=>{let p=themedFixture();p=setControl(p,"apex-color","#123456");const visible=resolveControls(p).layers;const moved=mergeThemeLayers(p,[{...visible[0],x:55}]);expect(moved[0].color).toBe("#FF6A1A");expect(moved[0].x).toBe(55);const palette=resolvedLayerEdits(p,[{...visible[0],color:"#ABCDEF"}]);expect(palette.controlValues!["apex-color"]).toBe("#ABCDEF");expect(resolveControls(palette).layers[0].color).toBe("#ABCDEF");expect(palette.layers[1]).toEqual(p.layers[1]);});

@@ -64,7 +64,7 @@ export function createStateGroup(
     p.controls?.some(
       (c) =>
         c.targets.some((t) => t.layerId === id) ||
-        c.hideWhenChangedFromDefault?.includes(id),
+        c.hideWhenChangedFromDefault?.includes(id)||Object.values(c.sourceIcons||{}).some(ids=>ids.includes(id)),
     ) ||
     p.layers.some((l) => l.sourceLabelFor === id) ||
     original.sourceLabelFor

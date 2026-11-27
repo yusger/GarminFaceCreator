@@ -1,3 +1,4 @@
+import {resolveControls,setControl} from "./projectControls.ts";
 import {contextIdentity} from "./localIdentity.ts";
 import type { Project, Layer } from "./domain.ts";
 export function themeCode(id:string){return parseInt(contextIdentity(id).split(":")[1].slice(0,8),16)&0x7fffffff;}
@@ -131,14 +132,15 @@ export function resetTheme(p: Project): Project {
   return { ...selectTheme(p, theme.id), controlValues: values };
 }
 // Layer-list operations operate only on the visible preset; other presets retain exact identities and order.
-export function mergeThemeLayers(p: Project, edited: Layer[]) {
-  if (!p.themes) return edited;
-  const shown = new Set(themeLayers(p).map((l) => l.id)),
-    incoming = new Map(edited.map((l) => [l.id, l]));
-  const result = p.layers.flatMap((l) =>
-    shown.has(l.id) ? (incoming.has(l.id) ? [incoming.get(l.id)!] : []) : [l],
-  );
-  for (const l of edited)
-    if (!p.layers.some((x) => x.id === l.id)) result.push(l);
-  return result;
+export function mergeThemeLayers(p:Project,edited:Layer[]){
+ const resolved=resolveControls(p).layers,shown=new Set(resolved.map(l=>l.id));
+ const patches=edited.map(l=>{const raw=p.layers.find(x=>x.id===l.id),effective=resolved.find(x=>x.id===l.id);if(!raw||!effective)return l;const delta=Object.fromEntries(Object.keys(l).filter(key=>JSON.stringify(l[key as keyof Layer])!==JSON.stringify(effective[key as keyof Layer])).map(key=>[key,l[key as keyof Layer]]));return {...raw,...delta};});
+ const result:Layer[]=[];let inserted=false;
+ for(const l of p.layers){if(shown.has(l.id)){if(!inserted){result.push(...patches);inserted=true;}}else result.push(l);}
+ if(!inserted)result.push(...patches);return result;
+}
+export function resolvedLayerEdits(p:Project,edited:Layer[]):Project{
+ let next=p;const baseline=resolveControls(p).layers;
+ for(const l of edited){const before=baseline.find(x=>x.id===l.id);if(before&&before.color!==l.color){const c=p.controls?.find(c=>c.type==="color"&&c.targets.some(t=>t.layerId===l.id&&t.property==="color"));if(c)next=setControl(next,c.id,l.color);}}
+ return {...next,layers:mergeThemeLayers(p,edited)};
 }

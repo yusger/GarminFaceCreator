@@ -22,7 +22,7 @@ import { handStyles,handStylePatch } from "./handStyles";
 import TemplatePicker from "./TemplatePicker";
 import { buildFetch, downloadBuild } from "./buildAccess";
 import AiCreateWatchface from "./AiCreateWatchface";
-import {mergeThemeLayers,themeLayers} from "./themes";
+import {resolvedLayerEdits,themeLayers} from "./themes";
 import WatchfaceControls from "./WatchfaceControls";
 import { resolveControls, setControl } from "./projectControls";
 import { preparedCodeFiles } from "./chalkFonts";
@@ -513,7 +513,7 @@ export default function App() {
     }
     const nextProject={
       ...withEditorLayers(base,layers),
-      revision:p.revision+((renderChanged(p.layers,layers)||base.backgroundColor!==p.backgroundColor)?1:0),
+      revision:p.revision+((renderChanged(p.layers,layers)||base.backgroundColor!==p.backgroundColor||JSON.stringify(base.controlValues)!==JSON.stringify(p.controlValues))?1:0),
       updated:Date.now(),
     };
     activeProject.current=nextProject;
@@ -1511,7 +1511,7 @@ export default function App() {
                 {deviceFor(p).pixels} × {deviceFor(p).pixels}
               </small>
             </span>
-            <WatchfaceControls project={p} onChange={next=>{setPast(v=>[...v.slice(-49),editorFrame(p)]);setFuture([]);setP(next);}} />
+            <WatchfaceControls project={p} onChange={next=>{setPast(v=>[...v.slice(-49),editorFrame(p)]);setFuture([]);if(p.themes?.activeId!==next.themes?.activeId){setSelection([]);setSelected("");}setP(next);}} />
             <button onClick={()=>setChatOpen(v=>!v)} aria-pressed={chatOpen}><Sparkles size={15}/> AI 设计助手</button>
             <button onClick={() => setShowPreview(!showPreview)}>
               <Play size={14} />
@@ -1981,12 +1981,12 @@ export default function App() {
                     setSelection(next);
                     setSelected(next.at(-1) || "");
                   }}
-                  onChange={layers=>editLayers(mergeThemeLayers(p,layers))}
+                  onChange={layers=>{const next=resolvedLayerEdits(p,layers);editLayers(next.layers,true,next);}}
                 />
                 <Palette
                   layers={resolveControls(p).layers}
                   selection={selection}
-                  onChange={layers=>editLayers(mergeThemeLayers(p,layers))}
+                  onChange={layers=>{const next=resolvedLayerEdits(p,layers);editLayers(next.layers,true,next);}}
                 />
                 <button
                   className="export-button"
