@@ -53,3 +53,6 @@ test("complete native themes keep font resource references temporary and share t
 
 
 test("AI engineering receives exact managed native fonts without font bytes or duplicate declarations",async()=>{const p=await fixture(),bindings=nativeFontBindings(p);expect(bindings.length).toBeGreaterThan(20);const id=bindings[0].activeFontId,files=mergeNativeFonts(p,[{path:"resources/fonts/fonts.xml",content:`<fonts><font id="${id}" filename="bad.fnt"/></fonts>`}]);expect(files.find(f=>f.path==="resources/fonts/fonts.xml")!.content).toBe("<fonts></fonts>");const managed=files.find(f=>f.path.endsWith("gfc-managed-fonts.xml"))!.content;expect(managed).toContain(id);expect(managed.match(new RegExp(`id="${id}"`,"g"))).toHaveLength(1);expect(JSON.stringify(bindings)).not.toContain("base64");});
+
+
+test("default reference copies may keep Chinese metadata names without imposing canvas glyph requirements",async()=>{const p=await fixture();p.name="trail 副本";const files=localGenerate(p);expect(files.find(f=>f.path==="resources/strings/strings.xml")!.content).toContain("trail 副本");});

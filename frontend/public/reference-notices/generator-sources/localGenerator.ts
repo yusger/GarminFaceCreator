@@ -303,7 +303,6 @@ export function localGenerate(p: Project) {
     .join("");
   const requirements = generationRequirements(p);
   if (
-    /[^\x20-\x7e]/.test(p.name) ||
     included.some((l) => {
       const text =
         l.kind === "text"
@@ -322,7 +321,7 @@ export function localGenerate(p: Project) {
     })
   )
     throw Error(
-      "本地生成只支持 ASCII 项目名；中文文字需指定已验证的 SYSTEM_XTINY 字体，其他字形请使用 AI 字体方案。",
+      "画布中文文字需指定已验证的 SYSTEM_XTINY 或本地字体；项目名称不受画布字形限制。",
     );
   const chalk = chalkPlans(p);
   const masks=included.filter(l=>l.iconMask);
