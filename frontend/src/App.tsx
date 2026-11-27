@@ -2775,6 +2775,7 @@ export default function App() {
                             onChange={(e) =>
                               patch({
                                 source: e.target.value,
+                                threshold:false,thresholdRules:undefined,thresholdFallback:undefined,
                                 meterGoal:
                                   meterDefaultGoal(e.target.value),
                               })
@@ -3132,7 +3133,7 @@ export default function App() {
                             }
                           />
                         </label>
-                        {["heartRate", "battery"].includes(current.source) && (
+                        {Object.hasOwn(metrics,current.source) && (
                           <>
                             <label className="inline">
                               <input
