@@ -1,3 +1,4 @@
+import ThemeUpgradePanel from "./ThemeUpgradePanel";
 import {
   activeTheme,
   themeControls,
@@ -239,6 +240,7 @@ export default function WatchfaceControls({
             </details>
           )}
         </fieldset>
+        {p.themes&&<ThemeUpgradePanel project={p} onChange={onChange}/>}
         {p.multiDevice?.scope === "device" && <p>请切换共享主设计后修改。</p>}
         <button
           disabled={p.multiDevice?.scope === "device"}

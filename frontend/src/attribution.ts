@@ -1,4 +1,4 @@
-import references from "./referenceAttribution.json";
+import references from "./referenceAttribution.json" with {type:"json"};
 import type { CodeFile } from "./domain";
 export const referenceAttributions = references;
 export const referenceAttribution = (id?: string) =>
