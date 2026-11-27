@@ -150,7 +150,7 @@ export default function Scene({
                 <Calendar layer={l} date={preview.calendarDate} aod={aod} />
               ) : l.kind === "meter" ? (
                 <Meter
-                  layer={l}
+                  layer={l.threshold?{...l,color:ink(l,preview)}:l}
                   value={metricValues(preview)[l.source]}
                   missing={preview.missing}
                   aod={aod}

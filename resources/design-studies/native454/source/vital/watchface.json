@@ -1,0 +1,781 @@
+{
+  "format": "gfc-watchface-package",
+  "formatVersion": 1,
+  "id": "vital-pulse",
+  "name": "Vital Pulse",
+  "version": "1.0.0",
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "sourceUrl": null,
+    "noticeFile": "notices/DESIGN-NOTICE.md"
+  },
+  "canvas": {
+    "width": 454,
+    "height": 454,
+    "shape": "circle",
+    "safeInset": 12,
+    "background": "#081110",
+    "aodBackground": "#000000",
+    "scaleMode": "uniform-fit"
+  },
+  "referenceTarget": {
+    "deviceId": "venu445mm",
+    "displayName": "Venu 4 45mm",
+    "screenWidth": 454,
+    "screenHeight": 454
+  },
+  "previewData": {
+    "localDateTime": "2026-11-26T10:08:36",
+    "heartRate": 72,
+    "steps": 8432,
+    "battery": 78,
+    "calories": 420,
+    "distance": 6.42,
+    "temperature": 18
+  },
+  "previewCasesFile": "previews/cases.json",
+  "resources": [
+    {
+      "id": "bg-art",
+      "type": "image",
+      "file": "resources/drawables/vital-bg-art.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "ticks",
+      "type": "image",
+      "file": "resources/drawables/vital-ticks.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "icon-foot-38e1d0",
+      "type": "image",
+      "file": "resources/drawables/vital-icon-foot.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "icon-flame-ffc04a",
+      "type": "image",
+      "file": "resources/drawables/vital-icon-flame.png",
+      "noticeFile": "notices/DESIGN-NOTICE.md"
+    },
+    {
+      "id": "number-font",
+      "type": "font",
+      "file": "resources/fonts/Rajdhani-Bold.ttf",
+      "family": "Rajdhani",
+      "weight": 700,
+      "noticeFile": "notices/Rajdhani-OFL.txt",
+      "charset": "0123456789:.-, "
+    },
+    {
+      "id": "label-font",
+      "type": "font",
+      "file": "resources/fonts/ShareTechMono-Regular.ttf",
+      "family": "Share Tech Mono",
+      "weight": 400,
+      "noticeFile": "notices/ShareTechMono-OFL.txt",
+      "charset": "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789:.-/%°·, --"
+    }
+  ],
+  "layers": [
+    {
+      "id": "bg-art",
+      "name": "Background art",
+      "type": "image",
+      "zIndex": 1,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 454,
+        "height": 454
+      },
+      "visible": true,
+      "safeArea": "decoration",
+      "style": {
+        "opacity": 1
+      },
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "bg-art",
+      "fit": "contain"
+    },
+    {
+      "id": "ticks",
+      "name": "Segmented outer ring",
+      "type": "image",
+      "zIndex": 2,
+      "bounds": {
+        "x": 0,
+        "y": 0,
+        "width": 454,
+        "height": 454
+      },
+      "visible": true,
+      "safeArea": "decoration",
+      "style": {
+        "opacity": 1
+      },
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "ticks",
+      "fit": "contain"
+    },
+    {
+      "id": "time-main",
+      "name": "Main time",
+      "type": "time",
+      "zIndex": 30,
+      "bounds": {
+        "x": 77,
+        "y": 74,
+        "width": 300,
+        "height": 50
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "number-font",
+        "fontSize": 40,
+        "color": "#EAF1F6",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "format": "HH:mm"
+    },
+    {
+      "id": "date-main",
+      "name": "Date",
+      "type": "date",
+      "zIndex": 10,
+      "bounds": {
+        "x": 0,
+        "y": 126,
+        "width": 454,
+        "height": 26
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 20,
+        "color": "#8492A0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "format": "ddd DD",
+      "locale": "en"
+    },
+    {
+      "id": "heart-big",
+      "name": "Heart rate hero",
+      "type": "metric",
+      "zIndex": 25,
+      "bounds": {
+        "x": 77,
+        "y": 152,
+        "width": 300,
+        "height": 118
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "number-font",
+        "fontSize": 118,
+        "color": "#38E1D0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "binding": {
+        "source": "heartRate",
+        "configurable": false
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": false,
+        "unitMode": "none",
+        "missing": "--"
+      },
+      "thresholdGroup": "hr-zone"
+    },
+    {
+      "id": "hr-unit",
+      "name": "Heart rate unit",
+      "type": "text",
+      "zIndex": 26,
+      "bounds": {
+        "x": 77,
+        "y": 272,
+        "width": 300,
+        "height": 22
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 20,
+        "color": "#38E1D0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "text": "BPM · HEART RATE"
+    },
+    {
+      "id": "hr-zone-1",
+      "name": "HR zone 1",
+      "type": "rect",
+      "zIndex": 7,
+      "bounds": {
+        "x": 127,
+        "y": 298,
+        "width": 36,
+        "height": 8
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "fill": "#2A333D",
+        "cornerRadius": 0
+      },
+      "aod": {
+        "visible": false
+      }
+    },
+    {
+      "id": "hr-zone-2",
+      "name": "HR zone 2",
+      "type": "rect",
+      "zIndex": 7,
+      "bounds": {
+        "x": 170,
+        "y": 298,
+        "width": 36,
+        "height": 8
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "fill": "#2A333D",
+        "cornerRadius": 0
+      },
+      "aod": {
+        "visible": false
+      }
+    },
+    {
+      "id": "hr-zone-3",
+      "name": "HR zone 3",
+      "type": "rect",
+      "zIndex": 7,
+      "bounds": {
+        "x": 213,
+        "y": 298,
+        "width": 36,
+        "height": 8
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "fill": "#38E1D0",
+        "cornerRadius": 0
+      },
+      "aod": {
+        "visible": false
+      }
+    },
+    {
+      "id": "hr-zone-4",
+      "name": "HR zone 4",
+      "type": "rect",
+      "zIndex": 7,
+      "bounds": {
+        "x": 256,
+        "y": 298,
+        "width": 36,
+        "height": 8
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "fill": "#2A333D",
+        "cornerRadius": 0
+      },
+      "aod": {
+        "visible": false
+      }
+    },
+    {
+      "id": "hr-zone-5",
+      "name": "HR zone 5",
+      "type": "rect",
+      "zIndex": 7,
+      "bounds": {
+        "x": 299,
+        "y": 298,
+        "width": 36,
+        "height": 8
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "fill": "#FF4D5E",
+        "cornerRadius": 0
+      },
+      "aod": {
+        "visible": false
+      }
+    },
+    {
+      "id": "icon-vital-bl",
+      "name": "steps icon",
+      "type": "image",
+      "zIndex": 3,
+      "bounds": {
+        "x": 101,
+        "y": 310,
+        "width": 20,
+        "height": 20
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "opacity": 1
+      },
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "icon-foot-38e1d0",
+      "fit": "contain"
+    },
+    {
+      "id": "value-vital-bl",
+      "name": "steps value",
+      "type": "metric",
+      "zIndex": 20,
+      "bounds": {
+        "x": 36,
+        "y": 333,
+        "width": 150,
+        "height": 34
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 34,
+        "color": "#38E1D0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "binding": {
+        "source": "steps",
+        "configurable": false
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": true,
+        "unitMode": "none",
+        "missing": "--"
+      }
+    },
+    {
+      "id": "label-vital-bl",
+      "name": "steps label",
+      "type": "text",
+      "zIndex": 10,
+      "bounds": {
+        "x": 36,
+        "y": 369,
+        "width": 150,
+        "height": 16
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 11,
+        "color": "#8492A0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "text": "STEPS"
+    },
+    {
+      "id": "icon-vital-br",
+      "name": "calories icon",
+      "type": "image",
+      "zIndex": 3,
+      "bounds": {
+        "x": 333,
+        "y": 310,
+        "width": 20,
+        "height": 20
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "opacity": 1
+      },
+      "aod": {
+        "visible": false
+      },
+      "resourceId": "icon-flame-ffc04a",
+      "fit": "contain"
+    },
+    {
+      "id": "value-vital-br",
+      "name": "calories value",
+      "type": "metric",
+      "zIndex": 20,
+      "bounds": {
+        "x": 268,
+        "y": 333,
+        "width": 150,
+        "height": 34
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 34,
+        "color": "#FFC04A",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "binding": {
+        "source": "calories",
+        "configurable": false
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": false,
+        "unitMode": "none",
+        "missing": "--"
+      }
+    },
+    {
+      "id": "label-vital-br",
+      "name": "calories label",
+      "type": "text",
+      "zIndex": 10,
+      "bounds": {
+        "x": 268,
+        "y": 369,
+        "width": 150,
+        "height": 16
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 11,
+        "color": "#8492A0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "text": "KCAL"
+    },
+    {
+      "id": "battery-meter",
+      "name": "Battery meter",
+      "type": "meter",
+      "zIndex": 5,
+      "bounds": {
+        "x": 167,
+        "y": 388,
+        "width": 120,
+        "height": 9
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "color": "#38E1D0",
+        "dimColor": "#1E2E2C"
+      },
+      "aod": {
+        "visible": false
+      },
+      "binding": {
+        "source": "battery",
+        "goal": 100
+      },
+      "goal": 100,
+      "shape": "bar",
+      "segments": 1,
+      "gap": 0
+    },
+    {
+      "id": "battery-value",
+      "name": "Battery percent",
+      "type": "metric",
+      "zIndex": 20,
+      "bounds": {
+        "x": 167,
+        "y": 403,
+        "width": 120,
+        "height": 22
+      },
+      "visible": true,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 34,
+        "color": "#8492A0",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": false
+      },
+      "binding": {
+        "source": "battery",
+        "configurable": false
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": false,
+        "unitMode": "auto",
+        "missing": "--"
+      },
+      "thresholdGroup": "battery-zone"
+    },
+    {
+      "id": "aod-time",
+      "name": "AOD time",
+      "type": "time",
+      "zIndex": 40,
+      "bounds": {
+        "x": 77,
+        "y": 96,
+        "width": 300,
+        "height": 56
+      },
+      "visible": false,
+      "safeArea": "content",
+      "style": {
+        "font": "number-font",
+        "fontSize": 44,
+        "color": "#C4C4C4",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#C4C4C4",
+        "fontSize": 44
+      },
+      "format": "HH:mm"
+    },
+    {
+      "id": "aod-hr",
+      "name": "AOD heart rate",
+      "type": "metric",
+      "zIndex": 41,
+      "bounds": {
+        "x": 77,
+        "y": 170,
+        "width": 300,
+        "height": 130
+      },
+      "visible": false,
+      "safeArea": "content",
+      "style": {
+        "font": "number-font",
+        "fontSize": 34,
+        "color": "#FFFFFF",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#FFFFFF",
+        "fontSize": 130
+      },
+      "binding": {
+        "source": "heartRate",
+        "configurable": false
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": false,
+        "unitMode": "none",
+        "missing": "--"
+      }
+    },
+    {
+      "id": "aod-hr-cap",
+      "name": "AOD heart caption",
+      "type": "text",
+      "zIndex": 42,
+      "bounds": {
+        "x": 77,
+        "y": 300,
+        "width": 300,
+        "height": 26
+      },
+      "visible": false,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 18,
+        "color": "#9A9A9A",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#9A9A9A",
+        "fontSize": 18
+      },
+      "text": "BPM"
+    },
+    {
+      "id": "aod-battery",
+      "name": "AOD battery",
+      "type": "metric",
+      "zIndex": 43,
+      "bounds": {
+        "x": 167,
+        "y": 362,
+        "width": 120,
+        "height": 34
+      },
+      "visible": false,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 34,
+        "color": "#8F8F8F",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#8F8F8F",
+        "fontSize": 24
+      },
+      "binding": {
+        "source": "battery",
+        "configurable": false
+      },
+      "format": {
+        "precision": 0,
+        "groupThousands": false,
+        "unitMode": "auto",
+        "missing": "--"
+      }
+    },
+    {
+      "id": "aod-foot",
+      "name": "AOD footer",
+      "type": "text",
+      "zIndex": 44,
+      "bounds": {
+        "x": 77,
+        "y": 404,
+        "width": 300,
+        "height": 22
+      },
+      "visible": false,
+      "safeArea": "content",
+      "style": {
+        "font": "label-font",
+        "fontSize": 13,
+        "color": "#5C5C5C",
+        "align": "center",
+        "verticalAlign": "middle"
+      },
+      "aod": {
+        "visible": true,
+        "color": "#5C5C5C",
+        "fontSize": 13
+      },
+      "text": "GRAYSCALE · HR FIRST"
+    }
+  ],
+  "thresholds": [
+    {
+      "id": "hr-zone",
+      "source": "heartRate",
+      "fallbackColor": "#54736F",
+      "hysteresis": 0,
+      "bands": [
+        {
+          "id": "hr-normal",
+          "min": null,
+          "max": 120,
+          "color": "#38E1D0"
+        },
+        {
+          "id": "hr-warning",
+          "min": 120,
+          "max": 150,
+          "color": "#FFC04A"
+        },
+        {
+          "id": "hr-alert",
+          "min": 150,
+          "max": null,
+          "color": "#FF4D5E"
+        }
+      ]
+    },
+    {
+      "id": "battery-zone",
+      "source": "battery",
+      "fallbackColor": "#54736F",
+      "hysteresis": 0,
+      "bands": [
+        {
+          "id": "batt-alert",
+          "min": null,
+          "max": 10,
+          "color": "#FF4D5E"
+        },
+        {
+          "id": "batt-warning",
+          "min": 10,
+          "max": 30,
+          "color": "#FFC04A"
+        },
+        {
+          "id": "batt-normal",
+          "min": 30,
+          "max": null,
+          "color": "#38E1D0"
+        }
+      ]
+    }
+  ],
+  "effects": [],
+  "settingsFile": "resources/settings/settings.json"
+}

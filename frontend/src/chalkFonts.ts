@@ -1,6 +1,6 @@
 import {preparedIconMasks} from "./iconMasks.ts";
 import {fontBytes} from "./localFonts.ts";
-import {sourceSlotLayer} from "./dataSlots.ts";
+import {sourceSlotLayer,sourceSlotLabel} from "./dataSlots.ts";
 import { missingGlyphs } from "./fontLibrary.ts";
 import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
 import { sourceLabels, resolvedLayer } from "./projectControls.ts";
@@ -60,7 +60,7 @@ export function chalkPlans(p: Project) {
       const owner = p.layers.find((x) => x.id === l.sourceLabelFor);
       glyphs = owner
         ? choices(owner.id, owner.source)
-            .map((source) => sourceLabels[source] || "--")
+            .map((source) => l.sourceLabelStyle?sourceSlotLabel(source,l.sourceLabelStyle):p.controls?.find(c=>c.type==="dataSource"&&c.targets.some(t=>t.layerId===owner.id))?.sourceLabels?.[source] || sourceLabels[source] || "--")
             .join("")
         : l.text || " ";
     } else

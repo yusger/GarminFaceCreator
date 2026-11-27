@@ -1,5 +1,5 @@
 import {activeTheme,themeLayers} from "./themes.ts";
-import { validateDataSlots, sourceSlotLayer } from "./dataSlots.ts";
+import { validateDataSlots, sourceSlotLayer,sourceSlotLabel } from "./dataSlots.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
 import type { Project, Layer } from "./domain.ts";
 export type ControlTarget = {
@@ -17,6 +17,9 @@ export type ProjectControl = {
   hideWhenChangedFromDefault?: string[];
   slot?: true;
   sourceIcons?:Record<string,string[]>;
+  sourceLabels?:Record<string,string>;
+  sourceUnits?:Record<string,string>;
+  sourcePrecisions?:Record<string,number>;
   sourceGoals?: Record<string,number>;
   preserveFormatFor?: string[];
 };
@@ -69,6 +72,8 @@ export function validateControls(p: Project) {
     )
       throw Error("表盘配置定义无效");
     seen.add(c.id);
+    if(c.sourcePrecisions!==undefined&&(c.type!=="dataSource"||!c.sourcePrecisions||Array.isArray(c.sourcePrecisions)||Object.entries(c.sourcePrecisions).some(([key,v])=>!c.options?.includes(key)||!Number.isInteger(v)||v<0||v>6)))throw Error("数据槽来源精度无效");
+    for(const map of [c.sourceLabels,c.sourceUnits])if(map!==undefined&&(c.type!=="dataSource"||!map||typeof map!=="object"||Array.isArray(map)||Object.entries(map).some(([source,text])=>!c.options?.includes(source)||typeof text!=="string"||text.length>100)))throw Error("数据槽显示标签或后缀无效");
     if(c.sourceIcons!==undefined){
       if(c.type!=="dataSource"||!c.sourceIcons||typeof c.sourceIcons!=="object"||Array.isArray(c.sourceIcons))throw Error("来源图标映射无效");
       for(const [source,list] of Object.entries(c.sourceIcons)){
@@ -161,6 +166,7 @@ export function validateControls(p: Project) {
         typeof l.customFont.family !== "string")
     )
       throw Error("自定义字体无效");
+    if(l.sourceLabelStyle!==undefined&&(!["unit","label","unitLabel"].includes(l.sourceLabelStyle)||l.kind!=="text"||!l.sourceLabelFor))throw Error("数据标签样式无效");
     if (l.sourceLabelFor && !ids.has(l.sourceLabelFor))
       throw Error("数据标签引用缺失");
     for (const key of [
@@ -175,7 +181,7 @@ export function validateControls(p: Project) {
       if (l[key] !== undefined && typeof l[key] !== "boolean")
         throw Error("控件扩展属性无效");
     if(l.iconMask && (l.kind!=="image"||!l.image||l.libraryIcon||l.w>128||l.h>128))throw Error("单色图标仅支持128逻辑像素内的本地透明位图");
-    if (l.dateFormat !== undefined && l.dateFormat !== "monthDayWeek")
+    if (l.dateFormat !== undefined && !["monthDayWeek","weekdayDay"].includes(l.dateFormat))
       throw Error("日期格式无效");
     if (l.meterContinuous && (l.kind !== "meter" || l.meterShape !== "bar"))
       throw Error("连续进度条仅支持横条");
@@ -188,13 +194,13 @@ export function validateControls(p: Project) {
       throw Error("指针端帽无效");
   }
 }
-export function resolvedLayer(l: Layer, layers: Layer[]): Layer {
+export function resolvedLayer(l: Layer, layers: Layer[], controls?:ProjectControl[]): Layer {
   const source = l.sourceLabelFor
     ? layers.find((x) => x.id === l.sourceLabelFor)?.source
     : undefined;
   return {
     ...l,
-    ...(source ? { text: sourceLabels[source] || "--" } : {}),
+    ...(source ? { text: l.sourceLabelStyle?sourceSlotLabel(source,l.sourceLabelStyle):controls?.find(c=>c.type==="dataSource"&&c.targets.some(t=>t.layerId===l.sourceLabelFor))?.sourceLabels?.[source] || sourceLabels[source] || "--" } : {}),
     ...(l.autoPrecision ? { precision: defaultPrecision(l.source) } : {}),
     ...(l.kind === "metric" && l.autoSourceFormat
       ? {
@@ -243,7 +249,7 @@ export function resolveControls(p: Project,allThemes=false): Project {
     const c=p.controls?.find(c=>c.slot && c.targets.some(t=>t.layerId===l.id && t.property==="source"));
     return c?sourceSlotLayer(p,l,c,String(controlValue(p,c))):l;
   });
-  const resolved={ ...p, layers: slotted.map((l) => resolvedLayer(l, slotted)),backgroundColor:allThemes?p.backgroundColor:activeTheme(p)?.backgroundColor||p.backgroundColor };
+  const resolved={ ...p, layers: slotted.map((l) => resolvedLayer(l, slotted,p.controls)),backgroundColor:allThemes?p.backgroundColor:activeTheme(p)?.backgroundColor||p.backgroundColor };
   return allThemes?resolved:{...resolved,layers:themeLayers(resolved)};
 }
 export function setControl(

@@ -26,7 +26,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-42-icon-masks";
+export const LOCAL_GENERATOR_VERSION = "basic-43-native454";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -107,7 +107,7 @@ function primitive(l: Layer, aod: boolean, targetScale:number) {
       : "")
   );
 }
-function draw(l: Layer, aod: boolean, targetScale:number) {
+function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):string {
   if (!aod && l.activeVisible === false) return "";
   if (
     aod &&
@@ -172,16 +172,20 @@ function draw(l: Layer, aod: boolean, targetScale:number) {
       todayText = color(l.calendarTodayText || "#07131d");
     return `drawCalendar(dc,calendar,${l.calendarStart === "sunday" ? 0 : 1},${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${font(l, aod)},${normal},${muted},${header},${highlight},${todayText});`;
   }
+  if(l.kind==="meter"&&l.threshold&&!aod){
+    const rules=l.thresholdRules??defaultThresholds(l.source,l.color);
+    return `{var value=data${l.source};var meterInk=${color(l.thresholdFallback||l.color)};if(metricValid(value,${JSON.stringify(l.source)})){${rules.map((r,i)=>`${i?"else ":""}if(${[r.min!==undefined?`value>=${num(r.min)}`:"true",r.max!==undefined?`value<${num(r.max)}`:"true"].join(" && ")}){meterInk=${color(r.color)};}`).join("")}}${draw({...l,threshold:false},aod,targetScale,"meterInk")}}`;
+  }
   if (l.kind === "meter" && l.meterContinuous) {
     const raw = "data" + l.source,
       base = color(
         aod ? l.aodColor || "#777777" : l.meterDimColor || "#16324a",
       ),
-      ink = color(aod ? l.aodColor || "#777777" : l.color);
+      ink = paintOverride||color(aod ? l.aodColor || "#777777" : l.color);
     return `{dc.setColor(${base},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}));var ratio=0.0;if(${raw}!=null && ${raw}==${raw} && ${raw}>=0 && ${raw}<1.0e12 ${l.source === "battery" ? "&& " + raw + "<=100" : ""}){ratio=${raw}*1.0/${num(l.meterGoal || 10000)};if(ratio>1){ratio=1;}}dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}*ratio),px(${num(l.h)}));}`;
   }
   if (l.kind === "meter") {
-    const ink = color(aod ? l.aodColor || "#777777" : l.color),
+    const ink = paintOverride||color(aod ? l.aodColor || "#777777" : l.color),
       goal = l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
       count = l.meterCount ?? 16;
     return (
@@ -210,7 +214,7 @@ function draw(l: Layer, aod: boolean, targetScale:number) {
       : l.kind === "date"
         ? l.dateFormat === "monthDayWeek"
           ? "dateMonthDayWeek"
-          : l.dateLocale === "zh"
+          : l.dateFormat === "weekdayDay" ? 'dateText.substring(0,4)+calendar.day.format("%02d")' : l.dateLocale === "zh"
             ? "dateZh"
             : "dateText"
         : l.kind === "metric"
@@ -322,7 +326,7 @@ export function localGenerate(p: Project) {
     );
   const chalk = chalkPlans(p);
   const masks=included.filter(l=>l.iconMask);
-  if(masks.length>48||new Set(masks.map(iconMaskId)).size!==masks.length)throw Error("单色图标超过48个或资源身份重复");
+  if(masks.length>96||new Set(masks.map(iconMaskId)).size!==masks.length)throw Error("单色图标超过96个或资源身份重复");
   const meters = included.filter((l) => l.kind === "meter");
   const dataSources = [
     ...new Set([
@@ -356,7 +360,7 @@ export function localGenerate(p: Project) {
       ? "try{if((Toybox has :Weather)&&(Weather has :getCurrentConditions)){var conditions=Weather.getCurrentConditions();if(conditions!=null && conditions has :temperature){datatemperature=conditions.temperature;}}}catch(e){}"
       : "");
   const temperature = dataSources.includes("temperature");
-  const metrics = included.some((l) => l.kind === "metric");
+  const metrics = included.some((l) => l.kind === "metric"||(l.kind==="meter"&&l.threshold));
   const date = included.some((l) => l.kind === "date" || l.kind === "calendar");
   const zones = [
     ...new Set(

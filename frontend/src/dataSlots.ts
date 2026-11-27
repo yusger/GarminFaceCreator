@@ -111,9 +111,8 @@ export function sourceSlotLayer(
   if (l.kind === "metric") {
     if (!c.preserveFormatFor?.includes(l.id)) {
       next.label = "";
-      next.unit = metricDisplayUnits[source] || "";
-      next.precision =
-        source === "distance" ? 2 : source === "temperature" ? 1 : 0;
+      next.unit = c.sourceUnits?.[source]??metricDisplayUnits[source]??"";
+      next.precision = c.sourcePrecisions?.[source]??(source === "distance" ? 2 : source === "temperature" ? 1 : 0);
       next.autoPrecision = false;
       next.autoSourceFormat = false;
       next.groupThousands = source === "steps";
@@ -126,7 +125,7 @@ export function sourceSlotLayer(
       next.thresholdFallback = base.thresholdFallback;
     }
     if (changed) {
-      next.thresholdRules = defaultThresholds(source, l.color);
+      next.thresholdRules = sourceSlotThresholds(source, l.color);
       next.threshold = next.thresholdRules.length > 0;
       next.thresholdFallback = l.color;
     }
@@ -197,3 +196,10 @@ export function createDataSlot(
   validateDataSlots(next);
   return next;
 }
+
+export function sourceSlotLabel(source:string,style?:Layer["sourceLabelStyle"]){
+ const values:Record<string,[string,string]>={heartRate:["BPM","HEART RATE"],steps:["STEPS","DAILY STEPS"],calories:["KCAL","CALORIES"],distance:["KM","DISTANCE"],battery:["%","BATTERY"],temperature:["C","TEMPERATURE"],seconds:["SEC","SECONDS"]};
+ const pair=values[source]||["--","--"];return style==="unitLabel"?pair.join(" · "):style==="label"?pair[1]:pair[0];
+}
+
+export function sourceSlotThresholds(source:string,normal:string){const rules=defaultThresholds(source,normal);if(source==="heartRate"&&rules[0])rules[0].color=normal;return rules;}

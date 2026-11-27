@@ -12,7 +12,7 @@ export async function preparedIconMasks(input: Project) {
   const layers = p.layers.filter(
     (l) => l.kind === "image" && l.iconMask && l.exportIncluded !== false,
   );
-  if (layers.length > 48) throw Error("单色图标最多48个");
+  if (layers.length > 96) throw Error("单色图标最多96个");
   for (const l of layers) {
     const w = Math.max(1, Math.round(l.w * scale)),
       h = Math.max(1, Math.round(l.h * scale));

@@ -1,0 +1,22 @@
+{
+  "state": "editable-study-native-acceptance-pending",
+  "themes": [
+    "apex",
+    "trail",
+    "vital"
+  ],
+  "layers": 121,
+  "controls": 37,
+  "localFonts": 2,
+  "changes": [
+    "apex: removed preview-only AOD explanation caption",
+    "apex: AOD unit moved to avoid collision with three-digit HR",
+    "trail: removed preview-only AOD explanation caption",
+    "vital: removed preview-only AOD explanation caption"
+  ],
+  "limitations": [
+    "Static outer ring and ECG decoration remain static",
+    "No hardware acceptance claimed",
+    "Not automatically published into default library"
+  ]
+}

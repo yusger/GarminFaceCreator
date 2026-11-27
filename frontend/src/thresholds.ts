@@ -44,7 +44,7 @@ export function thresholdInk(
   value: number | undefined,
   missing = false,
 ) {
-  if (!l.threshold || l.kind !== "metric") return l.color;
+  if (!l.threshold || !["metric","meter"].includes(l.kind)) return l.color;
   const fallback = l.thresholdFallback || l.color;
   if (missing || !Number.isFinite(value)) return fallback;
   const rules = l.thresholdRules ?? defaultThresholds(l.source, l.color);

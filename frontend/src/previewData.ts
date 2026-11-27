@@ -61,6 +61,9 @@ export function reading(l: Layer, d: Preview) {
     );
   }
   if (l.kind === "date") {
+    if(l.dateFormat==="weekdayDay"){
+      const date=new Date((d.calendarDate||"2026-11-23")+"T12:00:00");return Number.isFinite(date.getTime())?["SUN","MON","TUE","WED","THU","FRI","SAT"][date.getDay()]+" "+String(date.getDate()).padStart(2,"0"):"--";
+    }
     if (l.dateFormat === "monthDayWeek") {
       const date = new Date((d.calendarDate || "2026-11-23") + "T12:00:00");
       return Number.isFinite(date.getTime())
@@ -106,7 +109,7 @@ export function reading(l: Layer, d: Preview) {
   return "";
 }
 export function ink(l: Layer, d: Preview) {
-  if (l.kind !== "metric" || !l.threshold) return l.color;
+  if (!["metric","meter"].includes(l.kind) || !l.threshold) return l.color;
   return thresholdInk(
     l,
     metricValues(d)[l.source],

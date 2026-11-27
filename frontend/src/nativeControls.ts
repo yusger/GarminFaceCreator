@@ -1,6 +1,6 @@
 import { nativeThemeMenu } from "./nativeThemeMenu.ts";
 import { themeIndex, layerThemeIndex, activeTheme,themeCode } from "./themes.ts";
-import { sourceSlotLayer } from "./dataSlots.ts";
+import { sourceSlotLayer,sourceSlotLabel,sourceSlotThresholds } from "./dataSlots.ts";
 import type { Project, Layer, CodeFile } from "./domain.ts";
 import {
   controlValue,
@@ -35,6 +35,7 @@ export function nativeControlledDraw(
         thresholdRules: input.thresholdRules?.map((r) => ({ ...r })),
       },
       replacements: Array<[string, string]> = [];
+    const slot=p.controls?.find(c=>c.slot&&c.targets.some(t=>t.layerId===input.id));
     if (!aod)
       for (const [index, c] of controls.entries())
         if (c.type === "color")
@@ -42,13 +43,15 @@ export function nativeControlledDraw(
             const sentinel = "#" + (0xe00000 + index).toString(16);
             if (t.property === "color") copy.color = sentinel;
             else {
+              if(slot&&input.source!==slot.default)continue;
               const rule =
                 copy.thresholdRules?.[Number(t.property.split(".")[1])];
               if (rule) rule.color = sentinel;
             }
             replacements.push([hex(sentinel), variable(c.id)]);
           }
-    let code = draw(resolvedLayer(copy, p.layers));
+    if(!aod&&slot&&input.source!==slot.default&&copy.kind==="metric"){copy.thresholdRules=sourceSlotThresholds(copy.source,copy.color);copy.threshold=copy.thresholdRules.length>0;copy.thresholdFallback=copy.color;}
+    let code = draw(resolvedLayer(copy, p.layers,p.controls));
     for (const [token, value] of replacements)
       code = code.replaceAll(token, value);
     return code;
@@ -57,7 +60,7 @@ export function nativeControlledDraw(
     ? source
         .options!.map(
           (value, i) =>
-            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l, text: sourceLabels[value], sourceLabelFor: undefined } : source.slot ? sourceSlotLayer(p, l, source, value) : { ...l, source: value })}}`,
+            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l, text: l.sourceLabelStyle?sourceSlotLabel(value,l.sourceLabelStyle):source.sourceLabels?.[value]||sourceLabels[value], sourceLabelFor: undefined } : source.slot ? sourceSlotLayer(p, l, source, value) : { ...l, source: value })}}`,
         )
         .join("")
     : make(l);

@@ -182,6 +182,9 @@ export function generationHeader(p: Project) {
     controls: p.controls?.map((c) => ({
       ...objectFields(c, ["id", "label", "type", "default"]),
       options: c.options?.map(scalar),
+      ...(c.sourcePrecisions?{sourcePrecisions:Object.fromEntries(Object.entries(c.sourcePrecisions).map(([key,value])=>[key,scalar(value)]))}:{}),
+      ...(c.sourceLabels?{sourceLabels:Object.fromEntries(Object.entries(c.sourceLabels).map(([key,value])=>[key,scalar(value)]))}:{}),
+      ...(c.sourceUnits?{sourceUnits:Object.fromEntries(Object.entries(c.sourceUnits).map(([key,value])=>[key,scalar(value)]))}:{}),
       ...(c.sourceIcons?{sourceIcons:Object.fromEntries(Object.entries(c.sourceIcons).map(([source,list])=>[source,list.map(scalar)]))}:{}),
       ...(c.slot?{slot:true,sourceGoals:c.sourceGoals?Object.fromEntries(Object.entries(c.sourceGoals).map(([k,v])=>[k,scalar(v)])):undefined,preserveFormatFor:c.preserveFormatFor?.map(scalar)}:{}),
       targets: c.targets.map((t) => objectFields(t, ["layerId", "property"])),

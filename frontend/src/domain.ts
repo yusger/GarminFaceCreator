@@ -43,13 +43,14 @@ export type Layer = {
   imageFullColor?: boolean;
   iconMask?:boolean;
   sourceLabelFor?: string;
+  sourceLabelStyle?:"unit"|"label"|"unitLabel";
   autoPrecision?: boolean;
   autoSourceFormat?: boolean;
   readoutSample?: string;
   groupThousands?: boolean;
   meterContinuous?: boolean;
   meterDimColor?: string;
-  dateFormat?: "monthDayWeek";
+  dateFormat?: "monthDayWeek" | "weekdayDay";
   handCap?: "round" | "butt";
   handBitmap?: {packId:string;setId:string;role:"hour"|"minute"|"second";version:string};
   handShape?: {id:string;version:string;points:[number,number][]};
@@ -239,7 +240,8 @@ export type Project = {
     | 32
     | 33
     | 34
-    | 35;
+    | 35
+    | 36;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -465,7 +467,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 35,
+    schemaVersion: 36,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -502,7 +504,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 35 ||
+    p.schemaVersion !== 36 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200

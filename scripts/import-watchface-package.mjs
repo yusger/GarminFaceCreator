@@ -186,7 +186,7 @@ for (const raw of [...pkg.layers].sort((a, b) => a.zIndex - b.zIndex)) {
     ];
   if (raw.type === "date") {
     l.dateLocale = "en";
-    l.dateFormat = "monthDayWeek";
+    l.dateFormat = raw.format === "ddd DD" ? "weekdayDay" : "monthDayWeek";
   }
   if (raw.type === "metric" || raw.type === "meter") {
     l.source = raw.binding.source;
