@@ -1,3 +1,4 @@
+import {currentApproximationReceipt} from "./generationContext";
 import DeviceEvidence from "./DeviceEvidence";
 import { useMemo } from "react";
 import type { Project } from "./domain";
@@ -24,6 +25,7 @@ export default function GenerationChecks({
       <p className="hint">
         检查本地生成映射与配置选项；不代替SDK编译、资源预算或真机验收。显示近似不代表已接受降级。
       </p>
+      {project.codeProvenance?.acceptedApproximations && <p data-approximation-receipt className="hint">{currentApproximationReceipt(project)?"当前已应用工程已记录所列近似；仍需SDK和原生核对。":"已有近似记录仅对应历史设计或代码，当前设计需重新检查。"}</p>}
       <DeviceEvidence project={project}/>
       {issues.map((d, i) => (
         <div key={i} data-diagnostic-status={d.status}>

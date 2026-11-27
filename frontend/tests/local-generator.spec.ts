@@ -36,7 +36,7 @@ test("switching primary generator retains old native source and records one prov
     "reference",
     "deterministic",
   ]);
-  expect(next.codeProvenance).toEqual(LOCAL_PROVENANCE);
+  expect(next.codeProvenance).toMatchObject(LOCAL_PROVENANCE);
   expect(p.files[0].path).toContain("Old");
 });
 test("local generation works without a model and provenance survives reload", async ({
@@ -51,6 +51,7 @@ test("local generation works without a model and provenance survives reload", as
   await page
     .getByRole("button", { name: "本地生成（试验）", exact: true })
     .click();
+  await expect(page.locator("[data-pending-approximations]")).toContainText("设备字体");
   await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   await page.reload();
@@ -98,11 +99,13 @@ test("changing generation source requires confirmation and retains recoverable c
     .getByRole("button", { name: "本地生成（试验）", exact: true })
     .click();
   page.once("dialog", (d) => d.dismiss());
+  await expect(page.locator("[data-pending-approximations]")).toContainText("设备字体");
   await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
   await expect(
     page.getByRole("button", { name: "应用生成结果", exact: true }),
   ).toBeVisible();
   page.once("dialog", (d) => d.accept());
+  await expect(page.locator("[data-pending-approximations]")).toContainText("设备字体");
   await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
   await page.getByRole("button", { name: "历史", exact: true }).click();
   await expect(page.locator(".history")).toContainText("2/20");

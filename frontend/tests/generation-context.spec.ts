@@ -1,0 +1,33 @@
+import {test,expect} from "@playwright/test";
+import {layer,project} from "../src/domain";
+import {localGenerate,LOCAL_PROVENANCE} from "../src/localGenerator";
+import {addCodeVersion} from "../src/history";
+import {enableDevices} from "../src/multiDevice";
+import {generationContext,contextIdentity,acceptGeneratedProvenance,currentApproximationReceipt} from "../src/generationContext";
+test("code contexts bind design, device and source while ignoring storage and preview-only changes",()=>{
+ const p=project("Context",true);p.layers=[layer("time")];const files=localGenerate(p),a=generationContext(p,files);
+ expect(generationContext({...p,updated:123,storageVersion:999,versions:[]},files)).toEqual(a);
+ expect(generationContext({...p,layers:[{...p.layers[0],readoutSample:"99999"}]},files)).toEqual(a);
+ expect(contextIdentity({b:2,a:1})).toBe(contextIdentity({a:1,b:2}));
+ expect(generationContext({...p,layers:[{...p.layers[0],color:"#123456"}]},files).masterFingerprint).not.toBe(a.masterFingerprint);
+ expect(generationContext({...p,target:"venu441mm",deviceSize:"41mm"},files).variantFingerprint).not.toBe(a.variantFingerprint);
+ expect(generationContext(p,[{...files[0],content:files[0].content+"changed"},...files.slice(1)]).codeFingerprint).not.toBe(a.codeFingerprint);
+ const multi=enableDevices(p),context=generationContext(multi,files);multi.multiDevice!.master[0].color="#123456";
+ expect(generationContext(multi,files).masterFingerprint).not.toBe(context.masterFingerprint);
+ expect(generationContext(multi,files).variantFingerprint).toBe(context.variantFingerprint);
+ expect(a.identityPolicy).toBe("local-change-detection-not-security");
+});
+test("only explicit apply records approximations, scoped to exact code and design with history retained",()=>{
+ const p=project("Receipts",true);p.layers=[layer("time")];const files=localGenerate(p);
+ const unaccepted=addCodeVersion(p,files,LOCAL_PROVENANCE);
+ expect(unaccepted.codeProvenance?.acceptedApproximations).toBeUndefined();
+ const provenance=acceptGeneratedProvenance(p,files,LOCAL_PROVENANCE);
+ expect(provenance.acceptedApproximations?.items.map(x=>x.code)).toEqual(["SYSTEM_FONT_APPROXIMATION"]);
+ expect(provenance.acceptedApproximations?.items.every(x=>!x.code.includes("UNVERIFIED"))).toBe(true);
+ const q=addCodeVersion(p,files,provenance);expect(currentApproximationReceipt(q)).toBe(true);
+ expect(currentApproximationReceipt({...q,revision:q.revision+1})).toBe(false);
+ const repaired=addCodeVersion(q,[{...files[0],content:files[0].content+"changed"},...files.slice(1)],{...q.codeProvenance!,patches:[{source:"manual",at:Date.now()}]});
+ expect(repaired.codeProvenance?.acceptedApproximations).toBeUndefined();
+ expect(repaired.versions[0].provenance?.acceptedApproximations).toBeDefined();
+ expect(acceptGeneratedProvenance(p,files,{primary:"ai"}).acceptedApproximations).toBeUndefined();
+});

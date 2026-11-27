@@ -1,3 +1,4 @@
+import {bindGenerationContext} from "./generationContext";
 import { binaryAssets } from "./assets";
 import {
   uid,
@@ -72,6 +73,7 @@ export function addCodeVersion(
   files: CodeFile[],
   provenance: CodeProvenance = { primary: "ai" },
 ): Project {
+  provenance=bindGenerationContext(p,files,provenance);
   // Preserve even legacy/reference working code before replacing its generation mode.
   const previous =
     p.files.length && !activeVersion(p)

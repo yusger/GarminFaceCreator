@@ -1,3 +1,5 @@
+import {acceptGeneratedProvenance} from "./generationContext";
+import {generationDiagnostics} from "./generationDiagnostics";
 import NativeVerificationPanel from "./NativeVerificationPanel";
 import DiagnosticExport from "./DiagnosticExportPanel";
 import {createStateGroup} from "./stateMapping";
@@ -3658,6 +3660,14 @@ export default function App() {
                             </span>
                           ))}
                       </pre>
+                      {!codeFromBuild && files.length > 0 && pendingProvenance.primary === "deterministic" && (
+                        <aside data-pending-approximations className="boundary-warning">
+                          <b>本次工程的显示近似</b>
+                          <p>点击“应用生成结果”即记录采用下列近似，仅对应本次设计、设备与代码版本。原设计和历史保留；待验证项不会变成已验证。</p>
+                          <ul>{generationDiagnostics(p).filter(d=>d.status==="approximation").map((d,i)=><li key={i}>{p.layers.find(l=>l.id===d.layerId)?.name || "控件"}：{d.message}</li>)}</ul>
+                          {!generationDiagnostics(p).some(d=>d.status==="approximation") && <p>未发现已声明的显示近似。</p>}
+                        </aside>
+                      )}
                       {!codeFromBuild && files.length > 0 && (
                         <button
                           className="primary"
@@ -3679,7 +3689,7 @@ export default function App() {
                                 )
                               )
                                 return;
-                              setP(addCodeVersion(p, files, pendingProvenance));
+                              setP(addCodeVersion(p, files, acceptGeneratedProvenance(p,files,pendingProvenance)));
                             } catch (error) {
                               setNotice((error as Error).message);
                               return;

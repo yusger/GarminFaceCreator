@@ -150,7 +150,15 @@ export type Layer = {
   strokeWidth?: number;
 };
 export type CodeFile = { path: string; content: string };
+export type GenerationContext = {
+  version:1;identityPolicy:"local-change-detection-not-security";
+  projectId:string;revision:number;target:string;deviceSize:string;
+  capabilityVersion:string;sourceContractVersion:string;deviceMetadataVersion:string;
+  masterFingerprint:string;variantFingerprint:string;codeFingerprint:string;
+};
 export type CodeProvenance = {
+  context?:GenerationContext;
+  acceptedApproximations?:{decision:"apply-generated-code";at:number;items:{code:string;path:string;layerId?:string;message:string}[]};
   primary: "ai" | "deterministic" | "reference" | "unknown";
   generatorVersion?: string;
   deviceMetadataVersion?: string;
