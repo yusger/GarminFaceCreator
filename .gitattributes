@@ -38,3 +38,5 @@ deploy/simulator-probe/tests/*.sh text eol=lf
 
 # Preserve recorded native screenshot and audit hashes on every platform.
 docs/research/theme-settings/** -text
+
+docs/research/bitmap-typography/** -text
