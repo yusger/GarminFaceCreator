@@ -1,0 +1,10 @@
+# Use a pinned known probe base; do not chain each runner from its predecessor.
+ARG PROBE_BASE
+FROM ${PROBE_BASE}
+USER 0:0
+COPY run.sh /usr/local/bin/probe-simulator
+COPY theme-ui-gate.sh /usr/local/lib/gfc-probe/theme-ui-gate.sh
+COPY tests/theme-ui-contract.sh /tmp/gfc-theme-ui-contract.sh
+RUN chmod 755 /usr/local/bin/probe-simulator /usr/local/lib/gfc-probe/theme-ui-gate.sh && bash -n /usr/local/bin/probe-simulator && bash -n /usr/local/lib/gfc-probe/theme-ui-gate.sh && bash /tmp/gfc-theme-ui-contract.sh /usr/local/lib/gfc-probe/theme-ui-gate.sh && rm /tmp/gfc-theme-ui-contract.sh
+USER 10001:10001
+ENTRYPOINT ["/usr/local/bin/probe-simulator"]

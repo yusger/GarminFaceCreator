@@ -6,7 +6,8 @@ RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-ins
  && useradd --uid 10001 --create-home probe
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends librsvg2-common shared-mime-info strace && rm -rf /var/lib/apt/lists/*
 COPY run.sh /usr/local/bin/probe-simulator
-RUN chmod 755 /usr/local/bin/probe-simulator
+COPY theme-ui-gate.sh /usr/local/lib/gfc-probe/theme-ui-gate.sh
+RUN chmod 755 /usr/local/bin/probe-simulator /usr/local/lib/gfc-probe/theme-ui-gate.sh && bash -n /usr/local/bin/probe-simulator && bash -n /usr/local/lib/gfc-probe/theme-ui-gate.sh
 USER probe
 ENV HOME=/home/probe DISPLAY=:99 CIQ_HOME=/sdk
 ENTRYPOINT ["/usr/local/bin/probe-simulator"]

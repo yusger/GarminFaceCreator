@@ -1,0 +1,15 @@
+import type {Project} from "../../src/domain";
+import {localGenerate} from "../../src/localGenerator";
+import {preparedCodeFiles} from "../../src/chalkFonts";
+import {preparedAssets} from "../../src/iconLibrary";
+import {controlSettingKey} from "../../src/nativeSettingIds";
+import {themeBackgroundKey} from "../../src/themes";
+function fixture(input:Project,nonce:string){
+ if(!/^[a-f0-9]{32}$/.test(nonce))throw Error("Unique fixture identity required");
+ const p=structuredClone(input);p.id=nonce;p.appId=nonce;p.name="trail";p.files=localGenerate(p);
+ const keys=["Gfc_Theme",...p.themes!.presets.map(t=>themeBackgroundKey(t.id)),...p.controls!.filter(c=>c.id.startsWith("apex-")).slice(0,4).map(controlSettingKey)];
+ p.files=p.files.map(f=>f.path==="source/App.mc"?{...f,content:f.content.replace('if(!gfcFrameReported){System.println(',`if(!gfcFrameReported){System.println("GFC_THEME_UI_VALIDATION=1");System.println("GFC_THEME_UI_RUN=${nonce}");System.println(`).replace(' function onUpdate(dc as Graphics.Dc) as Void {',` function onUpdate(dc as Graphics.Dc) as Void {if(gfcUiCount<1){System.println("GFC_THEME_UI_STATE "+gfcThemeId());${keys.map(k=>`System.println(${JSON.stringify(k+"=")}+Application.Properties.getValue(${JSON.stringify(k)}));`).join("")}gfcUiCount+=1;}`).replace('var gfcFrameReported=false;', 'var gfcFrameReported=false;var gfcUiCount=0;').replace('function onSettingsChanged(){','function onSettingsChanged(){mainView.gfcUiCount=0;')} : f);
+ if(!p.files.find(f=>f.path==="source/App.mc")?.content.includes('var gfcUiCount=0'))throw Error('Observer hook changed');
+ return p;
+}
+Object.assign(window,{gfcThemeUiFixture:{fixture,preparedCodeFiles,preparedAssets}});

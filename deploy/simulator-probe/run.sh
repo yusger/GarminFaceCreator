@@ -27,6 +27,7 @@ cleanup(){ if [ -r /sys/fs/cgroup/memory.peak ]; then cat /sys/fs/cgroup/memory.
 trap cleanup EXIT
 for i in $(seq 1 30); do if xdpyinfo >/dev/null 2>&1; then break; fi; sleep 1; done
 cd /output
+gfc_start_simulator(){
 if [ "${PROBE_TRACE:-0}" = 1 ]; then
  strace -f -e trace=file -o /output/files.log /tmp/bin/simulator > /output/simulator.log 2>&1 &
 else
@@ -38,8 +39,13 @@ for i in $(seq 1 30); do
  if xdotool search --onlyvisible --name 'CIQ Simulator|Connect IQ' >/tmp/window-id 2>/dev/null; then break; fi
  sleep 1
 done
-java -classpath /sdk/bin/monkeybrains.jar com.garmin.monkeybrains.monkeydodeux.MonkeyDoDeux -f /input/watchface.prg -d "$DEVICE" -s /tmp/bin/shell > /output/monkeydo.log 2>&1 &
+}
+gfc_start_app(){
+java -classpath /sdk/bin/monkeybrains.jar com.garmin.monkeybrains.monkeydodeux.MonkeyDoDeux -f /input/watchface.prg -d "$DEVICE" -s /tmp/bin/shell >> /output/monkeydo.log 2>&1 &
 mpid=$!
+}
+gfc_start_simulator
+gfc_start_app
 ready=0
 for i in $(seq 1 45); do
  kill -0 "$spid" 2>/dev/null || { echo 'simulator exited before frame'; exit 6; }
@@ -48,6 +54,10 @@ for i in $(seq 1 45); do
  sleep 1
 done
 if [ "$ready" != 1 ]; then echo 'No expected frame report before timeout'; tail -c 12000 /output/monkeydo.log; tail -c 4000 /output/simulator.log; exit 8; fi
+if grep -Fxq "GFC_THEME_UI_VALIDATION=1" /output/monkeydo.log; then
+ source /usr/local/lib/gfc-probe/theme-ui-gate.sh
+ gfc_theme_ui_gate
+fi
 sleep 3
 kill -0 "$spid" 2>/dev/null || { echo "simulator exited before capture"; cat /output/simulator.log; exit 6; }
 import -window root /output/desktop.png
