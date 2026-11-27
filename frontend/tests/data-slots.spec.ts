@@ -152,3 +152,10 @@ test("linked source branches compile with the real SDK", async ({
     )
     .toBe("succeeded");
 });
+
+test("113 editor creates and persists a linked source configuration",async({page})=>{
+ page.on("dialog",d=>d.accept("DataSlotUI"));await page.goto("/");await page.getByRole("button",{name:/^空白画布/}).click();await page.getByLabel("初始布局",{exact:true}).selectOption("blank");await page.getByRole("button",{name:"创建项目",exact:true}).click();await page.getByRole("button",{name:"数据",exact:true}).click();
+ await page.locator(".watchface-controls > summary").click();await page.getByText("创建联动数据槽",{exact:true}).click();const author=page.locator(".watchface-controls details").filter({has:page.getByText("创建联动数据槽",{exact:true})});await author.locator('input[type="checkbox"]').first().check();await page.getByRole("button",{name:"创建数据槽",exact:true}).click();await page.getByLabel("数据槽",{exact:true}).selectOption("battery");await expect(page.locator("svg.watch")).toContainText("%");
+ await expect.poll(()=>page.evaluate(async()=>{return await new Promise(resolve=>{const r=indexedDB.open("garmin-face-creator",2);r.onsuccess=()=>{const db=r.result,q=db.transaction("projects").objectStore("projects").getAll();q.onsuccess=()=>{const p=q.result.find(x=>x.controls?.some(c=>c.slot));db.close();resolve(p?.controlValues?.[p.controls.find(c=>c.slot).id]);};};});})).toBe("battery");
+ await page.reload();await expect(page.getByLabel("数据槽",{exact:true})).toHaveValue("battery");
+});

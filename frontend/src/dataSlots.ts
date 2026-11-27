@@ -1,4 +1,4 @@
-import type { Layer, Project } from "./domain.ts";
+import { uid,type Layer,type Project } from "./domain.ts";
 import type { ProjectControl } from "./projectControls.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
 import { defaultThresholds } from "./thresholds.ts";
@@ -174,7 +174,7 @@ export function createDataSlot(
     !options.includes(defaults[0] || "")
   )
     throw Error("数据槽成员须有相同且兼容的初始来源");
-  const id = "slot-" + crypto.randomUUID().slice(0, 8);
+  const id = "slot-" + uid().slice(0, 8);
   const goal = members.find((l) => l.kind === "meter" || l.kind === "ring");
   const value = goal?.kind === "ring" ? goal.ringGoal : goal?.meterGoal;
   const c: ProjectControl = {
