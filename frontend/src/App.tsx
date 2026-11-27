@@ -1,3 +1,4 @@
+import ResourceInspector from "./ResourceInspector";
 import GenerationChecks from "./GenerationChecks";
 import PolygonEditor from "./PolygonEditor";
 import FontLibrary from "./FontLibraryPanel";
@@ -1878,6 +1879,7 @@ export default function App() {
                 )}
                 {leftTab === "素材" && (
                   <div className="asset-list">
+                    <ResourceInspector project={p} onLocate={selectOne}/>
                     {p.layers.some(l=>l.widgetOrigin&&l.groupId&&l.kind!=="widget")&&<p className="hint">部分历史控件含交错图层或跨组配置，已保留原结构以维持原效果。新添加的控件采用复合对象。</p>}
                     <WidgetPicker disabled={p.multiDevice?.scope === "device"} onInsert={id=>{try {const next=insertWidget(p,id);editLayers(next.layers,true,next);const added=next.layers.slice(p.layers.length);setSelection(added.map(l=>l.id));setSelected(added[0].id);setNotice("已添加复合控件；选中后在右侧配置内部部件。");}catch(e){setNotice((e as Error).message);}}}/>
                     <details><summary>布局模板</summary><TemplatePicker label="素材库布局模板" value={libraryTemplate} onChange={setLibraryTemplate}/><button disabled={!libraryTemplate} onClick={()=>setNewProject({name:"模板表盘",blank:true,templateId:libraryTemplate})}>使用模板创建表盘</button></details>
