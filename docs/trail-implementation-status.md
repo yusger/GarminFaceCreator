@@ -1,13 +1,13 @@
-﻿# trail 混合表盘及精细编辑：当前实施状态
+# trail 混合表盘及精细编辑：当前实施状态
 
-截至阶段134，本轮仍在实施。默认参考13款，trail为单项目三主题；Rider不进默认库。实现先提交推送、核对GitHub SHA，再部署约定测试环境，测试后提交证据。展示环境未更新，Temp保持忽略。
+截至阶段135，本轮仍在实施。默认参考13款，trail为单项目三主题；Rider不进默认库。实现先提交推送、核对GitHub SHA，再部署约定测试环境，测试后提交证据。展示环境未更新，Temp保持忽略。
 
 | 部分 | 当前交付与证据 | 仍待完成/验证 |
 | --- | --- | --- |
 | 数据与图标 | 显式数据槽、格式/图标/目标联动、可换色遮罩；[规则](standards/data-source-linkage.md) | 更完整主题角色及外部新契约 |
 | 图表 | 每日活动、小时心率、聚合/缺失/样式/阈值；[固定数据绘图](research/chart-drawing-fixture-validation.md) | 真实历史覆盖、实际Sleep/重启等生命周期 |
 | 字体 | 本地TTF/OTF及固定像素FNT＋PNG；字形/图集预算、许可、共享字偶距；[原生对照](research/bitmap-font-validation.md) | 更完整排版、细线/角形样例和相关AOD |
-| 三主题 | 预设/独立颜色、数据与开关覆盖、单一应用身份、手表菜单源码、每主题背景；[背景配置](research/theme-background-validation.md) | 同一PRG实际菜单操作、切换重置、重启持久化及升级回归 |
+| 三主题 | 预设/独立颜色、数据与开关覆盖、单一应用身份、原生分组菜单、每主题背景；[原生交互](research/native-theme-settings-validation.md) | 已验45mm实际切换/数据/颜色/秒数开关/当前重置、主题与背景正常退出重载；非默认覆盖的重载/升级、最终全矩阵和41mm原生交互待验 |
 | 新来源 | 血氧、连接、久坐、天气、日出日落等；[来源范围](standards/additional-data-sources.md) | 真实传感器和设备限制继续分别核验 |
 | 月相 | 受限UTC估算、图标/照明读数、两尺寸及受控AOD；[实测](research/moon-validation.md) | 不宣称精密历书、本地天空倾角或真实Sleep |
 | 几何 | 简单凹多边形及受限原生单轮廓；[原生记录](research/concave-native-validation.md) | 路径、虚线、刻度与样式实例等后续评估/交付 |

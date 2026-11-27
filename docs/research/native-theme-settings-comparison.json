@@ -1,0 +1,315 @@
+{
+  "scope": "Venu 4 45mm SDK 9.3; real system-menu interaction; normally charged isolated fixture; dynamic simulator defaults",
+  "cases": [
+    {
+      "buildId": "8bc4573f45a1477aa627f7e250c6ad5d",
+      "status": "succeeded",
+      "target": "venu445mm",
+      "prgSha256": "bbab1a1544b94f6fa62045ab8fdecc1b91aa9215f62a093781594eea55054bc2",
+      "sourceSha256": "8e0559e292d39ac219bd80b01b47f9e83ab16f0afffee5902668ef988b508d75",
+      "generatorVersion": "basic-62-moon-pixels",
+      "error": "",
+      "case": "three-themes",
+      "cleanupStatus": "completed",
+      "dataMode": "simulator-defaults-dynamic",
+      "images": [
+        {
+          "file": "apex-desktop.png",
+          "sha256": "3aff27ff0e58ce39d851f40fb7cf083c618967eff674fa1db297a90907e6c70f"
+        },
+        {
+          "file": "trail-desktop.png",
+          "sha256": "f6cb831a4542ad2a82f07dc678fa86ba63872cd212cde702b50c743215840d92"
+        },
+        {
+          "file": "vital-desktop.png",
+          "sha256": "ad93a64623ec99a8dd78e2840e4f58b0e04d28f7bc9cad09272cc6eb26c5e08b"
+        }
+      ],
+      "hardware": "unverified",
+      "sleepTransition": "unverified",
+      "checks": {
+        "themeTransitions": true,
+        "abruptRestartPreservesSettings": false
+      }
+    },
+    {
+      "buildId": "111316eaf9054ae89f1c7a394a3b8733",
+      "status": "succeeded",
+      "target": "venu445mm",
+      "prgSha256": "c9a383d0b82b717f374ebfe8c651c5e95709bb3126350f19f449ac33b07e4e07",
+      "sourceSha256": "b3df2253f45d227dc5519830a30f9d8cbe7686fa3cc7e4ac988b77a6767151da",
+      "generatorVersion": "basic-62-moon-pixels",
+      "error": "",
+      "case": "background",
+      "cleanupStatus": "completed",
+      "dataMode": "simulator-defaults-dynamic",
+      "images": [
+        {
+          "file": "background-menu.png",
+          "sha256": "b278082b7dea0ec76a72a239ebd0e7580169a7091f89059f3876c1f9b893c615"
+        }
+      ],
+      "hardware": "unverified",
+      "sleepTransition": "unverified",
+      "checks": {
+        "independentBackground": true
+      }
+    },
+    {
+      "buildId": "fe966c4656944f5dbdfbee6977e3917e",
+      "status": "succeeded",
+      "target": "venu445mm",
+      "prgSha256": "0ee3761a8f119eaf26ce40f68358cfa2371a2b5a3aa2b2c97d1d266a44313f6c",
+      "sourceSha256": "10488f20db2cc2afcb2ac691d5d21e8278b283c9f0dfa63fb014a5d0426fc49f",
+      "generatorVersion": "basic-62-moon-pixels",
+      "error": "",
+      "case": "graceful-persistence",
+      "cleanupStatus": "completed",
+      "dataMode": "simulator-defaults-dynamic",
+      "images": [
+        {
+          "file": "persisted-trail-desktop.png",
+          "sha256": "ac3e76321f97246e835bbc0f595a7bc242e2fd5b5334f2267224a961c226c6a4"
+        },
+        {
+          "file": "persisted-trail-native.png",
+          "sha256": "fbfabefabdca350a75d7ff9c10636a2a0958c83d611e729a99226949fd803ffd"
+        }
+      ],
+      "hardware": "unverified",
+      "sleepTransition": "unverified",
+      "checks": {
+        "samePrgThemeAndBackgroundPersistence": true
+      }
+    },
+    {
+      "buildId": "6830bfb81a61442db9650e7d67b7113e",
+      "status": "succeeded",
+      "target": "venu445mm",
+      "prgSha256": "9ab627bac47132895d2ba9639addf83eb9e96b0bddc0beaef8fdc5d2ac1becda",
+      "sourceSha256": "5b8b91bb9e691e22ecf3bb7eaa11a9bab1aeaa373ced8acc36bf5554c2c4978b",
+      "generatorVersion": "basic-62-moon-pixels",
+      "error": "",
+      "case": "source-control",
+      "cleanupStatus": "completed",
+      "dataMode": "simulator-defaults-dynamic",
+      "images": [],
+      "hardware": "unverified",
+      "sleepTransition": "unverified",
+      "checks": {
+        "sourceSelection": true,
+        "fullControlFlow": "unverified"
+      }
+    },
+    {
+      "buildId": "9df42063923a408ca28cd9511ec2c8ca",
+      "status": "failed",
+      "target": "venu445mm",
+      "prgSha256": "b95e2e6b7001c91f795e29e3e751f47676c94aa4d48914a1d95ba5db31bef5d9",
+      "sourceSha256": "2ef9ae47130273e57f414e7b0eac68890b6c242bc5aff06f91cc4f3481816332",
+      "generatorVersion": "basic-62-moon-pixels",
+      "error": "application_error_reported",
+      "case": "stacked-menu-oom",
+      "cleanupStatus": "completed",
+      "dataMode": "simulator-defaults-dynamic",
+      "images": [
+        {
+          "file": "before-fix-menu-heap.png",
+          "sha256": "19097f81c33445102634c901d05cfdc12c2d3cecc92d6ba1c6832c086c550617"
+        }
+      ],
+      "hardware": "unverified",
+      "sleepTransition": "unverified",
+      "checks": {
+        "settingsFlow": false
+      }
+    },
+    {
+      "buildId": "d4354708dd6740bb8d06c505dcfefc93",
+      "status": "succeeded",
+      "target": "venu445mm",
+      "prgSha256": "e9c66b2d7f2c35b835d1d3e630690b821b293259eb0564c4ec1a78321dc28692",
+      "sourceSha256": "ccb347fc0ba66b50c9b8f15884615106e4ec1129cbce839dc42441c7d9376af5",
+      "generatorVersion": "basic-63-menu-reuse-fixture",
+      "error": "",
+      "case": "reused-menu-scroll",
+      "cleanupStatus": "completed",
+      "dataMode": "simulator-defaults-dynamic",
+      "images": [
+        {
+          "file": "reused-menu-bottom.png",
+          "sha256": "1e89790896c689a5009260f6860e51ac6e5b951bffa9918b130484786ff7d1e1"
+        }
+      ],
+      "hardware": "unverified",
+      "sleepTransition": "unverified",
+      "checks": {
+        "correctScrollAndToggleFlow": false
+      }
+    },
+    {
+      "case": "unsupported-view-replacement",
+      "status": "failed",
+      "prgSha256": "8c7c9ab1b6ed6f693a91b057da99c1d678b983c44be2c66802d7193f32232a74",
+      "sourceSha256": "55433de76febbb76ae6c5d30ab94051a016c8ad977afaab8b7dcab50ac5683d1",
+      "generatorVersion": "basic-64-menu-replace-fixture",
+      "error": "application_error_reported",
+      "cleanupStatus": "completed",
+      "functionalAcceptance": false,
+      "note": "SDK passed; actual runtime Symbol Not Found; removed"
+    },
+    {
+      "case": "bounded-items-without-return-repaint",
+      "status": "succeeded",
+      "prgSha256": "9ba989a4d6744de0143ca58996ac78cef0bc0bf61cd03d2d225f97d6320f0627",
+      "sourceSha256": "eb3891127459c3902a6bb7262ba1d0d41aeab1d8a62cc81a880510ebd303244e",
+      "generatorVersion": "basic-65-menu-bounds-fixture",
+      "error": "",
+      "cleanupStatus": "completed",
+      "functionalAcceptance": false,
+      "note": "Source and colour writes succeeded; final return frame was black; fixed in basic66"
+    },
+    {
+      "case": "grouped-controls-and-current-reset",
+      "buildId": "38b4d7d458724d6c9f616b4c252a575b",
+      "status": "succeeded",
+      "target": "venu445mm",
+      "prgSha256": "d6e4cbd3c06489d4c57a6de10d6e352d70f6c1f57f9c310cc59e6aae70f582fa",
+      "sourceSha256": "14ca6e583687396c82725745a7a67aa05f5ae761d9c4aba8ea7ffa88336b6f6b",
+      "generatorVersion": "basic-66-menu-groups-fixture",
+      "error": "",
+      "cleanupStatus": "completed",
+      "states": [
+        {
+          "theme": "apex",
+          "Gfc_Theme": "2009808953",
+          "Gfc_Background_2009808953": "922393",
+          "Gfc_Background_2078923795": "0",
+          "Gfc_Background_1156566441": "528656",
+          "Gfc_Source_apex_value_apex_tl": "-1",
+          "Gfc_apex_value_apex_tl_color": "3727824",
+          "Gfc_Source_apex_value_apex_tr": "-1",
+          "Gfc_apex_value_apex_tr_color": "15397366",
+          "Gfc_apex_show_bg_art": "true",
+          "Gfc_apex_show_ticks": "true",
+          "Gfc_apex_show_seconds": "true"
+        },
+        {
+          "theme": "apex",
+          "Gfc_Theme": "2009808953",
+          "Gfc_Background_2009808953": "922393",
+          "Gfc_Background_2078923795": "0",
+          "Gfc_Background_1156566441": "528656",
+          "Gfc_Source_apex_value_apex_tl": "588927973",
+          "Gfc_apex_value_apex_tl_color": "3727824",
+          "Gfc_Source_apex_value_apex_tr": "588927973",
+          "Gfc_apex_value_apex_tr_color": "15397366",
+          "Gfc_apex_show_bg_art": "true",
+          "Gfc_apex_show_ticks": "true",
+          "Gfc_apex_show_seconds": "true"
+        },
+        {
+          "theme": "apex",
+          "Gfc_Theme": "2009808953",
+          "Gfc_Background_2009808953": "922393",
+          "Gfc_Background_2078923795": "0",
+          "Gfc_Background_1156566441": "528656",
+          "Gfc_Source_apex_value_apex_tl": "588927973",
+          "Gfc_apex_value_apex_tl_color": "16777215",
+          "Gfc_Source_apex_value_apex_tr": "588927973",
+          "Gfc_apex_value_apex_tr_color": "15397366",
+          "Gfc_apex_show_bg_art": "true",
+          "Gfc_apex_show_ticks": "true",
+          "Gfc_apex_show_seconds": "true"
+        },
+        {
+          "theme": "apex",
+          "Gfc_Theme": "2009808953",
+          "Gfc_Background_2009808953": "922393",
+          "Gfc_Background_2078923795": "0",
+          "Gfc_Background_1156566441": "528656",
+          "Gfc_Source_apex_value_apex_tl": "588927973",
+          "Gfc_apex_value_apex_tl_color": "16777215",
+          "Gfc_Source_apex_value_apex_tr": "588927973",
+          "Gfc_apex_value_apex_tr_color": "15397366",
+          "Gfc_apex_show_bg_art": "true",
+          "Gfc_apex_show_ticks": "true",
+          "Gfc_apex_show_seconds": "false"
+        },
+        {
+          "theme": "apex",
+          "Gfc_Theme": "2009808953",
+          "Gfc_Background_2009808953": "922393",
+          "Gfc_Background_2078923795": "0",
+          "Gfc_Background_1156566441": "528656",
+          "Gfc_Source_apex_value_apex_tl": "1007610278",
+          "Gfc_apex_value_apex_tl_color": "3727824",
+          "Gfc_Source_apex_value_apex_tr": "588927973",
+          "Gfc_apex_value_apex_tr_color": "15397366",
+          "Gfc_apex_show_bg_art": "true",
+          "Gfc_apex_show_ticks": "true",
+          "Gfc_apex_show_seconds": "true"
+        }
+      ],
+      "checks": {
+        "source": true,
+        "colour": true,
+        "secondsOff": true,
+        "currentThemeReset": true,
+        "otherThemeBackgroundPreserved": true,
+        "returnFrameRepaint": true
+      },
+      "hardware": "unverified",
+      "sleepTransition": "unverified",
+      "images": [
+        {
+          "file": "grouped-menu.png",
+          "sha256": "d2febc439bd4e967af528f21169505b55e118cc67557fccabe1d9179f6b4a23a"
+        },
+        {
+          "file": "steps-desktop.png",
+          "sha256": "5403f9575ae3dad544c13b59100f1f4d6a34792f87309cb4c3828903102683fd"
+        },
+        {
+          "file": "white-readout-desktop.png",
+          "sha256": "68f6a5ee06e937810098b2ec570df601cb527e31745f7b39f036fc95755a17d1"
+        },
+        {
+          "file": "seconds-hidden-desktop.png",
+          "sha256": "4af0d868d74faa72c3c2ef7583999e173dfe8b9f8645623d7c19eaab621055a8"
+        },
+        {
+          "file": "reset-desktop.png",
+          "sha256": "06b855ad5ab0b98dea4814cfeceb788568b4a442cdf1e117fdcd05f39be06542"
+        },
+        {
+          "file": "reset-native.png",
+          "sha256": "bb0f652c79a89536275d82f56c0a73a2fa63c4853aff805b97ac98cfca82a24b"
+        }
+      ]
+    },
+    {
+      "case": "published-persistence-script",
+      "scenario": "persistence",
+      "states": [
+        "apex",
+        "trail",
+        "trail"
+      ],
+      "prgSha256": "f76b4bf95d7be4f330b665957687d89d4f0123943cbe9b0ff1b0d2e50090412a",
+      "sourceSha256": "9e7fdee4a28ddf59242833c1d5b57638902c4ef00b9e57cda6ac1179e3760051",
+      "cleanupStatus": "completed",
+      "applicationDataMode": "simulator-defaults-dynamic",
+      "hardware": "unverified",
+      "sleepTransition": "unverified"
+    }
+  ],
+  "unverified": [
+    "real Sleep",
+    "hardware",
+    "source/colour/boolean overrides after restart",
+    "old SET import and upgrade",
+    "final current-version three-theme fixed-data visual matrix"
+  ]
+}
