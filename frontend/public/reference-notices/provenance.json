@@ -289,7 +289,7 @@
         "PulseManiac-Font-Sources.json"
       ],
       "path": "/default-watchfaces/pulsemaniac/project.json",
-      "sha256": "907da88bc6d62730e5ece277a44823fadaf62a002d8e3ec43cc34f1048ee4920"
+      "sha256": "131476e22f4c8a2f7a7cd658a621e279937ce37a2727610dfbdf13fad3ee4db8"
     },
     {
       "id": "00000000-0000-4000-8000-000000000012",
@@ -315,15 +315,15 @@
         "repository-LICENSE.txt"
       ],
       "path": "/default-watchfaces/sonar/project.json",
-      "sha256": "080b142b07dcd818b497b62b2e64eb7e07f33885f596f1668743b1636e715e93"
+      "sha256": "da0a1ebf0c93bbdbc733f333773422518f8e4571b109f94dd1b021f359f431bc"
     }
   ],
   "generators": [
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-37-native-frame-marker",
-      "sha256": "d949d83a87ca9c029d3d67c70f158ddf74c036a56dd22c89a68b4545aed39da9",
+      "version": "basic-38-adaptive-geometry",
+      "sha256": "f0460f3fe3407416b7d37fcc83cabda7185d97676fed4c7be5b7e63f3c20c17d",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },

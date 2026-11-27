@@ -1,3 +1,4 @@
+import {primitivePoints} from "./primitiveSampling.ts";
 import {mappedDraw} from "./sourceMap.ts";
 import { deviceMetadataVersion } from "./deviceMetadata.ts";
 import {nativeMetricValidation} from "./metricFormat.ts";
@@ -24,7 +25,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-37-native-frame-marker";
+export const LOCAL_GENERATOR_VERSION = "basic-38-adaptive-geometry";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -66,7 +67,7 @@ function font(l: Layer, aod: boolean) {
               : "TINY"))
   );
 }
-function primitive(l: Layer, aod: boolean) {
+function primitive(l: Layer, aod: boolean, targetScale:number) {
   const fill = color(aod ? l.aodColor || "#777777" : l.color),
     stroke = color(aod ? l.aodColor || "#777777" : l.strokeColor || l.color);
   const alpha = Math.round((l.opacity ?? 1) * 255);
@@ -88,34 +89,7 @@ function primitive(l: Layer, aod: boolean) {
       : strokeTool +
           `dc.drawLine(px(${num(x1)}),px(${num(y1)}),px(${num(x2)}),px(${num(y2)}));`;
   }
-  let points: number[][] = [];
-  if(l.kind === "polygon") points=l.polygonPoints!.map(([x,y])=>[l.x+x*l.w,l.y+y*l.h]);
-  else if (l.kind === "circle")
-    points = Array.from({ length: 48 }, (_, i) => {
-      const a = (i * Math.PI * 2) / 48;
-      return [
-        l.x + l.w / 2 + (Math.cos(a) * l.w) / 2,
-        l.y + l.h / 2 + (Math.sin(a) * l.h) / 2,
-      ];
-    });
-  else {
-    const r = Math.min(l.cornerRadius ?? 4, l.w / 2, l.h / 2);
-    if (!r)
-      points = [
-        [l.x, l.y],
-        [l.x + l.w, l.y],
-        [l.x + l.w, l.y + l.h],
-        [l.x, l.y + l.h],
-      ];
-    else
-      for (let c = 0; c < 4; c++)
-        for (let i = 0; i <= 6; i++) {
-          const a = ((-90 + c * 90 + (i * 90) / 6) * Math.PI) / 180;
-          const cx = c < 2 ? l.x + l.w - r : l.x + r,
-            cy = c === 0 || c === 3 ? l.y + r : l.y + l.h - r;
-          points.push([cx + r * Math.cos(a), cy + r * Math.sin(a)]);
-        }
-  }
+  const points = primitivePoints(l,targetScale);
   const array =
     "[" +
     points
@@ -132,7 +106,7 @@ function primitive(l: Layer, aod: boolean) {
       : "")
   );
 }
-function draw(l: Layer, aod: boolean) {
+function draw(l: Layer, aod: boolean, targetScale:number) {
   if (!aod && l.activeVisible === false) return "";
   if (
     aod &&
@@ -225,7 +199,7 @@ function draw(l: Layer, aod: boolean) {
   if (l.kind === "image" && l.libraryIcon)
     return `GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
   if (["rect", "circle", "line", "polygon"].includes(l.kind))
-    return `{${primitive(l, aod)}}`;
+    return `{${primitive(l, aod, targetScale)}}`;
   const align = l.textAlign || "center",
     x = l.x + (align === "left" ? 0 : align === "right" ? l.w : l.w / 2);
   const content =
@@ -279,7 +253,7 @@ function bitmapId(l: Layer) {
   return "GfcImage_" + l.id.replace(/[^a-zA-Z0-9]/g, "_");
 }
 function visibleDraw(l: Layer, aod: boolean, p: Project, owner?:string) {
-  const code = nativeControlledDraw(p, l, aod, (input) => draw(input, aod));
+  const code = nativeControlledDraw(p, l, aod, (input) => draw(input, aod, generationDevice(p).screenWidth/454));
   return mappedDraw(code ? `if(${nativeVisibility(l, aod)}){${code}}` : "",{layerId:owner || l.id,partId:l.id,capabilityId:"core."+l.kind,mode:aod?"aod":"active"});
 }
 export function localGenerate(p: Project) {

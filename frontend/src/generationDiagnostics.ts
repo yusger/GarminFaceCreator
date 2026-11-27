@@ -1,3 +1,4 @@
+import {primitiveSampling,CURVE_ERROR_PX} from "./primitiveSampling.ts";
 import { deviceMetadata, deviceMetadataVersion } from "./deviceMetadata.ts";
 import type { Layer, Project } from "./domain.ts";
 import { capabilityCatalog, localLayerDiagnostics } from "./capabilities.ts";
@@ -74,6 +75,10 @@ export function generationDiagnostics(
       });
     for (const l of included) {
       issues.push(...localLayerDiagnostics(l));
+      if(["circle","rect"].includes(l.kind)){
+        const sampling=primitiveSampling(l,(deviceMetadata(p.target||"venu445mm")?.width||454)/454);
+        if(sampling.capped)add(l,"CURVE_SUBDIVISION_BUDGET","approximation",`曲线达到顶点预算，弦线误差上界约${sampling.errorPx.toFixed(2)}像素（目标${CURVE_ERROR_PX}）；尚未计入设备像素取整。`);
+      }
       if (l.effectPrompt?.trim())
         add(
           l,
