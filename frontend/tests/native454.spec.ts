@@ -1,6 +1,6 @@
 import {iconMaskId} from "../src/iconMasks";
 import {test,expect} from "@playwright/test";
-import {readFile} from "node:fs/promises";
+import {readFile,mkdir,writeFile} from "node:fs/promises";
 import {validateProject} from "../src/domain";
 import {resolveControls,setControl} from "../src/projectControls";
 import {selectTheme} from "../src/themes";
@@ -11,3 +11,27 @@ test("Native454 is one maintainable project with complete presets and local orig
 test("data slots preserve original precision and update active/AOD labels with selected source",async()=>{let p=await fixture();p=selectTheme(p,"trail");expect(resolveControls(p).layers.find(l=>l.id==="trail_value_trail_tr").precision).toBe(1);const slot=p.controls.find(c=>c.id==="trail-value-trail-tr");p=setControl(p,slot.id,"heartRate");const r=resolveControls(p);expect(r.layers.find(l=>l.id==="trail_value_trail_tr").source).toBe("heartRate");expect(r.layers.find(l=>l.id==="trail_aod_distance").source).toBe("heartRate");expect(r.layers.find(l=>l.id==="trail_label_trail_tr").text).toBe("BPM");expect(r.layers.find(l=>l.id==="trail_aod_km").text).toBe("BPM");});
 
 test("source icon alternatives share six native glyph resources across themes",async()=>{const p=await fixture(),icons=p.layers.filter(l=>l.iconMask);expect(icons).toHaveLength(60);expect(new Set(icons.map(iconMaskId)).size).toBe(6);const xml=localGenerate(p).find(f=>f.path==="resources/fonts/fonts.xml")!.content;expect((xml.match(/id="GfcMask_/g)||[])).toHaveLength(6);});
+
+
+test("113 Native454 creates one project, prepares complete resources and runs SDK simulator",async({page,request})=>{
+ test.skip(process.env.GFC_NATIVE_TEST!=="1","Explicit complete native test");test.setTimeout(300000);
+ await page.goto("/");await page.getByRole("button",{name:/Native 454 三主题/}).click();
+ await expect(page.locator("svg.watch")).toBeVisible();
+ await page.locator(".watchface-controls > summary").click();
+ for(const id of ["apex","trail","vital"]){await page.getByLabel("主题预设",{exact:true}).selectOption(id);await expect(page.locator("svg.watch")).toBeVisible();}
+ await page.getByLabel("主题预设",{exact:true}).selectOption("apex");
+ await page.getByRole("button",{name:"本地生成（试验）",exact:true}).click();
+ await page.getByRole("button",{name:"应用生成结果",exact:true}).click();
+ const wait=page.waitForResponse(r=>r.request().method()==="POST"&&r.url().endsWith("/api/builds"));
+ await page.getByRole("button",{name:"编译",exact:true}).first().click();
+ const response=await wait;expect(response.status()).toBe(202);const job=await response.json(),headers={Authorization:"Bearer "+job.accessToken};
+ await expect.poll(async()=>{const state=await(await request.get(`/api/builds/${job.buildId}`,{headers})).json();if(state.status==="failed"){const logs=await(await request.get(`/api/builds/${job.buildId}/logs`,{headers})).json();throw Error(JSON.stringify(logs));}return state.status;},{timeout:120000,intervals:[1000]}).toBe("succeeded");
+ const root=`/api/builds/${job.buildId}/native-verification`;
+ const start=await request.post(root,{headers});expect(start.status()).toBe(202);
+ await expect.poll(async()=>{const state=await(await request.get(root,{headers})).json();if(state.status==="failed")throw Error(JSON.stringify(state));return state.status;},{timeout:170000,intervals:[2000]}).toBe("succeeded");
+ await mkdir("Temp/native454-validation",{recursive:true});
+ const png=await(await request.get(root+"/artifacts/screen.png",{headers})).body();expect(png.readUInt32BE(16)).toBe(454);
+ await writeFile("Temp/native454-validation/native-apex.png",png);
+ const meta=await(await request.get(root+"/artifacts/metadata.json",{headers})).json();await writeFile("Temp/native454-validation/metadata.json",JSON.stringify(meta,null,2));
+ await page.screenshot({path:"Temp/native454-validation/browser.png"});
+});

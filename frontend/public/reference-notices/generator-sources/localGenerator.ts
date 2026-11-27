@@ -326,7 +326,7 @@ export function localGenerate(p: Project) {
     );
   const chalk = chalkPlans(p);
   const masks=included.filter(l=>l.iconMask);
-  if(masks.length>96||new Set(masks.map(iconMaskId)).size!==masks.length)throw Error("单色图标超过96个或资源身份重复");
+  if(masks.length>96)throw Error("单色图标超过96个");
   const meters = included.filter((l) => l.kind === "meter");
   const dataSources = [
     ...new Set([
@@ -523,7 +523,7 @@ class GeneratedView extends WatchUi.WatchFace {
             ? [
                 {
                   path: "resources/fonts/fonts.xml",
-                  content: `<fonts>${[...chalk.map(plan=>plan.id),...masks.map(iconMaskId)].map(id=>`<font id="${id}" filename="${id}.fnt" antialias="true"/>`).join("")}</fonts>`,
+                  content: `<fonts>${[...chalk.map(plan=>plan.id),...new Set(masks.map(iconMaskId))].map(id=>`<font id="${id}" filename="${id}.fnt" antialias="true"/>`).join("")}</fonts>`,
                 },
               ]
             : []),
