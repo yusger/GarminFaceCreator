@@ -33,7 +33,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
   const root = themes
     .map(
       (t) =>
-        `if(theme.equals(${q(t.id)})){${[...common, ...controls.filter((c) => t.controlIds.includes(c.id))].map((c) => item(c.label, `{:action=>"control",:id=>${q(c.id)}}`)).join("")}}`,
+        `if(theme.equals(${q(t.id)})){${[...common, ...controls.filter((c) => t.controlIds.includes(c.id))].map((c) => `if(mode.equals(${q(c.type==="boolean"?"decorations":c.type==="color"?"colors":"sources")})){${item(c.label, `{:action=>"control",:id=>${q(c.id)}}`)}}`).join("")}}`,
     )
     .join("");
   const colorEntries = (c: (typeof controls)[number]) => [
@@ -75,11 +75,12 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  class GfcSettingsMenu extends WatchUi.Menu2{
  function initialize(mode,control){Menu2.initialize({:title=>${q(p.name + " Settings")}});menuMode=mode;menuControl=control;rebuild();}
  var menuMode=null;var menuControl=null;
- function onShow(){Menu2.onShow();rebuild();}
+ function onShow(){Menu2.onShow();rebuild();WatchUi.requestUpdate();}
  function clearItems(){while(deleteItem(0)==true){}}
  function navigate(mode,control){clearItems();WatchUi.pushView(new GfcSettingsMenu(mode,control),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
  function rebuild(){while(deleteItem(0)==true){}var mode=menuMode;var control=menuControl;var theme=gfcThemeId();
- if(mode.equals("root")){${item("Theme", '{:action=>"themes"}', "theme")}${item("Background",'{:action=>"background"}')}${root}${item("Reset current theme", '{:action=>"reset"}')}}
+ if(mode.equals("root")){${item("Theme", '{:action=>"themes"}', "theme")}${item("Background",'{:action=>"background"}')}${item("Decorations",'{:action=>"group",:mode=>"decorations"}')}${item("Data fields",'{:action=>"group",:mode=>"sources"}')}${item("Colors",'{:action=>"group",:mode=>"colors"}')}${item("Reset current theme", '{:action=>"reset"}')}}
+ else if(mode.equals("sources") || mode.equals("colors") || mode.equals("decorations")){${root}}
  else if(mode.equals("themes")){${themes.map((t) => item(t.name, `{:action=>"set",:key=>"Gfc_Theme",:value=>${themeCode(t.id)}}`)).join("")}}
  else if(mode.equals("background")){${backgroundEntries}}
  else if(mode.equals("values")){${values}}
@@ -87,12 +88,13 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  }
  class GfcSettingsDelegate extends WatchUi.Menu2InputDelegate{
  function initialize(){Menu2InputDelegate.initialize();}
- function onBack(){var menu=WatchUi.getCurrentView()[0] as GfcSettingsMenu;menu.clearItems();Menu2InputDelegate.onBack();}
+ function onBack(){var menu=WatchUi.getCurrentView()[0] as GfcSettingsMenu;menu.clearItems();Menu2InputDelegate.onBack();WatchUi.requestUpdate();}
  function onSelect(item){var id=item.getId() as Lang.Dictionary;var action=id[:action];var menu=WatchUi.getCurrentView()[0] as GfcSettingsMenu;
  if(action.equals("themes")){menu.navigate("themes",null);}
  else if(action.equals("background")){menu.navigate("background",null);}
+ else if(action.equals("group")){menu.navigate(id[:mode],null);}
  else if(action.equals("control")){menu.navigate("values",id[:id]);}
- else if(action.equals("set")){Application.Properties.setValue(id[:key],id[:value]);Application.getApp().onSettingsChanged();menu.clearItems();WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);}
+ else if(action.equals("set")){Application.Properties.setValue(id[:key],id[:value]);Application.getApp().onSettingsChanged();menu.clearItems();WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);WatchUi.requestUpdate();}
  else if(action.equals("reset")){var theme=gfcThemeId();${resets}Application.getApp().onSettingsChanged();menu.rebuild();WatchUi.requestUpdate();}
  }
  }

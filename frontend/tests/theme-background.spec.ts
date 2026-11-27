@@ -10,3 +10,5 @@ test("device settings background menu selects current theme key and reset writes
 
 // Full native settings must retain one populated list and use watch-face-supported navigation.
 test("native settings release parent and child items around the supported push/pop navigation",()=>{const s=nativeThemeMenu(themedFixture())[0].content;expect(s).not.toContain("WatchUi.switchToView(");expect(s).toContain('clearItems();WatchUi.pushView(');expect(s).toContain('menu.clearItems();WatchUi.popView(');expect(s).toContain('menu.clearItems();Menu2InputDelegate.onBack();');expect(s).toContain('menu.rebuild();WatchUi.requestUpdate();');});
+
+test("native settings partition long control lists into bounded groups",()=>{const s=nativeThemeMenu(themedFixture())[0].content;for(const group of ["Data fields","Colors","Decorations"])expect(s).toContain('"'+group+'"');expect(s).toContain('action.equals("group")');expect(s).toContain('mode.equals("colors")');expect(s).toContain('WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);WatchUi.requestUpdate();');});
