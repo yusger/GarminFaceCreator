@@ -9,7 +9,7 @@ chmod 700 /tmp/bin/simulator /tmp/bin/shell
 Xvfb :99 -screen 0 1200x1000x24 -nolisten tcp > /output/xvfb.log 2>&1 &
 xpid=$!
 spid=""
-cleanup(){ if [ -n "$spid" ]; then kill "$spid" 2>/dev/null || true; fi; kill "$xpid" 2>/dev/null || true; }
+cleanup(){ import -window root /output/desktop.png 2>/dev/null || true; if [ -n "$spid" ]; then kill "$spid" 2>/dev/null || true; fi; kill "$xpid" 2>/dev/null || true; }
 trap cleanup EXIT
 for i in $(seq 1 30); do if xdpyinfo >/dev/null 2>&1; then break; fi; sleep 1; done
 cd /sdk/bin
