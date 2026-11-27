@@ -22,15 +22,17 @@ Each task requires a separate access token for status, logs, downloads and cance
 
 The Watchface Projects navigation separates built-in references from projects saved in your browser. Built-ins are protected and create editable copies; self-authored references appear first.
 
+The self-authored [trail reference](docs/native454.md) contains Apex, Trail and Vital presets in one project. Its complete SDK/simulator run has passed; the full AOD/boundary matrix and hardware acceptance remain pending.
+
 ### AI watch-face creation
 
-Choose a time style, seconds, date, and metrics, then add device settings, an AI model, reference images, and a prompt.
+Choose a device, time structure, visual style, complexity budget and metrics. Shared schema constraints and layer-specific diagnostics guide creation; review safe local formatting corrections without an extra model call. See the [response contract](docs/standards/ai-design-response.md).
 
 ![AI creation: time and metric selection](docs/screenshots/ai-create-options.png)
 
 ![AI creation: preview and adopt an editable design](docs/screenshots/ai-create-45mm.png)
 
-These wizard screenshots use fixed test responses to demonstrate the workflow, not a real model-quality benchmark. See also [device selection](docs/screenshots/ai-create-device.png) and the [hybrid example](docs/screenshots/ai-create-41mm.png).
+These wizard screenshots use fixed test responses to demonstrate the workflow, not a real model-quality benchmark. The separate [paid engineering comparison](docs/paid-model-native454-comparison.md) records actual failures and visual differences. See also [device selection](docs/screenshots/ai-create-device.png) and the [hybrid example](docs/screenshots/ai-create-41mm.png).
 
 ### Visual editor
 
