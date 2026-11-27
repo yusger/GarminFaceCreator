@@ -12,7 +12,8 @@ import {
 } from "../frontend/src/localGenerator.ts";
 import { generationDiagnostics } from "../frontend/src/generationDiagnostics.ts";
 import { capabilityCatalog } from "../frontend/src/capabilities.ts";
-import { libraryFonts } from "../frontend/src/fontLibrary.ts";
+import {readFileSync} from "node:fs";
+import {createHash} from "node:crypto";
 import { metricValues, reading } from "../frontend/src/previewData.ts";
 import { conditionVisible } from "../frontend/src/visibility.ts";
 import { calendarDateLabel } from "../frontend/src/calendar.ts";
@@ -64,7 +65,7 @@ export function validateReleaseV2(manifest, raw, boundImages = new Map()) {
     ids.add(l.id);
     if (
       l.customFont &&
-      !libraryFonts.some(
+      !pinnedCapabilities.fonts.some(
         (f) =>
           f.id === l.customFont.id &&
           f.family === l.customFont.family &&
@@ -72,6 +73,8 @@ export function validateReleaseV2(manifest, raw, boundImages = new Map()) {
       )
     )
       throw Error("Only the pinned licensed font catalog is allowed");
+    const fontId=l.customFont?.id||(["chalk","chalkHan"].includes(l.garminFont)?l.garminFont:undefined);
+    if(fontId){const font=pinnedCapabilities.fonts.find(f=>f.id===fontId);if(!font||createHash("sha256").update(readFileSync(new URL("../resources/shared/fonts/"+font.file,import.meta.url))).digest("hex")!==font.sha256)throw Error("Pinned licensed font bytes changed");}
     if (l.kind === "image" && !p.layers.includes(l))
       throw Error(
         "Nested image bindings not available in this publishing profile",

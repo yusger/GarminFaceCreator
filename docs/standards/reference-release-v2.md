@@ -17,3 +17,6 @@
 输出分别记录结构/资源/用例结果、生成器及近似诊断，sdk和simulator保持not run，hardware保持unverified。自动发布仍需额外的真实字体准备、SDK、视觉审核、身份/权限/配额/激活事务等服务门禁；本CLI通过不表示已发布或具备自动API。示例PNG是固定09:41/电量78的网页导出，既非原生截图也非真机证明。Rider不进入默认库。
 
 冻结范围从初版cb0a56b的能力目录1.6.0提取至resources/capabilities/reference-release-v2-baseline.json。后续编辑器新增数据、图表、月相或凹形不自动进入v2：声明不在该表的能力即拒绝；所有层（含复合内部）仍单独检查凸几何。新能力须经新的显式配置契约接入。
+
+
+字体范围也冻结在初版cb0a56b：Permanent Marker、Ma Shan Zheng、Barlow Semi Condensed、Share Tech Mono四组id/family/file及原始文件SHA-256记录在同一baseline。后续素材库新增字体不自动获准；旧提交引用未冻结身份或原始字节改变时拒绝。此检查只限制旧deterministic-v2交付，不限制编辑器的新字体功能；新交付契约需显式声明和验证扩展范围。

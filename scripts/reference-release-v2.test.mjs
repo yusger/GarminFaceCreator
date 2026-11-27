@@ -1,3 +1,4 @@
+import {libraryFonts} from "../frontend/src/fontLibrary.ts";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFile, writeFile, mkdtemp, cp } from "node:fs/promises";
@@ -117,3 +118,8 @@ test("inventory tampering and undeclared file never pass a schema-only gate", as
 });
 
 test("new editor features cannot expand the frozen v2 capability profile",()=>{for(const id of ["core.chart","core.moon","data.moonillumination","data.sunrise","data.oxygensaturation"]){const copy=structuredClone(manifest);copy.compatibility.requirements.push(id);assert.throws(()=>validateReleaseV2(copy,design),/frozen deterministic-v2/);}});
+
+test("adding an editor font never expands the frozen release-v2 font triples",()=>{
+ const entry={id:"future-font",name:"Future",family:"Future",file:"Future.ttf",license:"SIL OFL 1.1",usage:"Test"};libraryFonts.push(entry);
+ try{const copy=structuredClone(design);copy.layers[1].customFont={id:entry.id,family:entry.family,file:entry.file};assert.throws(()=>validateReleaseV2(manifest,copy),/pinned licensed font catalog/);}finally{libraryFonts.pop();}
+});
