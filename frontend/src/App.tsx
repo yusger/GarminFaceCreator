@@ -1,3 +1,4 @@
+import NativeVerificationPanel from "./NativeVerificationPanel";
 import DiagnosticExport from "./DiagnosticExportPanel";
 import {createStateGroup} from "./stateMapping";
 import { sourceMapFor, mappedDiagnostic } from "./sourceMap";
@@ -3793,6 +3794,7 @@ export default function App() {
                           下载 {a.fileName || a.id}
                         </a>
                       ))}
+                      {buildId&&<NativeVerificationPanel key={buildId} buildId={buildId} compiled={!!artifacts.length} matchesCurrent={!!buildSourceIdentity.current&&buildSourceIdentity.current.projectId===p.id&&buildSourceIdentity.current.target===p.target&&buildSourceIdentity.current.deviceSize===p.deviceSize&&buildSourceIdentity.current.revision===p.revision&&buildSourceIdentity.current.files===JSON.stringify(p.files)}/>}
                     </div>
                   ) : (
                     <div className="history">

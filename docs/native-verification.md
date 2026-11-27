@@ -1,6 +1,6 @@
 # 可选原生验证服务
 
-当前提供独立队列和与编译任务绑定的API；网页入口另行接入。NativeVerification配置位于backend/appsettings.json，默认Enabled=false，普通compose/展示环境不会启用。只接受Venu4两尺寸及有GFC_RENDER_READY的新版确定性工程，不上传额外PRG/源码，不调用模型。
+当前提供独立队列、与编译任务绑定的API及编译面板中的“SDK模拟器验证”入口。NativeVerification配置位于backend/appsettings.json，默认Enabled=false，普通compose/展示环境不会启用。只接受Venu4两尺寸及有GFC_RENDER_READY的新版确定性工程，不上传额外PRG/源码，不调用模型。
 
 开启前按deploy/native-worker/README.md部署可信Unix worker，启用compose.native.yaml中的IPC目录挂载；主站只挂IPC，绝不挂Docker socket。配置SocketPath应指向容器内worker.sock。选项包括QueueCapacity=2、TimeoutSeconds=155、AttemptsPerBuild=2、每IP每日10/全局30、截图保留24小时。worker自己还有限额50和120秒/12秒清理期限。两份appsettings由部署者管理，用户请求不能改限额；计数为中国自然日、持久化且IP哈希。
 
@@ -11,3 +11,8 @@ PRG、源码摘要/生成器、项目ID/修订/目标与验证记录绑定，不
 元数据记录SDK、目标像素、应用报告模式、动态模拟器数据、资源采样、清理状态及独立真机未验证。下载的是SDK纯盘面截图，不是实际手表，Sleep切换/功耗未因此验收；采样不是峰值，上限不是测量。原生截图与网页固定样本可能显示不同数值，不能直接用它们做像素相同承诺。
 
 验证脚本backend/tests/native-verification.mjs需显式GFC_TEST_URL、GFC_TEST_SDK=1、GFC_NATIVE_TEST=1，仅在测试环境运行。包括真实SDK→独立worker→鉴权产物链路和取消/幂等；证据留忽略的Temp，不收集到默认库。
+
+
+网页使用：本地生成并应用工程→编译成功→在编译面板点击“运行SDK模拟器”。不会自动运行或调用模型；可以取消、刷新状态，失败按剩余次数重试。结果显示目标/修订/生成器、原生截图与独立日志，PNG/元数据通过现有任务凭证下载。用户后来编辑画布时保留“截图属于既有编译任务”的提示，不用实时画布冒充编译来源。未启用或worker不可用时仍可编辑、编译、下载PRG。
+
+更新应用镜像后用bash deploy/compose-up.sh app启动；脚本根据appsettings的Enabled保留可选IPC挂载，不将Docker socket加到主站。首次启动worker仍按worker文档准备，脚本不暗中开启配置或修改配额。
