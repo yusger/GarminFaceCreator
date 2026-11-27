@@ -1,5 +1,5 @@
 import type {RequestContext} from "./requestContext";
-export const ENGINEERING_PROMPT_VERSION="engineering-5-shared-weather";
+export const ENGINEERING_PROMPT_VERSION="engineering-6-source-label-defaults";
 export const DESIGN_PROMPT_VERSION = "design-9-schema-style-budget";
 export const CHAT_PROMPT_VERSION = "chat-10-theme-scope";
 const KEY = "gfc-ai-request-history-v1";

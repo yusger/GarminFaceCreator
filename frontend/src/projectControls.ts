@@ -170,6 +170,7 @@ export function validateControls(p: Project) {
         typeof l.customFont.family !== "string")
     )
       throw Error("自定义字体无效");
+    if(l.preserveSourceLabelDefault!==undefined&&(typeof l.preserveSourceLabelDefault!=="boolean"||l.kind!=="text"||!l.sourceLabelFor))throw Error("默认数据标签保留需显式文字绑定");
     if(l.sourceLabelStyle!==undefined&&(!["unit","label","unitLabel"].includes(l.sourceLabelStyle)||l.kind!=="text"||!l.sourceLabelFor))throw Error("数据标签样式无效");
     if (l.sourceLabelFor && !ids.has(l.sourceLabelFor))
       throw Error("数据标签引用缺失");
@@ -198,13 +199,18 @@ export function validateControls(p: Project) {
       throw Error("指针端帽无效");
   }
 }
+export function sourceLabelText(l:Layer,source:string,controls?:ProjectControl[]){
+ const c=controls?.find(c=>c.type==="dataSource"&&c.targets.some(t=>t.layerId===l.sourceLabelFor));
+ if(l.preserveSourceLabelDefault && c?.default===source)return l.text;
+ return l.sourceLabelStyle?sourceSlotLabel(source,l.sourceLabelStyle):c?.sourceLabels?.[source]||sourceLabels[source]||"--";
+}
 export function resolvedLayer(l: Layer, layers: Layer[], controls?:ProjectControl[]): Layer {
   const source = l.sourceLabelFor
     ? layers.find((x) => x.id === l.sourceLabelFor)?.source
     : undefined;
   return {
     ...l,
-    ...(source ? { text: l.sourceLabelStyle?sourceSlotLabel(source,l.sourceLabelStyle):controls?.find(c=>c.type==="dataSource"&&c.targets.some(t=>t.layerId===l.sourceLabelFor))?.sourceLabels?.[source] || sourceLabels[source] || "--" } : {}),
+    ...(source ? { text: sourceLabelText(l,source,controls) } : {}),
     ...(l.autoPrecision ? { precision: defaultPrecision(l.source) } : {}),
     ...(l.kind === "metric" && l.autoSourceFormat
       ? {

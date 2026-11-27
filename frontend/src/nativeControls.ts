@@ -7,6 +7,7 @@ import {
   controlValue,
   resolvedLayer,
   sourceLabels,
+  sourceLabelText,
 } from "./projectControls.ts";
 const variable = (id: string) => "cfg_" + id.replaceAll("-", "_");
 const hex = (v: string) => "0x" + v.slice(1);
@@ -60,7 +61,7 @@ export function nativeControlledDraw(
     ? source
         .options!.map(
           (value, i) =>
-            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l, text: l.sourceLabelStyle?sourceSlotLabel(value,l.sourceLabelStyle):source.sourceLabels?.[value]||sourceLabels[value], sourceLabelFor: undefined } : source.slot ? sourceSlotLayer(p, l, source, value) : { ...l, source: value })}}`,
+            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l, text: sourceLabelText({...l,text:p.layers.find(x=>x.id===l.id)?.text??l.text},value,controls), sourceLabelFor: undefined } : source.slot ? sourceSlotLayer(p, l, source, value) : { ...l, source: value })}}`,
         )
         .join("")
     : make(l);

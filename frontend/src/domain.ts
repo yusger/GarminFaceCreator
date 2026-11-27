@@ -46,6 +46,7 @@ export type Layer = {
   imageFullColor?: boolean;
   iconMask?:boolean;
   sourceLabelFor?: string;
+  preserveSourceLabelDefault?:boolean;
   sourceLabelStyle?:"unit"|"label"|"unitLabel";
   autoPrecision?: boolean;
   autoSourceFormat?: boolean;
@@ -247,7 +248,8 @@ export type Project = {
     | 36
     | 37
     | 38
-    | 39;
+    | 39
+    | 40;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -475,7 +477,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 39,
+    schemaVersion: 40,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -513,7 +515,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 39 ||
+    p.schemaVersion !== 40 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200

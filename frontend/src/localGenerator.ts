@@ -30,7 +30,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-48-extended-metrics";
+export const LOCAL_GENERATOR_VERSION = "basic-49-source-label-defaults";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -331,7 +331,7 @@ export function localGenerate(p: Project) {
     throw Error(
       "画布中文文字需指定已验证的 SYSTEM_XTINY 或本地字体；项目名称不受画布字形限制。",
     );
-  const chalk = chalkPlans(p);
+  const chalk = chalkPlans(runtimeProject);
   const masks=included.filter(l=>l.iconMask);
   if(masks.length>96)throw Error("单色图标超过96个");
   const meters = included.filter((l) => l.kind === "meter");

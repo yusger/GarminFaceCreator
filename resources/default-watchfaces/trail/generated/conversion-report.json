@@ -12,11 +12,12 @@
     "apex: removed preview-only AOD explanation caption",
     "apex: AOD unit moved to avoid collision with three-digit HR",
     "trail: removed preview-only AOD explanation caption",
-    "vital: removed preview-only AOD explanation caption"
+    "vital: removed preview-only AOD explanation caption",
+    "All presets: preserve authored default labels; alternative data sources continue linked label mapping"
   ],
   "limitations": [
     "Static outer ring and ECG decoration remain static",
     "No hardware acceptance claimed",
-    "Not automatically published into default library"
+    "Maintained default reference; third-party automatic publication is a separate contract"
   ]
 }

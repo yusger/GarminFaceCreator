@@ -1,17 +1,17 @@
-﻿// Read-only browser renderer verification. No model calls, build submissions or native quota use.
+// Read-only browser renderer verification. No model calls, build submissions or native quota use.
 import {build} from "vite";
 import {chromium} from "@playwright/test";
-import {readFile,writeFile,mkdir,mkdtemp,rm} from "node:fs/promises";
+import {readFile,writeFile,mkdir} from "node:fs/promises";
 import {join,resolve} from "node:path";
-import {tmpdir} from "node:os";
 import {createHash} from "node:crypto";
 const url=process.argv[2];if(!url||!/^https?:\/\//.test(url))throw Error("Pass the authorized staging URL explicitly");
 const out=resolve(process.argv[3]||"Temp/trail-browser-matrix"),root="resources/default-watchfaces/trail";
-await mkdir(out,{recursive:true});const scratch=await mkdtemp(join(tmpdir(),"gfc-trail-matrix-"));
-const artifact=await build({configFile:false,logLevel:"error",define:{"process.env.NODE_ENV":JSON.stringify("production")},build:{lib:{entry:"scripts/trail-matrix-harness.ts",name:"GfcTrailMatrix",formats:["iife"],fileName:()=>"matrix.js"},outDir:scratch,emptyOutDir:false,minify:false}});
+await mkdir(out,{recursive:true});
+const artifact=await build({configFile:false,logLevel:"error",define:{"process.env.NODE_ENV":JSON.stringify("production")},build:{lib:{entry:"scripts/trail-matrix-harness.ts",name:"GfcTrailMatrix",formats:["iife"],fileName:()=>"matrix.js"},write:false,minify:false}});
+const code=(Array.isArray(artifact)?artifact[0]:artifact).output.find(v=>v.type==="chunk")?.code;if(!code)throw Error("Renderer bundle missing");
 const bytes=await readFile(join(root,"design.json")),project=JSON.parse(bytes),sha=b=>createHash("sha256").update(b).digest("hex"),browser=await chromium.launch({channel:process.env.PLAYWRIGHT_CHANNEL||"msedge",headless:true});
 try{
- const page=await browser.newPage({viewport:{width:1200,height:900}});let posts=0;page.on("request",r=>{if(r.method()==="POST")posts++;});await page.goto(url);await page.addScriptTag({path:join(scratch,"matrix.js")});
+ const page=await browser.newPage({viewport:{width:1200,height:900}});let posts=0;page.on("request",r=>{if(r.method()==="POST")posts++;});await page.goto(url);await page.addScriptTag({content:code});
  const records=[],mismatches=[],tiles=[];
  for(const theme of ["apex","trail","vital"]){const sourceRoot=join(root,"design-source",theme),raw=JSON.parse(await readFile(join(sourceRoot,"watchface.json"),"utf8")),cases=JSON.parse(await readFile(join(sourceRoot,"previews/cases.json"),"utf8")).cases;
   for(const c of cases.filter(c=>c.id.startsWith("default")))if(JSON.stringify(c.data)!==JSON.stringify(raw.previewData))mismatches.push({theme,case:c.id,previewData:raw.previewData,caseData:c.data,choice:"default preview.png is rendered from previewData; use previewData for default comparisons"});
@@ -26,4 +26,4 @@ try{
  await writeFile(join(out,"manifest.json"),JSON.stringify({version:"trail-browser-matrix-1",projectSha256:sha(bytes),browserVersion:browser.version(),posts,mismatches,records},null,2));if(posts!==0)throw Error("Unexpected browser POST in read-only capture");
  const html=`<html><meta charset="utf-8"><style>body{background:#111923;color:#eaf0f6;font:15px Arial;padding:18px}h1{font-size:23px}.grid{display:grid;grid-template-columns:repeat(4,260px);gap:12px}.cell{background:#19232c;padding:8px;text-align:center}.cell img{width:244px;height:244px}p{margin:4px}</style><h1>trail 三主题 · 原稿与网页固定数据对照</h1><p>原稿 / 网页亮屏 / 原稿AOD / 网页AOD；不是原生或真机结果。</p><div class="grid">${["apex","trail","vital"].map(theme=>{const active=tiles.find(t=>t.theme===theme&&t.scenario==="default-active"),aod=tiles.find(t=>t.theme===theme&&t.scenario==="default-aod");return [["原稿亮屏",active.original],["网页亮屏",active.browser],["原稿AOD",aod.original],["网页AOD",aod.browser]].map(([label,src])=>`<div class="cell"><p>${theme} · ${label}</p><img src="${src}"></div>`).join("");}).join("")}</div></html>`;
  await page.setViewportSize({width:1160,height:1000});await page.setContent(html);await page.evaluate(()=>Promise.all([...document.images].map(i=>i.decode())));await page.screenshot({path:join(out,"default-comparison.png"),fullPage:true});console.log(JSON.stringify({scenarios:records.length,sourceCaseMismatches:mismatches.length,posts,aod:records.filter(r=>r.mode==="aod").map(r=>({theme:r.theme,case:r.scenario,ratio:r.metadata.aodAnalysis?.ratio})),output:out}));
-}finally{await browser.close();await rm(scratch,{recursive:true,force:true});}
+}finally{await browser.close();}

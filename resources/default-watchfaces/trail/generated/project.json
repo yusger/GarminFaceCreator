@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 36,
+  "schemaVersion": 40,
   "id": "00000000-0000-4000-8000-000000000454",
   "appId": "45445445445445445445445445445445",
   "name": "trail",
@@ -704,6 +704,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "apex_value_apex_tl",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -737,6 +738,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "apex_value_apex_tr",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -770,6 +772,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "apex_value_apex_bl",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -803,6 +806,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "apex_value_apex_br",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -1188,6 +1192,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "apex_aod_hr",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -1924,6 +1929,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "trail_value_trail_tl",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -1957,6 +1963,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "trail_value_trail_tr",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -1990,6 +1997,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "trail_value_trail_bl",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -2023,6 +2031,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "trail_value_trail_br",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -2476,6 +2485,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "trail_aod_distance",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -3133,6 +3143,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "vital_value_vital_bl",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -3166,6 +3177,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "vital_value_vital_br",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unit"
     },
     {
@@ -3378,6 +3390,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "vital_heart_big",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "unitLabel"
     },
     {
@@ -3514,6 +3527,7 @@
         "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
       },
       "sourceLabelFor": "vital_aod_hr",
+      "preserveSourceLabelDefault": true,
       "sourceLabelStyle": "label"
     },
     {
@@ -4772,7 +4786,7 @@
       {
         "id": "apex",
         "name": "Apex Instrument",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "backgroundColor": "#0E1319",
         "layerIds": [
           "apex_bg_art",
@@ -4838,7 +4852,7 @@
       {
         "id": "trail",
         "name": "Trail Compass",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "backgroundColor": "#100E0B",
         "layerIds": [
           "trail_bg_art",
@@ -4906,7 +4920,7 @@
       {
         "id": "vital",
         "name": "Vital Pulse",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "backgroundColor": "#081110",
         "layerIds": [
           "vital_bg_art",

@@ -1,5 +1,5 @@
 import type {Layer} from "./domain";
-export const GENERATION_FIELD_CONTRACT_VERSION="fields-3-stable-controls";
+export const GENERATION_FIELD_CONTRACT_VERSION="fields-4-source-label-defaults";
 type Omitted =
   | "chart"
   | "polygonPoints"
@@ -52,6 +52,7 @@ export const generationScalarFields: Record<Exclude<keyof Layer, Omitted>, true>
   imageFullColor: true,
   iconMask:true,
   sourceLabelFor: true,
+  preserveSourceLabelDefault:true,
   sourceLabelStyle:true,
   autoPrecision: true,
   autoSourceFormat: true,

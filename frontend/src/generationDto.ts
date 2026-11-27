@@ -178,7 +178,7 @@ export function generationHeader(p: Project) {
   validateControls(p);
   return {
     generationFieldContractVersion:GENERATION_FIELD_CONTRACT_VERSION,
-    dataSlotPolicy:"slot:true means linked source controls; metrics use matching units/precision, sourceLabelFor tracks labels, meter/ring targets use sourceGoals or design defaults (steps10000,battery100,heartRate180,seconds60). Source switches must not retain thresholds from unrelated sources. preserveFormatFor explicitly retains manual numeric formatting. Targets property source maps to ringSource on ring layers. Compile every allowed option and guard missing data in both modes.",
+    dataSlotPolicy:"slot:true means linked source controls; metrics use matching units/precision, sourceLabelFor tracks labels; preserveSourceLabelDefault:true retains that layer raw text for the source-control default and uses sourceLabelStyle for alternatives, meter/ring targets use sourceGoals or design defaults (steps10000,battery100,heartRate180,seconds60). Source switches must not retain thresholds from unrelated sources. preserveFormatFor explicitly retains manual numeric formatting. Targets property source maps to ringSource on ring layers. Compile every allowed option and guard missing data in both modes.",
     schemaVersion: scalar(p.schemaVersion),
     nativeFontBindings:nativeFontBindings(p),
     nativeFontHelpers:nativeFontFiles(p).map(f=>({path:f.path,managed:true})),
