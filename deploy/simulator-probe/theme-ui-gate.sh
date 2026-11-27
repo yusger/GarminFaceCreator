@@ -9,12 +9,13 @@ gfc_ui_hash_request(){
  [[ "$(cat "$file")" = "$expected" ]]
 }
 gfc_ui_stop_simulator(){
+ # The SDK File > Quit path flushes the simulator's app settings. Destroying its X window
+ # or killing its Java client first is an abrupt shutdown and cannot prove persistence.
+ xdotool mousemove 16 12 click 1 mousemove 45 387 click 1
+ for i in $(seq 1 8); do if ! kill -0 "$spid" 2>/dev/null; then break; fi; sleep 1; done
+ if kill -0 "$spid" 2>/dev/null; then echo 'Graceful simulator quit failed' >&2; return 12; fi
+ wait "$spid" 2>/dev/null || true
  if [[ -n "$mpid" ]]; then kill "$mpid" 2>/dev/null || true; fi
- local windows="" window
- windows=$(xdotool search --onlyvisible --name 'CIQ Simulator|Connect IQ' 2>/dev/null || true)
- for window in $windows; do xdotool windowclose "$window" 2>/dev/null || true; done
- for i in $(seq 1 5); do if ! kill -0 "$spid" 2>/dev/null; then break; fi; sleep 1; done
- if kill -0 "$spid" 2>/dev/null; then kill "$spid" 2>/dev/null || true; fi
 }
 gfc_theme_ui_gate(){
  local expected deadline restarted=0 readyCount
