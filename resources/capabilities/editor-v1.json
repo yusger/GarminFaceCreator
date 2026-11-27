@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "projectSchemaVersion": 29,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -420,7 +420,7 @@
       "deterministic": true,
       "mode": "active/aod static text",
       "minimumApi": "5.1.0",
-      "deviceVerification": "Venu4 SDK/native validation pending in stage81",
+      "deviceVerification": "SDK9.3.0 Venu4 454/390 active fixture and native glyph-pixel checks passed; AOD/real devices not independently verified",
       "constraints": "First release: Venu4 targets only, printable ASCII <=80 chars, 8 layers. Fixed scalable SMALL face, 400 weight, opacity1, no resource fonts/rotation. Browser font and glyph advances are approximate. Radius fraction/spacing/angle/direction/alignment; conservative one-circle width budget.",
       "test": "frontend/tests/curved-text.spec.ts"
     }
