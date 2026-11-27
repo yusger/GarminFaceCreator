@@ -173,6 +173,8 @@ test("native UI is explicit, uses protected downloads and separates simulation f
   const img = panel.getByAltText("SDK 模拟器原生盘面截图");
   await expect(img).toBeVisible();
   await expect.poll(() => img.evaluate((e: any) => e.naturalWidth)).toBe(454);
+  await expect(panel.getByRole("region",{name:"息屏像素分析"})).toContainText("当前帧不是已确认的AOD");
+  const pixelWait=page.waitForEvent("download");await panel.getByRole("button",{name:"下载像素统计",exact:true}).click();const pixelData=JSON.parse(await readFile((await(await pixelWait).path())!,"utf8"));expect(pixelData).toMatchObject({buildId:id,origin:"native-frame",mode:"active",referenceStatus:"not-aod",prgSha256:"a".repeat(64),sourceSha256:"b".repeat(64)});
   const popupWait = page.waitForEvent("popup");
   await panel.getByRole("link", { name: "查看完整截图", exact: true }).click();
   const popup = await popupWait;
