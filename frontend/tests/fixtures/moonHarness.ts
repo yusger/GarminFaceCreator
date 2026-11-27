@@ -1,5 +1,5 @@
-import {analyzeAodPixels} from "../../src/aodPixels";
-﻿import { createElement } from "react";
+import { analyzeAodPixels } from "../../src/aodPixels";
+import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import MoonIcon from "../../src/MoonIcon";
 import { project, layer } from "../../src/domain";
@@ -118,7 +118,12 @@ async function fixture(target: string, aod: boolean) {
           return createElement(
             "g",
             { key: l.id, transform: `translate(${l.x},${l.y})` },
-            createElement(MoonIcon, { layer: l, preview, aod }),
+            createElement(MoonIcon, {
+              layer: l,
+              preview,
+              aod,
+              pixelScale: pixels / 454,
+            }),
           );
         }),
       ),
@@ -151,5 +156,10 @@ async function fixture(target: string, aod: boolean) {
   };
 }
 Object.assign(window, {
-  gfcMoonFixture: { fixture, preparedCodeFiles, preparedAssets,analyzeAodPixels },
+  gfcMoonFixture: {
+    fixture,
+    preparedCodeFiles,
+    preparedAssets,
+    analyzeAodPixels,
+  },
 });

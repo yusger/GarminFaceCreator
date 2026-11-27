@@ -37,7 +37,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-61-moon-contours";
+export const LOCAL_GENERATOR_VERSION = "basic-62-moon-pixels";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -345,6 +345,7 @@ export function localGenerate(p: Project) {
     );
   const chalk = chalkPlans(runtimeProject);
   const masks=included.filter(l=>l.iconMask);
+  if(included.some(l=>l.kind==="moon"&&Math.max(Math.trunc(l.w*generationDevice(p).screenWidth/454),Math.trunc(l.h*generationDevice(p).screenWidth/454))>128))throw Error("月相图标物理尺寸超过128px预算");
   if(included.filter(l=>l.kind==="moon").length>8)throw Error("月相图标超过8层预算");
   if(masks.length>96)throw Error("单色图标超过96个");
   const meters = included.filter((l) => l.kind === "meter");

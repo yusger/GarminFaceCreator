@@ -1,3 +1,4 @@
+import {generationDevice} from "./devices.ts";
 import {bitmapFontDiagnostics} from "./bitmapFonts.ts";
 import {chartSizeWarning} from "./charts.ts";
 import {primitiveSampling,CURVE_ERROR_PX} from "./primitiveSampling.ts";
@@ -77,6 +78,7 @@ export function generationDiagnostics(
       });
     for (const l of included) {
       issues.push(...localLayerDiagnostics(l));
+      if(l.kind==="moon"&&Math.max(Math.trunc(l.w*generationDevice(p).screenWidth/454),Math.trunc(l.h*generationDevice(p).screenWidth/454))>128)add(l,"MOON_PIXEL_BUDGET","unsupported","月相图标物理尺寸不得超过128px");
       if(l.kind==="moon"&&included.filter(v=>v.kind==="moon").length>8)add(l,"MOON_LAYER_BUDGET","unsupported","月相图标每项目最多8层");
       if(l.kind==="chart"){
         if(included.filter(v=>v.kind==="chart").length>4 || !["venu445mm","venu441mm"].includes(p.target||"venu445mm"))add(l,"CHART_TARGET_BUDGET","unsupported","历史图表仅支持Venu4两尺寸，每表盘最多4个");

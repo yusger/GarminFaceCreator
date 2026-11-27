@@ -54,7 +54,7 @@ export function moonAt(seconds: number): MoonSample | null {
     illumination: (1 + cos(incidence)) / 2,
   };
 }
-const previewCache=new Map<number,MoonSample|null>();
+const previewCache = new Map<number, MoonSample | null>();
 export function previewMoon(d: {
   calendarDate?: string;
   time: string;
@@ -77,9 +77,19 @@ export function previewMoon(d: {
     new Date(base).toISOString().slice(0, 10) !== d.calendarDate
   )
     return null;
-  const instant = base / 1000 + d.seconds - (d.utcOffsetMinutes ?? 0) * 60;
+  const offset =
+    d.utcOffsetMinutes ??
+    -new Date(d.calendarDate + "T" + d.time + ":00").getTimezoneOffset();
+  if (!Number.isInteger(offset) || Math.abs(offset) > 840) return null;
+  const instant = base / 1000 + d.seconds - offset * 60;
   if (!Number.isFinite(instant)) return null;
-  const anchor=Math.floor(instant/600)*600;if(!previewCache.has(anchor)){previewCache.set(anchor,moonAt(anchor));while(previewCache.size>4)previewCache.delete(previewCache.keys().next().value!);}return previewCache.get(anchor)!;
+  const anchor = Math.floor(instant / 600) * 600;
+  if (!previewCache.has(anchor)) {
+    previewCache.set(anchor, moonAt(anchor));
+    while (previewCache.size > 4)
+      previewCache.delete(previewCache.keys().next().value!);
+  }
+  return previewCache.get(anchor)!;
 }
 // <=50 points: two half-ellipse boundaries. South is a diagrammatic horizontal mirror.
 export function moonContour(phase: number, south = false) {
@@ -96,4 +106,41 @@ export function moonContour(phase: number, south = false) {
     points.push([mirror * k * Math.cos(t), Math.sin(t)]);
   }
   return points;
+}
+
+// Physical pixel centers. A subpixel crescent must not turn into an opaque polygon edge.
+export function moonPixelSpans(
+  phase: number,
+  south: boolean,
+  x: number,
+  y: number,
+  w: number,
+  h: number,
+) {
+  if (
+    ![phase, x, y, w, h].every(Number.isFinite) ||
+    ![x, y, w, h].every(Number.isInteger) ||
+    w < 1 ||
+    h < 1 ||
+    w > 128 ||
+    h > 128
+  )
+    throw Error("Moon raster budget");
+  const r = Math.min(w, h) * 0.45,
+    cx = x + w / 2,
+    cy = y + h / 2,
+    k = Math.cos(2 * Math.PI * phase),
+    waxing = phase < 0.5,
+    rows: { x: number; y: number; width: number }[] = [];
+  for (let py = Math.ceil(cy - r - 0.5); py <= Math.floor(cy + r - 0.5); py++) {
+    const dy = py + 0.5 - cy,
+      e = Math.sqrt(Math.max(0, r * r - dy * dy));
+    let left = waxing ? k * e : -e,
+      right = waxing ? e : -k * e;
+    if (south) [left, right] = [-right, -left];
+    const start = Math.ceil(cx + left - 0.5),
+      end = Math.floor(cx + right - 0.5);
+    if (end >= start) rows.push({ x: start, y: py, width: end - start + 1 });
+  }
+  return rows;
 }

@@ -675,14 +675,15 @@
       "model": "SunCalc1.9.0 geocentric illumination,BSD-2-Clause",
       "utcRange": "2000-01-01 <= t < 2038-01-01",
       "cacheSeconds": 600,
-      "polygonPoints": 50,
       "maxLayers": 8,
       "designSize": [
         16,
         128
       ],
       "orientation": "north/south diagram,not local sky tilt",
-      "aod": "cached contour only"
+      "aod": "cached contour only",
+      "activePixelRows": 128,
+      "aodTerminatorPoints": 25
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

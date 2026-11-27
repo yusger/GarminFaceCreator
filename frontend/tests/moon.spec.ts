@@ -1,10 +1,11 @@
-import {generationDiagnostics} from "../src/generationDiagnostics";
-﻿import { test, expect } from "@playwright/test";
+import { generationDiagnostics } from "../src/generationDiagnostics";
+import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import {
   moonAt,
   previewMoon,
   moonContour,
+  moonPixelSpans,
   MOON_START,
   MOON_END,
 } from "../src/moon";
@@ -148,7 +149,7 @@ test("moon stays a single editable object and managed generation is cached with 
   expect(app).not.toContain("import Toybox.Weather");
   expect(helper).toContain("if(low){return cached;}");
   expect(helper).toContain("stamp!=anchor");
-  expect(helper).toContain("i<=24");
+  expect(helper).toContain("first+128");
   expect(helper).not.toContain("requestSensorData");
   expect(needsNativeMoon(p)).toBe(true);
   expect(generationHeader(p).nativeMoonHelpers[0].path).toBe(
@@ -183,6 +184,9 @@ test("113 moon icon resizes, mirrors, persists and stays one object", async ({
   await page.getByRole("button", { name: "月相", exact: true }).click();
   await page.getByLabel("宽度", { exact: true }).fill("100");
   await page.getByLabel("高度", { exact: true }).fill("100");
+  await page.getByLabel("宽度", {exact:true}).fill("180");
+  await expect(page.locator("[data-moon-unavailable=size]")).toBeVisible();
+  await page.getByLabel("宽度", {exact:true}).fill("100");
   await page.getByLabel("月相示意方向").selectOption("south");
   await expect(page.locator("[data-moon-phase]")).toBeVisible();
   await expect(page.locator(".layer-row")).toHaveCount(1);
@@ -255,4 +259,40 @@ for (const target of ["venu445mm", "venu441mm"])
       .toBe("succeeded");
   });
 
-test("moon layer budget is visible before generation",()=>{const p=project("MoonBudget",true);p.layers=Array.from({length:9},(_,i)=>({...layer("moon"),id:"moon"+i}));expect(generationDiagnostics(p).some(d=>d.code==="MOON_LAYER_BUDGET")).toBe(true);expect(()=>localGenerate(p)).toThrow(/8/);});
+test("moon layer budget is visible before generation", () => {
+  const p = project("MoonBudget", true);
+  p.layers = Array.from({ length: 9 }, (_, i) => ({
+    ...layer("moon"),
+    id: "moon" + i,
+  }));
+  expect(
+    generationDiagnostics(p).some((d) => d.code === "MOON_LAYER_BUDGET"),
+  ).toBe(true);
+  expect(() => localGenerate(p)).toThrow(/8/);
+});
+
+test("lunar preview defaults to the browser zone of the selected date and shares UTC cache bins", () => {
+  const d = { calendarDate: "2026-11-28", time: "12:30", seconds: 0 },
+    offset = -new Date("2026-11-28T12:30:00").getTimezoneOffset();
+  expect(previewMoon(d)).toEqual(
+    previewMoon({ ...d, utcOffsetMinutes: offset }),
+  );
+  expect(previewMoon({ ...d, seconds: 59 })).toEqual(previewMoon(d));
+  expect(previewMoon({ ...d, utcOffsetMinutes: 841 })).toBeNull();
+});
+
+test("physical lunar coverage preserves thin crescents and mirrored pixel centers", () => {
+  for (const phase of [
+    0, 0.01, 0.125, 0.25, 0.375, 0.5, 0.625, 0.75, 0.875, 0.99, 1,
+  ]) {
+    const n = moonPixelSpans(phase, false, 40, 120, 70, 70),
+      s = moonPixelSpans(phase, true, 40, 120, 70, 70),
+      area = n.reduce((a, r) => a + r.width, 0),
+      illum = (1 - Math.cos(phase * 2 * Math.PI)) / 2;
+    expect(n.length).toBeLessThanOrEqual(128);
+    expect(Math.abs(area / (Math.PI * 31.5 ** 2) - illum)).toBeLessThan(0.02);
+    expect(s).toEqual(n.map((r) => ({ ...r, x: 150 - r.x - r.width })));
+  }
+  expect(moonPixelSpans(0, false, 40, 120, 70, 70)).toEqual([]);
+  expect(() => moonPixelSpans(0.5, false, 0, 0, 129, 129)).toThrow();
+});
