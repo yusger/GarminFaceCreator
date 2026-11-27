@@ -13,7 +13,11 @@ cleanup(){ import -window root /output/desktop.png 2>/dev/null || true; if [ -n 
 trap cleanup EXIT
 for i in $(seq 1 30); do if xdpyinfo >/dev/null 2>&1; then break; fi; sleep 1; done
 cd /sdk/bin
-/tmp/bin/simulator > /output/simulator.log 2>&1 &
+if [ "${PROBE_TRACE:-0}" = 1 ]; then
+ strace -f -e trace=file -o /output/files.log /tmp/bin/simulator > /output/simulator.log 2>&1 &
+else
+ /tmp/bin/simulator > /output/simulator.log 2>&1 &
+fi
 spid=$!
 for i in $(seq 1 30); do
  kill -0 "$spid" 2>/dev/null || { cat /output/simulator.log; exit 3; }
