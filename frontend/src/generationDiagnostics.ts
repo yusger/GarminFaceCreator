@@ -77,7 +77,7 @@ export function generationDiagnostics(
     for (const l of included) {
       issues.push(...localLayerDiagnostics(l));
       if(l.kind==="chart"){
-        if(included.filter(v=>v.kind==="chart").length>4 || !["venu445mm","venu441mm"].includes(p.target||"venu445mm"))add(l,"CHART_TARGET_BUDGET","unsupported","每日图表仅支持Venu4两尺寸，每表盘最多4个");
+        if(included.filter(v=>v.kind==="chart").length>4 || !["venu445mm","venu441mm"].includes(p.target||"venu445mm"))add(l,"CHART_TARGET_BUDGET","unsupported","历史图表仅支持Venu4两尺寸，每表盘最多4个");
         const warning=chartSizeWarning(l);if(warning)add(l,"CHART_READABILITY","unverified",warning);
         add(l,"CHART_DEMO_HISTORY","unverified","网页历史为示意样例；原生历史可缺失，需检查实际覆盖率。AOD仅最近亮屏快照。");
       }

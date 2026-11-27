@@ -19,6 +19,6 @@ export default function ChartInspector({layer:l,onChange,previewCase,onPreview}:
  <label className="inline"><input type="checkbox" aria-label="图表阈值配色" checked={!!l.threshold} onChange={e=>onChange({threshold:e.target.checked})}/>图表阈值配色</label>{l.threshold&&<ThresholdEditor layer={l} onApply={onChange}/>}
  {c.showGoal&&number("参考目标","goal",0,1e9)}
  {([["dimColor","图表暗色"],["goalColor","参考线颜色"]] as const).map(([k,title])=><label key={k}>{title}<input aria-label={title} type="color" value={c[k]} onChange={e=>set({[k]:e.target.value})}/></label>)}
- <label>图表预览样例<select aria-label="图表预览样例" value={previewCase||"normal"} onChange={e=>onPreview(e.target.value as ChartPreviewCase)}>{[["normal","示意记录"],["zero","零值（心率0为缺失）"],["missing","全部缺失"],["partial","部分缺失"],["extreme","极值"]].map(([v,t])=><option key={v} value={v}>{t}</option>)}</select></label>
+ <label>图表预览样例<select aria-label="图表预览样例" value={previewCase||"normal"} onChange={e=>onPreview(e.target.value as ChartPreviewCase)}>{[["normal","示意记录"],["zero","零值（心率0为缺失）"],["missing","全部缺失"],["partial","部分缺失"],["gaps","间断样本"],["boundaries","零值/缺口/阈值边界"],["extreme","极值"]].map(([v,t])=><option key={v} value={v}>{t}</option>)}</select></label>
  {warn&&<p role="status">{warn}</p>}<p className="hint">网页历史为示意样本，不会导出为传感器数据。Garmin 最多提供7条每日历史，不保证齐全；热量为总热量。小时仅心率：按实际经过时间分桶，夏令时重复的HH属于不同桶，平均/最高/最低/末值不伪造缺失样本，不支持bpm合计。S为有效样本数，*代表预算截断；有效桶不代表整小时完整覆盖。心率0视为缺失，ECG不开放。缺失留空，零值标点；今天有下划线。AOD 使用最近亮屏缓存并简化成柱状，不读取新历史。首批原生支持 Venu 4 两尺寸，每表盘最多4个图表。</p></fieldset>;
 }
