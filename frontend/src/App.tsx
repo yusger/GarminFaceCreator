@@ -1,3 +1,4 @@
+import { sourceMapFor, mappedDiagnostic } from "./sourceMap";
 import ReadoutInspector from "./ReadoutInspector";
 import ResourceInspector from "./ResourceInspector";
 import GenerationChecks from "./GenerationChecks";
@@ -55,7 +56,7 @@ import { mergeLogs, diagnostic, type LogBuffer } from "./buildLogs";
 import PreviewStudio from "./PreviewStudio";
 import DevicePicker from "./DevicePicker";
 import { deviceFor, deviceLabel } from "./devices";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import {
   MousePointer2,
   Hand,
@@ -237,6 +238,8 @@ export default function App() {
   const [artifacts, setArtifacts] = useState<
     { id: string; url: string; fileName?: string }[]
   >([]);
+  const buildSourceIdentity = useRef<{projectId:string;target?:string;deviceSize?:string;files:string;revision:number}|null>(null);
+  const layerSourceMap = useMemo(()=>sourceMapFor(p?.files || []),[p?.files]);
   const [logs, setLogs] = useState("编译服务尚未连接。生成代码后可提交编译。");
   const [files, setFiles] = useState<CodeFile[]>([]);
   const [fileIndex, setFileIndex] = useState(0);
@@ -1231,6 +1234,7 @@ export default function App() {
     }
     setBusy(true);
     setArtifacts([]);
+    buildSourceIdentity.current=null;
     setLogs("正在连接 .NET 10 编译服务…");
     try {
       const capabilities = await fetch("/api/capabilities", {
@@ -1290,6 +1294,7 @@ export default function App() {
         );
       }
       const job = await r.json();
+      buildSourceIdentity.current={projectId:p.id,target:p.target,deviceSize:p.deviceSize,files:JSON.stringify(p.files),revision:p.revision};
       setBuildId(job.buildId);
       const state = await observeBuild(job.buildId);
       const current = activeProject.current;
@@ -3736,6 +3741,10 @@ export default function App() {
                       <pre>
                         {logs.split("\n").map((line, index) => {
                           const location = diagnostic(line);
+                          const identity=buildSourceIdentity.current;
+                          const mapped=location && identity && identity.projectId===p.id && identity.target===p.target && identity.deviceSize===p.deviceSize && identity.revision===p.revision && identity.files===JSON.stringify(p.files) && p.codeProvenance?.primary==="deterministic" && !p.codeProvenance.patches?.length ? mappedDiagnostic(layerSourceMap,location) : undefined;
+                          const owner=mapped && p.layers.find(l=>l.id===mapped.layerId);
+
                           return (
                             <span
                               key={index}
@@ -3761,6 +3770,7 @@ export default function App() {
                                   打开 {location.path}:{location.line}
                                 </button>
                               )}
+                              {owner && <button className="log-location" onClick={()=>{selectOne(owner.id);setDrawer("");}}>定位控件 {owner.name}</button>}
                               {"\n"}
                             </span>
                           );

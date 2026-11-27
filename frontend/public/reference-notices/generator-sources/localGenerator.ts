@@ -1,3 +1,4 @@
+import {mappedDraw} from "./sourceMap.ts";
 import { deviceMetadataVersion } from "./deviceMetadata.ts";
 import {nativeMetricValidation} from "./metricFormat.ts";
 import { localConfigurationDiagnostics } from "./generationDiagnostics.ts";
@@ -23,7 +24,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-32-device-evidence";
+export const LOCAL_GENERATOR_VERSION = "basic-33-layer-source-map";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -277,11 +278,12 @@ function draw(l: Layer, aod: boolean) {
 function bitmapId(l: Layer) {
   return "GfcImage_" + l.id.replace(/[^a-zA-Z0-9]/g, "_");
 }
-function visibleDraw(l: Layer, aod: boolean, p: Project) {
+function visibleDraw(l: Layer, aod: boolean, p: Project, owner?:string) {
   const code = nativeControlledDraw(p, l, aod, (input) => draw(input, aod));
-  return code ? `if(${nativeVisibility(l, aod)}){${code}}` : "";
+  return mappedDraw(code ? `if(${nativeVisibility(l, aod)}){${code}}` : "",{layerId:owner || l.id,partId:l.id,capabilityId:"core."+l.kind,mode:aod?"aod":"active"});
 }
 export function localGenerate(p: Project) {
+  const owners=new Map(p.layers.flatMap(l=>(l.compound?.layers || []).map(c=>[c.id,l.id])));
   p = expandWidgets(p);
   if (
     p.layers.some((l) => l.exportIncluded !== false && l.effectPrompt?.trim())
@@ -507,7 +509,7 @@ class GeneratedView extends WatchUi.WatchFace {
     )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
   ${included.some((l) => l.dateFormat === "monthDayWeek") ? 'var dateMonthDayWeek=calendar.month.format("%02d")+"."+calendar.day.format("%02d")+" "+["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1];' : ""}
   ${`var bg=sleeping?Graphics.COLOR_BLACK:${color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
-  if(sleeping){${included.map((l) => visibleDraw(l, true, p)).join("\n")}}else{${included.map((l) => visibleDraw(l, false, p)).join("\n")}}
+  if(sleeping){${included.map((l) => visibleDraw(l, true, p, owners.get(l.id))).join("\n")}}else{${included.map((l) => visibleDraw(l, false, p, owners.get(l.id))).join("\n")}}
   ${imageLayers.length ? "trimImages();" : ""}
  }
 }`;

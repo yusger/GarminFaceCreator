@@ -49,6 +49,7 @@ function fixture() {
   ];
   return p;
 }
+const drawing=(s:string)=>s.replace(/^\/\/ GFC_LAYER_(?:BEGIN.*|END)\r?$/gm, "");
 test("compound v2 retains geometry, a single parent, native semantics and independent copies", () => {
   const p = fixture(),
     before = JSON.stringify(p),
@@ -61,8 +62,8 @@ test("compound v2 retains geometry, a single parent, native semantics and indepe
   expect(q.layers).toHaveLength(1);
   validateProject(q);
   expect(
-    localGenerate(q).find((f) => f.path === "source/App.mc")!.content,
-  ).toBe(localGenerate(p).find((f) => f.path === "source/App.mc")!.content);
+    drawing(localGenerate(q).find((f) => f.path === "source/App.mc")!.content),
+  ).toBe(drawing(localGenerate(p).find((f) => f.path === "source/App.mc")!.content));
   const original = expandedChildren(root, q),
     scaled = expandedChildren(
       { ...root, w: root.w * 0.75, h: root.h * 0.75 },
