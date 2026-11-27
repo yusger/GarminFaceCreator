@@ -736,3 +736,12 @@ P0 与 P1 清单已完成。P2、架构试点、素材库和新增参考项目�
 - 2026-11-27核对官方 https://api-docs.deepseek.com/guides/vision/：当前deepseek-flash支持Chat Completions图片输入。随后仅使用113浏览器既有DeepSeek配置临时启用图片能力，在本Plan授权内实际调用2次，结束恢复原配置；没有保存/打印Key，没有使用其他供应商。
 - 第一次附当前盘面与Rider 05原稿转PNG，要求仅修改中心八边形/时间的几何配色。HTTP200 stop，实际应用2个现有层，截图目视为居中蓝色描边八边形和时间，模型说明正确描述参考核心。prompt2447/completion249/total2696。第二次主动启动最多2轮优化，模型返回无新操作，第1轮停止，HTTP200 stop，prompt2404/completion61/total2465。共5161 Token，不自动重试，不据此宣称原稿整盘还原或普遍视觉质量保证。
 - 参考图仅按明确测试操作发给所选模型，不上传后端；测试脚本、截图和脱敏结果留本地Temp，不提交。前文“图片能力未知”是此前未核验时点的记录，本次确认仅适用于已查证及实际测试的配置，不自动替所有用户勾选图片能力。付费授权仍只限本Plan，完成后须重新由用户确定。
+
+
+## 阶段80：Linux SDK模拟器隔离原型及原生截图
+
+- 独立Ubuntu22.04/SDK9.3原型，不修改编译主镜像或展示环境。只读SDK/Devices/Fonts与单个输入PRG，独立输出、无外部网络/端口、只读根目录、cap-drop/no-new-privileges、1CPU/768MiB/128PID和总超时。结束清理自身容器与Xvfb/Java/模拟器进程。资源峰值接口未提供数据，记录unknown；768MiB是上限，不能当成实测峰值。
+- 实际排查并修复：可执行临时目录、GTK SVG解码、SDK相对share/resources路径、缺少Roboto缓存导致的空指针，以及monkeydo长驻会话被误判超时。一次性继续断言仅用于定位，最终已删除绕过，正常启动无invalid-image断言。纯文字最小PRG编译与模拟器正常显示，随后两尺寸几何工程正常绘制。
+- 测试工程经probeFixture注入完成标记；这是专用验证PRG，不是任意用户PRG的通用通过判定。SDK原生Save Screen Capture在无窗口管理器时需要显式焦点及文件名验证等待；正常导出454×454/390×390纯盘面，无表壳/编辑手柄。元数据保留PRG SHA、设备与SDK9.3.0，模式未独立核验保持not_verified。AOD、固定数据控制、一般PRG完成检测和受保护网站任务API尚未交付，不把桌面截图或编译成功冒充这些能力。
+- 原生截图发现连续圆形暗轨道分片叠加亮缝，4f2d115改原生drawArc/网页SVG路径，basic-26、能力1.3.1。小于1度避免原生整数角截断成整圆；非正圆保留分片近似并显式提示可能接缝。提交推送后只部署113，12项对话/圆弧/坐标及两尺寸SDK测试通过（40.1秒）；再次原生运行两尺寸均exit0，暗轨道接缝已消除，图片见docs/images/plan/native-geometry-{454,390}.png。没有真机功耗或性能结论。
+- 修复后截图对应PRG SHA：454为6cd27e4f724fa8a83b9c2b49c5f4eb764dee96d5b919b448792b0da6e8807ace；390为b5634154a6e21d9822dda9350cdb46b0a6712612780f299bee9b21b207508dff。原生模拟时钟读数不冒充固定10:24数据比较。Rider基线审计见docs/research/rider-source-baseline.md；原稿未默认入库。
