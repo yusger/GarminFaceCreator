@@ -140,11 +140,16 @@ test("editor combines and scales new geometry as one object with undo and persis
   await page.getByRole("button", { name: "创建项目", exact: true }).click();
   await page.getByRole("button", { name: "多边形", exact: true }).click();
   await page.getByRole("button", { name: "曲线文字", exact: true }).click();
-  await page.locator(".canvas-panel").click({ position: { x: 5, y: 5 } });
-  await page.keyboard.press("Control+a");
+  await page.locator(".layer-row").first().click();
+  await page.locator(".layer-row").nth(1).click({modifiers:["Shift"]});
   await page.getByRole("button", { name: "合为复合控件", exact: true }).click();
   await expect(page.locator(".layer-row")).toHaveCount(1);
   await expect(page.getByLabel("复合控件名称")).toBeVisible();
+  await page.getByTitle("撤销",{exact:true}).click();
+  await expect(page.locator(".layer-row")).toHaveCount(2);
+  await page.getByTitle("重做",{exact:true}).click();
+  await expect(page.locator(".layer-row")).toHaveCount(1);
+  await page.locator(".layer-row").first().click();
   await page.getByLabel("复合控件w").fill("300");
   await expect(page.locator("svg.watch [data-widget-part]")).toHaveCount(2);
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
