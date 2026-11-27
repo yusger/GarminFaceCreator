@@ -84,7 +84,7 @@ export default function Scene({
         cx="227"
         cy="227"
         r="227"
-        fill={aod ? "#000" : project.backgroundColor || "#07131d"}
+        fill={aod ? "#000" : project.backgroundColor || "#000000"}
         stroke={exact ? "none" : "#53616d"}
         strokeWidth={exact ? 0 : 0.7}
       />
