@@ -1,9 +1,9 @@
-// GarminFaceCreator local generator basic-36-grayscale-font-mask; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-37-native-frame-marker; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
 class GeneratedView extends WatchUi.WatchFace {
- var sleeping=false;var scale=1.0;var frameContext=null;
+ var sleeping=false;var scale=1.0;var frameContext=null;var gfcFrameReported=false;
  function mixTextInk(ink,alpha,bg){var r=(((ink>>16)&255)*alpha+((bg>>16)&255)*(255-alpha))/255;var g=(((ink>>8)&255)*alpha+((bg>>8)&255)*(255-alpha))/255;var b=((ink&255)*alpha+(bg&255)*(255-alpha))/255;return (r.toNumber()<<16)|(g.toNumber()<<8)|b.toNumber();}
  
  
@@ -202,5 +202,6 @@ if(true){{var polygon=[[px(235),px(227)],[px(234.9316),px(228.0442)],[px(234.727
   if(sleeping){render_aod_0(dc);render_aod_1(dc);render_aod_2(dc);}else{render_active_0(dc);render_active_1(dc);render_active_2(dc);render_active_3(dc);render_active_4(dc);}
   frameContext=null;
   trimImages();
+  if(!gfcFrameReported){System.println("GFC_RENDER_READY target=venu445mm mode="+(sleeping?"aod":"active"));gfcFrameReported=true;}
  }
 }

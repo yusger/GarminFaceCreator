@@ -2,6 +2,8 @@
 set -euo pipefail
 : "${DEVICE:?Set DEVICE to the exact compiled target}"
 [[ "$DEVICE" =~ ^[a-z0-9]+$ ]] || exit 2
+ready_marker=${PROBE_READY_MARKER:-GFC_PROBE_FRAME_READY}
+case "$ready_marker" in GFC_PROBE_FRAME_READY|GFC_RENDER_READY) ;; *) exit 2;; esac
 hold=${PROBE_HOLD_SECONDS:-0}
 [[ "$hold" =~ ^([0-9]|[12][0-9]|30)$ ]] || exit 2
 test -s /input/watchface.prg || exit 2
@@ -41,11 +43,11 @@ mpid=$!
 ready=0
 for i in $(seq 1 45); do
  kill -0 "$spid" 2>/dev/null || { echo 'simulator exited before frame'; exit 6; }
- if grep -q GFC_PROBE_FRAME_READY /output/monkeydo.log; then ready=1; break; fi
+ if grep -Fq "$ready_marker" /output/monkeydo.log; then ready=1; break; fi
  if ! kill -0 "$mpid" 2>/dev/null; then break; fi
  sleep 1
 done
-if [ "$ready" != 1 ]; then echo 'No verified fixture frame before timeout'; exit 8; fi
+if [ "$ready" != 1 ]; then echo 'No expected frame report before timeout'; exit 8; fi
 sleep 3
 kill -0 "$spid" 2>/dev/null || { echo "simulator exited before capture"; cat /output/simulator.log; exit 6; }
 import -window root /output/desktop.png
@@ -53,7 +55,7 @@ xdotool search --onlyvisible --name 'CIQ Simulator|Connect IQ' getwindowgeometry
 printf 'Fixture frame marker received and desktop captured; AOD and visual fidelity still require verification.\n'
 printf 'device=%s\nprgSha256=%s\nmode=not_verified\ncapture=desktop\n' "$DEVICE" "$(sha256sum /input/watchface.prg | cut -d' ' -f1)" > /output/capture-metadata.txt
 head -1 /sdk/bin/version.txt >> /output/capture-metadata.txt
-grep GFC_PROBE_FRAME_READY /output/monkeydo.log | tail -1 >> /output/capture-metadata.txt
+grep -F "$ready_marker" /output/monkeydo.log | tail -1 >> /output/capture-metadata.txt
 if [ "${PROBE_CAPTURE_DIALOG:-0}" = 1 ]; then
  xdotool mousemove 16 12 click 1 mousemove 104 37 click 1
  sleep 1

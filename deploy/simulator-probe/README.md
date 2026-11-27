@@ -7,3 +7,6 @@
 后续只有实际跑通GUI、PRG加载、异常识别和绘制完成条件，再做受限队列/产物API。桌面截图与浏览器截图、真机性能/功耗结论分开。
 
 SDK模拟器还必须读取Fonts缓存（含Roboto-Regular.ttf），不能只挂Devices。执行文件从临时位置启动时，其相邻share/resources/bin布局须保持。monkeydo会在应用运行期间保持连接，不能等待进程退出作为就绪条件。本原型要求测试工程通过probeFixture注入的GFC_PROBE_FRAME_READY标记；任意用户PRG不能据此直接宣称验证通过。默认不跳过断言，模拟器提前退出、无标记、缺少字体均失败。PROBE_TRACE仅用于诊断；PROBE_HOLD_SECONDS仅允许0–30秒用于人工检查。输出mode在未核验时保持not_verified。
+
+
+PROBE_READY_MARKER仅允许GFC_PROBE_FRAME_READY（专用固定数据工程）或GFC_RENDER_READY（basic-37及以后本地生成工程的一次性绘制报告）。未知值拒绝；无标记不生成通过结论。普通工程不注入测试时钟/数据，截图记录模拟器当时的数据与模式报告；报告不是独立证明真实Sleep切换、固定样本或真机行为。原生完成报告在整帧绘制后只输出一次，非每秒日志。

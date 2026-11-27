@@ -48,3 +48,10 @@ test("settings snapshots retain typed values and duplicate source variants canno
   p.controls[0].options = ["steps", "steps"];
   expect(() => validateControls(p)).toThrow(/唯一/);
 });
+
+
+test("normal local builds report one completed native frame after rendering",()=>{
+ const p=project("Ready",true);p.layers=[layer("time")];const source=localGenerate(p).find(f=>f.path==="source/App.mc")!.content;
+ expect(source).toContain('var gfcFrameReported=false;');expect(source.match(/GFC_RENDER_READY/g)).toHaveLength(1);expect(source).toContain('if(!gfcFrameReported)');expect(source.indexOf('System.println("GFC_RENDER_READY')).toBeGreaterThan(source.lastIndexOf('frameContext=null;'));
+ expect(source).not.toContain('GfcFrozenClock');expect(source).toContain('System.getClockTime()');
+});
