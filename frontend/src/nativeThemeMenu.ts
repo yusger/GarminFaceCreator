@@ -82,7 +82,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  }
  class GfcSettingsDelegate extends WatchUi.Menu2InputDelegate{
  function initialize(){Menu2InputDelegate.initialize();}
- function onSelect(item){var id=item.getId();var action=id[:action];
+ function onSelect(item){var id=item.getId() as Lang.Dictionary;var action=id[:action];
  if(action.equals("themes")){WatchUi.pushView(new GfcSettingsMenu("themes",null),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
  else if(action.equals("control")){WatchUi.pushView(new GfcSettingsMenu("values",id[:id]),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
  else if(action.equals("set")){Application.Properties.setValue(id[:key],id[:value]);Application.getApp().onSettingsChanged();WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);}
