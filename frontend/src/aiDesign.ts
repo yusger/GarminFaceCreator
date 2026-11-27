@@ -20,7 +20,10 @@ export type DesignReference = {
   data: string;
   usage: "style" | "layout" | "asset";
 };
+export const designLooks={free:"自由设计",minimal_clean:"极简清晰",sport_data:"运动仪表",retro_digital:"复古数字"} as const;
 export type DesignChoices = {
+  look?:keyof typeof designLooks;
+  complexity?:1|2|3|4;
   name: string;
   target: string;
   deviceSize: string;
@@ -130,9 +133,39 @@ export function layerInputIssues(value:unknown,index:number):DesignIssue[]{
   else if(designNumberFields.has(field)&&!Number.isFinite(v))add(field,"NUMBER_REQUIRED","必须为有限数值");
   else if(!designBooleanFields.has(field)&&!designNumberFields.has(field)&&!["handShape","polygonPoints","thresholdRules"].includes(field)&&typeof v!=="string")add(field,"STRING_REQUIRED","必须为字符串");
  }
+ if(value.id!==undefined&&(typeof value.id!=="string"||!/^[a-zA-Z0-9_-]{1,100}$/.test(value.id)))add("id","INVALID_ID","须为1–100个字母、数字、下划线或短横线");
+ if(value.name!==undefined&&(typeof value.name!=="string"||!value.name.trim()||value.name.length>80))add("name","INVALID_NAME","名称须为1–80个字符");
+ if(value.kind!==undefined&&!kinds.includes(value.kind))add("kind","UNSUPPORTED_KIND","不是已支持的控件类型");
+ if(value.color!==undefined&&(typeof value.color!=="string"||!/^#[0-9a-f]{6}$/i.test(value.color)))add("color","INVALID_COLOR","颜色须为#RRGGBB");
+ if(value.aod===true&&(typeof value.aodColor!=="string"||!/^#[0-9a-f]{6}$/i.test(value.aodColor)))add("aodColor","INVALID_AOD_COLOR","息屏保留层须声明#RRGGBB颜色");
+ for(const field of ["x","y"])if(Number.isFinite(value[field])&&(value[field]<-454||value[field]>908))add(field,"GEOMETRY_RANGE","坐标超出允许范围");
+ for(const field of ["w","h"])if(Number.isFinite(value[field])&&(value[field]<1||value[field]>908))add(field,"GEOMETRY_RANGE","尺寸须在1–908之间");
+ if(Number.isFinite(value.size)&&(value.size<1||value.size>200))add("size","SIZE_RANGE","size须在1–200之间");
  if(value.handShape!==undefined){const shape=value.handShape;if(value.kind!=="hand"||!object(shape)||!/^[a-z][a-z0-9-]{0,79}$/.test(shape.id)||!/^\d+\.\d+\.\d+$/.test(shape.version)||!Array.isArray(shape.points)||shape.points.length<3||shape.points.length>32||shape.points.some((p:unknown)=>!Array.isArray(p)||p.length!==2||p.some(n=>!Number.isFinite(n)||n< -1||n>1)))add("handShape","HAND_SHAPE_INVALID","普通直线指针请省略此字段；自定义轮廓须为合法{id,version,points}对象");}
  if(value.dateFormat!==undefined&&(!["monthDayWeek","weekdayDay"].includes(value.dateFormat)||value.kind!=="date"||value.dateLocale==="zh"))add("dateFormat","DATE_FORMAT_INVALID","日期格式仅英文可使用monthDayWeek/weekdayDay，中文日期请省略");
  return issues;
+}
+
+export function designBudget(c:Pick<DesignChoices,"complexity">){return [{maxLayers:12,maxRings:1,maxImages:2,maxShapes:4},{maxLayers:24,maxRings:2,maxImages:4,maxShapes:10},{maxLayers:40,maxRings:4,maxImages:8,maxShapes:18},{maxLayers:80,maxRings:8,maxImages:16,maxShapes:36}][(c.complexity??4)-1];}
+export function designResponseSchema(c:DesignChoices){
+ const properties:Record<string,any>=Object.fromEntries(designFields.map(k=>[k,designBooleanFields.has(k)?{type:"boolean"}:designNumberFields.has(k)?{type:"number"}:{type:"string"}]));
+ const points=(min:number,max:number)=>({type:"array",minItems:3,maxItems:32,items:{type:"array",minItems:2,maxItems:2,items:{type:"number",minimum:min,maximum:max}}});
+ Object.assign(properties,{
+  id:{type:"string",pattern:"^[a-zA-Z0-9_-]{1,100}$"},name:{type:"string",minLength:1,maxLength:80},kind:{enum:kinds},
+  color:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"},size:{type:"number",minimum:1,maximum:200},w:{type:"number",minimum:1,maximum:908},h:{type:"number",minimum:1,maximum:908},opacity:{type:"number",minimum:0,maximum:1},
+  source:c.sources.length?{enum:c.sources}:false,timePart:{enum:["full","hours","minutes",...(c.seconds?["seconds"]:[])]},garminFont:{enum:["auto","xtiny","systemXTiny","tiny","small","medium","large","numberHot"]},
+  dateLocale:{enum:["en","zh"]},dateFormat:{enum:["monthDayWeek","weekdayDay"]},textAlign:{enum:["left","center","right"]},handType:{enum:["hour","minute",...(c.seconds?["second"]:[])]},handCap:{enum:["round","butt"]},ringStyle:{enum:["ticks","continuous"]},ringCap:{enum:["round","butt"]},ringSource:{enum:["static",...(c.seconds?["seconds"]:[]),...c.sources.filter(s=>["steps","battery","heartRate"].includes(s))]},
+  thresholdRules:{type:"array",maxItems:16,items:{type:"object",additionalProperties:false,required:["color"],properties:{min:{type:"number"},max:{type:"number"},color:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"}}}},
+  polygonPoints:points(0,1),
+  handShape:{type:"object",additionalProperties:false,required:["id","version","points"],properties:{id:{type:"string",pattern:"^[a-z][a-z0-9-]{0,79}$"},version:{type:"string",pattern:"^[0-9]+[.][0-9]+[.][0-9]+$"},points:points(-1,1)}}
+ });
+ return {$schema:"https://json-schema.org/draft/2020-12/schema",$id:"urn:gfc:ai-design-response:1",type:"object",additionalProperties:false,required:["backgroundColor","layers"],properties:{backgroundColor:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"},layers:{type:"array",minItems:1,maxItems:designBudget(c).maxLayers,items:{type:"object",additionalProperties:false,required:["id","name","kind","x","y","w","h","size","color","aod"],properties,allOf:[{if:{properties:{kind:{const:"date"},dateLocale:{const:"zh"}},required:["kind","dateLocale"]},then:{not:{required:["dateFormat"]}}}]}}}};
+}
+export function normalizeDesignResponse(raw:string){
+ const edits:{layerId:string;field:string;message:string}[]=[];
+ try{if(raw.length>300000)return {raw,edits};const fenced=/^```(?:json)?\s*\n([\s\S]*?)\n```$/.exec(raw.trim()),data=JSON.parse(fenced?fenced[1]:raw);if(!object(data)||!Array.isArray(data.layers)||data.layers.length>80)return {raw,edits};
+ for(const l of data.layers){if(!object(l))continue;if(l.size===undefined&&["rect","circle","line","polygon"].includes(l.kind)){l.size=layer(l.kind).size;edits.push({layerId:String(l.id||l.name),field:"size",message:"为基础形状补齐未用于绘制文字的默认size"});}if(l.kind==="hand"&&l.handShape==="line"){delete l.handShape;edits.push({layerId:String(l.id||l.name),field:"handShape",message:"直线指针使用默认轮廓，移除无效的line字符串"});}}
+ return {raw:edits.length?JSON.stringify(data,null,2):raw,edits};}catch{return {raw,edits:[]};}
 }
 
 export function validateDesignChoices(
@@ -147,6 +180,8 @@ export function validateDesignChoices(
     typeof c.seconds !== "boolean" ||
     typeof c.date !== "boolean" ||
     c.instruction.length > 4000 ||
+    (c.look!==undefined&&!Object.hasOwn(designLooks,c.look)) ||
+    (c.complexity!==undefined&&![1,2,3,4].includes(c.complexity)) ||
     c.sources.length > designSources.length ||
     new Set(c.sources).size !== c.sources.length ||
     c.sources.some((s) => !designSources.some(([id]) => id === s))
@@ -195,7 +230,11 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       kinds,
       allowedLayerFields: designFields,
       layerRules:{required:["id","name","kind","x","y","w","h","size","color","aod"],metricDecoration:"boolean; false for numeric-only readouts",dateFormat:"English date only: monthDayWeek or weekdayDay; omit for Chinese dates",handShape:"Ordinary line hands MUST omit handShape. Custom shape is an object {id,version,points}, never the string line",geometry:"Circle center227,227 radius227. Essential information must remain within the circular drawing area. For non-text rectangles all four corners must fit; for text allow for longest readings, font bounds and missing values. Decorations alone may intentionally allowClip. Array order is back-to-front; legal overlap includes backgrounds, ticks and hands."},
-      maxLayers: 80,
+      maxLayers: designBudget(c).maxLayers,
+      complexityBudget:designBudget(c),
+      visualStyle:c.look||"free",
+      visualStylePolicy:"Look is composition guidance, never permission to change selected DIGITAL/ANALOG/HYBRID time structure, omit selected data, upload hidden resources or invent new kinds. Minimal clean favors generous spacing, sport data compact aligned readings, retro digital uses supported numeric fonts. Current template remains the layout starting point.",
+      responseSchema:designResponseSchema(c),
       timeFormats: ["full", "hours", "minutes", "seconds"],
       clock: "24h device local",
       meterSources: ["steps", "battery"],
@@ -237,10 +276,10 @@ export function parseDesign(
     !/^#[0-9a-f]{6}$/i.test(data.backgroundColor) ||
     !Array.isArray(data.layers) ||
     !data.layers.length ||
-    data.layers.length > 80
+    data.layers.length > designBudget(c).maxLayers
   )
     throw Error(
-      "模型须返回backgroundColor与1–80个独立layers，不能返回工程文件或整盘截图",
+      "模型须返回backgroundColor与当前复杂度允许数量内的独立layers，不能返回工程文件或整盘截图",
     );
   const result = project(c.name.trim(), true);
   result.target = c.target;
@@ -249,6 +288,7 @@ export function parseDesign(
   result.designBrief = JSON.stringify({
     basicSpecVersion: "1.1",
     style: c.style,
+    look:c.look,complexity:c.complexity,
     seconds: c.seconds,
     date: c.date,
     dateLocale: c.dateLocale,
@@ -259,11 +299,13 @@ export function parseDesign(
     references: refs.map(({ id, name, usage }) => ({ id, name, usage })),
   });
   const issues:DesignIssue[]=[];
+  const occurrences=new Map<string,number>();for(const value of data.layers)if(object(value)&&typeof value.id==="string")occurrences.set(value.id,(occurrences.get(value.id)||0)+1);
   const ids = new Set<string>();
   const parsed = data.layers.map((v: unknown,index:number) => {
    const identity=object(v)&&typeof v.id==="string"?v.id:"#"+index;
    try {
     const preliminary=layerInputIssues(v,index);
+    if(object(v)&&typeof v.id==="string"&&(occurrences.get(v.id)||0)>1)preliminary.push({index,layerId:v.id,field:"id",code:"DUPLICATE_ID",message:"图层ID重复"});
     if(preliminary.length){issues.push(...preliminary);return null;}
     if (
       !object(v) ||
@@ -423,6 +465,8 @@ export function parseDesign(
   });
   if(issues.length)throw new DesignValidationError(issues);
   result.layers=parsed as Layer[];
+  const budget=designBudget(c);
+  for(const [label,count,max] of [["圆环",result.layers.filter(l=>l.kind==="ring").length,budget.maxRings],["图片",result.layers.filter(l=>l.kind==="image").length,budget.maxImages],["基础图形",result.layers.filter(l=>["circle","rect","line","polygon"].includes(l.kind)).length,budget.maxShapes]] as [string,number,number][])if(count>max)throw Error(`当前复杂度${label}上限${max}，实际${count}；请精简或提高复杂度`);
   const active = result.layers.filter((l) => l.activeVisible !== false);
   const timed = active.filter((l) => l.kind === "time");
   const digital =

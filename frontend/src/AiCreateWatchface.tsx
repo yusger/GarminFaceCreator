@@ -7,7 +7,7 @@ import { Sparkles, Plus, X } from "lucide-react";
 import type { Profile, Project } from "./domain";
 import { devices } from "./devices";
 import {
-  designSources,
+  designSources,designLooks,designBudget,normalizeDesignResponse,
   parseDesign,
   readDesignReference,
   type DesignChoices,
@@ -37,12 +37,14 @@ export default function AiCreateWatchface({
     target: "venu445mm",
     deviceSize: "45mm",
     style: "DIGITAL",
+    look:"free",complexity:3,
     seconds: false,
     date: true,
     dateLocale: "en",
     sources: ["heartRate", "steps", "battery"],
     instruction: "简洁清晰，时间突出，青色点缀，保留独立可编辑的数据控件。",
   });
+  const [normalizations,setNormalizations]=useState<{layerId:string;field:string;message:string}[]>([]);
   const [background,setBackground]=useState<BackgroundChoice>(defaultBackground);
   const [backgroundBusy,setBackgroundBusy]=useState(false);
   const [step, setStep] = useState(0),
@@ -73,12 +75,12 @@ export default function AiCreateWatchface({
     setChoices((c) => ({ ...c, ...patch }));
     setResult(null);
     setError("");
-    setRaw("");
+    setRaw("");setNormalizations([]);
   }
   function changeRefs(next: DesignReference[]) {
     setRefs(next);
     setResult(null);
-    setRaw("");
+    setRaw("");setNormalizations([]);
     setError("");
   }
   async function addImages(files: FileList | null) {
@@ -114,7 +116,7 @@ export default function AiCreateWatchface({
     controller.current = c;
     setBusy(true);
     setError("");
-    setRaw("");
+    setRaw("");setNormalizations([]);
     try {
       const text = await requestDesign(profile, choices, refs, c.signal);
       if (!alive.current || c.signal.aborted) return;
@@ -142,6 +144,7 @@ export default function AiCreateWatchface({
       }
     }
   }
+  function applySafeCorrections(){const proposal=normalizeDesignResponse(raw);if(!proposal.edits.length)return;setNormalizations(proposal.edits);try{const safe={...choices,instruction:profile?.key?choices.instruction.replaceAll(profile.key,"[REDACTED]"):choices.instruction};const p=parseDesign(proposal.raw,safe,refs);p.designBrief=JSON.stringify({...JSON.parse(p.designBrief||"{}"),normalizations:proposal.edits});setResult(applyBackground(p,background));setError("");}catch(e){setError("格式修正后仍未通过校验：\n"+(e as Error).message);}}
   function downloadResponse() {
     const url = URL.createObjectURL(
       new Blob([raw], { type: "text/plain;charset=utf-8" }),
@@ -325,6 +328,9 @@ export default function AiCreateWatchface({
                   <p className="hint">
                     时分必选。混合模式包含时针、分针和数字时分。
                   </p>
+                  <label>视觉风格<select aria-label="视觉风格" value={choices.look||"free"} onChange={e=>change({look:e.target.value as DesignChoices["look"]})}>{Object.entries(designLooks).map(([id,label])=><option key={id} value={id}>{label}</option>)}</select></label>
+                  <label>设计复杂度<select aria-label="设计复杂度" value={choices.complexity||4} onChange={e=>change({complexity:Number(e.target.value) as DesignChoices["complexity"]})}><option value={1}>1 · 极简（最多12层）</option><option value={2}>2 · 基础数据（最多24层）</option><option value={3}>3 · 圆环仪表（最多40层）</option><option value={4}>4 · 完整设计（最多80层）</option></select></label>
+                  <p className="hint">当前最多{designBudget(choices).maxRings}个圆环、{designBudget(choices).maxImages}层图片。风格不会更改时间模式或所选数据。</p>
                   <div className="ai-design-options">
                     <label>
                       <input
@@ -528,10 +534,10 @@ export default function AiCreateWatchface({
             </p>
             {busy && <p role="status">AI正在设计表盘，请稍候…</p>}
             {error && (
-              <p className="ai-design-error" role="alert">
-                {error}
-              </p>
+              <div className="ai-design-error" role="alert" style={{whiteSpace:"pre-line"}}>{error}</div>
             )}
+            {error&&raw&&normalizeDesignResponse(raw).edits.length>0&&<details><summary>可在本地修正的格式问题</summary><ul>{normalizeDesignResponse(raw).edits.map((e,i)=><li key={i}>{e.layerId} · {e.message}</li>)}</ul><button disabled={busy||saving} onClick={applySafeCorrections}>应用安全格式修正</button><p className="hint">不调用模型，不移动控件、不更换字体或数据；修正后重新完整校验，原始响应保留。</p></details>}
+            {normalizations.length>0&&<p role="status">已应用{normalizations.length}项本地格式修正，布局问题仍需通过校验。</p>}
             {raw && (
               <details>
                 <summary>模型响应</summary>
