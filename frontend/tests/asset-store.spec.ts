@@ -57,6 +57,7 @@ test("legacy inline images migrate atomically and remain exportable", async ({
     legacy,
   );
   await page.goto("/");
+  await page.getByRole("button", { name: /^我的表盘/ }).click();
   await page
     .getByRole("button", { name: "打开 旧图片项目", exact: true })
     .click();
@@ -78,6 +79,7 @@ test("shared assets survive deletion of one project even with a stale counter", 
   await page.goto("/");
   page.on("dialog", (d) => d.accept());
   for (let i = 0; i < 2; i++) {
+    await page.getByRole("button", { name: /^内置表盘/ }).click();
     await page
       .getByRole("button", { name: "使用 ClownWatch", exact: true })
       .click();
@@ -105,6 +107,7 @@ test("shared assets survive deletion of one project even with a stale counter", 
         };
       }),
   );
+  await page.getByRole("button", { name: /^我的表盘/ }).click();
   await page
     .getByRole("button", { name: "删除 ClownWatch 副本", exact: true })
     .click();
@@ -112,6 +115,7 @@ test("shared assets survive deletion of one project even with a stale counter", 
   expect(data.assets).toHaveLength(1);
   expect(data.refs).toHaveLength(1);
   await page.reload();
+  await page.getByRole("button", { name: /^我的表盘/ }).click();
   await page
     .getByRole("button", { name: "打开 ClownWatch 副本 2", exact: true })
     .click();
@@ -155,7 +159,7 @@ test("snapshot references protect removed image and transaction quota failure cr
     } as typeof original;
   });
   await page
-    .locator('input[accept="image/png,image/jpeg,image/webp"]')
+    .locator('input[hidden][accept="image/png,image/jpeg,image/webp"]')
     .setInputFiles({
       name: "图片.png",
       mimeType: "image/png",
@@ -244,6 +248,7 @@ test("failed asset migration leaves old inline database intact and succeeds afte
   expect(intact.version).toBe(1);
   expect(intact.inline).toContain("data:image/png");
   await page.reload();
+  await page.getByRole("button", { name: /^我的表盘/ }).click();
   await page
     .getByRole("button", { name: "打开 迁移回滚", exact: true })
     .click();

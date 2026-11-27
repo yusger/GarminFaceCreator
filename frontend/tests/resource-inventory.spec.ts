@@ -61,12 +61,13 @@ test("local image inspection exposes pixels, alpha and size without upload", asy
   await page.getByRole("button", { name: /^空白画布/ }).click();
   await page.getByLabel("初始布局", { exact: true }).selectOption("blank");
   await page.getByRole("button", { name: "创建项目", exact: true }).click();
+  await expect(page.getByText("已保存到本机", {exact:true})).toBeVisible();
   const writes: string[] = [];
   page.on("request", (r) => {
     if (r.method() === "POST") writes.push(r.url());
   });
   await page
-    .locator('input[type="file"][accept="image/png,image/jpeg,image/webp"]')
+    .locator('input[hidden][type="file"][accept="image/png,image/jpeg,image/webp"]')
     .setInputFiles({
       name: "red.png",
       mimeType: "image/png",
@@ -87,7 +88,7 @@ test("local image inspection exposes pixels, alpha and size without upload", asy
     return c.toDataURL("image/png").split(",")[1];
   });
   await page
-    .locator('input[type="file"][accept="image/png,image/jpeg,image/webp"]')
+    .locator('input[hidden][type="file"][accept="image/png,image/jpeg,image/webp"]')
     .setInputFiles({
       name: "transparent.png",
       mimeType: "image/png",
