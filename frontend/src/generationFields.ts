@@ -1,5 +1,5 @@
 import type {Layer} from "./domain";
-export const GENERATION_FIELD_CONTRACT_VERSION="fields-5-simple-polygons";
+export const GENERATION_FIELD_CONTRACT_VERSION="fields-6-bitmap-fonts";
 type Omitted =
   | "chart"
   | "polygonPoints"
@@ -25,6 +25,7 @@ type Omitted =
   | "compoundOverrides";
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 export const generationScalarFields: Record<Exclude<keyof Layer, Omitted>, true> = {
+  bitmapFontId:true,
   effectPrompt: true,
   id: true,
   name: true,

@@ -1,3 +1,4 @@
+import {bitmapFontDiagnostics} from "./bitmapFonts.ts";
 import {chartSizeWarning} from "./charts.ts";
 import {primitiveSampling,CURVE_ERROR_PX} from "./primitiveSampling.ts";
 import { deviceMetadata, deviceMetadataVersion } from "./deviceMetadata.ts";
@@ -21,7 +22,7 @@ export type GenerationDiagnostic = {
 export function localConfigurationDiagnostics(
   p: Project,
 ): GenerationDiagnostic[] {
-  const issues: GenerationDiagnostic[] = [];
+  const issues: GenerationDiagnostic[] = bitmapFontDiagnostics(p).map(d=>({code:"BITMAP_FONT_UNSUPPORTED",status:"unsupported" as const,layerId:d.layerId,path:"bitmapFontId",message:d.message}));
   for (const c of p.controls || []) {
     if (c.type !== "dataSource") continue;
     for (const source of c.options || []) {
@@ -50,7 +51,7 @@ export function localConfigurationDiagnostics(
 export function generationDiagnostics(
   project: Project,
 ): GenerationDiagnostic[] {
-  const issues: GenerationDiagnostic[] = [];
+  const issues: GenerationDiagnostic[] = bitmapFontDiagnostics(project).map(d=>({code:"BITMAP_FONT_UNSUPPORTED",status:"unsupported" as const,layerId:d.layerId,path:"bitmapFontId",message:d.message}));
   const owners = new Map<string, string>();
   try {
     for (const l of project.layers)

@@ -1,3 +1,4 @@
+import {approvedFontChoices,fontChoicePatch} from "./fontChoices.ts";
 import {activeTheme,themeControls,selectTheme,resetTheme,setThemeBackground,themeBackground} from "./themes";
 import {validateChart} from "./charts";
 import {generationContext} from "./generationContext";
@@ -76,6 +77,7 @@ export function chatFingerprint(p: Project) {
     deviceSize: p.deviceSize,
     layers: p.layers,
     themes:p.themes,
+    bitmapFonts:p.bitmapFonts,
     controls: p.controls,
     controlValues: p.controlValues,
     backgroundColor: p.backgroundColor,
@@ -90,6 +92,7 @@ export function chatPayload(p: Project, selected: string[]) {
     id: l.id,
     kind: l.kind,
     locked: l.locked,
+    selectedFontId:l.bitmapFontId||l.customFont?.id||(["chalk","chalkHan"].includes(l.garminFont||"")?l.garminFont:"system:"+(l.garminFont||"auto")),
     ...Object.fromEntries(
       chatFields
         .filter((k) => l[k as keyof Layer] !== undefined)
@@ -132,6 +135,7 @@ export function chatPayload(p: Project, selected: string[]) {
       options: c.options,
       value: p.controlValues?.[c.id] ?? c.default,
     })),
+    fonts:approvedFontChoices(p),
     dataSources: Object.entries(metrics).map(([source, label]) => ({
       source,
       label,
@@ -320,7 +324,9 @@ export function applyChat(
     } else {
       const root = resolveControls(next).layers.find((l) => l.id === op.id);
       if (!root || root.locked) throw Error("目标控件不存在或已锁定");
-      if (op.type === "update") {
+      if(op.type==="font"){
+        keys(op,["type","id","fontId"]);if(typeof op.fontId!=="string")throw Error("字体身份无效");const patch=fontChoicePatch(next,root,op.fontId);next.layers=next.layers.map(l=>l.id===root.id?{...l,...patch}:l);changes.push("字体："+root.name+" → "+approvedFontChoices(next).find(f=>f.id===op.fontId)!.name);
+      } else if (op.type === "update") {
         keys(op, ["type", "id", "patch"]);
         patchLayer(root, op.patch);
         for (const c of next.controls || [])

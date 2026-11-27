@@ -1,3 +1,4 @@
+import BitmapFontText from "./BitmapFontText";
 import ChartWidget from "./ChartWidget";
 import {
   metricValues,
@@ -297,7 +298,7 @@ export default function Scene({
                   strokeDasharray={l.guide ? "6 4" : undefined}
                   strokeLinecap={(l.strokeWidth || 2) > 2 ? "round" : "butt"}
                 />
-              ) : (
+              ) : l.bitmapFontId ? (<BitmapFontText project={project} layer={l} text={(l.kind==="metric"&&l.metricDecoration!==false?metricDecorations[l.source]||"":"")+reading(l,aod?{...preview,seconds:0}:preview)} color={aod?l.aodColor||"#777777":ink(l,preview)}/>) : (
                 <text
                   x={
                     l.textAlign === "left"

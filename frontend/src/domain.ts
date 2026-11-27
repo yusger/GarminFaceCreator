@@ -1,3 +1,4 @@
+import {validateBitmapFonts,type BitmapFontAsset} from "./bitmapFonts.ts";
 import {meterSources} from "./meters.ts";
 import {validateChart,defaultChart,type ChartConfig} from "./charts.ts";
 import {validateThemes,type ThemeSet} from "./themes.ts";
@@ -42,6 +43,7 @@ export type Layer = {
   compoundOverrides?: Record<string,CompoundStyle>;
   widgetOrigin?: WidgetOrigin;
   effectPrompt?: string;
+  bitmapFontId?:string;
   customFont?: { id: string; family: string; file: string };
   activeVisible?: boolean;
   imageFullColor?: boolean;
@@ -187,6 +189,7 @@ export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
   themes?:ThemeSet;
   localFonts?:LocalFont[];
+  bitmapFonts?:BitmapFontAsset[];
   designBrief?: string;
   controls?: import("./projectControls").ProjectControl[];
   controlValues?: Record<string, string | boolean>;
@@ -205,6 +208,7 @@ export type DesignSnapshot = {
 export type Project = {
   themes?:ThemeSet;
   localFonts?:LocalFont[];
+  bitmapFonts?:BitmapFontAsset[];
   designBrief?: string;
   backgroundColor?: string;
   controls?: import("./projectControls").ProjectControl[];
@@ -251,7 +255,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41 | 42 | 43 | 44;
+    | 41 | 42 | 43 | 44 | 45;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -486,7 +490,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 44,
+    schemaVersion: 45,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -501,6 +505,7 @@ export function project(name = "极夜 01", blank = false): Project {
 export function validateProject(value: unknown): Project {
   const p = migrateProject(value);
   validateLocalFonts(p);
+  validateBitmapFonts(p);
   validateThemes(p);
   const kinds = [
     "chart",
@@ -524,7 +529,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 44 ||
+    p.schemaVersion !== 45 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -810,6 +815,7 @@ export function validateProject(value: unknown): Project {
     )
       throw Error("固定心率数据源无效");
   const nodes=p.layers.flatMap(l=>[l,...(l.compound?.layers||[])]);
+  for(const l of nodes)if(l.bitmapFontId!==undefined&&(!/^bitmap_[a-f0-9]{32}$/.test(l.bitmapFontId)||!p.bitmapFonts?.some(f=>f.id===l.bitmapFontId)||l.customFont||(l.garminFont!==undefined&&l.garminFont!=="auto")||!["text","time","date","metric"].includes(l.kind)))throw Error("位图字体引用/控件类型无效");
   for(const l of nodes)if(l.customFont?.id.startsWith("local_")&&!p.localFonts?.some(f=>f.id===l.customFont!.id&&f.file===l.customFont!.file))throw Error("项目缺少所引用的本地字体");
   if(nodes.length>200||new Set(nodes.map(l=>l.id)).size!==nodes.length)throw Error("对象及内部图层重复或超过200个");
   const allControls=[...(p.controls||[]),...p.layers.flatMap(l=>l.compound?.controls||[])];

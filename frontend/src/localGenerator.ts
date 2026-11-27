@@ -1,3 +1,5 @@
+import {bitmapFontDiagnostics,bitmapFontResourceId,usedBitmapFonts} from "./bitmapFonts.ts";
+import {nativeBitmapFontFiles} from "./nativeBitmapFonts.ts";
 import {triangulatePolygon} from "./geometry.ts";
 import {meterDefaultGoal} from "./meters.ts";
 import {nativeHourlyChartHelpers} from "./nativeHourlyCharts.ts";
@@ -34,7 +36,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-57-chart-aod-outlines";
+export const LOCAL_GENERATOR_VERSION = "basic-58-bitmap-fonts";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -50,6 +52,7 @@ const xml = (v: string) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&apos;");
 function font(l: Layer, aod: boolean) {
+  if(l.bitmapFontId)return `fontFor(Rez.Fonts.${bitmapFontResourceId(l.bitmapFontId)})`;
   if (chalkFont(l)) return `fontFor(Rez.Fonts.${chalkId(l, aod)})`;
   if (l.kind === "date" && l.dateLocale === "zh")
     return "Graphics.FONT_SYSTEM_XTINY";
@@ -261,7 +264,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
       : paint;
   return (
     prefix +
-    `textPaint(dc,${ink},${Math.round((l.opacity ?? 1) * 255)});dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${nativeFont},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);` +
+    (l.bitmapFontId?`textPaint(dc,${ink},${Math.round((l.opacity??1)*255)});GfcBitmapText.draw(dc,px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}),${nativeFont},${JSON.stringify(l.bitmapFontId)},${content},${JSON.stringify(align)});`:`textPaint(dc,${ink},${Math.round((l.opacity ?? 1) * 255)});dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${nativeFont},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);`) +
     suffix
   );
 }
@@ -273,6 +276,7 @@ function visibleDraw(l: Layer, aod: boolean, p: Project, owner?:string) {
   return mappedDraw(code ? `if(${nativeVisibility(l, aod)}){${code}}` : "",{layerId:owner || l.id,partId:l.id,capabilityId:"core."+l.kind,mode:aod?"aod":"active"});
 }
 export function localGenerate(p: Project) {
+  const bitmapIssues=bitmapFontDiagnostics(p);if(bitmapIssues.length)throw Error(bitmapIssues.map(x=>x.message).join("；"));
   const owners=new Map(p.layers.flatMap(l=>(l.compound?.layers || []).map(c=>[c.id,l.id])));
   p = expandWidgets(p);
   if (
@@ -446,7 +450,8 @@ ${hourlyCharts?nativeHourlyChartHelpers:""}
  ${curved.length?nativeCurvedText:""}
  ${settings.helpers}
  function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));if(alpha==255){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}}
- ${(chalk.length||masks.length) ? "function fontFor(id){return WatchUi.loadResource(id);}" : ""}
+ ${(chalk.length||masks.length||usedBitmapFonts(p).length) ? "function fontFor(id){return WatchUi.loadResource(id);}" : ""}
+
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
@@ -529,7 +534,7 @@ ${hourlyCharts?nativeHourlyChartHelpers:""}
       files: mergeNativeWordTime(
         p,
         mergeNativeIcons(p, [
-          ...settings.menuFiles,
+          ...settings.menuFiles,...nativeBitmapFontFiles(runtimeProject),
           { path: "manifest.xml", content: generationManifest(p) },
           {
             path: "monkey.jungle",
@@ -538,11 +543,11 @@ ${hourlyCharts?nativeHourlyChartHelpers:""}
           },
           { path: "source/App.mc", content: source },
           ...settings.files,
-          ...((chalk.length||masks.length)
+          ...((chalk.length||masks.length||usedBitmapFonts(p).length)
             ? [
                 {
                   path: "resources/fonts/fonts.xml",
-                  content: `<fonts>${[...chalk.map(plan=>plan.id),...new Set(masks.map(iconMaskId))].map(id=>`<font id="${id}" filename="${id}.fnt" antialias="true"/>`).join("")}</fonts>`,
+                  content: `<fonts>${[...chalk.map(plan=>plan.id),...new Set(masks.map(iconMaskId)),...usedBitmapFonts(runtimeProject).map(f=>bitmapFontResourceId(f.id))].map(id=>`<font id="${id}" filename="${id}.fnt" antialias="true"/>`).join("")}</fonts>`,
                 },
               ]
             : []),

@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.15.0",
-  "projectSchemaVersion": 44,
+  "version": "1.16.0",
+  "projectSchemaVersion": 45,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -623,7 +623,24 @@
       "moveBarLevel",
       "precipitationChance",
       "windBearing"
-    ]
+    ],
+    "bitmapFonts": {
+      "format": "single-page Unicode BMFont text + 8-bit grayscale PNG",
+      "scope": "standalone text/time/date/metric only",
+      "fixedPixels": true,
+      "glyphs": 512,
+      "kernings": 1024,
+      "atlasMax": [
+        512,
+        2048
+      ],
+      "pngMaxBytes": 1048576,
+      "projectMaxFonts": 8,
+      "aod": "same fixed pixel size, cannot silently resize",
+      "preview": "shared advances, kerning, offsets, baseline, target pixel truncation",
+      "missing": "visible box in preview; generation blocked before resource preparation",
+      "ai": "public font operation selects approved IDs; no raw font upload to model"
+    }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."
 }

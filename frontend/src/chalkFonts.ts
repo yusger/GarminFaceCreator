@@ -1,3 +1,5 @@
+import {preparedBitmapFonts} from "./bitmapFonts.ts";
+import {requiredFontGlyphs} from "./fontGlyphs.ts";
 import {preparedIconMasks} from "./iconMasks.ts";
 import {fontBytes} from "./localFonts.ts";
 import {sourceSlotLayer,sourceSlotLabel} from "./dataSlots.ts";
@@ -33,64 +35,7 @@ export function chalkPlans(p: Project) {
       throw Error("粉笔字体仅支持时间、日期、数据和文字");
     if (l.kind === "date" && l.dateLocale === "zh" && l.garminFont === "chalk")
       throw Error("中文日期请使用粉笔中文字体");
-    const choices = (id: string, source: string) => [
-      ...new Set([
-        source,
-        ...(p.controls || [])
-          .filter(
-            (c) =>
-              c.type === "dataSource" &&
-              c.targets.some(
-                (t) => t.layerId === id && t.property === "source",
-              ),
-          )
-          .flatMap((c) => c.options || []),
-      ]),
-    ];
-    let glyphs = "";
-    if(l.kind==="chart")glyphs="0123456789.:*- kM|/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "+(l.chart?.title||"");
-    else if (l.kind === "time") glyphs = "0123456789:";
-    else if (l.kind === "date")
-      glyphs =
-        l.dateFormat === "monthDayWeek"
-          ? "0123456789. SUNMONTUEWEDTHUFRISAT"
-          : l.dateLocale === "zh"
-            ? "0123456789 周日一二三四五六月"
-            : "0123456789 SUNMONTUEWEDTHUFRISAT";
-    else if (l.kind === "text") {
-      const owner = p.layers.find((x) => x.id === l.sourceLabelFor);
-      glyphs = owner
-        ? choices(owner.id, owner.source)
-            .map((source) => sourceLabelText(l,source,p.controls))
-            .join("")
-        : l.text || " ";
-    } else
-      glyphs = choices(l.id, l.source)
-        .map((source) => {
-          const slot=p.controls?.find(c=>c.slot&&c.targets.some(t=>t.layerId===l.id));
-          const current = resolvedLayer(slot?sourceSlotLayer(p,l,slot,source):{ ...l, source }, p.layers);
-          return (
-            "0123456789-. "+(["sunrise","sunset"].includes(source)?":":"") +
-            (current.groupThousands !== false ? "," : "") +
-            (current.label || "") +
-            (current.unit ?? metricDisplayUnits[source] ?? "") +
-            (current.missingValue ?? "--") +
-            (current.metricDecoration !== false
-              ? metricDecorations[source] || ""
-              : "")
-          );
-        })
-        .join("");
-    if (
-      l.garminFont === "chalk" &&
-      /[^\x20-\x7e°]/.test(
-        (l.text || "") +
-          (l.label || "") +
-          (l.unit || "") +
-          (l.missingValue || ""),
-      )
-    )
-      throw Error("粉笔数字字体支持 ASCII 与 °；中文请使用粉笔中文字体");
+    const glyphs=requiredFontGlyphs(p,l);
     for (const aod of l.aod ? [false, true] : [false]) {
       const id = chalkId(l, aod),
         existing = plans.get(id);
@@ -225,6 +170,6 @@ export function preparedChalk(p: Project) {
 export async function preparedCodeFiles(p: Project) {
   const chalk = await preparedChalk(p),
     files = new Map(p.files.map((f) => [f.path, f]));
-  for (const f of [...chalk.files,...(await preparedIconMasks(p)).files]) files.set(f.path, f);
+  for (const f of [...chalk.files,...(await preparedBitmapFonts(p)).files,...(await preparedIconMasks(p)).files]) files.set(f.path, f);
   return [...files.values()];
 }

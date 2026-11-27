@@ -1,3 +1,4 @@
+import {preparedBitmapFonts} from "./bitmapFonts.ts";
 import {
   chalkPlans,
   preparedChalk,
@@ -88,7 +89,7 @@ export default function ResourceInspector({
               setFontBusy(true);
               setFontError("");
               try {
-                const prepared = await preparedChalk(project);
+                const chalk=await preparedChalk(project),bitmap=await preparedBitmapFonts(project);const prepared={reports:[...chalk.reports,...bitmap.reports]};
                 if (token === fontRequest.current)
                   setFontReports(prepared.reports);
               } catch (e) {

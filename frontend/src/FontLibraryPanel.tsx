@@ -1,3 +1,6 @@
+import {importBitmapFont,bitmapFontInfo,bitmapGlyphMissing,type BitmapFontAsset} from "./bitmapFonts.ts";
+import {bitmapLayerPatch} from "./bitmapFontLayout.ts";
+import BitmapFontText from "./BitmapFontText";
 import { importLocalFont, fontBytes, type LocalFont } from "./localFonts";
 import { useEffect, useState } from "react";
 import type { Layer, Project } from "./domain";
@@ -8,12 +11,14 @@ export default function FontLibrary({
   project,
   onApply,
   onImport,
+  onBitmapImport,
   onClose,
 }: {
   layer: Layer;
   project: Project;
   onApply: (patch: Partial<Layer>) => void;
   onImport?: (font: LocalFont) => void;
+  onBitmapImport?:(font:BitmapFontAsset)=>void;
   onClose: () => void;
 }) {
   const [filter, setFilter] = useState("");
@@ -122,6 +127,8 @@ export default function FontLibrary({
             </label>
           </>
         )}
+        {onBitmapImport&&<label>导入FNT＋PNG<input aria-label="导入位图字体" type="file" multiple accept=".fnt,.png" disabled={!supported||!license.trim()} onChange={async e=>{const files=Array.from(e.target.files||[]);e.target.value="";if(!files.length)return;try{const font=await importBitmapFont(files,license);onBitmapImport(font);setFontError("");onClose();}catch(error){setFontError((error as Error).message);}}}/><small>单页Unicode BMFont文本＋8位灰度PNG；固定像素，不任意缩放。图片仅保存在本机浏览器。</small></label>}
+        {(project.bitmapFonts||[]).map(f=>{const info=bitmapFontInfo(f),missing=bitmapGlyphMissing(info,sample);return <article key={f.id}><b>{f.family} · 位图 {info.size}px</b><svg width="100%" height="85" viewBox="0 0 700 85"><BitmapFontText project={project} layer={{...layer,bitmapFontId:f.id,x:0,y:0,w:700,h:85,textAlign:"left"}} text={sample} color="#dce9f0"/></svg><p role="status">{missing.length?"缺字："+missing.join(" "):"样本文字已覆盖"}</p><small>{Object.keys(info.glyphs).length}字形 · 行高{info.lineHeight}px / 基线{info.base}px · {info.kernings.length}字偶距 · 图集{info.width}×{info.height}</small><button disabled={!supported} onClick={()=>{onApply(bitmapLayerPatch(project,f.id));onClose();}}>应用位图{f.family}</button></article>;})}
         {fontError && <p role="alert">{fontError}</p>}
         {(project.localFonts || []).map((f) => (
           <article key={f.id}>
@@ -135,6 +142,7 @@ export default function FontLibrary({
               disabled={!supported}
               onClick={() => {
                 onApply({
+                  bitmapFontId:undefined,
                   customFont: { id: f.id, family: f.family, file: f.file },
                   fontWeight: 400,
                   garminFont: "auto",

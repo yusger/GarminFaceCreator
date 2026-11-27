@@ -117,6 +117,7 @@ export function designCapabilityContext() {
         direction: "clockwise screen coordinates",
       },
       arcText: catalog.rules.arcText,
+      bitmapFonts:catalog.rules.bitmapFonts,
       ringStyles: ["ticks", "continuous"],
       ringCaps: ["butt", "round"],
       ringAod: "dim track only; no seconds animation",

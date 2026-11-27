@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-57-chart-aod-outlines; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-58-bitmap-fonts; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}}
@@ -13,6 +13,7 @@ class GeneratedView extends WatchUi.WatchFace {
  
  function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));if(alpha==255){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}}
  function fontFor(id){return WatchUi.loadResource(id);}
+
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}

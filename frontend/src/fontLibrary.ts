@@ -5,6 +5,7 @@ export function fontPatch(id: string): Partial<Layer> {
   const font = catalog.find((f) => f.id === id);
   if (!font) throw Error("字体不存在");
   return {
+    bitmapFontId:undefined,
     garminFont: id === "chalk" || id === "chalkHan" ? id : "auto",
     customFont:
       id === "chalk" || id === "chalkHan"

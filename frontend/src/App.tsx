@@ -1,3 +1,4 @@
+import {bitmapLayerPatch} from "./bitmapFontLayout.ts";
 import {meterSources,meterDefaultGoal} from "./meters.ts";
 import ChartInspector from "./ChartInspector";
 import {acceptGeneratedProvenance} from "./generationContext";
@@ -2135,7 +2136,7 @@ export default function App() {
                 </div>
               </main>
               {current?.kind==="image"&&!current.libraryIcon&&<label className="inline"><input type="checkbox" checked={!!current.iconMask} onChange={e=>patch({iconMask:e.target.checked})}/>透明位图作为可换色单色图标（最大128px）</label>}
-              {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const fonts=[...(p.localFonts||[]).filter(x=>x.id!==f.id),f];const next={...p,localFonts:fonts};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,customFont:{id:f.id,family:f.family,file:f.file},fontWeight:400 as const,garminFont:"auto" as const}:l),true,next);}} onApply={patch}/>}
+              {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const fonts=[...(p.localFonts||[]).filter(x=>x.id!==f.id),f];const next={...p,localFonts:fonts};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,bitmapFontId:undefined,customFont:{id:f.id,family:f.family,file:f.file},fontWeight:400 as const,garminFont:"auto" as const}:l),true,next);}} onBitmapImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const next={...p,bitmapFonts:[...(p.bitmapFonts||[]).filter(x=>x.id!==f.id),f]};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,...bitmapLayerPatch(next,f.id)}:l),true,next);}} onApply={patch}/>}
               <DesignChat key={p.id} project={p} preview={preview} profiles={profiles} selection={selection} open={chatOpen} disabled={busy||batchBusy} onClose={()=>setChatOpen(false)} onModels={()=>setPage("models")} canUndo={!!past.length} onUndo={()=>undo()} onApply={(fingerprint,next)=>{
                 const latest=activeProject.current;
                 if(!latest||chatFingerprint(latest)!==fingerprint)throw Error("等待期间设计已变化，本轮未应用；请基于最新设计重新发送。");
@@ -2244,6 +2245,7 @@ export default function App() {
                             }
                             <input
                               type="number"
+                              disabled={k==="size"&&!!current.bitmapFontId}
                               value={
                                 k === "x" || k === "y"
                                   ? Math.round(
@@ -2723,7 +2725,7 @@ export default function App() {
                             onChange={(e) =>
                               patch({
                                 customFont:undefined,
-                                garminFont: e.target
+                                bitmapFontId:undefined,garminFont: e.target
                                   .value as Layer["garminFont"],
                               })
                             }
@@ -2952,6 +2954,7 @@ export default function App() {
                           字重
                           <select
                             aria-label="字重"
+                            disabled={!!current.bitmapFontId}
                             value={
                               current.fontWeight ||
                               (current.kind === "time" ? 600 : 400)
@@ -2978,7 +2981,7 @@ export default function App() {
                             onChange={(e) =>
                               patch({
                                 customFont:undefined,
-                                garminFont: e.target
+                                bitmapFontId:undefined,garminFont: e.target
                                   .value as Layer["garminFont"],
                               })
                             }
@@ -3396,6 +3399,7 @@ export default function App() {
                             息屏字号
                             <input
                               aria-label="息屏字号"
+                              disabled={!!current.bitmapFontId}
                               type="number"
                               min={1}
                               max={200}

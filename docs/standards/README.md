@@ -25,3 +25,5 @@
 - [日/小时图表](../chart-widget-design.md)：窗口、聚合、缺失和AOD缓存。
 - [新增数据来源](additional-data-sources.md)：SpO2、连接、久坐、天气与日出日落。
 - [AOD像素分析](aod-pixel-analysis.md)：像素分母、已核验设备参照与验证边界。
+
+- [本地位图字体](bitmap-font-import.md)：单页FNT＋灰度PNG、固定像素及授权边界。

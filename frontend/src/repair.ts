@@ -7,7 +7,7 @@ import {
 } from "./domain.ts";
 import { activeVersion } from "./history";
 export const REPAIR_MAX_ROUNDS = 2;
-export const managedRepairPaths=["source/GfcWeather.mc","source/GfcIcons.mc","source/GfcWordTime.mc","source/GfcFrameReporter.mc","resources/drawables/gfc-icons.xml","resources/fonts/gfc-managed-fonts.xml"];
+export const managedRepairPaths=["source/GfcBitmapText.mc","source/GfcWeather.mc","source/GfcIcons.mc","source/GfcWordTime.mc","source/GfcFrameReporter.mc","resources/drawables/gfc-icons.xml","resources/fonts/gfc-managed-fonts.xml"];
 export const repairRoot = (p: Project) =>
   p.codeProvenance?.repairRootId ||
   activeVersion(p) ||
