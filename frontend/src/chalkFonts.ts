@@ -1,3 +1,5 @@
+import {fontBytes} from "./localFonts.ts";
+import {sourceSlotLayer} from "./dataSlots.ts";
 import { missingGlyphs } from "./fontLibrary.ts";
 import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
 import { sourceLabels, resolvedLayer } from "./projectControls.ts";
@@ -63,7 +65,8 @@ export function chalkPlans(p: Project) {
     } else
       glyphs = choices(l.id, l.source)
         .map((source) => {
-          const current = resolvedLayer({ ...l, source }, p.layers);
+          const slot=p.controls?.find(c=>c.slot&&c.targets.some(t=>t.layerId===l.id));
+          const current = resolvedLayer(slot?sourceSlotLayer(p,l,slot,source):{ ...l, source }, p.layers);
           return (
             "0123456789-. " +
             (current.groupThousands !== false ? "," : "") +
@@ -140,7 +143,7 @@ function trimFontCache() {
 }
 export function preparedChalk(p: Project) {
   const plans = chalkPlans(p),
-    key = JSON.stringify(plans);
+    key = JSON.stringify([plans,(p.localFonts||[]).filter(f=>plans.some(plan=>plan.font===f.file))]);
   const existing = cache.get(key);
   if (existing) {
     cache.delete(key);
@@ -152,9 +155,7 @@ export function preparedChalk(p: Project) {
     const files: CodeFile[] = [],
       assets: { path: string; data: string }[] = [];
     for (const plan of plans) {
-      const response = await fetch("/fonts/" + plan.font);
-      if (!response.ok) throw Error("粉笔字体加载失败");
-      const bytes = await response.arrayBuffer(),
+      const bytes = await fontBytes(p,plan.font),
         missing = missingGlyphs(bytes, plan.glyphs);
       if (missing.length)
         throw Error(

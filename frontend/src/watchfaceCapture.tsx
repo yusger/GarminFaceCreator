@@ -5,6 +5,7 @@ import { resolveControls } from "./projectControls";
 import { generationDevice } from "./devices";
 import { rasterIcon } from "./iconLibrary";
 import { weatherGroup, weatherIconId } from "./weatherIcons";
+import {fontBytes} from "./localFonts";
 import { missingGlyphs } from "./fontLibrary";
 import { localDateKey, calendarDateLabel } from "./calendar";
 import type { Project } from "./domain";
@@ -79,9 +80,7 @@ export async function captureWatchface(
     if (f) {
       if (!/^[A-Za-z0-9_-]+\.(ttf|otf)$/.test(f.file))
         throw Error("截图字体路径无效");
-      const response = await fetch("/fonts/" + f.file);
-      if (!response.ok) throw Error("截图字体加载失败：" + f.file);
-      const bytes = await response.arrayBuffer();
+      const bytes = await fontBytes(p,f.file);
       const missing = missingGlyphs(bytes, reading(l, d));
       if (missing.length) throw Error("截图字体缺字：" + missing.join(" "));
       const face = await new FontFace(f.family, bytes).load();

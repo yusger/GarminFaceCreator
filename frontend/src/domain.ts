@@ -1,3 +1,4 @@
+import {validateLocalFonts,type LocalFont} from "./localFonts.ts";
 import {regularPolygon,validPolygon} from "./geometry.ts";
 import {validateCompound,type Compound,type CompoundStyle} from "./compound.ts";
 import {validateWidgetOrigin,type WidgetOrigin} from "./widgets.ts";
@@ -176,6 +177,7 @@ export type CodeVersion = {
 };
 export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
+  localFonts?:LocalFont[];
   designBrief?: string;
   controls?: import("./projectControls").ProjectControl[];
   controlValues?: Record<string, string | boolean>;
@@ -192,6 +194,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
+  localFonts?:LocalFont[];
   designBrief?: string;
   backgroundColor?: string;
   controls?: import("./projectControls").ProjectControl[];
@@ -229,7 +232,8 @@ export type Project = {
     | 29
     | 30
     | 31
-    | 32;
+    | 32
+    | 33;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -455,7 +459,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 32,
+    schemaVersion: 33,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -469,6 +473,7 @@ export function project(name = "极夜 01", blank = false): Project {
 }
 export function validateProject(value: unknown): Project {
   const p = migrateProject(value);
+  validateLocalFonts(p);
   const kinds = [
     "widget",
     "time",
@@ -490,7 +495,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 32 ||
+    p.schemaVersion !== 33 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -775,6 +780,7 @@ export function validateProject(value: unknown): Project {
     )
       throw Error("固定心率数据源无效");
   const nodes=p.layers.flatMap(l=>[l,...(l.compound?.layers||[])]);
+  for(const l of nodes)if(l.customFont?.id.startsWith("local_")&&!p.localFonts?.some(f=>f.id===l.customFont!.id&&f.file===l.customFont!.file))throw Error("项目缺少所引用的本地字体");
   if(nodes.length>200||new Set(nodes.map(l=>l.id)).size!==nodes.length)throw Error("对象及内部图层重复或超过200个");
   const allControls=[...(p.controls||[]),...p.layers.flatMap(l=>l.compound?.controls||[])];
   if(allControls.length>40||new Set(allControls.map(c=>c.id)).size!==allControls.length)throw Error("配置项重复或超过40个");

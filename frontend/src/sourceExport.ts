@@ -91,6 +91,8 @@ export async function exportSources(
     });
   }
   for (const name of new Set(chalkPlans(p).map((plan) => plan.font))) {
+    const local=p.localFonts?.find(f=>f.file===name);
+    if(local){entries.push({path:"source-assets/fonts/"+name,data:new Uint8Array(await (await fetch(local.data)).arrayBuffer())},{path:"source-assets/fonts/"+name.replace(/\.(ttf|otf)$/, "-LICENSE.txt"),data:text.encode(local.license+"\nSource: "+local.source)});continue;}
     for (const path of [
       "/fonts/" + name,
       "/fonts/" + name.replace(/\.(ttf|otf)$/, "-LICENSE.txt"),

@@ -2130,7 +2130,7 @@ export default function App() {
                   </div>
                 </div>
               </main>
-              {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onApply={patch}/>}
+              {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const fonts=[...(p.localFonts||[]).filter(x=>x.id!==f.id),f];const next={...p,localFonts:fonts};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,customFont:{id:f.id,family:f.family,file:f.file},fontWeight:400 as const,garminFont:"auto" as const}:l),true,next);}} onApply={patch}/>}
               <DesignChat key={p.id} project={p} preview={preview} profiles={profiles} selection={selection} open={chatOpen} disabled={busy||batchBusy} onClose={()=>setChatOpen(false)} onModels={()=>setPage("models")} canUndo={!!past.length} onUndo={()=>undo()} onApply={(fingerprint,next)=>{
                 const latest=activeProject.current;
                 if(!latest||chatFingerprint(latest)!==fingerprint)throw Error("等待期间设计已变化，本轮未应用；请基于最新设计重新发送。");

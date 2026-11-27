@@ -1,3 +1,4 @@
+import {fontBytes} from "./localFonts";
 import type { Layer, Project } from "./domain";
 const faces = new Map<string, Promise<FontFace>>();
 export const fontFamily = (l: Layer) =>
@@ -12,16 +13,15 @@ export async function loadCustomFonts(p: Project) {
   for (const l of p.layers) {
     if (!l.customFont) continue;
     const { id, file } = l.customFont,
-      key = id + ":" + file;
+      key = id + ":" + file + ":" + (p.localFonts?.find(f=>f.id===id)?.data||"");
     if (!faces.has(key))
       faces.set(
         key,
         (async () => {
-          const r = await fetch("/fonts/" + file);
-          if (!r.ok) throw Error("字体加载失败");
+          const bytes = await fontBytes(p,file);
           const f = await new FontFace(
             "GfcFace_" + id,
-            await r.arrayBuffer(),
+            bytes,
           ).load();
           document.fonts.add(f);
           return f;

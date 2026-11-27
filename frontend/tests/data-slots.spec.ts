@@ -81,7 +81,7 @@ test("invalid bindings reject atomically; IDs, overrides and snapshots survive i
   const restored = restoreDesignSnapshot(changed, snap.activeDesignSnapshot!);
   expect(resolveControls(restored).layers[0].source).toBe("steps");
   const imported = validateProject(p);
-  expect(imported.schemaVersion).toBe(32);
+  expect(imported.schemaVersion).toBe(33);
   expect(imported.controls![0].targets[0].layerId).toBe(imported.layers[0].id);
   expect(editorFrame(changed).controlValues).toEqual(changed.controlValues);
   const removed = withEditorLayers(

@@ -1,3 +1,4 @@
+import { importLocalFont, fontBytes, type LocalFont } from "./localFonts";
 import { useEffect, useState } from "react";
 import type { Layer, Project } from "./domain";
 import { libraryFonts, fontPatch, missingGlyphs } from "./fontLibrary";
@@ -6,26 +7,28 @@ export default function FontLibrary({
   layer,
   project,
   onApply,
+  onImport,
   onClose,
 }: {
   layer: Layer;
   project: Project;
   onApply: (patch: Partial<Layer>) => void;
+  onImport?: (font: LocalFont) => void;
   onClose: () => void;
 }) {
   const [filter, setFilter] = useState("");
+  const [license, setLicense] = useState(""),
+    [fontError, setFontError] = useState("");
   const [sample, setSample] = useState(
     layer.text || "09:41 0123456789 -19.9°C -- 周五",
   );
   const [coverage, setCoverage] = useState<Record<string, string>>({});
   useEffect(() => {
     let active = true;
-    for (const f of libraryFonts)
+    for (const f of [...libraryFonts, ...(project.localFonts || [])])
       void (async () => {
         try {
-          const r = await fetch("/fonts/" + f.file);
-          if (!r.ok) throw Error("加载失败");
-          const bytes = await r.arrayBuffer(),
+          const bytes = await fontBytes(project, f.file),
             face = await new FontFace("Library_" + f.id, bytes).load();
           document.fonts.add(face);
           const missing = missingGlyphs(bytes, sample);
@@ -44,7 +47,7 @@ export default function FontLibrary({
     return () => {
       active = false;
     };
-  }, [sample]);
+  }, [sample, project.localFonts]);
   const supported = ["text", "time", "date", "metric"].includes(layer.kind),
     pixels = Math.round((layer.size * deviceFor(project).pixels) / 454);
   return (
@@ -80,6 +83,69 @@ export default function FontLibrary({
             onChange={(e) => setSample(e.target.value)}
           />
         </label>
+        <h3>项目本地字体</h3>
+        <p>
+          字体保存在当前浏览器；编译仅发送生成后的字形资源，源码导出保留字体及许可。字体字重由实际文件决定。
+        </p>
+        {onImport && (
+          <>
+            <label>
+              字体许可或授权说明
+              <textarea
+                aria-label="字体许可或授权说明"
+                maxLength={100000}
+                value={license}
+                onChange={(e) => setLicense(e.target.value)}
+              />
+            </label>
+            <label>
+              导入TTF/OTF
+              <input
+                aria-label="导入本地字体"
+                type="file"
+                accept=".ttf,.otf"
+                disabled={!supported || !license.trim()}
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  e.target.value = "";
+                  if (!file) return;
+                  try {
+                    const f = await importLocalFont(file, license);
+                    onImport(f);
+                    setFontError("");
+                    onClose();
+                  } catch (err) {
+                    setFontError((err as Error).message);
+                  }
+                }}
+              />
+            </label>
+          </>
+        )}
+        {fontError && <p role="alert">{fontError}</p>}
+        {(project.localFonts || []).map((f) => (
+          <article key={f.id}>
+            <b>{f.family}</b>
+            <div style={{ fontFamily: "Library_" + f.id, fontSize: 30 }}>
+              {sample}
+            </div>
+            <p role="status">{coverage[f.id] || "检查字符中…"}</p>
+            <small> {Math.round((f.data.length * 0.75) / 1024)} KB</small>
+            <button
+              disabled={!supported}
+              onClick={() => {
+                onApply({
+                  customFont: { id: f.id, family: f.family, file: f.file },
+                  fontWeight: 400,
+                  garminFont: "auto",
+                });
+                onClose();
+              }}
+            >
+              应用{f.family}
+            </button>
+          </article>
+        ))}
         <h3>资源库字体</h3>
         <p>
           使用实际字体预览并读取字符表检查样本；生成时仍按目标尺寸转换为

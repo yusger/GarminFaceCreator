@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.7.0",
-  "projectSchemaVersion": 32,
+  "version": "1.7.1",
+  "projectSchemaVersion": 33,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -470,6 +470,17 @@
       "labelLink": "sourceLabelFor",
       "scope": "explicit source binding, compatible options and design goals; no arbitrary icons/history or on-device menu yet",
       "test": "frontend/tests/data-slots.spec.ts"
+    },
+    "localFonts": {
+      "formats": [
+        "ttf",
+        "otf"
+      ],
+      "maxFiles": 8,
+      "maxFileBytes": 4194304,
+      "totalBytes": 16777216,
+      "licensing": "user-supplied bytes and nonempty authorization; not a legal license verification",
+      "bitmapImport": false
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

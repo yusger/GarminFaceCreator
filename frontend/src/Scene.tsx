@@ -62,7 +62,7 @@ export default function Scene({
   );
   project = resolveControls(expandWidgets(project, !!onDown));
   const fontKey = JSON.stringify(
-    project.layers.map((l) => l.customFont).filter(Boolean),
+    [project.layers.map((l) => l.customFont).filter(Boolean),project.localFonts],
   );
   useEffect(() => {
     void loadCustomFonts(project).catch(() => {});
