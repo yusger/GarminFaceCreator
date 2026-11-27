@@ -51,3 +51,6 @@ backend/tests/**/obj/
 
 /frontend/public/brand/
 /frontend/public/favicon.ico
+
+simulator-worker/**/bin/
+simulator-worker/**/obj/

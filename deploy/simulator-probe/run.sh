@@ -47,7 +47,7 @@ for i in $(seq 1 45); do
  if ! kill -0 "$mpid" 2>/dev/null; then break; fi
  sleep 1
 done
-if [ "$ready" != 1 ]; then echo 'No expected frame report before timeout'; exit 8; fi
+if [ "$ready" != 1 ]; then echo 'No expected frame report before timeout'; tail -c 12000 /output/monkeydo.log; tail -c 4000 /output/simulator.log; exit 8; fi
 sleep 3
 kill -0 "$spid" 2>/dev/null || { echo "simulator exited before capture"; cat /output/simulator.log; exit 6; }
 import -window root /output/desktop.png

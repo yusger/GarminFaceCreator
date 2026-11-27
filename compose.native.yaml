@@ -1,0 +1,38 @@
+# Optional trusted broker. Build/publish and configure it explicitly before enabling.
+services:
+  native-worker:
+    image: garminfacecreator-native-worker:latest
+    user: "0:1654"
+    network_mode: none
+    read_only: true
+    restart: unless-stopped
+    stop_grace_period: 30s
+    environment:
+      DOTNET_EnableDiagnostics: "0"
+      ASPNETCORE_URLS: ""
+    tmpfs:
+      - /tmp:rw,size=64m,mode=1777
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker:ro
+      - ./runtime/native-worker/appsettings.json:/worker/appsettings.json:ro
+      - ${GFC_HOST_ROOT:?Set absolute GFC_HOST_ROOT}/runtime/native-worker/work:${GFC_HOST_ROOT}/runtime/native-worker/work
+      - ${GFC_HOST_ROOT}/runtime/native-ipc:${GFC_HOST_ROOT}/runtime/native-ipc
+      - ${GFC_HOST_ROOT}/runtime/sdk:${GFC_HOST_ROOT}/runtime/sdk:ro
+      - ${GFC_HOST_ROOT}/runtime/garmin/Devices:${GFC_HOST_ROOT}/runtime/garmin/Devices:ro
+      - ${GFC_HOST_ROOT}/runtime/garmin/Fonts:${GFC_HOST_ROOT}/runtime/garmin/Fonts:ro
+    mem_limit: 256m
+    cpus: 1
+    pids_limit: 128
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    logging:
+      driver: json-file
+      options:
+        max-size: "1m"
+        max-file: "2"
+  app:
+    volumes:
+      - ./runtime/native-ipc:/run/gfc-simulator:ro
