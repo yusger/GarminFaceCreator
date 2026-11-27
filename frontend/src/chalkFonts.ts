@@ -29,7 +29,7 @@ export function chalkPlans(p: Project) {
   for (const l of p.layers.filter(
     (l) => chalkFont(l) && l.exportIncluded !== false,
   )) {
-    if (!["time", "date", "metric", "text"].includes(l.kind))
+    if (!["time", "date", "metric", "text", "chart"].includes(l.kind))
       throw Error("粉笔字体仅支持时间、日期、数据和文字");
     if (l.kind === "date" && l.dateLocale === "zh" && l.garminFont === "chalk")
       throw Error("中文日期请使用粉笔中文字体");
@@ -48,7 +48,8 @@ export function chalkPlans(p: Project) {
       ]),
     ];
     let glyphs = "";
-    if (l.kind === "time") glyphs = "0123456789:";
+    if(l.kind==="chart")glyphs="0123456789.- kM|/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "+(l.chart?.title||"");
+    else if (l.kind === "time") glyphs = "0123456789:";
     else if (l.kind === "date")
       glyphs =
         l.dateFormat === "monthDayWeek"

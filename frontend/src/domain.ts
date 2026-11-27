@@ -1,3 +1,4 @@
+import {validateChart,defaultChart,type ChartConfig} from "./charts.ts";
 import {validateThemes,type ThemeSet} from "./themes.ts";
 import {validateLocalFonts,type LocalFont} from "./localFonts.ts";
 import {regularPolygon,validPolygon} from "./geometry.ts";
@@ -10,6 +11,7 @@ import { validateThresholds } from "./thresholds.ts";
 import { migrateProject } from "./migrations.ts";
 import { devices } from "./devices.ts";
 export type Kind =
+  | "chart"
   | "widget"
   | "time"
   | "date"
@@ -29,6 +31,7 @@ export type Kind =
   | "arcText";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  chart?:ChartConfig;
   arcRadius?:number;
   arcStartAngle?:number;
   arcDirection?:"clockwise"|"counterclockwise";
@@ -241,7 +244,8 @@ export type Project = {
     | 33
     | 34
     | 35
-    | 36;
+    | 36
+    | 37;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -323,6 +327,7 @@ export function layer(kind: Kind): Layer {
       ring: "秒环",
       meter: "目标仪表",
       calendar: "三周日历",
+      chart:"历史图表",
       celestial: "昼夜场景",
       hand: "指针",
       wordTime: "文字报时",
@@ -346,7 +351,8 @@ export function layer(kind: Kind): Layer {
     locked: false,
     text: kind === "text" ? "HELLO WORLD" : kind === "arcText"?"CURVED LABEL":"",
     ...(kind === "arcText"?{x:67,y:67,w:320,h:320,size:18}:{}),
-    source: kind === "meter" ? "steps" : "heartRate",
+    source: kind === "meter"||kind==="chart" ? "steps" : "heartRate",
+    ...(kind==="chart"?{x:77,y:140,w:300,h:180,size:11,chart:{...defaultChart},customFont:{id:"sonar_label_font",family:"Barlow Semi Condensed",file:"sonar-label-font.ttf"}}:{}),
     ...(kind === "meter"
       ? {
           w: 320,
@@ -467,7 +473,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 36,
+    schemaVersion: 37,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -484,6 +490,7 @@ export function validateProject(value: unknown): Project {
   validateLocalFonts(p);
   validateThemes(p);
   const kinds = [
+    "chart",
     "widget",
     "time",
     "date",
@@ -504,7 +511,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 36 ||
+    p.schemaVersion !== 37 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -568,6 +575,7 @@ export function validateProject(value: unknown): Project {
       throw Error("线宽无效");
     if(l.kind==="arcText" && (typeof l.text!=="string"||l.text.length>80))throw Error("曲线文字最多80字符");
     if((l.arcRadius!==undefined&&(!Number.isFinite(l.arcRadius)||l.arcRadius<0.05||l.arcRadius>0.5))||(l.arcStartAngle!==undefined&&(!Number.isFinite(l.arcStartAngle)||Math.abs(l.arcStartAngle)>360))||(l.arcSpacing!==undefined&&(!Number.isFinite(l.arcSpacing)||l.arcSpacing<0||l.arcSpacing>12))||(l.arcDirection!==undefined&&!["clockwise","counterclockwise"].includes(l.arcDirection)))throw Error("曲线文字参数无效");
+    validateChart(l);
     if ((l.kind === "polygon" && !validPolygon(l.polygonPoints)) || (l.kind !== "polygon" && l.polygonPoints !== undefined)) throw Error("多边形须为3–32个归一化顶点的凸多边形");
     if (
       !kinds.includes(l.kind) ||

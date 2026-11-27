@@ -9,6 +9,7 @@ import {
 import { thresholdInk } from "./thresholds.ts";
 import { ringProgress } from "./arc.ts";
 export type Preview = {
+  chartCase?:import("./charts").ChartPreviewCase;
   values?: Record<string, number | null>;
   missing?: boolean;
   weatherCondition?: number | null;

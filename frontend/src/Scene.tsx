@@ -1,3 +1,4 @@
+import ChartWidget from "./ChartWidget";
 import {
   metricValues,
   reading,
@@ -209,7 +210,7 @@ export default function Scene({
                   condition={preview.weatherCondition}
                   missing={preview.missing}
                 />
-              ) : l.kind === "polygon" ? (
+              ) : l.kind === "chart" ? (<ChartWidget layer={l} preview={preview} aod={aod}/>) : l.kind === "polygon" ? (
                 <polygon
                   points={l
                     .polygonPoints!.map(([x, y]) => `${x * l.w},${y * l.h}`)

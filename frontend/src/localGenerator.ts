@@ -1,3 +1,5 @@
+import {nativeChartDraw,nativeChartHelpers} from "./nativeCharts.ts";
+import {validateChart} from "./charts.ts";
 import {iconMaskId} from "./iconMasks.ts";
 import {primitivePoints} from "./primitiveSampling.ts";
 import {mappedDraw} from "./sourceMap.ts";
@@ -26,7 +28,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-44-resource-lifetime";
+export const LOCAL_GENERATOR_VERSION = "basic-45-daily-chart";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -117,6 +119,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
         l.aodSeconds === "hide"))
   )
     return "";
+  if(l.kind === "chart")return nativeChartDraw(l,aod,font(l,aod));
   if(l.kind === "arcText")return `drawCurvedLabel(dc,${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.arcRadius??0.4)},${num(l.arcStartAngle??0)},${l.arcDirection==="counterclockwise"?"false":"true"},${num(l.arcSpacing??0)},${num(aod?l.aodSize||l.size:l.size)},${color(aod?l.aodColor||"#777777":l.color)},${JSON.stringify(l.text)},${l.textAlign==="left"?0:l.textAlign==="right"?2:1});`;
   if (l.kind === "ring") {
     const source = l.ringSource || "seconds",
@@ -279,6 +282,9 @@ export function localGenerate(p: Project) {
   const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
   const included = p.layers.filter((l) => l.exportIncluded !== false);
+  const charts=included.filter(l=>l.kind==="chart");
+  if(charts.length>4 || (charts.length && !["venu445mm","venu441mm"].includes(p.target||"venu445mm")))throw Error("每日图表仅开放Venu4两尺寸，最多4个");
+  charts.forEach(validateChart);
   const curved=included.filter(l=>l.kind==="arcText");
   if(curved.length && (!capabilityCatalog.rules.arcText.targets.includes(p.target||"venu445mm")||curved.length>capabilityCatalog.rules.arcText.maxLayers))throw Error("本地曲线文字仅开放Venu4两尺寸，且最多8层；其他目标仍可保留设计草稿。");
   const unsupported = included.filter(
@@ -333,7 +339,7 @@ export function localGenerate(p: Project) {
         c.type === "dataSource" ? c.options || [] : [],
       ),
       ...included.flatMap((l) => [
-        ...(l.kind === "metric" || l.kind === "meter"
+        ...(l.kind === "metric" || l.kind === "meter" || l.kind === "chart"
           ? [l.source]
           : l.kind === "ring" && l.ringSource !== "static"
             ? [l.ringSource || "seconds"]
@@ -347,7 +353,7 @@ export function localGenerate(p: Project) {
   );
   const dataReads =
     (activitySources.length
-      ? `try {var info=ActivityMonitor.getInfo();if(info!=null){${activitySources.map((s) => `if(info has :${s}){data${s}=info.${s}${s === "distance" ? "==null ? null : info.distance/100000.0" : ""};}`).join("")}}}catch(e){}`
+      ? `try {currentActivityInfo=ActivityMonitor.getInfo();var info=currentActivityInfo;if(info!=null){${activitySources.map((s) => `if(info has :${s}){data${s}=info.${s}${s === "distance" ? "==null ? null : info.distance/100000.0" : ""};}`).join("")}}}catch(e){}`
       : "") +
     (dataSources.includes("battery")
       ? "try {databattery=System.getSystemStats().battery;}catch(e){}"
@@ -414,15 +420,17 @@ export function localGenerate(p: Project) {
   return label+text+unit;
  }`
     : "";
-  const contextFields=[{name:"clock"},...dataSources.filter(s=>s!=="seconds").map(s=>({name:"data"+s})),...settings.frameVariables,...(date?[{name:"calendar"},{name:"dateText"},...(included.some(l=>l.kind === "date" && l.dateLocale === "zh")?[{name:"dateZh"}]:[])]:[]),...(included.some(l=>l.dateFormat === "monthDayWeek")?[{name:"dateMonthDayWeek"}]:[]),...(celestial?[{name:"solar"}]:[]),...zones.map(z=>({name:nativeClock(z)}))] as {name:string;type?:string}[];
+  const contextFields=[{name:"bg"},{name:"clock"},...dataSources.filter(s=>s!=="seconds").map(s=>({name:"data"+s})),...settings.frameVariables,...(date?[{name:"calendar"},{name:"dateText"},...(included.some(l=>l.kind === "date" && l.dateLocale === "zh")?[{name:"dateZh"}]:[])]:[]),...(included.some(l=>l.dateFormat === "monthDayWeek")?[{name:"dateMonthDayWeek"}]:[]),...(celestial?[{name:"solar"}]:[]),...zones.map(z=>({name:nativeClock(z)}))] as {name:string;type?:string}[];
   const renderMethods:string[]=[],renderCalls:{active:string[];aod:string[]}={active:[],aod:[]};
   for(const mode of ["active","aod"] as const){const draws=included.map(l=>visibleDraw(l,mode === "aod",runtimeProject,owners.get(l.id))).filter(Boolean);for(let i=0;i<draws.length;i+=4){const name="render_"+mode+"_"+(i/4),body=draws.slice(i,i+4).join("\n"),fields=contextFields.filter(f=>new RegExp("\\b"+f.name+"\\b").test(body));if(body.length>30000)throw Error("本地绘制段超过保守源码预算，请减少该段的配置选项或阈值规则");renderMethods.push(`function ${name}(dc as Graphics.Dc) as Void {${fields.map(f=>`var ${f.name}=frameContext[:${f.name}]${f.type?" as "+f.type:""};`).join("")}\n${body}\n}`);renderCalls[mode].push(name+"(dc);");}}
   const frameAssignments="frameContext={"+contextFields.map(f=>":"+f.name+"=>"+f.name).join(",")+"};";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
 // Target ${device.target}; device metadata ${deviceMetadataVersion}; package ${device.metadata.source?.packageVersion || "unknown"}; compiler SHA256 ${device.metadata.source?.compilerSha256 || "unknown"}. Hardware/AOD/power unverified.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands || rings || curved.length || imageLayers.length ? "import Toybox.Math;" : ""}${curved.length?"import Toybox.Lang;":""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial || charts.length ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands || rings || curved.length || imageLayers.length ? "import Toybox.Math;" : ""}${curved.length?"import Toybox.Lang;":""}
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.themes?"function getSettingsView(){return [new GfcSettingsMenu(\"root\",null),new GfcSettingsDelegate()];}":""}${(p.controls?.length||p.themes) ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
 class GeneratedView extends WatchUi.WatchFace {
+ var gfcMetricCache={};
+ ${charts.length?nativeChartHelpers:""}
  var sleeping=false;var scale=1.0;var frameContext=null;var gfcFrameReported=false;
  function mixTextInk(ink,alpha,bg){var r=(((ink>>16)&255)*alpha+((bg>>16)&255)*(255-alpha))/255;var g=(((ink>>8)&255)*alpha+((bg>>8)&255)*(255-alpha))/255;var b=((ink&255)*alpha+(bg&255)*(255-alpha))/255;return (r.toNumber()<<16)|(g.toNumber()<<8)|b.toNumber();}
  ${included.some((l) => l.widgetOrigin) ? "function widgetFont(dc,text,preferred,w,h,size){var fonts=[preferred,Graphics.FONT_NUMBER_HOT,Graphics.FONT_LARGE,Graphics.FONT_MEDIUM,Graphics.FONT_SMALL,Graphics.FONT_TINY,Graphics.FONT_XTINY];var chosen=Graphics.FONT_XTINY;var best=0;for(var i=0;i<fonts.size();i++){var height=dc.getFontHeight(fonts[i]);if(height<=h && height<=size*1.35 && height>best && dc.getTextWidthInPixels(text,fonts[i])<=w){chosen=fonts[i];best=height;}}return chosen;}" : ""}
@@ -495,7 +503,7 @@ class GeneratedView extends WatchUi.WatchFace {
     .map((s) => `var data${s}=null;`)
     .join(
       "",
-    )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
+    )}var currentActivityInfo=null;if(!sleeping){${dataReads}${charts.length?"refreshChartHistory(currentActivityInfo);":""}${dataSources.filter(s=>s!=="seconds").map(s=>`gfcMetricCache[:${s}]=data${s};`).join("")}}else{${dataSources.filter(s=>s!=="seconds").map(s=>`if(gfcMetricCache.hasKey(:${s})){data${s}=gfcMetricCache[:${s}];}`).join("")}}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
   ${included.some((l) => l.dateFormat === "monthDayWeek") ? 'var dateMonthDayWeek=calendar.month.format("%02d")+"."+calendar.day.format("%02d")+" "+["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1];' : ""}
   ${`var bg=sleeping?Graphics.COLOR_BLACK:${p.themes?"["+p.themes.presets.map(t=>color(t.backgroundColor)).join(",")+"][cfgTheme]":color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   ${frameAssignments}

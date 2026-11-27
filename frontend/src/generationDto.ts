@@ -1,3 +1,4 @@
+import {chartConfig,chartFields,validateChart} from "./charts";
 import {themeCode} from "./themes";
 import {nativeFontBindings,nativeFontFiles} from "./nativeFontResources";
 import {iconMaskId} from "./iconMasks.ts";
@@ -27,6 +28,7 @@ function objectFields(value: unknown, keys: string[]) {
 export function generationLayer(l: Layer) {
   if(l.kind==="widget")throw Error("复合控件必须先展开后生成工程");
   validateVisibility(l.visibility);
+  validateChart(l);
   if(l.kind==="polygon" && !validPolygon(l.polygonPoints))throw Error("多边形顶点格式无效");
   const rules =
     l.thresholdRules ??
@@ -40,6 +42,7 @@ export function generationLayer(l: Layer) {
   );
   return {
     ...result,
+    ...(l.kind==="chart"?{chart:objectFields(chartConfig(l),[...chartFields])}:{}),
     ...(l.handBitmap?{handBitmap:objectFields(l.handBitmap,["packId","setId","role","version"])}:{}),
     ...(l.handShape?{handShape:{...objectFields(l.handShape,["id","version"]),points:l.handShape.points.map(point=>point.map(scalar))}}:{}),
     ...(l.customFont

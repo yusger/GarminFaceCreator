@@ -36,6 +36,115 @@
             "type": "string",
             "pattern": "^[a-zA-Z0-9_-]{1,100}$"
           },
+          "chart": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "unit": {
+                "const": "day"
+              },
+              "length": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 7
+              },
+              "style": {
+                "enum": [
+                  "bar",
+                  "trapezoid",
+                  "segmented"
+                ]
+              },
+              "includeCurrent": {
+                "type": "boolean"
+              },
+              "title": {
+                "type": "string",
+                "maxLength": 48
+              },
+              "showTitle": {
+                "type": "boolean"
+              },
+              "showIcon": {
+                "type": "boolean"
+              },
+              "showLabels": {
+                "type": "boolean"
+              },
+              "showValues": {
+                "type": "boolean"
+              },
+              "showCoverage": {
+                "type": "boolean"
+              },
+              "summary": {
+                "enum": [
+                  "none",
+                  "latest",
+                  "mean",
+                  "max",
+                  "sum"
+                ]
+              },
+              "axis": {
+                "enum": [
+                  "auto",
+                  "fixed"
+                ]
+              },
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "showAxes": {
+                "type": "boolean"
+              },
+              "precision": {
+                "enum": [
+                  "auto",
+                  0,
+                  1,
+                  2
+                ]
+              },
+              "compact": {
+                "type": "boolean"
+              },
+              "gap": {
+                "type": "number"
+              },
+              "barRadius": {
+                "type": "number"
+              },
+              "trapezoidTop": {
+                "type": "number"
+              },
+              "segments": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 16
+              },
+              "segmentGap": {
+                "type": "number"
+              },
+              "dimColor": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              },
+              "showGoal": {
+                "type": "boolean"
+              },
+              "goal": {
+                "type": "number"
+              },
+              "goalColor": {
+                "type": "string",
+                "pattern": "^#[0-9a-fA-F]{6}$"
+              }
+            }
+          },
           "name": {
             "type": "string",
             "minLength": 1,
@@ -55,7 +164,8 @@
               "meter",
               "image",
               "polygon",
-              "arcText"
+              "arcText",
+              "chart"
             ]
           },
           "x": {

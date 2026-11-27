@@ -52,6 +52,7 @@ export async function captureWatchface(
       (aod && !l.aod)
     )
       continue;
+    if(l.kind==="chart")warnings.add("图表历史为网页示意样例；不代表设备历史覆盖率，AOD原生使用最近亮屏缓存。");
     if (l.libraryIcon) {
       if (l.weatherIcon)
         l.libraryIcon = {

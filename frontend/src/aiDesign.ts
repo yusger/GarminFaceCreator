@@ -1,3 +1,4 @@
+import {chartSchema,validateChart} from "./charts";
 import {validPolygon} from "./geometry";
 import {createKinds,designCapabilityContext} from "./capabilities";
 import { layoutTemplate } from "./layoutTemplates";
@@ -42,6 +43,7 @@ export const designSources = Object.entries(metrics).filter(
 const kinds = createKinds;
 export const designFields = [
   "id",
+  "chart",
   "name",
   "kind",
   "x",
@@ -131,8 +133,9 @@ export function layerInputIssues(value:unknown,index:number):DesignIssue[]{
   if(!(designFields as readonly string[]).includes(field)){add(field,"UNKNOWN_FIELD","不在AI创建字段契约内");continue;}
   if(designBooleanFields.has(field)&&typeof v!=="boolean")add(field,"BOOLEAN_REQUIRED","必须为boolean");
   else if(designNumberFields.has(field)&&!Number.isFinite(v))add(field,"NUMBER_REQUIRED","必须为有限数值");
-  else if(!designBooleanFields.has(field)&&!designNumberFields.has(field)&&!["handShape","polygonPoints","thresholdRules"].includes(field)&&typeof v!=="string")add(field,"STRING_REQUIRED","必须为字符串");
+  else if(!designBooleanFields.has(field)&&!designNumberFields.has(field)&&!["chart","handShape","polygonPoints","thresholdRules"].includes(field)&&typeof v!=="string")add(field,"STRING_REQUIRED","必须为字符串");
  }
+ if(value.chart!==undefined&&(!object(value.chart)||value.kind!=="chart"))add("chart","INVALID_CHART","图表配置须为chart对象");
  if(value.id!==undefined&&(typeof value.id!=="string"||!/^[a-zA-Z0-9_-]{1,100}$/.test(value.id)))add("id","INVALID_ID","须为1–100个字母、数字、下划线或短横线");
  if(value.name!==undefined&&(typeof value.name!=="string"||!value.name.trim()||value.name.length>80))add("name","INVALID_NAME","名称须为1–80个字符");
  if(value.kind!==undefined&&!kinds.includes(value.kind))add("kind","UNSUPPORTED_KIND","不是已支持的控件类型");
@@ -157,6 +160,7 @@ export function designResponseSchema(c:DesignChoices){
   dateLocale:{enum:["en","zh"]},dateFormat:{enum:["monthDayWeek","weekdayDay"]},textAlign:{enum:["left","center","right"]},handType:{enum:["hour","minute",...(c.seconds?["second"]:[])]},handCap:{enum:["round","butt"]},ringStyle:{enum:["ticks","continuous"]},ringCap:{enum:["round","butt"]},ringSource:{enum:["static",...(c.seconds?["seconds"]:[]),...c.sources.filter(s=>["steps","battery","heartRate"].includes(s))]},
   thresholdRules:{type:"array",maxItems:16,items:{type:"object",additionalProperties:false,required:["color"],properties:{min:{type:"number"},max:{type:"number"},color:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"}}}},
   polygonPoints:points(0,1),
+  chart:chartSchema(),
   handShape:{type:"object",additionalProperties:false,required:["id","version","points"],properties:{id:{type:"string",pattern:"^[a-z][a-z0-9-]{0,79}$"},version:{type:"string",pattern:"^[0-9]+[.][0-9]+[.][0-9]+$"},points:points(-1,1)}}
  });
  return {$schema:"https://json-schema.org/draft/2020-12/schema",$id:"urn:gfc:ai-design-response:1",type:"object",additionalProperties:false,required:["backgroundColor","layers"],properties:{backgroundColor:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"},layers:{type:"array",minItems:1,maxItems:designBudget(c).maxLayers,items:{type:"object",additionalProperties:false,required:["id","name","kind","x","y","w","h","size","color","aod"],properties,allOf:[{if:{properties:{kind:{const:"date"},dateLocale:{const:"zh"}},required:["kind","dateLocale"]},then:{not:{required:["dateFormat"]}}}]}}}};
@@ -229,7 +233,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
     contract: {
       kinds,
       allowedLayerFields: designFields,
-      layerRules:{required:["id","name","kind","x","y","w","h","size","color","aod"],metricDecoration:"boolean; false for numeric-only readouts",dateFormat:"English date only: monthDayWeek or weekdayDay; omit for Chinese dates",handShape:"Ordinary line hands MUST omit handShape. Custom shape is an object {id,version,points}, never the string line",geometry:"Circle center227,227 radius227. Essential information must remain within the circular drawing area. For non-text rectangles all four corners must fit; for text allow for longest readings, font bounds and missing values. Decorations alone may intentionally allowClip. Array order is back-to-front; legal overlap includes backgrounds, ticks and hands."},
+      layerRules:{chart:"ONE chart object with nested chart configuration; B1 only unit day,length1..7,sources steps/distance/calories; bar/trapezoid/segmented. Up to4 charts; history nullable, browser demonstration only. Do not pretend hourly/ECG is supported.",required:["id","name","kind","x","y","w","h","size","color","aod"],metricDecoration:"boolean; false for numeric-only readouts",dateFormat:"English date only: monthDayWeek or weekdayDay; omit for Chinese dates",handShape:"Ordinary line hands MUST omit handShape. Custom shape is an object {id,version,points}, never the string line",geometry:"Circle center227,227 radius227. Essential information must remain within the circular drawing area. For non-text rectangles all four corners must fit; for text allow for longest readings, font bounds and missing values. Decorations alone may intentionally allowClip. Array order is back-to-front; legal overlap includes backgrounds, ticks and hands."},
       maxLayers: designBudget(c).maxLayers,
       complexityBudget:designBudget(c),
       visualStyle:c.look||"free",
@@ -338,7 +342,7 @@ export function parseDesign(
       throw Error("设计几何超出允许范围");
     ids.add(v.id);
     for (const [k, value] of Object.entries(v)) {
-      if (k === "thresholdRules") continue;
+      if (k === "thresholdRules"||k==="chart") continue;
       if(k === "handShape"){continue;}
       if(k === "polygonPoints"){if(!validPolygon(value))throw Error("AI多边形无效");continue;}
       if (
@@ -393,7 +397,7 @@ export function parseDesign(
     )
       throw Error("控件效果说明最多2000字");
     if (
-      ["metric", "meter"].includes(v.kind) &&
+      ["metric", "meter", "chart"].includes(v.kind) &&
       (!c.sources.includes(v.source) || typeof v.source !== "string")
     )
       throw Error("模型使用了未勾选或未绑定的数据源");
@@ -458,6 +462,7 @@ export function parseDesign(
       throw Error("referenceId仅用于图片层");
     if (["time", "date", "metric"].includes(item.kind) && item.allowClip)
       throw Error("重要数据不能声明允许裁切");
+    validateChart(item);
     if (crossesScreen(item))
       throw Error("图层“" + item.name + "”越出圆屏，请调整要求后重新生成");
     return item;
@@ -534,7 +539,7 @@ export function parseDesign(
     if (
       !active.some(
         (l) =>
-          (["metric", "meter"].includes(l.kind) && l.source === src) ||
+          (["metric", "meter", "chart"].includes(l.kind) && l.source === src) ||
           (l.kind === "ring" && l.ringSource === src),
       )
     )

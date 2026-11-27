@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.8.2",
-  "projectSchemaVersion": 36,
+  "version": "1.9.0",
+  "projectSchemaVersion": 37,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -423,6 +423,19 @@
       "deviceVerification": "SDK9.3.0 Venu4 454/390 active fixture and native glyph-pixel checks passed; AOD/real devices not independently verified",
       "constraints": "First release: Venu4 targets only, printable ASCII <=80 chars, 8 layers. Fixed scalable SMALL face, 400 weight, opacity1, no resource fonts/rotation. Browser font and glyph advances are approximate. Radius fraction/spacing/angle/direction/alignment; conservative one-circle width budget.",
       "test": "frontend/tests/curved-text.spec.ts"
+    },
+    {
+      "id": "core.chart",
+      "kind": "chart",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active/cached-aod",
+      "minimumApi": "4.2.1",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "Daily steps/distance/calories only; 1–7 days; bar/trapezoid/segmented; maximum4 charts; Venu4 two sizes; browser history is illustrative",
+      "test": "frontend/tests/charts.spec.ts"
     }
   ],
   "rules": {

@@ -1,8 +1,10 @@
-// GarminFaceCreator local generator basic-44-resource-lifetime; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-45-daily-chart; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}}
 class GeneratedView extends WatchUi.WatchFace {
+ var gfcMetricCache={};
+ 
  var sleeping=false;var scale=1.0;var frameContext=null;var gfcFrameReported=false;
  function mixTextInk(ink,alpha,bg){var r=(((ink>>16)&255)*alpha+((bg>>16)&255)*(255-alpha))/255;var g=(((ink>>8)&255)*alpha+((bg>>8)&255)*(255-alpha))/255;var b=((ink&255)*alpha+(bg&255)*(255-alpha))/255;return (r.toNumber()<<16)|(g.toNumber()<<8)|b.toNumber();}
  
@@ -182,10 +184,10 @@ if(true){textPaint(dc,0x888888,255);dc.drawText(px(227),px(369.5),fontFor(Rez.Fo
 }
  function onUpdate(dc as Graphics.Dc) as Void {
   frameContext=null;
-  bitmapUsed={};scale=dc.getWidth()/454.0;var clock=System.getClockTime();var dataheartRate=null;var databattery=null;var datasteps=null;try {var info=ActivityMonitor.getInfo();if(info!=null){if(info has :steps){datasteps=info.steps;}}}catch(e){}try {databattery=System.getSystemStats().battery;}catch(e){}try {if((Toybox has :SensorHistory)&&(Toybox.SensorHistory has :getHeartRateHistory)){var history=SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST});if(history!=null){var sample=history.next();if(sample!=null){var hr=sample.data;if(hr!=null && hr>0 && hr<1.0e12){dataheartRate=hr;}}}}}catch(e){}var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");
+  bitmapUsed={};scale=dc.getWidth()/454.0;var clock=System.getClockTime();var dataheartRate=null;var databattery=null;var datasteps=null;var currentActivityInfo=null;if(!sleeping){try {currentActivityInfo=ActivityMonitor.getInfo();var info=currentActivityInfo;if(info!=null){if(info has :steps){datasteps=info.steps;}}}catch(e){}try {databattery=System.getSystemStats().battery;}catch(e){}try {if((Toybox has :SensorHistory)&&(Toybox.SensorHistory has :getHeartRateHistory)){var history=SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST});if(history!=null){var sample=history.next();if(sample!=null){var hr=sample.data;if(hr!=null && hr>0 && hr<1.0e12){dataheartRate=hr;}}}}}catch(e){}gfcMetricCache[:heartRate]=dataheartRate;gfcMetricCache[:battery]=databattery;gfcMetricCache[:steps]=datasteps;}else{if(gfcMetricCache.hasKey(:heartRate)){dataheartRate=gfcMetricCache[:heartRate];}if(gfcMetricCache.hasKey(:battery)){databattery=gfcMetricCache[:battery];}if(gfcMetricCache.hasKey(:steps)){datasteps=gfcMetricCache[:steps];}}var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");
   
   var bg=sleeping?Graphics.COLOR_BLACK:0x000000;dc.setColor(bg,bg);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
-  frameContext={:clock=>clock,:dataheartRate=>dataheartRate,:databattery=>databattery,:datasteps=>datasteps,:calendar=>calendar,:dateText=>dateText};
+  frameContext={:bg=>bg,:clock=>clock,:dataheartRate=>dataheartRate,:databattery=>databattery,:datasteps=>datasteps,:calendar=>calendar,:dateText=>dateText};
   if(sleeping){render_aod_0(dc);}else{render_active_0(dc);render_active_1(dc);render_active_2(dc);render_active_3(dc);render_active_4(dc);render_active_5(dc);}
   frameContext=null;
   trimImages();

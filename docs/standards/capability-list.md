@@ -178,3 +178,7 @@
 | visibility | validated nested source/ranges/missing/AOD whitelist |
 | weatherIcon | nested whitelist period |
 | widgetOrigin | private provenance; omitted |
+
+### 每日历史图表（Schema37 / basic45）
+
+`chart` 是单一整体对象，嵌套字段和来源由共享契约校验。支持每日步数、活动距离、总热量，1–7天、柱状/梯形/分段柱、轴/目标/统计/覆盖计数；网页示意历史不导出为设备数据。最多4层，原生首批Venu4两尺寸。数据与缺失/AOD语义详见[图表契约](../chart-widget-design.md)。小时与ECG不在B1支持范围；不自动扩大外部发布包v2的能力白名单。

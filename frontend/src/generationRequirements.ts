@@ -31,7 +31,7 @@ export function generationRequirements(p: Project) {
           ? ["solarScene"]
           : l.weatherIcon
             ? ["weatherIcon"]
-            : l.kind === "metric" || l.kind === "meter"
+            : l.kind === "metric" || l.kind === "meter" || l.kind === "chart"
               ? [l.source]
               : l.kind === "ring"
                 ? [l.ringSource || "seconds"].filter((s) => s !== "static")
@@ -67,7 +67,7 @@ export function generationRequirements(p: Project) {
           ? [wordTimeGlyphs(l.wordLanguage)]
           : l.kind === "text" || l.kind === "arcText"
             ? [l.text]
-            : l.kind === "metric" || l.kind === "meter"
+            : l.kind === "metric" || l.kind === "meter" || l.kind === "chart"
               ? [l.label || "", l.unit || "", l.missingValue || "--"]
               : [],
     )
@@ -98,6 +98,7 @@ export function generationRequirements(p: Project) {
     .join("");
   return {
     sourceContractVersion,
+    historicalCharts:layers.filter(l=>l.kind==="chart").map(l=>({layerId:l.id,source:l.source,unit:"day",limit:7,history:"ActivityMonitor.getHistory()",current:"ActivityMonitor.getInfo()",distance:"cm / 100000 -> km",missing:"null is missing, zero is real",cache:"60s active only; calendar/timezone/clock changes invalidate; AOD frozen last active"})),
     minApiLevel,
     permissions,
     languages,

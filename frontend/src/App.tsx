@@ -1,3 +1,4 @@
+import ChartInspector from "./ChartInspector";
 import {acceptGeneratedProvenance} from "./generationContext";
 import {generationDiagnostics} from "./generationDiagnostics";
 import NativeVerificationPanel from "./NativeVerificationPanel";
@@ -137,6 +138,7 @@ const tools = [
   ["ring", "圆环", RotateCw],
   ["meter", "目标仪表", SlidersHorizontal],
   ["calendar", "三周日历", Calendar],
+  ["chart", "历史图表", SlidersHorizontal],
   ["celestial", "昼夜场景", Circle],
   ["hand", "指针", Clock],
   ["wordTime", "文字报时", Type],
@@ -295,7 +297,7 @@ export default function App() {
   const textMeasure = useRef<CanvasRenderingContext2D | null>(null);
   textMeasure.current ||= document.createElement("canvas").getContext("2d");
   const boundaryWarnings = (p?.layers || []).filter((l) => {
-    if (!["text", "time", "date", "metric", "wordTime"].includes(l.kind))
+    if (!["text", "time", "date", "metric", "wordTime", "chart"].includes(l.kind))
       return crossesScreen(l);
     const ctx = textMeasure.current;
     if (!ctx) return crossesScreen(l);
@@ -2673,6 +2675,7 @@ export default function App() {
                         </p>
                       </>
                     )}
+                    {current.kind==="chart"&&<ChartInspector layer={current} onChange={patch} previewCase={preview.chartCase} onPreview={v=>setPreview({...preview,chartCase:v})}/>}
                     {current.kind === "calendar" && (
                       <>
                         <label>
@@ -2924,7 +2927,7 @@ export default function App() {
                         </label>
                       </>
                     )}
-                    {["text", "time", "date", "metric", "wordTime"].includes(
+                    {["text", "time", "date", "metric", "wordTime", "chart"].includes(
                       current.kind,
                     ) && (
                       <>
@@ -3385,6 +3388,7 @@ export default function App() {
                           "metric",
                           "wordTime",
                           "arcText",
+                          "chart",
                         ].includes(current.kind) && (
                           <label>
                             息屏字号

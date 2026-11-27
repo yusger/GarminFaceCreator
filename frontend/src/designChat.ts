@@ -1,3 +1,4 @@
+import {validateChart} from "./charts";
 import {generationContext} from "./generationContext";
 import {validPolygon} from "./geometry";
 import {chatKinds,designCapabilityContext} from "./capabilities";
@@ -182,7 +183,8 @@ function patchLayer(l: Layer, patch: unknown): Layer {
   )
     throw Error("复合控件只能整体修改位置、尺寸或显示；配色请使用内部参数");
   for (const [k, v] of Object.entries(patch as Record<string, unknown>)) {
-    if(k === "polygonPoints"){if(l.kind!=="polygon"||!validPolygon(v))throw Error("AI多边形无效");}
+    if(k==="chart"){if(l.kind!=="chart"||!object(v))throw Error("AI图表配置无效");validateChart({...l,chart:v as Layer["chart"]});}
+    else if(k === "polygonPoints"){if(l.kind!=="polygon"||!validPolygon(v))throw Error("AI多边形无效");}
     else if (k === "thresholdRules") {
       if (
         !Array.isArray(v) ||
@@ -209,6 +211,7 @@ function patchLayer(l: Layer, patch: unknown): Layer {
       throw Error("AI 属性文字过长");
   }
   const next = { ...l, ...(patch as Partial<Layer>) };
+  validateChart(next);
   if (
     next.kind === "metric" &&
     (!Object.hasOwn(metrics, next.source) ||

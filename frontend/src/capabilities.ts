@@ -1,3 +1,4 @@
+import {validateChart} from "./charts.ts";
 import {GENERATION_FIELD_CONTRACT_VERSION} from "./generationFields.ts";
 import catalog from "../../resources/capabilities/editor-v1.json" with { type: "json" };
 import { sourceContractVersion } from "./sourceAdapters.ts";
@@ -50,6 +51,7 @@ export function localLayerDiagnostics(l: Layer): CapabilityDiagnostic[] {
       "rotation",
       "当前本地生成仅支持rect/line/circle/polygon旋转",
     );
+  if(l.kind==="chart"){try{validateChart(l);}catch(e){add("LOCAL_CHART_INVALID","chart",(e as Error).message);}}
   if (l.kind === "arcText") {
     if (
       l.text.length > catalog.rules.arcText.maxChars ||

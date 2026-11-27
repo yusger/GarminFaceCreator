@@ -1,3 +1,4 @@
+import {chartSizeWarning} from "./charts.ts";
 import {primitiveSampling,CURVE_ERROR_PX} from "./primitiveSampling.ts";
 import { deviceMetadata, deviceMetadataVersion } from "./deviceMetadata.ts";
 import type { Layer, Project } from "./domain.ts";
@@ -75,6 +76,11 @@ export function generationDiagnostics(
       });
     for (const l of included) {
       issues.push(...localLayerDiagnostics(l));
+      if(l.kind==="chart"){
+        if(included.filter(v=>v.kind==="chart").length>4 || !["venu445mm","venu441mm"].includes(p.target||"venu445mm"))add(l,"CHART_TARGET_BUDGET","unsupported","每日图表仅支持Venu4两尺寸，每表盘最多4个");
+        const warning=chartSizeWarning(l);if(warning)add(l,"CHART_READABILITY","unverified",warning);
+        add(l,"CHART_DEMO_HISTORY","unverified","网页历史为示意样例；原生历史可缺失，需检查实际覆盖率。AOD仅最近亮屏快照。");
+      }
       if(["circle","rect"].includes(l.kind)){
         const sampling=primitiveSampling(l,(deviceMetadata(p.target||"venu445mm")?.width||454)/454);
         if(sampling.capped)add(l,"CURVE_SUBDIVISION_BUDGET","approximation",`曲线达到顶点预算，弦线误差上界约${sampling.errorPx.toFixed(2)}像素（目标${CURVE_ERROR_PX}）；尚未计入设备像素取整。`);
