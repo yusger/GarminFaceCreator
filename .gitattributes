@@ -29,3 +29,5 @@ resources/default-imgs/** -text
 
 # Preserve release example bytes: publish.json contains SHA-256 file hashes.
 resources/examples/reference-release/** -text
+
+resources/examples/reference-release-v2/** -text
