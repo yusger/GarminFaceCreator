@@ -15,3 +15,11 @@ Schema42 / basic52 / source-adapters1.2.0。来源与绘制共用单位/范围�
 资源与图片仍按现有浏览器本地策略；新增数据没有网络请求或持续测量。月相算法、独立日出日落读数在此阶段尚未接入；已有solarScene不能冒充这两项。
 
 依据：[SensorHistory](https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html#getOxygenSaturationHistory-instance_function)、[ActivityMonitor.Info](https://developer.garmin.com/connect-iq/api-docs/Toybox/ActivityMonitor/Info.html#moveBarLevel-var)、[DeviceSettings](https://developer.garmin.com/connect-iq/api-docs/Toybox/System/DeviceSettings.html#phoneConnected-var)、[CurrentConditions](https://developer.garmin.com/connect-iq/api-docs/Toybox/Weather/CurrentConditions.html)。核验2026-11-28，具体设备可用性仍须实测。
+
+## 独立日出/日落（Schema43/basic53）
+
+`sunrise`和`sunset`读取官方Complications.SUNRISE/SUNSET：设备本地午夜起的秒数，而不是UTC时间戳或持续时长。仅数值0..86399有效，午夜0正常；空值、越界、极昼/极夜不可用显示缺失。界面固定HH:mm，小数位/千位设置不改变时钟格式；原生与网页同规则，字形子集包含冒号。无需定位、后台测量或网络。
+
+活动态最多60秒查询；本地日期、时区变化或时钟回退失效；AOD不查询。官方发布值不提供通用观测时间戳，不声称已独立验证其时效。此读数不根据浏览器位置或静态日出样例生成设备值。预览默认读取预览面板sunrise/sunset，明确为示意。
+
+权限仅ComplicationSubscriber，API4.2.0；依据[Complications常量](https://developer.garmin.com/connect-iq/api-docs/Toybox/Complications.html#ComplicationType-module)。原有昼夜场景仍沿用其Positioning路径，不混用两类来源。月相仍待独立实现/验证。

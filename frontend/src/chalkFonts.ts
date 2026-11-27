@@ -70,7 +70,7 @@ export function chalkPlans(p: Project) {
           const slot=p.controls?.find(c=>c.slot&&c.targets.some(t=>t.layerId===l.id));
           const current = resolvedLayer(slot?sourceSlotLayer(p,l,slot,source):{ ...l, source }, p.layers);
           return (
-            "0123456789-. " +
+            "0123456789-. "+(["sunrise","sunset"].includes(source)?":":"") +
             (current.groupThousands !== false ? "," : "") +
             (current.label || "") +
             (current.unit ?? metricDisplayUnits[source] ?? "") +

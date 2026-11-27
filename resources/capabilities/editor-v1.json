@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.13.0",
-  "projectSchemaVersion": 42,
+  "version": "1.14.0",
+  "projectSchemaVersion": 43,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -501,6 +501,32 @@
       "deviceVerification": "not_verified_by_catalog",
       "constraints": "GfcWeather.read(false).windBearing, cached weather degrees; North0/East90/South180/West270; not device heading; numeric metrics only, source-slot/meter support has separate whitelist.",
       "test": "frontend/tests/additional-sources.spec.ts"
+    },
+    {
+      "id": "data.sunrise",
+      "source": "sunrise",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active / AOD cached",
+      "minimumApi": "4.2.0",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "Garmin Complications seconds since local midnight0..86399, nullable. Fixed HH:mm display, precision/grouping do not change clock formatting. Active60s, date/zone/rollback invalidation. No active GPS or networking. Metric only; not an elapsed duration.",
+      "test": "frontend/tests/solar-readouts.spec.ts"
+    },
+    {
+      "id": "data.sunset",
+      "source": "sunset",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active / AOD cached",
+      "minimumApi": "4.2.0",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "Garmin Complications seconds since local midnight0..86399, nullable. Fixed HH:mm display, precision/grouping do not change clock formatting. Active60s, date/zone/rollback invalidation. No active GPS or networking. Metric only; not an elapsed duration.",
+      "test": "frontend/tests/solar-readouts.spec.ts"
     }
   ],
   "rules": {

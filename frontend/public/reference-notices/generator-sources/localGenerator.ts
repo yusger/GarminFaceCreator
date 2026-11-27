@@ -33,7 +33,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-52-additional-sources";
+export const LOCAL_GENERATOR_VERSION = "basic-53-solar-readouts";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -415,6 +415,7 @@ export function localGenerate(p: Project) {
     ? `${nativeMetricValidation()}
  function metricText(value,source,label,unit,precision,missing,group){
   if(!metricValid(value,source)){return label+missing;}
+  if(source.equals("sunrise")||source.equals("sunset")){return label+(value/3600).toNumber().format("%02d")+":"+((value%3600)/60).toNumber().format("%02d")+unit;}
   var text="";
   if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
   else if(source.equals("seconds")){text=value.toNumber().format("%02d");}

@@ -3103,7 +3103,8 @@ export default function App() {
                           小数位
                           <select
                             aria-label="小数位"
-                            value={current.precision ?? "auto"}
+                            disabled={["sunrise","sunset"].includes(current.source)}
+                            value={["sunrise","sunset"].includes(current.source)?"auto":current.precision ?? "auto"}
                             onChange={(e) =>
                               patch({
                                 autoSourceFormat:false,

@@ -289,7 +289,7 @@
         "PulseManiac-Font-Sources.json"
       ],
       "path": "/default-watchfaces/pulsemaniac/project.json",
-      "sha256": "6669a59683a51273e15bc12f66e923a187a59db46efe74a8122dc0668703fee2"
+      "sha256": "fbcaf55ab67bd75b046f133a9e5b58c978f5c36f98101db43ef09e3ae3658250"
     },
     {
       "id": "00000000-0000-4000-8000-000000000012",
@@ -315,7 +315,7 @@
         "repository-LICENSE.txt"
       ],
       "path": "/default-watchfaces/sonar/project.json",
-      "sha256": "f33454534f8d8dbc732e46565dfe4bd580f9c2c8dc9eac0a2f88e5e42a92552c"
+      "sha256": "6a86a64d39e7998a9615da562323b973dac8d5c7a3d6cf7301786c235385fc91"
     },
     {
       "id": "00000000-0000-4000-8000-000000000454",
@@ -340,15 +340,15 @@
         "trail-Rajdhani-OFL.txt"
       ],
       "path": "/default-watchfaces/trail/project.json",
-      "sha256": "8a1014759af7975c99ec4d256e377a5e30066d845252ea63e604db397159802a"
+      "sha256": "0c9f39de1495300dd51d32f6e0b5ff8f6d7ce5d13cc8eb65eefd8177ace255d8"
     }
   ],
   "generators": [
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-52-additional-sources",
-      "sha256": "aa5ec0eef6a951c94dcfb60ae1d9124a6435445d53fd3ad84c5daa83c3f24b34",
+      "version": "basic-53-solar-readouts",
+      "sha256": "e916356ceb5978c02b99c6df12843b51b1f8762d87597e10a02e260b57c036be",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },

@@ -274,7 +274,9 @@
               "phoneConnected",
               "moveBarLevel",
               "precipitationChance",
-              "windBearing"
+              "windBearing",
+              "sunrise",
+              "sunset"
             ]
           },
           "activeVisible": {

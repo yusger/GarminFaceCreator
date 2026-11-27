@@ -45,6 +45,8 @@ export function metricValues(d: Preview): Record<string, number> {
     moveBarLevel:2,
     precipitationChance:29,
     windBearing:270,
+    sunrise:/^([01]\d|2[0-3]):[0-5]\d$/.test(d.sunrise||"06:25")?Number((d.sunrise||"06:25").slice(0,2))*3600+Number((d.sunrise||"06:25").slice(3))*60:NaN,
+    sunset:/^([01]\d|2[0-3]):[0-5]\d$/.test(d.sunset||"18:01")?Number((d.sunset||"18:01").slice(0,2))*3600+Number((d.sunset||"18:01").slice(3))*60:NaN,
     seconds: d.seconds,
     ...Object.fromEntries(
       Object.entries(d.values || {}).map(([key, value]) => [key, value ?? NaN]),

@@ -1,6 +1,6 @@
 {
   "format": "gfc-source-adapters",
-  "version": "1.2.0",
+  "version": "1.3.0",
   "policy": "Canonical numeric units, display suffixes, API floors and permissions for existing AI source adapters. API knowledge does not enable deterministic mapping or certify hardware support. A display label alone never converts a numeric value.",
   "elevationEvidence": {
     "url": "https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html#getElevationHistory-instance_function",
@@ -160,6 +160,22 @@
       "unit": "deg",
       "defaultDisplayUnit": "°",
       "decoration": ""
+    },
+    "sunrise": {
+      "api": "4.2.0",
+      "read": "Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SUNRISE)).value; seconds since local midnight, nullable; validate0..86399; display HH:mm, no active GPS",
+      "permission": "ComplicationSubscriber",
+      "unit": "seconds-since-local-midnight",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "sunset": {
+      "api": "4.2.0",
+      "read": "Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_SUNSET)).value; seconds since local midnight, nullable; validate0..86399; display HH:mm, no active GPS",
+      "permission": "ComplicationSubscriber",
+      "unit": "seconds-since-local-midnight",
+      "defaultDisplayUnit": "",
+      "decoration": ""
     }
   },
   "nativePolicy": {
@@ -168,6 +184,7 @@
     "altitude": "latest recorded elevation meters converted to existing canonical feet; sample age0..300s; refreshed at most60s active",
     "complications": "stress/recovery queried at most60s active; missing module/type/object/value or exception => missing; published value has no universal observation timestamp, do not claim freshness",
     "intensity": "daily activeMinutesDay.total in minutes, not weekly goal or daily /150 progress",
-    "additionalSources": "SpO2 latest recorded <=5min not continuous measurement; phoneConnected maps boolean0/1, refresh<=60s active, unknown stays missing; moveBarLevel0..5 from shared current activity snapshot. Weather same managed60s/6h cache. AOD last active snapshot only. No extra sampling or networking."
+    "additionalSources": "SpO2 latest recorded <=5min not continuous measurement; phoneConnected maps boolean0/1, refresh<=60s active, unknown stays missing; moveBarLevel0..5 from shared current activity snapshot. Weather same managed60s/6h cache. AOD last active snapshot only. No extra sampling or networking.",
+    "solarReadouts": "Garmin Complications SUNRISE/SUNSET seconds since local midnight; fixed HH:mm. Cache<=60s active, invalidated at local date/zone change or clock rollback. Missing/polar-day/unavailable stays missing; no location guessing, no Positioning/network permission. Published value has no universal observation timestamp; no freshness guarantee beyond system source."
   }
 }

@@ -2,6 +2,8 @@ export const metricLimits: Record<
   string,
   { min: number; max?: number; exclusiveMin?: boolean }
 > = {
+  sunrise:{min:0,max:86399},
+  sunset:{min:0,max:86399},
   oxygenSaturation:{min:0,exclusiveMin:true,max:100},
   phoneConnected:{min:0,max:1},
   moveBarLevel:{min:0,max:5},
@@ -40,6 +42,7 @@ export function formatMetricValue(
   precision?: number,
   groupThousands?: boolean,
 ) {
+  if(source==="sunrise"||source==="sunset")return String(Math.floor(value/3600)).padStart(2,"0")+":"+String(Math.floor(value%3600/60)).padStart(2,"0");
   if (groupThousands !== undefined)
     return value.toLocaleString("en-US", {
       useGrouping: groupThousands,

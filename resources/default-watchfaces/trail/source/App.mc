@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-52-additional-sources; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-53-solar-readouts; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Weather;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function getSettingsView(){return [new GfcSettingsMenu("root",null),new GfcSettingsDelegate()];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
@@ -25,9 +25,10 @@ var settingsCache=null;function prepareSettings(){if(settingsCache==null){settin
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
  function meterCount(value,goal,count,source){if(!metricValid(value,source)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}
- function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}if(source.equals("oxygenSaturation")){return value>0 && value<=100;}if(source.equals("phoneConnected")){return value>=0 && value<=1;}if(source.equals("moveBarLevel")){return value>=0 && value<=5;}if(source.equals("precipitationChance")){return value>=0 && value<=100;}if(source.equals("windBearing")){return value>=0 && value<=360;}if(source.equals("heartRate")){return value>0;}if(source.equals("battery")){return value>=0 && value<=100;}if(source.equals("temperature")){return value>=-273.15 && value<=1000;}if(source.equals("humidity")){return value>=0 && value<=100;}if(source.equals("stress")){return value>=0 && value<=100;}if(source.equals("seconds")){return value>=0 && value<=59;}if(source.equals("altitude")){return value>=-1.0e12;}return value>=0;}
+ function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}if(source.equals("sunrise")){return value>=0 && value<=86399;}if(source.equals("sunset")){return value>=0 && value<=86399;}if(source.equals("oxygenSaturation")){return value>0 && value<=100;}if(source.equals("phoneConnected")){return value>=0 && value<=1;}if(source.equals("moveBarLevel")){return value>=0 && value<=5;}if(source.equals("precipitationChance")){return value>=0 && value<=100;}if(source.equals("windBearing")){return value>=0 && value<=360;}if(source.equals("heartRate")){return value>0;}if(source.equals("battery")){return value>=0 && value<=100;}if(source.equals("temperature")){return value>=-273.15 && value<=1000;}if(source.equals("humidity")){return value>=0 && value<=100;}if(source.equals("stress")){return value>=0 && value<=100;}if(source.equals("seconds")){return value>=0 && value<=59;}if(source.equals("altitude")){return value>=-1.0e12;}return value>=0;}
  function metricText(value,source,label,unit,precision,missing,group){
   if(!metricValid(value,source)){return label+missing;}
+  if(source.equals("sunrise")||source.equals("sunset")){return label+(value/3600).toNumber().format("%02d")+":"+((value%3600)/60).toNumber().format("%02d")+unit;}
   var text="";
   if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
   else if(source.equals("seconds")){text=value.toNumber().format("%02d");}
@@ -38,7 +39,7 @@ var settingsCache=null;function prepareSettings(){if(settingsCache==null){settin
   return label+text+unit;
  }
  function gfcNumeric(v){if(v instanceof Toybox.Lang.Number || v instanceof Toybox.Lang.Float || v instanceof Toybox.Lang.Long || v instanceof Toybox.Lang.Double){return v;}return null;}
-var gfcExtraCache={};var gfcExtraStamp=-1;function gfcExtraMetrics(){var now=Time.now();var age=now.value()-gfcExtraStamp;if(gfcExtraStamp>=0 && age>=0 && age<60){return gfcExtraCache;}gfcExtraStamp=now.value();gfcExtraCache={};{var c=GfcWeather.read(false);if(c!=null){if(c has :temperature){gfcExtraCache[:temperature]=gfcNumeric(c.temperature);}}}return gfcExtraCache;}
+var gfcExtraCache={};var gfcExtraStamp=-1;var gfcExtraDay=-1;var gfcExtraZone=-1;function gfcExtraMetrics(){var now=Time.now();var local=Gregorian.info(now,Time.FORMAT_SHORT);var utc=Gregorian.utcInfo(now,Time.FORMAT_SHORT);var day=local.year*10000+local.month*100+local.day;var zone=((local.hour*60+local.min)-(utc.hour*60+utc.min)+1440)%1440;var age=now.value()-gfcExtraStamp;if(gfcExtraStamp>=0 && age>=0 && age<60 && day==gfcExtraDay && zone==gfcExtraZone){return gfcExtraCache;}gfcExtraStamp=now.value();gfcExtraDay=day;gfcExtraZone=zone;gfcExtraCache={};{var c=GfcWeather.read(false);if(c!=null){if(c has :temperature){gfcExtraCache[:temperature]=gfcNumeric(c.temperature);}}}return gfcExtraCache;}
  
  
  
