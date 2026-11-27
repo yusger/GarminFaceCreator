@@ -310,6 +310,8 @@ export default function CompoundInspector({
                 onChange={(e) => childPatch({ color: e.target.value })}
               />
             </label>
+            {child.kind === "ring" && <><label>圆环数据<select aria-label="内部圆环数据" value={child.ringSource || "seconds"} onChange={e=>{const source=e.target.value as NonNullable<Layer["ringSource"]>;childPatch({ringSource:source,ringGoal:{static:1,steps:10000,battery:100,heartRate:180,seconds:60}[source]});}}>{Object.entries({static:"静态",steps:"步数",battery:"电量",heartRate:"心率",seconds:"秒数"}).map(([id,name])=><option key={id} value={id}>{name}</option>)}</select></label><label>圆环目标<input aria-label="内部圆环目标" type="number" min={1} max={1000000} value={child.ringGoal || 1} onChange={e=>childPatch({ringGoal:Math.max(1,Math.min(1000000,Number(e.target.value)||1))})}/></label><label>圆环样式<select aria-label="内部圆环样式" value={child.ringStyle || "ticks"} onChange={e=>childPatch({ringStyle:e.target.value as "ticks"|"continuous"})}><option value="ticks">分段刻度</option><option value="continuous">连续进度</option></select></label></>}
+            {child.kind === "hand" && <label>指针长度<input aria-label="内部指针长度" type="number" min={0.1} max={1} step={0.05} value={child.handReach || 0.58} onChange={e=>childPatch({handReach:Math.max(0.1,Math.min(1,Number(e.target.value)||0.1))})}/></label>}
             {child.kind === "text" && (
               <label>
                 文字内容

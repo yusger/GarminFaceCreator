@@ -1,0 +1,124 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "analog-subdial",
+  "version": "1.0.0",
+  "name": "指针副盘",
+  "category": "hands",
+  "canvas": {
+    "width": 180,
+    "height": 180,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.circle",
+    "core.hand",
+    "core.ring"
+  ],
+  "layers": [
+    {
+      "id": "dial",
+      "name": "dial",
+      "kind": "ring",
+      "x": 5,
+      "y": 5,
+      "w": 170,
+      "h": 170,
+      "color": "#6A7A88",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "ringSource": "static",
+      "ringGoal": 1,
+      "ringTicks": 12,
+      "ringDim": 0.25,
+      "ringWidth": 2,
+      "ringStart": 0,
+      "ringEnd": 360
+    },
+    {
+      "id": "hours",
+      "name": "hours",
+      "kind": "hand",
+      "x": 15,
+      "y": 15,
+      "w": 150,
+      "h": 150,
+      "color": "#DCEAF3",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "handType": "hour",
+      "handPivotX": 0.5,
+      "handPivotY": 0.5,
+      "handReach": 0.55,
+      "handTail": 0.08,
+      "strokeWidth": 5,
+      "handCap": "round",
+      "aodSeconds": "hide"
+    },
+    {
+      "id": "minutes",
+      "name": "minutes",
+      "kind": "hand",
+      "x": 15,
+      "y": 15,
+      "w": 150,
+      "h": 150,
+      "color": "#45D6BE",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "handType": "minute",
+      "handPivotX": 0.5,
+      "handPivotY": 0.5,
+      "handReach": 0.85,
+      "handTail": 0.08,
+      "strokeWidth": 3,
+      "handCap": "round",
+      "aodSeconds": "hide"
+    },
+    {
+      "id": "pivot",
+      "name": "pivot",
+      "kind": "circle",
+      "x": 85,
+      "y": 85,
+      "w": 10,
+      "h": 10,
+      "color": "#DCEAF3",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "强调色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "minutes",
+          "property": "color"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.svg",
+    "aod": "preview-aod.svg"
+  },
+  "casesFile": "cases.json"
+}

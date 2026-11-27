@@ -1,0 +1,150 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "activity-rings",
+  "version": "1.0.0",
+  "name": "活动多环",
+  "category": "progress",
+  "canvas": {
+    "width": 200,
+    "height": 200,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.metric",
+    "core.ring",
+    "core.text",
+    "data.battery",
+    "data.heartrate",
+    "data.steps"
+  ],
+  "layers": [
+    {
+      "id": "steps-ring",
+      "name": "steps-ring",
+      "kind": "ring",
+      "x": 5,
+      "y": 5,
+      "w": 190,
+      "h": 190,
+      "color": "#45D6BE",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "ringSource": "steps",
+      "ringGoal": 10000,
+      "ringTicks": 60,
+      "ringDim": 0.25,
+      "ringWidth": 2,
+      "ringStart": 0,
+      "ringEnd": 360
+    },
+    {
+      "id": "battery-ring",
+      "name": "battery-ring",
+      "kind": "ring",
+      "x": 23,
+      "y": 23,
+      "w": 154,
+      "h": 154,
+      "color": "#FFD060",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "ringSource": "battery",
+      "ringGoal": 100,
+      "ringTicks": 60,
+      "ringDim": 0.25,
+      "ringWidth": 2,
+      "ringStart": 0,
+      "ringEnd": 360
+    },
+    {
+      "id": "hr-ring",
+      "name": "hr-ring",
+      "kind": "ring",
+      "x": 41,
+      "y": 41,
+      "w": 118,
+      "h": 118,
+      "color": "#FF6B6B",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "ringSource": "heartRate",
+      "ringGoal": 180,
+      "ringTicks": 60,
+      "ringDim": 0.25,
+      "ringWidth": 2,
+      "ringStart": 0,
+      "ringEnd": 360
+    },
+    {
+      "id": "caption",
+      "name": "caption",
+      "kind": "text",
+      "x": 55,
+      "y": 73,
+      "w": 90,
+      "h": 20,
+      "color": "#8FA6B8",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "text": "ACTIVITY",
+      "garminFont": "xtiny"
+    },
+    {
+      "id": "steps",
+      "name": "steps",
+      "kind": "metric",
+      "x": 50,
+      "y": 96,
+      "w": 100,
+      "h": 34,
+      "color": "#45D6BE",
+      "size": 26,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "source": "steps",
+      "precision": 0,
+      "unit": "",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "threshold": false
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "强调色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "steps-ring",
+          "property": "color"
+        },
+        {
+          "layerId": "steps",
+          "property": "color"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.svg",
+    "aod": "preview-aod.svg"
+  },
+  "casesFile": "cases.json"
+}

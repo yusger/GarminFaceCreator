@@ -1,5 +1,5 @@
 import { groupBox } from "./selection.ts";
-import { compoundV2Kinds, makeParts } from "./compound.ts";
+import { compoundV1Kinds, compoundV2Kinds, makeParts } from "./compound.ts";
 import { reconcileDevices } from "./multiDevice.ts";
 import { compoundState, expandedChildren, expandWidgets } from "./compound.ts";
 import catalog from "./widgetCatalog.json" with { type: "json" };
@@ -24,6 +24,7 @@ type Widget = {
   canvas: { width: number; height: number };
   layers: Array<Partial<Layer> & { id: string; kind: Layer["kind"] }>;
   parameters: ProjectControl[];
+  previews?: {active:string;aod:string};
   licenseText: string;
   notice: string;
 };
@@ -65,6 +66,7 @@ export function insertWidget(p: Project, id: string): Project {
     children,
     controls,
   );
+  if(children.some(c=>!compoundV1Kinds.includes(c.kind))) compound.version=2;
   compound.width = w.canvas.width;
   compound.height = w.canvas.height;
   const root = {

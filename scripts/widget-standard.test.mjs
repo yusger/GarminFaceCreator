@@ -15,3 +15,5 @@ test("standard package validates and unsafe/ambiguous contracts are rejected",as
 });
 
 test('four admitted widget packages satisfy the shared contract',async()=>{for(const id of ['capsule-metric','segment-battery','vitals-column','stack-tiers']) assert.equal((await validateWidgetPackage('resources/default-controls/widgets/'+id)).id,id);});
+
+test('instrument packages use the existing declared package contract',async()=>{for(const id of ['activity-rings','weather-band','battery-dial','analog-subdial']) assert.equal((await validateWidgetPackage('resources/default-controls/widgets/'+id)).id,id);});

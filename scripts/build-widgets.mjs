@@ -13,7 +13,7 @@ for (const d of await readdir("resources/default-controls/widgets", {
     widget.resources.length ||
     widget.layers.some(
       (l) =>
-        !["text", "metric", "rect", "circle", "line", "meter"].includes(l.kind),
+        !["text", "metric", "rect", "circle", "line", "meter", "time", "date", "ring", "hand"].includes(l.kind),
     )
   )
     throw Error("Unsupported widget adapter capability: " + d.name);
@@ -34,6 +34,7 @@ for (const d of await readdir("resources/default-controls/widgets", {
   await mkdir("frontend/public/widgets/" + d.name, { recursive: true });
   await cp(dir, "frontend/public/widgets/" + d.name, { recursive: true });
 }
+entries.sort((a,b)=>{const original=["capsule-metric","segment-battery","stack-tiers","vitals-column"],rank=id=>original.includes(id)?original.indexOf(id):100;return rank(a.id)-rank(b.id)||a.id.localeCompare(b.id);});
 await writeFile(
   "frontend/src/widgetCatalog.json",
   JSON.stringify(entries, null, 2) + "\n",

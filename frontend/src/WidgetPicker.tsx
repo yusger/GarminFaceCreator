@@ -29,15 +29,15 @@ export default function WidgetPicker({
       <div className="widget-previews">
         <img
           alt={w.name + "亮屏预览"}
-          src={"/widgets/" + w.id + "/preview.png"}
+          src={"/widgets/" + w.id + "/" + (w.previews?.active || "preview.png")}
         />
         <img
           alt={w.name + "息屏预览"}
-          src={"/widgets/" + w.id + "/preview-aod.png"}
+          src={"/widgets/" + w.id + "/" + (w.previews?.aod || "preview-aod.png")}
         />
       </div>
       <p className="hint">
-        原作者参考图；添加后为一个复合对象。选中后在右侧设置部件、颜色及亮屏/息屏显示。
+        样式示意；添加后为一个复合对象。选中后在右侧设置部件、颜色及亮屏/息屏显示。
       </p>
       <button disabled={disabled} onClick={() => onInsert(id)}>
         添加控件

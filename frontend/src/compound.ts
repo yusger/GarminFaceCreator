@@ -93,8 +93,10 @@ export function makeParts(layers: Layer[]): WidgetPart[] {
     const key =
       l.kind === "metric"
         ? "metric-" + l.id
-        : l.kind === "meter"
+        : l.kind === "meter" || l.kind === "ring"
           ? "progress"
+          : l.kind === "hand"
+            ? "hands"
           : l.kind === "line"
             ? "divider"
             : l.kind === "rect"
@@ -111,6 +113,7 @@ export function makeParts(layers: Layer[]): WidgetPart[] {
       : {
           background: "背景",
           progress: "进度条",
+          hands: "指针",
           divider: "分隔线",
           icons: "图标",
           titles: "标题与标注",

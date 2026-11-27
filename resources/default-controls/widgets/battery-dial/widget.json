@@ -1,0 +1,136 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "battery-dial",
+  "version": "1.0.0",
+  "name": "电量仪表",
+  "category": "progress",
+  "canvas": {
+    "width": 200,
+    "height": 100,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.meter",
+    "core.metric",
+    "core.ring",
+    "core.text",
+    "data.battery"
+  ],
+  "layers": [
+    {
+      "id": "battery-ring",
+      "name": "battery-ring",
+      "kind": "ring",
+      "x": 5,
+      "y": 5,
+      "w": 90,
+      "h": 90,
+      "color": "#45D6BE",
+      "size": 14,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "ringSource": "battery",
+      "ringGoal": 100,
+      "ringTicks": 60,
+      "ringDim": 0.25,
+      "ringWidth": 2,
+      "ringStart": 0,
+      "ringEnd": 360
+    },
+    {
+      "id": "caption",
+      "name": "caption",
+      "kind": "text",
+      "x": 105,
+      "y": 8,
+      "w": 90,
+      "h": 20,
+      "color": "#8FA6B8",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "text": "BATTERY",
+      "garminFont": "xtiny"
+    },
+    {
+      "id": "battery",
+      "name": "battery",
+      "kind": "metric",
+      "x": 102,
+      "y": 32,
+      "w": 96,
+      "h": 32,
+      "color": "#45D6BE",
+      "size": 26,
+      "aod": true,
+      "aodColor": "#6A7A88",
+      "source": "battery",
+      "precision": 0,
+      "unit": "%",
+      "missingValue": "--",
+      "garminFont": "numberHot",
+      "threshold": false
+    },
+    {
+      "id": "charge-bar",
+      "name": "charge-bar",
+      "kind": "meter",
+      "x": 105,
+      "y": 78,
+      "w": 84,
+      "h": 8,
+      "color": "#45D6BE",
+      "size": 14,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "source": "battery",
+      "meterShape": "bar",
+      "meterCount": 10,
+      "meterGoal": 100,
+      "precision": 0,
+      "unit": "%",
+      "missingValue": "--",
+      "garminFont": "xtiny",
+      "meterContinuous": false,
+      "meterDimColor": "#16324A"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "强调色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "battery-ring",
+          "property": "color"
+        },
+        {
+          "layerId": "battery",
+          "property": "color"
+        },
+        {
+          "layerId": "charge-bar",
+          "property": "color"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.svg",
+    "aod": "preview-aod.svg"
+  },
+  "casesFile": "cases.json"
+}

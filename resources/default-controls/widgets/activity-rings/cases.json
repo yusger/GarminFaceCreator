@@ -1,0 +1,69 @@
+{
+  "format": "gfc-control-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "normal",
+      "data": {
+        "steps": 4500,
+        "battery": 78,
+        "heartRate": 72
+      },
+      "parameters": {},
+      "expect": {
+        "nativeSources": [
+          "steps",
+          "battery",
+          "heartRate"
+        ]
+      }
+    },
+    {
+      "id": "zero",
+      "data": {
+        "steps": 0,
+        "battery": 0,
+        "heartRate": 0
+      },
+      "parameters": {},
+      "expect": {
+        "heartRateZero": "missing",
+        "otherZero": "valid"
+      }
+    },
+    {
+      "id": "missing",
+      "data": {
+        "steps": null,
+        "battery": null,
+        "heartRate": null
+      },
+      "parameters": {},
+      "expect": {
+        "metrics": "--",
+        "ringsLit": 0
+      }
+    },
+    {
+      "id": "aod",
+      "data": {},
+      "parameters": {},
+      "expect": {
+        "mode": "aod",
+        "ringsLit": 0
+      }
+    },
+    {
+      "id": "max",
+      "data": {
+        "steps": 20000,
+        "battery": 100,
+        "heartRate": 180
+      },
+      "parameters": {},
+      "expect": {
+        "saturateProgress": true
+      }
+    }
+  ]
+}

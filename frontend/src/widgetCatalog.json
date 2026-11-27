@@ -905,5 +905,537 @@
     "casesFile": "cases.json",
     "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
     "notice": "图标数据列 / vitals-column v1.0.0 / yusger / MIT\nImported from the author-delivered gfc-control-package v1. Original design and MIT license retained. Missing threshold flags are explicitly false. HR=0 expectations use --. Original Temp input is unchanged. Preview PNGs are author illustrations; system fonts and native output require device verification.\n"
+  },
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "activity-rings",
+    "version": "1.0.0",
+    "name": "活动多环",
+    "category": "progress",
+    "canvas": {
+      "width": 200,
+      "height": 200,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.metric",
+      "core.ring",
+      "core.text",
+      "data.battery",
+      "data.heartrate",
+      "data.steps"
+    ],
+    "layers": [
+      {
+        "id": "steps-ring",
+        "name": "steps-ring",
+        "kind": "ring",
+        "x": 5,
+        "y": 5,
+        "w": 190,
+        "h": 190,
+        "color": "#45D6BE",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "ringSource": "steps",
+        "ringGoal": 10000,
+        "ringTicks": 60,
+        "ringDim": 0.25,
+        "ringWidth": 2,
+        "ringStart": 0,
+        "ringEnd": 360
+      },
+      {
+        "id": "battery-ring",
+        "name": "battery-ring",
+        "kind": "ring",
+        "x": 23,
+        "y": 23,
+        "w": 154,
+        "h": 154,
+        "color": "#FFD060",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "ringSource": "battery",
+        "ringGoal": 100,
+        "ringTicks": 60,
+        "ringDim": 0.25,
+        "ringWidth": 2,
+        "ringStart": 0,
+        "ringEnd": 360
+      },
+      {
+        "id": "hr-ring",
+        "name": "hr-ring",
+        "kind": "ring",
+        "x": 41,
+        "y": 41,
+        "w": 118,
+        "h": 118,
+        "color": "#FF6B6B",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "ringSource": "heartRate",
+        "ringGoal": 180,
+        "ringTicks": 60,
+        "ringDim": 0.25,
+        "ringWidth": 2,
+        "ringStart": 0,
+        "ringEnd": 360
+      },
+      {
+        "id": "caption",
+        "name": "caption",
+        "kind": "text",
+        "x": 55,
+        "y": 73,
+        "w": 90,
+        "h": 20,
+        "color": "#8FA6B8",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "text": "ACTIVITY",
+        "garminFont": "xtiny"
+      },
+      {
+        "id": "steps",
+        "name": "steps",
+        "kind": "metric",
+        "x": 50,
+        "y": 96,
+        "w": 100,
+        "h": 34,
+        "color": "#45D6BE",
+        "size": 26,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "source": "steps",
+        "precision": 0,
+        "unit": "",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "threshold": false
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "强调色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "steps-ring",
+            "property": "color"
+          },
+          {
+            "layerId": "steps",
+            "property": "color"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.svg",
+      "aod": "preview-aod.svg"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "活动多环 / activity-rings v1.0.0 / yusger / MIT\n# 活动多环\r\n\r\n自制基础仪表，所有图形与读数保持可编辑结构；添加后为一个复合对象。原生使用设备实时时钟/缓存数据，示意图为固定09:41、心率72、步数4500、电量78%、温度24°C，不能当作真机截图。天气带只显示已接入缓存温度与日期。活动目标为步数10000、心率180、电量100，属于样式默认值，可在内部编辑或拆解后调整，不代表个人目标或医学建议。AOD沿用子层显隐和暗轨道，不宣称真机功耗验证。\r\n"
+  },
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "analog-subdial",
+    "version": "1.0.0",
+    "name": "指针副盘",
+    "category": "hands",
+    "canvas": {
+      "width": 180,
+      "height": 180,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.circle",
+      "core.hand",
+      "core.ring"
+    ],
+    "layers": [
+      {
+        "id": "dial",
+        "name": "dial",
+        "kind": "ring",
+        "x": 5,
+        "y": 5,
+        "w": 170,
+        "h": 170,
+        "color": "#6A7A88",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "ringSource": "static",
+        "ringGoal": 1,
+        "ringTicks": 12,
+        "ringDim": 0.25,
+        "ringWidth": 2,
+        "ringStart": 0,
+        "ringEnd": 360
+      },
+      {
+        "id": "hours",
+        "name": "hours",
+        "kind": "hand",
+        "x": 15,
+        "y": 15,
+        "w": 150,
+        "h": 150,
+        "color": "#DCEAF3",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "handType": "hour",
+        "handPivotX": 0.5,
+        "handPivotY": 0.5,
+        "handReach": 0.55,
+        "handTail": 0.08,
+        "strokeWidth": 5,
+        "handCap": "round",
+        "aodSeconds": "hide"
+      },
+      {
+        "id": "minutes",
+        "name": "minutes",
+        "kind": "hand",
+        "x": 15,
+        "y": 15,
+        "w": 150,
+        "h": 150,
+        "color": "#45D6BE",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "handType": "minute",
+        "handPivotX": 0.5,
+        "handPivotY": 0.5,
+        "handReach": 0.85,
+        "handTail": 0.08,
+        "strokeWidth": 3,
+        "handCap": "round",
+        "aodSeconds": "hide"
+      },
+      {
+        "id": "pivot",
+        "name": "pivot",
+        "kind": "circle",
+        "x": 85,
+        "y": 85,
+        "w": 10,
+        "h": 10,
+        "color": "#DCEAF3",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88"
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "强调色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "minutes",
+            "property": "color"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.svg",
+      "aod": "preview-aod.svg"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "指针副盘 / analog-subdial v1.0.0 / yusger / MIT\n# 指针副盘\r\n\r\n自制基础仪表，所有图形与读数保持可编辑结构；添加后为一个复合对象。原生使用设备实时时钟/缓存数据，示意图为固定09:41、心率72、步数4500、电量78%、温度24°C，不能当作真机截图。天气带只显示已接入缓存温度与日期。活动目标为步数10000、心率180、电量100，属于样式默认值，可在内部编辑或拆解后调整，不代表个人目标或医学建议。AOD沿用子层显隐和暗轨道，不宣称真机功耗验证。\r\n"
+  },
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "battery-dial",
+    "version": "1.0.0",
+    "name": "电量仪表",
+    "category": "progress",
+    "canvas": {
+      "width": 200,
+      "height": 100,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.meter",
+      "core.metric",
+      "core.ring",
+      "core.text",
+      "data.battery"
+    ],
+    "layers": [
+      {
+        "id": "battery-ring",
+        "name": "battery-ring",
+        "kind": "ring",
+        "x": 5,
+        "y": 5,
+        "w": 90,
+        "h": 90,
+        "color": "#45D6BE",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "ringSource": "battery",
+        "ringGoal": 100,
+        "ringTicks": 60,
+        "ringDim": 0.25,
+        "ringWidth": 2,
+        "ringStart": 0,
+        "ringEnd": 360
+      },
+      {
+        "id": "caption",
+        "name": "caption",
+        "kind": "text",
+        "x": 105,
+        "y": 8,
+        "w": 90,
+        "h": 20,
+        "color": "#8FA6B8",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "text": "BATTERY",
+        "garminFont": "xtiny"
+      },
+      {
+        "id": "battery",
+        "name": "battery",
+        "kind": "metric",
+        "x": 102,
+        "y": 32,
+        "w": 96,
+        "h": 32,
+        "color": "#45D6BE",
+        "size": 26,
+        "aod": true,
+        "aodColor": "#6A7A88",
+        "source": "battery",
+        "precision": 0,
+        "unit": "%",
+        "missingValue": "--",
+        "garminFont": "numberHot",
+        "threshold": false
+      },
+      {
+        "id": "charge-bar",
+        "name": "charge-bar",
+        "kind": "meter",
+        "x": 105,
+        "y": 78,
+        "w": 84,
+        "h": 8,
+        "color": "#45D6BE",
+        "size": 14,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "source": "battery",
+        "meterShape": "bar",
+        "meterCount": 10,
+        "meterGoal": 100,
+        "precision": 0,
+        "unit": "%",
+        "missingValue": "--",
+        "garminFont": "xtiny",
+        "meterContinuous": false,
+        "meterDimColor": "#16324A"
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "强调色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "battery-ring",
+            "property": "color"
+          },
+          {
+            "layerId": "battery",
+            "property": "color"
+          },
+          {
+            "layerId": "charge-bar",
+            "property": "color"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.svg",
+      "aod": "preview-aod.svg"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "电量仪表 / battery-dial v1.0.0 / yusger / MIT\n# 电量仪表\r\n\r\n自制基础仪表，所有图形与读数保持可编辑结构；添加后为一个复合对象。原生使用设备实时时钟/缓存数据，示意图为固定09:41、心率72、步数4500、电量78%、温度24°C，不能当作真机截图。天气带只显示已接入缓存温度与日期。活动目标为步数10000、心率180、电量100，属于样式默认值，可在内部编辑或拆解后调整，不代表个人目标或医学建议。AOD沿用子层显隐和暗轨道，不宣称真机功耗验证。\r\n"
+  },
+  {
+    "format": "gfc-control-package",
+    "formatVersion": 1,
+    "id": "weather-band",
+    "version": "1.0.0",
+    "name": "天气温度信息带",
+    "category": "data",
+    "canvas": {
+      "width": 280,
+      "height": 70,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.date",
+      "core.metric",
+      "core.rect",
+      "core.text",
+      "data.temperature"
+    ],
+    "layers": [
+      {
+        "id": "background",
+        "name": "background",
+        "kind": "rect",
+        "x": 0,
+        "y": 0,
+        "w": 280,
+        "h": 70,
+        "color": "#101D2B",
+        "size": 14,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "cornerRadius": 6
+      },
+      {
+        "id": "caption",
+        "name": "caption",
+        "kind": "text",
+        "x": 12,
+        "y": 8,
+        "w": 104,
+        "h": 22,
+        "color": "#8FA6B8",
+        "size": 12,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "text": "WEATHER",
+        "garminFont": "xtiny"
+      },
+      {
+        "id": "temperature",
+        "name": "temperature",
+        "kind": "metric",
+        "x": 12,
+        "y": 30,
+        "w": 120,
+        "h": 32,
+        "color": "#45D6BE",
+        "size": 24,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "source": "temperature",
+        "precision": 1,
+        "unit": " C",
+        "missingValue": "--",
+        "garminFont": "small",
+        "threshold": false
+      },
+      {
+        "id": "date",
+        "name": "date",
+        "kind": "date",
+        "x": 140,
+        "y": 23,
+        "w": 128,
+        "h": 30,
+        "color": "#B8C7D4",
+        "size": 16,
+        "aod": false,
+        "aodColor": "#6A7A88",
+        "dateLocale": "en",
+        "garminFont": "xtiny"
+      }
+    ],
+    "parameters": [
+      {
+        "id": "accent",
+        "label": "强调色",
+        "type": "color",
+        "default": "#45D6BE",
+        "targets": [
+          {
+            "layerId": "temperature",
+            "property": "color"
+          }
+        ]
+      }
+    ],
+    "resources": [],
+    "previews": {
+      "active": "preview.svg",
+      "aod": "preview-aod.svg"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "天气温度信息带 / weather-band v1.0.0 / yusger / MIT\n# 天气温度信息带\r\n\r\n自制基础仪表，所有图形与读数保持可编辑结构；添加后为一个复合对象。原生使用设备实时时钟/缓存数据，示意图为固定09:41、心率72、步数4500、电量78%、温度24°C，不能当作真机截图。天气带只显示已接入缓存温度与日期。活动目标为步数10000、心率180、电量100，属于样式默认值，可在内部编辑或拆解后调整，不代表个人目标或医学建议。AOD沿用子层显隐和暗轨道，不宣称真机功耗验证。\r\n"
   }
 ]

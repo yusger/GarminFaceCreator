@@ -1,0 +1,114 @@
+{
+  "format": "gfc-control-package",
+  "formatVersion": 1,
+  "id": "weather-band",
+  "version": "1.0.0",
+  "name": "天气温度信息带",
+  "category": "data",
+  "canvas": {
+    "width": 280,
+    "height": 70,
+    "scaleMode": "uniform-fit"
+  },
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "MIT",
+    "licenseFile": "LICENSE",
+    "sourceUrl": null
+  },
+  "requirements": [
+    "core.date",
+    "core.metric",
+    "core.rect",
+    "core.text",
+    "data.temperature"
+  ],
+  "layers": [
+    {
+      "id": "background",
+      "name": "background",
+      "kind": "rect",
+      "x": 0,
+      "y": 0,
+      "w": 280,
+      "h": 70,
+      "color": "#101D2B",
+      "size": 14,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "cornerRadius": 6
+    },
+    {
+      "id": "caption",
+      "name": "caption",
+      "kind": "text",
+      "x": 12,
+      "y": 8,
+      "w": 104,
+      "h": 22,
+      "color": "#8FA6B8",
+      "size": 12,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "text": "WEATHER",
+      "garminFont": "xtiny"
+    },
+    {
+      "id": "temperature",
+      "name": "temperature",
+      "kind": "metric",
+      "x": 12,
+      "y": 30,
+      "w": 120,
+      "h": 32,
+      "color": "#45D6BE",
+      "size": 24,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "source": "temperature",
+      "precision": 1,
+      "unit": " C",
+      "missingValue": "--",
+      "garminFont": "small",
+      "threshold": false
+    },
+    {
+      "id": "date",
+      "name": "date",
+      "kind": "date",
+      "x": 140,
+      "y": 23,
+      "w": 128,
+      "h": 30,
+      "color": "#B8C7D4",
+      "size": 16,
+      "aod": false,
+      "aodColor": "#6A7A88",
+      "dateLocale": "en",
+      "garminFont": "xtiny"
+    }
+  ],
+  "parameters": [
+    {
+      "id": "accent",
+      "label": "强调色",
+      "type": "color",
+      "default": "#45D6BE",
+      "targets": [
+        {
+          "layerId": "temperature",
+          "property": "color"
+        }
+      ]
+    }
+  ],
+  "resources": [],
+  "previews": {
+    "active": "preview.svg",
+    "aod": "preview-aod.svg"
+  },
+  "casesFile": "cases.json"
+}
