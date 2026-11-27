@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "projectSchemaVersion": 26,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -148,7 +148,7 @@
       "mode": "active/aod",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Layer rotation must be zero for current deterministic output.",
+      "constraints": "Clockwise rotation about layer center; native polygon sampling for curves, subject to pixel rounding. Other kinds retain zero-rotation constraint.",
       "test": "frontend/tests/capabilities.spec.ts"
     },
     {
@@ -161,7 +161,7 @@
       "mode": "active/aod",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Layer rotation must be zero for current deterministic output.",
+      "constraints": "Clockwise rotation about layer center; native polygon sampling for curves, subject to pixel rounding. Other kinds retain zero-rotation constraint.",
       "test": "frontend/tests/capabilities.spec.ts"
     },
     {
@@ -174,7 +174,7 @@
       "mode": "active/aod",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Layer rotation must be zero for current deterministic output.",
+      "constraints": "Clockwise rotation about layer center; native polygon sampling for curves, subject to pixel rounding. Other kinds retain zero-rotation constraint.",
       "test": "frontend/tests/capabilities.spec.ts"
     },
     {
@@ -400,7 +400,6 @@
     }
   ],
   "rules": {
-    "zeroRotation": true,
     "meterSources": [
       "steps",
       "battery"
@@ -412,7 +411,12 @@
       "heartRate",
       "static"
     ],
-    "heartMetricDecoration": false
+    "heartMetricDecoration": false,
+    "rotatedKinds": [
+      "rect",
+      "line",
+      "circle"
+    ]
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."
 }

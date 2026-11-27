@@ -42,8 +42,12 @@ export function localLayerDiagnostics(l: Layer): CapabilityDiagnostic[] {
       "kind",
       "控件类型或图片资源未获当前本地生成器支持",
     );
-  if (l.rotation !== 0)
-    add("LOCAL_ROTATION_UNSUPPORTED", "rotation", "当前本地生成不支持图层旋转");
+  if (l.rotation !== 0 && !catalog.rules.rotatedKinds.includes(l.kind))
+    add(
+      "LOCAL_ROTATION_UNSUPPORTED",
+      "rotation",
+      "当前本地生成仅支持rect/line/circle旋转",
+    );
   if (l.kind === "meter" && !catalog.rules.meterSources.includes(l.source))
     add("LOCAL_METER_SOURCE_UNSUPPORTED", "source", "进度控件仅支持步数或电量");
   if (l.kind === "metric" && !localMetricSources.includes(l.source))
@@ -69,7 +73,12 @@ export function designCapabilityContext() {
     catalogVersion: capabilityVersion,
     projectSchemaVersion: catalog.projectSchemaVersion,
     deterministic: {
-      rotation: 0,
+      rotation: {
+        default: 0,
+        supportedKinds: catalog.rules.rotatedKinds,
+        pivot: "layer center",
+        direction: "clockwise screen coordinates",
+      },
       metricSources: localMetricSources,
       meterSources: catalog.rules.meterSources,
       heartRateMetricDecoration: false,

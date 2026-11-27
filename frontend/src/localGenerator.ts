@@ -1,5 +1,6 @@
-import {localLayerDiagnostics} from "./capabilities.ts";
-import {expandWidgets} from "./compound.ts";
+﻿import { rotatePoint } from "./geometry.ts";
+import { localLayerDiagnostics } from "./capabilities.ts";
+import { expandWidgets } from "./compound.ts";
 import { resolveControls, validateControls } from "./projectControls.ts";
 import { nativeControls, nativeControlledDraw } from "./nativeControls.ts";
 import { chalkFont, chalkId, chalkPlans } from "./chalkFonts.ts";
@@ -17,7 +18,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-22-capability-catalog";
+export const LOCAL_GENERATOR_VERSION = "basic-23-geometry-rotation";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -70,11 +71,16 @@ function primitive(l: Layer, aod: boolean) {
   const strokeTool =
     strokePaint +
     (alpha === 255 ? `dc.setColor(${stroke},Graphics.COLOR_TRANSPARENT);` : "");
-  if (l.kind === "line")
+  const rotate = (x: number, y: number) =>
+    rotatePoint(x, y, l.x + l.w / 2, l.y + l.h / 2, l.rotation);
+  if (l.kind === "line") {
+    const [x1, y1] = rotate(l.x, l.y),
+      [x2, y2] = rotate(l.x + l.w, l.y + l.h);
     return l.strokeEnabled === false
       ? ""
       : strokeTool +
-          `dc.drawLine(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.x + l.w)}),px(${num(l.y + l.h)}));`;
+          `dc.drawLine(px(${num(x1)}),px(${num(y1)}),px(${num(x2)}),px(${num(y2)}));`;
+  }
   let points: number[][] = [];
   if (l.kind === "circle")
     points = Array.from({ length: 48 }, (_, i) => {
@@ -104,7 +110,10 @@ function primitive(l: Layer, aod: boolean) {
   }
   const array =
     "[" +
-    points.map(([x, y]) => `[px(${num(x)}),px(${num(y)})]`).join(",") +
+    points
+      .map(([x, y]) => rotate(x, y))
+      .map(([x, y]) => `[px(${num(x)}),px(${num(y)})]`)
+      .join(",") +
     "]";
   return (
     `var polygon=${array};` +
@@ -264,7 +273,7 @@ function visibleDraw(l: Layer, aod: boolean, p: Project) {
   return code ? `if(${nativeVisibility(l, aod)}){${code}}` : "";
 }
 export function localGenerate(p: Project) {
-  p=expandWidgets(p);
+  p = expandWidgets(p);
   if (
     p.layers.some((l) => l.exportIncluded !== false && l.effectPrompt?.trim())
   )
@@ -276,10 +285,12 @@ export function localGenerate(p: Project) {
   const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
   const included = p.layers.filter((l) => l.exportIncluded !== false);
-  const unsupported = included.filter(l=>localLayerDiagnostics(l).length>0);
+  const unsupported = included.filter(
+    (l) => localLayerDiagnostics(l).length > 0,
+  );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持未旋转的时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据、静态图片和内置图标（心率需关闭心形符号）。请移除或排除：" +
+      "本地生成试验仅支持时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据、静态图片和内置图标（仅rect/line/circle支持旋转，其他类型需未旋转；心率需关闭心形符号）。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const imageLayers = included.filter(
@@ -523,3 +534,4 @@ class GeneratedView extends WatchUi.WatchFace {
     }),
   );
 }
+

@@ -1,3 +1,4 @@
+import {layerTransform} from "./geometry";
 import {expandWidgets} from "./compound";
 import { resolveControls } from "./projectControls";
 import { fontFamily, loadCustomFonts } from "./customFonts";
@@ -243,7 +244,7 @@ export default function Scene({
               data-layer={owners.get(l.id)?.id||l.id}
               data-widget-part={owners.has(l.id)?l.id:undefined}
               data-guide={l.guide ? "true" : undefined}
-              transform={`translate(${l.x} ${l.y}) rotate(${l.rotation} ${l.w / 2} ${l.h / 2})`}
+              transform={layerTransform(l)}
               onPointerDown={(e) => onDown?.(e, owners.get(l.id)||sourceLayers.get(l.id)||l)}
               style={{
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",

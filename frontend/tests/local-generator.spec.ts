@@ -22,7 +22,7 @@ test("local generator is deterministic and rejects unsupported content without o
   p.layers.at(-1)!.exportIncluded = false;
   expect(() => localGenerate(p)).not.toThrow();
   p.layers[0].rotation = 15;
-  expect(() => localGenerate(p)).toThrow(/未旋转/);
+  expect(() => localGenerate(p)).toThrow(/需未旋转/);
 });
 test("switching primary generator retains old native source and records one provenance per version", () => {
   const p = project("Clock", true);
@@ -59,7 +59,7 @@ test("local generation works without a model and provenance survives reload", as
     .click();
   await page.getByRole("button", { name: "历史", exact: true }).click();
   await expect(
-    page.getByText(/代码版本.*deterministic.*basic-18-design-packages/),
+    page.getByText(/代码版本.*deterministic.*basic-23-geometry-rotation/),
   ).toBeVisible();
 });
 
@@ -107,7 +107,7 @@ test("changing generation source requires confirmation and retains recoverable c
   await page.getByRole("button", { name: "历史", exact: true }).click();
   await expect(page.locator(".history")).toContainText("2/20");
   await expect(
-    page.getByText(/代码版本.*deterministic.*basic-18-design-packages/),
+    page.getByText(/代码版本.*deterministic.*basic-23-geometry-rotation/),
   ).toBeVisible();
   page.once("dialog", (d) => d.accept());
   await page

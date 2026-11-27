@@ -45,7 +45,7 @@ for (const entry of capabilityCatalog.entries)
   });
 test("local diagnostics block unsupported output but do not reject editable drafts", () => {
   const p = project("Draft", true);
-  p.layers = [{ ...layer("rect"), rotation: 30 }];
+  p.layers = [{ ...layer("time"), rotation: 30 }];
   expect(localLayerDiagnostics(p.layers[0])[0]).toMatchObject({
     code: "LOCAL_ROTATION_UNSUPPORTED",
     layerId: p.layers[0].id,
