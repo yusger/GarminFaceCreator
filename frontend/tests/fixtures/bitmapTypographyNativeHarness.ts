@@ -28,7 +28,7 @@ async function fixture(target: string, aod: boolean) {
   const ref = await (
       await get("/default-watchfaces/trail/project.json")
     ).json(),
-    rajdhani = ref.localFonts?.find((f: { family: string }) =>
+    rajdhani = (ref.project ?? ref).localFonts?.find((f: { family: string }) =>
       f.family.toLowerCase().includes("rajdhani"),
     );
   if (!rajdhani) throw Error("Missing licensed angular reference font");
