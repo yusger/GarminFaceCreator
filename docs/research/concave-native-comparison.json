@@ -1,0 +1,91 @@
+{
+  "note": "Pixel diagnostics only, not fidelity percentage or hardware acceptance; circular mask excludes physically invisible corners.",
+  "records": [
+    {
+      "target": "venu445mm",
+      "generator": "basic-55-concave-fill",
+      "prgSha256": "dda57a6e0e0a836d1e6266bb9562265e35016d7a4eb7728475f2d3976d968a40",
+      "sourceSha256": "012f90d40464b9b3abec27acc42bf9117e2b178dc9ab5a12553e6c96e1ecd8df",
+      "width": 454,
+      "interiorPixel": {
+        "browser": [
+          47,
+          116,
+          114,
+          255
+        ],
+        "native": [
+          41,
+          117,
+          115,
+          255
+        ],
+        "before": [
+          41,
+          117,
+          115,
+          255
+        ]
+      },
+      "pairs": {
+        "native": {
+          "circularPixels": 161892,
+          "rgbMeanAbsoluteError": 0.918451807377758,
+          "over16ChannelPixels": 2398,
+          "foregroundPixels": 28541,
+          "foregroundRgbMeanAbsoluteError": 5.194515492332668
+        },
+        "before": {
+          "circularPixels": 161892,
+          "rgbMeanAbsoluteError": 1.1620092407283868,
+          "over16ChannelPixels": 3688,
+          "foregroundPixels": 28541,
+          "foregroundRgbMeanAbsoluteError": 6.576036812538687
+        }
+      }
+    },
+    {
+      "target": "venu441mm",
+      "generator": "basic-55-concave-fill",
+      "prgSha256": "c252ff65a222c359c24828820f1c7350087b5450889b198d4d6879b043ee3303",
+      "sourceSha256": "a7b7070331c54cdbde41399c65e6e7f7c36225ad22459aadcd8d72f40c1bf2a4",
+      "width": 390,
+      "interiorPixel": {
+        "browser": [
+          47,
+          116,
+          114,
+          255
+        ],
+        "native": [
+          41,
+          117,
+          115,
+          255
+        ],
+        "before": [
+          41,
+          117,
+          115,
+          255
+        ]
+      },
+      "pairs": {
+        "native": {
+          "circularPixels": 119488,
+          "rgbMeanAbsoluteError": 0.9090898946616676,
+          "over16ChannelPixels": 1740,
+          "foregroundPixels": 20709,
+          "foregroundRgbMeanAbsoluteError": 5.0156292755162815
+        },
+        "before": {
+          "circularPixels": 119488,
+          "rgbMeanAbsoluteError": 1.1963209694697376,
+          "over16ChannelPixels": 2862,
+          "foregroundPixels": 20709,
+          "foregroundRgbMeanAbsoluteError": 6.672911938448662
+        }
+      }
+    }
+  ]
+}
