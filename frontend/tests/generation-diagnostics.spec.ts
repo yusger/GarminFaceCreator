@@ -97,15 +97,15 @@ test("inspector reports a blocked curved label and locates its editable object",
   await page.getByRole("button", { name: "曲线文字", exact: true }).click();
   await page.getByLabel("曲线文字内容").fill("中文");
   const checks = page.locator("[data-generation-checks]");
-  await checks.locator("summary").click();
-  await expect(checks.locator("summary")).toContainText("1 项阻断");
+  await checks.locator(":scope > summary").click();
+  await expect(checks.locator(":scope > summary")).toContainText("1 项阻断");
   await expect(
     checks.locator('[data-diagnostic-status="unsupported"]'),
   ).toContainText("ASCII");
   await checks.locator('[data-diagnostic-status="unsupported"] button').click();
   await expect(page.getByLabel("曲线文字内容")).toHaveValue("中文");
   await page.getByLabel("曲线文字内容").fill("READY");
-  await expect(checks.locator("summary")).toContainText("未发现映射阻断");
+  await expect(checks.locator(":scope > summary")).toContainText("未发现映射阻断");
   await expect(
     checks.locator('[data-diagnostic-status="unverified"]'),
   ).toContainText("功耗");
