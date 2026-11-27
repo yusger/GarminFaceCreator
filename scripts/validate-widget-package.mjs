@@ -1,3 +1,6 @@
+import {validPolygon} from "../frontend/src/geometry.ts";
+import {localLayerDiagnostics} from "../frontend/src/capabilities.ts";
+import {layer as baseLayer} from "../frontend/src/domain.ts";
 import Ajv from "ajv";
 import { readFile, lstat, realpath } from "node:fs/promises";
 import { resolve, sep } from "node:path";
@@ -5,6 +8,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 const root = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const schema = JSON.parse(await readFile(resolve(root,"resources/schemas/widget.schema.json"),"utf8"));
 const validate = new Ajv({ allErrors:true, strict:false }).compile(schema);
+const schema2 = JSON.parse(await readFile(resolve(root,"resources/schemas/widget-v2.schema.json"),"utf8"));
+const validate2 = new Ajv({allErrors:true,strict:false}).compile(schema2);
 const units = {heartRate:"bpm",steps:"count",calories:"kcal",battery:"%",altitude:"m",pressure:"hPa",temperature:"C",distance:"km",seconds:"seconds"};
 export async function validateWidgetPackage(directory) {
   const dir = await realpath(resolve(directory));
@@ -23,7 +28,8 @@ export async function validateWidgetPackage(directory) {
     const data=await readFile(actual); loaded.set(actual,data); return data;
   };
   const manifest=JSON.parse(await file("widget.json"));
-  if (!validate(manifest)) throw Error("Widget schema: "+JSON.stringify(validate.errors));
+  const check=manifest.formatVersion===2?validate2:validate;
+  if (!check(manifest)) throw Error("Widget schema: "+JSON.stringify(check.errors));
   if (manifest.origin.kind==="community" && !manifest.origin.sourceUrl) throw Error("Community origin needs source URL");
   await file(manifest.origin.licenseFile);
   for (const preview of Object.values(manifest.previews)) {
@@ -42,6 +48,12 @@ export async function validateWidgetPackage(directory) {
   for (const layer of manifest.layers) {
     if (layers.has(layer.id)) throw Error("Duplicate layer ID");
     layers.set(layer.id,layer);
+    if(manifest.formatVersion===2){
+      if(layer.kind==="polygon" && !validPolygon(layer.polygonPoints))throw Error("Expected strictly convex normalized polygon with 3..32 vertices");
+      if(!["polygon","arcText"].includes(layer.kind) && ["arcRadius","arcStartAngle","arcDirection","arcSpacing"].some(k=>layer[k]!==undefined))throw Error("Arc text fields require arcText kind");
+      const diagnostics=localLayerDiagnostics({...baseLayer(layer.kind),threshold:false,metricDecoration:false,...layer});
+      if(diagnostics.length)throw Error("Widget native mapping: "+diagnostics.map(d=>d.message).join("; "));
+    }
     if (!capabilities.has("core."+layer.kind)) throw Error("Missing core requirement: "+layer.kind);
     if (layer.x<0 || layer.y<0 || layer.x+layer.w>manifest.canvas.width || layer.y+layer.h>manifest.canvas.height) throw Error("Layer outside widget canvas");
     if (layer.kind==="image" && !resources.has(layer.resourceId)) throw Error("Missing image resource");

@@ -13,7 +13,7 @@ for (const d of await readdir("resources/default-controls/widgets", {
     widget.resources.length ||
     widget.layers.some(
       (l) =>
-        !["text", "metric", "rect", "circle", "line", "meter", "time", "date", "ring", "hand"].includes(l.kind),
+        !["text", "metric", "rect", "circle", "line", "meter", "time", "date", "ring", "hand", ...(widget.formatVersion===2?["polygon","arcText"]:[])].includes(l.kind),
     )
   )
     throw Error("Unsupported widget adapter capability: " + d.name);

@@ -1324,6 +1324,159 @@
   },
   {
     "format": "gfc-control-package",
+    "formatVersion": 2,
+    "id": "chamfer-dial",
+    "version": "1.0.0",
+    "name": "切角电量仪表",
+    "category": "progress",
+    "canvas": {
+      "width": 200,
+      "height": 200,
+      "scaleMode": "uniform-fit"
+    },
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "GarminFaceCreator contributors"
+      ],
+      "license": "MIT",
+      "licenseFile": "LICENSE",
+      "sourceUrl": null
+    },
+    "requirements": [
+      "core.polygon",
+      "core.ring",
+      "core.arcText",
+      "core.metric",
+      "data.battery"
+    ],
+    "layers": [
+      {
+        "id": "frame",
+        "name": "frame",
+        "kind": "polygon",
+        "x": 10,
+        "y": 10,
+        "w": 180,
+        "h": 180,
+        "color": "#101C25",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#607887",
+        "polygonPoints": [
+          [
+            0.2,
+            0
+          ],
+          [
+            0.8,
+            0
+          ],
+          [
+            1,
+            0.2
+          ],
+          [
+            1,
+            0.8
+          ],
+          [
+            0.8,
+            1
+          ],
+          [
+            0.2,
+            1
+          ],
+          [
+            0,
+            0.8
+          ],
+          [
+            0,
+            0.2
+          ]
+        ],
+        "fillEnabled": true,
+        "strokeEnabled": true,
+        "strokeColor": "#607887",
+        "strokeWidth": 2
+      },
+      {
+        "id": "progress",
+        "name": "progress",
+        "kind": "ring",
+        "x": 35,
+        "y": 35,
+        "w": 130,
+        "h": 130,
+        "color": "#45D6BE",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#607887",
+        "ringSource": "battery",
+        "ringGoal": 100,
+        "ringTicks": 60,
+        "ringStyle": "continuous",
+        "ringCap": "round",
+        "ringWidth": 6,
+        "ringStart": 0,
+        "ringEnd": 360,
+        "ringDim": 0.15
+      },
+      {
+        "id": "label",
+        "name": "label",
+        "kind": "arcText",
+        "x": 15,
+        "y": 15,
+        "w": 170,
+        "h": 170,
+        "color": "#AABDC8",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#607887",
+        "text": "POWER",
+        "arcRadius": 0.43,
+        "arcStartAngle": -30,
+        "arcDirection": "clockwise",
+        "arcSpacing": 1,
+        "garminFont": "small",
+        "fontWeight": 400
+      },
+      {
+        "id": "value",
+        "name": "value",
+        "kind": "metric",
+        "x": 45,
+        "y": 82,
+        "w": 110,
+        "h": 36,
+        "color": "#DCEAF3",
+        "size": 14,
+        "aod": true,
+        "aodColor": "#607887",
+        "source": "battery",
+        "unit": "%",
+        "precision": 0,
+        "metricDecoration": false,
+        "textAlign": "center",
+        "missingValue": "--",
+        "garminFont": "small"
+      }
+    ],
+    "parameters": [],
+    "resources": [],
+    "previews": {
+      "active": "preview.svg",
+      "aod": "preview-aod.svg"
+    },
+    "casesFile": "cases.json",
+    "licenseText": "MIT License\r\n\r\nCopyright (c) 2026 yusger\r\n\r\nPermission is hereby granted, free of charge, to any person obtaining a copy\r\nof this software and associated documentation files (the \"Software\"), to deal\r\nin the Software without restriction, including without limitation the rights\r\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\r\ncopies of the Software, and to permit persons to whom the Software is\r\nfurnished to do so, subject to the following conditions:\r\n\r\nThe above copyright notice and this permission notice shall be included in all\r\ncopies or substantial portions of the Software.\r\n\r\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\r\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\r\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\r\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\r\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\r\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\r\nSOFTWARE.\r\n",
+    "notice": "切角电量仪表 / chamfer-dial v1.0.0 / GarminFaceCreator contributors / MIT\n原创切角电量仪表，formatVersion 2。一个复合控件，真实凸八边形/连续圆弧/ASCII曲线文字/电量数据；整体缩放，内部部件可显隐。无Rider资源。目标Venu4两尺寸；网页曲线字形是替代预览，原生矢量字体、AOD切换和真机另验。\r\n"
+  },
+  {
+    "format": "gfc-control-package",
     "formatVersion": 1,
     "id": "weather-band",
     "version": "1.0.0",

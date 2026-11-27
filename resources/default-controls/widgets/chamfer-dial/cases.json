@@ -1,0 +1,59 @@
+{
+  "format": "gfc-control-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "normal",
+      "data": {
+        "battery": 78
+      },
+      "parameters": {},
+      "expect": {
+        "nativeSources": [
+          "battery"
+        ]
+      }
+    },
+    {
+      "id": "zero",
+      "data": {
+        "battery": 0
+      },
+      "parameters": {},
+      "expect": {
+        "heartRateZero": "missing",
+        "otherZero": "valid"
+      }
+    },
+    {
+      "id": "missing",
+      "data": {
+        "battery": null
+      },
+      "parameters": {},
+      "expect": {
+        "metrics": "--",
+        "ringsLit": 0
+      }
+    },
+    {
+      "id": "aod",
+      "data": {},
+      "parameters": {},
+      "expect": {
+        "mode": "aod",
+        "ringsLit": 0
+      }
+    },
+    {
+      "id": "max",
+      "data": {
+        "battery": 100
+      },
+      "parameters": {},
+      "expect": {
+        "saturateProgress": true
+      }
+    }
+  ]
+}

@@ -149,3 +149,6 @@ cases.json 格式：`{format:"gfc-control-cases",formatVersion:1,cases:[{id,data
 - 各阶段环境、命令或操作证据、结论；未验证项与已明确接受的非必要差异。
 
 规范文档版本、外部 formatVersion、包 version、内部 schemaVersion 分别维护。本次澄清不改变 formatVersion 1 或既有包内容；未来自动化检查增强不能被表述为当前已执行的验收。
+
+
+新增几何交付请显式使用[控件格式v2补充](custom-widget-v2.md)；本v1基线及Schema不放宽。
