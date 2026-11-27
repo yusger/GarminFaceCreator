@@ -1,3 +1,4 @@
+import {localLayerDiagnostics} from "./capabilities.ts";
 import {expandWidgets} from "./compound.ts";
 import { resolveControls, validateControls } from "./projectControls.ts";
 import { nativeControls, nativeControlledDraw } from "./nativeControls.ts";
@@ -16,7 +17,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-21-compound-widgets";
+export const LOCAL_GENERATOR_VERSION = "basic-22-capability-catalog";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -275,40 +276,7 @@ export function localGenerate(p: Project) {
   const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
   const included = p.layers.filter((l) => l.exportIncluded !== false);
-  const unsupported = included.filter(
-    (l) =>
-      (![
-        "time",
-        "date",
-        "calendar",
-        "celestial",
-        "hand",
-        "ring",
-        "wordTime",
-        "metric",
-        "text",
-        "rect",
-        "circle",
-        "line",
-        "meter",
-      ].includes(l.kind) &&
-        !(l.kind === "image" && (l.libraryIcon || l.image))) ||
-      l.rotation !== 0 ||
-      (l.kind === "meter" && !["steps", "battery"].includes(l.source)) ||
-      (l.kind === "metric" &&
-        ![
-          "steps",
-          "battery",
-          "seconds",
-          "distance",
-          "calories",
-          "heartRate",
-          "temperature",
-        ].includes(l.source)) ||
-      (l.kind === "metric" &&
-        l.source === "heartRate" &&
-        l.metricDecoration !== false),
-  );
+  const unsupported = included.filter(l=>localLayerDiagnostics(l).length>0);
   if (unsupported.length)
     throw Error(
       "本地生成试验仅支持未旋转的时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据、静态图片和内置图标（心率需关闭心形符号）。请移除或排除：" +

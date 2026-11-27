@@ -1,3 +1,4 @@
+import {chatKinds,designCapabilityContext} from "./capabilities";
 import {
   layer,
   uid,
@@ -14,18 +15,7 @@ import { resolveControls, setControl } from "./projectControls";
 import { withEditorLayers } from "./editorHistory";
 import { crossesScreen } from "./bounds";
 export type ChatMessage = { role: "user" | "assistant"; content: string };
-const kinds = [
-  "time",
-  "date",
-  "metric",
-  "text",
-  "rect",
-  "circle",
-  "line",
-  "meter",
-  "ring",
-  "hand",
-];
+const kinds = chatKinds;
 export const chatFields = designFields.filter(
   (k) => !["id", "kind", "referenceId", "groupId", "groupName"].includes(k),
 );
@@ -115,6 +105,7 @@ export function chatPayload(p: Project, selected: string[]) {
   });
   return {
     protocol: "gfc-design-chat-v1",
+    capabilities:designCapabilityContext(),
     device: generationDevice(p),
     coordinateSystem: { width: 454, height: 454, shape: "circle" },
     backgroundColor: p.backgroundColor,

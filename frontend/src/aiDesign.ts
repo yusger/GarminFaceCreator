@@ -1,3 +1,4 @@
+import {createKinds,designCapabilityContext} from "./capabilities";
 import { layoutTemplate } from "./layoutTemplates";
 import { designSourceUnit } from "./generationRequirements";
 import {
@@ -34,19 +35,7 @@ export type DesignChoices = {
 export const designSources = Object.entries(metrics).filter(
   ([id]) => id !== "seconds",
 );
-const kinds = [
-  "time",
-  "date",
-  "metric",
-  "text",
-  "hand",
-  "ring",
-  "meter",
-  "rect",
-  "circle",
-  "line",
-  "image",
-];
+const kinds = createKinds;
 export const designFields = [
   "id",
   "name",
@@ -150,6 +139,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
   validateDesignChoices(c, refs);
   return {
     protocol: "gfc-ai-design-v1",
+    capabilities:designCapabilityContext(),
     basicSpecVersion: "1.1",
     device: generationDevice(c),
     coordinateSystem: {
