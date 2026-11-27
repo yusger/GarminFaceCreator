@@ -13,3 +13,6 @@
 verify只接受最多4MiB二进制PRG、明确Venu4目标、64位小写SHA256及32位任务ID；无可选镜像/命令/路径。散列不匹配在启动容器前拒绝。RunsPerDay使用中国时区自然日和持久化计数，默认50，失败运行也计数；配置来自worker自己的appsettings，主站请求不能覆盖。根目录只放配额与短期自建目录；返回后删除输入及输出。
 
 原生截图要求GFC_RENDER_READY报告、PRG散列一致、目标像素454/390及无显式运行时错误。当前只覆盖basic37及以后本地生成工程；旧工程/任意AI PRG没有报告会失败，不能猜测成功。截图是当时模拟器默认动态数据，应用报告的active/aod不是Sleep事件独立验收；SDK、网页、真机/功耗结论分开。资源数值是docker stats采样，内存上限不是实测峰值。输出JSON中的Success与CleanupStatus必须共同判断，未完成清理不交付通过产物。
+
+
+本地发布可使用publish.ps1：构建/沙箱检查任一失败即中止，不使用旧发布目录继续部署。受限broker不使用docker cp，而以固定容器文件名读取有上限的PNG/日志，不增cap。显式IPC集成测试见test-worker.py，需要GFC_NATIVE_TEST、socket/fixture/output目录；开启负例消耗额外运行配额，只用于独立测试环境。
