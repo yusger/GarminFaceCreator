@@ -1,5 +1,5 @@
 import {test,expect} from "@playwright/test";
-import {themedFixture} from "./themes.spec";
+import {themedFixture} from "./fixtures/themedFixture";
 import {nativeControls} from "../src/nativeControls";
 import {nativeThemeMenu} from "../src/nativeThemeMenu";
 import {themeBackgroundKey,setThemeBackground,selectTheme} from "../src/themes";
