@@ -1,0 +1,539 @@
+{
+  "note": "Controlled drawing fixtures only; not production sensor coverage, real Sleep or hardware evidence",
+  "records": [
+    {
+      "id": "hour-active-454",
+      "target": "venu445mm",
+      "hour": true,
+      "applicationDataMode": "controlled-fixture",
+      "sleepTransition": "not-tested; forced AOD is a drawing fixture",
+      "projectName": "ChartFixture_hour-active-454",
+      "preview": {
+        "time": "12:30",
+        "seconds": 0,
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 0,
+        "heartRate": 80,
+        "steps": 4500,
+        "battery": 50,
+        "chartCase": "boundaries"
+      },
+      "points": [
+        [
+          {
+            "date": "1795845600",
+            "label": "06",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795849200",
+            "label": "07",
+            "value": 119,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795852800",
+            "label": "08",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795856400",
+            "label": "09",
+            "value": 120,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795860000",
+            "label": "10",
+            "value": 149,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795863600",
+            "label": "11",
+            "value": 150,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795867200",
+            "label": "12",
+            "value": 210,
+            "samples": 1,
+            "partial": true
+          }
+        ],
+        [
+          {
+            "date": "1795845600",
+            "label": "06",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795849200",
+            "label": "07",
+            "value": 119,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795852800",
+            "label": "08",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795856400",
+            "label": "09",
+            "value": 120,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795860000",
+            "label": "10",
+            "value": 149,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795863600",
+            "label": "11",
+            "value": 150,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795867200",
+            "label": "12",
+            "value": 210,
+            "samples": 1,
+            "partial": true
+          }
+        ]
+      ],
+      "warnings": [
+        "图表历史为网页示意样例；不代表设备历史覆盖率，AOD原生使用最近亮屏缓存。"
+      ],
+      "sourceHash": "2bfdd5cbc78b410cd1c6926d74bb7eb196a678d0bfc218330c944d6c2959ae52",
+      "prgHash": "338e211f8acef77b3d25f1e3ba97875eeb68c0a0e3fbeb07bef6384c158565e5",
+      "generator": "basic-57-chart-aod-outlines-fixture",
+      "runtimeEnvironmentDataMode": "simulator-defaults-dynamic",
+      "width": 454,
+      "height": 454
+    },
+    {
+      "id": "day-active-454",
+      "target": "venu445mm",
+      "hour": false,
+      "applicationDataMode": "controlled-fixture",
+      "sleepTransition": "not-tested; forced AOD is a drawing fixture",
+      "projectName": "ChartFixture_day-active-454",
+      "preview": {
+        "time": "12:30",
+        "seconds": 0,
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 0,
+        "heartRate": 80,
+        "steps": 4500,
+        "battery": 50,
+        "chartCase": "boundaries"
+      },
+      "points": [
+        [
+          {
+            "date": "2026-11-22",
+            "label": "SUN",
+            "value": 0,
+            "partial": false
+          },
+          {
+            "date": "2026-11-23",
+            "label": "MON",
+            "value": 2800,
+            "partial": false
+          },
+          {
+            "date": "2026-11-24",
+            "label": "TUE",
+            "value": 6300,
+            "partial": false
+          },
+          {
+            "date": "2026-11-25",
+            "label": "WED",
+            "value": null,
+            "partial": false
+          },
+          {
+            "date": "2026-11-26",
+            "label": "THU",
+            "value": 7000,
+            "partial": false
+          },
+          {
+            "date": "2026-11-27",
+            "label": "FRI",
+            "value": 4900,
+            "partial": false
+          },
+          {
+            "date": "2026-11-28",
+            "label": "SAT",
+            "value": 17500,
+            "partial": true
+          }
+        ],
+        [
+          {
+            "date": "2026-11-22",
+            "label": "SUN",
+            "value": 0,
+            "partial": false
+          },
+          {
+            "date": "2026-11-23",
+            "label": "MON",
+            "value": 2.8000000000000003,
+            "partial": false
+          },
+          {
+            "date": "2026-11-24",
+            "label": "TUE",
+            "value": 6.3,
+            "partial": false
+          },
+          {
+            "date": "2026-11-25",
+            "label": "WED",
+            "value": null,
+            "partial": false
+          },
+          {
+            "date": "2026-11-26",
+            "label": "THU",
+            "value": 7,
+            "partial": false
+          },
+          {
+            "date": "2026-11-27",
+            "label": "FRI",
+            "value": 4.8999999999999995,
+            "partial": false
+          },
+          {
+            "date": "2026-11-28",
+            "label": "SAT",
+            "value": 17.5,
+            "partial": true
+          }
+        ]
+      ],
+      "warnings": [
+        "图表历史为网页示意样例；不代表设备历史覆盖率，AOD原生使用最近亮屏缓存。"
+      ],
+      "sourceHash": "613fac009600c619c1c2af91303f32b52357cf91c93cb38d50cce7557c86f9d3",
+      "prgHash": "075c9f27e63bb0facce15d6f10a13d4d1e03df403fb0a589e5b6e16439df4036",
+      "generator": "basic-57-chart-aod-outlines-fixture",
+      "runtimeEnvironmentDataMode": "simulator-defaults-dynamic",
+      "width": 454,
+      "height": 454
+    },
+    {
+      "id": "hour-forced-aod-454",
+      "target": "venu445mm",
+      "hour": true,
+      "aod": {
+        "version": "aod-pixels-1",
+        "origin": "native-frame",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 5440,
+        "aboveNoisePixels": 5440,
+        "ratio": 0.03360264867936649,
+        "noiseRatio": 0.03360264867936649,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.026392904966135573,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "applicationDataMode": "controlled-fixture",
+      "sleepTransition": "not-tested; forced AOD is a drawing fixture",
+      "projectName": "ChartFixture_hour-forced-aod-454",
+      "preview": {
+        "time": "12:30",
+        "seconds": 0,
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 0,
+        "heartRate": 80,
+        "steps": 4500,
+        "battery": 50,
+        "chartCase": "boundaries"
+      },
+      "points": [
+        [
+          {
+            "date": "1795845600",
+            "label": "06",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795849200",
+            "label": "07",
+            "value": 119,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795852800",
+            "label": "08",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795856400",
+            "label": "09",
+            "value": 120,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795860000",
+            "label": "10",
+            "value": 149,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795863600",
+            "label": "11",
+            "value": 150,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795867200",
+            "label": "12",
+            "value": 210,
+            "samples": 1,
+            "partial": true
+          }
+        ],
+        [
+          {
+            "date": "1795845600",
+            "label": "06",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795849200",
+            "label": "07",
+            "value": 119,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795852800",
+            "label": "08",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795856400",
+            "label": "09",
+            "value": 120,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795860000",
+            "label": "10",
+            "value": 149,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795863600",
+            "label": "11",
+            "value": 150,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795867200",
+            "label": "12",
+            "value": 210,
+            "samples": 1,
+            "partial": true
+          }
+        ]
+      ],
+      "warnings": [
+        "图表历史为网页示意样例；不代表设备历史覆盖率，AOD原生使用最近亮屏缓存。"
+      ],
+      "sourceHash": "6465c68b737fbd11233bce29e6a2f1a642835c2d0e40aea1c02586b93e6a050d",
+      "prgHash": "3e6e7ff1b3eb8117e58ae4d1a51a91573affbb2fc3576622ac8ec6265f854ed9",
+      "generator": "basic-57-chart-aod-outlines-fixture",
+      "runtimeEnvironmentDataMode": "simulator-defaults-dynamic",
+      "width": 454,
+      "height": 454
+    },
+    {
+      "id": "hour-active-390",
+      "target": "venu441mm",
+      "hour": true,
+      "applicationDataMode": "controlled-fixture",
+      "sleepTransition": "not-tested; forced AOD is a drawing fixture",
+      "projectName": "ChartFixture_hour-active-390",
+      "preview": {
+        "time": "12:30",
+        "seconds": 0,
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 0,
+        "heartRate": 80,
+        "steps": 4500,
+        "battery": 50,
+        "chartCase": "boundaries"
+      },
+      "points": [
+        [
+          {
+            "date": "1795845600",
+            "label": "06",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795849200",
+            "label": "07",
+            "value": 119,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795852800",
+            "label": "08",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795856400",
+            "label": "09",
+            "value": 120,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795860000",
+            "label": "10",
+            "value": 149,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795863600",
+            "label": "11",
+            "value": 150,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795867200",
+            "label": "12",
+            "value": 210,
+            "samples": 1,
+            "partial": true
+          }
+        ],
+        [
+          {
+            "date": "1795845600",
+            "label": "06",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795849200",
+            "label": "07",
+            "value": 119,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795852800",
+            "label": "08",
+            "value": null,
+            "samples": 0,
+            "partial": false
+          },
+          {
+            "date": "1795856400",
+            "label": "09",
+            "value": 120,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795860000",
+            "label": "10",
+            "value": 149,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795863600",
+            "label": "11",
+            "value": 150,
+            "samples": 1,
+            "partial": false
+          },
+          {
+            "date": "1795867200",
+            "label": "12",
+            "value": 210,
+            "samples": 1,
+            "partial": true
+          }
+        ]
+      ],
+      "warnings": [
+        "图表历史为网页示意样例；不代表设备历史覆盖率，AOD原生使用最近亮屏缓存。"
+      ],
+      "sourceHash": "59360eaaedf553554e1e47311edd0c36b10fffd5c439e62a32d911d554583027",
+      "prgHash": "e65f957abf2a6826e2ce98d39ed158d432c782409009e59e010b359787ee1d4f",
+      "generator": "basic-57-chart-aod-outlines-fixture",
+      "runtimeEnvironmentDataMode": "simulator-defaults-dynamic",
+      "width": 390,
+      "height": 390
+    }
+  ]
+}
