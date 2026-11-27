@@ -89,6 +89,7 @@ test("target limits, effect instructions and approximations remain distinct", ()
 test("inspector reports a blocked curved label and locates its editable object", async ({
   page,
 }) => {
+  page.on("dialog", d => d.accept("GenerationChecks"));
   await page.goto("/");
   await page.getByRole("button", { name: /^空白画布/ }).click();
   await page.getByLabel("初始布局", { exact: true }).selectOption("blank");
