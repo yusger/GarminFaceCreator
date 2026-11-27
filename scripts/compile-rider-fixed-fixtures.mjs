@@ -4,10 +4,13 @@ import {resolve,join} from "node:path";
 import {createHash} from "node:crypto";
 const compile=process.argv.includes("--compile"),base=process.env.GFC_TEST_URL?.replace(/\/$/,""),dir=resolve("Temp/rider-validation"),hash=v=>createHash("sha256").update(v).digest("hex");
 if(compile && (!base || !["http:","https:"].includes(new URL(base).protocol) || new URL(base).username || new URL(base).password || new URL(base).pathname!=="/"))throw Error("Set GFC_TEST_URL to the explicit staging origin");
+const only=process.argv.find(a=>a.startsWith("--case="))?.slice(7);
+if(only && !/^(02|05):venu4(45|41)mm:(active|aod)$/.test(only))throw Error("Invalid explicit fixture case");
 await mkdir(dir,{recursive:true});
 for(const id of ["02","05"])for(const target of ["venu445mm","venu441mm"]){
  const name=`${id}-${target}`,metadata=JSON.parse(await readFile(join(dir,`submitted-${name}.json`),"utf8")),body=await readFile(join(dir,`submitted-${name}.bin`)),start=metadata.sourceOffset,end=start+metadata.sourceLength,original=body.subarray(start,end).toString("utf8");if(hash(Buffer.from(original))!==metadata.sourceSha256 || !original.startsWith("// GarminFaceCreator local generator "))throw Error("Submitted source mismatch");
  for(const mode of ["active","aod"]){
+  if(only && only!==`${id}:${target}:${mode}`)continue;
   const [hour,min]=metadata.fixedPreview.time.split(":").map(Number),sec=metadata.fixedPreview.seconds;
   const clock=`class GfcFrozenClock {var hour=${hour};var min=${min};var sec=${sec};function initialize(){}}\n`;
   let source=original.replace("class GeneratedView extends WatchUi.WatchFace",clock+"class GeneratedView extends WatchUi.WatchFace").replace("var clock=System.getClockTime();","var clock=new GfcFrozenClock();");

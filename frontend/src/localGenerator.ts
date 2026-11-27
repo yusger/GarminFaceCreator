@@ -24,7 +24,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-35-batched-draw";
+export const LOCAL_GENERATOR_VERSION = "basic-36-grayscale-font-mask";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,

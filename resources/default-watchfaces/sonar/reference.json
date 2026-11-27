@@ -55,77 +55,77 @@
       "path": "resources/fonts/GfcCustom_sonar_label_font_16.png",
       "file": "resources/fonts/GfcCustom_sonar_label_font_16.png",
       "mime": "image/png",
-      "sha256": "4de6324b9a7ec3e629203d06b57b110e3dda0ccdd84a206adc7d3758a069f38f"
+      "sha256": "8aa3daf8b36132727cbc0a28484d61d34041c98a94f8e3a12c0e5571c691b496"
     },
     {
       "id": "GfcCustom_sonar_number_font_29",
       "path": "resources/fonts/GfcCustom_sonar_number_font_29.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_29.png",
       "mime": "image/png",
-      "sha256": "f360f852b434a165877d6c16ec34307fedc6a61dd82dd52c2cddadd785fb6e3e"
+      "sha256": "9cbb8797077ca9e9a81a93b158f6dbcc04fd9453125011212f12b0cb65da3de4"
     },
     {
       "id": "GfcCustom_sonar_label_font_14",
       "path": "resources/fonts/GfcCustom_sonar_label_font_14.png",
       "file": "resources/fonts/GfcCustom_sonar_label_font_14.png",
       "mime": "image/png",
-      "sha256": "613c9906ea94be3adbf2c1de17723e42557435a04e7dfc39ef784f4d54224a3e"
+      "sha256": "fa192a6df4b2e8a9123ae2a86d4bec4b5535668702f77f7e2dfbf50a1871947c"
     },
     {
       "id": "GfcCustom_sonar_number_font_38",
       "path": "resources/fonts/GfcCustom_sonar_number_font_38.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_38.png",
       "mime": "image/png",
-      "sha256": "45be77d48262fb795a4d6f2fee020b67c2a22e6bee3188eea83958ffacbc3875"
+      "sha256": "d8374a9f90580b53d71c525924b024ceff4a65ccf3aed33eae4c7898438d227e"
     },
     {
       "id": "GfcCustom_sonar_number_font_34",
       "path": "resources/fonts/GfcCustom_sonar_number_font_34.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_34.png",
       "mime": "image/png",
-      "sha256": "30031f3a366b30456f4c153394c5572410259435856eacb7c40aa412379b9b15"
+      "sha256": "51428d177e78bd124e21d48961e4aa4cbf3fa1666b6f673d73b954ecd71e95b8"
     },
     {
       "id": "GfcCustom_sonar_number_font_16",
       "path": "resources/fonts/GfcCustom_sonar_number_font_16.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_16.png",
       "mime": "image/png",
-      "sha256": "bc9f19a4f26e448def21ea94caf7b2a4f900dee51c44b81f93bf9e35230a7b78"
+      "sha256": "cf361a6f6a906b2e0853f23a2840e59aa11e3a0fe0c2a1688a9c2e5dd697bd7b"
     },
     {
       "id": "GfcCustom_sonar_number_font_15",
       "path": "resources/fonts/GfcCustom_sonar_number_font_15.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_15.png",
       "mime": "image/png",
-      "sha256": "7b024f999ccbf1bb3597d44f58e87ac192b8ea82871b0972889969ecb203e6d0"
+      "sha256": "203c1235006e6752dbcc35df979488a6dd743b5cf02a243c00a806fb06b062e8"
     },
     {
       "id": "GfcCustom_sonar_label_font_12",
       "path": "resources/fonts/GfcCustom_sonar_label_font_12.png",
       "file": "resources/fonts/GfcCustom_sonar_label_font_12.png",
       "mime": "image/png",
-      "sha256": "be856a3ab6c5b9eb7a95eddb72cfbbc1bbe5dc77e328d13b08f545765e9a6a06"
+      "sha256": "1b5b2e846845a5457891a314aadb0aa00f4eebc37e83cf65606ab1d0645d6bbf"
     },
     {
       "id": "GfcCustom_sonar_number_font_30",
       "path": "resources/fonts/GfcCustom_sonar_number_font_30.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_30.png",
       "mime": "image/png",
-      "sha256": "3179b4c2818ce67d1cb583065cc889379a88aa17bb04a33a2a73f166655f956e"
+      "sha256": "78c6bbf7a01b3fb52ed63e8095119b5f7672074a17e8e892aa3a9437080141f7"
     },
     {
       "id": "GfcCustom_sonar_number_font_28",
       "path": "resources/fonts/GfcCustom_sonar_number_font_28.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_28.png",
       "mime": "image/png",
-      "sha256": "f278e4eb058783228046e686046ad9b1c5f248fb51ab97b2c20c27a824f2df52"
+      "sha256": "a47d37990b20701f9d1aa538fcf9f32c6838a015406b7c33d8fcec50124f4842"
     },
     {
       "id": "GfcCustom_sonar_number_font_19",
       "path": "resources/fonts/GfcCustom_sonar_number_font_19.png",
       "file": "resources/fonts/GfcCustom_sonar_number_font_19.png",
       "mime": "image/png",
-      "sha256": "ed3d457b467613d9ac9b28330224a88dcdbfffa63865b67b6cd4688aa43c445a"
+      "sha256": "43fe31a499677f3939d8df11a651a7dac5e8bfeb5d3be081a165b7da9f476f4d"
     }
   ],
   "notices": [

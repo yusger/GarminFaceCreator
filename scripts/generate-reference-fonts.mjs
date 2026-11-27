@@ -1,9 +1,9 @@
+import {fontAtlasBrowserSource} from "./font-atlas-browser-source.mjs";
 import {missingGlyphs} from "../frontend/src/fontLibrary.ts";
 // Maintainer-only default font snapshot generation; normal builds use checked-in snapshots.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
 import { createHash } from "node:crypto";
-import { stripTypeScriptTypes } from "node:module";
 import { chromium } from "@playwright/test";
 import { chalkPlans } from "../frontend/src/chalkFonts.ts";
 const slug = process.argv[2];
@@ -11,12 +11,7 @@ if (!/^[-a-z0-9]+$/.test(slug || "")) throw Error("Pass a reference slug");
 const dir = resolve("resources/default-watchfaces", slug),
   p = JSON.parse(await readFile(dir + "/design.json", "utf8")),
   r = JSON.parse(await readFile(dir + "/reference.json", "utf8"));
-const source = stripTypeScriptTypes(
-  (await readFile("frontend/src/chalkAtlas.ts", "utf8")).replace(
-    "export async function",
-    "async function",
-  ),
-);
+const source = await fontAtlasBrowserSource();
 const browser = await chromium.launch({
     channel: process.env.PLAYWRIGHT_CHANNEL || "msedge",
   }),

@@ -88,38 +88,38 @@
   "binaryAssets": [
     {
       "id": "GfcChalkLatin18",
-      "file": "resources/fonts/GfcChalkLatin18.png",
       "path": "resources/fonts/GfcChalkLatin18.png",
+      "file": "resources/fonts/GfcChalkLatin18.png",
       "mime": "image/png",
-      "sha256": "b12ea81d191250b8e951a2bfcbdca8832e46c2397481697eb5c0e947bae79fb1"
+      "sha256": "f225c7f4675e09e2079de82eaf521113b8e8368f880510025df7b26c5bc8e3f4"
     },
     {
       "id": "GfcChalkHan30",
-      "file": "resources/fonts/GfcChalkHan30.png",
       "path": "resources/fonts/GfcChalkHan30.png",
+      "file": "resources/fonts/GfcChalkHan30.png",
       "mime": "image/png",
-      "sha256": "b3e3294b3623eec438ca7abe14b63704cff3d4ab1e00004437302c70818d8ac0"
+      "sha256": "fa66396868b8487b3c77cf4c722ac9238990969c665dbf2f3c32ad79ec969228"
     },
     {
       "id": "GfcChalkLatin16",
-      "file": "resources/fonts/GfcChalkLatin16.png",
       "path": "resources/fonts/GfcChalkLatin16.png",
+      "file": "resources/fonts/GfcChalkLatin16.png",
       "mime": "image/png",
-      "sha256": "933b7c7009396fde22329d96be6609f59ff034f36ad5de31ee06ae0df840d6f8"
+      "sha256": "d13ebf23b52f7c41807b1f052b29a6f4d4b708f2acbb816ec901a807bbc8d134"
     },
     {
       "id": "GfcChalkLatin62",
-      "file": "resources/fonts/GfcChalkLatin62.png",
       "path": "resources/fonts/GfcChalkLatin62.png",
+      "file": "resources/fonts/GfcChalkLatin62.png",
       "mime": "image/png",
-      "sha256": "6f74e1e578f264799d915e07d05a17c9a188af3e0277dc77c477e5c93fc99abf"
+      "sha256": "72fdaeb49c61f73cdf621753219fd64595f572ad130493eb409211d943fa0716"
     },
     {
       "id": "GfcChalkLatin54",
-      "file": "resources/fonts/GfcChalkLatin54.png",
       "path": "resources/fonts/GfcChalkLatin54.png",
+      "file": "resources/fonts/GfcChalkLatin54.png",
       "mime": "image/png",
-      "sha256": "72957de7414c7d5fa5385eac42972a0e9590902ef585941a9a5e4969030b8e26"
+      "sha256": "db070864a5e0bd09d82e3556d438c99a56b561ecdbe03f6819ff0f3502af8478"
     }
   ],
   "notices": [

@@ -1,3 +1,4 @@
+import { fontMaskPng } from "./fontMaskPng.ts";
 // Native font resource creation from licensed webfonts; no SDK font extraction.
 export async function chalkAtlas(
   bytes: ArrayBuffer,
@@ -51,7 +52,7 @@ export async function chalkAtlas(
     cropped.getContext("2d")!.drawImage(canvas, 0, 0);
     return {
       content: `info face="${family}" size=${size} bold=0 italic=0 charset="" unicode=1 stretchH=100 smooth=1 aa=1 padding=0,0,0,0 spacing=0,0\ncommon lineHeight=${height} base=${ascent + 1} scaleW=512 scaleH=${cropped.height} pages=1 packed=0\npage id=0 file="${filename}"\nchars count=${chars.length}\n${records.join("\n")}\n`,
-      data: cropped.toDataURL("image/png"),
+      data: await fontMaskPng(cropped.width,cropped.height,cropped.getContext("2d")!.getImageData(0,0,cropped.width,cropped.height).data),
     };
   } finally {
     document.fonts.delete(face);

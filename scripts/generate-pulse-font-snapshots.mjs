@@ -1,8 +1,9 @@
+import {fontAtlasBrowserSource} from "./font-atlas-browser-source.mjs";
 import {missingGlyphs} from "../frontend/src/fontLibrary.ts";
 // Maintainer-only canonical bitmap/font resource creation. Run from repository root.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
-import { createRequire, stripTypeScriptTypes } from "node:module";
+import { createRequire } from "node:module";
 import { pathToFileURL } from "node:url";
 const root = process.cwd(),
   require = createRequire(root + "/package.json"),
@@ -13,12 +14,7 @@ const { chalkPlans } = await import(
 const dir = root + "/resources/default-watchfaces/pulsemaniac",
   p = JSON.parse(await readFile(dir + "/design.json", "utf8")),
   r = JSON.parse(await readFile(dir + "/reference.json", "utf8"));
-const source = stripTypeScriptTypes(
-  (await readFile(root + "/frontend/src/chalkAtlas.ts", "utf8")).replace(
-    "export async function",
-    "async function",
-  ),
-);
+const source = await fontAtlasBrowserSource();
 const browser = await chromium.launch({ channel: "msedge" });
 const page = await browser.newPage();
 await page.goto("about:blank");
