@@ -1,3 +1,4 @@
+import {diagnostic} from "../src/buildLogs";
 import { test, expect } from "@playwright/test";
 import { layer, project } from "../src/domain";
 import { localGenerate } from "../src/localGenerator";
@@ -73,12 +74,12 @@ test("compiler diagnostics locate a generated control while retaining raw error 
     line =
       source.split("\n").findIndex((s) => s.startsWith("// GFC_LAYER_BEGIN ")) +
       2;
-    return r.fulfill({ status: 202, json: { buildId: "mapped" } });
+    return r.fulfill({ status: 202, json: { buildId: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", accessToken: "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" } });
   });
-  await page.route("**/api/builds/mapped", (r) =>
+  await page.route("**/api/builds/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", (r) =>
     r.fulfill({ json: { status: "failed", artifacts: [] } }),
   );
-  await page.route("**/api/builds/mapped/logs?*", (r) =>
+  await page.route("**/api/builds/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa/logs?*", (r) =>
     r.fulfill({
       json: {
         lines: [
@@ -106,4 +107,8 @@ test("compiler diagnostics locate a generated control while retaining raw error 
   await expect(page.getByLabel("图层名称", { exact: true })).toHaveValue(
     "矩形",
   );
+});
+
+test("real SDK error line maps to the emitted layer without guessing helper ownership",async({request})=>{
+ test.skip(process.env.GFC_TEST_SDK!=="1","Explicit SDK test");test.setTimeout(130000);const p=project("MapErrorFixture",true);p.target="venu445mm";p.layers=[layer("rect")];const files=localGenerate(p),map=sourceMapFor(files),range=map.find(r=>r.mode==="active")!,file=files.find(f=>f.path===range.path)!,lines=file.content.split("\n");lines[range.start-1]="var deliberatelyBroken = ;";file.content=lines.join("\n");const form=new FormData();form.append("project",JSON.stringify({projectId:p.id,appId:p.appId,target:p.target,revision:p.revision,projectName:p.name}));for(const f of files)form.append("files",new Blob([f.content]),f.path);const r=await fetch(process.env.GFC_TEST_URL+"/api/builds",{method:"POST",body:form});expect(r.status).toBe(202);const job=await r.json(),headers={Authorization:"Bearer "+job.accessToken};await expect.poll(async()=>{const s=await(await request.get(`/api/builds/${job.buildId}`,{headers})).json();return s.status;},{timeout:110000,intervals:[1000]}).toBe("failed");const packet=await(await request.get(`/api/builds/${job.buildId}/logs?after=0`,{headers})).json();const matches=packet.lines.map((line:string)=>mappedDiagnostic(map,diagnostic(line))).filter(Boolean);expect(matches).toEqual(expect.arrayContaining([expect.objectContaining({layerId:p.layers[0].id,partId:p.layers[0].id,mode:"active"})]));
 });

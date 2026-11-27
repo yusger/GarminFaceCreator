@@ -37,16 +37,16 @@ test("large logs use cursor, reconnect same task and locate diagnostic without l
   );
   await page.route("**/api/builds", (r) => {
     posts++;
-    return r.fulfill({ status: 202, json: { buildId: "log-test" } });
+    return r.fulfill({ status: 202, json: { buildId: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", accessToken: "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff" } });
   });
-  await page.route("**/api/builds/log-test", (r) => {
+  await page.route("**/api/builds/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", (r) => {
     states++;
     if (states >= 2 && states <= 4) return r.abort();
     return r.fulfill({
       json: { status: states === 1 ? "running" : "failed", artifacts: [] },
     });
   });
-  await page.route("**/api/builds/log-test/logs?*", (r) => {
+  await page.route("**/api/builds/bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb/logs?*", (r) => {
     const cursor = Number(new URL(r.request().url()).searchParams.get("after"));
     after.push(cursor);
     return r.fulfill({
