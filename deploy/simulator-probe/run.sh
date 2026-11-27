@@ -20,7 +20,7 @@ mpid=""
 cleanup(){ if [ -r /sys/fs/cgroup/memory.peak ]; then cat /sys/fs/cgroup/memory.peak > /output/memory-peak-bytes.txt; elif [ -r /sys/fs/cgroup/memory/memory.max_usage_in_bytes ]; then cat /sys/fs/cgroup/memory/memory.max_usage_in_bytes > /output/memory-peak-bytes.txt; else echo unknown > /output/memory-peak-bytes.txt; fi; import -window root /output/desktop.png 2>/dev/null || true; if [ -n "$mpid" ]; then kill "$mpid" 2>/dev/null || true; fi; if [ -n "$spid" ]; then kill "$spid" 2>/dev/null || true; fi; kill "$xpid" 2>/dev/null || true; }
 trap cleanup EXIT
 for i in $(seq 1 30); do if xdpyinfo >/dev/null 2>&1; then break; fi; sleep 1; done
-cd /sdk/bin
+cd /output
 if [ "${PROBE_TRACE:-0}" = 1 ]; then
  strace -f -e trace=file -o /output/files.log /tmp/bin/simulator > /output/simulator.log 2>&1 &
 else
@@ -50,4 +50,9 @@ printf 'Fixture frame marker received and desktop captured; AOD and visual fidel
 printf 'device=%s\nprgSha256=%s\nmode=not_verified\ncapture=desktop\n' "$DEVICE" "$(sha256sum /input/watchface.prg | cut -d' ' -f1)" > /output/capture-metadata.txt
 head -1 /sdk/bin/version.txt >> /output/capture-metadata.txt
 grep GFC_PROBE_FRAME_READY /output/monkeydo.log | tail -1 >> /output/capture-metadata.txt
+if [ "${PROBE_CAPTURE_DIALOG:-0}" = 1 ]; then
+ xdotool mousemove 16 12 click 1 mousemove 104 37 click 1
+ sleep 1
+ import -window root /output/capture-dialog.png
+fi
 if [ "$hold" != 0 ]; then sleep "$hold"; fi
