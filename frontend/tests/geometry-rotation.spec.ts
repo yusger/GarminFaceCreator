@@ -1,3 +1,4 @@
+import {withFrameMarker} from "./probeFixture";
 import { test, expect } from "@playwright/test";
 import { rotatePoint } from "../src/geometry";
 import { project, layer } from "../src/domain";
@@ -73,7 +74,7 @@ for (const [target, size] of [
     );
     test.setTimeout(130000);
     const p = { ...fixture(), target, deviceSize: size },
-      files = localGenerate(p),
+      files = process.env.GFC_TEST_PROBE_MARKER==="1"?withFrameMarker(localGenerate(p)):localGenerate(p),
       form = new FormData();
     form.append(
       "project",

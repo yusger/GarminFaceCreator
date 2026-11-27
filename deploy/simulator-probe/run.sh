@@ -2,6 +2,8 @@
 set -euo pipefail
 : "${DEVICE:?Set DEVICE to the exact compiled target}"
 [[ "$DEVICE" =~ ^[a-z0-9]+$ ]] || exit 2
+hold=${PROBE_HOLD_SECONDS:-0}
+[[ "$hold" =~ ^([0-9]|[12][0-9]|30)$ ]] || exit 2
 mkdir -p "$HOME/.Garmin/ConnectIQ" /tmp/bin
 ln -s /sdk/share /tmp/share
 ln -s /sdk/resources /tmp/resources
@@ -14,7 +16,8 @@ chmod 700 /tmp/bin/simulator /tmp/bin/shell
 Xvfb :99 -screen 0 1200x1000x24 -nolisten tcp > /output/xvfb.log 2>&1 &
 xpid=$!
 spid=""
-cleanup(){ if [ -r /sys/fs/cgroup/memory.peak ]; then cat /sys/fs/cgroup/memory.peak > /output/memory-peak-bytes.txt; elif [ -r /sys/fs/cgroup/memory/memory.max_usage_in_bytes ]; then cat /sys/fs/cgroup/memory/memory.max_usage_in_bytes > /output/memory-peak-bytes.txt; else echo unknown > /output/memory-peak-bytes.txt; fi; import -window root /output/desktop.png 2>/dev/null || true; if [ -n "$spid" ]; then kill "$spid" 2>/dev/null || true; fi; kill "$xpid" 2>/dev/null || true; }
+mpid=""
+cleanup(){ if [ -r /sys/fs/cgroup/memory.peak ]; then cat /sys/fs/cgroup/memory.peak > /output/memory-peak-bytes.txt; elif [ -r /sys/fs/cgroup/memory/memory.max_usage_in_bytes ]; then cat /sys/fs/cgroup/memory/memory.max_usage_in_bytes > /output/memory-peak-bytes.txt; else echo unknown > /output/memory-peak-bytes.txt; fi; import -window root /output/desktop.png 2>/dev/null || true; if [ -n "$mpid" ]; then kill "$mpid" 2>/dev/null || true; fi; if [ -n "$spid" ]; then kill "$spid" 2>/dev/null || true; fi; kill "$xpid" 2>/dev/null || true; }
 trap cleanup EXIT
 for i in $(seq 1 30); do if xdpyinfo >/dev/null 2>&1; then break; fi; sleep 1; done
 cd /sdk/bin
@@ -31,11 +34,20 @@ for i in $(seq 1 30); do
 done
 java -classpath /sdk/bin/monkeybrains.jar com.garmin.monkeybrains.monkeydodeux.MonkeyDoDeux -f /input/watchface.prg -d "$DEVICE" -s /tmp/bin/shell > /output/monkeydo.log 2>&1 &
 mpid=$!
-for i in $(seq 1 30); do if ! kill -0 "$mpid" 2>/dev/null; then break; fi; sleep 1; done
-if kill -0 "$mpid" 2>/dev/null; then kill "$mpid"; echo 'monkeydo timeout'; exit 4; fi
-wait "$mpid" || { cat /output/monkeydo.log; exit 5; }
+ready=0
+for i in $(seq 1 45); do
+ kill -0 "$spid" 2>/dev/null || { echo 'simulator exited before frame'; exit 6; }
+ if grep -q GFC_PROBE_FRAME_READY /output/monkeydo.log; then ready=1; break; fi
+ if ! kill -0 "$mpid" 2>/dev/null; then break; fi
+ sleep 1
+done
+if [ "$ready" != 1 ]; then echo 'No verified fixture frame before timeout'; exit 8; fi
 sleep 3
 kill -0 "$spid" 2>/dev/null || { echo "simulator exited before capture"; cat /output/simulator.log; exit 6; }
 import -window root /output/desktop.png
 xdotool search --onlyvisible --name 'CIQ Simulator|Connect IQ' getwindowgeometry --shell > /output/window.txt || true
-printf 'Prototype desktop captured; application rendering and AOD require independent verification.\n'
+printf 'Fixture frame marker received and desktop captured; AOD and visual fidelity still require verification.\n'
+printf 'device=%s\nprgSha256=%s\nmode=not_verified\ncapture=desktop\n' "$DEVICE" "$(sha256sum /input/watchface.prg | cut -d' ' -f1)" > /output/capture-metadata.txt
+head -1 /sdk/bin/version.txt >> /output/capture-metadata.txt
+grep GFC_PROBE_FRAME_READY /output/monkeydo.log | tail -1 >> /output/capture-metadata.txt
+if [ "$hold" != 0 ]; then sleep "$hold"; fi
