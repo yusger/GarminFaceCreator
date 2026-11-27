@@ -76,7 +76,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  function initialize(mode,control){Menu2.initialize({:title=>${q(p.name + " Settings")}});menuMode=mode;menuControl=control;rebuild();}
  var menuMode=null;var menuControl=null;
  function onShow(){Menu2.onShow();rebuild();}
- function navigate(mode,control){menuMode=mode;menuControl=control;rebuild();setFocus(0);WatchUi.requestUpdate();}
+ function navigate(mode,control){while(deleteItem(0)==true){}WatchUi.switchToView(new GfcSettingsMenu(mode,control),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
  function rebuild(){while(deleteItem(0)==true){}var mode=menuMode;var control=menuControl;var theme=gfcThemeId();
  if(mode.equals("root")){${item("Theme", '{:action=>"themes"}', "theme")}${item("Background",'{:action=>"background"}')}${root}${item("Reset current theme", '{:action=>"reset"}')}}
  else if(mode.equals("themes")){${themes.map((t) => item(t.name, `{:action=>"set",:key=>"Gfc_Theme",:value=>${themeCode(t.id)}}`)).join("")}}
