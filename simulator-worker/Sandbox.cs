@@ -34,8 +34,13 @@ static class Sandbox
         var m = Regex.Match(stats, @"([0-9.]+)\s*(KiB|MiB|GiB|B)"); if (!m.Success || !double.TryParse(m.Groups[1].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var n)) return null;
         var unit = m.Groups[2].Value switch { "KiB" => 1024L, "MiB" => 1024L * 1024, "GiB" => 1024L * 1024 * 1024, _ => 1L }; return (long)(n * unit);
     }
-    public static async Task<byte[]> PlainFile(string path, int maximum, CancellationToken ct)
-    {
-        var info = new FileInfo(path); if (!info.Exists || info.LinkTarget is not null || info.Attributes.HasFlag(FileAttributes.ReparsePoint) || info.Length < 1 || info.Length > maximum) throw new InvalidDataException("Invalid verification output"); return await File.ReadAllBytesAsync(path, ct);
-    }
+    public static async Task<byte[]> DockerBytes(IEnumerable<string> args,int maximum,CancellationToken ct)
+ {
+  var psi=new ProcessStartInfo("docker"){UseShellExecute=false,RedirectStandardOutput=true,RedirectStandardError=true,CreateNoWindow=true};foreach(var arg in args)psi.ArgumentList.Add(arg);
+  using var process=Process.Start(psi)??throw new InvalidOperationException("Container client unavailable");using var registration=ct.Register(()=>{try{if(!process.HasExited)process.Kill(true);}catch(InvalidOperationException){}});
+  async Task DrainError(){var buffer=new char[1024];while(await process.StandardError.ReadAsync(buffer)>0){}}
+  var errors=DrainError();using var result=new MemoryStream();var bytes=new byte[8192];
+  try{int count;while((count=await process.StandardOutput.BaseStream.ReadAsync(bytes,ct))>0){if(result.Length+count>maximum)throw new InvalidDataException("Verification output exceeds limit");await result.WriteAsync(bytes.AsMemory(0,count),ct);}await process.WaitForExitAsync(ct);await errors;if(process.ExitCode!=0)throw new InvalidDataException("Could not read verification output");return result.ToArray();}
+  catch{try{if(!process.HasExited)process.Kill(true);await errors.WaitAsync(TimeSpan.FromSeconds(2));}catch{}throw;}
+ }
 }
