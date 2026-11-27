@@ -42,6 +42,9 @@ function PixelInput({
           setDraft(text);
           if (valid(text)) onValue(Number(text));
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") e.currentTarget.blur();
+        }}
         onBlur={() => {
           if (!valid(draft)) setDraft(String(value));
         }}

@@ -311,6 +311,7 @@ test("editor typography, accurate sample width, baseline and batch settings pers
     page.getByLabel("字距（目标像素）", { exact: true }),
   ).toHaveValue("2");
   await page.getByLabel("字距（目标像素）", { exact: true }).fill("3");
+  await page.getByLabel("字距（目标像素）", { exact: true }).press("Enter");
   await page.getByTitle("撤销", { exact: true }).click();
   await expect(
     page.getByLabel("字距（目标像素）", { exact: true }),
