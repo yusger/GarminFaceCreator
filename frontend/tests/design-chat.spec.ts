@@ -175,6 +175,7 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
         body.messages.at(-1).content.split("CURRENT_DESIGN_CONTEXT\n")[1],
       );
       expect(context.capabilities.catalogVersion).toBe("1.6.1");
+      expect(context.capabilities.generationFieldContractVersion).toBe("fields-1");
       expect(context.capabilities.deterministic.rotation.supportedKinds).toEqual(["rect","line","circle","polygon"]);
       const operations =
         count === 1
