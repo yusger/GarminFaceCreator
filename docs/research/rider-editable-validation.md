@@ -9,3 +9,5 @@
 可选Playwright验证显式使用GFC_RIDER_FIXTURES/GFC_RIDER_SOURCE，检查可编辑结构、实际网页导出及真正SDK编译；原图/导出/工程只保留本地Temp，不提交。图像语义与差异由原稿及独立证据评估，不以Schema或编译成功当还原完成。Rider不进入默认表盘库。
 
 为满足纯盘面截图契约，browser-capture-2移除exact模式的编辑器外缘描边，并将裁切半径与逻辑屏幕227对齐；编辑器辅助边框保持原用法。旧browser-capture-1记录是历史证据，不能覆盖或冒充新版基准。
+
+固定数据比较使用scripts/compile-rider-fixed-fixtures.mjs，默认仅准备本地源码，显式--compile和GFC_TEST_URL才向测试环境提交。它保留真实网页准备的FNT/PNG，只对测试源码注入固定时钟/数据与帧完成标记；PRG与摘要留Temp，凭证只在内存。aod是强制同一绘制分支，未验证SDK睡眠事件或低功耗行为，不可作为普通动态表盘发布。

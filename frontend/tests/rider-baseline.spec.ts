@@ -88,11 +88,13 @@ for (const id of ["02", "05"])
           .getByRole("button", { name: "下载截图参数", exact: true })
           .click();
         const metadata = JSON.parse(
-          await readFile((await metaWait).path()!, "utf8"),
+          await readFile((await (await metaWait).path())!, "utf8"),
         );
         expect(metadata.width).toBe(pixels);
         expect(metadata.rendererVersion).toBe("browser-capture-2");
         expect(metadata.preview.steps).toBe(8420);
+        expect(metadata.preview.time).toBe(audit.fixedPreview.time);
+        expect(metadata.preview.seconds).toBe(mode === "aod" ? 0 : audit.fixedPreview.seconds);
         await writeFile(
           join(dir!, `browser-${id}-${pixels}-${mode}.json`),
           JSON.stringify(metadata, null, 2),
