@@ -1,6 +1,6 @@
 import {controlSettingKey,sourceCode} from "./nativeSettingIds.ts";
 import type { Project, CodeFile } from "./domain.ts";
-import { activeTheme,themeCode } from "./themes.ts";
+import { themeCode,themeBackground,themeBackgroundKey } from "./themes.ts";
 export const settingKey = (id: string) => "Gfc_" + id.replaceAll("-", "_");
 export const colorPalette = [
   "#FFFFFF",
@@ -43,6 +43,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
       ...colorPalette,
     ]),
   ];
+  const backgroundEntries=themes.map(t=>`if(theme.equals(${q(t.id)})){${[...new Set([themeBackground(p,t.id),t.backgroundColor,"#000000",...colorPalette])].map(colour=>item(colour,`{:action=>"set",:key=>${q(themeBackgroundKey(t.id))},:value=>0x${colour.slice(1)}}`)).join("")}}`).join("");
   const values = controls
     .map((c) => {
       const entries =
@@ -57,7 +58,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
   const resets = themes
     .map(
       (t) =>
-        `if(theme.equals(${q(t.id)})){${controls
+        `if(theme.equals(${q(t.id)})){Application.Properties.setValue(${q(themeBackgroundKey(t.id))},0x${t.backgroundColor.slice(1)});${controls
           .filter((c) => t.controlIds.includes(c.id))
           .map(
             (c) =>
@@ -76,8 +77,9 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  var menuMode=null;var menuControl=null;
  function onShow(){Menu2.onShow();rebuild();}
  function rebuild(){while(deleteItem(0)==true){}var mode=menuMode;var control=menuControl;var theme=gfcThemeId();
- if(mode.equals("root")){${item("Theme", '{:action=>"themes"}', "theme")}${root}${item("Reset current theme", '{:action=>"reset"}')}}
+ if(mode.equals("root")){${item("Theme", '{:action=>"themes"}', "theme")}${item("Background",'{:action=>"background"}')}${root}${item("Reset current theme", '{:action=>"reset"}')}}
  else if(mode.equals("themes")){${themes.map((t) => item(t.name, `{:action=>"set",:key=>"Gfc_Theme",:value=>${themeCode(t.id)}}`)).join("")}}
+ else if(mode.equals("background")){${backgroundEntries}}
  else if(mode.equals("values")){${values}}
  }
  }
@@ -85,6 +87,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  function initialize(){Menu2InputDelegate.initialize();}
  function onSelect(item){var id=item.getId() as Lang.Dictionary;var action=id[:action];
  if(action.equals("themes")){WatchUi.pushView(new GfcSettingsMenu("themes",null),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
+ else if(action.equals("background")){WatchUi.pushView(new GfcSettingsMenu("background",null),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
  else if(action.equals("control")){WatchUi.pushView(new GfcSettingsMenu("values",id[:id]),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
  else if(action.equals("set")){Application.Properties.setValue(id[:key],id[:value]);Application.getApp().onSettingsChanged();WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);}
  else if(action.equals("reset")){var theme=gfcThemeId();${resets}Application.getApp().onSettingsChanged();WatchUi.requestUpdate();}

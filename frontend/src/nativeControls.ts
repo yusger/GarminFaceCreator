@@ -1,6 +1,6 @@
 import {controlSettingKey,legacySettingKey,sourceCode,nativeSourceSettings} from "./nativeSettingIds.ts";
 import { nativeThemeMenu } from "./nativeThemeMenu.ts";
-import { themeIndex, layerThemeIndex, activeTheme,themeCode } from "./themes.ts";
+import { themeIndex, layerThemeIndex, activeTheme,themeCode,themeBackground,themeBackgroundKey } from "./themes.ts";
 import { sourceSlotLayer,sourceSlotLabel,sourceSlotThresholds } from "./dataSlots.ts";
 import type { Project, Layer, CodeFile } from "./domain.ts";
 import {
@@ -141,6 +141,7 @@ export function nativeControls(p: Project) {
     );
   }
   if (p.themes) {
+    for(const t of p.themes.presets){const id=themeBackgroundKey(t.id),entries=[...new Set([themeBackground(p,t.id),t.backgroundColor,"#000000",...palette])];properties.push(`<property id="${id}" type="number">${hex(themeBackground(p,t.id))}</property>`);strings.push(`<string id="${id}">${xml(t.name+" background")}</string>`);settings.push(`<setting propertyKey="@Properties.${id}" title="@Strings.${id}"><settingConfig type="list">${entries.map((colour,i)=>{strings.push(`<string id="${id}_${i}">${colour}</string>`);return `<listEntry value="${hex(colour)}">@Strings.${id}_${i}</listEntry>`;}).join("")}</settingConfig></setting>`);}
     properties.push(
       `<property id="Gfc_Theme" type="number">${themeCode(activeTheme(p)!.id)}</property>`,
     );
@@ -157,10 +158,10 @@ export function nativeControls(p: Project) {
     );
   }
   const themeReads = p.themes
-    ? `var idx=${p.themes.presets.findIndex((t) => t.id === p.themes!.defaultId)};try{var theme=Application.Properties.getValue("Gfc_Theme");if(theme instanceof Toybox.Lang.Number){${p.themes.presets.map((t, i) => `if(theme==${themeCode(t.id)}){idx=${i};}`).join("")}}}catch(e){}settingsCache["Gfc_Theme"]=idx;`
+    ? `var idx=${p.themes.presets.findIndex((t) => t.id === p.themes!.defaultId)};try{var theme=Application.Properties.getValue("Gfc_Theme");if(theme instanceof Toybox.Lang.Number){${p.themes.presets.map((t, i) => `if(theme==${themeCode(t.id)}){idx=${i};}`).join("")}}}catch(e){}settingsCache["Gfc_Theme"]=idx;${p.themes.presets.map(t=>`{var bgValue=null;try{bgValue=Application.Properties.getValue("${themeBackgroundKey(t.id)}");}catch(e){}settingsCache["${themeBackgroundKey(t.id)}"]=(bgValue instanceof Toybox.Lang.Number && bgValue>=0 && bgValue<=16777215)?bgValue:${hex(themeBackground(p,t.id))};}`).join("")}`
     : "";
   const themeFrame = p.themes
-    ? 'var cfgTheme=settingsCache["Gfc_Theme"] as Toybox.Lang.Number;'
+    ? 'var cfgTheme=settingsCache["Gfc_Theme"] as Toybox.Lang.Number;'+`var cfgThemeBackground=settingsCache[${JSON.stringify(p.themes.presets.map(t=>themeBackgroundKey(t.id)))}[cfgTheme]] as Toybox.Lang.Number;`
     : "";
   const reads = controls
     .map((c) => {
@@ -180,7 +181,7 @@ export function nativeControls(p: Project) {
   return {
     menuFiles: nativeThemeMenu(p),
     frameVariables: [
-      ...(p.themes ? [{ name: "cfgTheme", type: "Toybox.Lang.Number" }] : []),
+      ...(p.themes ? [{ name: "cfgTheme", type: "Toybox.Lang.Number" },{name:"cfgThemeBackground",type:"Toybox.Lang.Number"}] : []),
       ...controls.map((c) => ({
         name: variable(c.id),
         type:

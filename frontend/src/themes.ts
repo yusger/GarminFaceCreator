@@ -2,6 +2,7 @@ import {resolveControls,setControl} from "./projectControls.ts";
 import {contextIdentity} from "./localIdentity.ts";
 import type { Project, Layer } from "./domain.ts";
 export function themeCode(id:string){return parseInt(contextIdentity(id).split(":")[1].slice(0,8),16)&0x7fffffff;}
+export const themeBackgroundKey=(id:string)=>"Gfc_Background_"+themeCode(id);
 export type ThemePreset = {
   id: string;
   name: string;
