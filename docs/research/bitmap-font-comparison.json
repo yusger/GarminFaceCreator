@@ -1,0 +1,415 @@
+{
+  "note": "Unedited captures; foreground pixel diagnostics, not fidelity percentage or hardware acceptance. Static text and licensed library-derived bitmap fixtures; active mode only.",
+  "records": [
+    {
+      "target": "venu445mm",
+      "sourceSha256": "35f96d6f3ab7ba5e9d51114d4ac238f9fe5f71399c0565b86382759757044d85",
+      "prgSha256": "d3af2d028de55716c0b0541f0e539c7d09a3c0010e2a7e9d779bfe534d9659f4",
+      "width": 454,
+      "rows": [
+        {
+          "row": 0,
+          "bounds": [
+            {
+              "minX": 138,
+              "minY": 119,
+              "maxX": 312,
+              "maxY": 145
+            },
+            {
+              "minX": 138,
+              "minY": 119,
+              "maxX": 312,
+              "maxY": 145
+            }
+          ],
+          "shifts": [
+            {
+              "nativeDeltaY": -4,
+              "foregroundPixels": 3200,
+              "foregroundRgbMAE": 73.59802083333334
+            },
+            {
+              "nativeDeltaY": -3,
+              "foregroundPixels": 3008,
+              "foregroundRgbMAE": 62.517508865248224
+            },
+            {
+              "nativeDeltaY": -2,
+              "foregroundPixels": 2808,
+              "foregroundRgbMAE": 45.849596391263056
+            },
+            {
+              "nativeDeltaY": -1,
+              "foregroundPixels": 2596,
+              "foregroundRgbMAE": 26.09437596302003
+            },
+            {
+              "nativeDeltaY": 0,
+              "foregroundPixels": 2392,
+              "foregroundRgbMAE": 6.991499442586399
+            },
+            {
+              "nativeDeltaY": 1,
+              "foregroundPixels": 2604,
+              "foregroundRgbMAE": 26.682539682539684
+            },
+            {
+              "nativeDeltaY": 2,
+              "foregroundPixels": 2815,
+              "foregroundRgbMAE": 46.35405565423327
+            },
+            {
+              "nativeDeltaY": 3,
+              "foregroundPixels": 3016,
+              "foregroundRgbMAE": 62.97170645446508
+            },
+            {
+              "nativeDeltaY": 4,
+              "foregroundPixels": 3208,
+              "foregroundRgbMAE": 73.96311305070657
+            }
+          ]
+        },
+        {
+          "row": 1,
+          "bounds": [
+            {
+              "minX": 92,
+              "minY": 203,
+              "maxX": 361,
+              "maxY": 231
+            },
+            {
+              "minX": 92,
+              "minY": 203,
+              "maxX": 361,
+              "maxY": 231
+            }
+          ],
+          "shifts": [
+            {
+              "nativeDeltaY": -4,
+              "foregroundPixels": 3742,
+              "foregroundRgbMAE": 90.24710493497238
+            },
+            {
+              "nativeDeltaY": -3,
+              "foregroundPixels": 3472,
+              "foregroundRgbMAE": 80.93289170506912
+            },
+            {
+              "nativeDeltaY": -2,
+              "foregroundPixels": 3190,
+              "foregroundRgbMAE": 60.307523510971784
+            },
+            {
+              "nativeDeltaY": -1,
+              "foregroundPixels": 2905,
+              "foregroundRgbMAE": 35.30889271371199
+            },
+            {
+              "nativeDeltaY": 0,
+              "foregroundPixels": 2629,
+              "foregroundRgbMAE": 7.524534043362495
+            },
+            {
+              "nativeDeltaY": 1,
+              "foregroundPixels": 2916,
+              "foregroundRgbMAE": 35.65317786922725
+            },
+            {
+              "nativeDeltaY": 2,
+              "foregroundPixels": 3201,
+              "foregroundRgbMAE": 60.58669165885661
+            },
+            {
+              "nativeDeltaY": 3,
+              "foregroundPixels": 3483,
+              "foregroundRgbMAE": 81.14077902191598
+            },
+            {
+              "nativeDeltaY": 4,
+              "foregroundPixels": 3748,
+              "foregroundRgbMAE": 90.43240839558875
+            }
+          ]
+        },
+        {
+          "row": 2,
+          "bounds": [
+            {
+              "minX": 143,
+              "minY": 289,
+              "maxX": 313,
+              "maxY": 315
+            },
+            {
+              "minX": 143,
+              "minY": 289,
+              "maxX": 313,
+              "maxY": 315
+            }
+          ],
+          "shifts": [
+            {
+              "nativeDeltaY": -4,
+              "foregroundPixels": 3245,
+              "foregroundRgbMAE": 107.52994350282486
+            },
+            {
+              "nativeDeltaY": -3,
+              "foregroundPixels": 3069,
+              "foregroundRgbMAE": 88.82393830780927
+            },
+            {
+              "nativeDeltaY": -2,
+              "foregroundPixels": 2870,
+              "foregroundRgbMAE": 65.86806039488967
+            },
+            {
+              "nativeDeltaY": -1,
+              "foregroundPixels": 2661,
+              "foregroundRgbMAE": 37.86233245647
+            },
+            {
+              "nativeDeltaY": 0,
+              "foregroundPixels": 2441,
+              "foregroundRgbMAE": 8.721152533114843
+            },
+            {
+              "nativeDeltaY": 1,
+              "foregroundPixels": 2661,
+              "foregroundRgbMAE": 37.89389953651509
+            },
+            {
+              "nativeDeltaY": 2,
+              "foregroundPixels": 2870,
+              "foregroundRgbMAE": 65.77351916376307
+            },
+            {
+              "nativeDeltaY": 3,
+              "foregroundPixels": 3069,
+              "foregroundRgbMAE": 88.67274899532964
+            },
+            {
+              "nativeDeltaY": 4,
+              "foregroundPixels": 3245,
+              "foregroundRgbMAE": 107.16178736517719
+            }
+          ]
+        }
+      ],
+      "generator": "basic-59-bitmap-metrics",
+      "sdk": "9.3.0",
+      "cleanup": "completed",
+      "applicationMode": "active",
+      "dataMode": "simulator-defaults-dynamic"
+    },
+    {
+      "target": "venu441mm",
+      "sourceSha256": "351a9b7282035cda6a4bf21aac651c963d630dfa994b12b9b62fdffbd5919a20",
+      "prgSha256": "a296e4fc34ca0ad4e76b13fd8df7efb0c8727ea2269de5358f3c02da5507f2ed",
+      "width": 390,
+      "rows": [
+        {
+          "row": 0,
+          "bounds": [
+            {
+              "minX": 117,
+              "minY": 101,
+              "maxX": 269,
+              "maxY": 123
+            },
+            {
+              "minX": 117,
+              "minY": 101,
+              "maxX": 269,
+              "maxY": 123
+            }
+          ],
+          "shifts": [
+            {
+              "nativeDeltaY": -4,
+              "foregroundPixels": 2489,
+              "foregroundRgbMAE": 78.49979911611089
+            },
+            {
+              "nativeDeltaY": -3,
+              "foregroundPixels": 2353,
+              "foregroundRgbMAE": 67.92746847995467
+            },
+            {
+              "nativeDeltaY": -2,
+              "foregroundPixels": 2182,
+              "foregroundRgbMAE": 51.09532538955087
+            },
+            {
+              "nativeDeltaY": -1,
+              "foregroundPixels": 1998,
+              "foregroundRgbMAE": 29.526192859526194
+            },
+            {
+              "nativeDeltaY": 0,
+              "foregroundPixels": 1816,
+              "foregroundRgbMAE": 7.680433186490455
+            },
+            {
+              "nativeDeltaY": 1,
+              "foregroundPixels": 1994,
+              "foregroundRgbMAE": 29.375626880641924
+            },
+            {
+              "nativeDeltaY": 2,
+              "foregroundPixels": 2178,
+              "foregroundRgbMAE": 50.91475359657178
+            },
+            {
+              "nativeDeltaY": 3,
+              "foregroundPixels": 2350,
+              "foregroundRgbMAE": 68.14070921985815
+            },
+            {
+              "nativeDeltaY": 4,
+              "foregroundPixels": 2486,
+              "foregroundRgbMAE": 78.48618932689729
+            }
+          ]
+        },
+        {
+          "row": 1,
+          "bounds": [
+            {
+              "minX": 83,
+              "minY": 173,
+              "maxX": 305,
+              "maxY": 197
+            },
+            {
+              "minX": 83,
+              "minY": 173,
+              "maxX": 305,
+              "maxY": 197
+            }
+          ],
+          "shifts": [
+            {
+              "nativeDeltaY": -4,
+              "foregroundPixels": 2762,
+              "foregroundRgbMAE": 96.42783007482501
+            },
+            {
+              "nativeDeltaY": -3,
+              "foregroundPixels": 2643,
+              "foregroundRgbMAE": 88.9906671711439
+            },
+            {
+              "nativeDeltaY": -2,
+              "foregroundPixels": 2406,
+              "foregroundRgbMAE": 67.56705458575783
+            },
+            {
+              "nativeDeltaY": -1,
+              "foregroundPixels": 2162,
+              "foregroundRgbMAE": 39.722941720629045
+            },
+            {
+              "nativeDeltaY": 0,
+              "foregroundPixels": 1923,
+              "foregroundRgbMAE": 7.889928930490553
+            },
+            {
+              "nativeDeltaY": 1,
+              "foregroundPixels": 2162,
+              "foregroundRgbMAE": 39.654794942954055
+            },
+            {
+              "nativeDeltaY": 2,
+              "foregroundPixels": 2406,
+              "foregroundRgbMAE": 67.48004987531172
+            },
+            {
+              "nativeDeltaY": 3,
+              "foregroundPixels": 2644,
+              "foregroundRgbMAE": 88.90342914775593
+            },
+            {
+              "nativeDeltaY": 4,
+              "foregroundPixels": 2765,
+              "foregroundRgbMAE": 96.49306811332127
+            }
+          ]
+        },
+        {
+          "row": 2,
+          "bounds": [
+            {
+              "minX": 122,
+              "minY": 247,
+              "maxX": 267,
+              "maxY": 269
+            },
+            {
+              "minX": 122,
+              "minY": 247,
+              "maxX": 267,
+              "maxY": 269
+            }
+          ],
+          "shifts": [
+            {
+              "nativeDeltaY": -4,
+              "foregroundPixels": 2483,
+              "foregroundRgbMAE": 115.47684252919855
+            },
+            {
+              "nativeDeltaY": -3,
+              "foregroundPixels": 2338,
+              "foregroundRgbMAE": 96.33903621328771
+            },
+            {
+              "nativeDeltaY": -2,
+              "foregroundPixels": 2178,
+              "foregroundRgbMAE": 71.87756351392716
+            },
+            {
+              "nativeDeltaY": -1,
+              "foregroundPixels": 2003,
+              "foregroundRgbMAE": 41.657014478282576
+            },
+            {
+              "nativeDeltaY": 0,
+              "foregroundPixels": 1818,
+              "foregroundRgbMAE": 9.677117711771178
+            },
+            {
+              "nativeDeltaY": 1,
+              "foregroundPixels": 2003,
+              "foregroundRgbMAE": 42.528374105508405
+            },
+            {
+              "nativeDeltaY": 2,
+              "foregroundPixels": 2178,
+              "foregroundRgbMAE": 72.69574533210897
+            },
+            {
+              "nativeDeltaY": 3,
+              "foregroundPixels": 2338,
+              "foregroundRgbMAE": 96.91331622469347
+            },
+            {
+              "nativeDeltaY": 4,
+              "foregroundPixels": 2483,
+              "foregroundRgbMAE": 116.04765740367834
+            }
+          ]
+        }
+      ],
+      "generator": "basic-59-bitmap-metrics",
+      "sdk": "9.3.0",
+      "cleanup": "completed",
+      "applicationMode": "active",
+      "dataMode": "simulator-defaults-dynamic"
+    }
+  ]
+}
