@@ -1,3 +1,4 @@
+import {analyzeAodPixels} from "../../src/aodPixels";
 ﻿import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import MoonIcon from "../../src/MoonIcon";
@@ -150,5 +151,5 @@ async function fixture(target: string, aod: boolean) {
   };
 }
 Object.assign(window, {
-  gfcMoonFixture: { fixture, preparedCodeFiles, preparedAssets },
+  gfcMoonFixture: { fixture, preparedCodeFiles, preparedAssets,analyzeAodPixels },
 });

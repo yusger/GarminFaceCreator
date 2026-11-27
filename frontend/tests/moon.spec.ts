@@ -1,3 +1,4 @@
+import {generationDiagnostics} from "../src/generationDiagnostics";
 ﻿import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import {
@@ -253,3 +254,5 @@ for (const target of ["venu445mm", "venu441mm"])
       )
       .toBe("succeeded");
   });
+
+test("moon layer budget is visible before generation",()=>{const p=project("MoonBudget",true);p.layers=Array.from({length:9},(_,i)=>({...layer("moon"),id:"moon"+i}));expect(generationDiagnostics(p).some(d=>d.code==="MOON_LAYER_BUDGET")).toBe(true);expect(()=>localGenerate(p)).toThrow(/8/);});
