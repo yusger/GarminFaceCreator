@@ -1,6 +1,9 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import type { Project } from "./domain";
-import { upgradeThemeDefinition, themeUpgradeBase } from "./themeUpgrade";
+import {
+  upgradeThemeDefinition,
+  applyCheckedThemeUpgrade,
+} from "./themeUpgrade";
 export default function ThemeUpgradePanel({
   project,
   onChange,
@@ -60,9 +63,7 @@ export default function ThemeUpgradePanel({
             type="button"
             onClick={() => {
               try {
-                if (themeUpgradeBase(project) !== pending.base)
-                  throw Error("项目已修改，请重新检查更新文件");
-                onChange(pending.project);
+                onChange(applyCheckedThemeUpgrade(project, pending));
                 setPending(undefined);
                 setError("");
                 setStatus("主题定义已更新，兼容自定义值已保留");

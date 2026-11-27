@@ -28,8 +28,7 @@ export function upgradeThemeDefinition(current: Project, value: unknown) {
   const incoming = migrateProject(value);
   validateProject(incoming);
   if (!incoming.themes) throw Error("更新文件没有主题定义");
-  if (incoming.multiDevice)
-    throw Error("更新文件须为单设备主题定义");
+  if (incoming.multiDevice) throw Error("更新文件须为单设备主题定义");
   if (!(
     (current.referenceId &&
       (incoming.id === current.referenceId ||
@@ -134,4 +133,24 @@ export function upgradeThemeDefinition(current: Project, value: unknown) {
     })),
     base: themeUpgradeBase(current),
   };
+}
+
+export function applyCheckedThemeUpgrade(
+  current: Project,
+  checked: ReturnType<typeof upgradeThemeDefinition>,
+): Project {
+  if (themeUpgradeBase(current) !== checked.base)
+    throw Error("项目已修改，请重新检查更新文件");
+  // The preflight may remain open while code history or project metadata changes.
+  // Apply only the checked design frame, preserving the current project container.
+  const next = {
+    ...current,
+    ...editorFrame(checked.project),
+    schemaVersion: checked.project.schemaVersion,
+    revision: current.revision + 1,
+    codeRevision: -1,
+    updated: Date.now(),
+  };
+  validateProject(next);
+  return next;
 }

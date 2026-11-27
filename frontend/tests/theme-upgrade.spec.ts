@@ -1,7 +1,11 @@
 import { test, expect } from "@playwright/test";
 import { readFile } from "node:fs/promises";
 import { themedFixture } from "./fixtures/themedFixture";
-import { upgradeThemeDefinition, themeUpgradeBase } from "../src/themeUpgrade";
+import {
+  upgradeThemeDefinition,
+  themeUpgradeBase,
+  applyCheckedThemeUpgrade,
+} from "../src/themeUpgrade";
 import { setControl, resolveControls } from "../src/projectControls";
 import { setThemeBackground, selectTheme } from "../src/themes";
 import { localGenerate } from "../src/localGenerator";
@@ -231,4 +235,22 @@ test("editor checks updates before applying and can undo, save and reopen with o
   saved = await dump();
   expect(saved.themes.presets[0].version).toBe("1.1.0");
   expect(saved.controlValues).toEqual(p.controlValues);
+});
+
+test("applying checked design retains newer project metadata and refuses intervening design edits", () => {
+  const p = themedFixture(),
+    checked = upgradeThemeDefinition(p, update(p));
+  const latest = {
+    ...p,
+    name: "Renamed after check",
+    files: [{ path: "source/Recent.mc", content: "// retained history" }],
+  };
+  const result = applyCheckedThemeUpgrade(latest, checked);
+  expect(result.name).toBe(latest.name);
+  expect(result.files).toEqual(latest.files);
+  expect(result.codeRevision).toBe(-1);
+  expect(() =>
+    applyCheckedThemeUpgrade(setControl(p, "apex-color", "#123456"), checked),
+  ).toThrow(/重新检查/);
+  expect(p.themes!.presets[0].version).toBe("1.0.0");
 });
