@@ -1,6 +1,7 @@
-export const ENGINEERING_PROMPT_VERSION="engineering-2-data-linkage";
+import type {RequestContext} from "./requestContext";
+export const ENGINEERING_PROMPT_VERSION="engineering-3-design-context";
 export const DESIGN_PROMPT_VERSION = "design-7-source-contract";
-export const CHAT_PROMPT_VERSION = "chat-8-source-contract";
+export const CHAT_PROMPT_VERSION = "chat-9-design-identity";
 const KEY = "gfc-ai-request-history-v1";
 const MAX_BYTES = 512 * 1024;
 export type RequestSnapshot = {
@@ -14,6 +15,7 @@ export type RequestSnapshot = {
   sourceContractVersion?: string;
   endpoint: string;
   status: "pending" | "response" | "failed" | "cancelled";
+  context?:RequestContext;
   request: unknown;
   usage?: Record<string, number>;
   error?: string;

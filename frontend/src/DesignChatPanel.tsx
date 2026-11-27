@@ -109,7 +109,7 @@ export default function DesignChat({
     setBusy(true);
     setError("");
     try {
-      const images: { label: string; data: string }[] = [];
+      const images: { label: string; data: string;mode?:"active"|"aod" }[] = [];
       if (attachCurrent) {
         const shot = await captureWatchface(project, preview, false);
         images.push({
@@ -117,6 +117,7 @@ export default function DesignChat({
             "当前亮屏盘面，固定数据：" +
             JSON.stringify({ ...shot, data: undefined }),
           data: shot.data,
+          mode:shot.mode,
         });
       }
       if (attachAod) {
@@ -126,6 +127,7 @@ export default function DesignChat({
             "当前AOD盘面，固定数据：" +
             JSON.stringify({ ...shot, data: undefined }),
           data: shot.data,
+          mode:shot.mode,
         });
       }
       for (const r of references)
@@ -206,7 +208,7 @@ export default function DesignChat({
           if (mounted.current) setRounds((items) => [...items, r]);
         },
         request: async (current, round, history) => {
-          const images: { label: string; data: string }[] = [];
+          const images: { label: string; data: string;mode?:"active"|"aod" }[] = [];
           for (const aod of [false, true]) {
             if (aod ? !attachAod : !attachCurrent) continue;
             const shot = await captureWatchface(current, frozen, aod);
@@ -220,6 +222,7 @@ export default function DesignChat({
                 "，固定数据：" +
                 JSON.stringify({ ...shot, data: undefined }),
               data: shot.data,
+              mode:shot.mode,
             });
           }
           for (const r of refs)

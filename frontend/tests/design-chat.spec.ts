@@ -245,8 +245,9 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
       (s: any) =>
         s.kind === "chat" &&
         s.status === "response" &&
-        s.promptVersion === "chat-8-source-contract" &&
-        s.profileId === "chat-test" && s.sourceContractVersion === "1.0.0",
+        s.promptVersion === "chat-9-design-identity" &&
+        s.profileId === "chat-test" && s.sourceContractVersion === "1.0.0" &&
+        s.context?.version === "request-context-1" && s.context.target === "venu445mm" && s.context.inputFingerprint.startsWith("local-v1:"),
     ),
   ).toBe(true);
   expect(JSON.stringify(snapshots)).not.toContain("private-test-key");

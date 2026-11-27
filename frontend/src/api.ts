@@ -1,3 +1,5 @@
+import {generationContext} from "./generationContext";
+import {requestContext,type RequestContext} from "./requestContext";
 import {
   startRequestSnapshot,
   finishRequestSnapshot,
@@ -146,10 +148,12 @@ export async function generate(
   instruction: string,
   signal: AbortSignal,
 ) {
+  const {projectId,revision,masterFingerprint,variantFingerprint}=generationContext(project,[]);
   project = expandWidgets(project);
   const device = generationDevice(project);
   const scene = {
     ...generationHeader(project),
+    designIdentity:{projectId,revision,masterFingerprint,variantFingerprint},
     assets: [
       ...binaryAssets(project)
         .filter(
@@ -221,6 +225,7 @@ export async function generate(
     },
     signal,
     "engineering",
+    requestContext(scene),
   );
   const content = data.choices?.[0]?.message?.content;
   const raw =
@@ -327,6 +332,7 @@ async function designRequest(
   options: RequestInit,
   signal: AbortSignal,
   kind = "design",
+  context?:RequestContext,
 ) {
   let body: unknown;
   try {
@@ -344,6 +350,7 @@ async function designRequest(
       profileId: p.id,
       sourceContractVersion,
       endpoint: new URL(p.url).origin,
+      context,
       request: body,
     },
     p.key,
@@ -407,6 +414,8 @@ export async function requestDesign(
       }),
     },
     AbortSignal.any([signal, AbortSignal.timeout(180000)]),
+    "design",
+    requestContext(payload,refs),
   );
   const text = data.choices?.[0]?.message?.content;
   const raw =
@@ -433,7 +442,7 @@ export async function requestDesignChat(
   payload: unknown,
   history: import("./designChat").ChatMessage[],
   signal: AbortSignal,
-  images: { label: string; data: string }[] = [],
+  images: { label: string; data: string;mode?:"active"|"aod" }[] = [],
   onUsage?:(usage:Record<string,number>|undefined)=>void,
 ): Promise<string> {
   if (!profile.model.trim()) throw Error("请先选择模型");
@@ -487,6 +496,7 @@ export async function requestDesignChat(
     },
     AbortSignal.any([signal, AbortSignal.timeout(180000)]),
     "chat",
+    requestContext(payload,images),
   );
   onUsage?.(data.usage && typeof data.usage==="object" ? Object.fromEntries(Object.entries(data.usage).filter(([,v])=>typeof v==="number"&&Number.isFinite(v)&&v>=0)) as Record<string,number> : undefined);
   const content = data.choices?.[0]?.message?.content;

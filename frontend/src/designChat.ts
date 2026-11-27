@@ -1,3 +1,4 @@
+import {generationContext} from "./generationContext";
 import {validPolygon} from "./geometry";
 import {chatKinds,designCapabilityContext} from "./capabilities";
 import {
@@ -79,6 +80,7 @@ export function chatFingerprint(p: Project) {
   });
 }
 export function chatPayload(p: Project, selected: string[]) {
+  const {projectId,revision,masterFingerprint,variantFingerprint}=generationContext(p,[]);
   const scene = resolveControls(p);
   const describe = (l: Layer): Record<string, unknown> => ({
     id: l.id,
@@ -110,6 +112,7 @@ export function chatPayload(p: Project, selected: string[]) {
   });
   return {
     protocol: "gfc-design-chat-v1",
+    designIdentity:{projectId,revision,masterFingerprint,variantFingerprint},
     capabilities:designCapabilityContext(),
     device: generationDevice(p),
     coordinateSystem: { width: 454, height: 454, shape: "circle" },
