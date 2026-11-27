@@ -1,3 +1,4 @@
+import PolygonEditor from "./PolygonEditor";
 import FontLibrary from "./FontLibraryPanel";
 import ArrangeTools from "./ArrangeTools";
 import DesignChat from "./DesignChatPanel";
@@ -128,6 +129,7 @@ const tools = [
   ["hand", "指针", Clock],
   ["wordTime", "文字报时", Type],
   ["rect", "矩形", Square],
+  ["polygon", "多边形", Square],
   ["text", "文字", Type],
   ["circle", "圆形", Circle],
   ["line", "直线", Minus],
@@ -2329,7 +2331,7 @@ export default function App() {
                         <IconDetails id={current.libraryIcon.id} />
                       </>
                     )}
-                    {["rect", "circle", "line"].includes(current.kind) && (
+                    {["rect", "circle", "line", "polygon"].includes(current.kind) && (
                       <>
                         {current.kind !== "line" && (
                           <label className="inline">
@@ -2441,6 +2443,7 @@ export default function App() {
                         </p>
                       </>
                     )}
+                    {current.kind === "polygon" && <PolygonEditor points={current.polygonPoints!} onChange={polygonPoints=>patch({polygonPoints})}/>}
                     {current.kind === "wordTime" && (
                       <>
                         <label>

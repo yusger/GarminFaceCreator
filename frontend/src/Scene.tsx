@@ -311,6 +311,8 @@ export default function Scene({
                   condition={preview.weatherCondition}
                   missing={preview.missing}
                 />
+              ) : l.kind === "polygon" ? (
+                <polygon points={l.polygonPoints!.map(([x,y])=>`${x*l.w},${y*l.h}`).join(" ")} fill={l.fillEnabled===false?"none":aod?l.aodColor||"#777777":l.color} stroke={l.strokeEnabled?(aod?l.aodColor||"#777777":l.strokeColor||l.color):"none"} strokeWidth={l.strokeWidth||2} opacity={l.opacity??1}/>
               ) : l.kind === "rect" ? (
                 <rect
                   width={l.w}

@@ -18,7 +18,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-23-geometry-rotation";
+export const LOCAL_GENERATOR_VERSION = "basic-24-convex-polygon";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -82,7 +82,8 @@ function primitive(l: Layer, aod: boolean) {
           `dc.drawLine(px(${num(x1)}),px(${num(y1)}),px(${num(x2)}),px(${num(y2)}));`;
   }
   let points: number[][] = [];
-  if (l.kind === "circle")
+  if(l.kind === "polygon") points=l.polygonPoints!.map(([x,y])=>[l.x+x*l.w,l.y+y*l.h]);
+  else if (l.kind === "circle")
     points = Array.from({ length: 48 }, (_, i) => {
       const a = (i * Math.PI * 2) / 48;
       return [
@@ -214,7 +215,7 @@ function draw(l: Layer, aod: boolean) {
     return `drawStaticImage(dc,Rez.Drawables.${bitmapId(l)},px(${num(l.x)}),px(${num(l.y)}));`;
   if (l.kind === "image" && l.libraryIcon)
     return `GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
-  if (["rect", "circle", "line"].includes(l.kind))
+  if (["rect", "circle", "line", "polygon"].includes(l.kind))
     return `{${primitive(l, aod)}}`;
   const align = l.textAlign || "center",
     x = l.x + (align === "left" ? 0 : align === "right" ? l.w : l.w / 2);
@@ -290,7 +291,7 @@ export function localGenerate(p: Project) {
   );
   if (unsupported.length)
     throw Error(
-      "本地生成试验仅支持时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据、静态图片和内置图标（仅rect/line/circle支持旋转，其他类型需未旋转；心率需关闭心形符号）。请移除或排除：" +
+      "本地生成试验仅支持时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据、静态图片和内置图标（仅rect/line/circle/polygon支持旋转，其他类型需未旋转；心率需关闭心形符号）。请移除或排除：" +
         unsupported.map((l) => l.name).join("、"),
     );
   const imageLayers = included.filter(

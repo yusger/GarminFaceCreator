@@ -1,3 +1,4 @@
+import {validPolygon} from "./geometry";
 import {chatKinds,designCapabilityContext} from "./capabilities";
 import {
   layer,
@@ -173,7 +174,8 @@ function patchLayer(l: Layer, patch: unknown): Layer {
   )
     throw Error("复合控件只能整体修改位置、尺寸或显示；配色请使用内部参数");
   for (const [k, v] of Object.entries(patch as Record<string, unknown>)) {
-    if (k === "thresholdRules") {
+    if(k === "polygonPoints"){if(l.kind!=="polygon"||!validPolygon(v))throw Error("AI多边形无效");}
+    else if (k === "thresholdRules") {
       if (
         !Array.isArray(v) ||
         v.length > 8 ||

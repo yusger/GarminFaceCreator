@@ -174,8 +174,8 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
       const context = JSON.parse(
         body.messages.at(-1).content.split("CURRENT_DESIGN_CONTEXT\n")[1],
       );
-      expect(context.capabilities.catalogVersion).toBe("1.1.0");
-      expect(context.capabilities.deterministic.rotation.supportedKinds).toEqual(["rect","line","circle"]);
+      expect(context.capabilities.catalogVersion).toBe("1.2.0");
+      expect(context.capabilities.deterministic.rotation.supportedKinds).toEqual(["rect","line","circle","polygon"]);
       const operations =
         count === 1
           ? [
@@ -244,7 +244,7 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
       (s: any) =>
         s.kind === "chat" &&
         s.status === "response" &&
-        s.promptVersion === "chat-3-visual",
+        s.promptVersion === "chat-4-polygon",
     ),
   ).toBe(true);
   expect(JSON.stringify(snapshots)).not.toContain("private-test-key");

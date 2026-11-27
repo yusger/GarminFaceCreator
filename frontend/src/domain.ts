@@ -1,3 +1,4 @@
+import {regularPolygon,validPolygon} from "./geometry.ts";
 import {validateCompound,type Compound,type CompoundStyle} from "./compound.ts";
 import {validateWidgetOrigin,type WidgetOrigin} from "./widgets.ts";
 import { validateControls, remapControlIds } from "./projectControls.ts";
@@ -21,9 +22,11 @@ export type Kind =
   | "ring"
   | "rect"
   | "circle"
-  | "line";
+  | "line"
+  | "polygon";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  polygonPoints?: [number,number][];
   compound?: Compound;
   compoundOverrides?: Record<string,CompoundStyle>;
   widgetOrigin?: WidgetOrigin;
@@ -202,7 +205,8 @@ export type Project = {
     | 23
     | 24
     | 25
-    | 26;
+    | 26
+    | 27;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -290,8 +294,10 @@ export function layer(kind: Kind): Layer {
       rect: "矩形",
       circle: "圆形",
       line: "直线",
+      polygon: "多边形",
     }[kind],
     kind,
+    ...(kind === "polygon" ? {polygonPoints:regularPolygon(8)} : {}),
     x: 140,
     y: 180,
     w: 150,
@@ -423,7 +429,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 26,
+    schemaVersion: 27,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -453,10 +459,11 @@ export function validateProject(value: unknown): Project {
     "rect",
     "circle",
     "line",
+    "polygon",
   ];
   if (
     !p ||
-    p.schemaVersion !== 26 ||
+    p.schemaVersion !== 27 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -518,6 +525,7 @@ export function validateProject(value: unknown): Project {
         l.strokeWidth > 32)
     )
       throw Error("线宽无效");
+    if ((l.kind === "polygon" && !validPolygon(l.polygonPoints)) || (l.kind !== "polygon" && l.polygonPoints !== undefined)) throw Error("多边形须为3–32个归一化顶点的凸多边形");
     if (
       !kinds.includes(l.kind) ||
       typeof l.name !== "string" ||

@@ -37,6 +37,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   color: true,
   size: true,
   rotation: true,
+  polygonPoints:true,
   text: true,
   source: true,
   aod: true,
@@ -167,8 +168,9 @@ export function generationLayer(l: Layer) {
     aodSize: l.aodSize || l.size,
     aodSeconds: l.aodSeconds || "zero",
     thresholdFallback: l.thresholdFallback || l.color,
-    ...(["rect", "circle", "line"].includes(l.kind)
+    ...(["rect", "circle", "line", "polygon"].includes(l.kind)
       ? {
+          ...(l.kind==="polygon"?{polygonPoints:l.polygonPoints}:{}),
           fillEnabled: l.fillEnabled ?? l.kind !== "line",
           strokeEnabled: l.strokeEnabled ?? l.kind === "line",
           strokeColor: l.strokeColor || l.color,

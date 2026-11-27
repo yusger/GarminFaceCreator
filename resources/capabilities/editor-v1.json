@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.1.0",
-  "projectSchemaVersion": 26,
+  "version": "1.2.0",
+  "projectSchemaVersion": 27,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -397,6 +397,19 @@
       "deviceVerification": "not_verified_by_catalog",
       "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
       "test": "frontend/tests/capabilities.spec.ts"
+    },
+    {
+      "id": "core.polygon",
+      "kind": "polygon",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active/aod",
+      "minimumApi": null,
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "3..32 strictly convex normalized [0,1] vertices. Fill/stroke, clockwise center rotation. No arbitrary SVG paths or scripting.",
+      "test": "frontend/tests/polygon.spec.ts"
     }
   ],
   "rules": {
@@ -415,7 +428,8 @@
     "rotatedKinds": [
       "rect",
       "line",
-      "circle"
+      "circle",
+      "polygon"
     ]
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

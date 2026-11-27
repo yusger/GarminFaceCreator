@@ -1,3 +1,4 @@
+import {validPolygon} from "./geometry";
 import {createKinds,designCapabilityContext} from "./capabilities";
 import { layoutTemplate } from "./layoutTemplates";
 import { designSourceUnit } from "./generationRequirements";
@@ -47,6 +48,7 @@ export const designFields = [
   "color",
   "size",
   "rotation",
+  "polygonPoints",
   "text",
   "source",
   "activeVisible",
@@ -178,6 +180,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       ],
       geometry: {
         positiveWidthAndHeight: true,
+        polygonPoints:"polygon only, 3..32 strictly convex normalized [0,1] pairs, no crossing/duplicate/collinear vertices",
         maxWidthAndHeight: 908,
         coordinateRange: [-454, 908],
         fontSize: [1, 200],
@@ -257,6 +260,7 @@ export function parseDesign(
     ids.add(v.id);
     for (const [k, value] of Object.entries(v)) {
       if (k === "thresholdRules") continue;
+      if(k === "polygonPoints"){if(!validPolygon(value))throw Error("AI多边形无效");continue;}
       if (
         !["string", "number", "boolean"].includes(typeof value) ||
         (typeof value === "number" && !Number.isFinite(value))

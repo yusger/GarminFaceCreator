@@ -46,7 +46,7 @@ export function localLayerDiagnostics(l: Layer): CapabilityDiagnostic[] {
     add(
       "LOCAL_ROTATION_UNSUPPORTED",
       "rotation",
-      "当前本地生成仅支持rect/line/circle旋转",
+      "当前本地生成仅支持rect/line/circle/polygon旋转",
     );
   if (l.kind === "meter" && !catalog.rules.meterSources.includes(l.source))
     add("LOCAL_METER_SOURCE_UNSUPPORTED", "source", "进度控件仅支持步数或电量");

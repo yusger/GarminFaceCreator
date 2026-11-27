@@ -32,7 +32,7 @@ export function validateGraphics(p: Project) {
     p.layers.some(
       (l) =>
         l.exportIncluded !== false &&
-        ["rect", "circle", "line"].includes(l.kind) &&
+        ["rect", "circle", "line", "polygon"].includes(l.kind) &&
         (l.opacity ?? 1) < 1,
     )
   )
