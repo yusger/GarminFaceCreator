@@ -1,0 +1,787 @@
+{
+  "note": "Original screenshots, static controlled UTC drawing fixtures. Foreground threshold is a diagnostic mask, not an AOD lit threshold. Native-vs-web numerical parity is separate from official primary-phase comparison. Not hardware/Sleep or fidelity-percent acceptance.",
+  "records": [
+    {
+      "id": "active-454",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled drawing fixture, four primary phases mirrored; source formulas tested at twelve UTC instants",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "references": [
+        {
+          "time": "2026-01-03T10:03:00Z",
+          "seconds": 1767434580,
+          "sample": {
+            "phase": 0.5129564947864955,
+            "illumination": 0.9983440968495372
+          },
+          "native": {
+            "phase": 0.51295806,
+            "illumination": 0.9983437
+          },
+          "phaseError": 0.0000015652135044730286,
+          "illuminationError": 3.9684953723195804e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.01295649478649552,
+          "officialIlluminationDistance": 0.001655903150462823
+        },
+        {
+          "time": "2026-01-10T15:48:00Z",
+          "seconds": 1768060080,
+          "sample": {
+            "phase": 0.7491945412969828,
+            "illumination": 0.5025304123425801
+          },
+          "native": {
+            "phase": 0.74920178,
+            "illumination": 0.50250766
+          },
+          "phaseError": 0.000007238703017220516,
+          "illuminationError": 0.00002275234258009018,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0008054587030171811,
+          "officialIlluminationDistance": 0.002530412342580113
+        },
+        {
+          "time": "2026-01-18T19:52:00Z",
+          "seconds": 1768765920,
+          "sample": {
+            "phase": 0.990827838377718,
+            "illumination": 0.0008300857132424455
+          },
+          "native": {
+            "phase": 0.99082965,
+            "illumination": 0.00082976
+          },
+          "phaseError": 0.0000018116222819664074,
+          "illuminationError": 3.257132424454865e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.00917216162228196,
+          "officialIlluminationDistance": 0.0008300857132424455
+        },
+        {
+          "time": "2026-01-26T04:47:00Z",
+          "seconds": 1769402820,
+          "sample": {
+            "phase": 0.2549240991174522,
+            "illumination": 0.5154670457676351
+          },
+          "native": {
+            "phase": 0.25493044,
+            "illumination": 0.51548694
+          },
+          "phaseError": 0.0000063408825478061814,
+          "illuminationError": 0.000019894232364814357,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.004924099117452174,
+          "officialIlluminationDistance": 0.015467045767635135
+        },
+        {
+          "time": "2026-02-01T22:09:00Z",
+          "seconds": 1769983740,
+          "sample": {
+            "phase": 0.5087289835770786,
+            "illumination": 0.9992481724603577
+          },
+          "native": {
+            "phase": 0.50873238,
+            "illumination": 0.99924759
+          },
+          "phaseError": 0.000003396422921353448,
+          "illuminationError": 5.824603577231358e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.00872898357707863,
+          "officialIlluminationDistance": 0.0007518275396423135
+        },
+        {
+          "time": "2026-02-09T12:43:00Z",
+          "seconds": 1770640980,
+          "sample": {
+            "phase": 0.7504432081087348,
+            "illumination": 0.4986076224612095
+          },
+          "native": {
+            "phase": 0.75045061,
+            "illumination": 0.49858435
+          },
+          "phaseError": 0.000007401891265246263,
+          "illuminationError": 0.000023272461209478124,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0004432081087347717,
+          "officialIlluminationDistance": 0.0013923775387905124
+        },
+        {
+          "time": "2026-02-17T12:01:00Z",
+          "seconds": 1771329660,
+          "sample": {
+            "phase": 0.9972934222652506,
+            "illumination": 0.00007229866673025276
+          },
+          "native": {
+            "phase": 0.99729926,
+            "illumination": 0.00007199
+          },
+          "phaseError": 0.000005837734749380985,
+          "illuminationError": 3.0866673025276513e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.0027065777347493603,
+          "officialIlluminationDistance": 0.00007229866673025276
+        },
+        {
+          "time": "2026-02-24T12:27:00Z",
+          "seconds": 1771936020,
+          "sample": {
+            "phase": 0.2524499228358815,
+            "illumination": 0.5076963556272699
+          },
+          "native": {
+            "phase": 0.25245623,
+            "illumination": 0.50771614
+          },
+          "phaseError": 0.000006307164118479758,
+          "illuminationError": 0.000019784372730091704,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.002449922835881524,
+          "officialIlluminationDistance": 0.007696355627269891
+        },
+        {
+          "time": "2026-11-09T07:02:00Z",
+          "seconds": 1794207720,
+          "sample": {
+            "phase": 0.9854868297469447,
+            "illumination": 0.0020774154600582406
+          },
+          "native": {
+            "phase": 0.98548473,
+            "illumination": 0.00207801
+          },
+          "phaseError": 0.000002099746944650427,
+          "illuminationError": 5.945399417593006e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.014513170253055319,
+          "officialIlluminationDistance": 0.0020774154600582406
+        },
+        {
+          "time": "2026-11-17T11:48:00Z",
+          "seconds": 1794916080,
+          "sample": {
+            "phase": 0.25354965727987605,
+            "illumination": 0.5111506527334042
+          },
+          "native": {
+            "phase": 0.25355711,
+            "illumination": 0.51117403
+          },
+          "phaseError": 0.0000074527201239238394,
+          "illuminationError": 0.00002337726659573658,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.0035496572798760506,
+          "officialIlluminationDistance": 0.01115065273340421
+        },
+        {
+          "time": "2026-11-24T14:53:00Z",
+          "seconds": 1795531980,
+          "sample": {
+            "phase": 0.4859417331229086,
+            "illumination": 0.9980506899627103
+          },
+          "native": {
+            "phase": 0.48594236,
+            "illumination": 0.99805086
+          },
+          "phaseError": 6.268770914030775e-7,
+          "illuminationError": 1.7003728969289256e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.014058266877091385,
+          "officialIlluminationDistance": 0.0019493100372897088
+        },
+        {
+          "time": "2026-12-01T06:08:00Z",
+          "seconds": 1796105280,
+          "sample": {
+            "phase": 0.7460516413066809,
+            "illumination": 0.512402862349239
+          },
+          "native": {
+            "phase": 0.74605839,
+            "illumination": 0.51238165
+          },
+          "phaseError": 0.000006748693319069687,
+          "illuminationError": 0.000021212349239019268,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0039483586933191095,
+          "officialIlluminationDistance": 0.012402862349239041
+        }
+      ],
+      "times": [
+        "2026-01-18T19:52:00Z",
+        "2026-01-26T04:47:00Z",
+        "2026-02-01T22:09:00Z",
+        "2026-02-09T12:43:00Z"
+      ],
+      "anchors": [
+        1768765800,
+        1769402400,
+        1769983200,
+        1770640800
+      ],
+      "sdk": "9.3.0",
+      "generator": "basic-62-moon-pixels-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "a345739cf6bf231a4adf3e214f42d292d661930155fed09e4f342db38f7e9601",
+      "prgSha256": "c276ab88a8b98895ff2fbc6fb6851e3763a9bb24a233649128d4670ff1347afa",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 1.8724746538844828,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 15032,
+        "foregroundRgbMeanAbsoluteError": 16.602004612382473,
+        "nativeNonBlack": 161892,
+        "browserNonBlack": 161892,
+        "nativeLitRatio": 1,
+        "browserLitRatio": 1
+      }
+    },
+    {
+      "id": "active-390",
+      "target": "venu441mm",
+      "aod": false,
+      "applicationDataMode": "controlled drawing fixture, four primary phases mirrored; source formulas tested at twelve UTC instants",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "references": [
+        {
+          "time": "2026-01-03T10:03:00Z",
+          "seconds": 1767434580,
+          "sample": {
+            "phase": 0.5129564947864955,
+            "illumination": 0.9983440968495372
+          },
+          "native": {
+            "phase": 0.51295806,
+            "illumination": 0.9983437
+          },
+          "phaseError": 0.0000015652135044730286,
+          "illuminationError": 3.9684953723195804e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.01295649478649552,
+          "officialIlluminationDistance": 0.001655903150462823
+        },
+        {
+          "time": "2026-01-10T15:48:00Z",
+          "seconds": 1768060080,
+          "sample": {
+            "phase": 0.7491945412969828,
+            "illumination": 0.5025304123425801
+          },
+          "native": {
+            "phase": 0.74920178,
+            "illumination": 0.50250766
+          },
+          "phaseError": 0.000007238703017220516,
+          "illuminationError": 0.00002275234258009018,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0008054587030171811,
+          "officialIlluminationDistance": 0.002530412342580113
+        },
+        {
+          "time": "2026-01-18T19:52:00Z",
+          "seconds": 1768765920,
+          "sample": {
+            "phase": 0.990827838377718,
+            "illumination": 0.0008300857132424455
+          },
+          "native": {
+            "phase": 0.99082965,
+            "illumination": 0.00082976
+          },
+          "phaseError": 0.0000018116222819664074,
+          "illuminationError": 3.257132424454865e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.00917216162228196,
+          "officialIlluminationDistance": 0.0008300857132424455
+        },
+        {
+          "time": "2026-01-26T04:47:00Z",
+          "seconds": 1769402820,
+          "sample": {
+            "phase": 0.2549240991174522,
+            "illumination": 0.5154670457676351
+          },
+          "native": {
+            "phase": 0.25493044,
+            "illumination": 0.51548694
+          },
+          "phaseError": 0.0000063408825478061814,
+          "illuminationError": 0.000019894232364814357,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.004924099117452174,
+          "officialIlluminationDistance": 0.015467045767635135
+        },
+        {
+          "time": "2026-02-01T22:09:00Z",
+          "seconds": 1769983740,
+          "sample": {
+            "phase": 0.5087289835770786,
+            "illumination": 0.9992481724603577
+          },
+          "native": {
+            "phase": 0.50873238,
+            "illumination": 0.99924759
+          },
+          "phaseError": 0.000003396422921353448,
+          "illuminationError": 5.824603577231358e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.00872898357707863,
+          "officialIlluminationDistance": 0.0007518275396423135
+        },
+        {
+          "time": "2026-02-09T12:43:00Z",
+          "seconds": 1770640980,
+          "sample": {
+            "phase": 0.7504432081087348,
+            "illumination": 0.4986076224612095
+          },
+          "native": {
+            "phase": 0.75045061,
+            "illumination": 0.49858435
+          },
+          "phaseError": 0.000007401891265246263,
+          "illuminationError": 0.000023272461209478124,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0004432081087347717,
+          "officialIlluminationDistance": 0.0013923775387905124
+        },
+        {
+          "time": "2026-02-17T12:01:00Z",
+          "seconds": 1771329660,
+          "sample": {
+            "phase": 0.9972934222652506,
+            "illumination": 0.00007229866673025276
+          },
+          "native": {
+            "phase": 0.99729926,
+            "illumination": 0.00007199
+          },
+          "phaseError": 0.000005837734749380985,
+          "illuminationError": 3.0866673025276513e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.0027065777347493603,
+          "officialIlluminationDistance": 0.00007229866673025276
+        },
+        {
+          "time": "2026-02-24T12:27:00Z",
+          "seconds": 1771936020,
+          "sample": {
+            "phase": 0.2524499228358815,
+            "illumination": 0.5076963556272699
+          },
+          "native": {
+            "phase": 0.25245623,
+            "illumination": 0.50771614
+          },
+          "phaseError": 0.000006307164118479758,
+          "illuminationError": 0.000019784372730091704,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.002449922835881524,
+          "officialIlluminationDistance": 0.007696355627269891
+        },
+        {
+          "time": "2026-11-09T07:02:00Z",
+          "seconds": 1794207720,
+          "sample": {
+            "phase": 0.9854868297469447,
+            "illumination": 0.0020774154600582406
+          },
+          "native": {
+            "phase": 0.98548473,
+            "illumination": 0.00207801
+          },
+          "phaseError": 0.000002099746944650427,
+          "illuminationError": 5.945399417593006e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.014513170253055319,
+          "officialIlluminationDistance": 0.0020774154600582406
+        },
+        {
+          "time": "2026-11-17T11:48:00Z",
+          "seconds": 1794916080,
+          "sample": {
+            "phase": 0.25354965727987605,
+            "illumination": 0.5111506527334042
+          },
+          "native": {
+            "phase": 0.25355711,
+            "illumination": 0.51117403
+          },
+          "phaseError": 0.0000074527201239238394,
+          "illuminationError": 0.00002337726659573658,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.0035496572798760506,
+          "officialIlluminationDistance": 0.01115065273340421
+        },
+        {
+          "time": "2026-11-24T14:53:00Z",
+          "seconds": 1795531980,
+          "sample": {
+            "phase": 0.4859417331229086,
+            "illumination": 0.9980506899627103
+          },
+          "native": {
+            "phase": 0.48594236,
+            "illumination": 0.99805086
+          },
+          "phaseError": 6.268770914030775e-7,
+          "illuminationError": 1.7003728969289256e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.014058266877091385,
+          "officialIlluminationDistance": 0.0019493100372897088
+        },
+        {
+          "time": "2026-12-01T06:08:00Z",
+          "seconds": 1796105280,
+          "sample": {
+            "phase": 0.7460516413066809,
+            "illumination": 0.512402862349239
+          },
+          "native": {
+            "phase": 0.74605839,
+            "illumination": 0.51238165
+          },
+          "phaseError": 0.000006748693319069687,
+          "illuminationError": 0.000021212349239019268,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0039483586933191095,
+          "officialIlluminationDistance": 0.012402862349239041
+        }
+      ],
+      "times": [
+        "2026-01-18T19:52:00Z",
+        "2026-01-26T04:47:00Z",
+        "2026-02-01T22:09:00Z",
+        "2026-02-09T12:43:00Z"
+      ],
+      "anchors": [
+        1768765800,
+        1769402400,
+        1769983200,
+        1770640800
+      ],
+      "sdk": "9.3.0",
+      "generator": "basic-62-moon-pixels-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "57bef74f48dd349842bb1a835177f76817574768028fafccf6fe6a0ff8fee4dd",
+      "prgSha256": "cd14408ac4d9ec9829afc15350e9d39d67f3e42c7b7513c51ebc05cd0aeb1728",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 1.9944764327798608,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 11544,
+        "foregroundRgbMeanAbsoluteError": 17.186417186417188,
+        "nativeNonBlack": 119488,
+        "browserNonBlack": 119488,
+        "nativeLitRatio": 1,
+        "browserLitRatio": 1
+      }
+    },
+    {
+      "id": "forced-aod-454",
+      "target": "venu445mm",
+      "aod": true,
+      "applicationDataMode": "controlled drawing fixture, four primary phases mirrored; source formulas tested at twelve UTC instants",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "references": [
+        {
+          "time": "2026-01-03T10:03:00Z",
+          "seconds": 1767434580,
+          "sample": {
+            "phase": 0.5129564947864955,
+            "illumination": 0.9983440968495372
+          },
+          "native": {
+            "phase": 0.51295806,
+            "illumination": 0.9983437
+          },
+          "phaseError": 0.0000015652135044730286,
+          "illuminationError": 3.9684953723195804e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.01295649478649552,
+          "officialIlluminationDistance": 0.001655903150462823
+        },
+        {
+          "time": "2026-01-10T15:48:00Z",
+          "seconds": 1768060080,
+          "sample": {
+            "phase": 0.7491945412969828,
+            "illumination": 0.5025304123425801
+          },
+          "native": {
+            "phase": 0.74920178,
+            "illumination": 0.50250766
+          },
+          "phaseError": 0.000007238703017220516,
+          "illuminationError": 0.00002275234258009018,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0008054587030171811,
+          "officialIlluminationDistance": 0.002530412342580113
+        },
+        {
+          "time": "2026-01-18T19:52:00Z",
+          "seconds": 1768765920,
+          "sample": {
+            "phase": 0.990827838377718,
+            "illumination": 0.0008300857132424455
+          },
+          "native": {
+            "phase": 0.99082965,
+            "illumination": 0.00082976
+          },
+          "phaseError": 0.0000018116222819664074,
+          "illuminationError": 3.257132424454865e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.00917216162228196,
+          "officialIlluminationDistance": 0.0008300857132424455
+        },
+        {
+          "time": "2026-01-26T04:47:00Z",
+          "seconds": 1769402820,
+          "sample": {
+            "phase": 0.2549240991174522,
+            "illumination": 0.5154670457676351
+          },
+          "native": {
+            "phase": 0.25493044,
+            "illumination": 0.51548694
+          },
+          "phaseError": 0.0000063408825478061814,
+          "illuminationError": 0.000019894232364814357,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.004924099117452174,
+          "officialIlluminationDistance": 0.015467045767635135
+        },
+        {
+          "time": "2026-02-01T22:09:00Z",
+          "seconds": 1769983740,
+          "sample": {
+            "phase": 0.5087289835770786,
+            "illumination": 0.9992481724603577
+          },
+          "native": {
+            "phase": 0.50873238,
+            "illumination": 0.99924759
+          },
+          "phaseError": 0.000003396422921353448,
+          "illuminationError": 5.824603577231358e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.00872898357707863,
+          "officialIlluminationDistance": 0.0007518275396423135
+        },
+        {
+          "time": "2026-02-09T12:43:00Z",
+          "seconds": 1770640980,
+          "sample": {
+            "phase": 0.7504432081087348,
+            "illumination": 0.4986076224612095
+          },
+          "native": {
+            "phase": 0.75045061,
+            "illumination": 0.49858435
+          },
+          "phaseError": 0.000007401891265246263,
+          "illuminationError": 0.000023272461209478124,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0004432081087347717,
+          "officialIlluminationDistance": 0.0013923775387905124
+        },
+        {
+          "time": "2026-02-17T12:01:00Z",
+          "seconds": 1771329660,
+          "sample": {
+            "phase": 0.9972934222652506,
+            "illumination": 0.00007229866673025276
+          },
+          "native": {
+            "phase": 0.99729926,
+            "illumination": 0.00007199
+          },
+          "phaseError": 0.000005837734749380985,
+          "illuminationError": 3.0866673025276513e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.0027065777347493603,
+          "officialIlluminationDistance": 0.00007229866673025276
+        },
+        {
+          "time": "2026-02-24T12:27:00Z",
+          "seconds": 1771936020,
+          "sample": {
+            "phase": 0.2524499228358815,
+            "illumination": 0.5076963556272699
+          },
+          "native": {
+            "phase": 0.25245623,
+            "illumination": 0.50771614
+          },
+          "phaseError": 0.000006307164118479758,
+          "illuminationError": 0.000019784372730091704,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.002449922835881524,
+          "officialIlluminationDistance": 0.007696355627269891
+        },
+        {
+          "time": "2026-11-09T07:02:00Z",
+          "seconds": 1794207720,
+          "sample": {
+            "phase": 0.9854868297469447,
+            "illumination": 0.0020774154600582406
+          },
+          "native": {
+            "phase": 0.98548473,
+            "illumination": 0.00207801
+          },
+          "phaseError": 0.000002099746944650427,
+          "illuminationError": 5.945399417593006e-7,
+          "expectedPrimaryPhase": 0,
+          "officialPhaseDistance": 0.014513170253055319,
+          "officialIlluminationDistance": 0.0020774154600582406
+        },
+        {
+          "time": "2026-11-17T11:48:00Z",
+          "seconds": 1794916080,
+          "sample": {
+            "phase": 0.25354965727987605,
+            "illumination": 0.5111506527334042
+          },
+          "native": {
+            "phase": 0.25355711,
+            "illumination": 0.51117403
+          },
+          "phaseError": 0.0000074527201239238394,
+          "illuminationError": 0.00002337726659573658,
+          "expectedPrimaryPhase": 0.25,
+          "officialPhaseDistance": 0.0035496572798760506,
+          "officialIlluminationDistance": 0.01115065273340421
+        },
+        {
+          "time": "2026-11-24T14:53:00Z",
+          "seconds": 1795531980,
+          "sample": {
+            "phase": 0.4859417331229086,
+            "illumination": 0.9980506899627103
+          },
+          "native": {
+            "phase": 0.48594236,
+            "illumination": 0.99805086
+          },
+          "phaseError": 6.268770914030775e-7,
+          "illuminationError": 1.7003728969289256e-7,
+          "expectedPrimaryPhase": 0.5,
+          "officialPhaseDistance": 0.014058266877091385,
+          "officialIlluminationDistance": 0.0019493100372897088
+        },
+        {
+          "time": "2026-12-01T06:08:00Z",
+          "seconds": 1796105280,
+          "sample": {
+            "phase": 0.7460516413066809,
+            "illumination": 0.512402862349239
+          },
+          "native": {
+            "phase": 0.74605839,
+            "illumination": 0.51238165
+          },
+          "phaseError": 0.000006748693319069687,
+          "illuminationError": 0.000021212349239019268,
+          "expectedPrimaryPhase": 0.75,
+          "officialPhaseDistance": 0.0039483586933191095,
+          "officialIlluminationDistance": 0.012402862349239041
+        }
+      ],
+      "times": [
+        "2026-01-18T19:52:00Z",
+        "2026-01-26T04:47:00Z",
+        "2026-02-01T22:09:00Z",
+        "2026-02-09T12:43:00Z"
+      ],
+      "anchors": [
+        1768765800,
+        1769402400,
+        1769983200,
+        1770640800
+      ],
+      "sdk": "9.3.0",
+      "generator": "basic-62-moon-pixels-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "f356f11a881cd59a2247c0e6909535fef78e6bca631ceb4af254a6ccc66688aa",
+      "prgSha256": "3f7fe14bb0a917cfe9ba4062887090704551c38f06720376849702d2d8c8aa21",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3922,
+            "aboveNoisePixels": 3506,
+            "ratio": 0.024226027228028562,
+            "noiseRatio": 0.021656412917253478,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.019028120087717596,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3470,
+            "aboveNoisePixels": 3470,
+            "ratio": 0.021434042448051787,
+            "noiseRatio": 0.021434042448051787,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.016835180189796038,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        },
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 1.4172040619672375,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 2850,
+        "foregroundRgbMeanAbsoluteError": 54.87345029239766,
+        "nativeNonBlack": 3470,
+        "browserNonBlack": 3922,
+        "nativeLitRatio": 0.021434042448051787,
+        "browserLitRatio": 0.024226027228028562
+      }
+    }
+  ]
+}

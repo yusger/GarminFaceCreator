@@ -156,7 +156,7 @@ test("moon stays a single editable object and managed generation is cached with 
     "source/GfcMoon.mc",
   );
   expect(
-    await readFile("resources/licenses/suncalc-1.9.0-LICENSE.txt", "utf8"),
+    (await readFile("resources/licenses/suncalc-1.9.0-LICENSE.txt", "utf8")).replace(/\r\n/g,"\n"),
   ).toBe(suncalcLicense);
   const raw = JSON.stringify({
     message: "mirror",
