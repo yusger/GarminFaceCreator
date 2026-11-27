@@ -244,6 +244,7 @@ export function expandWidgets(p: Project, hitBoxes = false): Project {
   return {
     ...p,
     layers,
+    ...(p.themes?{themes:{...p.themes,presets:p.themes.presets.map(t=>({...t,layerIds:t.layerIds.flatMap(id=>{const root=p.layers.find(l=>l.id===id);return root?.kind==="widget"?[id,...root.compound!.layers.map(l=>l.id)]:[id];})}))}}:{}),
     controls,
     controlValues: values,
     multiDevice: undefined,

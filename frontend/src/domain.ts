@@ -1,3 +1,4 @@
+import {validateThemes,type ThemeSet} from "./themes.ts";
 import {validateLocalFonts,type LocalFont} from "./localFonts.ts";
 import {regularPolygon,validPolygon} from "./geometry.ts";
 import {validateCompound,type Compound,type CompoundStyle} from "./compound.ts";
@@ -177,6 +178,7 @@ export type CodeVersion = {
 };
 export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
+  themes?:ThemeSet;
   localFonts?:LocalFont[];
   designBrief?: string;
   controls?: import("./projectControls").ProjectControl[];
@@ -194,6 +196,7 @@ export type DesignSnapshot = {
   deviceSize?: string;
 };
 export type Project = {
+  themes?:ThemeSet;
   localFonts?:LocalFont[];
   designBrief?: string;
   backgroundColor?: string;
@@ -233,7 +236,8 @@ export type Project = {
     | 30
     | 31
     | 32
-    | 33;
+    | 33
+    | 34;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -459,7 +463,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 33,
+    schemaVersion: 34,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -474,6 +478,7 @@ export function project(name = "极夜 01", blank = false): Project {
 export function validateProject(value: unknown): Project {
   const p = migrateProject(value);
   validateLocalFonts(p);
+  validateThemes(p);
   const kinds = [
     "widget",
     "time",
@@ -495,7 +500,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 33 ||
+    p.schemaVersion !== 34 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200

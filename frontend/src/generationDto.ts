@@ -173,6 +173,7 @@ export function generationHeader(p: Project) {
     generationFieldContractVersion:GENERATION_FIELD_CONTRACT_VERSION,
     dataSlotPolicy:"slot:true means linked source controls; metrics use matching units/precision, sourceLabelFor tracks labels, meter/ring targets use sourceGoals or design defaults (steps10000,battery100,heartRate180,seconds60). Source switches must not retain thresholds from unrelated sources. preserveFormatFor explicitly retains manual numeric formatting. Targets property source maps to ringSource on ring layers. Compile every allowed option and guard missing data in both modes.",
     schemaVersion: scalar(p.schemaVersion),
+    ...(p.themes?{themes:{version:1,activeId:p.themes.activeId,defaultId:p.themes.defaultId,presets:p.themes.presets.map(t=>({...objectFields(t,["id","name","version","backgroundColor"]),layerIds:t.layerIds.map(scalar),controlIds:t.controlIds.map(scalar)}))},themePolicy:"One application contains every theme. Runtime theme selects the complete preset, including active/AOD layout and background. Controls belong to individual themes, persist separately and reset current theme only. Never export only the current theme or switch by reinstalling a PRG. Provide AppBase.getSettingsView on-device settings."}:{}),
     designBrief: scalar(p.designBrief),
     backgroundColor: scalar(p.backgroundColor),
     controls: p.controls?.map((c) => ({

@@ -1,3 +1,5 @@
+import { nativeThemeMenu } from "./nativeThemeMenu.ts";
+import { themeIndex, layerThemeIndex, activeTheme } from "./themes.ts";
 import { sourceSlotLayer } from "./dataSlots.ts";
 import type { Project, Layer, CodeFile } from "./domain.ts";
 import {
@@ -53,11 +55,11 @@ export function nativeControlledDraw(
     ? source
         .options!.map(
           (value, i) =>
-            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l,text:sourceLabels[value],sourceLabelFor:undefined } : source.slot ? sourceSlotLayer(p,l,source,value) : {...l,source:value})}}`,
+            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l, text: sourceLabels[value], sourceLabelFor: undefined } : source.slot ? sourceSlotLayer(p, l, source, value) : { ...l, source: value })}}`,
         )
         .join("")
     : make(l);
-  const conditions:string[] = [];
+  const conditions: string[] = [];
   if (!aod) {
     const bool = controls.find(
       (c) =>
@@ -74,6 +76,8 @@ export function nativeControlledDraw(
   for (const c of controls)
     if (c.hideWhenChangedFromDefault?.includes(l.id))
       conditions.push(`${variable(c.id)}.equals(${JSON.stringify(c.default)})`);
+  const theme = layerThemeIndex(p, l.id);
+  if (theme >= 0) conditions.push(`cfgTheme==${theme}`);
   if (conditions.length) code = `if(${conditions.join(" && ")}){${code}}`;
   return code;
 }
@@ -90,6 +94,7 @@ export function nativeControls(p: Project) {
       "#FF77BB",
       "#E9FF5C",
     ];
+  const hasSettings = !!p.themes || controls.length > 0;
   const properties = [],
     settings = [],
     strings = [];
@@ -127,6 +132,28 @@ export function nativeControls(p: Project) {
       `<setting propertyKey="@Properties.${id}" title="@Strings.${id}">${config}</setting>`,
     );
   }
+  if (p.themes) {
+    properties.push(
+      `<property id="Gfc_Theme" type="string">${xml(activeTheme(p)!.id)}</property>`,
+    );
+    strings.push('<string id="Gfc_Theme">Theme</string>');
+    settings.push(
+      '<setting propertyKey="@Properties.Gfc_Theme" title="@Strings.Gfc_Theme"><settingConfig type="list">' +
+        p.themes.presets
+          .map((t, i) => {
+            strings.push(`<string id="Gfc_Theme_${i}">${xml(t.name)}</string>`);
+            return `<listEntry value="${xml(t.id)}">@Strings.Gfc_Theme_${i}</listEntry>`;
+          })
+          .join("") +
+        "</settingConfig></setting>",
+    );
+  }
+  const themeReads = p.themes
+    ? `var idx=${p.themes.presets.findIndex((t) => t.id === p.themes!.defaultId)};try{var theme=Application.Properties.getValue("Gfc_Theme");if(theme instanceof Toybox.Lang.String){${p.themes.presets.map((t, i) => `if(theme.equals(${JSON.stringify(t.id)})){idx=${i};}`).join("")}}}catch(e){}settingsCache["Gfc_Theme"]=idx;`
+    : "";
+  const themeFrame = p.themes
+    ? 'var cfgTheme=settingsCache["Gfc_Theme"] as Toybox.Lang.Number;'
+    : "";
   const reads = controls
     .map((c) => {
       const id = key(c.id),
@@ -142,8 +169,21 @@ export function nativeControls(p: Project) {
     })
     .join("");
   return {
-    frameVariables:controls.map(c=>({name:variable(c.id),type:"Toybox.Lang."+(c.type === "color" ? "Number" : c.type === "boolean" ? "Boolean" : "String")})),
-    files: controls.length
+    menuFiles: nativeThemeMenu(p),
+    frameVariables: [
+      ...(p.themes ? [{ name: "cfgTheme", type: "Toybox.Lang.Number" }] : []),
+      ...controls.map((c) => ({
+        name: variable(c.id),
+        type:
+          "Toybox.Lang." +
+          (c.type === "color"
+            ? "Number"
+            : c.type === "boolean"
+              ? "Boolean"
+              : "String"),
+      })),
+    ],
+    files: hasSettings
       ? ([
           {
             path: "resources/settings/properties.xml",
@@ -159,11 +199,12 @@ export function nativeControls(p: Project) {
           },
         ] satisfies CodeFile[])
       : [],
-    helpers: controls.length
-      ? `var settingsCache=null;function prepareSettings(){if(settingsCache==null){settingsCache={};${reads}}}`
+    helpers: hasSettings
+      ? `var settingsCache=null;function prepareSettings(){if(settingsCache==null){settingsCache={};${reads}${themeReads}}}`
       : "",
-    frame: controls.length
+    frame: hasSettings
       ? "prepareSettings();" +
+        themeFrame +
         controls
           .map(
             (c) =>

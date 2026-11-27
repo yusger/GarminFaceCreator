@@ -25,7 +25,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-40-data-slots";
+export const LOCAL_GENERATOR_VERSION = "basic-41-theme-presets";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -269,7 +269,7 @@ export function localGenerate(p: Project) {
   const configurationIssues = localConfigurationDiagnostics(p);
   if (configurationIssues.length) throw Error("本地生成配置不支持：" + configurationIssues.map(d => d.message).join("；"));
   const runtimeProject=p;
-  p = resolveControls(p);
+  p = resolveControls(p,true);
   const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
   const included = p.layers.filter((l) => l.exportIncluded !== false);
@@ -414,7 +414,7 @@ export function localGenerate(p: Project) {
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
 // Target ${device.target}; device metadata ${deviceMetadataVersion}; package ${device.metadata.source?.packageVersion || "unknown"}; compiler SHA256 ${device.metadata.source?.compilerSha256 || "unknown"}. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands || rings || curved.length || imageLayers.length ? "import Toybox.Math;" : ""}${curved.length?"import Toybox.Lang;":""}
-class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.controls?.length ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
+class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.themes?"function getSettingsView(){return [new GfcSettingsMenu(\"root\",null),new GfcSettingsDelegate()];}":""}${(p.controls?.length||p.themes) ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;var frameContext=null;var gfcFrameReported=false;
  function mixTextInk(ink,alpha,bg){var r=(((ink>>16)&255)*alpha+((bg>>16)&255)*(255-alpha))/255;var g=(((ink>>8)&255)*alpha+((bg>>8)&255)*(255-alpha))/255;var b=((ink&255)*alpha+(bg&255)*(255-alpha))/255;return (r.toNumber()<<16)|(g.toNumber()<<8)|b.toNumber();}
@@ -489,7 +489,7 @@ class GeneratedView extends WatchUi.WatchFace {
       "",
     )}${dataReads}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
   ${included.some((l) => l.dateFormat === "monthDayWeek") ? 'var dateMonthDayWeek=calendar.month.format("%02d")+"."+calendar.day.format("%02d")+" "+["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1];' : ""}
-  ${`var bg=sleeping?Graphics.COLOR_BLACK:${color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
+  ${`var bg=sleeping?Graphics.COLOR_BLACK:${p.themes?"["+p.themes.presets.map(t=>color(t.backgroundColor)).join(",")+"][cfgTheme]":color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   ${frameAssignments}
   if(sleeping){${renderCalls.aod.join("")}}else{${renderCalls.active.join("")}}
   frameContext=null;
@@ -502,6 +502,7 @@ class GeneratedView extends WatchUi.WatchFace {
       files: mergeNativeWordTime(
         p,
         mergeNativeIcons(p, [
+          ...settings.menuFiles,
           { path: "manifest.xml", content: generationManifest(p) },
           {
             path: "monkey.jungle",

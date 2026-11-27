@@ -1,3 +1,4 @@
+import {activeTheme,themeLayers} from "./themes.ts";
 import { validateDataSlots, sourceSlotLayer } from "./dataSlots.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
 import type { Project, Layer } from "./domain.ts";
@@ -194,9 +195,9 @@ export function resolvedLayer(l: Layer, layers: Layer[]): Layer {
       : {}),
   };
 }
-export function resolveControls(p: Project): Project {
+export function resolveControls(p: Project,allThemes=false): Project {
   if (
-    !p.controls?.length &&
+    !p.themes && !p.controls?.length &&
     !p.layers.some(
       (l) => l.sourceLabelFor || l.autoPrecision || l.autoSourceFormat,
     )
@@ -227,7 +228,8 @@ export function resolveControls(p: Project): Project {
     const c=p.controls?.find(c=>c.slot && c.targets.some(t=>t.layerId===l.id && t.property==="source"));
     return c?sourceSlotLayer(p,l,c,String(controlValue(p,c))):l;
   });
-  return { ...p, layers: slotted.map((l) => resolvedLayer(l, slotted)) };
+  const resolved={ ...p, layers: slotted.map((l) => resolvedLayer(l, slotted)),backgroundColor:allThemes?p.backgroundColor:activeTheme(p)?.backgroundColor||p.backgroundColor };
+  return allThemes?resolved:{...resolved,layers:themeLayers(resolved)};
 }
 export function setControl(
   p: Project,
@@ -264,6 +266,7 @@ export function setControl(
 export function remapControlIds(before: Project, after: Project) {
   const map = new Map(before.layers.map((l, i) => [l.id, after.layers[i].id]));
   const id = (v: string) => map.get(v) || v;
+  if(before.themes)after.themes={...structuredClone(before.themes),presets:before.themes.presets.map(t=>({...t,layerIds:t.layerIds.map(id)}))};
   after.controls = before.controls?.map((c) => ({
     ...c,
     targets: c.targets.map((t) => ({ ...t, layerId: id(t.layerId) })),

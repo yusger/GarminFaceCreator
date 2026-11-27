@@ -1,3 +1,4 @@
+import {activeTheme,themeControls,selectTheme,resetTheme,themeLayers} from "./themes";
 import { useState } from "react";
 import { createDataSlot, allowedSlotSources } from "./dataSlots";
 import type { Project } from "./domain";
@@ -16,7 +17,7 @@ export default function WatchfaceControls({
 }) {
   const [members, setMembers] = useState<string[]>([]),
     [error, setError] = useState("");
-  const eligible = p.layers.filter(
+  const eligible = themeLayers(p).filter(
     (l) =>
       !l.locked &&
       !l.sourceLocked &&
@@ -31,7 +32,8 @@ export default function WatchfaceControls({
       <div role="group" aria-label="表盘配置项">
         <p>配置同时用于预览和生成工程；修改后请重新生成代码。</p>
         <fieldset disabled={p.multiDevice?.scope === "device"}>
-          {(p.controls || []).map((c) => (
+          {p.themes&&<label>主题预设<select aria-label="主题预设" value={activeTheme(p)?.id} onChange={e=>onChange(selectTheme(p,e.target.value))}>{p.themes.presets.map(t=><option key={t.id} value={t.id}>{t.name}</option>)}</select></label>}
+          {themeControls(p).map((c) => (
             <div key={c.id}>
               <label>
                 {c.label}
@@ -81,7 +83,7 @@ export default function WatchfaceControls({
                 )}
               </label>
               {c.type === "dataSource" &&
-                p.layers.some(
+                themeLayers(p).some(
                   (l) =>
                     l.kind === "image" &&
                     !l.weatherIcon &&
@@ -171,9 +173,9 @@ export default function WatchfaceControls({
         {p.multiDevice?.scope === "device" && <p>请切换共享主设计后修改。</p>}
         <button
           disabled={p.multiDevice?.scope === "device"}
-          onClick={() => onChange(resetControls(p))}
+          onClick={() => onChange(p.themes?resetTheme(p):resetControls(p))}
         >
-          恢复默认配置
+          {p.themes?"恢复当前主题默认值":"恢复默认配置"}
         </button>
       </div>
     </details>

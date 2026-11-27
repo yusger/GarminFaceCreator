@@ -22,6 +22,7 @@ import { handStyles,handStylePatch } from "./handStyles";
 import TemplatePicker from "./TemplatePicker";
 import { buildFetch, downloadBuild } from "./buildAccess";
 import AiCreateWatchface from "./AiCreateWatchface";
+import {mergeThemeLayers,themeLayers} from "./themes";
 import WatchfaceControls from "./WatchfaceControls";
 import { resolveControls, setControl } from "./projectControls";
 import { preparedCodeFiles } from "./chalkFonts";
@@ -1935,7 +1936,7 @@ export default function App() {
                 )}
                 <div className="layer-heading">
                   <b>图层</b>
-                  <span>{p.layers.length}</span>
+                  <span>{themeLayers(p).length}</span>
                 </div>
                 <div className="group-actions">
                   <button
@@ -1979,12 +1980,12 @@ export default function App() {
                     setSelection(next);
                     setSelected(next.at(-1) || "");
                   }}
-                  onChange={editLayers}
+                  onChange={layers=>editLayers(mergeThemeLayers(p,layers))}
                 />
                 <Palette
                   layers={resolveControls(p).layers}
                   selection={selection}
-                  onChange={editLayers}
+                  onChange={layers=>editLayers(mergeThemeLayers(p,layers))}
                 />
                 <button
                   className="export-button"

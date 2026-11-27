@@ -1,12 +1,13 @@
 import type { Layer, Project } from "./domain";
 export type EditorFrame = Pick<
   Project,
-  "layers" | "controls" | "controlValues" | "backgroundColor" | "localFonts"
+  "layers" | "controls" | "controlValues" | "backgroundColor" | "localFonts" | "themes"
 >;
 export function editorFrame(p: Project, layers = p.layers): EditorFrame {
   return structuredClone({
     layers,
     localFonts:p.localFonts,
+    themes:p.themes,
     backgroundColor: p.backgroundColor,
     controls: p.controls,
     controlValues: p.controlValues,
@@ -28,6 +29,7 @@ export function withEditorLayers(p: Project, layers: Layer[]): Project {
   return {
     ...p,
     layers,
+    ...(p.themes?{themes:{...p.themes,presets:p.themes.presets.map(t=>({...t,layerIds:[...t.layerIds.filter(id=>ids.has(id)),...(t.id===p.themes!.activeId?layers.filter(l=>!p.layers.some(old=>old.id===l.id)).map(l=>l.id):[])],controlIds:t.controlIds.filter(id=>valid.has(id))}))}}:{}),
     controls,
     controlValues: p.controlValues
       ? Object.fromEntries(

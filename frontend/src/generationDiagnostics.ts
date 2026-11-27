@@ -58,7 +58,7 @@ export function generationDiagnostics(
           owners.set(child.id, l.id);
     const expanded = expandWidgets(project);
     validateControls(expanded);
-    const p = resolveControls(expanded);
+    const p = resolveControls(expanded,true);
     const included = p.layers.filter((l) => l.exportIncluded !== false);
     const add = (
       l: Layer,

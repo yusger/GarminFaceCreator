@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.7.1",
-  "projectSchemaVersion": 33,
+  "version": "1.8.0",
+  "projectSchemaVersion": 34,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -481,6 +481,14 @@
       "totalBytes": 16777216,
       "licensing": "user-supplied bytes and nonempty authorization; not a legal license verification",
       "bitmapImport": false
+    },
+    "themePresets": {
+      "version": 1,
+      "maxPresets": 8,
+      "singlePrg": true,
+      "independentControls": true,
+      "deviceSettings": "AppBase.getSettingsView + Menu2; requires native validation",
+      "hardwareVerification": "pending"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

@@ -11,7 +11,7 @@ export function generationContext(p:Project,files:CodeFile[]) {
   const variant=p.multiDevice?.variants.find(v=>v.target===device.target && v.deviceSize===p.deviceSize);
   return {version:1 as const,identityPolicy:"local-change-detection-not-security" as const,projectId:p.id,revision:p.revision,target:device.target,deviceSize:device.size,
     capabilityVersion,sourceContractVersion,deviceMetadataVersion,
-    masterFingerprint:contextIdentity({layers:p.multiDevice?.master||p.layers,controls:p.controls,localFonts:p.localFonts,background:p.backgroundColor}),
+    masterFingerprint:contextIdentity({layers:p.multiDevice?.master||p.layers,controls:p.controls,localFonts:p.localFonts,themes:p.themes,background:p.backgroundColor}),
     variantFingerprint:contextIdentity({layers:p.layers,overrides:variant?.overrides,values:p.controlValues,target:device.target,size:device.size}),
     codeFingerprint:contextIdentity([...files].sort((a,b)=>a.path.localeCompare(b.path)))};
 }
