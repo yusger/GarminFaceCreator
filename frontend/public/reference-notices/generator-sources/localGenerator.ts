@@ -1,3 +1,4 @@
+import {meterDefaultGoal} from "./meters.ts";
 import {nativeHourlyChartHelpers} from "./nativeHourlyCharts.ts";
 import {chartConfig} from "./charts.ts";
 import {extraNativeMetrics} from "./nativeExtraMetrics.ts";
@@ -32,7 +33,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-51-theme-background";
+export const LOCAL_GENERATOR_VERSION = "basic-52-additional-sources";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -189,14 +190,14 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
         aod ? l.aodColor || "#777777" : l.meterDimColor || "#16324a",
       ),
       ink = paintOverride||color(aod ? l.aodColor || "#777777" : l.color);
-    return `{dc.setColor(${base},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}));var ratio=0.0;if(${raw}!=null && ${raw}==${raw} && ${raw}>=0 && ${raw}<1.0e12 ${l.source === "battery" ? "&& " + raw + "<=100" : ""}){ratio=${raw}*1.0/${num(l.meterGoal || 10000)};if(ratio>1){ratio=1;}}dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}*ratio),px(${num(l.h)}));}`;
+    return `{dc.setColor(${base},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}));var ratio=0.0;if(metricValid(${raw},${JSON.stringify(l.source)})){ratio=${raw}*1.0/${num(l.meterGoal ?? meterDefaultGoal(l.source))};if(ratio>1){ratio=1;}}dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}*ratio),px(${num(l.h)}));}`;
   }
   if (l.kind === "meter") {
     const ink = paintOverride||color(aod ? l.aodColor || "#777777" : l.color),
-      goal = l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
+      goal = l.meterGoal ?? meterDefaultGoal(l.source),
       count = l.meterCount ?? 16;
     return (
-      `{dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);var lit=meterCount(${l.source === "battery" ? "databattery" : "datasteps"},${num(goal)},${count},${l.source === "battery" ? "true" : "false"});` +
+      `{dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);var lit=meterCount(${"data"+l.source},${num(goal)},${count},${JSON.stringify(l.source)});` +
       meterPolygons(l)
         .map(
           (points, i) =>
@@ -355,7 +356,7 @@ export function localGenerate(p: Project) {
   ];
   const extraMetrics=extraNativeMetrics(dataSources);
   const activitySources = dataSources.filter((s) =>
-    ["steps", "distance", "calories", "floorsClimbed", "intensityMinutes"].includes(s),
+    ["steps", "distance", "calories", "floorsClimbed", "intensityMinutes", "moveBarLevel"].includes(s),
   );
   const dataReads =
     (activitySources.length
@@ -369,7 +370,7 @@ export function localGenerate(p: Project) {
       : "") +
     extraMetrics.reads;
   const temperature = extraMetrics.needsWeather;
-  const metrics = included.some((l) => l.kind === "metric"||(l.kind==="meter"&&l.threshold));
+  const metrics = included.some((l) => l.kind === "metric"||l.kind==="meter");
   const date = included.some((l) => l.kind === "date" || l.kind === "calendar");
   const zones = [
     ...new Set(
@@ -446,7 +447,7 @@ ${hourlyCharts?nativeHourlyChartHelpers:""}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
- ${meters.length ? "function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
+ ${meters.length ? "function meterCount(value,goal,count,source){if(!metricValid(value,source)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
  ${dataHelpers}
  ${extraMetrics.helpers}
  ${

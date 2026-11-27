@@ -113,7 +113,7 @@ export function generationRequirements(p: Project) {
     fontPolicy:
       "Verify every required glyph in the selected target and font, including English-device locale. Use explicitly supplied licensed bitmap fonts when system fonts lack glyphs; never invent support or distribute SDK fonts. Keep ASCII numeric fallbacks. Do not silently replace user text.",
     missingDataPolicy:
-      "Guard modules/methods/nullable objects, iterator.next(), values and sentinels before arithmetic. Missing data uses layer.missingValue, never fabricated readings. Nonpositive HR and battery outside 0..100 are unavailable. SensorHistory period=1 means the latest one entry, not the last second. Cached weather needs no Communications permission or external key. Recovery/stress may be unavailable on a given device; guard Complications calls and exceptions.",
+      "Guard modules/methods/nullable objects, iterator.next(), values and sentinels before arithmetic. Missing data uses layer.missingValue, never fabricated readings. Nonpositive HR/SpO2 and battery/SpO2 outside0..100 are unavailable. phoneConnected is numeric0 disconnected/1 connected; missing is not disconnected; moveBarLevel is0..5, not minutes. Wind bearing is cached weather direction, not compass heading. SensorHistory period=1 means the latest one entry, not the last second. Cached weather needs no Communications permission or external key. Recovery/stress may be unavailable on a given device; guard Complications calls and exceptions.",
   };
 }
 export function generationManifest(

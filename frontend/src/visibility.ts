@@ -1,6 +1,8 @@
+import {validMetricValue,metricLimits} from "./metricFormat.ts";
+export const visibilitySources=["heartRate","steps","battery","oxygenSaturation","phoneConnected","moveBarLevel","precipitationChance","windBearing"] as const;
 import type { Layer } from "./domain";
 export type VisibilityCondition = {
-  source: "heartRate" | "steps" | "battery";
+  source:(typeof visibilitySources)[number];
   min?: number;
   max?: number;
   minExclusive?: boolean;
@@ -26,7 +28,7 @@ export function validateVisibility(c: VisibilityCondition | undefined) {
           "aod",
         ].includes(k),
     ) ||
-    !["heartRate", "steps", "battery"].includes(c.source) ||
+    !visibilitySources.includes(c.source) ||
     [c.min, c.max].some(
       (v) => v !== undefined && (!Number.isFinite(v) || v < 0 || v >= 1e12),
     ) ||
@@ -50,14 +52,7 @@ export function conditionVisible(
   validateVisibility(c);
   if (aod && c.aod && c.aod !== "evaluate") return c.aod === "show";
   const v = values[c.source];
-  if (
-    typeof v !== "number" ||
-    !Number.isFinite(v) ||
-    v < 0 ||
-    v >= 1e12 ||
-    (c.source === "heartRate" && v <= 0) ||
-    (c.source === "battery" && v > 100)
-  )
+  if(typeof v!=="number"||!validMetricValue(c.source,v))
     return !!c.missingVisible;
   return (
     (c.min === undefined || (c.minExclusive ? v > c.min : v >= c.min)) &&
@@ -70,8 +65,8 @@ export function nativeVisibility(l: Layer, aod: boolean) {
   validateVisibility(c);
   if (aod && c.aod && c.aod !== "evaluate")
     return c.aod === "show" ? "true" : "false";
-  const v = "data" + c.source,
-    valid = `${v}!=null && ${v}==${v} && ${v}${c.source === "heartRate" ? ">" : ">="}0 && ${v}<1.0e12${c.source === "battery" ? ` && ${v}<=100` : ""}`;
+  const v = "data" + c.source,r=metricLimits[c.source]||{min:0},
+    valid = `${v}!=null && ${v}==${v} && ${v}${r.exclusiveMin?">":">="}${r.min} && ${v}<1.0e12${r.max!==undefined?` && ${v}<=${r.max}`:""}`;
   const range = [
     c.min === undefined ? "true" : `${v}${c.minExclusive ? ">" : ">="}${c.min}`,
     c.max === undefined ? "true" : `${v}${c.maxInclusive ? "<=" : "<"}${c.max}`,

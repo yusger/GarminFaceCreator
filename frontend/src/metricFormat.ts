@@ -2,6 +2,11 @@ export const metricLimits: Record<
   string,
   { min: number; max?: number; exclusiveMin?: boolean }
 > = {
+  oxygenSaturation:{min:0,exclusiveMin:true,max:100},
+  phoneConnected:{min:0,max:1},
+  moveBarLevel:{min:0,max:5},
+  precipitationChance:{min:0,max:100},
+  windBearing:{min:0,max:360},
   heartRate: { min: 0, exclusiveMin: true },
   battery: { min: 0, max: 100 },
   temperature: { min: -273.15, max: 1000 },

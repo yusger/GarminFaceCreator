@@ -1,3 +1,4 @@
+import {meterSources} from "./meters.ts";
 import {validateChart,defaultChart,type ChartConfig} from "./charts.ts";
 import {validateThemes,type ThemeSet} from "./themes.ts";
 import {validateLocalFonts,type LocalFont} from "./localFonts.ts";
@@ -250,7 +251,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41;
+    | 41 | 42;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -318,6 +319,11 @@ export const metrics: Record<string, string> = {
   uvIndex: "紫外线",
   altitude: "海拔（ft）",
   windSpeed: "风速",
+  oxygenSaturation:"血氧（SpO2）",
+  phoneConnected:"手机连接（0/1）",
+  moveBarLevel:"久坐等级（0–5）",
+  precipitationChance:"降水概率",
+  windBearing:"风向（度）",
 };
 export function layer(kind: Kind): Layer {
   return {
@@ -478,7 +484,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 41,
+    schemaVersion: 42,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -516,7 +522,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 41 ||
+    p.schemaVersion !== 42 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -595,7 +601,7 @@ export function validateProject(value: unknown): Project {
       throw Error("图层属性无效");
     if (
       l.kind === "meter" &&
-      (!["steps", "battery"].includes(l.source) ||
+      (!meterSources.includes(l.source) ||
         (l.meterShape !== undefined &&
           !["bar", "left", "right"].includes(l.meterShape)) ||
         (l.meterCount !== undefined &&

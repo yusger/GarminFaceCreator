@@ -1,3 +1,6 @@
+import {validMetricValue} from "./metricFormat.ts";
+export const meterSources=["steps","battery","oxygenSaturation","moveBarLevel"];
+export const meterDefaultGoal=(source:string)=>source==="moveBarLevel"?5:source==="steps"?10000:100;
 import type { Layer } from "./domain";
 // Composite geometry in layer-local design units. Index zero fills first.
 export function meterPolygons(l: Layer): number[][][] {
@@ -41,10 +44,7 @@ export function meterLit(
 ) {
   if (
     missing ||
-    value == null ||
-    !Number.isFinite(value) ||
-    value < 0 ||
-    (l.source === "battery" && value > 100)
+    value == null || !validMetricValue(l.source,value)
   )
     return 0;
   return Math.floor(
@@ -53,7 +53,7 @@ export function meterLit(
         0,
         Math.min(
           1,
-          value / (l.meterGoal ?? (l.source === "battery" ? 100 : 10000)),
+          value / (l.meterGoal ?? meterDefaultGoal(l.source)),
         ),
       ),
   );

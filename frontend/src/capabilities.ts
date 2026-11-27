@@ -84,7 +84,7 @@ export function localLayerDiagnostics(l: Layer): CapabilityDiagnostic[] {
       );
   }
   if (l.kind === "meter" && !catalog.rules.meterSources.includes(l.source))
-    add("LOCAL_METER_SOURCE_UNSUPPORTED", "source", "进度控件仅支持步数或电量");
+    add("LOCAL_METER_SOURCE_UNSUPPORTED", "source", "进度控件仅支持步数、电量、血氧或久坐等级");
   if (l.kind === "metric" && !localMetricSources.includes(l.source))
     add(
       "LOCAL_METRIC_SOURCE_UNSUPPORTED",

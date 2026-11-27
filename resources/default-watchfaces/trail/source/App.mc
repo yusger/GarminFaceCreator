@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-51-theme-background; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-52-additional-sources; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Weather;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function getSettingsView(){return [new GfcSettingsMenu("root",null),new GfcSettingsDelegate()];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
@@ -24,8 +24,8 @@ var settingsCache=null;function prepareSettings(){if(settingsCache==null){settin
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
- function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}
- function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}if(source.equals("heartRate")){return value>0;}if(source.equals("battery")){return value>=0 && value<=100;}if(source.equals("temperature")){return value>=-273.15 && value<=1000;}if(source.equals("humidity")){return value>=0 && value<=100;}if(source.equals("stress")){return value>=0 && value<=100;}if(source.equals("seconds")){return value>=0 && value<=59;}if(source.equals("altitude")){return value>=-1.0e12;}return value>=0;}
+ function meterCount(value,goal,count,source){if(!metricValid(value,source)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}
+ function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}if(source.equals("oxygenSaturation")){return value>0 && value<=100;}if(source.equals("phoneConnected")){return value>=0 && value<=1;}if(source.equals("moveBarLevel")){return value>=0 && value<=5;}if(source.equals("precipitationChance")){return value>=0 && value<=100;}if(source.equals("windBearing")){return value>=0 && value<=360;}if(source.equals("heartRate")){return value>0;}if(source.equals("battery")){return value>=0 && value<=100;}if(source.equals("temperature")){return value>=-273.15 && value<=1000;}if(source.equals("humidity")){return value>=0 && value<=100;}if(source.equals("stress")){return value>=0 && value<=100;}if(source.equals("seconds")){return value>=0 && value<=59;}if(source.equals("altitude")){return value>=-1.0e12;}return value>=0;}
  function metricText(value,source,label,unit,precision,missing,group){
   if(!metricValid(value,source)){return label+missing;}
   var text="";
@@ -194,7 +194,7 @@ if(true){if((cfg_apex_value_apex_br.equals("heartRate")) && cfgTheme==0){textPai
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22apex_battery_meter%22%2C%22partId%22%3A%22apex_battery_meter%22%2C%22capabilityId%22%3A%22core.meter%22%2C%22mode%22%3A%22active%22%7D
-if(true){if(cfgTheme==0){{var value=databattery;var meterInk=0x738594;if(metricValid(value,"battery")){if(true && value<10){meterInk=0xFF4D5E;}else if(value>=10 && value<30){meterInk=0xFFC04A;}else if(value>=30 && true){meterInk=cfg_apex_battery_color;}}{dc.setColor(0x26313B,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120),px(9));var ratio=0.0;if(databattery!=null && databattery==databattery && databattery>=0 && databattery<1.0e12 && databattery<=100){ratio=databattery*1.0/100;if(ratio>1){ratio=1;}}dc.setColor(meterInk,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120*ratio),px(9));}}}}
+if(true){if(cfgTheme==0){{var value=databattery;var meterInk=0x738594;if(metricValid(value,"battery")){if(true && value<10){meterInk=0xFF4D5E;}else if(value>=10 && value<30){meterInk=0xFFC04A;}else if(value>=30 && true){meterInk=cfg_apex_battery_color;}}{dc.setColor(0x26313B,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120),px(9));var ratio=0.0;if(metricValid(databattery,"battery")){ratio=databattery*1.0/100;if(ratio>1){ratio=1;}}dc.setColor(meterInk,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120*ratio),px(9));}}}}
 // GFC_LAYER_END
 
 
@@ -431,7 +431,7 @@ if(true){if((cfg_trail_value_trail_br.equals("heartRate")) && cfgTheme==1){textP
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22trail_battery_meter%22%2C%22partId%22%3A%22trail_battery_meter%22%2C%22capabilityId%22%3A%22core.meter%22%2C%22mode%22%3A%22active%22%7D
-if(true){if(cfgTheme==1){{var value=databattery;var meterInk=0x6E6A62;if(metricValid(value,"battery")){if(true && value<10){meterInk=0xFF4D5E;}else if(value>=10 && value<30){meterInk=0xFFC04A;}else if(value>=30 && true){meterInk=cfg_trail_battery_color;}}{dc.setColor(0x2E2A20,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120),px(9));var ratio=0.0;if(databattery!=null && databattery==databattery && databattery>=0 && databattery<1.0e12 && databattery<=100){ratio=databattery*1.0/100;if(ratio>1){ratio=1;}}dc.setColor(meterInk,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120*ratio),px(9));}}}}
+if(true){if(cfgTheme==1){{var value=databattery;var meterInk=0x6E6A62;if(metricValid(value,"battery")){if(true && value<10){meterInk=0xFF4D5E;}else if(value>=10 && value<30){meterInk=0xFFC04A;}else if(value>=30 && true){meterInk=cfg_trail_battery_color;}}{dc.setColor(0x2E2A20,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120),px(9));var ratio=0.0;if(metricValid(databattery,"battery")){ratio=databattery*1.0/100;if(ratio>1){ratio=1;}}dc.setColor(meterInk,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120*ratio),px(9));}}}}
 // GFC_LAYER_END
 
 
@@ -612,7 +612,7 @@ if(true){if((cfg_vital_value_vital_br.equals("heartRate")) && cfgTheme==2){textP
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22vital_battery_meter%22%2C%22partId%22%3A%22vital_battery_meter%22%2C%22capabilityId%22%3A%22core.meter%22%2C%22mode%22%3A%22active%22%7D
-if(true){if(cfgTheme==2){{var value=databattery;var meterInk=0x54736F;if(metricValid(value,"battery")){if(true && value<10){meterInk=0xFF4D5E;}else if(value>=10 && value<30){meterInk=0xFFC04A;}else if(value>=30 && true){meterInk=cfg_vital_battery_color;}}{dc.setColor(0x1E2E2C,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120),px(9));var ratio=0.0;if(databattery!=null && databattery==databattery && databattery>=0 && databattery<1.0e12 && databattery<=100){ratio=databattery*1.0/100;if(ratio>1){ratio=1;}}dc.setColor(meterInk,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120*ratio),px(9));}}}}
+if(true){if(cfgTheme==2){{var value=databattery;var meterInk=0x54736F;if(metricValid(value,"battery")){if(true && value<10){meterInk=0xFF4D5E;}else if(value>=10 && value<30){meterInk=0xFFC04A;}else if(value>=30 && true){meterInk=cfg_vital_battery_color;}}{dc.setColor(0x1E2E2C,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120),px(9));var ratio=0.0;if(metricValid(databattery,"battery")){ratio=databattery*1.0/100;if(ratio>1){ratio=1;}}dc.setColor(meterInk,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(167),px(388),px(120*ratio),px(9));}}}}
 // GFC_LAYER_END
 
 

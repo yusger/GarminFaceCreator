@@ -1,3 +1,4 @@
+import {meterSources,meterDefaultGoal} from "./meters.ts";
 import ChartInspector from "./ChartInspector";
 import {acceptGeneratedProvenance} from "./generationContext";
 import {generationDiagnostics} from "./generationDiagnostics";
@@ -2775,12 +2776,11 @@ export default function App() {
                               patch({
                                 source: e.target.value,
                                 meterGoal:
-                                  e.target.value === "battery" ? 100 : 10000,
+                                  meterDefaultGoal(e.target.value),
                               })
                             }
                           >
-                            <option value="steps">当日步数</option>
-                            <option value="battery">电量百分比</option>
+                            {meterSources.map(source=><option key={source} value={source}>{metrics[source]}</option>)}
                           </select>
                         </label>
                         <label>
@@ -2792,7 +2792,7 @@ export default function App() {
                             max="1000000"
                             value={
                               current.meterGoal ??
-                              (current.source === "battery" ? 100 : 10000)
+                              meterDefaultGoal(current.source)
                             }
                             onChange={(e) =>
                               patch({

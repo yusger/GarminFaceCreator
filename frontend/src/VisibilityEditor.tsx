@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { validateVisibility, type VisibilityCondition } from "./visibility";
+import {metrics} from "./domain";
+import { visibilitySources,validateVisibility, type VisibilityCondition } from "./visibility";
 export default function VisibilityEditor({
   value,
   onChange,
@@ -47,9 +48,7 @@ export default function VisibilityEditor({
                 })
               }
             >
-              <option value="heartRate">心率</option>
-              <option value="battery">电量</option>
-              <option value="steps">步数</option>
+              {visibilitySources.map(source=><option key={source} value={source}>{metrics[source]}</option>)}
             </select>
           </label>
           <label>

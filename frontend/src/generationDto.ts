@@ -1,11 +1,12 @@
 import {controlSettingKey,sourceCode} from "./nativeSettingIds.ts";
+import {meterDefaultGoal} from "./meters.ts";
 import {chartConfig,chartFields,validateChart} from "./charts";
 import {themeCode,themeBackground,themeBackgroundKey} from "./themes";
 import {nativeFontBindings,nativeFontFiles} from "./nativeFontResources";
 import {iconMaskId} from "./iconMasks.ts";
 import { validateControls } from "./projectControls";
 import { validateVisibility } from "./visibility";
-import { meterPolygons } from "./meters";
+import { meterPolygons } from "./meters.ts";
 import { defaultThresholds } from "./thresholds";
 import type { Layer, Project } from "./domain";
 import { imageAssetPath } from "./assets";
@@ -114,7 +115,7 @@ export function generationLayer(l: Layer) {
       ? {
           meterShape: l.meterShape || "bar",
           meterCount: l.meterCount ?? 16,
-          meterGoal: l.meterGoal ?? (l.source === "battery" ? 100 : 10000),
+          meterGoal: l.meterGoal ?? meterDefaultGoal(l.source),
           meterDim: l.meterDim ?? 0.35,
           meterPolygons: meterPolygons(l),
         }

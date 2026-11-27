@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-51-theme-background; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-52-additional-sources; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
@@ -24,8 +24,8 @@ var settingsCache=null;function prepareSettings(){if(settingsCache==null){settin
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
- function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}
- function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}if(source.equals("heartRate")){return value>0;}if(source.equals("battery")){return value>=0 && value<=100;}if(source.equals("temperature")){return value>=-273.15 && value<=1000;}if(source.equals("humidity")){return value>=0 && value<=100;}if(source.equals("stress")){return value>=0 && value<=100;}if(source.equals("seconds")){return value>=0 && value<=59;}if(source.equals("altitude")){return value>=-1.0e12;}return value>=0;}
+ function meterCount(value,goal,count,source){if(!metricValid(value,source)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}
+ function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}if(source.equals("oxygenSaturation")){return value>0 && value<=100;}if(source.equals("phoneConnected")){return value>=0 && value<=1;}if(source.equals("moveBarLevel")){return value>=0 && value<=5;}if(source.equals("precipitationChance")){return value>=0 && value<=100;}if(source.equals("windBearing")){return value>=0 && value<=360;}if(source.equals("heartRate")){return value>0;}if(source.equals("battery")){return value>=0 && value<=100;}if(source.equals("temperature")){return value>=-273.15 && value<=1000;}if(source.equals("humidity")){return value>=0 && value<=100;}if(source.equals("stress")){return value>=0 && value<=100;}if(source.equals("seconds")){return value>=0 && value<=59;}if(source.equals("altitude")){return value>=-1.0e12;}return value>=0;}
  function metricText(value,source,label,unit,precision,missing,group){
   if(!metricValid(value,source)){return label+missing;}
   var text="";
@@ -85,7 +85,7 @@ if(true){if(cfg_right_slot_source.equals("steps")){textPaint(dc,mixTextInk(0xDCE
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_steps_progress%22%2C%22partId%22%3A%22sonar_steps_progress%22%2C%22capabilityId%22%3A%22core.meter%22%2C%22mode%22%3A%22active%22%7D
-if(true){if(cfg_right_slot_source.equals("steps")){{dc.setColor(0x16324A,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(316),px(264),px(72),px(4));var ratio=0.0;if(datasteps!=null && datasteps==datasteps && datasteps>=0 && datasteps<1.0e12 ){ratio=datasteps*1.0/10000;if(ratio>1){ratio=1;}}dc.setColor(0x4FD1C5,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(316),px(264),px(72*ratio),px(4));}}}
+if(true){if(cfg_right_slot_source.equals("steps")){{dc.setColor(0x16324A,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(316),px(264),px(72),px(4));var ratio=0.0;if(metricValid(datasteps,"steps")){ratio=datasteps*1.0/10000;if(ratio>1){ratio=1;}}dc.setColor(0x4FD1C5,Graphics.COLOR_TRANSPARENT);dc.fillRectangle(px(316),px(264),px(72*ratio),px(4));}}}
 // GFC_LAYER_END
 
 

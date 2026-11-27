@@ -1,3 +1,4 @@
+import {meterSources} from "./meters.ts";
 import {chartSchema,validateChart} from "./charts";
 import {validPolygon} from "./geometry";
 import {createKinds,designCapabilityContext} from "./capabilities";
@@ -241,7 +242,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       responseSchema:designResponseSchema(c),
       timeFormats: ["full", "hours", "minutes", "seconds"],
       clock: "24h device local",
-      meterSources: ["steps", "battery"],
+      meterSources,
       ringSources: ["seconds", "steps", "battery", "heartRate", "static"],
       fonts: [
         "auto",
@@ -401,7 +402,7 @@ export function parseDesign(
       (!c.sources.includes(v.source) || typeof v.source !== "string")
     )
       throw Error("模型使用了未勾选或未绑定的数据源");
-    if (v.kind === "meter" && !["steps", "battery"].includes(v.source))
+    if (v.kind === "meter" && !meterSources.includes(v.source))
       throw Error("当前进度控件仅支持步数和电量");
     if (
       v.kind === "ring" &&

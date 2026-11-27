@@ -1,5 +1,7 @@
+import {validMetricValue} from "./metricFormat.ts";
+import {meterDefaultGoal} from "./meters.ts";
 import type { Layer } from "./domain";
-import { meterLit, meterPolygons } from "./meters";
+import { meterLit, meterPolygons } from "./meters.ts";
 export default function Meter({
   layer: l,
   value,
@@ -14,11 +16,9 @@ export default function Meter({
   if (l.meterContinuous) {
     const valid =
         !missing &&
-        Number.isFinite(value) &&
-        value! >= 0 &&
-        (l.source !== "battery" || value! <= 100),
+        validMetricValue(l.source,value),
       ratio = valid
-        ? Math.max(0, Math.min(1, value! / (l.meterGoal || 10000)))
+        ? Math.max(0, Math.min(1, value! / (l.meterGoal ?? meterDefaultGoal(l.source))))
         : 0;
     return (
       <>

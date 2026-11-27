@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.12.0",
-  "projectSchemaVersion": 41,
+  "version": "1.13.0",
+  "projectSchemaVersion": 42,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -200,7 +200,7 @@
       "mode": "active/aod",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Requires a loaded bitmap or known library icon.",
+      "constraints": "Requires a loaded bitmap or known library icon. Conditional visibility supports phoneConnected 0/1 and the explicit numeric visibility whitelist; user supplies icon artwork.",
       "test": "frontend/tests/capabilities.spec.ts"
     },
     {
@@ -436,12 +436,79 @@
       "deviceVerification": "not_verified_by_catalog",
       "constraints": "One chart object; day1..7 steps/distance/calories or hour1..7 heartRate; bar/trapezoid/segmented/line/area, max4, Venu4 only. Missing breaks curves; hour aggregation mean/max/min/last, no sum; actual elapsed-hour buckets,1024 recent sample processing budget and coverage marker,60s active-only cache; AOD frozen/simplified. ECG not supported.",
       "test": "frontend/tests/charts.spec.ts"
+    },
+    {
+      "id": "data.oxygensaturation",
+      "source": "oxygenSaturation",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active / AOD last active cache",
+      "minimumApi": "3.2.0",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "SensorHistory.getOxygenSaturationHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next() guarded; sample.when age0..300s; data percent >0 and <=100; numeric metrics and explicitly enabled meters; source slots have separate whitelist. Design goals100 percent/5 levels, not personalised fitness goals.",
+      "test": "frontend/tests/additional-sources.spec.ts"
+    },
+    {
+      "id": "data.phoneconnected",
+      "source": "phoneConnected",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active / AOD last active cache",
+      "minimumApi": "1.1.0",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "System.getDeviceSettings().phoneConnected boolean -> 1 connected / 0 disconnected; missing is not zero; numeric metrics only, source-slot/meter support has separate whitelist.",
+      "test": "frontend/tests/additional-sources.spec.ts"
+    },
+    {
+      "id": "data.movebarlevel",
+      "source": "moveBarLevel",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active / AOD last active cache",
+      "minimumApi": "1.0.0",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "ActivityMonitor.getInfo().moveBarLevel, nullable level0..5 (not a percentage or minute count); numeric metrics and explicitly enabled meters; source slots have separate whitelist. Design goals100 percent/5 levels, not personalised fitness goals.",
+      "test": "frontend/tests/additional-sources.spec.ts"
+    },
+    {
+      "id": "data.precipitationchance",
+      "source": "precipitationChance",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active / AOD last active cache",
+      "minimumApi": "3.2.0",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "GfcWeather.read(false).precipitationChance, cached current conditions percent0..100; observationTime age0..21600s; numeric metrics only, source-slot/meter support has separate whitelist.",
+      "test": "frontend/tests/additional-sources.spec.ts"
+    },
+    {
+      "id": "data.windbearing",
+      "source": "windBearing",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active / AOD last active cache",
+      "minimumApi": "3.2.0",
+      "deviceVerification": "not_verified_by_catalog",
+      "constraints": "GfcWeather.read(false).windBearing, cached weather degrees; North0/East90/South180/West270; not device heading; numeric metrics only, source-slot/meter support has separate whitelist.",
+      "test": "frontend/tests/additional-sources.spec.ts"
     }
   ],
   "rules": {
     "meterSources": [
       "steps",
-      "battery"
+      "battery",
+      "oxygenSaturation",
+      "moveBarLevel"
     ],
     "ringSources": [
       "seconds",
@@ -520,7 +587,17 @@
       "customSuffixes": true,
       "sourcePrecisionOverrides": "0..6; presentation only, not numeric conversions",
       "meterThresholds": true
-    }
+    },
+    "visibilitySources": [
+      "heartRate",
+      "steps",
+      "battery",
+      "oxygenSaturation",
+      "phoneConnected",
+      "moveBarLevel",
+      "precipitationChance",
+      "windBearing"
+    ]
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."
 }

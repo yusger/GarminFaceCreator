@@ -40,6 +40,11 @@ export function metricValues(d: Preview): Record<string, number> {
     uvIndex: 3,
     altitude: -59,
     windSpeed: 6,
+    oxygenSaturation:98,
+    phoneConnected:1,
+    moveBarLevel:2,
+    precipitationChance:29,
+    windBearing:270,
     seconds: d.seconds,
     ...Object.fromEntries(
       Object.entries(d.values || {}).map(([key, value]) => [key, value ?? NaN]),

@@ -269,7 +269,12 @@
               "humidity",
               "uvIndex",
               "altitude",
-              "windSpeed"
+              "windSpeed",
+              "oxygenSaturation",
+              "phoneConnected",
+              "moveBarLevel",
+              "precipitationChance",
+              "windBearing"
             ]
           },
           "activeVisible": {
