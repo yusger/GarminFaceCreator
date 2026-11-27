@@ -1,3 +1,4 @@
+import DiagnosticExport from "./DiagnosticExportPanel";
 import {createStateGroup} from "./stateMapping";
 import { sourceMapFor, mappedDiagnostic } from "./sourceMap";
 import ReadoutInspector from "./ReadoutInspector";
@@ -2122,6 +2123,7 @@ export default function App() {
                 onBlurCapture={endProperty}
               >
                 <GenerationChecks project={p} onLocate={selectOne}/>
+                <DiagnosticExport key={p.id} project={p} secrets={profiles.map(v=>v.key)} logs={buildSourceIdentity.current?.projectId===p.id ? logs : undefined} preview={preview} mode={aod?"aod":"active"}/>
                 {boundaryWarnings.length > 0 && (
                   <details className="boundary-warning">
                     <summary>
