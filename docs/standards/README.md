@@ -4,7 +4,7 @@
 
 | 规范 | 版本 | 用途 |
 | --- | --- | --- |
-| [编辑器能力清单](capability-list.md) | 1.6.0 | 从共享目录生成的现有入口/本地生成边界；不代表设备验收 |
+| [编辑器能力清单](capability-list.md) | 1.6.1 | 从共享目录生成的现有入口/本地生成边界；不代表设备验收 |
 | [表盘设计基础规范](watchface-basic-spec.md) | v1.1 | 表盘设计原则、数据与 AI 创建的能力边界 |
 | [表盘设计包接入规范](watchface-package-standard.md) | v1.2 | 完整表盘包的结构、资源、配置和转换验收 |
 | [自定义控件交付规范](custom-widget-standard.md) | v1.0 | 一个完整复合控件的交付、内部部件和验收 |
@@ -18,3 +18,5 @@
 - [自定义控件格式v2](custom-widget-v2.md)：凸几何/曲线文字/连续弧，旧v1继续保持。
 - [发布配置deterministic-v2](reference-release-v2.md)：固定schema31及离线语义检查，发布API待实现。
 - [本地诊断包](local-diagnostic-export.md)：主动下载与脱敏边界。
+
+- [数据源联动规则](data-source-linkage.md)：格式、静态图标、设计量程及亮屏/AOD一致性。

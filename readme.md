@@ -236,3 +236,6 @@ PulseManiac 的[创建、配置与素材说明](docs/pulsemaniac.md)包含实际
 - [AI 设计助手：对话调整表盘](docs/design-chat.md)
 
 - [精细表盘编辑：边界预览、圆周排版与字体素材](docs/editor-quality.md)
+
+- [精细设计与AI视觉闭环：已交付范围和未验证项](docs/plan-implementation-status.md)
+- [数据源联动规则](docs/standards/data-source-linkage.md)：自动格式、显式图标隐藏/恢复及设计量程。
