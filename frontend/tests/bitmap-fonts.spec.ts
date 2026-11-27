@@ -139,7 +139,8 @@ test("font generation filters unused glyphs, manages XML/helpers and snapshots e
   expect(fnt.content).toContain("chars count=2");
   expect(fnt.content).not.toContain("char id=32");
   expect(fnt.content).toContain("kernings count=0");
-  const unsupported={...p,target:"venu3",deviceSize:"45mm"};expect(bitmapFontDiagnostics(unsupported).length).toBeGreaterThan(0);
+  const unsupported = { ...p, target: "venu3", deviceSize: "45mm" };
+  expect(bitmapFontDiagnostics(unsupported).length).toBeGreaterThan(0);
   const helper = files.find((f) => f.path === "source/GfcBitmapText.mc")!;
   expect(helper.content).toContain("65=>{86=>-2}");
   expect(helper.content).toContain("text.toCharArray()");
@@ -298,4 +299,64 @@ test("bitmap font imports locally, renders one layer and survives save/reload an
   expect(exported.bitmapFonts[0].atlasData).toBe(f.atlasData);
   expect(exported.layers[0].bitmapFontId).toBe(f.id);
   expect(posts).toBe(0);
+});
+
+test("source ZIP retains bitmap originals and license alongside generated subset resources", async ({
+  page,
+}) => {
+  const { build } = await import("vite"),
+    bundle = await build({
+      configFile: false,
+      logLevel: "silent",
+      define: { "process.env.NODE_ENV": JSON.stringify("production") },
+      build: {
+        write: false,
+        minify: false,
+        lib: {
+          entry: "frontend/tests/fixtures/bitmapFontHarness.ts",
+          name: "BitmapExportTest",
+          formats: ["iife"],
+        },
+      },
+    }),
+    entry = (Array.isArray(bundle) ? bundle[0] : bundle).output.find(
+      (f) => f.type === "chunk" && f.isEntry,
+    )!;
+  const p = await bitmapFixture();
+  p.files = localGenerate(p);
+  p.codeRevision = p.revision;
+  await page.goto("/");
+  await page.addScriptTag({ content: entry.code });
+  const raw = await page.evaluate(async (p) => {
+      const h = (window as any).gfcBitmapHarness,
+        result = await h.exportSources(p);
+      return Array.from(new Uint8Array(await result.blob.arrayBuffer()));
+    }, p),
+    bytes = Buffer.from(raw),
+    entries = new Map<string, Buffer>();
+  let at = 0;
+  while (bytes.readUInt32LE(at) === 0x04034b50) {
+    expect(bytes.readUInt16LE(at + 8)).toBe(0);
+    const size = bytes.readUInt32LE(at + 18),
+      nameSize = bytes.readUInt16LE(at + 26),
+      extraSize = bytes.readUInt16LE(at + 28),
+      name = bytes.toString("utf8", at + 30, at + 30 + nameSize),
+      start = at + 30 + nameSize + extraSize;
+    entries.set(name, bytes.subarray(start, start + size));
+    at = start + size;
+  }
+  const id = "GfcBitmap_" + p.bitmapFonts![0].id,
+    root = "source-assets/fonts/" + id + "/";
+  expect(entries.get(root + "original.fnt")!.toString()).toBe(descriptor);
+  expect(entries.get(root + "LICENSE.txt")!.toString()).toContain(
+    p.bitmapFonts![0].license,
+  );
+  expect(entries.get(root + "fixture.png")).toEqual(
+    Buffer.from(p.bitmapFonts![0].atlasData.split(",")[1], "base64"),
+  );
+  expect(entries.get("resources/fonts/" + id + ".fnt")!.toString()).toContain(
+    "chars count=2",
+  );
+  expect(entries.has("resources/fonts/" + id + ".png")).toBe(true);
+  expect(entries.has("source/GfcBitmapText.mc")).toBe(true);
 });

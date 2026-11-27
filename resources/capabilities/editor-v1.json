@@ -585,8 +585,7 @@
       "maxFiles": 8,
       "maxFileBytes": 4194304,
       "totalBytes": 16777216,
-      "licensing": "user-supplied bytes and nonempty authorization; not a legal license verification",
-      "bitmapImport": false
+      "licensing": "user-supplied bytes and nonempty authorization; not a legal license verification"
     },
     "themePresets": {
       "version": 1,
@@ -639,7 +638,12 @@
       "aod": "same fixed pixel size, cannot silently resize",
       "preview": "shared advances, kerning, offsets, baseline, target pixel truncation",
       "missing": "visible box in preview; generation blocked before resource preparation",
-      "ai": "public font operation selects approved IDs; no raw font upload to model"
+      "ai": "public font operation selects approved IDs; no raw font upload to model",
+      "nativeTargets": [
+        "venu445mm",
+        "venu441mm"
+      ],
+      "nativeCalibration": "SDK 9.3: measured 1px top inset compensation; glyph overhang retained; upgrades require screenshot revalidation"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

@@ -1,3 +1,4 @@
+import {generationDevice} from "./devices.ts";
 import { requiredFontGlyphs } from "./fontGlyphs.ts";
 import { libraryFonts, fontPatch } from "./fontLibrary.ts";
 import { bitmapFontInfo, bitmapGlyphMissing } from "./bitmapFonts.ts";
@@ -40,6 +41,7 @@ export function approvedFontChoices(p: Project) {
         name: f.family,
         kind: "bitmap",
         fixedPixelSize: info.size,
+        nativeTargets:["venu445mm","venu441mm"],
         glyphs: Object.keys(info.glyphs)
           .map(Number)
           .map((n) => String.fromCodePoint(n))
@@ -66,6 +68,7 @@ export function fontChoicePatch(
       garminFont: id.slice(7) as Layer["garminFont"],
     };
   if (p.bitmapFonts?.some((f) => f.id === id)) {
+    if (!["venu445mm","venu441mm"].includes(generationDevice(p).target))throw Error("位图字体原生指标仅核验 Venu 4 两尺寸");
     if (l.kind === "chart") throw Error("位图字体首版不支持图表");
     const patch = bitmapLayerPatch(p, id),
       asset = p.bitmapFonts!.find((f) => f.id === id)!;
