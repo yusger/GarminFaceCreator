@@ -44,6 +44,12 @@
 
 ![模型服务商与模型预设](docs/screenshots/model-presets.png)
 
+## 帮助与关于
+
+从侧栏或编辑器工具栏打开“帮助与关于”，搜索快速开始、导出安装、常见问题和设计提醒；关于页提供来源致谢与手动服务状态检查。详见[使用说明](docs/help-about.md)。
+
+![帮助与关于](docs/screenshots/help-about.png)
+
 ## 已实现功能
 
 - 可选 [SDK 原生验证](docs/native-verification.md)：新版 Venu 4 本地工程可在独立 Linux worker 中运行，查看与下载受凭证保护的原生截图及报告；默认关闭，与编译结果、网页模拟和真机验收分别记录。

@@ -236,3 +236,10 @@ Default watchface packages are maintained in [default-watchfaces](resources/defa
 
 - [Precision design and AI visual workflow: implementation and verification status](docs/plan-implementation-status.md) (Chinese report; simulation and hardware evidence remain separate).
 - [Data-source linkage rules](docs/standards/data-source-linkage.md): optional automatic formatting, explicit icon hiding/restoration, and design goals.
+
+
+## Help and About
+
+Open Help and About from the sidebar or editor toolbar. Search getting-started guides, export and USB installation instructions, FAQs, and design tips; view credits and explicitly check the current build/native-service status. Returning to the editor preserves the current design. See the [guide](docs/help-about.md) (Chinese).
+
+![Help and About](docs/screenshots/help-about.png)

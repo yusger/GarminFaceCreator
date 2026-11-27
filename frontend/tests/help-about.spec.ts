@@ -12,6 +12,7 @@ test("help search finds installation and migration guidance without executing or
 });
 test("help navigation, file purposes, searchable FAQ and attribution are available without writes",async({page})=>{
  const writes:string[]=[];page.on("request",r=>{if(r.method()==="POST")writes.push(r.url());});await openHelp(page);
+ await mkdir("Temp/help-about-validation",{recursive:true});await page.screenshot({path:"Temp/help-about-validation/desktop-start.png"});
  const nav=page.getByRole("navigation",{name:"帮助分类"});await nav.getByRole("button",{name:"导出与安装",exact:true}).click();
  await expect(page.getByRole("table")).toContainText("表盘PRG");await expect(page.getByRole("table")).toContainText("不能直接安装");await expect(page.locator('[data-help-article="install-prg"]')).toContainText("GARMIN/APPS");
  const link=page.getByRole("link",{name:"Garmin官方侧载说明"});await expect(link).toHaveAttribute("href","https://developer.garmin.com/connect-iq/connect-iq-basics/your-first-app/");
@@ -29,8 +30,8 @@ test("service check is explicit, handles disabled native service and hides priva
 });
 test("editor help round trip preserves the current editable design and model settings entry",async({page})=>{
  page.on("dialog",d=>d.accept("Help Return"));await page.goto("/");await page.getByRole("button",{name:/^空白画布/}).click();await page.getByLabel("初始布局",{exact:true}).selectOption("blank");await page.getByRole("button",{name:"创建项目",exact:true}).click();await page.getByRole("button",{name:"时间",exact:true}).click();
- const before=await page.locator("svg.watch").first().innerHTML();await page.getByRole("button",{name:"帮助与关于",exact:true}).click();await expect(page.getByRole("heading",{name:"帮助与关于",exact:true})).toBeVisible();
- await page.getByRole("button",{name:"返回当前设计",exact:true}).click();await expect(page.locator("svg.watch").first()).toBeVisible();expect(await page.locator("svg.watch").first().innerHTML()).toBe(before);
+ const before=await page.locator("svg.watch").first().locator("[data-layer]").evaluateAll(nodes=>nodes.map(n=>n.outerHTML));await page.getByRole("button",{name:"帮助与关于",exact:true}).click();await expect(page.getByRole("heading",{name:"帮助与关于",exact:true})).toBeVisible();
+ await page.getByRole("button",{name:"返回当前设计",exact:true}).click();await expect(page.locator("svg.watch").first()).toBeVisible();expect(await page.locator("svg.watch").first().locator("[data-layer]").evaluateAll(nodes=>nodes.map(n=>n.outerHTML))).toEqual(before);
  await page.getByRole("button",{name:"帮助与关于",exact:true}).click();await page.locator(".help-start-actions").getByRole("button",{name:"模型配置",exact:true}).click();await expect(page.getByRole("heading",{name:"模型配置",exact:true})).toBeVisible();await page.getByRole("button",{name:"帮助与关于",exact:true}).click();await expect(page.getByRole("heading",{name:"帮助与关于",exact:true})).toBeVisible();
 });
 test("help page adapts to narrow screens and provides usable keyboard search",async({page})=>{
