@@ -41,7 +41,16 @@ export default function MoonIcon({
           y2={cy + r * 0.7}
           stroke={ink}
         />
-      ) : aod ? (
+      ) : aod && m.illumination >= 0.995 ? (
+        <circle
+          cx={cx}
+          cy={cy}
+          r={r * 0.55}
+          stroke={ink}
+          strokeWidth={1}
+          fill="none"
+        />
+      ) : aod && m.illumination <= 0.005 ? null : aod ? (
         <polyline
           points={terminator
             .map(([x, y]) => `${cx + x * r},${cy + y * r}`)

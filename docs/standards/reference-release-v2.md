@@ -15,3 +15,5 @@
 用例沿用formatVersion1。必须有亮屏/AOD且id唯一；每例从默认配置独立开始，可覆盖既有顶层/内部配置ID；日历日期必须真实有效。visibleLayerIds列展开后实际可见叶子ID，readings覆盖所有可见time/date/text/metric；复合父对象本身不算绘制叶子。输入values没有提供的数据一律缺失，不沿用编辑器演示值；0电量有效、null缺失，AOD秒固定0。检查复用网页读数/有效性/配置/显隐函数，不能用“期望文本是任意字符串”代替语义执行。
 
 输出分别记录结构/资源/用例结果、生成器及近似诊断，sdk和simulator保持not run，hardware保持unverified。自动发布仍需额外的真实字体准备、SDK、视觉审核、身份/权限/配额/激活事务等服务门禁；本CLI通过不表示已发布或具备自动API。示例PNG是固定09:41/电量78的网页导出，既非原生截图也非真机证明。Rider不进入默认库。
+
+冻结范围从初版cb0a56b的能力目录1.6.0提取至resources/capabilities/reference-release-v2-baseline.json。后续编辑器新增数据、图表、月相或凹形不自动进入v2：声明不在该表的能力即拒绝；所有层（含复合内部）仍单独检查凸几何。新能力须经新的显式配置契约接入。

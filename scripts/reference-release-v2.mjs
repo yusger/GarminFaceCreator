@@ -1,3 +1,5 @@
+import pinnedCapabilities from "../resources/capabilities/reference-release-v2-baseline.json" with {type:"json"};
+import {validConvexPolygon} from "../frontend/src/geometry.ts";
 // Offline semantic gate only. Does not publish, install or start any service.
 import Ajv2020 from "ajv/dist/2020.js";
 import { readFile } from "node:fs/promises";
@@ -57,6 +59,7 @@ export function validateReleaseV2(manifest, raw, boundImages = new Map()) {
     all = () => p.layers.flatMap((l) => [l, ...(l.compound?.layers || [])]),
     ids = new Set();
   for (const l of all()) {
+    if(l.kind==="polygon"&&!validConvexPolygon(l.polygonPoints))throw Error("Frozen deterministic-v2 supports convex polygons only");
     if (ids.has(l.id)) throw Error("Duplicate global layer identity");
     ids.add(l.id);
     if (
@@ -88,6 +91,7 @@ export function validateReleaseV2(manifest, raw, boundImages = new Map()) {
   const declarations = new Set(manifest.compatibility.requirements),
     catalogIds = new Set(capabilityCatalog.entries.map((e) => e.id));
   for (const id of declarations) {
+    if(!pinnedCapabilities.ids.includes(id))throw Error("Capability is outside frozen deterministic-v2 profile: "+id);
     if (!catalogIds.has(id)) throw Error("Unknown required capability " + id);
     if (!capabilityCatalog.entries.find((e) => e.id === id).deterministic)
       throw Error("Required capability has no deterministic mapping " + id);

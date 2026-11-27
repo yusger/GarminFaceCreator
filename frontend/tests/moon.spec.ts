@@ -192,3 +192,64 @@ test("113 moon icon resizes, mirrors, persists and stays one object", async ({
   await expect(page.getByLabel("月相示意方向")).toHaveValue("south");
   await expect(page.locator("[data-moon-phase]")).toBeVisible();
 });
+for (const target of ["venu445mm", "venu441mm"])
+  test(`moon diagram and illumination compile ${target}`, async ({
+    request,
+  }) => {
+    test.skip(process.env.GFC_TEST_SDK !== "1", "Explicit SDK check");
+    test.setTimeout(130000);
+    const p = project("MoonSDK", true);
+    p.target = target;
+    p.deviceSize = target === "venu445mm" ? "45mm" : "41mm";
+    p.layers = [
+      layer("moon"),
+      { ...layer("moon"), id: "south", moonHemisphere: "south" },
+      {
+        ...layer("metric"),
+        source: "moonIllumination",
+        label: "",
+        unit: "%",
+        precision: 0,
+        metricDecoration: false,
+      },
+    ];
+    const form = new FormData();
+    form.append(
+      "project",
+      JSON.stringify({
+        projectId: p.id,
+        projectName: p.name,
+        target,
+        appId: p.appId,
+        revision: p.revision,
+      }),
+    );
+    for (const f of localGenerate(p))
+      form.append("files", new Blob([f.content]), f.path);
+    const r = await fetch(process.env.GFC_TEST_URL + "/api/builds", {
+      method: "POST",
+      body: form,
+    });
+    expect(r.status, await r.clone().text()).toBe(202);
+    const job = await r.json(),
+      headers = { Authorization: "Bearer " + job.accessToken };
+    await expect
+      .poll(
+        async () => {
+          const state = await (
+            await request.get(`/api/builds/${job.buildId}`, { headers })
+          ).json();
+          if (state.status === "failed")
+            throw Error(
+              await (
+                await request.get(`/api/builds/${job.buildId}/logs`, {
+                  headers,
+                })
+              ).text(),
+            );
+          return state.status;
+        },
+        { timeout: 115000, intervals: [1000] },
+      )
+      .toBe("succeeded");
+  });

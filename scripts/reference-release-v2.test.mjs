@@ -115,3 +115,5 @@ test("inventory tampering and undeclared file never pass a schema-only gate", as
     await assert.rejects(() => checkReferenceV2(dir));
   }
 });
+
+test("new editor features cannot expand the frozen v2 capability profile",()=>{for(const id of ["core.chart","core.moon","data.moonillumination","data.sunrise","data.oxygensaturation"]){const copy=structuredClone(manifest);copy.compatibility.requirements.push(id);assert.throws(()=>validateReleaseV2(copy,design),/frozen deterministic-v2/);}});

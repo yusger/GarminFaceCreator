@@ -531,22 +531,28 @@
     {
       "id": "core.moon",
       "kind": "moon",
-      "title": "月相估算",
-      "editor": true,
       "aiCreate": true,
       "chatAdd": true,
       "deterministic": true,
-      "constraints": "UTC geocentric estimate,2000–2037;16–128 design units,opaque,8 layers; diagram orientation,not local tilt;AOD cached outline"
+      "constraints": "UTC geocentric estimate,2000–2037;16–128 design units,opaque,8 layers; diagram orientation,not local tilt;AOD cached outline",
+      "preview": true,
+      "mode": "active/aod",
+      "minimumApi": "4.2.1",
+      "deviceVerification": "not_verified_by_catalog",
+      "test": "frontend/tests/moon.spec.ts"
     },
     {
-      "id": "data.moonIllumination",
+      "id": "data.moonillumination",
       "source": "moonIllumination",
-      "title": "月面照明（估算）",
-      "editor": true,
       "aiCreate": true,
       "chatAdd": true,
       "deterministic": true,
-      "constraints": "Estimated visible illuminated fraction percent; not elapsed lunar phase or sensor data;10-minute cache;UTC2000–2037"
+      "constraints": "Estimated visible illuminated fraction percent; not elapsed lunar phase or sensor data;10-minute cache;UTC2000–2037",
+      "preview": true,
+      "mode": "active/aod",
+      "minimumApi": "4.2.1",
+      "deviceVerification": "not_verified_by_catalog",
+      "test": "frontend/tests/moon.spec.ts"
     }
   ],
   "rules": {

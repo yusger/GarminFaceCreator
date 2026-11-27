@@ -44,8 +44,8 @@
 | data.windbearing | 支持 | 支持 | 支持 | 有条件支持 | GfcWeather.read(false).windBearing, cached weather degrees; North0/East90/South180/West270; not device heading; numeric metrics only, source-slot/meter support has separate whitelist. | frontend/tests/additional-sources.spec.ts |
 | data.sunrise | 支持 | 支持 | 支持 | 有条件支持 | Garmin Complications seconds since local midnight0..86399, nullable. Fixed HH:mm display, precision/grouping do not change clock formatting. Active60s, date/zone/rollback invalidation. No active GPS or networking. Metric only; not an elapsed duration. | frontend/tests/solar-readouts.spec.ts |
 | data.sunset | 支持 | 支持 | 支持 | 有条件支持 | Garmin Complications seconds since local midnight0..86399, nullable. Fixed HH:mm display, precision/grouping do not change clock formatting. Active60s, date/zone/rollback invalidation. No active GPS or networking. Metric only; not an elapsed duration. | frontend/tests/solar-readouts.spec.ts |
-| core.moon | 未接入 | 支持 | 支持 | 有条件支持 | UTC geocentric estimate,2000–2037;16–128 design units,opaque,8 layers; diagram orientation,not local tilt;AOD cached outline | undefined |
-| data.moonIllumination | 未接入 | 支持 | 支持 | 有条件支持 | Estimated visible illuminated fraction percent; not elapsed lunar phase or sensor data;10-minute cache;UTC2000–2037 | undefined |
+| core.moon | 支持 | 支持 | 支持 | 有条件支持 | UTC geocentric estimate,2000–2037;16–128 design units,opaque,8 layers; diagram orientation,not local tilt;AOD cached outline | frontend/tests/moon.spec.ts |
+| data.moonillumination | 支持 | 支持 | 支持 | 有条件支持 | Estimated visible illuminated fraction percent; not elapsed lunar phase or sensor data;10-minute cache;UTC2000–2037 | frontend/tests/moon.spec.ts |
 
 设计层面的已知结构可以保留；生成器的必要限制不得静默降级。复合控件先展开再检查，图片需实际资源，meter仅steps/battery/oxygenSaturation/moveBarLevel，metric仅本清单已接入来源，心率关闭装饰，仅rect/line/circle/polygon支持围绕层中心顺时针旋转，其他图层rotation为0。外部发布包仍使用独立契约。
 
