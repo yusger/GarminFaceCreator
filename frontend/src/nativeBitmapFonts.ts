@@ -41,6 +41,7 @@ export function nativeBitmapFontFiles(p: Project): CodeFile[] {
       info.size +
       ",:height=>" +
       info.lineHeight +
+      ",:digits=>"+Math.max(0,...Array.from({length:10},(_,i)=>info.glyphs[48+i]?.xadvance||0))+
       ",:advances=>" +
       advances +
       ",:pairs=>" +
@@ -55,8 +56,14 @@ export function nativeBitmapFontFiles(p: Project): CodeFile[] {
 // Venu 4 bitmap drawText has a measured 1px top inset (SDK 9.3); other targets are gated.
 class GfcBitmapText {
  static var metrics={${dictionaries.join(",")}};
- static function draw(dc,x,y,w,h,font,id,text,align){var info=metrics[id];var chars=text.toCharArray();var widths=info[:advances];var pairs=info[:pairs];var total=0;var prev=-1;for(var i=0;i<chars.size();i++){var c=chars[i].toNumber();if(prev>=0 && pairs.hasKey(prev) && pairs[prev].hasKey(c)){total+=pairs[prev][c];}total+=widths.hasKey(c)?widths[c]:(info[:size]/2.0+0.5).toNumber();prev=c;}
- var start=(x+(align.equals("left")?0:(align.equals("right")?w-total:(w-total)/2.0))).toNumber();var top=(y+(h-info[:height])/2.0).toNumber()-1;prev=-1;for(var i=0;i<chars.size();i++){var c=chars[i].toNumber();if(prev>=0 && pairs.hasKey(prev) && pairs[prev].hasKey(c)){start+=pairs[prev][c];}if(widths.hasKey(c)){dc.drawText(start,top,font,chars[i].toString(),Graphics.TEXT_JUSTIFY_LEFT);start+=widths[c];}else{var fallback=(info[:size]/2.0+0.5).toNumber();dc.drawRectangle(start,top,fallback,info[:height]);start+=fallback;}prev=c;}}
+ static function digit(c){return c>=48 && c<=57;}
+ static function pair(pairs,a,b,tabular){if(tabular && (digit(a)||digit(b))){return 0;}return pairs.hasKey(a)&&pairs[a].hasKey(b)?pairs[a][b]:0;}
+ static function advance(info,c,tabular){if(tabular && digit(c)){return info[:digits];}var widths=info[:advances];return widths.hasKey(c)?widths[c]:(info[:size]/2.0+0.5).toNumber();}
+ // Backward compatible entry point for existing generated projects.
+ static function draw(dc,x,y,w,h,font,id,text,align){drawDetailed(dc,x,y,w,h,font,id,text,align,0,false,0,0);}
+ static function drawDetailed(dc,x,y,w,h,font,id,text,align,tracking,tabular,baseline,lineHeight){var info=metrics[id];var chars=text.toCharArray();var widths=info[:advances];var pairs=info[:pairs];var total=0;var prev=-1;for(var i=0;i<chars.size();i++){var c=chars[i].toNumber();if(prev>=0){total+=pair(pairs,prev,c,tabular)+tracking;}total+=advance(info,c,tabular);prev=c;}
+ var start=(x+(align.equals("left")?0:(align.equals("right")?w-total:(w-total)/2.0))).toNumber();var height=lineHeight>0?lineHeight:info[:height];var top=(y+(h-height)/2.0).toNumber()+baseline-1;prev=-1;for(var i=0;i<chars.size();i++){var c=chars[i].toNumber();if(prev>=0){start+=pair(pairs,prev,c,tabular)+tracking;}if(widths.hasKey(c)){var offset=tabular&&digit(c)?((info[:digits]-widths[c])/2.0).toNumber():0;dc.drawText(start+offset,top,font,chars[i].toString(),Graphics.TEXT_JUSTIFY_LEFT);}else{var fallback=(info[:size]/2.0+0.5).toNumber();dc.drawRectangle(start,top,fallback,info[:height]);}start+=advance(info,c,tabular);prev=c;}}
+
 }
 `,
     },

@@ -37,7 +37,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-66-menu-groups";
+export const LOCAL_GENERATOR_VERSION = "basic-67-bitmap-typography";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -266,7 +266,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
       : paint;
   return (
     prefix +
-    (l.bitmapFontId?`textPaint(dc,${ink},${Math.round((l.opacity??1)*255)});GfcBitmapText.draw(dc,px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}),${nativeFont},${JSON.stringify(l.bitmapFontId)},${content},${JSON.stringify(align)});`:`textPaint(dc,${ink},${Math.round((l.opacity ?? 1) * 255)});dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${nativeFont},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);`) +
+    (l.bitmapFontId?`textPaint(dc,${ink},${Math.round((l.opacity??1)*255)});GfcBitmapText.drawDetailed(dc,px(${num(l.x)}),px(${num(l.y)}),px(${num(l.w)}),px(${num(l.h)}),${nativeFont},${JSON.stringify(l.bitmapFontId)},${content},${JSON.stringify(align)},${l.bitmapTracking||0},${!!l.bitmapTabular},${l.bitmapBaselineShift||0},${l.bitmapLineHeight||0});`:`textPaint(dc,${ink},${Math.round((l.opacity ?? 1) * 255)});dc.drawText(px(${num(x)}),px(${num(l.y + l.h / 2)}),${nativeFont},${content},Graphics.TEXT_JUSTIFY_${align.toUpperCase()}|Graphics.TEXT_JUSTIFY_VCENTER);`) +
     suffix
   );
 }

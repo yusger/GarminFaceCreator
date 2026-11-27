@@ -69,5 +69,6 @@ export function requiredFontGlyphs(p: Project, l: Layer) {
   )
     throw Error("粉笔数字字体支持 ASCII 与 °；中文请使用粉笔中文字体");
 
+  if(l.bitmapTabular)glyphs+="0123456789";
   return [...new Set([...glyphs])].join("");
 }

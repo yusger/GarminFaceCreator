@@ -9,3 +9,14 @@
 该文档在代码/SDK/原生截图完成前是实施契约，不作为已支持声明。后续证据单独记录。依据[Garmin Resources / Fonts](https://developer.garmin.com/connect-iq/articles/core-topics/Resources.html)及[自定义字体说明](https://developer.garmin.com/connect-iq/connect-iq-faq/how-do-i-use-custom-fonts/)。
 
 原生指标首版仅核验 Venu 4 45mm/41mm；其他目标明确阻止生成。SDK 9.3 两尺寸截图测得 drawText 顶部有1px内边距，受管绘制器做相应补偿；这是已测设备/SDK的映射，不能推断其他固件。生成FNT扩大字形自身advance容纳右侧外伸墨迹，整体排版仍由原始advance/kerning决定。后续升级SDK须重跑截图，不能仅靠编译通过。
+
+
+## 目标像素排版（Schema47）
+
+独立文字、时间、日期、数据可设置 `bitmapTracking`（整数0–12目标像素）、`bitmapTabular`（布尔）、`bitmapBaselineShift`（整数-64–64目标像素）、`bitmapLineHeight`（0用字体原值，或不小于字体原始行高且至多512的整数）。默认值维持已有布局；这些值不按454设计坐标缩放，也不缩放字形。
+
+等宽数字要求有效的0–9字形，以这十个原始advance的最大值作为数字字格，数字居中字格；数字相邻的字偶距禁用，其他文字字偶距保留。字距仅加在字符之间。基线来自FNT的base，偏移和行高参与同一物理像素布局。基线对齐限位图文字；批量字体与排版保留位置、颜色、数据绑定，锁定或缺字使整批失败。切换到其他字体时清理不适用的位图排版项。
+
+浏览器和本地生成使用共享度量规则。原生调用 `GfcBitmapText.drawDetailed(dc,x,y,w,h,font,id,text,align,tracking,tabular,baselineShift,lineHeight)`；旧的 `draw` 签名保留，等效于四项默认值。AI工程契约提供明确的方法和参数，不得把高级字距/等宽要求交给整串系统drawText。
+
+最大读数检查对位图使用真实advance、字偶距和样本缺字检查；其他字体仍标网页估算。样本不改变实际读数，也不证明所有可能的数值均能放下。原生高级排版截图与默认指标校准分开验收；Schema47实现时默认指标沿用阶段133，新增参数的原生视觉校准仍待完成。

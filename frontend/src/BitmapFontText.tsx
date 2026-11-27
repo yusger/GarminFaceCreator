@@ -27,6 +27,7 @@ export default function BitmapFontText({
       Math.trunc(l.w * scale),
       Math.trunc(l.h * scale),
       l.textAlign,
+      l,
     );
   return (
     <g data-bitmap-font={f.id} aria-label={text} opacity={l.opacity ?? 1}>

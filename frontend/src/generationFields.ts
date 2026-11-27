@@ -1,5 +1,5 @@
 import type {Layer} from "./domain";
-export const GENERATION_FIELD_CONTRACT_VERSION="fields-7-moon";
+export const GENERATION_FIELD_CONTRACT_VERSION="fields-8-bitmap-typography";
 type Omitted =
   | "chart"
   | "polygonPoints"
@@ -26,6 +26,7 @@ type Omitted =
 // Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
 export const generationScalarFields: Record<Exclude<keyof Layer, Omitted>, true> = {
   bitmapFontId:true,
+  bitmapTracking:true,bitmapTabular:true,bitmapBaselineShift:true,bitmapLineHeight:true,
   moonHemisphere:true,
   effectPrompt: true,
   id: true,

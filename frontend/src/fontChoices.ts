@@ -1,3 +1,4 @@
+import {bitmapTypographyReset} from "./bitmapTypographyFields.ts";
 import {generationDevice} from "./devices.ts";
 import { requiredFontGlyphs } from "./fontGlyphs.ts";
 import { libraryFonts, fontPatch } from "./fontLibrary.ts";
@@ -63,7 +64,7 @@ export function fontChoicePatch(
     throw Error("只能选择项目已批准的字体");
   if (id.startsWith("system:"))
     return {
-      bitmapFontId: undefined,
+      ...bitmapTypographyReset,bitmapFontId:undefined,
       customFont: undefined,
       garminFont: id.slice(7) as Layer["garminFont"],
     };
@@ -84,7 +85,7 @@ export function fontChoicePatch(
   const local = p.localFonts?.find((f) => f.id === id);
   if (local)
     return {
-      bitmapFontId: undefined,
+      ...bitmapTypographyReset,bitmapFontId:undefined,
       customFont: { id: local.id, file: local.file, family: local.family },
       garminFont: "auto",
       fontWeight: 400,

@@ -21,11 +21,12 @@ import { withEditorLayers } from "./editorHistory";
 import { crossesScreen } from "./bounds";
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 const kinds = chatKinds;
-export const chatFields = designFields.filter(
+export const chatFields = [...designFields.filter(
   (k) => !["id", "kind", "referenceId", "groupId", "groupName"].includes(k),
-);
+),"bitmapTracking","bitmapTabular","bitmapBaselineShift","bitmapLineHeight"];
 const geometry = ["x", "y", "w", "h"];
 const bools = [
+  "bitmapTabular",
   "activeVisible",
   "aod",
   "threshold",
@@ -150,6 +151,7 @@ export function chatPayload(p: Project, selected: string[]) {
     })),
     contract: {
       allowedProperties: chatFields,
+      bitmapTypographyPolicy:"Only approved bitmap-font layers: tracking integer 0..12 target pixels, tabular boolean with 0-9 coverage, baseline shift integer -64..64 target pixels, line height 0(default) or integer >= original font lineHeight up to512. Does not resize glyphs. Use font operation first to select an approved bitmap asset.",
       addKinds: kinds,
       maxOperations: 80,
       operations: [

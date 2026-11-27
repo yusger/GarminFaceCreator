@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.17.0",
+  "version": "1.18.0",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -669,7 +669,20 @@
         "venu445mm",
         "venu441mm"
       ],
-      "nativeCalibration": "SDK 9.3: measured 1px top inset compensation; glyph overhang retained; upgrades require screenshot revalidation"
+      "nativeCalibration": "SDK 9.3: measured 1px top inset compensation; glyph overhang retained; upgrades require screenshot revalidation",
+      "typography": {
+        "trackingPx": [
+          0,
+          12
+        ],
+        "tabularDigits": "0-9 required; uniform advance, suppress kerning adjacent to digits",
+        "baselineShiftPx": [
+          -64,
+          64
+        ],
+        "lineHeightPx": "0 or original lineHeight..512",
+        "nativeAdvancedVisual": "pending native calibration; default metrics evidence remains separate"
+      }
     },
     "moon": {
       "model": "SunCalc1.9.0 geocentric illumination,BSD-2-Clause",

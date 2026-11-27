@@ -387,6 +387,8 @@ export function bitmapFontDiagnostics(p: Project) {
         layerId: l.id,
         message: `位图字体固定${info.size}px；当前目标字号不匹配，不会任意缩放图集`,
       });
+    if(l.bitmapLineHeight && l.bitmapLineHeight<info.lineHeight)out.push({layerId:l.id,message:"位图行高不能小于字体原始行高"});
+    if(l.bitmapTabular&&Array.from({length:10},(_,i)=>info.glyphs[48+i]).some(g=>!g||g.xadvance<=0))out.push({layerId:l.id,message:"等宽数字需要完整且有效的0–9字形"});
     const missing = bitmapGlyphMissing(info, requiredFontGlyphs(p, l));
     if (missing.length)
       out.push({

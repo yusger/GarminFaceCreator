@@ -1,4 +1,5 @@
-import {bitmapLayerPatch} from "./bitmapFontLayout.ts";
+import BitmapTypographyPanel from "./BitmapTypographyPanel";
+import {bitmapLayerPatch,bitmapTypographyReset} from "./bitmapFontLayout.ts";
 import {meterSources,meterDefaultGoal} from "./meters.ts";
 import ChartInspector from "./ChartInspector";
 import {acceptGeneratedProvenance} from "./generationContext";
@@ -2137,7 +2138,7 @@ export default function App() {
                 </div>
               </main>
               {current?.kind==="image"&&!current.libraryIcon&&<label className="inline"><input type="checkbox" checked={!!current.iconMask} onChange={e=>patch({iconMask:e.target.checked})}/>透明位图作为可换色单色图标（最大128px）</label>}
-              {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const fonts=[...(p.localFonts||[]).filter(x=>x.id!==f.id),f];const next={...p,localFonts:fonts};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,bitmapFontId:undefined,customFont:{id:f.id,family:f.family,file:f.file},fontWeight:400 as const,garminFont:"auto" as const}:l),true,next);}} onBitmapImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const next={...p,bitmapFonts:[...(p.bitmapFonts||[]).filter(x=>x.id!==f.id),f]};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,...bitmapLayerPatch(next,f.id)}:l),true,next);}} onApply={patch}/>}
+              {fontsOpen && current && <FontLibrary layer={current} project={p} onClose={()=>setFontsOpen(false)} onImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const fonts=[...(p.localFonts||[]).filter(x=>x.id!==f.id),f];const next={...p,localFonts:fonts};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,...bitmapTypographyReset,bitmapFontId:undefined,customFont:{id:f.id,family:f.family,file:f.file},fontWeight:400 as const,garminFont:"auto" as const}:l),true,next);}} onBitmapImport={f=>{if(!current||current.locked)throw Error("请先解锁图层");const next={...p,bitmapFonts:[...(p.bitmapFonts||[]).filter(x=>x.id!==f.id),f]};validateProject(next);editLayers(p.layers.map(l=>l.id===current.id?{...l,...bitmapLayerPatch(next,f.id)}:l),true,next);}} onApply={patch}/>}
               <DesignChat key={p.id} project={p} preview={preview} profiles={profiles} selection={selection} open={chatOpen} disabled={busy||batchBusy} onClose={()=>setChatOpen(false)} onModels={()=>setPage("models")} canUndo={!!past.length} onUndo={()=>undo()} onApply={(fingerprint,next)=>{
                 const latest=activeProject.current;
                 if(!latest||chatFingerprint(latest)!==fingerprint)throw Error("等待期间设计已变化，本轮未应用；请基于最新设计重新发送。");
@@ -2727,7 +2728,7 @@ export default function App() {
                             onChange={(e) =>
                               patch({
                                 customFont:undefined,
-                                bitmapFontId:undefined,garminFont: e.target
+                                ...bitmapTypographyReset,bitmapFontId:undefined,garminFont: e.target
                                   .value as Layer["garminFont"],
                               })
                             }
@@ -2975,6 +2976,7 @@ export default function App() {
                           </select>
                         </label>
                         <button onClick={()=>setFontsOpen(true)} type="button">字体素材库</button>
+                        {current.bitmapFontId&&<BitmapTypographyPanel project={p} layer={current} selection={selection} onChange={patch} onApplyLayers={layers=>editLayers(layers)}/>}
                         <label>
                           Garmin 字体
                           <select
@@ -2983,7 +2985,7 @@ export default function App() {
                             onChange={(e) =>
                               patch({
                                 customFont:undefined,
-                                bitmapFontId:undefined,garminFont: e.target
+                                ...bitmapTypographyReset,bitmapFontId:undefined,garminFont: e.target
                                   .value as Layer["garminFont"],
                               })
                             }
@@ -3033,7 +3035,7 @@ export default function App() {
                       <>
                         <h4>数据绑定</h4>
                         <label className="inline"><input aria-label="自动匹配数据源格式" type="checkbox" checked={!!current.autoSourceFormat} onChange={e=>patch(e.target.checked?{autoSourceFormat:true}:{autoSourceFormat:false,label:current.label,unit:current.unit,precision:current.precision,metricDecoration:current.metricDecoration})}/>自动匹配标签、单位和精度（纯数字）</label>
-                        <ReadoutInspector layer={current} onChange={patch}/>
+                        <ReadoutInspector project={p} layer={current} onChange={patch}/>
 
                         {current.source === "heartRate" && (
                           <>

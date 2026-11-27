@@ -1,6 +1,6 @@
 # 编辑器能力清单
 
-由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.17.0，内部项目版本 46。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
+由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.18.0，内部项目版本 46。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
 
 | 能力 | 网页 | AI创建 | 对话添加 | 本地生成 | 限制 | 回归 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -88,7 +88,7 @@
 
 ## 工程提示字段契约
 
-版本 fields-7-moon，来源 frontend/src/generationFields.ts；TypeScript保证Layer每个字段均有明确策略。下面是工程提示序列化策略，不是对话修改白名单，不会扩大外部发布包或复合私有层权限。默认值、kind约束与资源读取仍由生成适配器执行。新增字段必须作出策略选择。
+版本 fields-8-bitmap-typography，来源 frontend/src/generationFields.ts；TypeScript保证Layer每个字段均有明确策略。下面是工程提示序列化策略，不是对话修改白名单，不会扩大外部发布包或复合私有层权限。默认值、kind约束与资源读取仍由生成适配器执行。新增字段必须作出策略选择。
 
 | 字段 | 工程提示策略 |
 | --- | --- |
@@ -104,7 +104,11 @@
 | arcStartAngle | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | autoPrecision | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | autoSourceFormat | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| bitmapBaselineShift | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | bitmapFontId | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| bitmapLineHeight | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| bitmapTabular | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| bitmapTracking | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | calendarHeaderColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | calendarMutedColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
 | calendarStart | 已知标量（字符串/有限数值/布尔）；按类型检查 |

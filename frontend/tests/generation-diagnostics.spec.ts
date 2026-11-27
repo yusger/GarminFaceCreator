@@ -43,12 +43,13 @@ test("private child diagnostics locate the single parent and excluded output is 
   const p = insertWidget(project("Compound", true), "capsule-metric");
   const owner = p.layers[0];
   const child = owner.compound!.layers.find((l) => l.kind === "metric")!;
-  child.source = "altitude";
+  // Altitude is supported now; rotated metric text remains explicitly unsupported.
+  child.rotation = 25;
   const before = JSON.stringify(p);
   expect(generationDiagnostics(p)).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
-        code: "LOCAL_METRIC_SOURCE_UNSUPPORTED",
+        code: "LOCAL_ROTATION_UNSUPPORTED",
         layerId: owner.id,
       }),
     ]),

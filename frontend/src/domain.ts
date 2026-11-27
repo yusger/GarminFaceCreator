@@ -46,6 +46,10 @@ export type Layer = {
   widgetOrigin?: WidgetOrigin;
   effectPrompt?: string;
   bitmapFontId?:string;
+  bitmapTracking?:number;
+  bitmapTabular?:boolean;
+  bitmapBaselineShift?:number;
+  bitmapLineHeight?:number;
   customFont?: { id: string; family: string; file: string };
   activeVisible?: boolean;
   imageFullColor?: boolean;
@@ -257,7 +261,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41 | 42 | 43 | 44 | 45 | 46;
+    | 41 | 42 | 43 | 44 | 45 | 46 | 47;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -822,6 +826,11 @@ export function validateProject(value: unknown): Project {
     )
       throw Error("固定心率数据源无效");
   const nodes=p.layers.flatMap(l=>[l,...(l.compound?.layers||[])]);
+  for(const l of nodes){
+    for(const [key,min,max] of [["bitmapTracking",0,12],["bitmapBaselineShift",-64,64],["bitmapLineHeight",0,512]] as const){const v=l[key];if(v!==undefined&&(!Number.isInteger(v)||v<min||v>max))throw Error("位图排版参数无效："+key);}
+    if(l.bitmapTabular!==undefined&&typeof l.bitmapTabular!=="boolean")throw Error("等宽数字参数无效");
+    if(!l.bitmapFontId&&(l.bitmapTracking||l.bitmapTabular||l.bitmapBaselineShift||l.bitmapLineHeight))throw Error("目标像素排版参数需要位图字体");
+  }
   for(const l of nodes)if(l.bitmapFontId!==undefined&&(!/^bitmap_[a-f0-9]{32}$/.test(l.bitmapFontId)||!p.bitmapFonts?.some(f=>f.id===l.bitmapFontId)||l.customFont||(l.garminFont!==undefined&&l.garminFont!=="auto")||!["text","time","date","metric"].includes(l.kind)))throw Error("位图字体引用/控件类型无效");
   for(const l of nodes)if(l.customFont?.id.startsWith("local_")&&!p.localFonts?.some(f=>f.id===l.customFont!.id&&f.file===l.customFont!.file))throw Error("项目缺少所引用的本地字体");
   if(nodes.length>200||new Set(nodes.map(l=>l.id)).size!==nodes.length)throw Error("对象及内部图层重复或超过200个");

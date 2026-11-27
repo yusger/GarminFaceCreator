@@ -1,6 +1,7 @@
 import type { Layer } from "./domain";
 import { metricDisplayUnits, metricDecorations } from "./metricFormat";
 export const readoutSamples: Record<string, string> = {
+  oxygen:"100",phoneConnected:"1",moveBar:"5",precipitationChance:"100",windBearing:"359",sunrise:"23:59",sunset:"23:59",moonIllumination:"100",bodyBattery:"100",
   heartRate: "199",
   steps: "99,999",
   battery: "100",
@@ -19,6 +20,7 @@ export const readoutSamples: Record<string, string> = {
 };
 export function readoutCheckText(l: Layer) {
   return (
+    (l.source==="moonIllumination"&&!l.readoutSample?.startsWith("~")?"~":"")+
     (l.metricDecoration !== false ? metricDecorations[l.source] || "" : "") +
     (l.label ? l.label + " " : "") +
     (l.readoutSample || readoutSamples[l.source] || "99999") +
