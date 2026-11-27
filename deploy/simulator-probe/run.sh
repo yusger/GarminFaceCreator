@@ -63,12 +63,13 @@ if [ "${PROBE_CAPTURE_DIALOG:-0}" = 1 ]; then
   name="native-$(date -u +%Y%m%d%H%M%S)-$$.png"
   xdotool key ctrl+a
   xdotool type --clearmodifiers "$name"
+  sleep 1
   xdotool key Return
   width=$(xdotool getwindowgeometry --shell "$dialog" | grep '^WIDTH=' | cut -d= -f2)
   height=$(xdotool getwindowgeometry --shell "$dialog" | grep '^HEIGHT=' | cut -d= -f2)
   xdotool mousemove --window "$dialog" "$((width-50))" "$((height-24))" click 1
   sleep 2
-  if [ -s "/output/$name" ]; then identify "/output/$name"; printf 'nativeCapture=%s\n' "$name" >> /output/capture-metadata.txt; else import -window root /output/capture-save-failed.png; fi
+  if [ -s "/output/$name" ]; then identify "/output/$name"; printf 'nativeCapture=%s\n' "$name" >> /output/capture-metadata.txt; else import -window root /output/capture-save-failed.png; echo "Native screenshot save failed"; exit 9; fi
  fi
 fi
 if [ "$hold" != 0 ]; then sleep "$hold"; fi
