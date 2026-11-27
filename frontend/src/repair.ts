@@ -81,6 +81,7 @@ export function repairPayload(
     })),
     logs: redactRepair(logs, [profile.key]),
     allowedResourceReferences:repairResourceReferences(p,paths),
+    preferredOutput:"Prefer {edits:[{path,find,replace}]} for small corrections. Each find must match exactly once in the selected original text. At most20 edits, no fuzzy matching. Complete changed files remain accepted as {files:[{path,content}]}, but do not mix formats.",
     constraints:
       "Only replace selected existing files. Do not add or delete files or alter manifest, jungle, identity, device, permissions or build commands. Resource filenames may only be corrected to an explicit filename in allowedResourceReferences for that selected file; do not invent paths. No networking, shell, secrets or external resources. Preserve unrelated behavior and AOD lifecycle.",
   };
@@ -91,6 +92,17 @@ export function mergeRepair(
   raw: string,
 ): CodeFile[] {
   const result = JSON.parse(raw);
+  if(result.edits!==undefined){
+   if(result.files!==undefined||!Array.isArray(result.edits)||!result.edits.length||result.edits.length>20)throw Error("补丁须为1–20项edits，不能与files混用");
+   const changed=new Map<string,string>();
+   for(const edit of result.edits){
+    if(!edit||Object.keys(edit).some(k=>!["path","find","replace"].includes(k))||!paths.includes(edit.path)||typeof edit.find!=="string"||!edit.find.length||edit.find.length>12000||typeof edit.replace!=="string"||edit.replace.length>24000)throw Error("精确文本补丁格式或范围无效");
+    const before=changed.get(edit.path)??p.files.find(f=>f.path===edit.path)?.content;
+    if(before===undefined||before.indexOf(edit.find)<0||before.indexOf(edit.find)!==before.lastIndexOf(edit.find))throw Error("精确文本补丁必须唯一命中原文，原代码未修改");
+    changed.set(edit.path,before.replace(edit.find,()=>edit.replace));
+   }
+   result.files=[...changed].map(([path,content])=>({path,content}));
+  }
   if (!Array.isArray(result.files) || !result.files.length)
     throw Error("修复必须返回非空 files 数组");
   const seen = new Set<string>();
