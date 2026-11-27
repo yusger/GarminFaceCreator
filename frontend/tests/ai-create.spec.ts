@@ -1,3 +1,4 @@
+import {CURRENT_SCHEMA} from "../src/migrations";
 import { test, expect, type Page } from "@playwright/test";
 import {
   parseDesign,
@@ -136,7 +137,7 @@ test("AI design parser creates fresh editable identities and carries requirement
   expect(a.files).toEqual([]);
   expect(a.codeRevision).toBe(-1);
   expect(a.versions).toEqual([]);
-  expect(a.schemaVersion).toBe(31);
+  expect(a.schemaVersion).toBe(CURRENT_SCHEMA);
   a.layers[0].effectPrompt = "Draw extra native markers; static in AOD.";
   const snapshot = saveDesignSnapshot(a, "AI design");
   const restored = restoreDesignSnapshot(
@@ -471,7 +472,7 @@ test("reference image is sent directly to the model; native effects reach engine
     .getByRole("button", { name: "采用设计并编辑", exact: true })
     .click();
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
-  await page.getByText("Data_heartRate", { exact: true }).first().click();
+  await page.locator(".layer-list").getByText("Data_heartRate", { exact: true }).click();
   await expect(page.getByLabel("原生效果说明")).toHaveValue(
     "Draw extra native scale markers; AOD static.",
   );

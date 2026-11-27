@@ -35,3 +35,14 @@ test("113 Native454 creates one project, prepares complete resources and runs SD
  const meta=await(await request.get(root+"/artifacts/metadata.json",{headers})).json();await writeFile("Temp/native454-validation/metadata.json",JSON.stringify(meta,null,2));
  await page.screenshot({path:"Temp/native454-validation/browser.png"});
 });
+
+
+test("113 trail uses the protected default reference card and creates editable three-theme copies",async({page})=>{
+ await page.goto("/");const button=page.getByRole("button",{name:"使用 trail",exact:true});await expect(button).toBeVisible();
+ const card=button.locator("xpath=ancestor::*[contains(@class,'project-card')][1]");
+ await expect(page.getByRole("button",{name:/Native 454 三主题/})).toHaveCount(0);
+ await button.click();await expect(page.getByRole("button",{name:"本地生成（试验）",exact:true})).toBeVisible();
+ await page.locator(".watchface-controls > summary").click();
+ for(const id of ["apex","trail","vital"]){await page.getByLabel("主题预设",{exact:true}).selectOption(id);await expect(page.getByLabel("主题预设",{exact:true})).toHaveValue(id);}
+ await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();
+});
