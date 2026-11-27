@@ -62,14 +62,14 @@ test("copy migration and visible-only edits preserve other preset identities", (
   unknown.themes!.activeId = "missing";
   expect(resolveControls(unknown).layers[0].id).toBe("apex-time");
 });
-test("complete theme menu and branches compile with SDK", async ({
+for(const target of ["venu445mm","venu441mm"]) test(`complete theme menu and branches compile with SDK ${target}`, async ({
   request,
 }) => {
   test.skip(process.env.GFC_TEST_SDK !== "1", "Explicit SDK test");
   test.setTimeout(130000);
   const p = themedFixture();
-  p.target = "venu445mm";
-  p.deviceSize = "45mm";
+  p.target = target;
+  p.deviceSize = target==="venu445mm"?"45mm":"41mm";
   const form = new FormData();
   form.append(
     "project",
