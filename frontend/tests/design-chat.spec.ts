@@ -248,7 +248,7 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
       (s: any) =>
         s.kind === "chat" &&
         s.status === "response" &&
-        s.promptVersion === "chat-10-theme-scope" &&
+        s.promptVersion === "chat-11-hourly-charts" &&
         s.profileId === "chat-test" && s.sourceContractVersion === sourceContractVersion &&
         s.context?.version === "request-context-1" && s.context.target === "venu445mm" && s.context.inputFingerprint.startsWith("local-v1:"),
     ),

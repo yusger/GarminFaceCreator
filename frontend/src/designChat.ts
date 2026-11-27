@@ -189,7 +189,7 @@ function patchLayer(l: Layer, patch: unknown): Layer {
   )
     throw Error("复合控件只能整体修改位置、尺寸或显示；配色请使用内部参数");
   for (const [k, v] of Object.entries(patch as Record<string, unknown>)) {
-    if(k==="chart"){if(l.kind!=="chart"||!object(v))throw Error("AI图表配置无效");validateChart({...l,chart:v as Layer["chart"]});}
+    if(k==="chart"){if(l.kind!=="chart"||!object(v))throw Error("AI图表配置无效");}
     else if(k==="handShape"){if(l.kind!=="hand"||!object(v))throw Error("指针轮廓须为对象");}
     else if(k === "polygonPoints"){if(l.kind!=="polygon"||!validPolygon(v))throw Error("AI多边形无效");}
     else if (k === "thresholdRules") {

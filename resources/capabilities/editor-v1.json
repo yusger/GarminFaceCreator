@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.11.1",
-  "projectSchemaVersion": 40,
+  "version": "1.12.0",
+  "projectSchemaVersion": 41,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -434,7 +434,7 @@
       "mode": "active/cached-aod",
       "minimumApi": "4.2.1",
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Daily steps/distance/calories only; 1–7 days; bar/trapezoid/segmented; maximum4 charts; Venu4 two sizes; browser history is illustrative",
+      "constraints": "One chart object; day1..7 steps/distance/calories or hour1..7 heartRate; bar/trapezoid/segmented/line/area, max4, Venu4 only. Missing breaks curves; hour aggregation mean/max/min/last, no sum; actual elapsed-hour buckets,1024 recent sample processing budget and coverage marker,60s active-only cache; AOD frozen/simplified. ECG not supported.",
       "test": "frontend/tests/charts.spec.ts"
     }
   ],

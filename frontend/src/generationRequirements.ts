@@ -1,3 +1,4 @@
+import {chartConfig} from "./charts.ts";
 import {expandWidgets} from "./compound.ts";
 import { wordTimeGlyphs } from "./wordTime.ts";
 import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
@@ -99,7 +100,7 @@ export function generationRequirements(p: Project) {
   return {
     sourceContractVersion,
     nativeDataPolicy:nativeSourcePolicy,
-    historicalCharts:layers.filter(l=>l.kind==="chart").map(l=>({layerId:l.id,source:l.source,unit:"day",limit:7,history:"ActivityMonitor.getHistory()",current:"ActivityMonitor.getInfo()",distance:"cm / 100000 -> km",missing:"null is missing, zero is real",cache:"60s active only; calendar/timezone/clock changes invalidate; AOD frozen last active"})),
+    historicalCharts:layers.filter(l=>l.kind==="chart").map(l=>{const c=chartConfig(l);return {layerId:l.id,source:l.source,unit:c.unit,limit:7,...(c.unit==="hour"?{history:"SensorHistory.getHeartRateHistory({:period=>new Time.Duration(28800),:order=>SensorHistory.ORDER_NEWEST_FIRST})",aggregation:c.aggregation,sampleBudget:1024,coverage:"actual valid buckets and sample counts; mark truncation; not complete-hour coverage",alignment:"current local hour start minus actual3600-second intervals; repeated wall hours distinct",missing:"null/nonpositive/nonfinite/future HR samples excluded; gaps remain gaps"}:{history:"ActivityMonitor.getHistory()",current:"ActivityMonitor.getInfo()",distance:"cm / 100000 -> km",missing:"null is missing, zero is real"}),cache:"60s active only; calendar/hour/timezone/clock changes invalidate; AOD frozen last active"};}),
     minApiLevel,
     permissions,
     languages,

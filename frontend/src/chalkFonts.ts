@@ -48,7 +48,7 @@ export function chalkPlans(p: Project) {
       ]),
     ];
     let glyphs = "";
-    if(l.kind==="chart")glyphs="0123456789.- kM|/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "+(l.chart?.title||"");
+    if(l.kind==="chart")glyphs="0123456789.:*- kM|/ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz "+(l.chart?.title||"");
     else if (l.kind === "time") glyphs = "0123456789:";
     else if (l.kind === "date")
       glyphs =

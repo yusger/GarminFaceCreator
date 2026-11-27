@@ -41,7 +41,10 @@
             "additionalProperties": false,
             "properties": {
               "unit": {
-                "const": "day"
+                "enum": [
+                  "day",
+                  "hour"
+                ]
               },
               "length": {
                 "type": "integer",
@@ -52,8 +55,33 @@
                 "enum": [
                   "bar",
                   "trapezoid",
-                  "segmented"
+                  "segmented",
+                  "line",
+                  "area"
                 ]
+              },
+              "aggregation": {
+                "enum": [
+                  "mean",
+                  "max",
+                  "min",
+                  "last"
+                ]
+              },
+              "lineWidth": {
+                "type": "number",
+                "minimum": 0.5,
+                "maximum": 10
+              },
+              "pointRadius": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 8
+              },
+              "areaOpacity": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 1
               },
               "includeCurrent": {
                 "type": "boolean"
