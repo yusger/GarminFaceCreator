@@ -1,3 +1,4 @@
+import RequestHistoryPanel from "./RequestHistoryPanel";
 import { useEffect, useRef, useState } from "react";
 import type { Project, Profile } from "./domain";
 import {
@@ -112,6 +113,7 @@ export default function DesignChat({
       hidden={!open}
       aria-label="AI 设计助手"
     >
+      <RequestHistoryPanel/>
       <header>
         <div>
           <b>AI 设计助手</b>

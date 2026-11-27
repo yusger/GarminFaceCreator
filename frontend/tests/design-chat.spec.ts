@@ -234,6 +234,8 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
   await page.reload();
   await page.getByRole("button", { name: "打开 Chat-UI", exact: true }).click();
   expect((await exported(page)).layers).toHaveLength(1);
+  const snapshots=await page.evaluate(()=>JSON.parse(localStorage.getItem("gfc-ai-request-history-v1")||"[]"));
+  expect(snapshots).toHaveLength(2);expect(snapshots.every((s:any)=>s.kind==="chat"&&s.status==="response"&&s.promptVersion==="chat-2-capabilities")).toBe(true);expect(JSON.stringify(snapshots)).not.toContain("private-test-key");
   expect(count).toBe(2);
 });
 test("chat browser rejects stale, malformed and cancelled replies without partial writes", async ({
