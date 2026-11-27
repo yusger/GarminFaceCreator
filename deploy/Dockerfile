@@ -13,7 +13,7 @@ COPY backend ./backend
 RUN dotnet publish backend/GarminFaceCreator.Api.csproj -c Release -o /publish
 FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble
 USER root
-RUN apt-get update && apt-get install -y --no-install-recommends openjdk-17-jre-headless libfreetype6 libharfbuzz0 fontconfig fonts-dejavu-core && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends openjdk-17-jre-headless libfreetype6 libharfbuzz0b fontconfig fonts-dejavu-core && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=backend /publish ./
 COPY --from=frontend /src/dist ./wwwroot
