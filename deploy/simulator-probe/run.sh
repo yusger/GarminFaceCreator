@@ -19,7 +19,15 @@ else
  /tmp/bin/simulator > /output/simulator.log 2>&1 &
 fi
 spid=$!
+continued=0
 for i in $(seq 1 30); do
+ if [ "${PROBE_CONTINUE_ASSERT:-0}" = 1 ] && [ "$continued" = 0 ] && grep -q 'invalid image' /output/simulator.log; then
+  xdotool search --onlyvisible --name '.*' getwindowname > /output/startup-windows.txt || true
+  import -window root /output/startup-assert.png || true
+  xdotool mousemove 742 130 click 1
+  echo 'Experiment only: continued startup invalid-image assertion; not a passing service check.' > /output/experimental-warning.txt
+  continued=1
+ fi
  kill -0 "$spid" 2>/dev/null || { cat /output/simulator.log; exit 3; }
  if xdotool search --onlyvisible --name 'CIQ Simulator|Connect IQ' >/tmp/window-id 2>/dev/null; then break; fi
  sleep 1
