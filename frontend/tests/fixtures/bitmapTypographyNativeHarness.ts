@@ -109,7 +109,7 @@ async function fixture(target: string, aod: boolean) {
     if (f.path === "source/GfcBitmapText.mc")
       return {
         ...f,
-        content: f.content
+        content: ("import Toybox.System;\n" + f.content)
           .replace(
             " static var metrics=",
             " static var fixtureSeen={};static var metrics=",
