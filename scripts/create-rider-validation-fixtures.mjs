@@ -4,7 +4,7 @@ import {resolve,join,sep} from "node:path";
 import {createHash} from "node:crypto";
 import {chromium} from "@playwright/test";
 import {project,layer,validateProject} from "../frontend/src/domain.ts";
-import {validPolygon,rotatePoint} from "../frontend/src/geometry.ts";
+import {validConvexPolygon as validPolygon,rotatePoint} from "../frontend/src/geometry.ts";
 import {chalkPlans,chalkId} from "../frontend/src/chalkFonts.ts";
 import {fontPatch} from "../frontend/src/fontLibrary.ts";
 const source=process.argv[2];if(!source)throw Error("Pass Rider source directory explicitly");

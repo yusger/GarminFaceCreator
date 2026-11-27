@@ -120,6 +120,7 @@ export function designCapabilityContext() {
       ringStyles: ["ticks", "continuous"],
       ringCaps: ["butt", "round"],
       ringAod: "dim track only; no seconds animation",
+      visibility:{sources:catalog.rules.visibilitySources,semantics:"explicit per-layer numeric conditions; shared metric range validity; missing and AOD policy kept separate"},
       metricSources: localMetricSources,
       meterSources: catalog.rules.meterSources,
       heartRateMetricDecoration: false,

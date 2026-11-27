@@ -1,4 +1,4 @@
-import {validPolygon} from "../frontend/src/geometry.ts";
+import {validConvexPolygon as validPolygon} from "../frontend/src/geometry.ts";
 import {localLayerDiagnostics} from "../frontend/src/capabilities.ts";
 import {layer as baseLayer} from "../frontend/src/domain.ts";
 import Ajv from "ajv";

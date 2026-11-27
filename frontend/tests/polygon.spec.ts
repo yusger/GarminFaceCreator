@@ -1,10 +1,11 @@
+import {CURRENT_SCHEMA} from "../src/migrations";
 import { test, expect } from "@playwright/test";
 import { regularPolygon, validPolygon } from "../src/geometry";
 import { project, layer, validateProject } from "../src/domain";
 import { migrateProject } from "../src/migrations";
 import { applyChat } from "../src/designChat";
 import { localGenerate } from "../src/localGenerator";
-test("polygon contract rejects malformed, crossing and nonconvex geometry atomically", () => {
+test("polygon contract rejects malformed, crossing and degenerate geometry atomically", () => {
   for (const n of [3, 4, 6, 8, 12, 32])
     expect(validPolygon(regularPolygon(n))).toBe(true);
   for (const v of [
@@ -14,12 +15,6 @@ test("polygon contract rejects malformed, crossing and nonconvex geometry atomic
       [1, 1],
       [0, 1],
       [1, 0],
-    ],
-    [
-      [0, 0],
-      [1, 0],
-      [0.5, 0.2],
-      [0, 1],
     ],
     [
       [0, 0],
@@ -82,7 +77,7 @@ test("polygon contract rejects malformed, crossing and nonconvex geometry atomic
   ).toThrow(/多边形/);
   const old = { ...project("Old", true), schemaVersion: 26 };
   const migrated = migrateProject(old);
-  expect(migrated.schemaVersion).toBe(31);
+  expect(migrated.schemaVersion).toBe(CURRENT_SCHEMA);
   expect(old.schemaVersion).toBe(26);
   expect(migrated.id).toBe(old.id);
 });
@@ -102,7 +97,7 @@ test("polygon is editable and survives native generation, undo and local save", 
   await expect(page.locator("[data-layer] > polygon")).toHaveCount(1);
   await page.getByLabel("多边形顶点").fill("[[0,0],[1,1],[0,1],[1,0]]");
   await page.getByLabel("多边形顶点").blur();
-  await expect(page.getByRole("alert")).toContainText("凸多边形");
+  await expect(page.getByRole("alert")).toContainText("简单多边形");
   await page.getByLabel("多边形预设").selectOption("8");
   await expect(page.getByRole("alert")).toHaveCount(0);
   await page

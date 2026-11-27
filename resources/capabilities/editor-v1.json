@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.14.0",
-  "projectSchemaVersion": 43,
+  "version": "1.15.0",
+  "projectSchemaVersion": 44,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -408,7 +408,7 @@
       "mode": "active/aod",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "3..32 strictly convex normalized [0,1] vertices. Fill/stroke, clockwise center rotation. No arbitrary SVG paths or scripting.",
+      "constraints": "3..32 simple normalized[0,1] vertices; concave allowed, no holes/crossings/contact/duplicate/adjacent collinear vertices. Concave fill at most30 triangles, stroke original boundary only. Fill/stroke/opacity/center rotation/AOD. Native pixel seams remain to verify. External widget/release v2 stays strictly convex.",
       "test": "frontend/tests/polygon.spec.ts"
     },
     {

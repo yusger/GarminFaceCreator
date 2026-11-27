@@ -1,5 +1,5 @@
 import type {Layer} from "./domain";
-export const GENERATION_FIELD_CONTRACT_VERSION="fields-4-source-label-defaults";
+export const GENERATION_FIELD_CONTRACT_VERSION="fields-5-simple-polygons";
 type Omitted =
   | "chart"
   | "polygonPoints"
@@ -113,7 +113,7 @@ export const generationScalarFields: Record<Exclude<keyof Layer, Omitted>, true>
 };
 export const generationSpecialFields: Record<Omitted,string> = {
   chart:"validated daily time-series configuration; scalar whitelist only",
-  "polygonPoints": "validated normalized convex point pairs; copied as numeric arrays",
+  "polygonPoints": "validated normalized simple outline point pairs; concave allowed, no holes/crossings/contacts; copied as numeric arrays",
   "readoutSample": "editor preview only; omitted",
   "image": "replaced by a declared asset path; pixel bytes are not prompt fields",
   "assetId": "local storage identity; omitted",

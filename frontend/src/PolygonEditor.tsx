@@ -15,7 +15,7 @@ export default function PolygonEditor({
   }, [JSON.stringify(points)]);
   return (
     <fieldset>
-      <legend>凸多边形</legend>
+      <legend>简单多边形</legend>
       <label>
         预设
         <select
@@ -23,7 +23,7 @@ export default function PolygonEditor({
           value=""
           onChange={(e) =>
             onChange(
-              e.target.value === "trapezoid"
+              e.target.value==="arrow"?[[0,.2],[.65,.2],[.65,0],[1,.5],[.65,1],[.65,.8],[0,.8]]:e.target.value === "trapezoid"
                 ? [
                     [0.2, 0],
                     [0.8, 0],
@@ -42,7 +42,7 @@ export default function PolygonEditor({
               正{n}边形
             </option>
           ))}
-          <option value="trapezoid">梯形</option>
+          <option value="trapezoid">梯形</option><option value="arrow">凹形箭头</option>
         </select>
       </label>
       <label>
@@ -59,7 +59,7 @@ export default function PolygonEditor({
               setError("");
             } catch {
               setError(
-                "须为3–32个[0,1]坐标对，按轮廓顺序形成凸多边形，不可相交或重复。",
+                "须为3–32个[0,1]坐标对，按轮廓顺序形成简单多边形，不可相交或重复。",
               );
             }
           }}
@@ -67,7 +67,7 @@ export default function PolygonEditor({
       </label>
       {error && <p role="alert">{error}</p>}
       <small>
-        坐标相对当前宽高归一化，拖动缩放保持外形；支持填充、描边、旋转及AOD。凹多边形与任意SVG路径尚未开放。
+        坐标相对当前宽高归一化，拖动缩放保持外形；支持填充、描边、旋转及AOD。支持凹形，最多32点/30填充三角形；孔洞、自交、重叠接触和任意SVG路径尚未开放。
       </small>
     </fieldset>
   );

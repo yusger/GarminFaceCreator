@@ -1,7 +1,7 @@
 import type {RequestContext} from "./requestContext";
-export const ENGINEERING_PROMPT_VERSION="engineering-8-solar-readouts";
-export const DESIGN_PROMPT_VERSION = "design-12-solar-readouts";
-export const CHAT_PROMPT_VERSION = "chat-13-solar-readouts";
+export const ENGINEERING_PROMPT_VERSION="engineering-9-simple-polygons";
+export const DESIGN_PROMPT_VERSION = "design-13-simple-polygons";
+export const CHAT_PROMPT_VERSION = "chat-14-simple-polygons";
 const KEY = "gfc-ai-request-history-v1";
 const MAX_BYTES = 512 * 1024;
 export type RequestSnapshot = {

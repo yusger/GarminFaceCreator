@@ -1,3 +1,4 @@
+import {validConvexPolygon,triangulatePolygon} from "./geometry.ts";
 import {meterDefaultGoal} from "./meters.ts";
 import {nativeHourlyChartHelpers} from "./nativeHourlyCharts.ts";
 import {chartConfig} from "./charts.ts";
@@ -33,7 +34,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-53-solar-readouts";
+export const LOCAL_GENERATOR_VERSION = "basic-54-concave-panels";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -107,7 +108,7 @@ function primitive(l: Layer, aod: boolean, targetScale:number) {
     "]";
   return (
     `var polygon=${array};` +
-    (l.fillEnabled === false ? "" : fillTool + "dc.fillPolygon(polygon);") +
+    (l.fillEnabled === false ? "" : fillTool + (l.kind==="polygon"&&!validConvexPolygon(l.polygonPoints)?triangulatePolygon(l.polygonPoints!).map(t=>`dc.fillPolygon([${t.map(i=>`polygon[${i}]`).join(",")}]);`).join(""):"dc.fillPolygon(polygon);")) +
     (l.strokeEnabled
       ? strokeTool +
         "for(var i=0;i<polygon.size();i++){var j=(i+1)%polygon.size();dc.drawLine(polygon[i][0],polygon[i][1],polygon[j][0],polygon[j][1]);}"

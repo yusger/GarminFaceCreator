@@ -251,7 +251,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41 | 42 | 43;
+    | 41 | 42 | 43 | 44;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -486,7 +486,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 43,
+    schemaVersion: 44,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -524,7 +524,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 43 ||
+    p.schemaVersion !== 44 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -589,7 +589,7 @@ export function validateProject(value: unknown): Project {
     if(l.kind==="arcText" && (typeof l.text!=="string"||l.text.length>80))throw Error("曲线文字最多80字符");
     if((l.arcRadius!==undefined&&(!Number.isFinite(l.arcRadius)||l.arcRadius<0.05||l.arcRadius>0.5))||(l.arcStartAngle!==undefined&&(!Number.isFinite(l.arcStartAngle)||Math.abs(l.arcStartAngle)>360))||(l.arcSpacing!==undefined&&(!Number.isFinite(l.arcSpacing)||l.arcSpacing<0||l.arcSpacing>12))||(l.arcDirection!==undefined&&!["clockwise","counterclockwise"].includes(l.arcDirection)))throw Error("曲线文字参数无效");
     validateChart(l);
-    if ((l.kind === "polygon" && !validPolygon(l.polygonPoints)) || (l.kind !== "polygon" && l.polygonPoints !== undefined)) throw Error("多边形须为3–32个归一化顶点的凸多边形");
+    if ((l.kind === "polygon" && !validPolygon(l.polygonPoints)) || (l.kind !== "polygon" && l.polygonPoints !== undefined)) throw Error("多边形须为3–32个归一化顶点的简单多边形（不自交、无孔洞）");
     if (
       !kinds.includes(l.kind) ||
       typeof l.name !== "string" ||

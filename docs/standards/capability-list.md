@@ -1,6 +1,6 @@
 # 编辑器能力清单
 
-由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.14.0，内部项目版本 43。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
+由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.15.0，内部项目版本 44。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
 
 | 能力 | 网页 | AI创建 | 对话添加 | 本地生成 | 限制 | 回归 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -34,7 +34,7 @@
 | data.uvindex | 支持 | 支持 | 支持 | 有条件支持 | Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent. | frontend/tests/extended-metrics.spec.ts |
 | data.altitude | 支持 | 支持 | 支持 | 有条件支持 | Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent. | frontend/tests/extended-metrics.spec.ts |
 | data.windspeed | 支持 | 支持 | 支持 | 有条件支持 | Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent. | frontend/tests/extended-metrics.spec.ts |
-| core.polygon | 支持 | 支持 | 支持 | 有条件支持 | 3..32 strictly convex normalized [0,1] vertices. Fill/stroke, clockwise center rotation. No arbitrary SVG paths or scripting. | frontend/tests/polygon.spec.ts |
+| core.polygon | 支持 | 支持 | 支持 | 有条件支持 | 3..32 simple normalized[0,1] vertices; concave allowed, no holes/crossings/contact/duplicate/adjacent collinear vertices. Concave fill at most30 triangles, stroke original boundary only. Fill/stroke/opacity/center rotation/AOD. Native pixel seams remain to verify. External widget/release v2 stays strictly convex. | frontend/tests/polygon.spec.ts |
 | core.arcText | 支持 | 支持 | 支持 | 有条件支持 | First release: Venu4 targets only, printable ASCII <=80 chars, 8 layers. Fixed scalable SMALL face, 400 weight, opacity1, no resource fonts/rotation. Browser font and glyph advances are approximate. Radius fraction/spacing/angle/direction/alignment; conservative one-circle width budget. | frontend/tests/curved-text.spec.ts |
 | core.chart | 支持 | 支持 | 支持 | 有条件支持 | One chart object; day1..7 steps/distance/calories or hour1..7 heartRate; bar/trapezoid/segmented/line/area, max4, Venu4 only. Missing breaks curves; hour aggregation mean/max/min/last, no sum; actual elapsed-hour buckets,1024 recent sample processing budget and coverage marker,60s active-only cache; AOD frozen/simplified. ECG not supported. | frontend/tests/charts.spec.ts |
 | data.oxygensaturation | 支持 | 支持 | 支持 | 有条件支持 | SensorHistory.getOxygenSaturationHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next() guarded; sample.when age0..300s; data percent >0 and <=100; numeric metrics and explicitly enabled meters; source slots have separate whitelist. Design goals100 percent/5 levels, not personalised fitness goals. | frontend/tests/additional-sources.spec.ts |
@@ -84,7 +84,7 @@
 
 ## 工程提示字段契约
 
-版本 fields-4-source-label-defaults，来源 frontend/src/generationFields.ts；TypeScript保证Layer每个字段均有明确策略。下面是工程提示序列化策略，不是对话修改白名单，不会扩大外部发布包或复合私有层权限。默认值、kind约束与资源读取仍由生成适配器执行。新增字段必须作出策略选择。
+版本 fields-5-simple-polygons，来源 frontend/src/generationFields.ts；TypeScript保证Layer每个字段均有明确策略。下面是工程提示序列化策略，不是对话修改白名单，不会扩大外部发布包或复合私有层权限。默认值、kind约束与资源读取仍由生成适配器执行。新增字段必须作出策略选择。
 
 | 字段 | 工程提示策略 |
 | --- | --- |
@@ -189,7 +189,7 @@
 | image | replaced by a declared asset path; pixel bytes are not prompt fields |
 | libraryIcon | nested whitelist id/recolor/strokeWidth |
 | locked | editor interaction only; omitted |
-| polygonPoints | validated normalized convex point pairs; copied as numeric arrays |
+| polygonPoints | validated normalized simple outline point pairs; concave allowed, no holes/crossings/contacts; copied as numeric arrays |
 | readoutSample | editor preview only; omitted |
 | thresholdRules | nested whitelist min/max/color per rule |
 | visibility | validated nested source/ranges/missing/AOD whitelist |

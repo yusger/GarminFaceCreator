@@ -256,7 +256,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       ],
       geometry: {
         positiveWidthAndHeight: true,
-        polygonPoints:"polygon only, 3..32 strictly convex normalized [0,1] pairs, no crossing/duplicate/collinear vertices",
+        polygonPoints:"polygon only, 3..32 simple normalized [0,1] outline pairs; concave supported via bounded triangles; no holes/crossing/contact/duplicates or adjacent collinear vertices",
         maxWidthAndHeight: 908,
         coordinateRange: [-454, 908],
         fontSize: [1, 200],
