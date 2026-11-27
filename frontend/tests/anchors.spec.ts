@@ -59,7 +59,7 @@ test("generation excludes guide/image resources while hidden exportable layers r
             message: {
               content: JSON.stringify({
                 files: [
-                  { path: "manifest.xml", content: "<manifest/>" },
+                  { path: "manifest.xml", content: '<application entry="GeneratedApp"/>' },
                   {
                     path: "monkey.jungle",
                     content: "project.manifest=manifest.xml",

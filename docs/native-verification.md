@@ -16,3 +16,8 @@ PRG、源码摘要/生成器、项目ID/修订/目标与验证记录绑定，不
 网页使用：本地生成并应用工程→编译成功→在编译面板点击“运行SDK模拟器”。不会自动运行或调用模型；可以取消、刷新状态，失败按剩余次数重试。结果显示目标/修订/生成器、原生截图与独立日志，PNG/元数据通过现有任务凭证下载。用户后来编辑画布时保留“截图属于既有编译任务”的提示，不用实时画布冒充编译来源。未启用或worker不可用时仍可编辑、编译、下载PRG。
 
 更新应用镜像后用bash deploy/compose-up.sh app启动；脚本根据appsettings的Enabled保留可选IPC挂载，不将Docker socket加到主站。首次启动worker仍按worker文档准备，脚本不暗中开启配置或修改配额。
+
+
+AI工程原生报告（ai-frame-1）：前端在AI工程的GeneratedApp外组合受管理应用/表盘代理，仅在原视图onUpdate正常返回后报告首帧，保留原委托及布局/生命周期调用。manifest入口改为GfcReportedApp，托管文件不可用AI修复。该机制明确标记为AI报告，不伪装本地生成器；首帧报告仅确认回调完成，不证明视觉完整或AOD正确。
+
+后端允许既有basic首帧报告或AI托管报告（要求对应manifest入口），继续使用既有PRG、空体POST、任务Bearer、设备白名单、额度/队列及隔离worker；不接受额外任意PRG或调试脚本。缺少App.mc不再错误报告过期。新记录sourceHashMode=ordered-mc-v1，按相对路径排序并绑定全部.mc文件；旧记录primary-source-v1保持原定义。PRG哈希继续绑定实际工程资源。此更新仅部署113，展示环境未开启原生验证。

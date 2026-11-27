@@ -104,7 +104,7 @@ test("generation model selection does not reorder saved default configuration", 
               message: {
                 content: JSON.stringify({
                   files: [
-                    { path: "manifest.xml", content: "<manifest/>" },
+                    { path: "manifest.xml", content: '<application entry="GeneratedApp"/>' },
                     {
                       path: "monkey.jungle",
                       content: "project.manifest=manifest.xml",
@@ -128,7 +128,7 @@ test("generation model selection does not reorder saved default configuration", 
   await page.getByLabel("本次生成模型").selectOption("B");
   page.on("dialog", (d) => d.accept());
   await page.getByRole("button", { name: "生成完整工程", exact: true }).click();
-  await expect(page.getByText("3 个文件待审阅")).toBeVisible();
+  await expect(page.getByText("4 个文件待审阅")).toBeVisible();
   expect(selected).toBe("model-b");
   expect(
     await page.evaluate(

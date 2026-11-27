@@ -2,7 +2,7 @@
 import { parseFiles, project } from "../src/domain";
 import { generate, GenerationFailure } from "../src/api";
 const files = [
-  { path: "manifest.xml", content: "<manifest/>" },
+  { path: "manifest.xml", content: '<application entry="GeneratedApp"/>' },
   { path: "monkey.jungle", content: "project.manifest=manifest.xml" },
   { path: "source/App.mc", content: '// { braces } " escaped \\"' },
 ];

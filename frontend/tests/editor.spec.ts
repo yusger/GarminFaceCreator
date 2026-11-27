@@ -92,7 +92,7 @@ test("model profiles keep secret out of persistent config and generate reviewabl
               message: {
                 content: JSON.stringify({
                   files: [
-                    { path: "manifest.xml", content: "<manifest/>" },
+                    { path: "manifest.xml", content: '<application entry="GeneratedApp"/>' },
                     {
                       path: "monkey.jungle",
                       content: "project.manifest = manifest.xml",
@@ -122,7 +122,7 @@ test("model profiles keep secret out of persistent config and generate reviewabl
   await page.getByRole("button", { name: "创建项目", exact: true }).click();
   await page.getByRole("button", { name: "AI 生成代码", exact: true }).click();
   await page.getByRole("button", { name: "生成完整工程", exact: true }).click();
-  await expect(page.getByText("3 个文件待审阅")).toBeVisible();
+  await expect(page.getByText("4 个文件待审阅")).toBeVisible();
   await page.getByRole("button", { name: "审阅代码", exact: true }).click();
   await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
   await page.route("**/api/capabilities", (r) =>

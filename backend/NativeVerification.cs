@@ -25,6 +25,7 @@ sealed class NativeJob
  public DateTime Created {get;set;}=DateTime.UtcNow;public DateTime? Finished {get;set;}
  public string Target {get;set;}="";public int Revision {get;set;}public string ProjectId {get;set;}="";
  public string PrgSha256 {get;set;}="";public string SourceSha256 {get;set;}="";public string GeneratorVersion {get;set;}="";
+ public string SourceHashMode {get;set;}="primary-source-v1";
  public string Error {get;set;}="";public NativeVerification? Report {get;set;}public bool Expired {get;set;}
  [System.Text.Json.Serialization.JsonIgnore]public bool Active {get;set;}
  [System.Text.Json.Serialization.JsonIgnore]public CancellationTokenSource Cancel {get;}=new();
@@ -48,7 +49,7 @@ sealed class NativeStore
  string Metadata(string id)=>Path.Combine(Folder(id),"verification.json");
  public string Picture(string id)=>Path.Combine(Folder(id),"screen.png");
  public void Persist(NativeJob n){var dir=Folder(n.BuildId);Directory.CreateDirectory(dir);var tmp=Path.Combine(dir,"verification.tmp");File.WriteAllText(tmp,JsonSerializer.Serialize(n,BuildStore.Json));File.Move(tmp,Metadata(n.BuildId),true);}
- public object View(NativeJob n)=>new{n.BuildId,n.Status,n.Attempt,n.Created,n.Finished,n.Target,n.Revision,n.ProjectId,n.PrgSha256,n.SourceSha256,n.GeneratorVersion,n.Error,n.Expired,report=n.Report,canRetry=Options.Enabled&&!n.Active&&!n.Expired&&(n.Status is "failed" or "cancelled" or "interrupted")&&n.Attempt<Options.AttemptsPerBuild,artifacts=n.Status=="succeeded"&&!n.Expired&&File.Exists(Picture(n.BuildId))?new[]{new{id="screen.png",url=$"/api/builds/{n.BuildId}/native-verification/artifacts/screen.png"},new{id="metadata.json",url=$"/api/builds/{n.BuildId}/native-verification/artifacts/metadata.json"}}:Array.Empty<object>()};
+ public object View(NativeJob n)=>new{n.BuildId,n.Status,n.Attempt,n.Created,n.Finished,n.Target,n.Revision,n.ProjectId,n.PrgSha256,n.SourceSha256,n.SourceHashMode,n.GeneratorVersion,n.Error,n.Expired,report=n.Report,canRetry=Options.Enabled&&!n.Active&&!n.Expired&&(n.Status is "failed" or "cancelled" or "interrupted")&&n.Attempt<Options.AttemptsPerBuild,artifacts=n.Status=="succeeded"&&!n.Expired&&File.Exists(Picture(n.BuildId))?new[]{new{id="screen.png",url=$"/api/builds/{n.BuildId}/native-verification/artifacts/screen.png"},new{id="metadata.json",url=$"/api/builds/{n.BuildId}/native-verification/artifacts/metadata.json"}}:Array.Empty<object>()};
  public object State(string id){lock(Gate)return Jobs.TryGetValue(id,out var n)?View(n):new{buildId=id,status=Options.Enabled?"not_requested":"disabled",canRetry=false};}
  public async Task<object> Readiness(CancellationToken ct)
  {
@@ -63,15 +64,25 @@ sealed class NativeStore
    if(Jobs.TryGetValue(b.Id,out var old)&&(old.Active||old.Status is "queued" or "running" or "cancelling" or "succeeded"||old.Attempt>=Options.AttemptsPerBuild||old.Expired))return Results.Ok(View(old));
    if(b.Status!="succeeded")return Results.Conflict(new{error="请先成功编译工程"});
    if(!new[]{"venu445mm","venu441mm"}.Contains(b.Target))return Results.UnprocessableEntity(new{error="首批原生验证只支持Venu4两尺寸"});
-   var source=Path.Combine(Builds.Work(b.Id),"source","App.mc");var prg=Builds.ArtifactPath(b);
-   if(b.ProjectExpired||b.ArtifactExpired||!File.Exists(source)||!File.Exists(prg))return Results.Json(new{error="工程或PRG已过期，请重新编译"},statusCode:410);
-   if(new FileInfo(source).Length>2*1024*1024||new FileInfo(prg).Length is <=0 or >4*1024*1024)return Results.UnprocessableEntity(new{error="工程超出原生验证预算"});
-   var code=File.ReadAllText(source);var generator=Regex.Match(code,@"^// GarminFaceCreator local generator (basic-[a-z0-9-]+);");
-   if(!generator.Success||!code.Contains("GFC_RENDER_READY target="+b.Target,StringComparison.Ordinal))return Results.UnprocessableEntity(new{error="请使用新版本地生成工程重新编译；当前PRG没有可核对的首帧报告"});
+   var projectRoot=Builds.Work(b.Id);var local=Path.Combine(projectRoot,"source","App.mc");var managed=Path.Combine(projectRoot,"source","GfcFrameReporter.mc");var prg=Builds.ArtifactPath(b);
+   if(b.ProjectExpired||b.ArtifactExpired||!File.Exists(prg))return Results.Json(new{error="工程或PRG已过期，请重新编译"},statusCode:410);
+   if(new FileInfo(prg).Length is <=0 or >4*1024*1024)return Results.UnprocessableEntity(new{error="工程超出原生验证预算"});
+   var sourceFiles=Directory.Exists(Path.Combine(projectRoot,"source"))?Directory.GetFiles(Path.Combine(projectRoot,"source"),"*.mc",SearchOption.AllDirectories).OrderBy(p=>Path.GetRelativePath(projectRoot,p),StringComparer.Ordinal).ToArray():Array.Empty<string>();
+   if(sourceFiles.Length==0||sourceFiles.Length>100||sourceFiles.Sum(p=>new FileInfo(p).Length)>2*1024*1024)return Results.UnprocessableEntity(new{error="工程缺少受支持源码或超过原生验证预算"});
+   var code=File.Exists(local)?File.ReadAllText(local):"";var generator=Regex.Match(code,@"^// GarminFaceCreator local generator (basic-[a-z0-9-]+);");
+   if(!generator.Success && File.Exists(managed)){
+    code=File.ReadAllText(managed);generator=Regex.Match(code,@"^// GarminFaceCreator managed AI frame reporter (ai-frame-[a-z0-9-]+);");
+    var manifest=Path.Combine(projectRoot,"manifest.xml");
+    if(!File.Exists(manifest)||!Regex.IsMatch(File.ReadAllText(manifest),"\\bentry=[\"']GfcReportedApp[\"']"))return Results.UnprocessableEntity(new{error="AI首帧报告与应用入口不一致，请重新生成"});
+   }
+   if(!generator.Success||!code.Contains("GFC_RENDER_READY target="+b.Target,StringComparison.Ordinal))return Results.UnprocessableEntity(new{error="请重新生成并编译；当前工程没有受支持的首帧报告"});
+   using var sourceHash=IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+   foreach(var file in sourceFiles){var name=System.Text.Encoding.UTF8.GetBytes(Path.GetRelativePath(projectRoot,file).Replace('\\','/'));var bytes=File.ReadAllBytes(file);sourceHash.AppendData(name);sourceHash.AppendData(new byte[]{0});sourceHash.AppendData(SHA256.HashData(bytes));}
+   var sourceSha256=Convert.ToHexStringLower(sourceHash.GetHashAndReset());
    if(Jobs.Values.Count(n=>n.Status is "queued" or "running" or "cancelling")>=Options.QueueCapacity)return Results.Json(new{error="原生验证队列已满"},statusCode:429);
    if(!policy.HasSpace(Builds.Root,1))return Results.Json(new{error="验证存储空间不足"},statusCode:507);
    if(quota.Day!=Today)quota=new(){Day=Today};var ip=PublicBuildPolicy.Hash(PublicBuildPolicy.Ip(context));if(quota.Used>=Options.RunsPerDayGlobal||quota.Ips.GetValueOrDefault(ip)>=Options.RunsPerDayPerIp){context.Response.Headers.RetryAfter=PublicBuildPolicy.DailyRetry;return Results.Json(new{error="今日原生验证配额已用完"},statusCode:429);}
-   var n=new NativeJob{BuildId=b.Id,Target=b.Target,Revision=b.Revision,ProjectId=b.ProjectId,Attempt=old?.Attempt+1??1,SourceSha256=Convert.ToHexStringLower(SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(code))),GeneratorVersion=generator.Groups[1].Value};
+   var n=new NativeJob{BuildId=b.Id,Target=b.Target,Revision=b.Revision,ProjectId=b.ProjectId,Attempt=old?.Attempt+1??1,SourceSha256=sourceSha256,SourceHashMode="ordered-mc-v1",GeneratorVersion=generator.Groups[1].Value};
    lock(b.Gate){if(b.ArtifactExpired||!File.Exists(prg))return Results.Json(new{error="PRG已过期"},statusCode:410);using var input=File.OpenRead(prg);n.PrgSha256=Convert.ToHexStringLower(SHA256.HashData(input));b.Downloads++;}
    try
    {

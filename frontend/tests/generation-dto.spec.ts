@@ -60,7 +60,7 @@ test("model payload uses a schema whitelist and drops imported unknown metadata 
             message: {
               content: JSON.stringify({
                 files: [
-                  { path: "manifest.xml", content: "<manifest/>" },
+                  { path: "manifest.xml", content: '<application entry="GeneratedApp"/>' },
                   {
                     path: "monkey.jungle",
                     content: "project.manifest=manifest.xml",

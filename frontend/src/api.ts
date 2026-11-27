@@ -1,3 +1,4 @@
+import {mergeNativeFrameReporter} from "./nativeFrameReporter";
 import {mergeNativeFonts} from "./nativeFontResources";
 import {generationContext} from "./generationContext";
 import {requestContext,type RequestContext} from "./requestContext";
@@ -244,10 +245,10 @@ export async function generate(
   try {
     return parseFiles(
       JSON.stringify({
-        files: mergeNativeFonts(project,mergeNativeWordTime(
+        files: mergeNativeFrameReporter(project,mergeNativeFonts(project,mergeNativeWordTime(
           project,
           mergeNativeIcons(project, parseFiles(content)),
-        )),
+        ))),
       }),
     );
   } catch (error) {

@@ -435,7 +435,7 @@ test("reference image is sent directly to the model; native effects reach engine
               message: {
                 content: JSON.stringify({
                   files: [
-                    { path: "manifest.xml", content: "<manifest/>" },
+                    { path: "manifest.xml", content: '<application entry="GeneratedApp"/>' },
                     {
                       path: "monkey.jungle",
                       content: "project.manifest = manifest.xml",
@@ -489,7 +489,7 @@ test("reference image is sent directly to the model; native effects reach engine
   expect(calls).toBe(1);
   await page.getByRole("button", { name: "AI 生成代码", exact: true }).click();
   await page.getByRole("button", { name: "生成完整工程", exact: true }).click();
-  await expect(page.getByText("3 个文件待审阅")).toBeVisible();
+  await expect(page.getByText("4 个文件待审阅")).toBeVisible();
   expect(calls).toBe(2);
   const hr = engineering.design.layers.find(
     (l: any) => l.source === "heartRate" && l.kind === "metric",
