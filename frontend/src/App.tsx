@@ -1,3 +1,4 @@
+import GenerationChecks from "./GenerationChecks";
 import PolygonEditor from "./PolygonEditor";
 import FontLibrary from "./FontLibraryPanel";
 import ArrangeTools from "./ArrangeTools";
@@ -2108,6 +2109,7 @@ export default function App() {
                 onFocusCapture={beginProperty}
                 onBlurCapture={endProperty}
               >
+                <GenerationChecks project={p} onLocate={selectOne}/>
                 {boundaryWarnings.length > 0 && (
                   <details className="boundary-warning">
                     <summary>

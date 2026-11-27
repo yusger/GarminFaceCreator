@@ -1,3 +1,4 @@
+import { localConfigurationDiagnostics } from "./generationDiagnostics.ts";
 import {nativeCurvedText} from "./curvedTextLayout.ts";
 import {nativeArcMethod} from "./arc.ts";
 ﻿import { rotatePoint } from "./geometry.ts";
@@ -20,7 +21,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-28-curved-baseline";
+export const LOCAL_GENERATOR_VERSION = "basic-29-config-preflight";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -286,6 +287,8 @@ export function localGenerate(p: Project) {
       "设计含原生效果说明，请使用AI生成工程，或清除说明后使用本地生成；本地生成不会静默忽略效果。",
     );
   validateControls(p);
+  const configurationIssues = localConfigurationDiagnostics(p);
+  if (configurationIssues.length) throw Error("本地生成配置不支持：" + configurationIssues.map(d => d.message).join("；"));
   p = resolveControls(p);
   const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
