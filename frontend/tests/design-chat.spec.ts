@@ -121,14 +121,15 @@ test("chat context excludes image pixels, source files, licenses and storage-onl
   ).toThrow();
   expect(applyChat(p, response([])).project).toEqual(p);
 });
-async function setup(page: Page) {
+async function setup(page: Page, vision = false) {
   page.on("dialog", (d) => d.accept("Chat-UI"));
-  await page.addInitScript(() => {
+  await page.addInitScript((vision) => {
     localStorage.setItem(
       "gfc-profiles",
       JSON.stringify([
         {
           id: "chat-test",
+          supportsImages: vision,
           name: "对话测试",
           url: "https://api.example.com/v1",
           model: "test-model",
@@ -140,7 +141,7 @@ async function setup(page: Page) {
       ]),
     );
     sessionStorage.setItem("gfc-key-chat-test", "private-test-key");
-  });
+  }, vision);
   await page.goto("/");
   await page.getByRole("button", { name: /^空白画布/ }).click();
   await page.getByLabel("初始布局", { exact: true }).selectOption("blank");
@@ -234,8 +235,19 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
   await page.reload();
   await page.getByRole("button", { name: "打开 Chat-UI", exact: true }).click();
   expect((await exported(page)).layers).toHaveLength(1);
-  const snapshots=await page.evaluate(()=>JSON.parse(localStorage.getItem("gfc-ai-request-history-v1")||"[]"));
-  expect(snapshots).toHaveLength(2);expect(snapshots.every((s:any)=>s.kind==="chat"&&s.status==="response"&&s.promptVersion==="chat-2-capabilities")).toBe(true);expect(JSON.stringify(snapshots)).not.toContain("private-test-key");
+  const snapshots = await page.evaluate(() =>
+    JSON.parse(localStorage.getItem("gfc-ai-request-history-v1") || "[]"),
+  );
+  expect(snapshots).toHaveLength(2);
+  expect(
+    snapshots.every(
+      (s: any) =>
+        s.kind === "chat" &&
+        s.status === "response" &&
+        s.promptVersion === "chat-3-visual",
+    ),
+  ).toBe(true);
+  expect(JSON.stringify(snapshots)).not.toContain("private-test-key");
   expect(count).toBe(2);
 });
 test("chat browser rejects stale, malformed and cancelled replies without partial writes", async ({
@@ -289,3 +301,68 @@ test("chat browser rejects stale, malformed and cancelled replies without partia
   await expect(page.getByRole("alert")).toContainText("已取消");
   expect((await exported(page)).backgroundColor).not.toBe("#AABBCC");
 });
+
+for (const vision of [false, true])
+  test(`visual chat requires explicit image capability ${vision}`, async ({
+    page,
+  }) => {
+    let calls = 0;
+    await page.route(
+      "https://api.example.com/v1/chat/completions",
+      async (route) => {
+        calls++;
+        const body = route.request().postDataJSON(),
+          content = body.messages.at(-1).content;
+        expect(Array.isArray(content)).toBe(true);
+        const images = content.filter((v: any) => v.type === "image_url");
+        expect(images).toHaveLength(3);
+        for (const image of images) {
+          const b = Buffer.from(image.image_url.url.split(",")[1], "base64");
+          expect(b.subarray(1, 4).toString()).toBe("PNG");
+        }
+        expect(content.some((v: any) => v.text?.includes('"width":454'))).toBe(
+          true,
+        );
+        expect(content.some((v: any) => v.text?.includes("仅设计参考"))).toBe(
+          true,
+        );
+        await route.fulfill({
+          json: { choices: [{ message: { content: response([]) } }] },
+        });
+      },
+    );
+    await setup(page, vision);
+    await page.getByLabel("发送当前亮屏截图", { exact: true }).check();
+    await page.getByLabel("发送当前AOD截图", { exact: true }).check();
+    await page
+      .getByLabel("对话参考图片")
+      .setInputFiles({
+        name: "reference.png",
+        mimeType: "image/png",
+        buffer: Buffer.from(
+          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aM1sAAAAASUVORK5CYII=",
+          "base64",
+        ),
+      });
+    await expect(
+      page.getByText("reference.png", { exact: true }),
+    ).toBeVisible();
+    await send(page, "按参考图调整");
+    if (vision) {
+      await expect(page.getByRole("log")).toContainText("已调整");
+      expect(calls).toBe(1);
+      const records = await page.evaluate(() =>
+        localStorage.getItem("gfc-ai-request-history-v1"),
+      );
+      expect(records).toContain("IMAGE OMITTED");
+      expect(records).not.toContain("data:image");
+      expect(records).not.toContain("private-test-key");
+    } else {
+      await expect(page.getByRole("alert")).toContainText("未确认支持图片");
+      expect(calls).toBe(0);
+      await expect(page.getByLabel("设计对话输入")).toHaveValue("按参考图调整");
+    }
+    await expect(
+      page.getByText("reference.png", { exact: true }),
+    ).toBeVisible();
+  });

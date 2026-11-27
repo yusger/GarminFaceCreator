@@ -65,7 +65,18 @@ export default function Models({
 
   function patch(v: Partial<Profile>) {
     setDrafts((items) =>
-      items.map((x, i) => (i === index ? { ...x, ...v } : x)),
+      items.map((x, i) =>
+        i === index
+          ? {
+              ...x,
+              ...((v.model !== undefined && v.model !== x.model) ||
+              (v.url !== undefined && v.url !== x.url)
+                ? { supportsImages: false }
+                : {}),
+              ...v,
+            }
+          : x,
+      ),
     );
     setStatus("配置已修改，尚未测试");
   }
@@ -321,6 +332,17 @@ export default function Models({
               ))}
             </datalist>
           </label>
+          <label>
+            <input
+              type="checkbox"
+              checked={!!p.supportsImages}
+              onChange={(e) => patch({ supportsImages: e.target.checked })}
+            />
+            已确认当前接口及模型支持图片理解
+          </label>
+          <p className="hint">
+            由你依据服务商能力确认；更换模型或接口后重新确认，不会自动发送图片探测。
+          </p>
           <div className="test-action">
             <button disabled={busy} onClick={() => test()}>
               <Plug size={16} />

@@ -231,6 +231,7 @@ export type Project = {
   activeCodeVersion?: string;
 };
 export type Profile = {
+  supportsImages?:boolean;
   provider?: string;
   thinking?: boolean;
   temperatureMode?: "auto" | "send" | "omit";
