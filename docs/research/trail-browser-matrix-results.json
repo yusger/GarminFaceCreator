@@ -1,0 +1,815 @@
+{
+  "version": "trail-browser-matrix-1",
+  "projectSha256": "ebdf5d6fa814101ec3ce85e732d75b968ead782c3f3b45c1d7f8b71203c32ded",
+  "browserVersion": "158.0.4370.33",
+  "posts": 0,
+  "sourceCaseMismatches": [
+    {
+      "theme": "trail",
+      "case": "default-active",
+      "previewData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 12.4,
+        "temperature": 18
+      },
+      "caseData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 6.42,
+        "temperature": 18
+      },
+      "choice": "default preview.png is rendered from previewData; use previewData for default comparisons"
+    },
+    {
+      "theme": "trail",
+      "case": "default-aod",
+      "previewData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 12.4,
+        "temperature": 18
+      },
+      "caseData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 6.42,
+        "temperature": 18
+      },
+      "choice": "default preview.png is rendered from previewData; use previewData for default comparisons"
+    }
+  ],
+  "scenarios": [
+    {
+      "theme": "apex",
+      "scenario": "default-active",
+      "mode": "active",
+      "sha256": "2742272158422b72533a7fe6467ee50d46848114b480484319b61e87a6cea487",
+      "preview": {
+        "time": "10:08",
+        "seconds": 36,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "values": {
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "calories": 420,
+          "distance": 6.42,
+          "temperature": 18
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 1775,
+        "rgbMae": 0.7760708785280722,
+        "foregroundPixels": 157236,
+        "foregroundRgbMae": 0.7812990239724575,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "apex",
+      "scenario": "default-aod",
+      "mode": "aod",
+      "sha256": "80928aba186c89e52de3313a64ddd8c96065972abc6e1e47d51199974fd69969",
+      "preview": {
+        "time": "10:08",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "values": {
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "calories": 420,
+          "distance": 6.42,
+          "temperature": 18
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 2741,
+        "rgbMae": 1.5632108648564063,
+        "foregroundPixels": 10694,
+        "foregroundRgbMae": 23.48943332709931,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 9628,
+        "aboveNoisePixels": 9483,
+        "ratio": 0.05947174659649643,
+        "noiseRatio": 0.05857608776221185,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.04671156048050612,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "apex",
+      "scenario": "high-values",
+      "mode": "active",
+      "sha256": "ce4d3617650fcd4e5dfc8ea6c91ee201e4af131c5f3d728ba120cc5d62305029",
+      "preview": {
+        "time": "23:59",
+        "seconds": 59,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 165,
+        "steps": 24861,
+        "battery": 9,
+        "values": {
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "calories": 3210,
+          "distance": 21.65,
+          "temperature": -3
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 2091,
+        "rgbMae": 0.9234098452466253,
+        "foregroundPixels": 157334,
+        "foregroundRgbMae": 0.9327079122546091,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "apex",
+      "scenario": "missing-values",
+      "mode": "active",
+      "sha256": "2aa211a29a3345dd0e2db399b7e21b43e5d6d96628938472f8afe7c4f1363647",
+      "preview": {
+        "time": "10:08",
+        "seconds": 36,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 0,
+        "steps": 0,
+        "battery": 0,
+        "values": {
+          "heartRate": null,
+          "steps": null,
+          "battery": null,
+          "calories": null,
+          "distance": null,
+          "temperature": null
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 770,
+        "rgbMae": 0.5552899463840091,
+        "foregroundPixels": 157124,
+        "foregroundRgbMae": 0.5539976918442334,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "apex",
+      "scenario": "high-values-aod",
+      "mode": "aod",
+      "sha256": "725f3ee145a58b01b8645ea229bb027cfe6653ee15913db6c9ec4f1e8f33e674",
+      "preview": {
+        "time": "23:59",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 165,
+        "steps": 24861,
+        "battery": 9,
+        "values": {
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "calories": 3210,
+          "distance": 21.65,
+          "temperature": -3
+        },
+        "date": "THU 26"
+      },
+      "difference": null,
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 9919,
+        "aboveNoisePixels": 9769,
+        "ratio": 0.06126924122254342,
+        "noiseRatio": 0.060342697600869716,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.04812338683071669,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "apex",
+      "scenario": "missing-values-aod",
+      "mode": "aod",
+      "sha256": "118cd93edcb387989bc27c665ee1211ff23a08d7f28d28f5145ab983affbf77f",
+      "preview": {
+        "time": "10:08",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 0,
+        "steps": 0,
+        "battery": 0,
+        "values": {
+          "heartRate": null,
+          "steps": null,
+          "battery": null,
+          "calories": null,
+          "distance": null,
+          "temperature": null
+        },
+        "date": "THU 26"
+      },
+      "difference": null,
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 9145,
+        "aboveNoisePixels": 9043,
+        "ratio": 0.05648827613470709,
+        "noiseRatio": 0.05585822647196897,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.04436821983737313,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "trail",
+      "scenario": "default-active",
+      "mode": "active",
+      "sha256": "f220086468f8670651fe3d2654f83e793c180f160dbd1d302aefaeee8448b9d6",
+      "preview": {
+        "time": "10:08",
+        "seconds": 36,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "values": {
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "calories": 420,
+          "distance": 12.4,
+          "temperature": 18
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 2560,
+        "rgbMae": 1.2135888946540492,
+        "foregroundPixels": 63172,
+        "foregroundRgbMae": 2.488739737014289,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "trail",
+      "scenario": "default-aod",
+      "mode": "aod",
+      "sha256": "63677c6aef227bce3150909a9dd7dc7c0abf3dead5918a20cf97bb4a0f545990",
+      "preview": {
+        "time": "10:08",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "values": {
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "calories": 420,
+          "distance": 12.4,
+          "temperature": 18
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 2904,
+        "rgbMae": 1.4595141617045109,
+        "foregroundPixels": 11215,
+        "foregroundRgbMae": 20.909050378956753,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 10211,
+        "aboveNoisePixels": 10040,
+        "ratio": 0.06307291280606825,
+        "noiseRatio": 0.06201665307736021,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.04954006481786955,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "trail",
+      "scenario": "high-values",
+      "mode": "active",
+      "sha256": "a334ca89825c3ed87dbce99867c3fa3de1172cdb8292759fcb48d4588951b5e4",
+      "preview": {
+        "time": "23:59",
+        "seconds": 59,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 165,
+        "steps": 24861,
+        "battery": 9,
+        "values": {
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "calories": 3210,
+          "distance": 21.65,
+          "temperature": -3
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 1978,
+        "rgbMae": 0.9424266383350217,
+        "foregroundPixels": 63328,
+        "foregroundRgbMae": 1.7906823732524844,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "trail",
+      "scenario": "missing-values",
+      "mode": "active",
+      "sha256": "9acb59dea9f82bf44a746f63cc82755c081358b4e025c7b89cbbbc52efb70dd4",
+      "preview": {
+        "time": "10:08",
+        "seconds": 36,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 0,
+        "steps": 0,
+        "battery": 0,
+        "values": {
+          "heartRate": null,
+          "steps": null,
+          "battery": null,
+          "calories": null,
+          "distance": null,
+          "temperature": null
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 773,
+        "rgbMae": 0.5697955015277675,
+        "foregroundPixels": 61317,
+        "foregroundRgbMae": 0.8479921283385249,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "trail",
+      "scenario": "high-values-aod",
+      "mode": "aod",
+      "sha256": "b00add27123c55e207abe81f6c687d21c7d652e42ce675741afd473782ecbda7",
+      "preview": {
+        "time": "23:59",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 165,
+        "steps": 24861,
+        "battery": 9,
+        "values": {
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "calories": 3210,
+          "distance": 21.65,
+          "temperature": -3
+        },
+        "date": "THU 26"
+      },
+      "difference": null,
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 10137,
+        "aboveNoisePixels": 9960,
+        "ratio": 0.06261581795270921,
+        "noiseRatio": 0.061522496479134235,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.04918104368413903,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "trail",
+      "scenario": "missing-values-aod",
+      "mode": "aod",
+      "sha256": "5a6b66653aaa3aa9e717a24da7d7f2dc2cf2e6031b44ddd6c0bdc1847a41eee4",
+      "preview": {
+        "time": "10:08",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 0,
+        "steps": 0,
+        "battery": 0,
+        "values": {
+          "heartRate": null,
+          "steps": null,
+          "battery": null,
+          "calories": null,
+          "distance": null,
+          "temperature": null
+        },
+        "date": "THU 26"
+      },
+      "difference": null,
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 9224,
+        "aboveNoisePixels": 9107,
+        "ratio": 0.056976255775455245,
+        "noiseRatio": 0.056253551750549746,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.04475149915581517,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "vital",
+      "scenario": "default-active",
+      "mode": "active",
+      "sha256": "f234c347c98b368a09ade815e06a83c9c11efa3edcbb1a3013b678b045caf1c1",
+      "preview": {
+        "time": "10:08",
+        "seconds": 36,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "values": {
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "calories": 420,
+          "distance": 6.42,
+          "temperature": 18
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3493,
+        "rgbMae": 1.6161803342145793,
+        "foregroundPixels": 62755,
+        "foregroundRgbMae": 3.5801768783363874,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "vital",
+      "scenario": "default-aod",
+      "mode": "aod",
+      "sha256": "7965ee9973f6e3418ff1e66d464d8ca43864028f0142f69e7e1a1ac6799886b4",
+      "preview": {
+        "time": "10:08",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "values": {
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "calories": 420,
+          "distance": 6.42,
+          "temperature": 18
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 1488,
+        "rgbMae": 0.4476420494321317,
+        "foregroundPixels": 7948,
+        "foregroundRgbMae": 9.007129676228821,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 7422,
+        "aboveNoisePixels": 7318,
+        "ratio": 0.04584537840041509,
+        "noiseRatio": 0.04520297482272132,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.03600884938578276,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "vital",
+      "scenario": "high-values",
+      "mode": "active",
+      "sha256": "23183e0d323fb3f00c2d6f6fda803c653e9fcc922c1b9b567bd0a28b691a4530",
+      "preview": {
+        "time": "23:59",
+        "seconds": 59,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 165,
+        "steps": 24861,
+        "battery": 9,
+        "values": {
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "calories": 3210,
+          "distance": 21.65,
+          "temperature": -3
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3931,
+        "rgbMae": 1.8909602286297862,
+        "foregroundPixels": 62950,
+        "foregroundRgbMae": 4.2776224516812285,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "vital",
+      "scenario": "missing-values",
+      "mode": "active",
+      "sha256": "859cdaf2aae494c0fc53d3b28a88cf6e260a2f2db6bb18f3022d0718955a88a5",
+      "preview": {
+        "time": "10:08",
+        "seconds": 36,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 0,
+        "steps": 0,
+        "battery": 0,
+        "values": {
+          "heartRate": null,
+          "steps": null,
+          "battery": null,
+          "calories": null,
+          "distance": null,
+          "temperature": null
+        },
+        "date": "THU 26"
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3706,
+        "rgbMae": 1.8290609377445046,
+        "foregroundPixels": 61037,
+        "foregroundRgbMae": 4.233541403847939,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      },
+      "aodAnalysis": null
+    },
+    {
+      "theme": "vital",
+      "scenario": "high-values-aod",
+      "mode": "aod",
+      "sha256": "543bd392bc9ebedffe84c5b2c0dcae20cab1ebae4548bed36afe0c2fb94f7473",
+      "preview": {
+        "time": "23:59",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 165,
+        "steps": 24861,
+        "battery": 9,
+        "values": {
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "calories": 3210,
+          "distance": 21.65,
+          "temperature": -3
+        },
+        "date": "THU 26"
+      },
+      "difference": null,
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 10615,
+        "aboveNoisePixels": 10511,
+        "ratio": 0.06556840362710943,
+        "noiseRatio": 0.06492600004941566,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.0515001261425605,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    },
+    {
+      "theme": "vital",
+      "scenario": "missing-values-aod",
+      "mode": "aod",
+      "sha256": "1038318daa3afe5961192f14c70988da66bb0eb4f7f1ba6c8d8047c48c30c101",
+      "preview": {
+        "time": "10:08",
+        "seconds": 0,
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 0,
+        "heartRate": 0,
+        "steps": 0,
+        "battery": 0,
+        "values": {
+          "heartRate": null,
+          "steps": null,
+          "battery": null,
+          "calories": null,
+          "distance": null,
+          "temperature": null
+        },
+        "date": "THU 26"
+      },
+      "difference": null,
+      "aodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 2897,
+        "aboveNoisePixels": 2853,
+        "ratio": 0.017894645813258222,
+        "noiseRatio": 0.017622859684233935,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.014055192221855655,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      }
+    }
+  ]
+}
