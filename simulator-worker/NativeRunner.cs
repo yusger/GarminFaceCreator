@@ -51,9 +51,9 @@ sealed class NativeRunner
                 if (match.Success)
                 {
                     if (!metadata.Text.Contains("prgSha256=" + hash, StringComparison.Ordinal)) return Failure("capture_digest_mismatch"); var frame = Regex.Match(metadata.Text, @"(?m)^GFC_RENDER_READY target=" + Regex.Escape(target) + @" mode=(active|aod)\r?$"); if (!frame.Success) return Failure("frame_report_missing");
-                    string picture = Path.Combine(work, "screen.png"), log = Path.Combine(work, "runtime.txt"); if ((await Sandbox.Docker(["cp", name + ":/output/" + match.Groups[1].Value, picture], ct)).Code != 0) return Failure("capture_copy_failed");
-                    if ((await Sandbox.Docker(["cp", name + ":/output/monkeydo.log", log], ct)).Code == 0) logs = Encoding.UTF8.GetString(await Sandbox.PlainFile(log, 1024 * 1024, ct));
-                    logs = logs[..Math.Min(logs.Length, 16000)]; var png = await Sandbox.PlainFile(picture, 2 * 1024 * 1024, ct); var pixels = target == "venu445mm" ? 454 : 390;
+                    var png = await Sandbox.DockerBytes(["exec", name, "cat", "/output/" + match.Groups[1].Value], 2 * 1024 * 1024, ct);
+                    var runtimeLog = await Sandbox.Docker(["exec", name, "tail", "-c", "16000", "/output/monkeydo.log"], ct); if (runtimeLog.Code == 0) logs = runtimeLog.Text;
+                    logs = logs[..Math.Min(logs.Length, 16000)]; var pixels = target == "venu445mm" ? 454 : 390;
                     if (png.Length < 24 || !png.AsSpan(0, 8).SequenceEqual(new byte[] { 137, 80, 78, 71, 13, 10, 26, 10 }) || BinaryPrimitives.ReadInt32BigEndian(png.AsSpan(16, 4)) != pixels || BinaryPrimitives.ReadInt32BigEndian(png.AsSpan(20, 4)) != pixels) return Failure("capture_dimensions_invalid");
                     if (Regex.IsMatch(logs, @"(?im)^Error:|Unhandled Exception|Symbol Not Found|Out Of Memory")) return Failure("application_error_reported");
                     var sdk = Regex.Match(metadata.Text, @"(?m)^\d+\.\d+\.[^\r\n]+"); return completed = new(true, target, hash, pixels, pixels, Convert.ToBase64String(png), logs, frame.Value.Trim(), frame.Groups[1].Value, sdk.Success ? sdk.Value : "unknown", "", maxMemory, samples);
