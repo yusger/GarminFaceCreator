@@ -24,7 +24,7 @@
 4. 最终使用已有可用的push/pop：打开子页前删除父菜单项，返回前删除子菜单项，父页显示时重建；保留构造接口以兼容既有调用。根目录改为 `Decorations / Data fields / Colors` 三组，减少同时存活的菜单项与长列表滚动。返回后显式请求重绘，修复中间版本的返回黑屏。
 5. 最终连续三组配置加当前主题重置通过，不能据此宣称任意次数无内存泄漏或真机功耗合格。
 
-API“截图成功”与功能通过分别记录：中间的滚动/返回失败即使API成功，也不计入功能通过。原始PNG按字节复制；[比较记录](native-theme-settings-comparison.json)保存PRG和源码散列、状态序列、图片散列、失败及清理状态，[交互工具](native-settings-fixture.md)说明授权与时限。
+API“截图成功”与功能通过分别记录：中间的滚动/返回失败即使API成功，也不计入功能通过。原始PNG按字节复制；[完整配置操作日志](theme-settings/grouped-controls-and-current-reset.txt)按原始字节保留为txt（仓库忽略运行产生的.log）；[比较记录](native-theme-settings-comparison.json)保存PRG和源码散列、状态序列、图片散列、失败及清理状态，[交互工具](native-settings-fixture.md)说明授权与时限。
 
 ## 仍待验证
 

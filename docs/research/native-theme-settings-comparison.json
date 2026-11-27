@@ -31,7 +31,9 @@
       "checks": {
         "themeTransitions": true,
         "abruptRestartPreservesSettings": false
-      }
+      },
+      "observationsFile": "theme-settings/three-themes.txt",
+      "observationsSha256": "e82e7be6aa9f29811edc5a121c3fe8ed2b63413e54498a8a2ea0918e1e519d1c"
     },
     {
       "buildId": "111316eaf9054ae89f1c7a394a3b8733",
@@ -54,7 +56,9 @@
       "sleepTransition": "unverified",
       "checks": {
         "independentBackground": true
-      }
+      },
+      "observationsFile": "theme-settings/background.txt",
+      "observationsSha256": "68c03bc60510211d43bea15c054fb6e811b72e119386dfa4f87ed5680011d72d"
     },
     {
       "buildId": "fe966c4656944f5dbdfbee6977e3917e",
@@ -81,7 +85,9 @@
       "sleepTransition": "unverified",
       "checks": {
         "samePrgThemeAndBackgroundPersistence": true
-      }
+      },
+      "observationsFile": "theme-settings/graceful-persistence.txt",
+      "observationsSha256": "65df9ad13b21a1af8a5bc2e016a5e44f9c5e2683a5a9cbc27b64edfe46371f0e"
     },
     {
       "buildId": "6830bfb81a61442db9650e7d67b7113e",
@@ -100,7 +106,9 @@
       "checks": {
         "sourceSelection": true,
         "fullControlFlow": "unverified"
-      }
+      },
+      "observationsFile": "theme-settings/source-control.txt",
+      "observationsSha256": "5ca1dc83a4b4edf81ce7077a03710d357feb3574f6aff0a049bead1cd2a83bbf"
     },
     {
       "buildId": "9df42063923a408ca28cd9511ec2c8ca",
@@ -123,7 +131,9 @@
       "sleepTransition": "unverified",
       "checks": {
         "settingsFlow": false
-      }
+      },
+      "observationsFile": "theme-settings/stacked-menu-oom.txt",
+      "observationsSha256": "3e36097a0973b92d6070abdca73eb5b9c4648ad0c48a7c782feb7aef04e4e977"
     },
     {
       "buildId": "d4354708dd6740bb8d06c505dcfefc93",
@@ -146,7 +156,9 @@
       "sleepTransition": "unverified",
       "checks": {
         "correctScrollAndToggleFlow": false
-      }
+      },
+      "observationsFile": "theme-settings/reused-menu-scroll.txt",
+      "observationsSha256": "ada0c592565baabb095336110c414a98eb305dc5e1e7fd9884f56632b21e6bcb"
     },
     {
       "case": "unsupported-view-replacement",
@@ -287,7 +299,9 @@
           "file": "reset-native.png",
           "sha256": "bb0f652c79a89536275d82f56c0a73a2fa63c4853aff805b97ac98cfca82a24b"
         }
-      ]
+      ],
+      "observationsFile": "theme-settings/grouped-controls-and-current-reset.txt",
+      "observationsSha256": "bea5217f315b1cdee45c1443e97df8f6596be5043e8bb9fa1b3ee7342d3ec223"
     },
     {
       "case": "published-persistence-script",

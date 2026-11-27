@@ -1,0 +1,49 @@
+GFC_THEME_UI_STATE apex
+Gfc_Theme=2009808953
+Gfc_Background_2009808953=922393
+Gfc_Background_2078923795=1052171
+Gfc_Background_1156566441=528656
+Gfc_Source_apex_value_apex_tl=-1
+Gfc_apex_value_apex_tl_color=3727824
+Gfc_Source_apex_value_apex_tr=-1
+Gfc_apex_value_apex_tr_color=15397366
+Gfc_apex_show_bg_art=true
+Gfc_apex_show_ticks=true
+Gfc_apex_show_seconds=true
+GFC_THEME_UI_VALIDATION=1
+GFC_THEME_UI_RUN=14e79d8bcde9134191166346d167e408
+GFC_RENDER_READY target=venu445mm mode=active
+GFC_THEME_UI_GET_SETTINGS
+GFC_THEME_UI_ACTION themes
+GFC_THEME_UI_ACTION set
+GFC_THEME_UI_SET Gfc_Theme=2078923795
+GFC_THEME_UI_ACTION background
+GFC_THEME_UI_ACTION set
+GFC_THEME_UI_SET Gfc_Background_2078923795=0
+GFC_THEME_UI_ACTION themes
+GFC_THEME_UI_ACTION set
+GFC_THEME_UI_SET Gfc_Theme=2009808953
+GFC_THEME_UI_ACTION control
+GFC_THEME_UI_ACTION set
+GFC_THEME_UI_SET Gfc_Source_apex_value_apex_tl=588927973
+GFC_THEME_UI_ACTION control
+GFC_THEME_UI_ACTION control
+GFC_THEME_UI_STATE apex
+Gfc_Theme=2009808953
+Gfc_Background_2009808953=922393
+Gfc_Background_2078923795=0
+Gfc_Background_1156566441=528656
+Gfc_Source_apex_value_apex_tl=588927973
+Gfc_apex_value_apex_tl_color=3727824
+Gfc_Source_apex_value_apex_tr=588927973
+Gfc_apex_value_apex_tr_color=15397366
+Gfc_apex_show_bg_art=true
+Gfc_apex_show_ticks=true
+Gfc_apex_show_seconds=true
+
+Error: Out Of Memory Error
+Details: Failed invoking <symbol>
+Stack: 
+  - 0x10008e81 
+  - 0x10013428 
+Encountered an app crash.
