@@ -3,6 +3,7 @@ set -euo pipefail
 : "${DEVICE:?Set DEVICE to the exact compiled target}"
 [[ "$DEVICE" =~ ^[a-z0-9]+$ ]] || exit 2
 mkdir -p "$HOME/.Garmin/ConnectIQ" /tmp/bin
+ln -s /sdk/share /tmp/share
 if [ -d /device-cache/Devices ]; then ln -s /device-cache/Devices "$HOME/.Garmin/ConnectIQ/Devices"; fi
 cp /sdk/bin/simulator /sdk/bin/shell /tmp/bin/
 chmod 700 /tmp/bin/simulator /tmp/bin/shell
