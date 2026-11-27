@@ -1733,7 +1733,6 @@ export default function App() {
                 <b>AI 创建表盘</b>
                 <span>选择设备和数据，用参考图与描述生成设计</span>
               </button>
-              <button disabled={!ready} className="new-project" onClick={async()=>{try{const r=await fetch("/design-studies/native454.json");if(!r.ok)throw Error("主题示例加载失败");await importFile(new File([await r.text()],"Native454.json",{type:"application/json"}));}catch(e){setNotice((e as Error).message);}}}><div><Layers size={30}/></div><b>Native 454 三主题</b><span>从完整主题预设创建可编辑表盘</span></button>
               {visibleProjects.map((item) => (
                 <article
                   className={

@@ -1,0 +1,453 @@
+{
+  "format": 1,
+  "slug": "trail",
+  "version": "1.0.0",
+  "authorship": "self",
+  "generation": {
+    "mode": "deterministic"
+  },
+  "identity": {
+    "id": "00000000-0000-4000-8000-000000000454",
+    "name": "trail",
+    "appId": "45445445445445445445445445445445"
+  },
+  "attribution": {
+    "id": "00000000-0000-4000-8000-000000000454",
+    "name": "trail",
+    "template": "trail",
+    "source": "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/trail",
+    "status": "Self-authored Native454 three-theme design; supplied font and design notices retained; native acceptance pending",
+    "summary": "自主三主题混合表盘：Apex / Trail / Vital；独立颜色、数据与装饰配置。原生整包验收进行中。",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Self-authored design with retained original sources",
+    "legacy": false,
+    "verifiedLicense": false
+  },
+  "images": [
+    {
+      "layerId": "apex_bg_art",
+      "file": "assets/apex_bg_art.png",
+      "sha256": "29dece72cc99a2b4bc8c1f5a963a0bf6d347e4638663880f73f316bc03d92842",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_ticks",
+      "file": "assets/apex_ticks.png",
+      "sha256": "ed8bda8b6363dcf29646f47c99f06188310a1eee5985dc49fdee921e512598ad",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_temperature",
+      "file": "assets/apex_icon_apex_tl_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_battery",
+      "file": "assets/apex_icon_apex_tl_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_distance",
+      "file": "assets/apex_icon_apex_tl_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_calories",
+      "file": "assets/apex_icon_apex_tl_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_steps",
+      "file": "assets/apex_icon_apex_tl_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_heartRate",
+      "file": "assets/apex_icon_apex_tl_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_temperature",
+      "file": "assets/apex_icon_apex_tr_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_battery",
+      "file": "assets/apex_icon_apex_tr_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_distance",
+      "file": "assets/apex_icon_apex_tr_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_calories",
+      "file": "assets/apex_icon_apex_tr_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_steps",
+      "file": "assets/apex_icon_apex_tr_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_heartRate",
+      "file": "assets/apex_icon_apex_tr_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_temperature",
+      "file": "assets/apex_icon_apex_bl_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_battery",
+      "file": "assets/apex_icon_apex_bl_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_distance",
+      "file": "assets/apex_icon_apex_bl_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_calories",
+      "file": "assets/apex_icon_apex_bl_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_steps",
+      "file": "assets/apex_icon_apex_bl_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_heartRate",
+      "file": "assets/apex_icon_apex_bl_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_br_temperature",
+      "file": "assets/apex_icon_apex_br_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_br_battery",
+      "file": "assets/apex_icon_apex_br_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_br_distance",
+      "file": "assets/apex_icon_apex_br_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_br_calories",
+      "file": "assets/apex_icon_apex_br_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_br_steps",
+      "file": "assets/apex_icon_apex_br_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "apex_icon_apex_br_heartRate",
+      "file": "assets/apex_icon_apex_br_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_bg_art",
+      "file": "assets/trail_bg_art.png",
+      "sha256": "13e7ff93f138e65ef1810ebe804fc9f578ec9a31dd7c2683809424e78471df65",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_ticks",
+      "file": "assets/trail_ticks.png",
+      "sha256": "f32badf9ae2c1eec56a3169810df952fd7e284ef760b2d5c57d9ed963918dd37",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_temperature",
+      "file": "assets/trail_icon_trail_tl_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_battery",
+      "file": "assets/trail_icon_trail_tl_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_distance",
+      "file": "assets/trail_icon_trail_tl_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_calories",
+      "file": "assets/trail_icon_trail_tl_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_steps",
+      "file": "assets/trail_icon_trail_tl_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_heartRate",
+      "file": "assets/trail_icon_trail_tl_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_temperature",
+      "file": "assets/trail_icon_trail_tr_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_battery",
+      "file": "assets/trail_icon_trail_tr_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_distance",
+      "file": "assets/trail_icon_trail_tr_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_calories",
+      "file": "assets/trail_icon_trail_tr_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_steps",
+      "file": "assets/trail_icon_trail_tr_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_heartRate",
+      "file": "assets/trail_icon_trail_tr_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_temperature",
+      "file": "assets/trail_icon_trail_bl_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_battery",
+      "file": "assets/trail_icon_trail_bl_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_distance",
+      "file": "assets/trail_icon_trail_bl_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_calories",
+      "file": "assets/trail_icon_trail_bl_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_steps",
+      "file": "assets/trail_icon_trail_bl_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_heartRate",
+      "file": "assets/trail_icon_trail_bl_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_br_temperature",
+      "file": "assets/trail_icon_trail_br_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_br_battery",
+      "file": "assets/trail_icon_trail_br_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_br_distance",
+      "file": "assets/trail_icon_trail_br_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_br_calories",
+      "file": "assets/trail_icon_trail_br_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_br_steps",
+      "file": "assets/trail_icon_trail_br_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "trail_icon_trail_br_heartRate",
+      "file": "assets/trail_icon_trail_br_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_bg_art",
+      "file": "assets/vital_bg_art.png",
+      "sha256": "c24ad9e7c60270457ae5f3dc910a42b22d9e411d297e81688d60f453743f9da7",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_ticks",
+      "file": "assets/vital_ticks.png",
+      "sha256": "9635ea7d39431ca5ec227e76b2fd2cedf3fcce366b35137eab6abbef9046a885",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_temperature",
+      "file": "assets/vital_icon_vital_bl_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_battery",
+      "file": "assets/vital_icon_vital_bl_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_distance",
+      "file": "assets/vital_icon_vital_bl_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_calories",
+      "file": "assets/vital_icon_vital_bl_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_steps",
+      "file": "assets/vital_icon_vital_bl_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_heartRate",
+      "file": "assets/vital_icon_vital_bl_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_br_temperature",
+      "file": "assets/vital_icon_vital_br_temperature.png",
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_br_battery",
+      "file": "assets/vital_icon_vital_br_battery.png",
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_br_distance",
+      "file": "assets/vital_icon_vital_br_distance.png",
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_br_calories",
+      "file": "assets/vital_icon_vital_br_calories.png",
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_br_steps",
+      "file": "assets/vital_icon_vital_br_steps.png",
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6",
+      "mime": "image/png"
+    },
+    {
+      "layerId": "vital_icon_vital_br_heartRate",
+      "file": "assets/vital_icon_vital_br_heartRate.png",
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c",
+      "mime": "image/png"
+    }
+  ],
+  "binaryAssets": [],
+  "fonts": [],
+  "notices": [
+    {
+      "file": "design-source/apex/notices/DESIGN-NOTICE.md",
+      "publishName": "trail-DESIGN-NOTICE.md"
+    },
+    {
+      "file": "design-source/apex/notices/ShareTechMono-OFL.txt",
+      "publishName": "trail-ShareTechMono-OFL.txt"
+    },
+    {
+      "file": "design-source/apex/notices/Rajdhani-OFL.txt",
+      "publishName": "trail-Rajdhani-OFL.txt"
+    }
+  ],
+  "codeFiles": [
+    "source/GfcThemeSettings.mc",
+    "manifest.xml",
+    "monkey.jungle",
+    "source/App.mc",
+    "resources/settings/properties.xml",
+    "resources/settings/settings.xml",
+    "resources/settings/strings.xml",
+    "resources/fonts/fonts.xml",
+    "resources/strings/strings.xml",
+    "resources/drawables/drawables.xml",
+    "resources/drawables/icon.svg"
+  ]
+}

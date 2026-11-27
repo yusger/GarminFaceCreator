@@ -288,5 +288,28 @@
       "SONAR-label-font-LICENSE.txt",
       "repository-LICENSE.txt"
     ]
+  },
+  {
+    "id": "00000000-0000-4000-8000-000000000454",
+    "name": "trail",
+    "template": "trail",
+    "source": "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/trail",
+    "status": "Self-authored Native454 three-theme design; supplied font and design notices retained; native acceptance pending",
+    "summary": "自主三主题混合表盘：Apex / Trail / Vital；独立颜色、数据与装饰配置。原生整包验收进行中。",
+    "upstreamCommit": null,
+    "upstreamCommitStatus": "Self-authored design with retained original sources",
+    "legacy": false,
+    "verifiedLicense": false,
+    "authorship": "self",
+    "generation": {
+      "mode": "deterministic"
+    },
+    "owned": true,
+    "bundlePath": "/default-watchfaces/trail/project.json",
+    "files": [
+      "trail-DESIGN-NOTICE.md",
+      "trail-ShareTechMono-OFL.txt",
+      "trail-Rajdhani-OFL.txt"
+    ]
   }
 ]

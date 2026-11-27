@@ -5,8 +5,8 @@ import {deflateSync} from "node:zlib";
 import {crc32} from "../frontend/src/zip.ts";
 import {project,layer,validateProject} from "../frontend/src/domain.ts";
 import {importLocalFont} from "../frontend/src/localFonts.ts";
-const root=resolve("resources/design-studies/native454"),read=async file=>readFile(resolve(root,"source",file)),json=async file=>JSON.parse(await read(file));
-const names=["apex","trail","vital"],packs=await Promise.all(names.map(n=>json(n+"/watchface.json"))),p=project("Native454",true);
+const root=resolve("resources/default-watchfaces/trail"),read=async file=>readFile(resolve(root,"design-source",file)),json=async file=>JSON.parse(await read(file));
+const names=["apex","trail","vital"],packs=await Promise.all(names.map(n=>json(n+"/watchface.json"))),p=project("trail",true);
 p.id="00000000-0000-4000-8000-000000000454";p.appId="45445445445445445445445445445445";p.updated=0;p.layers=[];p.controls=[];p.target="venu445mm";p.deviceSize="45mm";p.backgroundColor=packs[0].canvas.background;p.localFonts=[];
 const fonts=new Map();for(const r of packs[0].resources.filter(r=>r.type==="font")){const f=await importLocalFont(new File([new Uint8Array(await read("apex/"+r.file))],r.file.split("/").at(-1)),await read("apex/"+r.noticeFile).then(b=>b.toString("utf8")),"Author-supplied Native454 study; OFL notices retained");p.localFonts.push(f);fonts.set(r.id,{id:f.id,family:f.family,file:f.file});}
 const dataSources=["heartRate","steps","calories","distance","battery","temperature"];
@@ -57,4 +57,12 @@ for(let ti=0;ti<packs.length;ti++){
 validateProject(p);
 await mkdir(resolve(root,"generated"),{recursive:true});await writeFile(resolve(root,"generated/project.json"),JSON.stringify(p,null,2)+"\n");
 await writeFile(resolve(root,"generated/conversion-report.json"),JSON.stringify({state:"editable-study-native-acceptance-pending",themes:p.themes.presets.map(t=>t.id),layers:p.layers.length,controls:p.controls.length,localFonts:p.localFonts.length,changes,limitations:["Static outer ring and ECG decoration remain static","No hardware acceptance claimed","Not automatically published into default library"]},null,2)+"\n");
-await mkdir("frontend/public/design-studies",{recursive:true});await writeFile("frontend/public/design-studies/native454.json",JSON.stringify(p,null,2)+"\n");console.log("Native454 one project:",p.layers.length,"layers,",p.controls.length,"controls,",p.themes.presets.length,"themes");
+
+await writeFile(resolve(root,"design.json"),JSON.stringify(p,null,2)+"\n");
+const {createHash}=await import("node:crypto"),images=[];
+for(const l of p.layers.filter(l=>l.kind==="image")){
+ const bytes=Buffer.from(l.image.split(",")[1],"base64"),file="assets/"+l.id+".png";await mkdir(resolve(root,"assets"),{recursive:true});await writeFile(resolve(root,file),bytes);images.push({layerId:l.id,file,sha256:createHash("sha256").update(bytes).digest("hex"),mime:"image/png"});
+}
+const reference={format:1,slug:"trail",version:"1.0.0",authorship:"self",generation:{mode:"deterministic"},identity:{id:p.id,name:p.name,appId:p.appId},attribution:{id:p.id,name:p.name,template:"trail",source:"https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/trail",status:"Self-authored Native454 three-theme design; supplied font and design notices retained; native acceptance pending",summary:"自主三主题混合表盘：Apex / Trail / Vital；独立颜色、数据与装饰配置。原生整包验收进行中。",upstreamCommit:null,upstreamCommitStatus:"Self-authored design with retained original sources",legacy:false,verifiedLicense:false},images,binaryAssets:[],fonts:[],notices:[{file:"design-source/apex/notices/DESIGN-NOTICE.md",publishName:"trail-DESIGN-NOTICE.md"},{file:"design-source/apex/notices/ShareTechMono-OFL.txt",publishName:"trail-ShareTechMono-OFL.txt"},{file:"design-source/apex/notices/Rajdhani-OFL.txt",publishName:"trail-Rajdhani-OFL.txt"}],codeFiles:[]};
+await writeFile(resolve(root,"reference.json"),JSON.stringify(reference,null,2)+"\n");
+console.log("trail:",p.layers.length,"layers,",p.controls.length,"controls,",p.themes.presets.length,"themes");

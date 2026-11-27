@@ -1,9 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="454" height="454" viewBox="0 0 454 454">
-<defs>
-  <pattern id="dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="2.5" cy="2.5" r="1" fill="rgba(255,255,255,.075)"/></pattern>
-  <radialGradient id="glow"><stop offset="0" stop-color="#38E1D0" stop-opacity=".14"/><stop offset="1" stop-color="#38E1D0" stop-opacity="0"/></radialGradient>
-</defs>
-<circle cx="227" cy="227" r="205" fill="url(#dots)"/>
-<circle cx="227" cy="227" r="180" fill="url(#glow)"/>
-<path d="M227 336c-68-44-102-72-102-106a54 54 0 01108-20 54 54 0 01108 20c0 34-34 62-102 106z" fill="none" stroke="#38E1D0" stroke-width="1.5" opacity=".2"/><path d="M60 227h60l18-30 24 60 18-30h176" fill="none" stroke="#38E1D0" stroke-width="1.4" opacity=".16"/>
-</svg>

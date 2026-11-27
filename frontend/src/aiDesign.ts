@@ -72,6 +72,7 @@ export const designFields = [
   "precision",
   "groupThousands",
   "autoSourceFormat",
+  "metricDecoration",
   "missingValue",
   "threshold",
   "thresholdRules",
@@ -111,6 +112,29 @@ export const designFields = [
 ] as const;
 const object = (v: unknown): v is Record<string, any> =>
   !!v && typeof v === "object" && !Array.isArray(v);
+
+export type DesignIssue={index:number;layerId:string;field:string;code:string;message:string};
+export class DesignValidationError extends Error {
+ constructor(public issues:DesignIssue[]){super(issues.map(i=>`图层“${i.layerId}” ${i.field}：${i.message}`).join("\n"));this.name="DesignValidationError";}
+}
+const designBooleanFields=new Set(["activeVisible","aod","groupThousands","autoSourceFormat","metricDecoration","threshold","meterContinuous","fillEnabled","strokeEnabled","allowClip"]);
+const designNumberFields=new Set(["x","y","w","h","size","rotation","arcRadius","arcStartAngle","arcSpacing","aodSize","opacity","fontWeight","precision","meterCount","meterGoal","meterDim","ringTicks","ringStart","ringEnd","ringWidth","ringGoal","ringDim","handPivotX","handPivotY","handReach","handTail","strokeWidth","cornerRadius"]);
+export function layerInputIssues(value:unknown,index:number):DesignIssue[]{
+ const id=object(value)&&typeof value.id==="string"?value.id:"#"+index,issues:DesignIssue[]=[];
+ const add=(field:string,code:string,message:string)=>issues.push({index,layerId:id,field,code,message});
+ if(!object(value)){add("layer","OBJECT_REQUIRED","必须为图层对象");return issues;}
+ for(const field of ["id","name","kind","x","y","w","h","size","color","aod"])if(value[field]===undefined)add(field,"REQUIRED","缺少必需字段");
+ for(const [field,v] of Object.entries(value)){
+  if(!(designFields as readonly string[]).includes(field)){add(field,"UNKNOWN_FIELD","不在AI创建字段契约内");continue;}
+  if(designBooleanFields.has(field)&&typeof v!=="boolean")add(field,"BOOLEAN_REQUIRED","必须为boolean");
+  else if(designNumberFields.has(field)&&!Number.isFinite(v))add(field,"NUMBER_REQUIRED","必须为有限数值");
+  else if(!designBooleanFields.has(field)&&!designNumberFields.has(field)&&!["handShape","polygonPoints","thresholdRules"].includes(field)&&typeof v!=="string")add(field,"STRING_REQUIRED","必须为字符串");
+ }
+ if(value.handShape!==undefined){const shape=value.handShape;if(value.kind!=="hand"||!object(shape)||!/^[a-z][a-z0-9-]{0,79}$/.test(shape.id)||!/^\d+\.\d+\.\d+$/.test(shape.version)||!Array.isArray(shape.points)||shape.points.length<3||shape.points.length>32||shape.points.some((p:unknown)=>!Array.isArray(p)||p.length!==2||p.some(n=>!Number.isFinite(n)||n< -1||n>1)))add("handShape","HAND_SHAPE_INVALID","普通直线指针请省略此字段；自定义轮廓须为合法{id,version,points}对象");}
+ if(value.dateFormat!==undefined&&(!["monthDayWeek","weekdayDay"].includes(value.dateFormat)||value.kind!=="date"||value.dateLocale==="zh"))add("dateFormat","DATE_FORMAT_INVALID","日期格式仅英文可使用monthDayWeek/weekdayDay，中文日期请省略");
+ return issues;
+}
+
 export function validateDesignChoices(
   c: DesignChoices,
   refs: DesignReference[],
@@ -170,6 +194,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
     contract: {
       kinds,
       allowedLayerFields: designFields,
+      layerRules:{required:["id","name","kind","x","y","w","h","size","color","aod"],metricDecoration:"boolean; false for numeric-only readouts",dateFormat:"English date only: monthDayWeek or weekdayDay; omit for Chinese dates",handShape:"Ordinary line hands MUST omit handShape. Custom shape is an object {id,version,points}, never the string line",geometry:"Circle center227,227 radius227. Essential information must remain within the circular drawing area. For non-text rectangles all four corners must fit; for text allow for longest readings, font bounds and missing values. Decorations alone may intentionally allowClip. Array order is back-to-front; legal overlap includes backgrounds, ticks and hands."},
       maxLayers: 80,
       timeFormats: ["full", "hours", "minutes", "seconds"],
       clock: "24h device local",
@@ -233,8 +258,13 @@ export function parseDesign(
     backgroundPreference:c.backgroundPreference,
     references: refs.map(({ id, name, usage }) => ({ id, name, usage })),
   });
+  const issues:DesignIssue[]=[];
   const ids = new Set<string>();
-  result.layers = data.layers.map((v: unknown) => {
+  const parsed = data.layers.map((v: unknown,index:number) => {
+   const identity=object(v)&&typeof v.id==="string"?v.id:"#"+index;
+   try {
+    const preliminary=layerInputIssues(v,index);
+    if(preliminary.length){issues.push(...preliminary);return null;}
     if (
       !object(v) ||
       Object.keys(v).some(
@@ -267,6 +297,7 @@ export function parseDesign(
     ids.add(v.id);
     for (const [k, value] of Object.entries(v)) {
       if (k === "thresholdRules") continue;
+      if(k === "handShape"){continue;}
       if(k === "polygonPoints"){if(!validPolygon(value))throw Error("AI多边形无效");continue;}
       if (
         !["string", "number", "boolean"].includes(typeof value) ||
@@ -295,6 +326,7 @@ export function parseDesign(
       "meterContinuous",
       "groupThousands",
       "autoSourceFormat",
+      "metricDecoration",
       "fillEnabled",
       "strokeEnabled",
       "allowClip",
@@ -348,7 +380,7 @@ export function parseDesign(
       throw Error("日期显示与所选语言不一致");
     if (
       v.dateFormat !== undefined &&
-      (v.dateFormat !== "monthDayWeek" ||
+      (!["monthDayWeek","weekdayDay"].includes(v.dateFormat) ||
         (v.kind === "date" && v.dateLocale === "zh"))
     )
       throw Error("日期格式与当前语言不兼容");
@@ -387,7 +419,10 @@ export function parseDesign(
     if (crossesScreen(item))
       throw Error("图层“" + item.name + "”越出圆屏，请调整要求后重新生成");
     return item;
+   }catch(e){issues.push({index,layerId:identity,field:"layer",code:"SEMANTIC_INVALID",message:(e as Error).message});return null;}
   });
+  if(issues.length)throw new DesignValidationError(issues);
+  result.layers=parsed as Layer[];
   const active = result.layers.filter((l) => l.activeVisible !== false);
   const timed = active.filter((l) => l.kind === "time");
   const digital =

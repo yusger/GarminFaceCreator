@@ -6,7 +6,7 @@ import {resolveControls,setControl} from "../src/projectControls";
 import {selectTheme} from "../src/themes";
 import {localGenerate} from "../src/localGenerator";
 import {chalkPlans} from "../src/chalkFonts";
-async function fixture(){return JSON.parse(await readFile("resources/design-studies/native454/generated/project.json","utf8"));}
+async function fixture(){return JSON.parse(await readFile("resources/default-watchfaces/trail/design.json","utf8"));}
 test("Native454 is one maintainable project with complete presets and local original fonts",async()=>{const p=await fixture();validateProject(p);expect(p.themes.presets.map(t=>t.id)).toEqual(["apex","trail","vital"]);expect(p.controls).toHaveLength(37);expect(p.localFonts).toHaveLength(2);expect(p.layers.length).toBeLessThan(200);const files=localGenerate(p);expect(files.some(f=>f.path==="source/GfcThemeSettings.mc")).toBe(true);expect(chalkPlans(p).every(f=>p.localFonts.some(font=>font.file===f.font))).toBe(true);for(const id of ["apex","trail","vital"]){const r=resolveControls(selectTheme(p,id));expect(r.layers.some(l=>l.id.startsWith(id+"_"))).toBe(true);expect(r.layers.every(l=>l.id.startsWith(id+"_"))).toBe(true);}});
 test("data slots preserve original precision and update active/AOD labels with selected source",async()=>{let p=await fixture();p=selectTheme(p,"trail");expect(resolveControls(p).layers.find(l=>l.id==="trail_value_trail_tr").precision).toBe(1);const slot=p.controls.find(c=>c.id==="trail-value-trail-tr");p=setControl(p,slot.id,"heartRate");const r=resolveControls(p);expect(r.layers.find(l=>l.id==="trail_value_trail_tr").source).toBe("heartRate");expect(r.layers.find(l=>l.id==="trail_aod_distance").source).toBe("heartRate");expect(r.layers.find(l=>l.id==="trail_label_trail_tr").text).toBe("BPM");expect(r.layers.find(l=>l.id==="trail_aod_km").text).toBe("BPM");});
 
@@ -15,10 +15,10 @@ test("source icon alternatives share six native glyph resources across themes",a
 
 test("113 Native454 creates one project, prepares complete resources and runs SDK simulator",async({page,request})=>{
  test.skip(process.env.GFC_NATIVE_TEST!=="1","Explicit complete native test");test.setTimeout(300000);
- await page.goto("/");await page.getByRole("button",{name:/Native 454 三主题/}).click();
- await expect(page.locator("svg.watch")).toBeVisible();
+ await page.goto("/");await page.getByRole("button",{name:"使用 trail",exact:true}).click();
+ await expect(page.getByRole("button",{name:"本地生成（试验）",exact:true})).toBeVisible();
  await page.locator(".watchface-controls > summary").click();
- for(const id of ["apex","trail","vital"]){await page.getByLabel("主题预设",{exact:true}).selectOption(id);await expect(page.locator("svg.watch")).toBeVisible();}
+ for(const id of ["apex","trail","vital"]){await page.getByLabel("主题预设",{exact:true}).selectOption(id);await expect(page.getByRole("button",{name:"本地生成（试验）",exact:true})).toBeVisible();}
  await page.getByLabel("主题预设",{exact:true}).selectOption("apex");
  await page.getByRole("button",{name:"本地生成（试验）",exact:true}).click();
  await page.getByRole("button",{name:"应用生成结果",exact:true}).click();

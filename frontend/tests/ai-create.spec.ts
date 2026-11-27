@@ -642,3 +642,8 @@ test("failed browser save retains the valid AI design and allows backup and retr
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   expect(calls).toBe(1);
 });
+
+
+test("log response reports every affected layer without retrying or accepting invalid hands",async()=>{const raw=await readFile("frontend/tests/fixtures/ai-design-log-response.json","utf8");const c={...choices,style:"HYBRID" as const,dateLocale:"zh" as const,seconds:true,sources:["heartRate","steps","calories","battery"]};let message="";try{parseDesign(raw,c,[]);}catch(e){message=(e as Error).message;}expect(message).toContain("hub");expect(message).toContain("size");expect(message).toContain("hand-hour");expect(message).toContain("handShape");expect(message).toContain("dateFormat");expect(message).toContain("心率数值");expect(message).not.toContain("metricDecoration：");});
+
+test("AI creation accepts numeric-only decoration and explicit English weekday date",()=>{const data=response(choices);for(const l of data.layers){if(l.kind==="metric")l.metricDecoration=false;if(l.kind==="date")l.dateFormat="weekdayDay";}const p=parseDesign(JSON.stringify(data),choices,[]);expect(p.layers.find(l=>l.kind==="date")!.dateFormat).toBe("weekdayDay");expect(()=>localGenerate(p)).not.toThrow();});

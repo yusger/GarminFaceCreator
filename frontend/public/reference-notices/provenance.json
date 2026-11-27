@@ -316,6 +316,31 @@
       ],
       "path": "/default-watchfaces/sonar/project.json",
       "sha256": "d7fb9593c8eb55eacee3606048bace42da7020d60dbd5e4bbb2e007cb0631452"
+    },
+    {
+      "id": "00000000-0000-4000-8000-000000000454",
+      "name": "trail",
+      "template": "trail",
+      "source": "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/trail",
+      "status": "Self-authored Native454 three-theme design; supplied font and design notices retained; native acceptance pending",
+      "summary": "自主三主题混合表盘：Apex / Trail / Vital；独立颜色、数据与装饰配置。原生整包验收进行中。",
+      "upstreamCommit": null,
+      "upstreamCommitStatus": "Self-authored design with retained original sources",
+      "legacy": false,
+      "verifiedLicense": false,
+      "authorship": "self",
+      "generation": {
+        "mode": "deterministic"
+      },
+      "owned": true,
+      "bundlePath": "/default-watchfaces/trail/project.json",
+      "files": [
+        "trail-DESIGN-NOTICE.md",
+        "trail-ShareTechMono-OFL.txt",
+        "trail-Rajdhani-OFL.txt"
+      ],
+      "path": "/default-watchfaces/trail/project.json",
+      "sha256": "8cd0d19f66b8a5e52b3b3d371ac72e47d3659f9dad12f5003afb9e2a0ba1c91e"
     }
   ],
   "generators": [

@@ -1,0 +1,27 @@
+{
+  "package": "trail-compass",
+  "state": "design_only_not_native_acceptance",
+  "doNotAutoPublish": true,
+  "items": [
+    {
+      "id": "date-format",
+      "state": "contract-limited",
+      "note": "Only ddd DD / MM.DD ddd are allowed in formatVersion 1; source month token is not emitted."
+    },
+    {
+      "id": "aod-layout",
+      "state": "explicit-layers",
+      "note": "AOD-only layers are visible:false / aod.visible:true."
+    },
+    {
+      "id": "meter",
+      "state": "continuous-bar",
+      "note": "battery meter uses segments=1, gap=0."
+    },
+    {
+      "id": "icons",
+      "state": "precolored-png",
+      "note": "PNG icons are precolored; text color settings do not recolor them."
+    }
+  ]
+}

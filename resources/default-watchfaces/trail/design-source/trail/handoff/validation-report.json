@@ -1,0 +1,16 @@
+{
+  "package": "trail-compass",
+  "version": "1.0.0",
+  "state": "design-only",
+  "layers": 26,
+  "resources": 8,
+  "dataSources": [
+    "battery",
+    "distance",
+    "heartRate",
+    "steps",
+    "temperature"
+  ],
+  "issues": [],
+  "status": "pass"
+}
