@@ -1,3 +1,4 @@
+import {captureWatchface} from "./watchfaceCapture";
 import {previewStress,previewBoundaries,withPreviewValues} from "./previewCases";
 import {metrics} from "./domain";
 import {
@@ -44,6 +45,9 @@ export default function PreviewStudio({
   onClose: () => void;
 }) {
   const [dynamic, setDynamic] = useState(true);
+  const [capturing,setCapturing]=useState(false);
+  const [captureMessage,setCaptureMessage]=useState("");
+  async function exportCapture(aod:boolean){manualPause();setCapturing(true);setCaptureMessage("");try{const result=await captureWatchface(project,preview,aod);const link=document.createElement("a");link.href=result.data;link.download=project.name+"-"+result.mode+"-"+result.width+".png";link.click();setCaptureMessage("已导出纯盘面，固定本次数据。"+result.warnings.join(" "));}catch(e){setCaptureMessage("截图失败："+(e as Error).message);}finally{setCapturing(false);}}
   const [playing, setPlaying] = useState(true),
     [speed, setSpeed] = useState(1),
     [mode, setMode] = useState("对比"),
@@ -208,8 +212,11 @@ export default function PreviewStudio({
             </h2>
             <p>{deviceLabel(project)} · 模拟数据</p>
           </div>
+          <button disabled={capturing} onClick={()=>void exportCapture(false)}>下载亮屏盘面</button>
+          <button disabled={capturing} onClick={()=>void exportCapture(true)}>下载息屏盘面</button>
           <button onClick={onClose}>关闭预览</button>
         </header>
+        {captureMessage&&<p role="status">{captureMessage}</p>}
         <div className="preview-controls">
           <label>
             <input
