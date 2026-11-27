@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-54-concave-panels; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-55-concave-fill; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Weather;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function getSettingsView(){return [new GfcSettingsMenu("root",null),new GfcSettingsDelegate()];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
@@ -618,29 +618,29 @@ if(true){if(cfgTheme==2){{var value=databattery;var meterInk=0x54736F;if(metricV
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22vital_hr_zone_1%22%2C%22partId%22%3A%22vital_hr_zone_1%22%2C%22capabilityId%22%3A%22core.rect%22%2C%22mode%22%3A%22active%22%7D
-if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(127),px(298)],[px(163),px(298)],[px(163),px(306)],[px(127),px(306)]];dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x2A333D>>16)&255,(0x2A333D>>8)&255,0x2A333D&255));dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(polygon);}}}
+if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(127),px(298)],[px(163),px(298)],[px(163),px(306)],[px(127),px(306)]];dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x2A333D>>16)&255,(0x2A333D>>8)&255,0x2A333D&255));dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon(polygon);}}}
 // GFC_LAYER_END
 
 }
 function render_active_26(dc as Graphics.Dc) as Void {var dataheartRate=frameContext[:dataheartRate];var cfgTheme=frameContext[:cfgTheme] as Toybox.Lang.Number;var cfg_vital_show_zone_decoration=frameContext[:cfg_vital_show_zone_decoration] as Toybox.Lang.Boolean;
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22vital_hr_zone_2%22%2C%22partId%22%3A%22vital_hr_zone_2%22%2C%22capabilityId%22%3A%22core.rect%22%2C%22mode%22%3A%22active%22%7D
-if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(170),px(298)],[px(206),px(298)],[px(206),px(306)],[px(170),px(306)]];dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x2A333D>>16)&255,(0x2A333D>>8)&255,0x2A333D&255));dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(polygon);}}}
+if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(170),px(298)],[px(206),px(298)],[px(206),px(306)],[px(170),px(306)]];dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x2A333D>>16)&255,(0x2A333D>>8)&255,0x2A333D&255));dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon(polygon);}}}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22vital_hr_zone_3%22%2C%22partId%22%3A%22vital_hr_zone_3%22%2C%22capabilityId%22%3A%22core.rect%22%2C%22mode%22%3A%22active%22%7D
-if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(213),px(298)],[px(249),px(298)],[px(249),px(306)],[px(213),px(306)]];dc.setColor(0x38E1D0,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x38E1D0>>16)&255,(0x38E1D0>>8)&255,0x38E1D0&255));dc.setColor(0x38E1D0,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(polygon);}}}
+if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(213),px(298)],[px(249),px(298)],[px(249),px(306)],[px(213),px(306)]];dc.setColor(0x38E1D0,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x38E1D0>>16)&255,(0x38E1D0>>8)&255,0x38E1D0&255));dc.setColor(0x38E1D0,Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon(polygon);}}}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22vital_hr_zone_4%22%2C%22partId%22%3A%22vital_hr_zone_4%22%2C%22capabilityId%22%3A%22core.rect%22%2C%22mode%22%3A%22active%22%7D
-if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(256),px(298)],[px(292),px(298)],[px(292),px(306)],[px(256),px(306)]];dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x2A333D>>16)&255,(0x2A333D>>8)&255,0x2A333D&255));dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(polygon);}}}
+if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(256),px(298)],[px(292),px(298)],[px(292),px(306)],[px(256),px(306)]];dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x2A333D>>16)&255,(0x2A333D>>8)&255,0x2A333D&255));dc.setColor(0x2A333D,Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon(polygon);}}}
 // GFC_LAYER_END
 
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22vital_hr_zone_5%22%2C%22partId%22%3A%22vital_hr_zone_5%22%2C%22capabilityId%22%3A%22core.rect%22%2C%22mode%22%3A%22active%22%7D
-if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(299),px(298)],[px(335),px(298)],[px(335),px(306)],[px(299),px(306)]];dc.setColor(0xFF4D5E,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0xFF4D5E>>16)&255,(0xFF4D5E>>8)&255,0xFF4D5E&255));dc.setColor(0xFF4D5E,Graphics.COLOR_TRANSPARENT);dc.fillPolygon(polygon);}}}
+if(((dataheartRate!=null && dataheartRate==dataheartRate && dataheartRate>0 && dataheartRate<1.0e12) ? (dataheartRate>0 && true) : false)){if(cfg_vital_show_zone_decoration && cfgTheme==2){{var polygon=[[px(299),px(298)],[px(335),px(298)],[px(335),px(306)],[px(299),px(306)]];dc.setColor(0xFF4D5E,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0xFF4D5E>>16)&255,(0xFF4D5E>>8)&255,0xFF4D5E&255));dc.setColor(0xFF4D5E,Graphics.COLOR_TRANSPARENT);dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon(polygon);}}}
 // GFC_LAYER_END
 
 }
