@@ -495,11 +495,14 @@ export default function App() {
       setPast((x) => [...x.slice(-49), editorFrame(p)]);
       setFuture([]);
     }
-    setP({
-      ...withEditorLayers(base, layers),
-      revision: p.revision + (renderChanged(p.layers, layers) ? 1 : 0),
-      updated: Date.now(),
-    });
+    const nextProject={
+      ...withEditorLayers(base,layers),
+      revision:p.revision+((renderChanged(p.layers,layers)||base.backgroundColor!==p.backgroundColor)?1:0),
+      updated:Date.now(),
+    };
+    activeProject.current=nextProject;
+    setP(nextProject);
+    return nextProject;
   }
   function beginProperty(e: React.FocusEvent<HTMLElement>) {
     if (
@@ -2096,7 +2099,8 @@ export default function App() {
               <DesignChat key={p.id} project={p} preview={preview} profiles={profiles} selection={selection} open={chatOpen} disabled={busy||batchBusy} onClose={()=>setChatOpen(false)} onModels={()=>setPage("models")} canUndo={!!past.length} onUndo={()=>undo()} onApply={(fingerprint,next)=>{
                 const latest=activeProject.current;
                 if(!latest||chatFingerprint(latest)!==fingerprint)throw Error("等待期间设计已变化，本轮未应用；请基于最新设计重新发送。");
-                if(chatFingerprint(next)!==fingerprint){editLayers(next.layers,true,next);selectOne("");}
+                if(chatFingerprint(next)!==fingerprint){const applied=editLayers(next.layers,true,next);selectOne("");return applied!;}
+                return latest;
               }}/>
               <aside
                 className="inspector"

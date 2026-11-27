@@ -429,6 +429,7 @@ export async function requestDesignChat(
   history: import("./designChat").ChatMessage[],
   signal: AbortSignal,
   images: { label: string; data: string }[] = [],
+  onUsage?:(usage:Record<string,number>|undefined)=>void,
 ): Promise<string> {
   if (!profile.model.trim()) throw Error("请先选择模型");
   if (
@@ -482,6 +483,7 @@ export async function requestDesignChat(
     AbortSignal.any([signal, AbortSignal.timeout(180000)]),
     "chat",
   );
+  onUsage?.(data.usage && typeof data.usage==="object" ? Object.fromEntries(Object.entries(data.usage).filter(([,v])=>typeof v==="number"&&Number.isFinite(v)&&v>=0)) as Record<string,number> : undefined);
   const content = data.choices?.[0]?.message?.content;
   if (data.choices?.[0]?.finish_reason === "length")
     throw Error("AI 结果被截断，请增加输出 Token 或分步调整；设计未修改");

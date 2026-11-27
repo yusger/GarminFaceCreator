@@ -1,3 +1,5 @@
+import { optimizeVisual, type VisualRound } from "./visualOptimization";
+import { restoreDesignSnapshot } from "./designHistory";
 import { captureWatchface } from "./watchfaceCapture";
 import { readDesignReference, type DesignReference } from "./aiDesign";
 import type { Preview } from "./Scene";
@@ -33,7 +35,7 @@ export default function DesignChat({
   disabled: boolean;
   onClose: () => void;
   onModels: () => void;
-  onApply: (fingerprint: string, next: Project) => void;
+  onApply: (fingerprint: string, next: Project) => Project;
   onUndo: () => void;
   canUndo: boolean;
 }) {
@@ -47,6 +49,20 @@ export default function DesignChat({
   const [entries, setEntries] = useState<Entry[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const [roundLimit, setRoundLimit] = useState(3),
+    [rounds, setRounds] = useState<VisualRound[]>([]);
+  const latest = useRef(project),
+    applyLatest = useRef(onApply),
+    expectedVisual = useRef<string | null>(null);
+  latest.current = project;
+  applyLatest.current = onApply;
+  useEffect(() => {
+    if (
+      expectedVisual.current &&
+      (disabled || chatFingerprint(project) !== expectedVisual.current)
+    )
+      controller.current?.abort(new Error("设计已变化，自动优化已停止。"));
+  }, [project, disabled]);
   const controller = useRef<AbortController | null>(null),
     mounted = useRef(true),
     scroll = useRef<HTMLDivElement>(null);
@@ -149,6 +165,100 @@ export default function DesignChat({
     } finally {
       if (mounted.current) setBusy(false);
       controller.current = null;
+    }
+  }
+  async function autoOptimize() {
+    if (busy || disabled || loadingReferences || !input.trim()) return;
+    if (!profile?.supportsImages || !(attachCurrent || attachAod)) {
+      setError(
+        "自动优化需要已确认图片能力的模型，并主动勾选至少一种盘面截图。",
+      );
+      return;
+    }
+    if (project.multiDevice?.scope === "device") {
+      setError("请切换共享主设计后优化。");
+      return;
+    }
+    const c = new AbortController(),
+      prompt = input.trim(),
+      selectedProfile = profile,
+      refs = [...references];
+    let frozen = structuredClone(preview), fixedInitialized=false;
+    controller.current = c;
+    setBusy(true);
+    setError("");
+    setRounds([]);
+    try {
+      await optimizeVisual({
+        initial: project,
+        limit: roundLimit,
+        signal: c.signal,
+        getCurrent: () => latest.current,
+        apply: (fp, next) => {
+          const p = applyLatest.current(fp, next);
+          latest.current = p;
+          return p;
+        },
+        expected: (fp) => {
+          expectedVisual.current = fp;
+        },
+        onRound: (r) => {
+          if (mounted.current) setRounds((items) => [...items, r]);
+        },
+        request: async (current, round, history) => {
+          const images: { label: string; data: string }[] = [];
+          for (const aod of [false, true]) {
+            if (aod ? !attachAod : !attachCurrent) continue;
+            const shot = await captureWatchface(current, frozen, aod);
+            frozen = shot.preview;
+            c.signal.throwIfAborted();
+            if (chatFingerprint(latest.current) !== chatFingerprint(current))
+              throw Error("截图期间设计已变化，自动优化已停止。");
+            images.push({
+              label:
+                (aod ? "当前AOD" : "当前亮屏") +
+                "，固定数据：" +
+                JSON.stringify({ ...shot, data: undefined }),
+              data: shot.data,
+            });
+          }
+          for (const r of refs)
+            images.push({ label: "仅设计参考：" + r.name, data: r.data });
+          let usage: Record<string, number> | undefined;
+          const raw = await requestDesignChat(
+            selectedProfile,
+            chatPayload(current, selection),
+            [
+              { role: "user", content: prompt },
+              ...history,
+              {
+                role: "user",
+                content: `这是用户主动启动的视觉优化第${round}/${roundLimit}轮。依据最新盘面与结构改进设计；已经满足要求时返回空operations。只输出允许的结构补丁。`,
+              },
+            ],
+            c.signal,
+            images,
+            (u) => {
+              usage = u;
+            },
+          );
+          return { raw, usage };
+        },
+      });
+    } catch (e) {
+      if (mounted.current)
+        setError(
+          c.signal.aborted
+            ? c.signal.reason instanceof Error &&
+              c.signal.reason.name !== "AbortError"
+              ? c.signal.reason.message
+              : "已停止自动优化，保留已完成轮次；已发出的请求可能产生费用。"
+            : (e as Error).message,
+        );
+    } finally {
+      expectedVisual.current = null;
+      controller.current = null;
+      if (mounted.current) setBusy(false);
     }
   }
   return (
@@ -313,6 +423,74 @@ export default function DesignChat({
           }}
         />
       </label>
+      <details className="visual-rounds">
+        <summary>视觉自动优化（{rounds.length}轮记录）</summary>
+        <label>
+          最多轮数
+          <select
+            aria-label="视觉优化轮数"
+            disabled={busy}
+            value={roundLimit}
+            onChange={(e) => setRoundLimit(Number(e.target.value))}
+          >
+            {[1, 2, 3, 4, 5].map((n) => (
+              <option value={n} key={n}>
+                {n}轮
+              </option>
+            ))}
+          </select>
+        </label>
+        <button
+          onClick={() => void autoOptimize()}
+          disabled={
+            busy ||
+            disabled ||
+            loadingReferences ||
+            !input.trim() ||
+            !profile?.model
+          }
+        >
+          开始自动优化
+        </button>
+        <p className="hint">
+          会发送已选择的截图与参考图，逐轮调用模型；费用以服务商账单为准，取消也可能收费。每轮检查点可在历史恢复。网页截图不代表设备验证。
+        </p>
+        {rounds.map((r) => (
+          <article key={r.round}>
+            <b>第{r.round}轮</b>
+            <p>{r.message}</p>
+            <ul>
+              {r.changes.map((v, i) => (
+                <li key={i}>{v}</li>
+              ))}
+            </ul>
+            <small>
+              {r.usage && Object.keys(r.usage).length
+                ? "实际用量：" + JSON.stringify(r.usage)
+                : "服务商未返回用量"}
+            </small>
+            {r.snapshotId &&
+              project.designSnapshots?.some((s) => s.id === r.snapshotId) && (
+                <button
+                  disabled={busy || disabled}
+                  onClick={() => {
+                    try {
+                      const p = latest.current;
+                      onApply(
+                        chatFingerprint(p),
+                        restoreDesignSnapshot(p, r.snapshotId!),
+                      );
+                    } catch (e) {
+                      setError((e as Error).message);
+                    }
+                  }}
+                >
+                  恢复第{r.round}轮检查点
+                </button>
+              )}
+          </article>
+        ))}
+      </details>
       <footer>
         <button disabled={busy || !canUndo || disabled} onClick={onUndo}>
           撤销上次编辑
