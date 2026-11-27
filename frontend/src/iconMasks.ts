@@ -3,7 +3,7 @@ import { generationDevice } from "./devices.ts";
 import { fontMaskPng } from "./fontMaskPng.ts";
 import type { Project, Layer } from "./domain.ts";
 export const iconMaskId = (l: Layer) =>
-  "GfcMask_" + l.id.replace(/[^a-zA-Z0-9]/g, "_");
+  "GfcMask_" + (l.assetId||l.id).replace(/[^a-zA-Z0-9]/g, "_") + (l.assetId?"_"+Math.round(l.w)+"_"+Math.round(l.h)+"_"+Math.round((l.opacity??1)*1000):"");
 export async function preparedIconMasks(input: Project) {
   const p = expandWidgets(input),
     scale = generationDevice(p).screenWidth / 454,
@@ -13,7 +13,9 @@ export async function preparedIconMasks(input: Project) {
     (l) => l.kind === "image" && l.iconMask && l.exportIncluded !== false,
   );
   if (layers.length > 96) throw Error("单色图标最多96个");
-  for (const l of layers) {
+  const unique=new Map<string,Layer>();
+  for(const l of layers){const id=iconMaskId(l),existing=unique.get(id);if(existing&&(existing.image!==l.image||existing.w!==l.w||existing.h!==l.h||existing.opacity!==l.opacity))throw Error("共享图标资源身份对应不同内容");unique.set(id,l);}
+  for (const l of unique.values()) {
     const w = Math.max(1, Math.round(l.w * scale)),
       h = Math.max(1, Math.round(l.h * scale));
     if (!l.image || l.libraryIcon || w > 128 || h > 128)
