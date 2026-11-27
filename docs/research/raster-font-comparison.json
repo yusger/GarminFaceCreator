@@ -1,0 +1,1477 @@
+{
+  "note": "Original unmodified images. Foreground threshold80 is diagnostic, separate from AOD lit-pixel counting. Offset search does not shift saved images. Fixed drawing cases, no real Sleep/hardware or model calls.",
+  "records": [
+    {
+      "id": "active-454",
+      "target": "venu445mm",
+      "aod": false,
+      "converted": true,
+      "applicationDataMode": "controlled drawing fixture, licensed fonts and fixed text; physical tracking, tabular advances, baseline shifts and line heights",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [
+        {
+          "layerId": "font0-0",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "11:11",
+          "width": 72,
+          "left": 191,
+          "top": 53,
+          "baseline": 74,
+          "y": 40,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 28,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 53
+          }
+        },
+        {
+          "layerId": "font0-1",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "88:88",
+          "width": 72,
+          "left": 191,
+          "top": 113,
+          "baseline": 134,
+          "y": 100,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 28,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 113
+          }
+        },
+        {
+          "layerId": "font1-0",
+          "fontId": "bitmap_ca1584d07528e69c8a62779000000000",
+          "family": "Rajdhani-Bold",
+          "text": "11:11",
+          "width": 74,
+          "left": 190,
+          "top": 180,
+          "baseline": 199,
+          "y": 160,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 180
+          }
+        },
+        {
+          "layerId": "font1-1",
+          "fontId": "bitmap_ca1584d07528e69c8a62779000000000",
+          "family": "Rajdhani-Bold",
+          "text": "88:88",
+          "width": 74,
+          "left": 190,
+          "top": 240,
+          "baseline": 259,
+          "y": 220,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 240
+          }
+        },
+        {
+          "layerId": "font2-0",
+          "fontId": "bitmap_ca1d1c45bf25433a9b22736000000000",
+          "family": "Share Tech Mono",
+          "text": "11:11",
+          "width": 83,
+          "left": 185,
+          "top": 297,
+          "baseline": 318,
+          "y": 280,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 83,
+            "left": 185,
+            "top": 297
+          }
+        },
+        {
+          "layerId": "font2-1",
+          "fontId": "bitmap_ca1d1c45bf25433a9b22736000000000",
+          "family": "Share Tech Mono",
+          "text": "88:88",
+          "width": 83,
+          "left": 185,
+          "top": 357,
+          "baseline": 378,
+          "y": 340,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 83,
+            "left": 185,
+            "top": 357
+          }
+        }
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-67-bitmap-typography-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "70dd59ea4dbdefad16f6ac2e1266d583c6b0ca83195bf793fdc2f8a4c5a2ebdd",
+      "prgSha256": "afe0ef4739d139a2d3524441d3b6d11c27e789df28c230f2a020011ade0715bc",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.2635213599189583,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 3676,
+        "foregroundRgbMeanAbsoluteError": 9.923286180631122,
+        "rows": [
+          {
+            "layerId": "font0-0",
+            "family": "Barlow Semi Condensed",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 193,
+                "y": 54,
+                "right": 258,
+                "bottom": 73
+              },
+              "native": {
+                "x": 193,
+                "y": 54,
+                "right": 258,
+                "bottom": 73
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 82.48434004474272
+              },
+              {
+                "dy": -2,
+                "mae": 64.91247002398082
+              },
+              {
+                "dy": -1,
+                "mae": 41.82687338501292
+              },
+              {
+                "dy": 0,
+                "mae": 16.4187675070028
+              },
+              {
+                "dy": 1,
+                "mae": 41.979328165374675
+              },
+              {
+                "dy": 2,
+                "mae": 64.03956834532374
+              },
+              {
+                "dy": 3,
+                "mae": 80.56040268456375
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font0-1",
+            "family": "Barlow Semi Condensed",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 114,
+                "right": 261,
+                "bottom": 133
+              },
+              "native": {
+                "x": 192,
+                "y": 114,
+                "right": 261,
+                "bottom": 133
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 120.2224409448819
+              },
+              {
+                "dy": -2,
+                "mae": 95.04220314735336
+              },
+              {
+                "dy": -1,
+                "mae": 56.068580542264755
+              },
+              {
+                "dy": 0,
+                "mae": 12.80990990990991
+              },
+              {
+                "dy": 1,
+                "mae": 54.96810207336523
+              },
+              {
+                "dy": 2,
+                "mae": 94.2725321888412
+              },
+              {
+                "dy": 3,
+                "mae": 120.35104986876641
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-0",
+            "family": "Rajdhani-Bold",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              },
+              "native": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 60.812572087658594
+              },
+              {
+                "dy": -2,
+                "mae": 44.84390547263681
+              },
+              {
+                "dy": -1,
+                "mae": 26.10863697705803
+              },
+              {
+                "dy": 0,
+                "mae": 5.617690058479532
+              },
+              {
+                "dy": 1,
+                "mae": 26.221552878179384
+              },
+              {
+                "dy": 2,
+                "mae": 44.73518518518519
+              },
+              {
+                "dy": 3,
+                "mae": 60.44616265750286
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-1",
+            "family": "Rajdhani-Bold",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              },
+              "native": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 81.94789762340037
+              },
+              {
+                "dy": -2,
+                "mae": 61.139219576719576
+              },
+              {
+                "dy": -1,
+                "mae": 35.73571945046999
+              },
+              {
+                "dy": 0,
+                "mae": 5.636762360446571
+              },
+              {
+                "dy": 1,
+                "mae": 34.9295010845987
+              },
+              {
+                "dy": 2,
+                "mae": 60.63194444444444
+              },
+              {
+                "dy": 3,
+                "mae": 81.51218769043267
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-0",
+            "family": "Share Tech Mono",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 187,
+                "y": 298,
+                "right": 265,
+                "bottom": 317
+              },
+              "native": {
+                "x": 187,
+                "y": 298,
+                "right": 265,
+                "bottom": 317
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 72.75612353567625
+              },
+              {
+                "dy": -2,
+                "mae": 64.06882821387941
+              },
+              {
+                "dy": -1,
+                "mae": 40.61366538952746
+              },
+              {
+                "dy": 0,
+                "mae": 11.751091703056769
+              },
+              {
+                "dy": 1,
+                "mae": 41.280332056194126
+              },
+              {
+                "dy": 2,
+                "mae": 64.70364050056882
+              },
+              {
+                "dy": 3,
+                "mae": 73.16719914802982
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-1",
+            "family": "Share Tech Mono",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 187,
+                "y": 358,
+                "right": 265,
+                "bottom": 377
+              },
+              "native": {
+                "x": 187,
+                "y": 358,
+                "right": 265,
+                "bottom": 377
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 72.58706467661692
+              },
+              {
+                "dy": -2,
+                "mae": 60.942911877394636
+              },
+              {
+                "dy": -1,
+                "mae": 36.39906700593723
+              },
+              {
+                "dy": 0,
+                "mae": 9.193427230046948
+              },
+              {
+                "dy": 1,
+                "mae": 37.01805205709488
+              },
+              {
+                "dy": 2,
+                "mae": 61.50075930144267
+              },
+              {
+                "dy": 3,
+                "mae": 73.29779673063256
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "bitmap-typography/active-454-browser.png",
+          "sha256": "b58f5c56a90c4492317b6dac9a7f9916a56af5f09947942d533948dd800fd07e",
+          "identicalToPhase136": true
+        },
+        "native.png": {
+          "file": "bitmap-typography/active-454-native.png",
+          "sha256": "f1338f310f022e5818c843144bcb9fdd5963b9b5ffce88eaec0413378552aabb",
+          "identicalToPhase136": true
+        }
+      }
+    },
+    {
+      "id": "active-390",
+      "target": "venu441mm",
+      "aod": false,
+      "converted": true,
+      "applicationDataMode": "controlled drawing fixture, licensed fonts and fixed text; physical tracking, tabular advances, baseline shifts and line heights",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [
+        {
+          "layerId": "font0-0",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "11:11",
+          "width": 72,
+          "left": 158,
+          "top": 42,
+          "baseline": 63,
+          "y": 34,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 28,
+          "native": {
+            "width": 72,
+            "left": 158,
+            "top": 42
+          }
+        },
+        {
+          "layerId": "font0-1",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "88:88",
+          "width": 72,
+          "left": 158,
+          "top": 93,
+          "baseline": 114,
+          "y": 85,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 28,
+          "native": {
+            "width": 72,
+            "left": 158,
+            "top": 93
+          }
+        },
+        {
+          "layerId": "font1-0",
+          "fontId": "bitmap_ca1584d07528e69c8a62779000000000",
+          "family": "Rajdhani-Bold",
+          "text": "11:11",
+          "width": 74,
+          "left": 157,
+          "top": 152,
+          "baseline": 171,
+          "y": 137,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 157,
+            "top": 152
+          }
+        },
+        {
+          "layerId": "font1-1",
+          "fontId": "bitmap_ca1584d07528e69c8a62779000000000",
+          "family": "Rajdhani-Bold",
+          "text": "88:88",
+          "width": 74,
+          "left": 157,
+          "top": 203,
+          "baseline": 222,
+          "y": 188,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 157,
+            "top": 203
+          }
+        },
+        {
+          "layerId": "font2-0",
+          "fontId": "bitmap_ca1d1c45bf25433a9b22736000000000",
+          "family": "Share Tech Mono",
+          "text": "11:11",
+          "width": 83,
+          "left": 153,
+          "top": 252,
+          "baseline": 273,
+          "y": 240,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 83,
+            "left": 153,
+            "top": 252
+          }
+        },
+        {
+          "layerId": "font2-1",
+          "fontId": "bitmap_ca1d1c45bf25433a9b22736000000000",
+          "family": "Share Tech Mono",
+          "text": "88:88",
+          "width": 83,
+          "left": 153,
+          "top": 304,
+          "baseline": 325,
+          "y": 292,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 83,
+            "left": 153,
+            "top": 304
+          }
+        }
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-67-bitmap-typography-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "0bae78368a386ccb59d89b632b3e1242d0a1cb8cfe23b718ca4e2a8724dfe778",
+      "prgSha256": "2641a9b378ec745c1152d2b222724616a2057093f36943b619553a58efa61d13",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 0.3528889930369577,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 3676,
+        "foregroundRgbMeanAbsoluteError": 9.923286180631122,
+        "rows": [
+          {
+            "layerId": "font0-0",
+            "family": "Barlow Semi Condensed",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 160,
+                "y": 43,
+                "right": 225,
+                "bottom": 62
+              },
+              "native": {
+                "x": 160,
+                "y": 43,
+                "right": 225,
+                "bottom": 62
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 82.48434004474272
+              },
+              {
+                "dy": -2,
+                "mae": 64.91247002398082
+              },
+              {
+                "dy": -1,
+                "mae": 41.82687338501292
+              },
+              {
+                "dy": 0,
+                "mae": 16.4187675070028
+              },
+              {
+                "dy": 1,
+                "mae": 41.979328165374675
+              },
+              {
+                "dy": 2,
+                "mae": 64.03956834532374
+              },
+              {
+                "dy": 3,
+                "mae": 80.56040268456375
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font0-1",
+            "family": "Barlow Semi Condensed",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 159,
+                "y": 94,
+                "right": 228,
+                "bottom": 113
+              },
+              "native": {
+                "x": 159,
+                "y": 94,
+                "right": 228,
+                "bottom": 113
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 120.2224409448819
+              },
+              {
+                "dy": -2,
+                "mae": 95.04220314735336
+              },
+              {
+                "dy": -1,
+                "mae": 56.068580542264755
+              },
+              {
+                "dy": 0,
+                "mae": 12.80990990990991
+              },
+              {
+                "dy": 1,
+                "mae": 54.96810207336523
+              },
+              {
+                "dy": 2,
+                "mae": 94.2725321888412
+              },
+              {
+                "dy": 3,
+                "mae": 120.35104986876641
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-0",
+            "family": "Rajdhani-Bold",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 160,
+                "y": 153,
+                "right": 226,
+                "bottom": 170
+              },
+              "native": {
+                "x": 160,
+                "y": 153,
+                "right": 226,
+                "bottom": 170
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 60.812572087658594
+              },
+              {
+                "dy": -2,
+                "mae": 44.84390547263681
+              },
+              {
+                "dy": -1,
+                "mae": 26.10863697705803
+              },
+              {
+                "dy": 0,
+                "mae": 5.617690058479532
+              },
+              {
+                "dy": 1,
+                "mae": 26.221552878179384
+              },
+              {
+                "dy": 2,
+                "mae": 44.73518518518519
+              },
+              {
+                "dy": 3,
+                "mae": 60.44616265750286
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-1",
+            "family": "Rajdhani-Bold",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 158,
+                "y": 204,
+                "right": 229,
+                "bottom": 221
+              },
+              "native": {
+                "x": 158,
+                "y": 204,
+                "right": 229,
+                "bottom": 221
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 81.94789762340037
+              },
+              {
+                "dy": -2,
+                "mae": 61.139219576719576
+              },
+              {
+                "dy": -1,
+                "mae": 35.73571945046999
+              },
+              {
+                "dy": 0,
+                "mae": 5.636762360446571
+              },
+              {
+                "dy": 1,
+                "mae": 34.9295010845987
+              },
+              {
+                "dy": 2,
+                "mae": 60.63194444444444
+              },
+              {
+                "dy": 3,
+                "mae": 81.51218769043267
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-0",
+            "family": "Share Tech Mono",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 155,
+                "y": 253,
+                "right": 233,
+                "bottom": 272
+              },
+              "native": {
+                "x": 155,
+                "y": 253,
+                "right": 233,
+                "bottom": 272
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 72.75612353567625
+              },
+              {
+                "dy": -2,
+                "mae": 64.06882821387941
+              },
+              {
+                "dy": -1,
+                "mae": 40.61366538952746
+              },
+              {
+                "dy": 0,
+                "mae": 11.751091703056769
+              },
+              {
+                "dy": 1,
+                "mae": 41.280332056194126
+              },
+              {
+                "dy": 2,
+                "mae": 64.70364050056882
+              },
+              {
+                "dy": 3,
+                "mae": 73.16719914802982
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-1",
+            "family": "Share Tech Mono",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 155,
+                "y": 305,
+                "right": 233,
+                "bottom": 324
+              },
+              "native": {
+                "x": 155,
+                "y": 305,
+                "right": 233,
+                "bottom": 324
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 72.58706467661692
+              },
+              {
+                "dy": -2,
+                "mae": 60.942911877394636
+              },
+              {
+                "dy": -1,
+                "mae": 36.39906700593723
+              },
+              {
+                "dy": 0,
+                "mae": 9.193427230046948
+              },
+              {
+                "dy": 1,
+                "mae": 37.01805205709488
+              },
+              {
+                "dy": 2,
+                "mae": 61.50075930144267
+              },
+              {
+                "dy": 3,
+                "mae": 73.29779673063256
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "bitmap-typography/active-390-browser.png",
+          "sha256": "c5bfbca7d0d86a0180bc0918807bd062eea5b626b19ff52cfab04baba694b12e",
+          "identicalToPhase136": true
+        },
+        "native.png": {
+          "file": "bitmap-typography/active-390-native.png",
+          "sha256": "2b1b83e562a6bd41423b43ebd4979cebbed8b80c33f5f5b800d6745c9501421e",
+          "identicalToPhase136": true
+        }
+      }
+    },
+    {
+      "id": "forced-aod-454",
+      "target": "venu445mm",
+      "aod": true,
+      "converted": true,
+      "applicationDataMode": "controlled drawing fixture, licensed fonts and fixed text; physical tracking, tabular advances, baseline shifts and line heights",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [
+        {
+          "layerId": "font0-0",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "11:11",
+          "width": 72,
+          "left": 191,
+          "top": 53,
+          "baseline": 74,
+          "y": 40,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 28,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 53
+          }
+        },
+        {
+          "layerId": "font0-1",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "88:88",
+          "width": 72,
+          "left": 191,
+          "top": 113,
+          "baseline": 134,
+          "y": 100,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 28,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 113
+          }
+        },
+        {
+          "layerId": "font1-0",
+          "fontId": "bitmap_ca1584d07528e69c8a62779000000000",
+          "family": "Rajdhani-Bold",
+          "text": "11:11",
+          "width": 74,
+          "left": 190,
+          "top": 180,
+          "baseline": 199,
+          "y": 160,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 180
+          }
+        },
+        {
+          "layerId": "font1-1",
+          "fontId": "bitmap_ca1584d07528e69c8a62779000000000",
+          "family": "Rajdhani-Bold",
+          "text": "88:88",
+          "width": 74,
+          "left": 190,
+          "top": 240,
+          "baseline": 259,
+          "y": 220,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 240
+          }
+        },
+        {
+          "layerId": "font2-0",
+          "fontId": "bitmap_ca1d1c45bf25433a9b22736000000000",
+          "family": "Share Tech Mono",
+          "text": "11:11",
+          "width": 83,
+          "left": 185,
+          "top": 297,
+          "baseline": 318,
+          "y": 280,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 83,
+            "left": 185,
+            "top": 297
+          }
+        },
+        {
+          "layerId": "font2-1",
+          "fontId": "bitmap_ca1d1c45bf25433a9b22736000000000",
+          "family": "Share Tech Mono",
+          "text": "88:88",
+          "width": 83,
+          "left": 185,
+          "top": 357,
+          "baseline": 378,
+          "y": 340,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 83,
+            "left": 185,
+            "top": 357
+          }
+        }
+      ],
+      "browserAodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 3796,
+        "aboveNoisePixels": 3708,
+        "ratio": 0.023447730585822647,
+        "noiseRatio": 0.022904158327774073,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.01841681383298725,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-67-bitmap-typography-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "6670971492bf613e64382ae3e3db64d7635e64334f466569a2209dab600881f1",
+      "prgSha256": "06b71c32a6f30dd6781e85c7d22f005bd6e242186a6164e70068e1ae1440c0a4",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.16600367323071347,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 3092,
+        "foregroundRgbMeanAbsoluteError": 6.786114704614058,
+        "rows": [
+          {
+            "layerId": "font0-0",
+            "family": "Barlow Semi Condensed",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 194,
+                "y": 54,
+                "right": 257,
+                "bottom": 73
+              },
+              "native": {
+                "x": 193,
+                "y": 54,
+                "right": 257,
+                "bottom": 73
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 56.01815181518152
+              },
+              {
+                "dy": -2,
+                "mae": 43.575268817204304
+              },
+              {
+                "dy": -1,
+                "mae": 26.162745098039217
+              },
+              {
+                "dy": 0,
+                "mae": 8.463675213675213
+              },
+              {
+                "dy": 1,
+                "mae": 26.766666666666666
+              },
+              {
+                "dy": 2,
+                "mae": 43.456989247311824
+              },
+              {
+                "dy": 3,
+                "mae": 55.06765676567657
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font0-1",
+            "family": "Barlow Semi Condensed",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 114,
+                "right": 260,
+                "bottom": 133
+              },
+              "native": {
+                "x": 192,
+                "y": 114,
+                "right": 260,
+                "bottom": 133
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 68.35014619883042
+              },
+              {
+                "dy": -2,
+                "mae": 53.65277777777778
+              },
+              {
+                "dy": -1,
+                "mae": 30.352777777777778
+              },
+              {
+                "dy": 0,
+                "mae": 7.183229813664596
+              },
+              {
+                "dy": 1,
+                "mae": 29.965355805243444
+              },
+              {
+                "dy": 2,
+                "mae": 53.27339901477833
+              },
+              {
+                "dy": 3,
+                "mae": 68.60572687224669
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-0",
+            "family": "Rajdhani-Bold",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              },
+              "native": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 52.59274193548387
+              },
+              {
+                "dy": -2,
+                "mae": 38.75292397660819
+              },
+              {
+                "dy": -1,
+                "mae": 22.22596153846154
+              },
+              {
+                "dy": 0,
+                "mae": 5.640625
+              },
+              {
+                "dy": 1,
+                "mae": 22.877777777777776
+              },
+              {
+                "dy": 2,
+                "mae": 39.16086956521739
+              },
+              {
+                "dy": 3,
+                "mae": 52.939516129032256
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-1",
+            "family": "Rajdhani-Bold",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              },
+              "native": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 66.00568181818181
+              },
+              {
+                "dy": -2,
+                "mae": 50.25105485232068
+              },
+              {
+                "dy": -1,
+                "mae": 29.32936507936508
+              },
+              {
+                "dy": 0,
+                "mae": 5.278378378378378
+              },
+              {
+                "dy": 1,
+                "mae": 29.00079365079365
+              },
+              {
+                "dy": 2,
+                "mae": 49.952883263009845
+              },
+              {
+                "dy": 3,
+                "mae": 65.87769328263624
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-0",
+            "family": "Share Tech Mono",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 188,
+                "y": 298,
+                "right": 264,
+                "bottom": 317
+              },
+              "native": {
+                "x": 187,
+                "y": 298,
+                "right": 265,
+                "bottom": 317
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 62.69221411192214
+              },
+              {
+                "dy": -2,
+                "mae": 54.40229885057471
+              },
+              {
+                "dy": -1,
+                "mae": 32.956214689265536
+              },
+              {
+                "dy": 0,
+                "mae": 8.466034755134281
+              },
+              {
+                "dy": 1,
+                "mae": 33.58403361344538
+              },
+              {
+                "dy": 2,
+                "mae": 54.88427672955975
+              },
+              {
+                "dy": 3,
+                "mae": 62.98671497584541
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-1",
+            "family": "Share Tech Mono",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 187,
+                "y": 358,
+                "right": 265,
+                "bottom": 377
+              },
+              "native": {
+                "x": 187,
+                "y": 358,
+                "right": 265,
+                "bottom": 377
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 64.2739837398374
+              },
+              {
+                "dy": -2,
+                "mae": 53.67716535433071
+              },
+              {
+                "dy": -1,
+                "mae": 30.487103174603174
+              },
+              {
+                "dy": 0,
+                "mae": 6.900564971751413
+              },
+              {
+                "dy": 1,
+                "mae": 31.070019723865876
+              },
+              {
+                "dy": 2,
+                "mae": 54.073593073593074
+              },
+              {
+                "dy": 3,
+                "mae": 64.75970873786407
+              }
+            ],
+            "bestDy": 0
+          }
+        ],
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3796,
+            "aboveNoisePixels": 3708,
+            "ratio": 0.023447730585822647,
+            "noiseRatio": 0.022904158327774073,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.01841681383298725,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3676,
+            "aboveNoisePixels": 3676,
+            "ratio": 0.02270649568848368,
+            "noiseRatio": 0.02270649568848368,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.01783461739991073,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        }
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "bitmap-typography/forced-aod-454-browser.png",
+          "sha256": "57967b01b5cce41ec111539ad1044c2c368b02223619021b67c30afd2656f591",
+          "identicalToPhase136": true
+        },
+        "native.png": {
+          "file": "bitmap-typography/forced-aod-454-native.png",
+          "sha256": "061611a79e36fa1c1f6f94e0f4a15e3360ac24956d0379b2d25974a909bd0982",
+          "identicalToPhase136": true
+        }
+      }
+    }
+  ]
+}
