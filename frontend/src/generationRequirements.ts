@@ -4,7 +4,7 @@ import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
 import type { Project } from "./domain";
 import { generationDevice } from "./devices.ts";
 
-import { sourceAdapters as adapters, sourceContractVersion } from "./sourceAdapters.ts";
+import { sourceAdapters as adapters, sourceContractVersion,nativeSourcePolicy } from "./sourceAdapters.ts";
 // Shared by design-only requests; numeric units come from the same adapter as native code.
 export function designSourceUnit(source: string) {
   const adapter = adapters[source];
@@ -98,6 +98,7 @@ export function generationRequirements(p: Project) {
     .join("");
   return {
     sourceContractVersion,
+    nativeDataPolicy:nativeSourcePolicy,
     historicalCharts:layers.filter(l=>l.kind==="chart").map(l=>({layerId:l.id,source:l.source,unit:"day",limit:7,history:"ActivityMonitor.getHistory()",current:"ActivityMonitor.getInfo()",distance:"cm / 100000 -> km",missing:"null is missing, zero is real",cache:"60s active only; calendar/timezone/clock changes invalidate; AOD frozen last active"})),
     minApiLevel,
     permissions,

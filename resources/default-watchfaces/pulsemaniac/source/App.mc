@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-47-stable-source-settings; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-48-extended-metrics; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}}
@@ -10,7 +10,7 @@ class GeneratedView extends WatchUi.WatchFace {
  
  
  
- function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));}
+ function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));if(alpha==255){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}}
  function fontFor(id){return WatchUi.loadResource(id);}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
@@ -28,6 +28,7 @@ class GeneratedView extends WatchUi.WatchFace {
 
   return label+text+unit;
  }
+ 
  
  
  
@@ -185,6 +186,7 @@ if(true){textPaint(dc,0x888888,255);dc.drawText(px(227),px(369.5),fontFor(Rez.Fo
  function onUpdate(dc as Graphics.Dc) as Void {
   frameContext=null;
   bitmapUsed={};scale=dc.getWidth()/454.0;var clock=System.getClockTime();var dataheartRate=null;var databattery=null;var datasteps=null;var currentActivityInfo=null;if(!sleeping){try {currentActivityInfo=ActivityMonitor.getInfo();var info=currentActivityInfo;if(info!=null){if(info has :steps){datasteps=info.steps;}}}catch(e){}try {databattery=System.getSystemStats().battery;}catch(e){}try {if((Toybox has :SensorHistory)&&(Toybox.SensorHistory has :getHeartRateHistory)){var history=SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST});if(history!=null){var sample=history.next();if(sample!=null){var hr=sample.data;if(hr!=null && hr>0 && hr<1.0e12){dataheartRate=hr;}}}}}catch(e){}gfcMetricCache[:heartRate]=dataheartRate;gfcMetricCache[:battery]=databattery;gfcMetricCache[:steps]=datasteps;}else{if(gfcMetricCache.hasKey(:heartRate)){dataheartRate=gfcMetricCache[:heartRate];}if(gfcMetricCache.hasKey(:battery)){databattery=gfcMetricCache[:battery];}if(gfcMetricCache.hasKey(:steps)){datasteps=gfcMetricCache[:steps];}}var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");
+  
   
   var bg=sleeping?Graphics.COLOR_BLACK:0x000000;dc.setColor(bg,bg);dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   frameContext={:bg=>bg,:clock=>clock,:dataheartRate=>dataheartRate,:databattery=>databattery,:datasteps=>datasteps,:calendar=>calendar,:dateText=>dateText};

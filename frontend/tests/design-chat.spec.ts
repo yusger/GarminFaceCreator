@@ -1,3 +1,4 @@
+import {sourceContractVersion} from "../src/sourceAdapters";
 import {capabilityVersion} from "../src/capabilities";
 import {GENERATION_FIELD_CONTRACT_VERSION} from "../src/generationFields";
 import { test, expect, type Page } from "@playwright/test";
@@ -248,7 +249,7 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
         s.kind === "chat" &&
         s.status === "response" &&
         s.promptVersion === "chat-10-theme-scope" &&
-        s.profileId === "chat-test" && s.sourceContractVersion === "1.0.0" &&
+        s.profileId === "chat-test" && s.sourceContractVersion === sourceContractVersion &&
         s.context?.version === "request-context-1" && s.context.target === "venu445mm" && s.context.inputFingerprint.startsWith("local-v1:"),
     ),
   ).toBe(true);

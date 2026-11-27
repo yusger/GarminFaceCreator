@@ -1,3 +1,4 @@
+import {managedRepairPaths} from "./repair";
 import { useState, useEffect, useRef } from "react";
 import type { Project, Profile, CodeFile, CodeProvenance } from "./domain";
 import { repairCode } from "./api";
@@ -36,7 +37,7 @@ export default function RepairPanel({
       .filter(
         (f) =>
           f.path.startsWith("source/") &&
-          !["source/GfcIcons.mc", "source/GfcWordTime.mc"].includes(f.path),
+          !managedRepairPaths.includes(f.path),
       )
       .slice(0, 1)
       .map((f) => f.path),
@@ -135,11 +136,7 @@ export default function RepairPanel({
             .filter(
               (f) =>
                 /^source\/|^resources\//.test(f.path) &&
-                ![
-                  "source/GfcIcons.mc",
-                  "source/GfcWordTime.mc",
-                  "resources/drawables/gfc-icons.xml",
-                ].includes(f.path),
+                !managedRepairPaths.includes(f.path),
             )
             .map((f) => (
               <label key={f.path}>

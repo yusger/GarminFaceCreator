@@ -183,10 +183,10 @@ test("PulseManiac creates an editable native project, previews all four static s
     const base = process.env.GFC_TEST_URL!,
       r = await fetch(base + "/api/builds", { method: "POST", body: form });
     expect(r.status, await r.clone().text()).toBe(202);
-    const job = await r.json();
+    const job = await r.json(),headers={Authorization:"Bearer "+job.accessToken};
     for (let i = 0; i < 150; i++) {
       const state = await (
-        await fetch(base + "/api/builds/" + job.buildId)
+        await fetch(base + "/api/builds/" + job.buildId,{headers})
       ).json();
       if (
         ["succeeded", "failed", "cancelled", "interrupted"].includes(
@@ -196,10 +196,10 @@ test("PulseManiac creates an editable native project, previews all four static s
         expect(
           state.status,
           await (
-            await fetch(base + "/api/builds/" + job.buildId + "/logs")
+            await fetch(base + "/api/builds/" + job.buildId + "/logs",{headers})
           ).text(),
         ).toBe("succeeded");
-        const prg = await fetch(base + state.artifacts[0].url);
+        const prg = await fetch(base + state.artifacts[0].url,{headers});
         expect(prg.status).toBe(200);
         await writeFile(
           join(directory, target + ".prg"),
@@ -260,7 +260,7 @@ test("PulseManiac creates an editable native project, previews all four static s
     .click();
   await page.getByRole("button", { name: "应用生成结果", exact: true }).click();
   const weather = unzip(await exported());
-  expect(weather.get("source/App.mc")!.toString()).toContain(
+  expect(weather.get("source/GfcWeather.mc")!.toString()).toContain(
     "Weather.getCurrentConditions()",
   );
   await compile(weather, "venu441mm", "41mm");

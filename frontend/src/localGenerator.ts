@@ -1,3 +1,4 @@
+import {extraNativeMetrics} from "./nativeExtraMetrics.ts";
 import {themeBackground} from "./themes.ts";
 import {nativeChartDraw,nativeChartHelpers} from "./nativeCharts.ts";
 import {validateChart} from "./charts.ts";
@@ -29,7 +30,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-47-stable-source-settings";
+export const LOCAL_GENERATOR_VERSION = "basic-48-extended-metrics";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -349,12 +350,13 @@ export function localGenerate(p: Project) {
       ]),
     ]),
   ];
+  const extraMetrics=extraNativeMetrics(dataSources);
   const activitySources = dataSources.filter((s) =>
-    ["steps", "distance", "calories"].includes(s),
+    ["steps", "distance", "calories", "floorsClimbed", "intensityMinutes"].includes(s),
   );
   const dataReads =
     (activitySources.length
-      ? `try {currentActivityInfo=ActivityMonitor.getInfo();var info=currentActivityInfo;if(info!=null){${activitySources.map((s) => `if(info has :${s}){data${s}=info.${s}${s === "distance" ? "==null ? null : info.distance/100000.0" : ""};}`).join("")}}}catch(e){}`
+      ? `try {currentActivityInfo=ActivityMonitor.getInfo();var info=currentActivityInfo;if(info!=null){${activitySources.map((s) => s==="intensityMinutes"?`try{if((info has :activeMinutesDay)&&info.activeMinutesDay!=null&&(info.activeMinutesDay has :total)){dataintensityMinutes=info.activeMinutesDay.total;}}catch(e){}`:`if(info has :${s}){data${s}=info.${s}${s === "distance" ? "==null ? null : info.distance/100000.0" : ""};}`).join("")}}}catch(e){}`
       : "") +
     (dataSources.includes("battery")
       ? "try {databattery=System.getSystemStats().battery;}catch(e){}"
@@ -362,10 +364,8 @@ export function localGenerate(p: Project) {
     (dataSources.includes("heartRate")
       ? "try {if((Toybox has :SensorHistory)&&(Toybox.SensorHistory has :getHeartRateHistory)){var history=SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST});if(history!=null){var sample=history.next();if(sample!=null){var hr=sample.data;if(hr!=null && hr>0 && hr<1.0e12){dataheartRate=hr;}}}}}catch(e){}"
       : "") +
-    (dataSources.includes("temperature")
-      ? "try{if((Toybox has :Weather)&&(Weather has :getCurrentConditions)){var conditions=Weather.getCurrentConditions();if(conditions!=null && conditions has :temperature){datatemperature=conditions.temperature;}}}catch(e){}"
-      : "");
-  const temperature = dataSources.includes("temperature");
+    extraMetrics.reads;
+  const temperature = extraMetrics.needsWeather;
   const metrics = included.some((l) => l.kind === "metric"||(l.kind==="meter"&&l.threshold));
   const date = included.some((l) => l.kind === "date" || l.kind === "calendar");
   const zones = [
@@ -427,7 +427,7 @@ export function localGenerate(p: Project) {
   const frameAssignments="frameContext={"+contextFields.map(f=>":"+f.name+"=>"+f.name).join(",")+"};";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
 // Target ${device.target}; device metadata ${deviceMetadataVersion}; package ${device.metadata.source?.packageVersion || "unknown"}; compiler SHA256 ${device.metadata.source?.compilerSha256 || "unknown"}. Hardware/AOD/power unverified.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial || charts.length ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands || rings || curved.length || imageLayers.length ? "import Toybox.Math;" : ""}${curved.length?"import Toybox.Lang;":""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") || extraMetrics.needsHistory ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial || charts.length || extraMetrics.needsClock ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${extraMetrics.needsComplications?"import Toybox.Complications;":""}${celestial || hands || rings || curved.length || imageLayers.length ? "import Toybox.Math;" : ""}${curved.length?"import Toybox.Lang;":""}
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.themes?"function getSettingsView(){return [new GfcSettingsMenu(\"root\",null),new GfcSettingsDelegate()];}":""}${(p.controls?.length||p.themes) ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
 class GeneratedView extends WatchUi.WatchFace {
  var gfcMetricCache={};
@@ -437,13 +437,14 @@ class GeneratedView extends WatchUi.WatchFace {
  ${included.some((l) => l.widgetOrigin) ? "function widgetFont(dc,text,preferred,w,h,size){var fonts=[preferred,Graphics.FONT_NUMBER_HOT,Graphics.FONT_LARGE,Graphics.FONT_MEDIUM,Graphics.FONT_SMALL,Graphics.FONT_TINY,Graphics.FONT_XTINY];var chosen=Graphics.FONT_XTINY;var best=0;for(var i=0;i<fonts.size();i++){var height=dc.getFontHeight(fonts[i]);if(height<=h && height<=size*1.35 && height>best && dc.getTextWidthInPixels(text,fonts[i])<=w){chosen=fonts[i];best=height;}}return chosen;}" : ""}
  ${curved.length?nativeCurvedText:""}
  ${settings.helpers}
- function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));}
+ function textPaint(dc,ink,alpha){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));if(alpha==255){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}}
  ${(chalk.length||masks.length) ? "function fontFor(id){return WatchUi.loadResource(id);}" : ""}
  function initialize(){WatchFace.initialize();}
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
  ${meters.length ? "function meterCount(value,goal,count,battery){if(value==null || value!=value || value<0 || value>1.0e12 || (battery && value>100)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
  ${dataHelpers}
+ ${extraMetrics.helpers}
  ${
    hands
      ? `function drawHand(dc,clock,kind,x,y,w,h,pvx,pvy,reach,tail,stroke,ink,low,roundCap,shape){
@@ -505,6 +506,7 @@ class GeneratedView extends WatchUi.WatchFace {
     .join(
       "",
     )}var currentActivityInfo=null;if(!sleeping){${dataReads}${charts.length?"refreshChartHistory(currentActivityInfo);":""}${dataSources.filter(s=>s!=="seconds").map(s=>`gfcMetricCache[:${s}]=data${s};`).join("")}}else{${dataSources.filter(s=>s!=="seconds").map(s=>`if(gfcMetricCache.hasKey(:${s})){data${s}=gfcMetricCache[:${s}];}`).join("")}}${date ? 'var calendar=Gregorian.info(Time.now(),Time.FORMAT_SHORT);var dateText=["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1]+" "+calendar.day.format("%d");' + (included.some((l) => l.kind === "date" && l.dateLocale === "zh") ? 'var dateZh="周"+["日","一","二","三","四","五","六"][calendar.day_of_week-1]+" "+calendar.month.format("%d")+"月"+calendar.day.format("%d")+"日";' : "") : ""}
+  ${included.some(l=>l.weatherIcon&&l.libraryIcon)?"GfcIcons.prepare(sleeping);":""}
   ${included.some((l) => l.dateFormat === "monthDayWeek") ? 'var dateMonthDayWeek=calendar.month.format("%02d")+"."+calendar.day.format("%02d")+" "+["SUN","MON","TUE","WED","THU","FRI","SAT"][calendar.day_of_week-1];' : ""}
   ${`var bg=sleeping?Graphics.COLOR_BLACK:${p.themes?"["+p.themes.presets.map(t=>color(themeBackground(p,t.id))).join(",")+"][cfgTheme]":color(p.backgroundColor || "#000000")};dc.setColor(bg,bg);`}dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);
   ${frameAssignments}

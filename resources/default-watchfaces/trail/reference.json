@@ -448,6 +448,7 @@
     "resources/fonts/fonts.xml",
     "resources/strings/strings.xml",
     "resources/drawables/drawables.xml",
-    "resources/drawables/icon.svg"
+    "resources/drawables/icon.svg",
+    "source/GfcWeather.mc"
   ]
 }

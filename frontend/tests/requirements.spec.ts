@@ -64,7 +64,7 @@ test("versioned source contracts preserve API conversions independently of displ
   const {sourceAdapters,sourceContractVersion}=await import("../src/sourceAdapters");
   const {designCapabilityContext,localMetricSources}=await import("../src/capabilities");
   const {metrics}=await import("../src/domain");
-  expect(sourceContractVersion).toBe("1.0.0");
+  expect(sourceContractVersion).toBe("1.1.0");
   expect(designCapabilityContext().sourceContractVersion).toBe(sourceContractVersion);
   for(const source of Object.keys(metrics)) {
     expect(sourceAdapters[source],source).toBeDefined();
@@ -75,8 +75,8 @@ test("versioned source contracts preserve API conversions independently of displ
   }
   expect(sourceAdapters.altitude).toMatchObject({unit:"ft",defaultDisplayUnit:"ft",api:"2.1.0",permission:"SensorHistory"});
   expect(sourceAdapters.altitude.read).toContain("* 3.280839895");
-  expect(sourceAdapters.intensityMinutes).toMatchObject({unit:"min",defaultDisplayUnit:"/150"});
+  expect(sourceAdapters.intensityMinutes).toMatchObject({unit:"min",defaultDisplayUnit:"min"});
   expect(sourceAdapters.distance.read).toContain("/ 100000.0");
   expect(sourceAdapters.recoveryHours.read).toContain("/ 60.0");
-  expect(localMetricSources).not.toContain("altitude");
+  expect(localMetricSources).toContain("altitude");
 });

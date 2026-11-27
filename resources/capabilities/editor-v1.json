@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.10.1",
+  "version": "1.11.0",
   "projectSchemaVersion": 39,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -300,12 +300,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "data.recoveryhours",
@@ -313,12 +313,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "data.floorsclimbed",
@@ -326,12 +326,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "data.intensityminutes",
@@ -339,12 +339,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "data.humidity",
@@ -352,12 +352,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "data.uvindex",
@@ -365,12 +365,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "data.altitude",
@@ -378,12 +378,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "data.windspeed",
@@ -391,12 +391,12 @@
       "preview": true,
       "aiCreate": true,
       "chatAdd": true,
-      "deterministic": false,
-      "mode": "active/aod cached; seconds hide or zero",
+      "deterministic": true,
+      "mode": "active; AOD latest active snapshot",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Units and device API come from generationRequirements adapters, not this catalog.",
-      "test": "frontend/tests/capabilities.spec.ts"
+      "constraints": "Guarded numeric metric only; canonical source adapter units. Extra sensor/weather/complication reads cached60s active-only; weather requires observationTime and age<=6h, elevation sample<=5min. Null/unavailable remains missing. Venu4 SDK validation; actual sensors are device dependent.",
+      "test": "frontend/tests/extended-metrics.spec.ts"
     },
     {
       "id": "core.polygon",

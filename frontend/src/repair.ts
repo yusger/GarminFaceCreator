@@ -7,6 +7,7 @@ import {
 } from "./domain.ts";
 import { activeVersion } from "./history";
 export const REPAIR_MAX_ROUNDS = 2;
+export const managedRepairPaths=["source/GfcWeather.mc","source/GfcIcons.mc","source/GfcWordTime.mc","source/GfcFrameReporter.mc","resources/drawables/gfc-icons.xml","resources/fonts/gfc-managed-fonts.xml"];
 export const repairRoot = (p: Project) =>
   p.codeProvenance?.repairRootId ||
   activeVersion(p) ||
@@ -41,18 +42,7 @@ export function repairPayload(
   logs: string,
   profile: Profile,
 ) {
-  if (
-    paths.some((path) =>
-      [
-        "source/GfcIcons.mc",
-        "source/GfcWordTime.mc",
-        "source/GfcFrameReporter.mc",
-        "resources/drawables/gfc-icons.xml",
-        "resources/fonts/gfc-managed-fonts.xml",
-      ].includes(path),
-    )
-  )
-    throw Error("固定图标映射文件不允许 AI 修复修改，请调整画布后重新生成。");
+  if(paths.some(path=>managedRepairPaths.includes(path)))throw Error("固定平台文件不允许AI修复修改，请调整画布后重新生成。");
   const files = p.files.filter((f) => paths.includes(f.path));
   if (
     !files.length ||
@@ -92,6 +82,7 @@ export function mergeRepair(
   paths: string[],
   raw: string,
 ): CodeFile[] {
+  if(paths.some(path=>managedRepairPaths.includes(path)))throw Error("固定平台文件不允许AI修复修改");
   const result = JSON.parse(raw);
   if(result.edits!==undefined){
    if(result.files!==undefined||!Array.isArray(result.edits)||!result.edits.length||result.edits.length>20)throw Error("补丁须为1–20项edits，不能与files混用");

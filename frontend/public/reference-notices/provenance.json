@@ -289,7 +289,7 @@
         "PulseManiac-Font-Sources.json"
       ],
       "path": "/default-watchfaces/pulsemaniac/project.json",
-      "sha256": "86647673c8270989b12fdb7ad4fd414e79f551ceb51650a5daadcc3a0e704cd4"
+      "sha256": "1957c370e39e4f21aaf44af99374140035ba393a80ba2767c24bedb778f0bf09"
     },
     {
       "id": "00000000-0000-4000-8000-000000000012",
@@ -315,7 +315,7 @@
         "repository-LICENSE.txt"
       ],
       "path": "/default-watchfaces/sonar/project.json",
-      "sha256": "0056ab779e3b0515c10b6eb877c8a427c3c580ebb5bcad9a579dda3e35a0fc08"
+      "sha256": "2b9511839939f4fdac1f28f5d03c06a42c2b26ad8aff78c18031894c88181351"
     },
     {
       "id": "00000000-0000-4000-8000-000000000454",
@@ -340,23 +340,23 @@
         "trail-Rajdhani-OFL.txt"
       ],
       "path": "/default-watchfaces/trail/project.json",
-      "sha256": "eefb6ff39addfac232f59569c91140443e753a380ade68afa739782ce35ec920"
+      "sha256": "d07127b75b4fb0e3e04f101e1a1102dbed471554080dd6bca1cc03265eecab48"
     }
   ],
   "generators": [
     {
       "sourceFile": "frontend/src/localGenerator.ts",
       "path": "/reference-notices/generator-sources/localGenerator.ts",
-      "version": "basic-47-stable-source-settings",
-      "sha256": "0a1b2b027212ba511af4f6ad2a6533750461f4d085dd588d5f6505b82af2e392",
+      "version": "basic-48-extended-metrics",
+      "sha256": "15417b431aafaa9469a08ea2c9d09da912afff770181b9e415fdb1516a531d86",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },
     {
       "sourceFile": "frontend/src/weatherIcons.ts",
       "path": "/reference-notices/generator-sources/weatherIcons.ts",
-      "version": "icons-1",
-      "sha256": "c01b722b08642046a1b8423dfc8ecb59bb27b3a7350a99e7d0a1771a8b53cb9a",
+      "version": "icons-2",
+      "sha256": "52acab2e0d9964c6925ec3204443bd60daffc31e7b2801f03b62fdc0b6349c9a",
       "license": "GPL-3.0-or-later",
       "scope": "Template source context; exported Monkey C files are the complete native build input"
     },

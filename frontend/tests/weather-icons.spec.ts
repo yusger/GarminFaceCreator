@@ -33,7 +33,7 @@ test("every documented condition maps once and unknown weather never pretends to
   p.layers = [weatherLayer()];
   expect(generationRequirements(p).permissions).toEqual([]);
   expect(
-    nativeIconFiles(p).find((f) => f.path.endsWith(".mc"))!.content,
+    localGenerate(p).find((f) => f.path==="source/GfcWeather.mc")!.content,
   ).toContain("Weather.getCurrentConditions()");
   expect(
     localGenerate(p).find((f) => f.path === "source/App.mc")!.content,
@@ -175,18 +175,18 @@ for (const device of [
         method: "POST",
         body: form,
       });
-      expect(r.status).toBe(202);
-      const job = await r.json();
+      expect(r.status,await r.clone().text()).toBe(202);
+      const job = await r.json(),headers={Authorization:"Bearer "+job.accessToken};
       await expect
         .poll(
           async () =>
-            (await (await request.get("/api/builds/" + job.buildId)).json())
+            (await (await request.get("/api/builds/" + job.buildId,{headers})).json())
               .status,
           { timeout: 110000, intervals: [1000] },
         )
         .toBe("succeeded");
       const state = await (
-        await request.get("/api/builds/" + job.buildId)
+        await request.get("/api/builds/" + job.buildId,{headers})
       ).json();
       if (process.env.GFC_TEST_ARTIFACT_DIR) {
         await mkdir(process.env.GFC_TEST_ARTIFACT_DIR, { recursive: true });
@@ -195,7 +195,7 @@ for (const device of [
             process.env.GFC_TEST_ARTIFACT_DIR,
             device.target + "_WeatherIcons.prg",
           ),
-          await (await request.get(state.artifacts[0].url)).body(),
+          await (await request.get(state.artifacts[0].url,{headers})).body(),
         );
       }
     },

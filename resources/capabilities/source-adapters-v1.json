@@ -1,6 +1,6 @@
 {
   "format": "gfc-source-adapters",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "policy": "Canonical numeric units, display suffixes, API floors and permissions for existing AI source adapters. API knowledge does not enable deterministic mapping or certify hardware support. A display label alone never converts a numeric value.",
   "elevationEvidence": {
     "url": "https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html#getElevationHistory-instance_function",
@@ -80,7 +80,7 @@
       "api": "2.1.0",
       "read": "ActivityMonitor.getInfo().activeMinutesDay.total",
       "unit": "min",
-      "defaultDisplayUnit": "/150",
+      "defaultDisplayUnit": "min",
       "decoration": ""
     },
     "temperature": {
@@ -125,5 +125,12 @@
       "defaultDisplayUnit": "h",
       "decoration": ""
     }
+  },
+  "nativePolicy": {
+    "extendedMetrics": "altitude/stress/recoveryHours/floorsClimbed/intensityMinutes/humidity/uvIndex/windSpeed deterministic numeric metrics; source-slot options remain the separately validated7-source contract",
+    "weather": "shared cached conditions refreshed at most every60s in active. Requires observationTime, age0..21600s; unknown/future/stale observation => missing. AOD no read",
+    "altitude": "latest recorded elevation meters converted to existing canonical feet; sample age0..300s; refreshed at most60s active",
+    "complications": "stress/recovery queried at most60s active; missing module/type/object/value or exception => missing; published value has no universal observation timestamp, do not claim freshness",
+    "intensity": "daily activeMinutesDay.total in minutes, not weekly goal or daily /150 progress"
   }
 }

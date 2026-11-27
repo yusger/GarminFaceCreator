@@ -1,3 +1,4 @@
+import {nativeWeatherFile,needsNativeWeather} from "./nativeWeather.ts";
 import type { Layer, Project, CodeFile } from "./domain.ts";
 // Official Toybox.Weather.Condition enum values (API 3.2); shared by preview and generated native helper.
 export const weatherGroups = [
@@ -101,6 +102,7 @@ export function nativeIconBindings(p: Project) {
       layerId: l.id,
       call: `GfcIcons.${iconDrawMethod(l)}(dc, scaledX, scaledY)`,
       weather: !!l.weatherIcon,
+      ...(l.weatherIcon?{prepare:"GfcIcons.prepare(lowPower); call once each frame before icon draws; AOD reuses last active shared weather"}:{}),
       assets: iconVariants(l).map((v) => ({
         ...v,
         path: iconResourcePath(l, v.key),
@@ -138,7 +140,7 @@ export function nativeIconFiles(p: Project): CodeFile[] {
         .join("else ");
       return (
         start +
-        `var condition=null;try {var data=Weather.getCurrentConditions();if(data!=null){condition=data.condition;}}catch(e){}var resource=Rez.Drawables.${iconSymbol(l, "missing")};if(condition!=null){${branches}}dc.drawBitmap(x,y,WatchUi.loadResource(resource));}`
+        `var condition=cachedCondition;var resource=Rez.Drawables.${iconSymbol(l, "missing")};if(condition!=null){${branches}}dc.drawBitmap(x,y,WatchUi.loadResource(resource));}`
       );
     })
     .join("\n");
@@ -149,13 +151,14 @@ export function nativeIconFiles(p: Project): CodeFile[] {
     },
     {
       path: "source/GfcIcons.mc",
-      content: `// GarminFaceCreator fixed icon adapter icons-1. Weather categories are approximate pictograms, not severe-weather warnings.
-import Toybox.Graphics;import Toybox.WatchUi;import Toybox.Weather;class GfcIcons {${methods}}`,
+      content: `// GarminFaceCreator fixed icon adapter icons-2. Weather categories are approximate pictograms, not severe-weather warnings.
+import Toybox.Graphics;import Toybox.WatchUi;import Toybox.Weather;class GfcIcons {${layers.some(l=>l.weatherIcon)?"static var cachedCondition=null;static function prepare(low){var data=GfcWeather.read(low);cachedCondition=null;if(data!=null && data has :condition){cachedCondition=data.condition;}}":""}${methods}}`,
     },
   ];
 }
 export function mergeNativeIcons(p: Project, files: CodeFile[]) {
   const map = new Map(files.map((f) => [f.path, f]));
+  if(needsNativeWeather(p))map.set(nativeWeatherFile.path,nativeWeatherFile);
   for (const f of nativeIconFiles(p)) map.set(f.path, f);
   return [...map.values()];
 }
