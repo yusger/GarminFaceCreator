@@ -39,6 +39,7 @@ for i in $(seq 1 30); do if ! kill -0 "$mpid" 2>/dev/null; then break; fi; sleep
 if kill -0 "$mpid" 2>/dev/null; then kill "$mpid"; echo 'monkeydo timeout'; exit 4; fi
 wait "$mpid" || { cat /output/monkeydo.log; exit 5; }
 sleep 3
+kill -0 "$spid" 2>/dev/null || { echo "simulator exited before capture"; cat /output/simulator.log; exit 6; }
 import -window root /output/desktop.png
 xdotool search --onlyvisible --name 'CIQ Simulator|Connect IQ' getwindowgeometry --shell > /output/window.txt || true
 printf 'Prototype desktop captured; application rendering and AOD require independent verification.\n'
