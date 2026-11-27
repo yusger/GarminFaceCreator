@@ -42,6 +42,7 @@ function fixture() {
     {...layer("ring"),x:20,y:20,w:414,h:414,ringStyle:"continuous",ringCap:"round",ringSource:"battery",ringWidth:10,aod:true},
     {...layer("arcText"),x:20,y:20,w:414,h:414,size:14,text:"CURVED LABEL",arcSpacing:1,aod:true},
     {...layer("arcText"),x:20,y:20,w:414,h:414,size:14,text:"LOWER LABEL",arcStartAngle:180,arcDirection:"counterclockwise",arcSpacing:1,color:"#FFD060",aod:true},
+    {...layer("arcText"),x:137,y:137,w:180,h:180,size:30,text:"H",arcSpacing:0,color:"#FF6060",aod:true},
     layer("time"),
   ];
   return p;

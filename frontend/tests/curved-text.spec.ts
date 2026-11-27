@@ -102,3 +102,10 @@ test("curved text is a single editable layer with direction and capture support"
   expect((await wait).suggestedFilename()).toMatch(/png$/);
   await expect(page.getByRole("status")).toContainText("系统字体");
 });
+
+for(const size of [454,390])test(`native curved glyph baseline is upright ${size}`,async({page})=>{
+ test.skip(!process.env.GFC_TEST_NATIVE_CAPTURE_DIR,"Explicit isolated SDK capture input only");
+ const {readFile}=await import("node:fs/promises"),{join}=await import("node:path");const bytes=await readFile(join(process.env.GFC_TEST_NATIVE_CAPTURE_DIR!,`native-curved-${size}.png`));
+ const box=await page.evaluate(async({data,size})=>{const image=new Image();image.src="data:image/png;base64,"+data;await image.decode();if(image.width!==size||image.height!==size)throw Error("Wrong capture device pixels");const c=document.createElement("canvas");c.width=size;c.height=size;const ctx=c.getContext("2d")!;ctx.drawImage(image,0,0);const rgba=ctx.getImageData(0,0,size,size).data,scale=size/454;let x0=size,y0=size,x1=-1,y1=-1,count=0;for(let y=Math.floor(130*scale);y<180*scale;y++)for(let x=Math.floor(200*scale);x<254*scale;x++){const i=(y*size+x)*4;if(rgba[i]>200&&rgba[i+1]<150&&rgba[i+2]<150){x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y);count++;}}return {w:x1-x0+1,h:y1-y0+1,count};},{data:bytes.toString("base64"),size});
+ expect(box.count).toBeGreaterThan(20);expect(box.h).toBeGreaterThan(box.w);
+});

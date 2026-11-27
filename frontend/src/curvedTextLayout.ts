@@ -30,6 +30,6 @@ function drawCurvedLabel(dc,x,y,w,h,ratio,start,forward,spacing,size,ink,text,al
  if(total>2*Math.PI*radius){throw new Lang.InvalidValueException("Arc label exceeds one revolution");}
  var distance=align==0?0.0:align==2?-total:-total/2.0;var direction=forward?1.0:-1.0;
  dc.setColor(ink,Graphics.COLOR_TRANSPARENT);
- for(var j=0;j<widths.size();j++){var angle=start+direction*(distance+widths[j]/2.0)/radius*180.0/Math.PI;var a=angle*Math.PI/180.0;var rotation=angle+(forward?0:180);var apiAngle=90-rotation;while(apiAngle<0){apiAngle+=360;}while(apiAngle>=360){apiAngle-=360;}
+ for(var j=0;j<widths.size();j++){var angle=start+direction*(distance+widths[j]/2.0)/radius*180.0/Math.PI;var a=angle*Math.PI/180.0;var rotation=angle+(forward?0:180);var apiAngle=-rotation;while(apiAngle<0){apiAngle+=360;}while(apiAngle>=360){apiAngle-=360;}
  dc.drawAngledText(px(x+w/2.0+Math.sin(a)*radius),px(y+h/2.0-Math.cos(a)*radius),font,text.substring(j,j+1),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER,apiAngle);distance+=widths[j]+spacing;}
 }`;

@@ -21,3 +21,5 @@ arcText是单个基础图层，text为最多80字符静态标签，文字中心�
 确定性首版限Venu4两尺寸、可打印ASCII、设备SMALL矢量字体、400字重/opacity1、无整体rotation或资源字体。字号6–80，每项目最多8层；按每字符一字号加字距保守限制一圈，是平台预算策略，非Garmin官方上限。其他字符/设备/预算可保留已知设计草稿，但不能静默丢字后生成。原生按实际字宽定位，网页Arial为近似，因此字形/字宽不承诺像素相同；截图参数保留近似提示。
 
 原生getVectorFont的font/scale参数要求API5.1.0，drawAngledText只用矢量字体；缺少必须接口/字体时抛出明确异常，不跳过文字。AOD静态重绘，支持独立颜色与字号。内部版本、AI白名单、能力目录与最小API同步；外部v1发布包及复合私有层尚未开放新kind。官方依据：https://developer.garmin.com/connect-iq/core-topics/graphics/ 、https://developer.garmin.com/connect-iq/api-docs/Toybox/Graphics.html#getVectorFont-instance_function 。
+
+倾斜文字的angle参数是字形基线相对3点方向的逆时针角度，不能套用圆弧的90度偏移。适配器使用负SVG旋转角，原生固定H字形像素检查验证基线，防止编译通过但字母侧转。
