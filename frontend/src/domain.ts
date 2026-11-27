@@ -228,7 +228,8 @@ export type Project = {
     | 28
     | 29
     | 30
-    | 31;
+    | 31
+    | 32;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -454,7 +455,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 31,
+    schemaVersion: 32,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -489,7 +490,7 @@ export function validateProject(value: unknown): Project {
   ];
   if (
     !p ||
-    p.schemaVersion !== 31 ||
+    p.schemaVersion !== 32 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200

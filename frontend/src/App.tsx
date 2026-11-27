@@ -600,7 +600,7 @@ export default function App() {
     setP({
       ...p,
       ...frame,
-      revision: p.revision + (renderChanged(p.layers, layers) ? 1 : 0),
+      revision: p.revision + ((renderChanged(p.layers, layers)||JSON.stringify(p.controls)!==JSON.stringify(frame.controls)||JSON.stringify(p.controlValues)!==JSON.stringify(frame.controlValues)) ? 1 : 0),
       updated: Date.now(),
     });
   }
@@ -1510,7 +1510,7 @@ export default function App() {
                 {deviceFor(p).pixels} × {deviceFor(p).pixels}
               </small>
             </span>
-            <WatchfaceControls project={p} onChange={setP} />
+            <WatchfaceControls project={p} onChange={next=>{setPast(v=>[...v.slice(-49),editorFrame(p)]);setFuture([]);setP(next);}} />
             <button onClick={()=>setChatOpen(v=>!v)} aria-pressed={chatOpen}><Sparkles size={15}/> AI 设计助手</button>
             <button onClick={() => setShowPreview(!showPreview)}>
               <Play size={14} />

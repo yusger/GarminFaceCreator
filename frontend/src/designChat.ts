@@ -123,6 +123,7 @@ export function chatPayload(p: Project, selected: string[]) {
       id: c.id,
       label: c.label,
       type: c.type,
+      slot:c.slot,
       options: c.options,
       value: p.controlValues?.[c.id] ?? c.default,
     })),

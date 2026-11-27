@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.6.1",
-  "projectSchemaVersion": 31,
+  "version": "1.7.0",
+  "projectSchemaVersion": 32,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -458,6 +458,18 @@
       "spacing": "logical pixels, 0..12",
       "size": "6..80 logical pixels per mode",
       "widthBudget": "n*size+(n-1)*spacing <= circumference (conservative program policy, not device limit)"
+    },
+    "dataSlots": {
+      "version": 1,
+      "representation": "ProjectControl.dataSource with slot:true",
+      "members": [
+        "metric",
+        "meter",
+        "ring"
+      ],
+      "labelLink": "sourceLabelFor",
+      "scope": "explicit source binding, compatible options and design goals; no arbitrary icons/history or on-device menu yet",
+      "test": "frontend/tests/data-slots.spec.ts"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

@@ -17,6 +17,7 @@ export function withEditorLayers(p: Project, layers: Layer[]): Project {
     ?.map((c) => ({
       ...c,
       targets: c.targets.filter((t) => ids.has(t.layerId)),
+      preserveFormatFor:c.preserveFormatFor?.filter(id=>ids.has(id)),
       hideWhenChangedFromDefault: c.hideWhenChangedFromDefault?.filter((id) =>
         ids.has(id),
       ),

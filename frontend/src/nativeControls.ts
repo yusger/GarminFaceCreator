@@ -1,3 +1,4 @@
+import { sourceSlotLayer } from "./dataSlots.ts";
 import type { Project, Layer, CodeFile } from "./domain.ts";
 import {
   controlValue,
@@ -52,7 +53,7 @@ export function nativeControlledDraw(
     ? source
         .options!.map(
           (value, i) =>
-            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make({ ...l, ...(l.sourceLabelFor ? { text: sourceLabels[value], sourceLabelFor: undefined } : { source: value }) })}}`,
+            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l,text:sourceLabels[value],sourceLabelFor:undefined } : source.slot ? sourceSlotLayer(p,l,source,value) : {...l,source:value})}}`,
         )
         .join("")
     : make(l);

@@ -25,7 +25,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-39-source-decoration-aod";
+export const LOCAL_GENERATOR_VERSION = "basic-40-data-slots";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -268,6 +268,7 @@ export function localGenerate(p: Project) {
   validateControls(p);
   const configurationIssues = localConfigurationDiagnostics(p);
   if (configurationIssues.length) throw Error("本地生成配置不支持：" + configurationIssues.map(d => d.message).join("；"));
+  const runtimeProject=p;
   p = resolveControls(p);
   const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
@@ -408,7 +409,7 @@ export function localGenerate(p: Project) {
     : "";
   const contextFields=[{name:"clock"},...dataSources.filter(s=>s!=="seconds").map(s=>({name:"data"+s})),...settings.frameVariables,...(date?[{name:"calendar"},{name:"dateText"},...(included.some(l=>l.kind === "date" && l.dateLocale === "zh")?[{name:"dateZh"}]:[])]:[]),...(included.some(l=>l.dateFormat === "monthDayWeek")?[{name:"dateMonthDayWeek"}]:[]),...(celestial?[{name:"solar"}]:[]),...zones.map(z=>({name:nativeClock(z)}))] as {name:string;type?:string}[];
   const renderMethods:string[]=[],renderCalls:{active:string[];aod:string[]}={active:[],aod:[]};
-  for(const mode of ["active","aod"] as const){const draws=included.map(l=>visibleDraw(l,mode === "aod",p,owners.get(l.id))).filter(Boolean);for(let i=0;i<draws.length;i+=4){const name="render_"+mode+"_"+(i/4),body=draws.slice(i,i+4).join("\n"),fields=contextFields.filter(f=>new RegExp("\\b"+f.name+"\\b").test(body));if(body.length>30000)throw Error("本地绘制段超过保守源码预算，请减少该段的配置选项或阈值规则");renderMethods.push(`function ${name}(dc as Graphics.Dc) as Void {${fields.map(f=>`var ${f.name}=frameContext[:${f.name}]${f.type?" as "+f.type:""};`).join("")}\n${body}\n}`);renderCalls[mode].push(name+"(dc);");}}
+  for(const mode of ["active","aod"] as const){const draws=included.map(l=>visibleDraw(l,mode === "aod",runtimeProject,owners.get(l.id))).filter(Boolean);for(let i=0;i<draws.length;i+=4){const name="render_"+mode+"_"+(i/4),body=draws.slice(i,i+4).join("\n"),fields=contextFields.filter(f=>new RegExp("\\b"+f.name+"\\b").test(body));if(body.length>30000)throw Error("本地绘制段超过保守源码预算，请减少该段的配置选项或阈值规则");renderMethods.push(`function ${name}(dc as Graphics.Dc) as Void {${fields.map(f=>`var ${f.name}=frameContext[:${f.name}]${f.type?" as "+f.type:""};`).join("")}\n${body}\n}`);renderCalls[mode].push(name+"(dc);");}}
   const frameAssignments="frameContext={"+contextFields.map(f=>":"+f.name+"=>"+f.name).join(",")+"};";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
 // Target ${device.target}; device metadata ${deviceMetadataVersion}; package ${device.metadata.source?.packageVersion || "unknown"}; compiler SHA256 ${device.metadata.source?.compilerSha256 || "unknown"}. Hardware/AOD/power unverified.

@@ -1,3 +1,4 @@
+import { validateDataSlots, sourceSlotLayer } from "./dataSlots.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
 import type { Project, Layer } from "./domain.ts";
 export type ControlTarget = {
@@ -13,6 +14,9 @@ export type ProjectControl = {
   options?: string[];
   targets: ControlTarget[];
   hideWhenChangedFromDefault?: string[];
+  slot?: true;
+  sourceGoals?: Record<string,number>;
+  preserveFormatFor?: string[];
 };
 export const sourceLabels: Record<string, string> = {
   heartRate: "bpm",
@@ -37,6 +41,7 @@ export function controlValue(p: Project, c: ProjectControl) {
   return p.controlValues?.[c.id] ?? c.default;
 }
 export function validateControls(p: Project) {
+  validateDataSlots(p);
   const ids = new Set(p.layers.map((l) => l.id)),
     seen = new Set<string>(),
     targets = new Set<string>();
@@ -106,7 +111,7 @@ export function validateControls(p: Project) {
         c.type === "boolean"
           ? t.property !== "activeVisible"
           : c.type === "dataSource"
-            ? t.property !== "source" || l.sourceLocked || l.kind !== "metric"
+            ? t.property !== "source" || l.sourceLocked || !(l.kind === "metric" || (c.slot && ["meter","ring"].includes(l.kind)))
             : !(
                 t.property === "color" ||
                 /^thresholdRules\.\d+\.color$/.test(t.property)
@@ -218,7 +223,11 @@ export function resolveControls(p: Project): Project {
         const l = layers.find((l) => l.id === id);
         if (l) { l.activeVisible = false; l.aod = false; }
       }
-  return { ...p, layers: layers.map((l) => resolvedLayer(l, layers)) };
+  const slotted=layers.map(l=>{
+    const c=p.controls?.find(c=>c.slot && c.targets.some(t=>t.layerId===l.id && t.property==="source"));
+    return c?sourceSlotLayer(p,l,c,String(controlValue(p,c))):l;
+  });
+  return { ...p, layers: slotted.map((l) => resolvedLayer(l, slotted)) };
 }
 export function setControl(
   p: Project,
@@ -259,6 +268,7 @@ export function remapControlIds(before: Project, after: Project) {
     ...c,
     targets: c.targets.map((t) => ({ ...t, layerId: id(t.layerId) })),
     hideWhenChangedFromDefault: c.hideWhenChangedFromDefault?.map(id),
+    ...(c.preserveFormatFor?{preserveFormatFor:c.preserveFormatFor.map(id)}:{}),
   }));
   after.layers = after.layers.map((l) => ({
     ...l,

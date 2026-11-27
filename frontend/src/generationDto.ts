@@ -171,12 +171,14 @@ export function generationHeader(p: Project) {
   validateControls(p);
   return {
     generationFieldContractVersion:GENERATION_FIELD_CONTRACT_VERSION,
+    dataSlotPolicy:"slot:true means linked source controls; metrics use matching units/precision, sourceLabelFor tracks labels, meter/ring targets use sourceGoals or design defaults (steps10000,battery100,heartRate180,seconds60). Source switches must not retain thresholds from unrelated sources. preserveFormatFor explicitly retains manual numeric formatting. Targets property source maps to ringSource on ring layers. Compile every allowed option and guard missing data in both modes.",
     schemaVersion: scalar(p.schemaVersion),
     designBrief: scalar(p.designBrief),
     backgroundColor: scalar(p.backgroundColor),
     controls: p.controls?.map((c) => ({
       ...objectFields(c, ["id", "label", "type", "default"]),
       options: c.options?.map(scalar),
+      ...(c.slot?{slot:true,sourceGoals:c.sourceGoals?Object.fromEntries(Object.entries(c.sourceGoals).map(([k,v])=>[k,scalar(v)])):undefined,preserveFormatFor:c.preserveFormatFor?.map(scalar)}:{}),
       targets: c.targets.map((t) => objectFields(t, ["layerId", "property"])),
       hideWhenChangedFromDefault: c.hideWhenChangedFromDefault?.map(scalar),
     })),
