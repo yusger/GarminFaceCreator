@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.18.0",
+  "version": "1.18.1",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -681,7 +681,18 @@
           64
         ],
         "lineHeightPx": "0 or original lineHeight..512",
-        "nativeAdvancedVisual": "pending native calibration; default metrics evidence remains separate"
+        "nativeAdvancedVisual": "SDK9.3 measured licensed 3-font/2-size active and 454 forced-AOD fixtures; integer metrics and vertical alignment match; dark AA differences remain; not Sleep/hardware"
+      },
+      "browserRasterization": {
+        "input": "authorized project TTF/OTF or licensed library fonts",
+        "physicalSize": [
+          6,
+          200
+        ],
+        "glyphSubset": "all current layer source choices and 0-9 required; user additional BMP glyphs; missing rejects",
+        "license": "full original notice retained",
+        "limits": "existing bitmap font, atlas, project and target budgets apply",
+        "privacy": "browser only until explicit compile/export"
       }
     },
     "moon": {

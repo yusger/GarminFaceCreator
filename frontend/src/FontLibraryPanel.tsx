@@ -1,6 +1,12 @@
-import {bitmapTypographyReset} from "./bitmapTypographyFields";
-import {importBitmapFont,bitmapFontInfo,bitmapGlyphMissing,type BitmapFontAsset} from "./bitmapFonts.ts";
-import {bitmapLayerPatch} from "./bitmapFontLayout.ts";
+import { rasterizeProjectFont, rasterFontAvailable } from "./rasterizeFont";
+import { bitmapTypographyReset } from "./bitmapTypographyFields";
+import {
+  importBitmapFont,
+  bitmapFontInfo,
+  bitmapGlyphMissing,
+  type BitmapFontAsset,
+} from "./bitmapFonts.ts";
+import { bitmapLayerPatch } from "./bitmapFontLayout.ts";
 import BitmapFontText from "./BitmapFontText";
 import { importLocalFont, fontBytes, type LocalFont } from "./localFonts";
 import { useEffect, useState } from "react";
@@ -19,10 +25,38 @@ export default function FontLibrary({
   project: Project;
   onApply: (patch: Partial<Layer>) => void;
   onImport?: (font: LocalFont) => void;
-  onBitmapImport?:(font:BitmapFontAsset)=>void;
+  onBitmapImport?: (font: BitmapFontAsset) => void;
   onClose: () => void;
 }) {
   const [filter, setFilter] = useState("");
+  const [rasterPixels, setRasterPixels] = useState(
+    Math.max(
+      6,
+      Math.min(200, Math.round((layer.size * deviceFor(project).pixels) / 454)),
+    ),
+  );
+  const [rasterExtra, setRasterExtra] = useState("");
+  const [rasterBusy, setRasterBusy] = useState(false);
+  const canRaster = !!onBitmapImport && rasterFontAvailable(project, layer);
+  const rasterize = async (id: string) => {
+    if (!canRaster || rasterBusy) return;
+    setRasterBusy(true);
+    try {
+      const font = await rasterizeProjectFont(
+        project,
+        layer,
+        id,
+        rasterPixels,
+        rasterExtra,
+      );
+      onBitmapImport!(font);
+      onClose();
+    } catch (error) {
+      setFontError((error as Error).message);
+    } finally {
+      setRasterBusy(false);
+    }
+  };
   const [license, setLicense] = useState(""),
     [fontError, setFontError] = useState("");
   const [sample, setSample] = useState(
@@ -31,12 +65,15 @@ export default function FontLibrary({
   const [coverage, setCoverage] = useState<Record<string, string>>({});
   useEffect(() => {
     let active = true;
+    const faces: FontFace[] = [];
     for (const f of [...libraryFonts, ...(project.localFonts || [])])
       void (async () => {
         try {
           const bytes = await fontBytes(project, f.file),
             face = await new FontFace("Library_" + f.id, bytes).load();
+          if (!active) return;
           document.fonts.add(face);
+          faces.push(face);
           const missing = missingGlyphs(bytes, sample);
           if (active)
             setCoverage((c) => ({
@@ -52,6 +89,7 @@ export default function FontLibrary({
       })();
     return () => {
       active = false;
+      faces.forEach((face) => document.fonts.delete(face));
     };
   }, [sample, project.localFonts]);
   const supported = ["text", "time", "date", "metric"].includes(layer.kind),
@@ -89,6 +127,33 @@ export default function FontLibrary({
             onChange={(e) => setSample(e.target.value)}
           />
         </label>
+        <fieldset disabled={!canRaster || rasterBusy}>
+          <legend>转为固定像素字体</legend>
+          <label>
+            目标像素字号
+            <input
+              aria-label="转换目标像素字号"
+              type="number"
+              min="6"
+              max="200"
+              step="1"
+              value={rasterPixels}
+              onChange={(e) => setRasterPixels(Number(e.target.value))}
+            />
+          </label>
+          <label>
+            附加字形子集
+            <input
+              aria-label="转换附加字形子集"
+              maxLength={512}
+              value={rasterExtra}
+              onChange={(e) => setRasterExtra(e.target.value)}
+            />
+          </label>
+          <small>
+            自动包含当前控件所有数据选项需要的字符及0–9；缺字会拒绝，不使用替代字体。转换后可设置字距、等宽数字和基线；固定物理字号，仅限Venu4独立文字控件。字体与图集仍留在本机。
+          </small>
+        </fieldset>
         <h3>项目本地字体</h3>
         <p>
           字体保存在当前浏览器；编译仅发送生成后的字形资源，源码导出保留字体及许可。字体字重由实际文件决定。
@@ -128,13 +193,108 @@ export default function FontLibrary({
             </label>
           </>
         )}
-        {onBitmapImport&&<label>导入FNT＋PNG<input aria-label="导入位图字体" type="file" multiple accept=".fnt,.png" disabled={!supported||!license.trim()} onChange={async e=>{const files=Array.from(e.target.files||[]);e.target.value="";if(!files.length)return;try{const font=await importBitmapFont(files,license);onBitmapImport(font);setFontError("");onClose();}catch(error){setFontError((error as Error).message);}}}/><small>单页Unicode BMFont文本＋8位灰度PNG；固定像素，不任意缩放。图片仅保存在本机浏览器。</small></label>}
-        <div className="inline">{[["时间","09:41"],["日期","TUE 12"],["负温度","-19.9°C"],["长里程","999.99km"],["中文","周五"],["缺失","--"]].map(([label,value])=><button type="button" key={label} onClick={()=>setSample(value)}>{label}样本</button>)}</div>
-        {(project.bitmapFonts||[]).map(f=>{const info=bitmapFontInfo(f),missing=bitmapGlyphMissing(info,sample);return <article key={f.id}><b>{f.family} · 位图 {info.size}px</b><svg width="100%" height="85" viewBox="0 0 700 85"><BitmapFontText project={project} layer={{...layer,...bitmapTypographyReset,bitmapFontId:f.id,x:0,y:0,w:700,h:85,textAlign:"left"}} text={sample} color="#dce9f0"/></svg><p role="status">{missing.length?"缺字："+missing.join(" "):"样本文字已覆盖"}</p><small>{Object.keys(info.glyphs).length}字形 · 行高{info.lineHeight}px / 基线{info.base}px · {info.kernings.length}字偶距 · 图集{info.width}×{info.height}</small><button disabled={!supported} onClick={()=>{onApply(bitmapLayerPatch(project,f.id));onClose();}}>应用位图{f.family}</button></article>;})}
+        {onBitmapImport && (
+          <label>
+            导入FNT＋PNG
+            <input
+              aria-label="导入位图字体"
+              type="file"
+              multiple
+              accept=".fnt,.png"
+              disabled={!supported || !license.trim()}
+              onChange={async (e) => {
+                const files = Array.from(e.target.files || []);
+                e.target.value = "";
+                if (!files.length) return;
+                try {
+                  const font = await importBitmapFont(files, license);
+                  onBitmapImport(font);
+                  setFontError("");
+                  onClose();
+                } catch (error) {
+                  setFontError((error as Error).message);
+                }
+              }}
+            />
+            <small>
+              单页Unicode
+              BMFont文本＋8位灰度PNG；固定像素，不任意缩放。图片仅保存在本机浏览器。
+            </small>
+          </label>
+        )}
+        <div className="inline">
+          {[
+            ["时间", "09:41"],
+            ["日期", "TUE 12"],
+            ["负温度", "-19.9°C"],
+            ["长里程", "999.99km"],
+            ["中文", "周五"],
+            ["缺失", "--"],
+          ].map(([label, value]) => (
+            <button type="button" key={label} onClick={() => setSample(value)}>
+              {label}样本
+            </button>
+          ))}
+        </div>
+        {(project.bitmapFonts || []).map((f) => {
+          const info = bitmapFontInfo(f),
+            missing = bitmapGlyphMissing(info, sample);
+          return (
+            <article key={f.id}>
+              <b>
+                {f.family} · 位图 {info.size}px
+              </b>
+              <svg width="100%" height="85" viewBox="0 0 700 85">
+                <BitmapFontText
+                  project={project}
+                  layer={{
+                    ...layer,
+                    ...bitmapTypographyReset,
+                    bitmapFontId: f.id,
+                    x: 0,
+                    y: 0,
+                    w: 700,
+                    h: 85,
+                    textAlign: "left",
+                  }}
+                  text={sample}
+                  color="#dce9f0"
+                />
+              </svg>
+              <p role="status">
+                {missing.length
+                  ? "缺字：" + missing.join(" ")
+                  : "样本文字已覆盖"}
+              </p>
+              <small>
+                {Object.keys(info.glyphs).length}字形 · 行高{info.lineHeight}px
+                / 基线{info.base}px · {info.kernings.length}字偶距 · 图集
+                {info.width}×{info.height}
+              </small>
+              <button
+                disabled={!supported}
+                onClick={() => {
+                  onApply(bitmapLayerPatch(project, f.id));
+                  onClose();
+                }}
+              >
+                应用位图{f.family}
+              </button>
+            </article>
+          );
+        })}
         {fontError && <p role="alert">{fontError}</p>}
         {(project.localFonts || []).map((f) => (
           <article key={f.id}>
             <b>{f.family}</b>
+            {onBitmapImport && (
+              <button
+                disabled={!canRaster || rasterBusy}
+                onClick={() => void rasterize(f.id)}
+              >
+                转为固定像素字体：{f.family}
+              </button>
+            )}
             <div style={{ fontFamily: "Library_" + f.id, fontSize: 30 }}>
               {sample}
             </div>
@@ -144,7 +304,8 @@ export default function FontLibrary({
               disabled={!supported}
               onClick={() => {
                 onApply({
-                  ...bitmapTypographyReset,bitmapFontId:undefined,
+                  ...bitmapTypographyReset,
+                  bitmapFontId: undefined,
                   customFont: { id: f.id, family: f.family, file: f.file },
                   fontWeight: 400,
                   garminFont: "auto",
@@ -171,6 +332,14 @@ export default function FontLibrary({
             .map((f) => (
               <article key={f.id}>
                 <b>{f.name}</b>
+                {onBitmapImport && (
+                  <button
+                    disabled={!canRaster || rasterBusy}
+                    onClick={() => void rasterize(f.id)}
+                  >
+                    转为固定像素字体：{f.name}
+                  </button>
+                )}
                 <small>
                   {f.family} · {f.usage} · {f.license}
                 </small>
