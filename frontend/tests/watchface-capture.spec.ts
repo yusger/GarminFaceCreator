@@ -49,6 +49,7 @@ test("resource font capture embeds actual glyphs and fails explicitly when font 
   await page.getByLabel("模拟时间").fill("10:24");
   const bytes = await png(page, "下载亮屏盘面");
   expect(bytes.length).toBeGreaterThan(500);
+  const pixels=await page.evaluate(async data=>{const img=new Image();img.src='data:image/png;base64,'+data;await img.decode();const c=document.createElement('canvas');c.width=454;c.height=454;const ctx=c.getContext('2d')!;ctx.drawImage(img,0,0);const d=ctx.getImageData(0,0,454,454).data;let count=0;for(let i=0;i<d.length;i+=4)if(d[i]>30&&d[i+1]>130&&d[i+2]>70)count++;return count;},bytes.toString('base64'));expect(pixels).toBeGreaterThan(100);
   await page.route("**/fonts/sonar-number-font.ttf", (r) =>
     r.fulfill({ status: 404, body: "" }),
   );
