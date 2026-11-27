@@ -54,5 +54,18 @@ if [ "${PROBE_CAPTURE_DIALOG:-0}" = 1 ]; then
  xdotool mousemove 16 12 click 1 mousemove 104 37 click 1
  sleep 1
  import -window root /output/capture-dialog.png
+ xdotool search --onlyvisible --class simulator > /tmp/dialog-windows || true
+ dialog=$(tail -1 /tmp/dialog-windows)
+ if [ -n "$dialog" ]; then
+  xdotool getwindowname "$dialog" > /output/save-window-name.txt
+  xdotool windowfocus "$dialog"
+  xdotool mousemove --window "$dialog" 230 27 click 1
+  name="native-$(date -u +%Y%m%d%H%M%S)-$$.png"
+  xdotool key ctrl+a
+  xdotool type --clearmodifiers "$name"
+  xdotool key Return
+  sleep 2
+  if [ -s "/output/$name" ]; then identify "/output/$name"; printf 'nativeCapture=%s\n' "$name" >> /output/capture-metadata.txt; else import -window root /output/capture-save-failed.png; fi
+ fi
 fi
 if [ "$hold" != 0 ]; then sleep "$hold"; fi
