@@ -1,3 +1,4 @@
+import StateMappingEditor from "./StateMappingEditor";
 import { useState } from "react";
 import type { Layer, Project } from "./domain";
 import { resolveControls } from "./projectControls";
@@ -184,6 +185,7 @@ export default function CompoundInspector({
             ) : <input type="checkbox" aria-label={c.label} checked={Boolean(b.controlValues?.[c.id] ?? c.default)} onChange={e=>onChange({compound:{...b,controlValues:{...b.controlValues,[c.id]:e.target.checked}}})}/>}
           </label>
         ))}
+        <StateMappingEditor layer={l} onChange={onChange}/>
         <h4>内部部件</h4>
         <p className="hint">
           “启用”同时控制亮屏和息屏；不勾选时保留部件配置。息屏的混合状态沿用原设计。

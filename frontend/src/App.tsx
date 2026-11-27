@@ -1,3 +1,4 @@
+import {createStateGroup} from "./stateMapping";
 import { sourceMapFor, mappedDiagnostic } from "./sourceMap";
 import ReadoutInspector from "./ReadoutInspector";
 import ResourceInspector from "./ResourceInspector";
@@ -140,6 +141,7 @@ const tools = [
   ["line", "直线", Minus],
 ] as const;
 export default function App() {
+  const [statePreset,setStatePreset]=useState<"heartRate"|"battery">("heartRate");
   const [handImageSet,setHandImageSet]=useState("hand-atelier/silver-sword");
   const [libraryTemplate,setLibraryTemplate]=useState("monolith");
   const [newProject, setNewProject] = useState<{
@@ -1995,6 +1997,7 @@ export default function App() {
               <main className="canvas-panel">
                 <div className="canvas-toolbar">
                   <button disabled={selection.length < 2 || p.multiDevice?.scope === "device"} onClick={()=>{try{const next=combineLayers(p,selection);editLayers(next.layers,true,next);selectOne(next.layers.find(l=>!p.layers.some(old=>old.id===l.id))!.id);}catch(e){setNotice((e as Error).message);}}}>合为复合控件</button>
+                  <select aria-label="数据状态预设" value={statePreset} onChange={e=>setStatePreset(e.target.value as "heartRate"|"battery")}><option value="heartRate">心率四态</option><option value="battery">电量三态</option></select><button disabled={!current || current.kind==="widget" || !!p.multiDevice} onClick={()=>{try{const next=createStateGroup(p,current!.id,statePreset);editLayers(next.layers,true,next);selectOne(next.layers.find(l=>!p.layers.some(old=>old.id===l.id))!.id);}catch(e){setNotice((e as Error).message);}}}>生成数据状态组</button>
                   <ArrangeTools project={p} selection={selection} onError={setNotice} onChange={next=>editLayers(next.layers,true,next)}/>
                   <button
                     title="撤销"
