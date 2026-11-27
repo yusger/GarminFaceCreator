@@ -1,0 +1,174 @@
+{
+  "format": "gfc-reference-release-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "active-78",
+      "mode": "active",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "battery": 78,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+          "abd2b7ee-3055-470e-9e01-f568730ac353",
+          "a7b40594-9e13-4895-bace-877f0eb6aced",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+          "mechanical-time"
+        ],
+        "readings": {
+          "mechanical-time": "09:41",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1": "78%"
+        }
+      }
+    },
+    {
+      "id": "active-0",
+      "mode": "active",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "battery": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+          "abd2b7ee-3055-470e-9e01-f568730ac353",
+          "a7b40594-9e13-4895-bace-877f0eb6aced",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+          "mechanical-time"
+        ],
+        "readings": {
+          "mechanical-time": "09:41",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1": "0%"
+        }
+      }
+    },
+    {
+      "id": "active-missing",
+      "mode": "active",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "battery": null,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+          "abd2b7ee-3055-470e-9e01-f568730ac353",
+          "a7b40594-9e13-4895-bace-877f0eb6aced",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+          "mechanical-time"
+        ],
+        "readings": {
+          "mechanical-time": "09:41",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1": "--"
+        }
+      }
+    },
+    {
+      "id": "aod-78",
+      "mode": "aod",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "battery": 78,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+          "abd2b7ee-3055-470e-9e01-f568730ac353",
+          "a7b40594-9e13-4895-bace-877f0eb6aced",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+          "mechanical-time"
+        ],
+        "readings": {
+          "mechanical-time": "09:41",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1": "78%"
+        }
+      }
+    },
+    {
+      "id": "aod-0",
+      "mode": "aod",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "battery": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+          "abd2b7ee-3055-470e-9e01-f568730ac353",
+          "a7b40594-9e13-4895-bace-877f0eb6aced",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+          "mechanical-time"
+        ],
+        "readings": {
+          "mechanical-time": "09:41",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1": "0%"
+        }
+      }
+    },
+    {
+      "id": "aod-missing",
+      "mode": "aod",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-26",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "battery": null,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+          "abd2b7ee-3055-470e-9e01-f568730ac353",
+          "a7b40594-9e13-4895-bace-877f0eb6aced",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+          "mechanical-time"
+        ],
+        "readings": {
+          "mechanical-time": "09:41",
+          "f1b2a816-0e56-40e3-9e28-1f8fecd439b1": "--"
+        }
+      }
+    }
+  ]
+}

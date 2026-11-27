@@ -1,0 +1,232 @@
+{
+  "schemaVersion": 31,
+  "id": "20000000-0000-4000-8000-000000000002",
+  "appId": "30000000000040008000000000000002",
+  "name": "Mechanical Time",
+  "updated": 0,
+  "revision": 0,
+  "codeRevision": -1,
+  "versions": [],
+  "files": [],
+  "assets": [],
+  "target": "venu445mm",
+  "deviceSize": "45mm",
+  "backgroundColor": "#000000",
+  "layers": [
+    {
+      "id": "fa8c4e8f-2087-4f6c-bbf2-00b369c26ea2",
+      "name": "切角电量仪表 #1",
+      "kind": "widget",
+      "x": 127,
+      "y": 127,
+      "w": 200,
+      "h": 200,
+      "color": "#45d6be",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "compound": {
+        "version": 2,
+        "width": 200,
+        "height": 200,
+        "layers": [
+          {
+            "id": "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+            "name": "frame",
+            "kind": "polygon",
+            "polygonPoints": [
+              [
+                0.2,
+                0
+              ],
+              [
+                0.8,
+                0
+              ],
+              [
+                1,
+                0.2
+              ],
+              [
+                1,
+                0.8
+              ],
+              [
+                0.8,
+                1
+              ],
+              [
+                0.2,
+                1
+              ],
+              [
+                0,
+                0.8
+              ],
+              [
+                0,
+                0.2
+              ]
+            ],
+            "x": 10,
+            "y": 10,
+            "w": 180,
+            "h": 180,
+            "color": "#101C25",
+            "size": 14,
+            "rotation": 0,
+            "hidden": false,
+            "locked": false,
+            "text": "",
+            "source": "heartRate",
+            "aod": true,
+            "threshold": false,
+            "metricDecoration": false,
+            "aodColor": "#607887",
+            "fillEnabled": true,
+            "strokeEnabled": true,
+            "strokeColor": "#607887",
+            "strokeWidth": 2
+          },
+          {
+            "id": "abd2b7ee-3055-470e-9e01-f568730ac353",
+            "name": "progress",
+            "kind": "ring",
+            "x": 35,
+            "y": 35,
+            "w": 130,
+            "h": 130,
+            "color": "#45D6BE",
+            "size": 14,
+            "rotation": 0,
+            "hidden": false,
+            "locked": false,
+            "text": "",
+            "source": "heartRate",
+            "aod": true,
+            "threshold": false,
+            "metricDecoration": false,
+            "aodColor": "#607887",
+            "ringSource": "battery",
+            "ringGoal": 100,
+            "ringTicks": 60,
+            "ringStyle": "continuous",
+            "ringCap": "round",
+            "ringWidth": 6,
+            "ringStart": 0,
+            "ringEnd": 360,
+            "ringDim": 0.15
+          },
+          {
+            "id": "a7b40594-9e13-4895-bace-877f0eb6aced",
+            "name": "label",
+            "kind": "arcText",
+            "arcRadius": 0.43,
+            "arcStartAngle": -30,
+            "arcDirection": "clockwise",
+            "arcSpacing": 1,
+            "x": 15,
+            "y": 15,
+            "w": 170,
+            "h": 170,
+            "color": "#AABDC8",
+            "size": 14,
+            "rotation": 0,
+            "hidden": false,
+            "locked": false,
+            "text": "POWER",
+            "source": "heartRate",
+            "aod": true,
+            "threshold": false,
+            "metricDecoration": false,
+            "aodColor": "#607887",
+            "garminFont": "small",
+            "fontWeight": 400
+          },
+          {
+            "id": "f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+            "name": "value",
+            "kind": "metric",
+            "x": 45,
+            "y": 82,
+            "w": 110,
+            "h": 36,
+            "color": "#DCEAF3",
+            "size": 14,
+            "rotation": 0,
+            "hidden": false,
+            "locked": false,
+            "text": "",
+            "source": "battery",
+            "aod": true,
+            "threshold": false,
+            "metricDecoration": false,
+            "aodColor": "#607887",
+            "unit": "%",
+            "precision": 0,
+            "textAlign": "center",
+            "missingValue": "--",
+            "garminFont": "small"
+          }
+        ],
+        "controls": [],
+        "controlValues": {},
+        "parts": [
+          {
+            "id": "titles",
+            "name": "标题与标注",
+            "layerIds": [
+              "2dfabe89-f3e7-4724-9276-d18e26c30a5d",
+              "a7b40594-9e13-4895-bace-877f0eb6aced"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "progress",
+            "name": "进度条",
+            "layerIds": [
+              "abd2b7ee-3055-470e-9e01-f568730ac353"
+            ],
+            "enabled": true
+          },
+          {
+            "id": "metric-f1b2a816-0e56-40e3-9e28-1f8fecd439b1",
+            "name": "电量数值",
+            "layerIds": [
+              "f1b2a816-0e56-40e3-9e28-1f8fecd439b1"
+            ],
+            "enabled": true
+          }
+        ]
+      },
+      "aodColor": "#607887"
+    },
+    {
+      "id": "mechanical-time",
+      "name": "时间",
+      "kind": "time",
+      "x": 100,
+      "y": 335,
+      "w": 254,
+      "h": 70,
+      "color": "#45d6be",
+      "size": 54,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "aodSize": 40,
+      "aodColor": "#607887",
+      "garminFont": "small",
+      "timePart": "full"
+    }
+  ]
+}

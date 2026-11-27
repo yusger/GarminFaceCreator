@@ -1,0 +1,91 @@
+{
+  "format": "gfc-reference-release",
+  "formatVersion": 1,
+  "slug": "mechanical-time-v2",
+  "version": "1.0.0",
+  "name": "Mechanical Time",
+  "summary": "Editable convex compound geometry with real clock and battery; explicit v2 publishing profile.",
+  "designFile": "design.json",
+  "casesFile": "cases.json",
+  "generation": {
+    "mode": "deterministic",
+    "profile": "deterministic-v2"
+  },
+  "compatibility": {
+    "projectSchemaVersion": 31,
+    "targets": [
+      {
+        "target": "venu445mm",
+        "deviceSize": "45mm"
+      }
+    ],
+    "requirements": [
+      "core.widget",
+      "core.polygon",
+      "core.ring",
+      "core.arcText",
+      "core.metric",
+      "core.time",
+      "data.battery"
+    ]
+  },
+  "origin": {
+    "authors": [
+      "GarminFaceCreator contributors"
+    ],
+    "kind": "original",
+    "sourceUrl": "https://github.com/yusger/GarminFaceCreator",
+    "upstreamCommit": null,
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "LICENSE"
+  },
+  "previews": {
+    "active": "preview.png",
+    "aod": "preview-aod.png"
+  },
+  "bindings": [],
+  "files": [
+    {
+      "path": "design.json",
+      "role": "design",
+      "mediaType": "application/json",
+      "bytes": 5800,
+      "sha256": "4bee10486ab923dc17035390f0793f754ccba101686b8e467fc04c29fcbff676"
+    },
+    {
+      "path": "cases.json",
+      "role": "cases",
+      "mediaType": "application/json",
+      "bytes": 4477,
+      "sha256": "1bfe7c319064eed19e12f5ed2605362b24ba152cf54128166b2020e4ded25e11"
+    },
+    {
+      "path": "preview.png",
+      "role": "preview",
+      "mediaType": "image/png",
+      "bytes": 23702,
+      "sha256": "17f047ae290250fcd44c0987a53e4ebc44c0ce854e429191438d99492a542fbd"
+    },
+    {
+      "path": "preview-aod.png",
+      "role": "preview",
+      "mediaType": "image/png",
+      "bytes": 16710,
+      "sha256": "aea135f4a3596f0ec87f17f6255cd3df58479ed12358c3cdbc50106ee002c7ee"
+    },
+    {
+      "path": "LICENSE",
+      "role": "notice",
+      "mediaType": "text/plain",
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    {
+      "path": "README.md",
+      "role": "notice",
+      "mediaType": "text/markdown",
+      "bytes": 349,
+      "sha256": "ab2821b56f046f6390d297f759cd8b600df18af139f3691d73e49a1588740f1b"
+    }
+  ]
+}

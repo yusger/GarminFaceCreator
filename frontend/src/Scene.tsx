@@ -1,134 +1,36 @@
+import {
+  metricValues,
+  reading,
+  ink,
+  ringLit,
+  type Preview,
+} from "./previewData";
+export {
+  metricValues,
+  reading,
+  ink,
+  ringLit,
+  type Preview,
+} from "./previewData";
 import CurvedText from "./CurvedText";
 import ProgressArc from "./ProgressArc";
-import {ringProgress} from "./arc";
-import {layerTransform} from "./geometry";
-import {expandWidgets} from "./compound";
+import { ringProgress } from "./arc";
+import { layerTransform } from "./geometry";
+import { expandWidgets } from "./compound";
 import { resolveControls } from "./projectControls";
 import { fontFamily, loadCustomFonts } from "./customFonts";
 import { conditionVisible } from "./visibility";
-import { timeText, timeInOffset } from "./timeParts";
 import Hand from "./Hand";
 import Celestial from "./Celestial";
 import WordTimeWidget from "./WordTimeWidget";
 import Calendar from "./CalendarWidget";
 import Meter from "./Meter";
-import {
-  metricDisplayUnits,
-  metricDecorations,
-  formatMetricValue,
-  validMetricValue,
-} from "./metricFormat";
+import { metricDecorations } from "./metricFormat";
 import LibraryImage from "./LibraryImage";
 import { guideInsetDesign } from "./layouts";
 import type { Box } from "./selection";
-import { thresholdInk } from "./thresholds";
 import { useId, useEffect } from "react";
 import type { Project, Layer } from "./domain";
-export type Preview = {
-  values?: Record<string,number|null>;
-  missing?: boolean;
-  weatherCondition?: number | null;
-  date?: string;
-  calendarDate?: string;
-  time: string;
-  utcOffsetMinutes?: number;
-  sunrise?: string;
-  sunset?: string;
-  heartRate: number;
-  steps: number;
-  battery: number;
-  seconds: number;
-};
-export function metricValues(d: Preview): Record<string, number> {
-  return {
-    heartRate: d.heartRate,
-    steps: d.steps,
-    battery: d.battery,
-    calories: 426,
-    distance: 6.42,
-    temperature: 24,
-    stress: 30,
-    recoveryHours: 5,
-    floorsClimbed: 0,
-    intensityMinutes: 0,
-    humidity: 62,
-    uvIndex: 3,
-    altitude: -59,
-    windSpeed: 6,
-    seconds: d.seconds,
-    ...Object.fromEntries(Object.entries(d.values||{}).map(([key,value])=>[key,value??NaN])),
-  };
-}
-export function reading(l: Layer, d: Preview) {
-  if (l.kind === "time") {
-    const localOffset =
-      d.utcOffsetMinutes ??
-      -(
-        d.calendarDate && /^([01]\d|2[0-3]):[0-5]\d$/.test(d.time)
-          ? new Date(d.calendarDate + "T" + d.time + ":00")
-          : new Date()
-      ).getTimezoneOffset();
-    return timeText(
-      timeInOffset(d.time, l.timeUtcOffset, localOffset),
-      l.timePart,
-      d.seconds,
-    );
-  }
-  if (l.kind === "date") {
-    if (l.dateFormat === "monthDayWeek") {
-      const date = new Date((d.calendarDate || "2026-11-23") + "T12:00:00");
-      return Number.isFinite(date.getTime())
-        ? String(date.getMonth() + 1).padStart(2, "0") +
-            "." +
-            String(date.getDate()).padStart(2, "0") +
-            " " +
-            ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"][date.getDay()]
-        : "--";
-    }
-    if (l.dateLocale === "zh") {
-      const date = d.calendarDate
-        ? new Date(d.calendarDate + "T12:00:00")
-        : new Date();
-      return Number.isFinite(date.getTime())
-        ? "周" +
-            ["日", "一", "二", "三", "四", "五", "六"][date.getDay()] +
-            " " +
-            (date.getMonth() + 1) +
-            "月" +
-            date.getDate() +
-            "日"
-        : "--";
-    }
-    return d.date || "MON 23";
-  }
-  if (l.kind === "text") return l.text;
-  if (l.kind === "metric") {
-    const values = metricValues(d);
-    const units = metricDisplayUnits;
-    const value = values[l.source];
-    const prefix = l.label ? l.label + " " : "";
-    if (d.missing || !validMetricValue(l.source, value))
-      return prefix + (l.missingValue ?? "--");
-    const text = formatMetricValue(
-      l.source,
-      value,
-      l.precision,
-      l.groupThousands,
-    );
-    return prefix + text + (l.unit ?? units[l.source] ?? "");
-  }
-  return "";
-}
-export function ink(l: Layer, d: Preview) {
-  if (l.kind !== "metric" || !l.threshold) return l.color;
-  return thresholdInk(
-    l,
-    metricValues(d)[l.source],
-    !!d.missing || !validMetricValue(l.source, metricValues(d)[l.source]),
-  );
-}
-
-export function ringLit(l:Layer,d:Preview,aod=false){return Math.floor((l.ringTicks||60)*ringProgress(l, l.ringSource==="seconds"||!l.ringSource?d.seconds:metricValues(d)[l.ringSource!],!!d.missing,aod));}
 export default function Scene({
   project,
   preview,
@@ -152,9 +54,13 @@ export default function Scene({
     resize?: number,
   ) => void;
 }) {
-  const sourceLayers=new Map(project.layers.map(l=>[l.id,l]));
-  const owners=new Map(project.layers.filter(l=>l.kind==="widget").flatMap(l=>l.compound!.layers.map(c=>[c.id,l] as const)));
-  project = resolveControls(expandWidgets(project,!!onDown));
+  const sourceLayers = new Map(project.layers.map((l) => [l.id, l]));
+  const owners = new Map(
+    project.layers
+      .filter((l) => l.kind === "widget")
+      .flatMap((l) => l.compound!.layers.map((c) => [c.id, l] as const)),
+  );
+  project = resolveControls(expandWidgets(project, !!onDown));
   const fontKey = JSON.stringify(
     project.layers.map((l) => l.customFont).filter(Boolean),
   );
@@ -216,16 +122,20 @@ export default function Scene({
           .map((l) => (
             <g
               key={l.id}
-              data-layer={owners.get(l.id)?.id||l.id}
-              data-widget-part={owners.has(l.id)?l.id:undefined}
+              data-layer={owners.get(l.id)?.id || l.id}
+              data-widget-part={owners.has(l.id) ? l.id : undefined}
               data-guide={l.guide ? "true" : undefined}
               transform={layerTransform(l)}
-              onPointerDown={(e) => onDown?.(e, owners.get(l.id)||sourceLayers.get(l.id)||l)}
+              onPointerDown={(e) =>
+                onDown?.(e, owners.get(l.id) || sourceLayers.get(l.id) || l)
+              }
               style={{
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
             >
-              {l.kind === "arcText" ? <CurvedText layer={l} aod={aod}/> : l.kind === "hand" ? (
+              {l.kind === "arcText" ? (
+                <CurvedText layer={l} aod={aod} />
+              ) : l.kind === "hand" ? (
                 <Hand layer={l} preview={preview} aod={aod} />
               ) : l.kind === "celestial" ? (
                 <Celestial layer={l} preview={preview} aod={aod} />
@@ -246,7 +156,18 @@ export default function Scene({
                   aod={aod}
                 />
               ) : l.kind === "ring" && l.ringStyle === "continuous" ? (
-                <ProgressArc layer={l} aod={aod} progress={ringProgress(l,l.ringSource==="seconds"||!l.ringSource?preview.seconds:metricValues(preview)[l.ringSource!],!!preview.missing,aod)}/>
+                <ProgressArc
+                  layer={l}
+                  aod={aod}
+                  progress={ringProgress(
+                    l,
+                    l.ringSource === "seconds" || !l.ringSource
+                      ? preview.seconds
+                      : metricValues(preview)[l.ringSource!],
+                    !!preview.missing,
+                    aod,
+                  )}
+                />
               ) : l.kind === "ring" ? (
                 Array.from({ length: l.ringTicks || 60 }, (_, i) => {
                   const count = l.ringTicks || 60,
@@ -289,7 +210,27 @@ export default function Scene({
                   missing={preview.missing}
                 />
               ) : l.kind === "polygon" ? (
-                <polygon points={l.polygonPoints!.map(([x,y])=>`${x*l.w},${y*l.h}`).join(" ")} fill={l.fillEnabled===false?"none":aod?l.aodColor||"#777777":l.color} stroke={l.strokeEnabled?(aod?l.aodColor||"#777777":l.strokeColor||l.color):"none"} strokeWidth={l.strokeWidth||2} opacity={l.opacity??1}/>
+                <polygon
+                  points={l
+                    .polygonPoints!.map(([x, y]) => `${x * l.w},${y * l.h}`)
+                    .join(" ")}
+                  fill={
+                    l.fillEnabled === false
+                      ? "none"
+                      : aod
+                        ? l.aodColor || "#777777"
+                        : l.color
+                  }
+                  stroke={
+                    l.strokeEnabled
+                      ? aod
+                        ? l.aodColor || "#777777"
+                        : l.strokeColor || l.color
+                      : "none"
+                  }
+                  strokeWidth={l.strokeWidth || 2}
+                  opacity={l.opacity ?? 1}
+                />
               ) : l.kind === "rect" ? (
                 <rect
                   width={l.w}
@@ -422,7 +363,11 @@ export default function Scene({
                         stroke="#45d6be"
                         onPointerDown={(e) => {
                           e.stopPropagation();
-                          onDown?.(e, owners.get(l.id)||sourceLayers.get(l.id)||l, i);
+                          onDown?.(
+                            e,
+                            owners.get(l.id) || sourceLayers.get(l.id) || l,
+                            i,
+                          );
                         }}
                         aria-label={
                           ["左上缩放", "右上缩放", "左下缩放", "右下缩放"][i]

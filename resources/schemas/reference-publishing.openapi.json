@@ -1467,5 +1467,21 @@
         "description": "Existing frontend bundle format; adapter pins project schema and version-scoped asset URLs."
       }
     }
-  }
+  },
+  "x-gfc-profile-contracts": [
+    {
+      "id": "deterministic-v1",
+      "projectSchemaVersion": 26,
+      "manifestSchema": "reference-release.schema.json",
+      "designSchema": "reference-release-design.schema.json",
+      "status": "contract-only"
+    },
+    {
+      "id": "deterministic-v2",
+      "projectSchemaVersion": 31,
+      "manifestSchema": "reference-release-v2.schema.json",
+      "designSchema": "reference-release-design-v2.schema.json",
+      "status": "offline-semantic-validator-available; publishing-api-not-implemented"
+    }
+  ]
 }
