@@ -1,4 +1,6 @@
+import {contextIdentity} from "./localIdentity.ts";
 import type { Project, Layer } from "./domain.ts";
+export function themeCode(id:string){return parseInt(contextIdentity(id).split(":")[1].slice(0,8),16)&0x7fffffff;}
 export type ThemePreset = {
   id: string;
   name: string;
@@ -56,6 +58,7 @@ export function validateThemes(p: Project) {
     set.activeId.length > 80
   )
     throw Error("主题预设格式无效");
+  const codes=new Set<number>();
   const ids = new Set(),
     layers = new Set(),
     controls = new Set();
@@ -76,6 +79,8 @@ export function validateThemes(p: Project) {
       t.controlIds.length > 40
     )
       throw Error("主题身份、外观或引用无效");
+    if(codes.has(themeCode(t.id)))throw Error("主题身份数值码冲突，请更换主题ID");
+    codes.add(themeCode(t.id));
     ids.add(t.id);
     for (const id of t.layerIds) {
       if (

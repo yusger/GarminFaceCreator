@@ -1,5 +1,5 @@
 import { nativeThemeMenu } from "./nativeThemeMenu.ts";
-import { themeIndex, layerThemeIndex, activeTheme } from "./themes.ts";
+import { themeIndex, layerThemeIndex, activeTheme,themeCode } from "./themes.ts";
 import { sourceSlotLayer } from "./dataSlots.ts";
 import type { Project, Layer, CodeFile } from "./domain.ts";
 import {
@@ -134,7 +134,7 @@ export function nativeControls(p: Project) {
   }
   if (p.themes) {
     properties.push(
-      `<property id="Gfc_Theme" type="string">${xml(activeTheme(p)!.id)}</property>`,
+      `<property id="Gfc_Theme" type="number">${themeCode(activeTheme(p)!.id)}</property>`,
     );
     strings.push('<string id="Gfc_Theme">Theme</string>');
     settings.push(
@@ -142,14 +142,14 @@ export function nativeControls(p: Project) {
         p.themes.presets
           .map((t, i) => {
             strings.push(`<string id="Gfc_Theme_${i}">${xml(t.name)}</string>`);
-            return `<listEntry value="${xml(t.id)}">@Strings.Gfc_Theme_${i}</listEntry>`;
+            return `<listEntry value="${themeCode(t.id)}">@Strings.Gfc_Theme_${i}</listEntry>`;
           })
           .join("") +
         "</settingConfig></setting>",
     );
   }
   const themeReads = p.themes
-    ? `var idx=${p.themes.presets.findIndex((t) => t.id === p.themes!.defaultId)};try{var theme=Application.Properties.getValue("Gfc_Theme");if(theme instanceof Toybox.Lang.String){${p.themes.presets.map((t, i) => `if(theme.equals(${JSON.stringify(t.id)})){idx=${i};}`).join("")}}}catch(e){}settingsCache["Gfc_Theme"]=idx;`
+    ? `var idx=${p.themes.presets.findIndex((t) => t.id === p.themes!.defaultId)};try{var theme=Application.Properties.getValue("Gfc_Theme");if(theme instanceof Toybox.Lang.Number){${p.themes.presets.map((t, i) => `if(theme==${themeCode(t.id)}){idx=${i};}`).join("")}}}catch(e){}settingsCache["Gfc_Theme"]=idx;`
     : "";
   const themeFrame = p.themes
     ? 'var cfgTheme=settingsCache["Gfc_Theme"] as Toybox.Lang.Number;'

@@ -1,5 +1,5 @@
 import type { Project, CodeFile } from "./domain.ts";
-import { activeTheme } from "./themes.ts";
+import { activeTheme,themeCode } from "./themes.ts";
 export const settingKey = (id: string) => "Gfc_" + id.replaceAll("-", "_");
 export const colorPalette = [
   "#FFFFFF",
@@ -69,14 +69,14 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
     {
       path: "source/GfcThemeSettings.mc",
       content: `import Toybox.Application;import Toybox.WatchUi;import Toybox.Lang;
- function gfcThemeId(){var theme=${q(current.id)};try{var value=Application.Properties.getValue("Gfc_Theme");if(value instanceof Lang.String){${themes.map((t) => `if(value.equals(${q(t.id)})){theme=value;}`).join("")}}}catch(e){}return theme;}
+ function gfcThemeId(){var theme=${q(current.id)};try{var value=Application.Properties.getValue("Gfc_Theme");if(value instanceof Lang.Number){${themes.map((t) => `if(value==${themeCode(t.id)}){theme=${q(t.id)};}`).join("")}}}catch(e){}return theme;}
  class GfcSettingsMenu extends WatchUi.Menu2{
  function initialize(mode,control){Menu2.initialize({:title=>${q(p.name + " Settings")}});menuMode=mode;menuControl=control;rebuild();}
  var menuMode=null;var menuControl=null;
  function onShow(){Menu2.onShow();rebuild();}
  function rebuild(){while(deleteItem(0)==true){}var mode=menuMode;var control=menuControl;var theme=gfcThemeId();
  if(mode.equals("root")){${item("Theme", '{:action=>"themes"}', "theme")}${root}${item("Reset current theme", '{:action=>"reset"}')}}
- else if(mode.equals("themes")){${themes.map((t) => item(t.name, `{:action=>"set",:key=>"Gfc_Theme",:value=>${q(t.id)}}`)).join("")}}
+ else if(mode.equals("themes")){${themes.map((t) => item(t.name, `{:action=>"set",:key=>"Gfc_Theme",:value=>${themeCode(t.id)}}`)).join("")}}
  else if(mode.equals("values")){${values}}
  }
  }
