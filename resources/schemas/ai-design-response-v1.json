@@ -32,6 +32,16 @@
           "aod"
         ],
         "properties": {
+          "fontId": {
+            "enum": [
+              "chalk",
+              "chalkHan",
+              "sonar_label_font",
+              "sonar_number_font",
+              "rajdhani_light",
+              "rajdhani_bold"
+            ]
+          },
           "id": {
             "type": "string",
             "pattern": "^[a-zA-Z0-9_-]{1,100}$"

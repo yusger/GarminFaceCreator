@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.18.1",
+  "version": "1.19.0",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -708,6 +708,13 @@
       "aod": "cached contour only",
       "activePixelRows": 128,
       "aodTerminatorPoints": 25
+    },
+    "libraryFonts": {
+      "source": "resources/shared/fonts/catalog.json",
+      "aiCreate": "optional fontId selects only approved library IDs; converted to registered font fields; no arbitrary paths/bytes",
+      "fontWeight": "actual file outlines; no synthetic weight guarantee",
+      "missing": "required glyph coverage checked during local resource preparation; Chinese requires chalkHan in AI create",
+      "legacyReleaseV2": "frozen original four fonts and their hashes, not the current catalog"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

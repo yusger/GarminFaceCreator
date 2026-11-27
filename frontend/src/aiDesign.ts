@@ -1,3 +1,4 @@
+import {libraryFonts,fontPatch} from "./fontLibrary";
 import {meterSources} from "./meters.ts";
 import {chartSchema,validateChart} from "./charts";
 import {validPolygon} from "./geometry";
@@ -43,6 +44,7 @@ export const designSources = Object.entries(metrics).filter(
 );
 const kinds = createKinds;
 export const designFields = [
+  "fontId",
   "id",
   "moonHemisphere",
   "chart",
@@ -137,6 +139,12 @@ export function layerInputIssues(value:unknown,index:number):DesignIssue[]{
   else if(designNumberFields.has(field)&&!Number.isFinite(v))add(field,"NUMBER_REQUIRED","必须为有限数值");
   else if(!designBooleanFields.has(field)&&!designNumberFields.has(field)&&!["chart","handShape","polygonPoints","thresholdRules"].includes(field)&&typeof v!=="string")add(field,"STRING_REQUIRED","必须为字符串");
  }
+ if(value.fontId!==undefined){
+  if(!libraryFonts.some(f=>f.id===value.fontId))add("fontId","FONT_NOT_APPROVED","仅能使用批准的字体库ID");
+  if(!["time","date","text","metric","chart"].includes(value.kind))add("fontId","FONT_KIND_UNSUPPORTED","此控件不支持字体");
+  if(value.garminFont!==undefined&&value.garminFont!=="auto")add("fontId","FONT_CONFLICT","字体库ID不能与设备字体叠用");
+  if(value.fontId!=="chalkHan"&&(value.dateLocale==="zh"||/[\u2e80-\u9fff]/.test((value.text||"")+(value.label||"")+(value.unit||""))))add("fontId","FONT_GLYPH_SCOPE","中文请使用毛笔中文字体；其他字体缺字须在生成前检查");
+ }
  if(value.chart!==undefined&&(!object(value.chart)||value.kind!=="chart"))add("chart","INVALID_CHART","图表配置须为chart对象");
  if(value.id!==undefined&&(typeof value.id!=="string"||!/^[a-zA-Z0-9_-]{1,100}$/.test(value.id)))add("id","INVALID_ID","须为1–100个字母、数字、下划线或短横线");
  if(value.name!==undefined&&(typeof value.name!=="string"||!value.name.trim()||value.name.length>80))add("name","INVALID_NAME","名称须为1–80个字符");
@@ -156,6 +164,7 @@ export function designResponseSchema(c:DesignChoices){
  const properties:Record<string,any>=Object.fromEntries(designFields.map(k=>[k,designBooleanFields.has(k)?{type:"boolean"}:designNumberFields.has(k)?{type:"number"}:{type:"string"}]));
  const points=(min:number,max:number)=>({type:"array",minItems:3,maxItems:32,items:{type:"array",minItems:2,maxItems:2,items:{type:"number",minimum:min,maximum:max}}});
  Object.assign(properties,{
+  fontId:{enum:libraryFonts.map(f=>f.id)},
   id:{type:"string",pattern:"^[a-zA-Z0-9_-]{1,100}$"},name:{type:"string",minLength:1,maxLength:80},kind:{enum:kinds},
   color:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"},size:{type:"number",minimum:1,maximum:200},w:{type:"number",minimum:1,maximum:908},h:{type:"number",minimum:1,maximum:908},opacity:{type:"number",minimum:0,maximum:1},
   source:c.sources.length?{enum:c.sources}:false,timePart:{enum:["full","hours","minutes",...(c.seconds?["seconds"]:[])]},garminFont:{enum:["auto","xtiny","systemXTiny","tiny","small","medium","large","numberHot"]},
@@ -245,6 +254,8 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       clock: "24h device local",
       meterSources,
       ringSources: ["seconds", "steps", "battery", "heartRate", "static"],
+      approvedLibraryFonts:libraryFonts.map(({id,name,family,usage})=>({id,name,family,usage})),
+      libraryFontPolicy:"Optional fontId selects an approved library font for time/date/text/metric/chart; never put a library ID in garminFont or send arbitrary customFont. fontId is resolved to managed project font fields and is not stored as a new layer property. Full licensed glyphs are prepared locally; missing glyphs block generation. Chinese requires chalkHan. Physical font weights come from actual file outlines.",
       fonts: [
         "auto",
         "xtiny",
@@ -444,7 +455,7 @@ export function parseDesign(
           "应使用" +
           designSourceUnit(v.source),
       );
-    const { referenceId, ...fields } = v;
+    const { referenceId, fontId, ...fields } = v;
     const item: Layer = {
       ...layer(v.kind),
       threshold: false,
@@ -454,6 +465,7 @@ export function parseDesign(
       locked: false,
       exportIncluded: true,
     };
+    if(fontId!==undefined)Object.assign(item,fontPatch(fontId));
     if (item.kind === "image") {
       const r = refs.find((r) => r.id === referenceId && r.usage === "asset");
       if (!r) throw Error("图片图层只能引用标为实际素材的本地参考图");

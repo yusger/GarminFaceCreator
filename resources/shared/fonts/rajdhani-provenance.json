@@ -1,0 +1,20 @@
+{
+  "repository": "https://github.com/google/fonts",
+  "fontRepository": "https://github.com/itfoundry/rajdhani",
+  "files": [
+    {
+      "file": "Rajdhani-Light.ttf",
+      "sha256": "140e9f13af69538161c5780fcf7f81594c069aea887e7bffd417ae1c641213c3",
+      "source": "https://raw.githubusercontent.com/google/fonts/8772f86137e17678cbd3584ca9a3c9486c3e7e50/ofl/rajdhani/Rajdhani-Light.ttf",
+      "license": "https://raw.githubusercontent.com/google/fonts/8772f86137e17678cbd3584ca9a3c9486c3e7e50/ofl/rajdhani/OFL.txt",
+      "upstreamCommit": "8772f86137e17678cbd3584ca9a3c9486c3e7e50"
+    },
+    {
+      "file": "Rajdhani-Bold.ttf",
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd",
+      "source": "https://raw.githubusercontent.com/google/fonts/8772f86137e17678cbd3584ca9a3c9486c3e7e50/ofl/rajdhani/Rajdhani-Bold.ttf",
+      "license": "https://raw.githubusercontent.com/google/fonts/8772f86137e17678cbd3584ca9a3c9486c3e7e50/ofl/rajdhani/OFL.txt",
+      "upstreamCommit": "8772f86137e17678cbd3584ca9a3c9486c3e7e50"
+    }
+  ]
+}

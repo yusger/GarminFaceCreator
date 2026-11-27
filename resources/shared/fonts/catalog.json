@@ -30,5 +30,21 @@
     "file": "sonar-number-font.ttf",
     "license": "SIL OFL 1.1",
     "usage": "时间与仪表数字"
+  },
+  {
+    "id": "rajdhani_light",
+    "name": "轻线仪表字",
+    "family": "Rajdhani Light",
+    "file": "Rajdhani-Light.ttf",
+    "license": "SIL OFL 1.1",
+    "usage": "细线数字与英文标签"
+  },
+  {
+    "id": "rajdhani_bold",
+    "name": "角形仪表字",
+    "family": "Rajdhani Bold",
+    "file": "Rajdhani-Bold.ttf",
+    "license": "SIL OFL 1.1",
+    "usage": "角形数字与紧凑英文"
   }
 ]

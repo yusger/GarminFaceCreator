@@ -7,12 +7,12 @@ if (process.env.GFC_NATIVE_FIXTURE_TEST !== "1" || !process.env.GFC_TEST_URL)
 const url = new URL(process.env.GFC_TEST_URL);
 if (!["http:", "https:"].includes(url.protocol) || url.username || url.password)
   throw Error("Invalid staging URL");
-const converted = process.argv.includes("--converted");
-if (process.argv.slice(2).some((a) => a !== "--converted"))
+const converted = process.argv.includes("--converted"), fine=process.argv.includes("--fine-fonts");
+if (process.argv.slice(2).some((a) => a !== "--converted" && a!=="--fine-fonts"))
   throw Error("Unknown capture option");
 const output = path.resolve(
   "Temp/native-bitmap-typography-" +
-    (converted ? "converted-" : "") +
+    (fine?"fine-":"")+(converted ? "converted-" : "") +
     Date.now(),
 );
 await mkdir(output, { recursive: true });
@@ -44,15 +44,15 @@ try {
   await page.goto(url.href);
   await page.addScriptTag({ content: entry.code });
   for (const c of [
-    { id: "active-454", target: "venu445mm", aod: false, converted },
-    { id: "active-390", target: "venu441mm", aod: false, converted },
-    { id: "forced-aod-454", target: "venu445mm", aod: true, converted },
+    { id: "active-454", target: "venu445mm", aod: false, fine, converted },
+    { id: "active-390", target: "venu441mm", aod: false, fine, converted },
+    { id: "forced-aod-454", target: "venu445mm", aod: true, fine, converted },
   ]) {
     const dir = path.join(output, c.id);
     await mkdir(dir, { recursive: true });
     const result = await page.evaluate(async (c) => {
       const h = window.gfcBitmapTypography,
-        fixture = await h.fixture(c.target, c.aod, c.converted),
+        fixture = await h.fixture(c.target, c.aod, c.converted,c.fine),
         p = fixture.p,
         form = new FormData();
       form.append(

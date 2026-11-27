@@ -12,7 +12,7 @@ import { localGenerate } from "../../src/localGenerator";
 import { preparedCodeFiles } from "../../src/chalkFonts";
 import { preparedAssets } from "../../src/iconLibrary";
 import { captureWatchface } from "../../src/watchfaceCapture";
-async function fixture(target: string, aod: boolean, convert = false) {
+async function fixture(target: string, aod: boolean, convert = false, fine=false) {
   if (!["venu445mm", "venu441mm"].includes(target))
     throw Error("Measured bitmap target required");
   const p = project("BitmapTypographyNativeFixture", true);
@@ -57,6 +57,7 @@ async function fixture(target: string, aod: boolean, convert = false) {
       source: "Licensed library sonar-number-font.ttf",
     },
   ];
+  if(fine){const compact=fonts[0];for(const [i,weight] of ["Light","Bold"].entries())fonts[i]={id:"rajdhani_"+weight.toLowerCase(),family:"Rajdhani "+weight,bytes:await(await get("/fonts/Rajdhani-"+weight+".ttf")).arrayBuffer(),license:await(await get("/fonts/Rajdhani-"+weight+"-LICENSE.txt")).text(),source:"Licensed library Rajdhani-"+weight+".ttf"};fonts[2]=compact;}
   for (const [i, font] of fonts.entries()) {
     const atlas = await chalkAtlas(
         font.bytes,
