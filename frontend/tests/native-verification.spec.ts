@@ -173,6 +173,12 @@ test("native UI is explicit, uses protected downloads and separates simulation f
   const img = panel.getByAltText("SDK 模拟器原生盘面截图");
   await expect(img).toBeVisible();
   await expect.poll(() => img.evaluate((e: any) => e.naturalWidth)).toBe(454);
+  const popupWait = page.waitForEvent("popup");
+  await panel.getByRole("link", { name: "查看完整截图", exact: true }).click();
+  const popup = await popupWait;
+  await expect.poll(() => popup.url()).toContain("blob:");
+  expect(popup.url()).not.toContain(token);
+  await popup.close();
   await expect(panel).toContainText("真实手表的显示");
   await expect(panel).toContainText("独立动态数据");
   const wait = page.waitForEvent("download");

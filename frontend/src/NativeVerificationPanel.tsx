@@ -240,6 +240,11 @@ export default function NativeVerificationPanel({
       )}
       {!!state.artifacts?.length && !state.expired && (
         <div className="native-actions">
+          {image && (
+            <a href={image} target="_blank" rel="noopener noreferrer">
+              查看完整截图
+            </a>
+          )}
           <button type="button" onClick={() => download("screen.png")}>
             下载原生截图
           </button>
