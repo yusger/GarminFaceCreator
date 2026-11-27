@@ -128,7 +128,7 @@ for (const [target, size] of [
     "conditional PNG resources and Chinese date compile on " + target,
     async ({ request }) => {
       test.setTimeout(120000);
-      test.skip(!process.env.GFC_TEST_URL, "Requires deployed SDK");
+      test.skip(process.env.GFC_TEST_SDK !== "1", "Requires explicit deployed SDK test");
       const p = project("Condition", true);
       p.target = target;
       p.deviceSize = size;
@@ -172,9 +172,10 @@ for (const [target, size] of [
       });
       expect(r.status, await r.clone().text()).toBe(202);
       const job = await r.json();
+      const headers={Authorization:"Bearer "+job.accessToken};
       for (let i = 0; i < 100; i++) {
         const state = await (
-          await fetch(base + "/api/builds/" + job.buildId)
+          await fetch(base + "/api/builds/" + job.buildId,{headers})
         ).json();
         if (
           ["succeeded", "failed", "cancelled", "interrupted"].includes(
@@ -184,10 +185,10 @@ for (const [target, size] of [
           expect(
             state.status,
             await (
-              await fetch(base + "/api/builds/" + job.buildId + "/logs")
+              await fetch(base + "/api/builds/" + job.buildId + "/logs",{headers})
             ).text(),
           ).toBe("succeeded");
-          expect((await fetch(base + state.artifacts[0].url)).status).toBe(200);
+          expect((await fetch(base + state.artifacts[0].url,{headers})).status).toBe(200);
           return;
         }
         await new Promise((r) => setTimeout(r, 1000));
