@@ -1,3 +1,4 @@
+export const ENGINEERING_PROMPT_VERSION="engineering-2-data-linkage";
 export const DESIGN_PROMPT_VERSION = "design-7-source-contract";
 export const CHAT_PROMPT_VERSION = "chat-8-source-contract";
 const KEY = "gfc-ai-request-history-v1";

@@ -4,7 +4,7 @@ import { meterPolygons } from "./meters";
 import { defaultThresholds } from "./thresholds";
 import type { Layer, Project } from "./domain";
 import { imageAssetPath } from "./assets";
-import {generationScalarFields as fields} from "./generationFields.ts";
+import {GENERATION_FIELD_CONTRACT_VERSION, generationScalarFields as fields} from "./generationFields.ts";
 import {validPolygon} from "./geometry.ts";
 function scalar(value: unknown) {
   if (value === undefined) return undefined;
@@ -170,6 +170,7 @@ export function generationLayer(l: Layer) {
 export function generationHeader(p: Project) {
   validateControls(p);
   return {
+    generationFieldContractVersion:GENERATION_FIELD_CONTRACT_VERSION,
     schemaVersion: scalar(p.schemaVersion),
     designBrief: scalar(p.designBrief),
     backgroundColor: scalar(p.backgroundColor),

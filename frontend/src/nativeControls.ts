@@ -56,8 +56,8 @@ export function nativeControlledDraw(
         )
         .join("")
     : make(l);
+  const conditions:string[] = [];
   if (!aod) {
-    const conditions = [];
     const bool = controls.find(
       (c) =>
         c.type === "boolean" &&
@@ -69,13 +69,11 @@ export function nativeControlledDraw(
       code = source ? code : make({ ...l, activeVisible: true });
       conditions.push(variable(bool.id));
     }
-    for (const c of controls)
-      if (c.hideWhenChangedFromDefault?.includes(l.id))
-        conditions.push(
-          `${variable(c.id)}.equals(${JSON.stringify(c.default)})`,
-        );
-    if (conditions.length) code = `if(${conditions.join(" && ")}){${code}}`;
   }
+  for (const c of controls)
+    if (c.hideWhenChangedFromDefault?.includes(l.id))
+      conditions.push(`${variable(c.id)}.equals(${JSON.stringify(c.default)})`);
+  if (conditions.length) code = `if(${conditions.join(" && ")}){${code}}`;
   return code;
 }
 export function nativeControls(p: Project) {

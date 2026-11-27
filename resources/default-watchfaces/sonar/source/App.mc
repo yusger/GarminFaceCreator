@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-38-adaptive-geometry; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-39-source-decoration-aod; approximate system font mapping, no SDK fonts bundled.
 // Target venu445mm; device metadata sdk-metadata-1-7722889381ba; package eddc2840754f6d29c6c9a3ede43befdaadd25a09; compiler SHA256 1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4. Hardware/AOD/power unverified.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
@@ -149,17 +149,22 @@ if(true){if(cfg_right_slot_source.equals("steps")){}else if(cfg_right_slot_sourc
 // GFC_LAYER_END
 
 
+// GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_steps_progress%22%2C%22partId%22%3A%22sonar_steps_progress%22%2C%22capabilityId%22%3A%22core.meter%22%2C%22mode%22%3A%22aod%22%7D
+if(true){if(cfg_right_slot_source.equals("steps")){}}
+// GFC_LAYER_END
+
+
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_heart_rate%22%2C%22partId%22%3A%22sonar_heart_rate%22%2C%22capabilityId%22%3A%22core.metric%22%2C%22mode%22%3A%22aod%22%7D
 if(true){{var value=dataheartRate;dc.setColor(0x5E7C93,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.setStroke(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.drawText(px(98),px(228),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_34),metricText(value,"heartRate","","",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
 // GFC_LAYER_END
 
+}
+function render_aod_1(dc as Graphics.Dc) as Void {var clock=frameContext[:clock];var databattery=frameContext[:databattery];
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_heart_rate_unit%22%2C%22partId%22%3A%22sonar_heart_rate_unit%22%2C%22capabilityId%22%3A%22core.text%22%2C%22mode%22%3A%22aod%22%7D
 if(true){dc.setColor(mixTextInk(0x5E7C93,158,bg),Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(158,(mixTextInk(0x5E7C93,158,bg)>>16)&255,(mixTextInk(0x5E7C93,158,bg)>>8)&255,mixTextInk(0x5E7C93,158,bg)&255));dc.setStroke(Graphics.createColor(158,(mixTextInk(0x5E7C93,158,bg)>>16)&255,(mixTextInk(0x5E7C93,158,bg)>>8)&255,mixTextInk(0x5E7C93,158,bg)&255));dc.drawText(px(98),px(259),fontFor(Rez.Fonts.GfcCustom_sonar_label_font_14),"bpm",Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
-}
-function render_aod_1(dc as Graphics.Dc) as Void {var clock=frameContext[:clock];var databattery=frameContext[:databattery];
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_battery_value%22%2C%22partId%22%3A%22sonar_battery_value%22%2C%22capabilityId%22%3A%22core.metric%22%2C%22mode%22%3A%22aod%22%7D
 if(true){{var value=databattery;dc.setColor(0x5E7C93,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.setStroke(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.drawText(px(332),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_15),metricText(value,"battery","","%",0,"--",false),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}}
@@ -175,13 +180,13 @@ if(true){dc.setColor(mixTextInk(0x5E7C93,158,bg),Graphics.COLOR_TRANSPARENT);dc.
 if(true){dc.setColor(0x5E7C93,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.setStroke(Graphics.createColor(255,(0x5E7C93>>16)&255,(0x5E7C93>>8)&255,0x5E7C93&255));dc.drawText(px(203),px(356),fontFor(Rez.Fonts.GfcCustom_sonar_number_font_28),clock.hour.format("%02d")+":"+clock.min.format("%02d"),Graphics.TEXT_JUSTIFY_CENTER|Graphics.TEXT_JUSTIFY_VCENTER);}
 // GFC_LAYER_END
 
+}
+function render_aod_2(dc as Graphics.Dc) as Void {var clock=frameContext[:clock];
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_analog_hour%22%2C%22partId%22%3A%22sonar_analog_hour%22%2C%22capabilityId%22%3A%22core.hand%22%2C%22mode%22%3A%22aod%22%7D
 if(true){drawHand(dc,clock,0,124,124,206,206,0.5,0.5,1,0,10,0x5E7C93,true,true,null);}
 // GFC_LAYER_END
 
-}
-function render_aod_2(dc as Graphics.Dc) as Void {var clock=frameContext[:clock];
 
 // GFC_LAYER_BEGIN %7B%22layerId%22%3A%22sonar_analog_minute%22%2C%22partId%22%3A%22sonar_analog_minute%22%2C%22capabilityId%22%3A%22core.hand%22%2C%22mode%22%3A%22aod%22%7D
 if(true){drawHand(dc,clock,1,86,86,282,282,0.5,0.5,1,0,6,0x5E7C93,true,true,null);}

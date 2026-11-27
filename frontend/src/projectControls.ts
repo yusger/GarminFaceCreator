@@ -216,7 +216,7 @@ export function resolveControls(p: Project): Project {
     if (controlValue(p, c) !== c.default)
       for (const id of c.hideWhenChangedFromDefault || []) {
         const l = layers.find((l) => l.id === id);
-        if (l) l.activeVisible = false;
+        if (l) { l.activeVisible = false; l.aod = false; }
       }
   return { ...p, layers: layers.map((l) => resolvedLayer(l, layers)) };
 }
@@ -271,4 +271,13 @@ export function resetControls(p: Project): Project {
   return first
     ? { ...setControl(p, first.id, first.default), controlValues: undefined }
     : p;
+}
+
+// An explicit alternative to inventing a replacement icon for an unrelated source.
+export function setSourceDecoration(p:Project,controlId:string,layerId:string,enabled:boolean):Project {
+  const c=p.controls?.find(c=>c.id===controlId),l=p.layers.find(l=>l.id===layerId);
+  if(!c||c.type!=="dataSource"||!l||l.kind!=="image"||l.locked||l.weatherIcon||l.exportIncluded===false)throw Error("请选择可编辑的静态图标和数据源配置");
+  const hidden=new Set(c.hideWhenChangedFromDefault||[]);if(enabled)hidden.add(layerId);else hidden.delete(layerId);
+  const next={...setControl(p,c.id,controlValue(p,c)),controls:p.controls!.map(x=>x.id===c.id?{...x,hideWhenChangedFromDefault:hidden.size?[...hidden]:undefined}:x)};
+  validateControls(next);return next;
 }

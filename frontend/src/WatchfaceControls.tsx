@@ -1,5 +1,5 @@
 import type { Project } from "./domain";
-import { controlValue, setControl, resetControls } from "./projectControls";
+import { controlValue, setControl, resetControls, setSourceDecoration } from "./projectControls";
 export default function WatchfaceControls({
   project: p,
   onChange,
@@ -15,7 +15,7 @@ export default function WatchfaceControls({
         <p>配置同时用于预览和生成工程；修改后请重新生成代码。</p>
         <fieldset disabled={p.multiDevice?.scope === "device"}>
           {p.controls.map((c) => (
-            <label key={c.id}>
+            <div key={c.id}><label>
               {c.label}
               {c.type === "boolean" ? (
                 <input
@@ -59,6 +59,14 @@ export default function WatchfaceControls({
                 </select>
               )}
             </label>
+            {c.type === "dataSource" && p.layers.some(l=>l.kind==="image" && !l.weatherIcon && !l.locked && l.exportIncluded!==false) && (
+              <details data-source-decoration>
+                <summary>{c.label}的图标联动</summary>
+                <p className="hint">勾选的静态图标仅在此配置为默认数据源时显示，切换后亮屏/AOD均隐藏；恢复默认后还原。不会自动改画其他图标。</p>
+                {p.layers.filter(l=>l.kind==="image" && !l.weatherIcon && !l.locked && l.exportIncluded!==false).map(l=><label key={l.id} className="inline"><input type="checkbox" aria-label={`切换${c.label}时隐藏${l.name}`} checked={!!c.hideWhenChangedFromDefault?.includes(l.id)} onChange={e=>onChange(setSourceDecoration(p,c.id,l.id,e.target.checked))}/>{l.name}</label>)}
+              </details>
+            )}
+            </div>
           ))}
         </fieldset>
         {p.multiDevice?.scope === "device" && <p>请切换共享主设计后修改。</p>}
