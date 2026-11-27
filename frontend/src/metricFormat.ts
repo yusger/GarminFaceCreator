@@ -1,9 +1,33 @@
+export const metricLimits: Record<
+  string,
+  { min: number; max?: number; exclusiveMin?: boolean }
+> = {
+  heartRate: { min: 0, exclusiveMin: true },
+  battery: { min: 0, max: 100 },
+  temperature: { min: -273.15, max: 1000 },
+  humidity: { min: 0, max: 100 },
+  stress: { min: 0, max: 100 },
+  seconds: { min: 0, max: 59 },
+  altitude: { min: -1e12 },
+};
 export function validMetricValue(source: string, value: number | undefined) {
+  if (!Number.isFinite(value) || value! <= -1e12 || value! >= 1e12)
+    return false;
+  const range = metricLimits[source] || { min: 0 };
   return (
-    Number.isFinite(value) &&
-    (source !== "heartRate" || value! > 0) &&
-    (source !== "battery" || (value! >= 0 && value! <= 100))
+    (range.exclusiveMin ? value! > range.min : value! >= range.min) &&
+    (range.max === undefined || value! <= range.max)
   );
+}
+export function nativeMetricValidation() {
+  return `function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}${Object.entries(
+    metricLimits,
+  )
+    .map(
+      ([source, r]) =>
+        `if(source.equals("${source}")){return value${r.exclusiveMin ? ">" : ">="}${r.min === -1e12 ? "-1.0e12" : r.min}${r.max === undefined ? "" : ` && value<=${r.max}`};}`,
+    )
+    .join("")}return value>=0;}`;
 }
 export function formatMetricValue(
   source: string,

@@ -35,6 +35,7 @@ export default function CompoundInspector({
     });
   }
   function childPatch(patch: Partial<Layer>) {
+    if (["unit","precision","label","metricDecoration"].some(k=>k in patch) && patch.autoSourceFormat === undefined) patch={...patch,autoSourceFormat:false};
     const values = { ...b.controlValues };
     for (const c of b.controls)
       for (const t of c.targets)

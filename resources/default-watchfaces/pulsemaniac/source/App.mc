@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-30-compound-geometry; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-31-source-format; approximate system font mapping, no SDK fonts bundled.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}}
 class GeneratedView extends WatchUi.WatchFace {
@@ -12,16 +12,16 @@ class GeneratedView extends WatchUi.WatchFace {
  function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
  function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
  
- function metricValid(value,battery){return value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100);}
+ function metricValid(value,source){if(value==null || value!=value || value<=-1.0e12 || value>=1.0e12){return false;}if(source.equals("heartRate")){return value>0;}if(source.equals("battery")){return value>=0 && value<=100;}if(source.equals("temperature")){return value>=-273.15 && value<=1000;}if(source.equals("humidity")){return value>=0 && value<=100;}if(source.equals("stress")){return value>=0 && value<=100;}if(source.equals("seconds")){return value>=0 && value<=59;}if(source.equals("altitude")){return value>=-1.0e12;}return value>=0;}
  function metricText(value,source,label,unit,precision,missing,group){
-  if(source.equals("temperature") ? (value==null || value!=value || value < -273.15 || value>1000) : !metricValid(value,source.equals("battery"))){return label+missing;}
+  if(!metricValid(value,source)){return label+missing;}
   var text="";
   if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
   else if(source.equals("seconds")){text=value.toNumber().format("%02d");}
-  else if(source.equals("steps")){var digits=value.toNumber().format("%d");var length=digits.length();for(var i=0;i<length;i++){if(i>0 && (length-i)%3==0){text+=",";}text+=digits.substring(i,i+1);}}
+  else if(source.equals("steps")){text=value.toNumber().format("%d");}
   else {text=value.toFloat().format("%.6f");while(text.length()>0 && text.substring(text.length()-1,text.length()).equals("0")){text=text.substring(0,text.length()-1);}if(text.substring(text.length()-1,text.length()).equals(".")){text=text.substring(0,text.length()-1);}}
-  if(group && !source.equals("steps")){var cut=text.length();for(var c=0;c<text.length();c++){if(text.substring(c,c+1).equals(".")){cut=c;break;}}var grouped="";for(var k=0;k<text.length();k++){if(k>0 && k<cut && (cut-k)%3==0 && !text.substring(k-1,k).equals("-")){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
-  if(group && source.equals("steps") && precision>=0){var grouped="";for(var k=0;k<text.length();k++){if(k>0 && (text.length()-k)%3==0){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
+  if(group){var cut=text.length();for(var c=0;c<text.length();c++){if(text.substring(c,c+1).equals(".")){cut=c;break;}}var grouped="";for(var k=0;k<text.length();k++){if(k>0 && k<cut && (cut-k)%3==0 && !text.substring(k-1,k).equals("-")){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
+
   return label+text+unit;
  }
  

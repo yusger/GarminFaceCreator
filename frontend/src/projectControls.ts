@@ -1,3 +1,4 @@
+import { metricDisplayUnits } from "./metricFormat.ts";
 import type { Project, Layer } from "./domain.ts";
 export type ControlTarget = {
   layerId: string;
@@ -21,6 +22,14 @@ export const sourceLabels: Record<string, string> = {
   distance: "km",
   temperature: "temp",
   seconds: "sec",
+  stress: "stress",
+  recoveryHours: "recovery",
+  floorsClimbed: "floors",
+  intensityMinutes: "active",
+  humidity: "RH",
+  uvIndex: "UV",
+  altitude: "ALT",
+  windSpeed: "WIND",
 };
 export const defaultPrecision = (source: string) =>
   source === "distance" ? 2 : source === "temperature" ? 1 : 0;
@@ -59,12 +68,32 @@ export function validateControls(p: Project) {
           ? typeof v === "string" && /^#[a-f0-9]{6}$/i.test(v)
           : typeof v === "string" &&
             !!c.options?.includes(v) &&
-            !!sourceLabels[v];
+            [
+              "heartRate",
+              "steps",
+              "battery",
+              "calories",
+              "distance",
+              "temperature",
+              "seconds",
+            ].includes(v);
     if (
       !valid(c.default) ||
       !valid(controlValue(p, c)) ||
       (c.type === "dataSource" &&
-        (!c.options?.length || c.options.some((v) => !sourceLabels[v])))
+        (!c.options?.length ||
+          c.options.some(
+            (v) =>
+              ![
+                "heartRate",
+                "steps",
+                "battery",
+                "calories",
+                "distance",
+                "temperature",
+                "seconds",
+              ].includes(v),
+          )))
     )
       throw Error("表盘配置值无效");
     for (const t of c.targets) {
@@ -101,6 +130,15 @@ export function validateControls(p: Project) {
     throw Error("未知表盘配置");
   for (const l of p.layers) {
     if (
+      l.readoutSample !== undefined &&
+      (l.kind !== "metric" ||
+        typeof l.readoutSample !== "string" ||
+        l.readoutSample.length > 48)
+    )
+      throw Error("最大读数样本仅限数据控件且最多48字");
+    if (l.autoSourceFormat !== undefined && l.kind !== "metric")
+      throw Error("自动数据格式仅限数据控件");
+    if (
       l.customFont &&
       (!/^[a-zA-Z0-9_-]+$/.test(l.customFont.id) ||
         !/^[-a-zA-Z0-9_]+\.(ttf|otf)$/.test(l.customFont.file) ||
@@ -113,6 +151,7 @@ export function validateControls(p: Project) {
       "activeVisible",
       "imageFullColor",
       "autoPrecision",
+      "autoSourceFormat",
       "groupThousands",
       "meterContinuous",
     ] as const)
@@ -139,12 +178,22 @@ export function resolvedLayer(l: Layer, layers: Layer[]): Layer {
     ...l,
     ...(source ? { text: sourceLabels[source] || "--" } : {}),
     ...(l.autoPrecision ? { precision: defaultPrecision(l.source) } : {}),
+    ...(l.kind === "metric" && l.autoSourceFormat
+      ? {
+          label: sourceLabels[l.source] || "",
+          unit: metricDisplayUnits[l.source] || "",
+          precision: defaultPrecision(l.source),
+          metricDecoration: false,
+        }
+      : {}),
   };
 }
 export function resolveControls(p: Project): Project {
   if (
     !p.controls?.length &&
-    !p.layers.some((l) => l.sourceLabelFor || l.autoPrecision)
+    !p.layers.some(
+      (l) => l.sourceLabelFor || l.autoPrecision || l.autoSourceFormat,
+    )
   )
     return p;
   const layers = p.layers.map((l) => ({

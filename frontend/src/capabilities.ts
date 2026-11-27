@@ -117,6 +117,7 @@ export function designCapabilityContext() {
       metricSources: localMetricSources,
       meterSources: catalog.rules.meterSources,
       heartRateMetricDecoration: false,
+      autoSourceFormat:"Optional metric flag: derive ASCII label, display suffix and distance=2/temperature=1/others=0 precision from selected source; use numeric-only decoration. Manual formatting remains when flag is false. readoutSample is editor-only and must never become real sensor data.",
     },
     policy:
       "Editor design support and deterministic generation differ. Preserve requested known editable structure; do not silently flatten or drop it. Unsupported deterministic features need explicit later implementation or AI engineering; catalog is not device verification.",

@@ -1,3 +1,4 @@
+import ReadoutInspector from "./ReadoutInspector";
 import ResourceInspector from "./ResourceInspector";
 import GenerationChecks from "./GenerationChecks";
 import PolygonEditor from "./PolygonEditor";
@@ -2990,6 +2991,9 @@ export default function App() {
                     {current.kind === "metric" && (
                       <>
                         <h4>数据绑定</h4>
+                        <label className="inline"><input aria-label="自动匹配数据源格式" type="checkbox" checked={!!current.autoSourceFormat} onChange={e=>patch(e.target.checked?{autoSourceFormat:true}:{autoSourceFormat:false,label:current.label,unit:current.unit,precision:current.precision,metricDecoration:current.metricDecoration})}/>自动匹配标签、单位和精度（纯数字）</label>
+                        <ReadoutInspector layer={current} onChange={patch}/>
+
                         {current.source === "heartRate" && (
                           <>
                             <label className="inline">
@@ -3038,7 +3042,7 @@ export default function App() {
                             aria-label="数据标签"
                             maxLength={100}
                             value={current.label || ""}
-                            onChange={(e) => patch({ label: e.target.value })}
+                            onChange={(e) => patch({ label: e.target.value, autoSourceFormat:false })}
                           />
                         </label>
                         <label>
@@ -3048,7 +3052,7 @@ export default function App() {
                             maxLength={100}
                             placeholder="输入自定义单位；空值隐藏"
                             value={current.unit ?? ""}
-                            onChange={(e) => patch({ unit: e.target.value })}
+                            onChange={(e) => patch({ unit: e.target.value, autoSourceFormat:false })}
                           />
                         </label>
                         <p className="hint">
@@ -3056,7 +3060,7 @@ export default function App() {
                             ? "当前使用数据源默认单位"
                             : "当前使用自定义单位（可留空隐藏）"}
                         </p>
-                        <button onClick={() => patch({ unit: undefined })}>
+                        <button onClick={() => patch({ unit: undefined,autoSourceFormat:false })}>
                           恢复默认单位
                         </button>
                         <label>
@@ -3066,6 +3070,7 @@ export default function App() {
                             value={current.precision ?? "auto"}
                             onChange={(e) =>
                               patch({
+                                autoSourceFormat:false,
                                 precision:
                                   e.target.value === "auto"
                                     ? undefined

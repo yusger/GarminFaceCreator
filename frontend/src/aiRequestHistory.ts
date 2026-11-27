@@ -1,5 +1,5 @@
-export const DESIGN_PROMPT_VERSION = "design-5-curved-text";
-export const CHAT_PROMPT_VERSION = "chat-6-curved-text";
+export const DESIGN_PROMPT_VERSION = "design-6-data-format";
+export const CHAT_PROMPT_VERSION = "chat-7-data-format";
 const KEY = "gfc-ai-request-history-v1";
 const MAX_BYTES = 512 * 1024;
 export type RequestSnapshot = {

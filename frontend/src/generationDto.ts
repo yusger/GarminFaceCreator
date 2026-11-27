@@ -5,6 +5,7 @@ import { defaultThresholds } from "./thresholds";
 import type { Layer, Project } from "./domain";
 import { imageAssetPath } from "./assets";
 type Omitted =
+  | "readoutSample"
   | "image"
   | "assetId"
   | "hidden"
@@ -54,6 +55,7 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   imageFullColor: true,
   sourceLabelFor: true,
   autoPrecision: true,
+  autoSourceFormat: true,
   groupThousands: true,
   meterContinuous: true,
   meterDimColor: true,

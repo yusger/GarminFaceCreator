@@ -27,6 +27,7 @@ const bools = [
   "threshold",
   "meterContinuous",
   "groupThousands",
+  "autoSourceFormat",
   "fillEnabled",
   "strokeEnabled",
   "allowClip",

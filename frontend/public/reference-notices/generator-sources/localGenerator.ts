@@ -1,3 +1,4 @@
+import {nativeMetricValidation} from "./metricFormat.ts";
 import { localConfigurationDiagnostics } from "./generationDiagnostics.ts";
 import {nativeCurvedText} from "./curvedTextLayout.ts";
 import {nativeArcMethod} from "./arc.ts";
@@ -21,7 +22,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-30-compound-geometry";
+export const LOCAL_GENERATOR_VERSION = "basic-31-source-format";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -246,7 +247,7 @@ function draw(l: Layer, aod: boolean) {
     if (l.threshold && !aod) {
       const rules = l.thresholdRules ?? defaultThresholds(l.source, l.color);
       prefix +=
-        `var ink=${color(l.thresholdFallback || l.color)};if(${l.source === "temperature" ? "value!=null && value==value && value>=-273.15 && value<=1000" : `metricValid(value,${l.source === "battery" ? "true" : "false"})`}){` +
+        `var ink=${color(l.thresholdFallback || l.color)};if(metricValid(value,${JSON.stringify(l.source)})){` +
         rules
           .map(
             (r, i) =>
@@ -414,16 +415,16 @@ export function localGenerate(p: Project) {
 `
     : "";
   const dataHelpers = metrics
-    ? `function metricValid(value,battery){return value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100);}
+    ? `${nativeMetricValidation()}
  function metricText(value,source,label,unit,precision,missing,group){
-  if(source.equals("temperature") ? (value==null || value!=value || value < -273.15 || value>1000) : !metricValid(value,source.equals("battery"))){return label+missing;}
+  if(!metricValid(value,source)){return label+missing;}
   var text="";
   if(precision>=0){text=value.toFloat().format("%."+precision.format("%d")+"f");}
   else if(source.equals("seconds")){text=value.toNumber().format("%02d");}
-  else if(source.equals("steps")){var digits=value.toNumber().format("%d");var length=digits.length();for(var i=0;i<length;i++){if(i>0 && (length-i)%3==0){text+=",";}text+=digits.substring(i,i+1);}}
+  else if(source.equals("steps")){text=value.toNumber().format("%d");}
   else {text=value.toFloat().format("%.6f");while(text.length()>0 && text.substring(text.length()-1,text.length()).equals("0")){text=text.substring(0,text.length()-1);}if(text.substring(text.length()-1,text.length()).equals(".")){text=text.substring(0,text.length()-1);}}
-  if(group && !source.equals("steps")){var cut=text.length();for(var c=0;c<text.length();c++){if(text.substring(c,c+1).equals(".")){cut=c;break;}}var grouped="";for(var k=0;k<text.length();k++){if(k>0 && k<cut && (cut-k)%3==0 && !text.substring(k-1,k).equals("-")){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
-  if(group && source.equals("steps") && precision>=0){var grouped="";for(var k=0;k<text.length();k++){if(k>0 && (text.length()-k)%3==0){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
+  if(group){var cut=text.length();for(var c=0;c<text.length();c++){if(text.substring(c,c+1).equals(".")){cut=c;break;}}var grouped="";for(var k=0;k<text.length();k++){if(k>0 && k<cut && (cut-k)%3==0 && !text.substring(k-1,k).equals("-")){grouped+=",";}grouped+=text.substring(k,k+1);}text=grouped;}
+
   return label+text+unit;
  }`
     : "";
