@@ -126,11 +126,27 @@ const cache = new Map<
     reports: FontPreparationReport[];
   }>
 >();
+const cacheSizes = new Map<string, number>();
+function trimFontCache() {
+  while (
+    cache.size > 16 ||
+    [...cacheSizes.values()].reduce((a, b) => a + b, 0) > 16 * 1024 * 1024
+  ) {
+    const oldest = cache.keys().next().value;
+    if (oldest === undefined) break;
+    cache.delete(oldest);
+    cacheSizes.delete(oldest);
+  }
+}
 export function preparedChalk(p: Project) {
   const plans = chalkPlans(p),
     key = JSON.stringify(plans);
   const existing = cache.get(key);
-  if (existing) return existing;
+  if (existing) {
+    cache.delete(key);
+    cache.set(key, existing);
+    return existing;
+  }
   const promise = (async () => {
     const reports: FontPreparationReport[] = [];
     const files: CodeFile[] = [],
@@ -185,12 +201,22 @@ export function preparedChalk(p: Project) {
         data: atlas.data,
       });
     }
-    return { files, assets, reports };
+    const value = { files, assets, reports };
+    if (cache.has(key)) {
+      cacheSizes.set(
+        key,
+        new TextEncoder().encode(JSON.stringify(value)).byteLength,
+      );
+      trimFontCache();
+    }
+    return value;
   })().catch((e) => {
     cache.delete(key);
+    cacheSizes.delete(key);
     throw e;
   });
   cache.set(key, promise);
+  trimFontCache();
   return promise;
 }
 export async function preparedCodeFiles(p: Project) {

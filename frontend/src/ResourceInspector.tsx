@@ -1,4 +1,8 @@
-import { preparedChalk, type FontPreparationReport } from "./chalkFonts";
+import {
+  chalkPlans,
+  preparedChalk,
+  type FontPreparationReport,
+} from "./chalkFonts";
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Project } from "./domain";
 import {
@@ -17,6 +21,13 @@ export default function ResourceInspector({
   const [fontReports, setFontReports] = useState<FontPreparationReport[]>([]),
     [fontError, setFontError] = useState(""),
     [fontBusy, setFontBusy] = useState(false);
+  const fontKey = useMemo(() => {
+    try {
+      return JSON.stringify(chalkPlans(project));
+    } catch {
+      return "invalid-" + project.revision;
+    }
+  }, [project]);
   const fontRequest = useRef(0);
   useEffect(() => {
     fontRequest.current++;
@@ -26,7 +37,7 @@ export default function ResourceInspector({
     return () => {
       fontRequest.current++;
     };
-  }, [project]);
+  }, [project.id, fontKey]);
   const cache = useRef(new Map<string, ImageInspection>());
   const [open, setOpen] = useState(false);
   const entries = useMemo(() => resourceInventory(project), [project]);

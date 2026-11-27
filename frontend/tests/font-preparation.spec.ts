@@ -125,3 +125,7 @@ for (const size of ["45mm", "41mm"])
       timeout: 110000,
     });
   });
+
+test("font reports survive source-only changes and do not vanish after generating code",async({page})=>{
+ await create(page);await page.getByRole("button",{name:"素材",exact:true}).click();const panel=page.locator("[data-resource-inspector]");await panel.locator(":scope > summary").click();await panel.getByRole("button",{name:"检查生成字体",exact:true}).click();await expect(panel.locator("[data-font-report]")).toHaveCount(1);await page.getByRole("button",{name:"本地生成（试验）",exact:true}).click();await page.getByRole("button",{name:"应用生成结果",exact:true}).click();await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();await expect(panel.locator("[data-font-report]")).toHaveCount(1);
+});
