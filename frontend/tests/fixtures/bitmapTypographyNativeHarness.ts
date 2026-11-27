@@ -1,3 +1,4 @@
+import { rasterizeProjectFont } from "../../src/rasterizeFont";
 import { project, layer } from "../../src/domain";
 import { chalkAtlas } from "../../src/chalkAtlas";
 import { fontDataBytes } from "../../src/localFonts";
@@ -11,7 +12,7 @@ import { localGenerate } from "../../src/localGenerator";
 import { preparedCodeFiles } from "../../src/chalkFonts";
 import { preparedAssets } from "../../src/iconLibrary";
 import { captureWatchface } from "../../src/watchfaceCapture";
-async function fixture(target: string, aod: boolean) {
+async function fixture(target: string, aod: boolean, convert = false) {
   if (!["venu445mm", "venu441mm"].includes(target))
     throw Error("Measured bitmap target required");
   const p = project("BitmapTypographyNativeFixture", true);
@@ -32,20 +33,24 @@ async function fixture(target: string, aod: boolean) {
       f.family.toLowerCase().includes("rajdhani"),
     );
   if (!rajdhani) throw Error("Missing licensed angular reference font");
+  p.localFonts = [rajdhani];
   const fonts = [
     {
+      id: "sonar_label_font",
       family: "Barlow Semi Condensed",
       bytes: await (await get("/fonts/sonar-label-font.ttf")).arrayBuffer(),
       license: await (await get("/fonts/sonar-label-font-LICENSE.txt")).text(),
       source: "Licensed library sonar-label-font.ttf",
     },
     {
+      id: rajdhani.id,
       family: rajdhani.family,
       bytes: fontDataBytes(rajdhani.data),
       license: rajdhani.license,
       source: rajdhani.source,
     },
     {
+      id: "sonar_number_font",
       family: "Share Tech Mono",
       bytes: await (await get("/fonts/sonar-number-font.ttf")).arrayBuffer(),
       license: await (await get("/fonts/sonar-number-font-LICENSE.txt")).text(),
@@ -60,12 +65,19 @@ async function fixture(target: string, aod: boolean) {
         "0123456789:",
         "atlas.png",
       ),
-      f = createBitmapFontAsset(
-        atlas.content,
-        atlas.data,
-        font.license,
-        font.source,
-      );
+      f = convert
+        ? await rasterizeProjectFont(
+            p,
+            { ...layer("text"), text: "11:11" },
+            font.id,
+            28,
+          )
+        : createBitmapFontAsset(
+            atlas.content,
+            atlas.data,
+            font.license,
+            font.source,
+          );
     p.bitmapFonts.push(f);
     const info = bitmapFontInfo(f);
     for (const [j, text] of ["11:11", "88:88"].entries())
