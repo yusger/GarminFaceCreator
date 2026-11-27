@@ -82,7 +82,7 @@ test("polygon contract rejects malformed, crossing and nonconvex geometry atomic
   ).toThrow(/多边形/);
   const old = { ...project("Old", true), schemaVersion: 26 };
   const migrated = migrateProject(old);
-  expect(migrated.schemaVersion).toBe(28);
+  expect(migrated.schemaVersion).toBe(29);
   expect(old.schemaVersion).toBe(26);
   expect(migrated.id).toBe(old.id);
 });

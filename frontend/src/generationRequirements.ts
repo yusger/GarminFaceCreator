@@ -129,7 +129,7 @@ export function generationRequirements(p: Project) {
   // The generation contract explicitly uses source-over drawing tools (4.2.1).
   const minApiLevel = dataSources.reduce(
     (version, a) => maxApi(version, a.api),
-    "4.2.1",
+    layers.some(l=>l.kind==="arcText")?"5.1.0":"4.2.1",
   );
   const permissions = [
     ...new Set(
@@ -142,7 +142,7 @@ export function generationRequirements(p: Project) {
         ? ["周日一二三四五六月"]
         : l.kind === "wordTime"
           ? [wordTimeGlyphs(l.wordLanguage)]
-          : l.kind === "text"
+          : l.kind === "text" || l.kind === "arcText"
             ? [l.text]
             : l.kind === "metric" || l.kind === "meter"
               ? [l.label || "", l.unit || "", l.missingValue || "--"]

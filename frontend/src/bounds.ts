@@ -31,6 +31,7 @@ export function crossesScreen(
     : 0;
   const y = textSize ? (layer.h - height) / 2 : 0;
   const points =
+    layer.kind === "arcText" ? Array.from({length:128},(_,i)=>{const r=Math.min(layer.w,layer.h)*(layer.arcRadius??0.4)+layer.size/2;return [layer.w/2+Math.cos(i*Math.PI/64)*r,layer.h/2+Math.sin(i*Math.PI/64)*r];}) :
     layer.kind === "polygon" ? layer.polygonPoints!.map(([x,y])=>[x*layer.w,y*layer.h]) :
     layer.kind === "circle" || layer.kind === "ring"
       ? Array.from({ length: 128 }, (_, i) => [

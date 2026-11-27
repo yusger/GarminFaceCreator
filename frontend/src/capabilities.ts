@@ -48,6 +48,37 @@ export function localLayerDiagnostics(l: Layer): CapabilityDiagnostic[] {
       "rotation",
       "当前本地生成仅支持rect/line/circle/polygon旋转",
     );
+  if (l.kind === "arcText") {
+    if (
+      l.text.length > catalog.rules.arcText.maxChars ||
+      /[^\x20-\x7e]/.test(l.text) ||
+      l.customFont ||
+      (l.garminFont && !["auto", "small"].includes(l.garminFont)) ||
+      (l.fontWeight ?? 400) !== 400 ||
+      (l.opacity ?? 1) !== 1
+    )
+      add(
+        "LOCAL_ARC_TEXT_STYLE_UNSUPPORTED",
+        "text",
+        "曲线文字暂仅支持80字内ASCII、设备矢量小号字体、常规字重和不透明颜色",
+      );
+    const sizes = [l.size, ...(l.aod ? [l.aodSize || l.size] : [])];
+    if (
+      sizes.some(
+        (size) =>
+          size < 6 ||
+          size > 80 ||
+          l.text.length * size +
+            Math.max(0, l.text.length - 1) * (l.arcSpacing ?? 0) >
+            2 * Math.PI * Math.min(l.w, l.h) * (l.arcRadius ?? 0.4),
+      )
+    )
+      add(
+        "LOCAL_ARC_TEXT_BUDGET",
+        "size",
+        "曲线字号须6–80，文字按保守预算限一圈；请缩字、加半径或减少文字",
+      );
+  }
   if (l.kind === "meter" && !catalog.rules.meterSources.includes(l.source))
     add("LOCAL_METER_SOURCE_UNSUPPORTED", "source", "进度控件仅支持步数或电量");
   if (l.kind === "metric" && !localMetricSources.includes(l.source))
@@ -79,9 +110,10 @@ export function designCapabilityContext() {
         pivot: "layer center",
         direction: "clockwise screen coordinates",
       },
-      ringStyles:["ticks","continuous"],
-      ringCaps:["butt","round"],
-      ringAod:"dim track only; no seconds animation",
+      arcText: catalog.rules.arcText,
+      ringStyles: ["ticks", "continuous"],
+      ringCaps: ["butt", "round"],
+      ringAod: "dim track only; no seconds animation",
       metricSources: localMetricSources,
       meterSources: catalog.rules.meterSources,
       heartRateMetricDecoration: false,

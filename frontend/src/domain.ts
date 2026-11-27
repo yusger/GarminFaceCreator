@@ -23,9 +23,14 @@ export type Kind =
   | "rect"
   | "circle"
   | "line"
-  | "polygon";
+  | "polygon"
+  | "arcText";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  arcRadius?:number;
+  arcStartAngle?:number;
+  arcDirection?:"clockwise"|"counterclockwise";
+  arcSpacing?:number;
   polygonPoints?: [number,number][];
   compound?: Compound;
   compoundOverrides?: Record<string,CompoundStyle>;
@@ -209,7 +214,8 @@ export type Project = {
     | 25
     | 26
     | 27
-    | 28;
+    | 28
+    | 29;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -298,8 +304,10 @@ export function layer(kind: Kind): Layer {
       circle: "圆形",
       line: "直线",
       polygon: "多边形",
+      arcText:"曲线文字",
     }[kind],
     kind,
+    ...(kind === "arcText"?{arcRadius:0.4,arcStartAngle:0,arcDirection:"clockwise" as const,arcSpacing:1}:{}),
     ...(kind === "polygon" ? {polygonPoints:regularPolygon(8)} : {}),
     x: 140,
     y: 180,
@@ -310,7 +318,8 @@ export function layer(kind: Kind): Layer {
     rotation: 0,
     hidden: false,
     locked: false,
-    text: kind === "text" ? "HELLO WORLD" : "",
+    text: kind === "text" ? "HELLO WORLD" : kind === "arcText"?"CURVED LABEL":"",
+    ...(kind === "arcText"?{x:67,y:67,w:320,h:320,size:18}:{}),
     source: kind === "meter" ? "steps" : "heartRate",
     ...(kind === "meter"
       ? {
@@ -432,7 +441,7 @@ export function project(name = "极夜 01", blank = false): Project {
         },
       ];
   return {
-    schemaVersion: 28,
+    schemaVersion: 29,
     id: uid(),
     appId: uid().replaceAll("-", ""),
     name,
@@ -463,10 +472,11 @@ export function validateProject(value: unknown): Project {
     "circle",
     "line",
     "polygon",
+    "arcText",
   ];
   if (
     !p ||
-    p.schemaVersion !== 28 ||
+    p.schemaVersion !== 29 ||
     typeof p.name !== "string" ||
     !Array.isArray(p.layers) ||
     p.layers.length > 200
@@ -528,6 +538,8 @@ export function validateProject(value: unknown): Project {
         l.strokeWidth > 32)
     )
       throw Error("线宽无效");
+    if(l.kind==="arcText" && (typeof l.text!=="string"||l.text.length>80))throw Error("曲线文字最多80字符");
+    if((l.arcRadius!==undefined&&(!Number.isFinite(l.arcRadius)||l.arcRadius<0.05||l.arcRadius>0.5))||(l.arcStartAngle!==undefined&&(!Number.isFinite(l.arcStartAngle)||Math.abs(l.arcStartAngle)>360))||(l.arcSpacing!==undefined&&(!Number.isFinite(l.arcSpacing)||l.arcSpacing<0||l.arcSpacing>12))||(l.arcDirection!==undefined&&!["clockwise","counterclockwise"].includes(l.arcDirection)))throw Error("曲线文字参数无效");
     if ((l.kind === "polygon" && !validPolygon(l.polygonPoints)) || (l.kind !== "polygon" && l.polygonPoints !== undefined)) throw Error("多边形须为3–32个归一化顶点的凸多边形");
     if (
       !kinds.includes(l.kind) ||

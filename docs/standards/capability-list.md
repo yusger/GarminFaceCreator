@@ -1,6 +1,6 @@
 # 编辑器能力清单
 
-由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.3.1，内部项目版本 28。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
+由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.4.0，内部项目版本 29。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
 
 | 能力 | 网页 | AI创建 | 对话添加 | 本地生成 | 限制 | 回归 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -35,5 +35,6 @@
 | data.altitude | 支持 | 支持 | 支持 | 未接入 | Units and device API come from generationRequirements adapters, not this catalog. | frontend/tests/capabilities.spec.ts |
 | data.windspeed | 支持 | 支持 | 支持 | 未接入 | Units and device API come from generationRequirements adapters, not this catalog. | frontend/tests/capabilities.spec.ts |
 | core.polygon | 支持 | 支持 | 支持 | 有条件支持 | 3..32 strictly convex normalized [0,1] vertices. Fill/stroke, clockwise center rotation. No arbitrary SVG paths or scripting. | frontend/tests/polygon.spec.ts |
+| core.arcText | 支持 | 支持 | 支持 | 有条件支持 | First release: Venu4 targets only, printable ASCII <=80 chars, 8 layers. Fixed scalable SMALL face, 400 weight, opacity1, no resource fonts/rotation. Browser font and glyph advances are approximate. Radius fraction/spacing/angle/direction/alignment; conservative one-circle width budget. | frontend/tests/curved-text.spec.ts |
 
 设计层面的已知结构可以保留；生成器的必要限制不得静默降级。复合控件先展开再检查，图片需实际资源，meter仅步数/电量，metric仅本清单已接入来源，心率关闭装饰，仅rect/line/circle/polygon支持围绕层中心顺时针旋转，其他图层rotation为0。外部发布包仍使用独立契约。

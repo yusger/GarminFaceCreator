@@ -1,3 +1,4 @@
+import CurvedText from "./CurvedText";
 import ProgressArc from "./ProgressArc";
 import {ringProgress} from "./arc";
 import {layerTransform} from "./geometry";
@@ -224,7 +225,7 @@ export default function Scene({
                 cursor: l.locked ? "not-allowed" : onDown ? "move" : "default",
               }}
             >
-              {l.kind === "hand" ? (
+              {l.kind === "arcText" ? <CurvedText layer={l} aod={aod}/> : l.kind === "hand" ? (
                 <Hand layer={l} preview={preview} aod={aod} />
               ) : l.kind === "celestial" ? (
                 <Celestial layer={l} preview={preview} aod={aod} />

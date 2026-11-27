@@ -37,6 +37,10 @@ const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
   color: true,
   size: true,
   rotation: true,
+  arcRadius:true,
+  arcStartAngle:true,
+  arcDirection:true,
+  arcSpacing:true,
   polygonPoints:true,
   text: true,
   source: true,
@@ -181,6 +185,7 @@ export function generationLayer(l: Layer) {
           ...(l.kind === "rect" ? { cornerRadius: l.cornerRadius ?? 4 } : {}),
         }
       : {}),
+    ...(l.kind==="arcText"?{arcRadius:l.arcRadius??0.4,arcStartAngle:l.arcStartAngle??0,arcDirection:l.arcDirection||"clockwise",arcSpacing:l.arcSpacing??0,nativeFont:"scalable Graphics.FONT_SMALL; API5.1; Venu4 only; ASCII only"}:{}),
     ...(l.kind === "ring"
       ? {
           ringStyle:l.ringStyle||"ticks",

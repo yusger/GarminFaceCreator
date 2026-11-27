@@ -1,7 +1,7 @@
 import {migrateCompounds} from "./compound.ts";
 import { defaultThresholds } from "./thresholds.ts";
 import type { Project } from "./domain";
-export const CURRENT_SCHEMA = 28;
+export const CURRENT_SCHEMA = 29;
 export function migrateProject(value: unknown): Project {
   if (!value || typeof value !== "object") throw Error("项目格式不正确");
   const input = value as Project;
@@ -159,6 +159,7 @@ export function migrateProject(value: unknown): Project {
   if(result.schemaVersion===25)result={...migrateCompounds(result),schemaVersion:26};
   if(result.schemaVersion===26)result={...result,schemaVersion:27};
   if(result.schemaVersion===27)result={...result,schemaVersion:28};
+  if(result.schemaVersion===28)result={...result,schemaVersion:29};
   if (!Array.isArray(result.layers) || !Array.isArray(result.versions))
     throw Error("项目图层或历史格式不正确");
   return result;

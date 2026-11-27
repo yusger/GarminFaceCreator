@@ -54,6 +54,7 @@ const strings = [
   "ringCap",
   "handType",
   "handCap",
+  "arcDirection",
   "strokeColor",
   "effectPrompt",
 ];

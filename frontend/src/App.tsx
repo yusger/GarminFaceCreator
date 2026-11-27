@@ -131,6 +131,7 @@ const tools = [
   ["rect", "矩形", Square],
   ["polygon", "多边形", Square],
   ["text", "文字", Type],
+  ["arcText", "曲线文字", Type],
   ["circle", "圆形", Circle],
   ["line", "直线", Minus],
 ] as const;
@@ -2448,6 +2449,7 @@ export default function App() {
                       </>
                     )}
                     {current.kind === "polygon" && <PolygonEditor points={current.polygonPoints!} onChange={polygonPoints=>patch({polygonPoints})}/>}
+                    {current.kind === "arcText" && <fieldset><legend>曲线文字</legend><label>文字内容<input aria-label="曲线文字内容" value={current.text} maxLength={80} onChange={e=>patch({text:e.target.value})}/></label><label>半径比例<input aria-label="曲线半径比例" type="number" min={0.05} max={0.5} step={0.01} value={current.arcRadius??0.4} onChange={e=>patch({arcRadius:Math.max(0.05,Math.min(0.5,Number(e.target.value)||0.05))})}/></label><label>起始角<input aria-label="曲线起始角" type="number" min={-360} max={360} value={current.arcStartAngle??0} onChange={e=>patch({arcStartAngle:Math.max(-360,Math.min(360,Number(e.target.value)||0))})}/></label><label>方向<select aria-label="曲线方向" value={current.arcDirection||"clockwise"} onChange={e=>patch({arcDirection:e.target.value as "clockwise"|"counterclockwise"})}><option value="clockwise">顺时针</option><option value="counterclockwise">逆时针</option></select></label><label>字距<input aria-label="曲线字距" type="number" min={0} max={12} step={0.1} value={current.arcSpacing??0} onChange={e=>patch({arcSpacing:Math.max(0,Math.min(12,Number(e.target.value)||0))})}/></label><label>沿弧对齐<select aria-label="曲线文字对齐" value={current.textAlign||"center"} onChange={e=>patch({textAlign:e.target.value as Layer["textAlign"]})}><option value="left">从起始角开始</option><option value="center">在起始角居中</option><option value="right">在起始角结束</option></select></label><small>0°在12点；半径为宽高中较短边的比例。首版原生仅Venu4、常规设备矢量字体、6–80字号、80字内英文/数字；网页替代字形有差异。每项目最多8层，保守预算限一圈。底部正向阅读可选180°和逆时针。</small></fieldset>}
                     {current.kind === "wordTime" && (
                       <>
                         <label>
@@ -3340,6 +3342,7 @@ export default function App() {
                           "date",
                           "metric",
                           "wordTime",
+                          "arcText",
                         ].includes(current.kind) && (
                           <label>
                             息屏字号

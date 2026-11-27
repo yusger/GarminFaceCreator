@@ -40,6 +40,8 @@ function fixture() {
     },
     {...layer("polygon"),x:180,y:210,w:90,h:90,rotation:20,aod:true,strokeEnabled:true},
     {...layer("ring"),x:20,y:20,w:414,h:414,ringStyle:"continuous",ringCap:"round",ringSource:"battery",ringWidth:10,aod:true},
+    {...layer("arcText"),x:20,y:20,w:414,h:414,size:14,text:"CURVED LABEL",arcSpacing:1,aod:true},
+    {...layer("arcText"),x:20,y:20,w:414,h:414,size:14,text:"LOWER LABEL",arcStartAngle:180,arcDirection:"counterclockwise",arcSpacing:1,color:"#FFD060",aod:true},
     layer("time"),
   ];
   return p;
@@ -67,7 +69,7 @@ for (const [target, size] of [
   ["venu445mm", "45mm"],
   ["venu441mm", "41mm"],
 ])
-  test(`geometry and continuous arc compile SDK ${target}`, async ({ request }) => {
+  test(`geometry and curved labels compile SDK ${target}`, async ({ request }) => {
     test.skip(
       process.env.GFC_TEST_SDK !== "1",
       "Explicit SDK staging test only",

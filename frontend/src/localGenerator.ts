@@ -1,6 +1,7 @@
+import {nativeCurvedText} from "./curvedTextLayout.ts";
 import {nativeArcMethod} from "./arc.ts";
 ﻿import { rotatePoint } from "./geometry.ts";
-import { localLayerDiagnostics } from "./capabilities.ts";
+import { capabilityCatalog, localLayerDiagnostics } from "./capabilities.ts";
 import { expandWidgets } from "./compound.ts";
 import { resolveControls, validateControls } from "./projectControls.ts";
 import { nativeControls, nativeControlledDraw } from "./nativeControls.ts";
@@ -19,7 +20,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-26-smooth-circular-arc";
+export const LOCAL_GENERATOR_VERSION = "basic-27-curved-text";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -136,6 +137,7 @@ function draw(l: Layer, aod: boolean) {
         l.aodSeconds === "hide"))
   )
     return "";
+  if(l.kind === "arcText")return `drawCurvedLabel(dc,${num(l.x)},${num(l.y)},${num(l.w)},${num(l.h)},${num(l.arcRadius??0.4)},${num(l.arcStartAngle??0)},${l.arcDirection==="counterclockwise"?"false":"true"},${num(l.arcSpacing??0)},${num(aod?l.aodSize||l.size:l.size)},${color(aod?l.aodColor||"#777777":l.color)},${JSON.stringify(l.text)},${l.textAlign==="left"?0:l.textAlign==="right"?2:1});`;
   if (l.kind === "ring") {
     const source = l.ringSource || "seconds",
       goal =
@@ -288,13 +290,15 @@ export function localGenerate(p: Project) {
   const settings = nativeControls(p);
   p.layers.forEach((l) => validateVisibility(l.visibility));
   const included = p.layers.filter((l) => l.exportIncluded !== false);
+  const curved=included.filter(l=>l.kind==="arcText");
+  if(curved.length && (!capabilityCatalog.rules.arcText.targets.includes(p.target||"venu445mm")||curved.length>capabilityCatalog.rules.arcText.maxLayers))throw Error("本地曲线文字仅开放Venu4两尺寸，且最多8层；其他目标仍可保留设计草稿。");
   const unsupported = included.filter(
     (l) => localLayerDiagnostics(l).length > 0,
   );
   if (unsupported.length)
     throw Error(
       "本地生成试验仅支持时间、日期、三周日历、文字报时、文字、基础形状、步数/电量目标仪表、步数/电量/秒数/距离/总热量/纯数字心率数据、静态图片和内置图标（仅rect/line/circle/polygon支持旋转，其他类型需未旋转；心率需关闭心形符号）。请移除或排除：" +
-        unsupported.map((l) => l.name).join("、"),
+        unsupported.map((l) => l.name+"（"+localLayerDiagnostics(l).map(d=>d.message).join("；")+"）").join("、"),
     );
   const imageLayers = included.filter(
     (l) => (l.kind === "image" || !!l.handBitmap) && !l.libraryIcon,
@@ -421,12 +425,13 @@ export function localGenerate(p: Project) {
  }`
     : "";
   const source = `// GarminFaceCreator local generator ${LOCAL_GENERATOR_VERSION}; approximate system font mapping, no SDK fonts bundled.
-import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands || rings || imageLayers.length ? "import Toybox.Math;" : ""}
+import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;${dataSources.includes("heartRate") ? "import Toybox.SensorHistory;" : ""}${activitySources.length ? "import Toybox.ActivityMonitor;" : ""}${date || zones.length || celestial ? "import Toybox.Time;import Toybox.Time.Gregorian;" : ""}${celestial ? "import Toybox.Position;" : ""}${celestial || temperature ? "import Toybox.Weather;" : ""}${celestial || hands || rings || curved.length || imageLayers.length ? "import Toybox.Math;" : ""}${curved.length?"import Toybox.Lang;":""}
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}${p.controls?.length ? "function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}" : ""}}
 class GeneratedView extends WatchUi.WatchFace {
  var sleeping=false;var scale=1.0;
  function mixTextInk(ink,alpha,bg){var r=(((ink>>16)&255)*alpha+((bg>>16)&255)*(255-alpha))/255;var g=(((ink>>8)&255)*alpha+((bg>>8)&255)*(255-alpha))/255;var b=((ink&255)*alpha+(bg&255)*(255-alpha))/255;return (r.toNumber()<<16)|(g.toNumber()<<8)|b.toNumber();}
  ${included.some((l) => l.widgetOrigin) ? "function widgetFont(dc,text,preferred,w,h,size){var fonts=[preferred,Graphics.FONT_NUMBER_HOT,Graphics.FONT_LARGE,Graphics.FONT_MEDIUM,Graphics.FONT_SMALL,Graphics.FONT_TINY,Graphics.FONT_XTINY];var chosen=Graphics.FONT_XTINY;var best=0;for(var i=0;i<fonts.size();i++){var height=dc.getFontHeight(fonts[i]);if(height<=h && height<=size*1.35 && height>best && dc.getTextWidthInPixels(text,fonts[i])<=w){chosen=fonts[i];best=height;}}return chosen;}" : ""}
+ ${curved.length?nativeCurvedText:""}
  ${settings.helpers}
  ${chalk.length ? "var fonts={};function fontFor(id){if(!fonts.hasKey(id)){fonts[id]=WatchUi.loadResource(id);}return fonts[id];}" : ""}
  function initialize(){WatchFace.initialize();}

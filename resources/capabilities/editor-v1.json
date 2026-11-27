@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.3.1",
-  "projectSchemaVersion": 28,
+  "version": "1.4.0",
+  "projectSchemaVersion": 29,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -410,6 +410,19 @@
       "deviceVerification": "not_verified_by_catalog",
       "constraints": "3..32 strictly convex normalized [0,1] vertices. Fill/stroke, clockwise center rotation. No arbitrary SVG paths or scripting.",
       "test": "frontend/tests/polygon.spec.ts"
+    },
+    {
+      "id": "core.arcText",
+      "kind": "arcText",
+      "preview": true,
+      "aiCreate": true,
+      "chatAdd": true,
+      "deterministic": true,
+      "mode": "active/aod static text",
+      "minimumApi": "5.1.0",
+      "deviceVerification": "Venu4 SDK/native validation pending in stage81",
+      "constraints": "First release: Venu4 targets only, printable ASCII <=80 chars, 8 layers. Fixed scalable SMALL face, 400 weight, opacity1, no resource fonts/rotation. Browser font and glyph advances are approximate. Radius fraction/spacing/angle/direction/alignment; conservative one-circle width budget.",
+      "test": "frontend/tests/curved-text.spec.ts"
     }
   ],
   "rules": {
@@ -430,7 +443,22 @@
       "line",
       "circle",
       "polygon"
-    ]
+    ],
+    "arcText": {
+      "targets": [
+        "venu445mm",
+        "venu441mm"
+      ],
+      "maxLayers": 8,
+      "maxChars": 80,
+      "minimumApi": "5.1.0",
+      "characterSet": "printable ASCII",
+      "font": "scalable Graphics.FONT_SMALL only",
+      "radius": "fraction of min(w,h), 0.05..0.5",
+      "spacing": "logical pixels, 0..12",
+      "size": "6..80 logical pixels per mode",
+      "widthBudget": "n*size+(n-1)*spacing <= circumference (conservative program policy, not device limit)"
+    }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."
 }
