@@ -40,3 +40,5 @@ deploy/simulator-probe/tests/*.sh text eol=lf
 docs/research/theme-settings/** -text
 
 docs/research/bitmap-typography/** -text
+
+docs/research/instrument-fonts/** -text

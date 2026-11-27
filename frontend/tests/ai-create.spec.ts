@@ -668,3 +668,10 @@ test("AI creation selects approved licensed font IDs without retaining virtual f
 test("new instrument font files have real required numeric glyphs and complete licenses",async()=>{
  for(const file of ["Rajdhani-Light.ttf","Rajdhani-Bold.ttf"]){const bytes=await readFile("resources/shared/fonts/"+file),buffer=new Uint8Array(bytes).buffer;expect(missingGlyphs(buffer,"0123456789:-. %AVWkmbpm")).toEqual([]);expect(await readFile("resources/shared/fonts/"+file.replace(".ttf","-LICENSE.txt"),"utf8")).toContain("SIL OPEN FONT LICENSE Version 1.1");}
 });
+
+test("113 AI creation renders and saves the approved font selected by a model response",async({page})=>{
+ let calls=0,builds=0;page.on("request",r=>{if(r.method()==="POST"&&r.url().endsWith("/api/builds"))builds++;});
+ await page.route("https://api.example.com/v1/chat/completions",async route=>{calls++;const payload=decode(route.request().postDataJSON());expect(payload.contract.approvedLibraryFonts.map((f:any)=>f.id)).toContain("rajdhani_light");const data=response(payload.choices,payload.references);data.layers.find(l=>l.kind==="time").fontId="rajdhani_light";await route.fulfill({json:{choices:[{finish_reason:"stop",message:{content:JSON.stringify(data)}}]}});});
+ await setup(page);await page.getByLabel("AI项目名称").fill("FontIdUI");await next(page);await next(page);await page.getByRole("button",{name:"生成表盘项目",exact:true}).click();await expect(page.getByRole("button",{name:"采用设计并编辑",exact:true})).toBeVisible();await page.getByRole("button",{name:"采用设计并编辑",exact:true}).click();await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();
+ const d=page.waitForEvent("download");await page.getByRole("button",{name:"导出项目",exact:true}).click();const saved=JSON.parse(await readFile((await(await d).path())!,"utf8")),time=saved.layers.find((l:any)=>l.kind==="time");expect(time.customFont.id).toBe("rajdhani_light");expect(time.fontId).toBeUndefined();expect(time.garminFont).toBe("auto");expect(saved.files).toEqual([]);expect(calls).toBe(1);expect(builds).toBe(0);
+});

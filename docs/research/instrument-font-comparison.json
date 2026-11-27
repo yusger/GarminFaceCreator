@@ -1,0 +1,1474 @@
+{
+  "note": "Original unmodified images. Foreground threshold80 is diagnostic, separate from AOD lit-pixel counting. Offset search does not shift saved images. Fixed drawing cases, no real Sleep/hardware or model calls.",
+  "records": [
+    {
+      "id": "active-454",
+      "target": "venu445mm",
+      "aod": false,
+      "fine": true,
+      "converted": true,
+      "applicationDataMode": "controlled drawing fixture, licensed fonts and fixed text; physical tracking, tabular advances, baseline shifts and line heights",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [
+        {
+          "layerId": "font0-0",
+          "fontId": "bitmap_ca13c7b67511be8b53d2555000000000",
+          "family": "Rajdhani Light",
+          "text": "11:11",
+          "width": 69,
+          "left": 192,
+          "top": 54,
+          "baseline": 73,
+          "y": 40,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 26,
+          "native": {
+            "width": 69,
+            "left": 192,
+            "top": 54
+          }
+        },
+        {
+          "layerId": "font0-1",
+          "fontId": "bitmap_ca13c7b67511be8b53d2555000000000",
+          "family": "Rajdhani Light",
+          "text": "88:88",
+          "width": 69,
+          "left": 192,
+          "top": 114,
+          "baseline": 133,
+          "y": 100,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 26,
+          "native": {
+            "width": 69,
+            "left": 192,
+            "top": 114
+          }
+        },
+        {
+          "layerId": "font1-0",
+          "fontId": "bitmap_ca1d7f0d4963c5e9e962754000000000",
+          "family": "Rajdhani Bold",
+          "text": "11:11",
+          "width": 74,
+          "left": 190,
+          "top": 180,
+          "baseline": 199,
+          "y": 160,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 180
+          }
+        },
+        {
+          "layerId": "font1-1",
+          "fontId": "bitmap_ca1d7f0d4963c5e9e962754000000000",
+          "family": "Rajdhani Bold",
+          "text": "88:88",
+          "width": 74,
+          "left": 190,
+          "top": 240,
+          "baseline": 259,
+          "y": 220,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 240
+          }
+        },
+        {
+          "layerId": "font2-0",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "11:11",
+          "width": 72,
+          "left": 191,
+          "top": 297,
+          "baseline": 318,
+          "y": 280,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 297
+          }
+        },
+        {
+          "layerId": "font2-1",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "88:88",
+          "width": 72,
+          "left": 191,
+          "top": 357,
+          "baseline": 378,
+          "y": 340,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 357
+          }
+        }
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-67-bitmap-typography-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "005e862b97b3dfa52e6dcda4e83ef520024d45f0a501453e9688e14dd6d3d980",
+      "prgSha256": "a60dc3f6103ecc65ac9cf0d0f689fdf0625e3b2368d3212dd46a9cf804cafdb6",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.24782365198197975,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 3156,
+        "foregroundRgbMeanAbsoluteError": 10.69476130122518,
+        "rows": [
+          {
+            "layerId": "font0-0",
+            "family": "Rajdhani Light",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 195,
+                "y": 55,
+                "right": 255,
+                "bottom": 72
+              },
+              "native": {
+                "x": 194,
+                "y": 55,
+                "right": 255,
+                "bottom": 72
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 90.17494089834516
+              },
+              {
+                "dy": -2,
+                "mae": 81.41414141414141
+              },
+              {
+                "dy": -1,
+                "mae": 62.55840455840456
+              },
+              {
+                "dy": 0,
+                "mae": 29.057692307692307
+              },
+              {
+                "dy": 1,
+                "mae": 63.826330532212886
+              },
+              {
+                "dy": 2,
+                "mae": 81.9950248756219
+              },
+              {
+                "dy": 3,
+                "mae": 91.00709219858156
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font0-1",
+            "family": "Rajdhani Light",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 193,
+                "y": 115,
+                "right": 259,
+                "bottom": 132
+              },
+              "native": {
+                "x": 193,
+                "y": 115,
+                "right": 259,
+                "bottom": 132
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 117.99179487179487
+              },
+              {
+                "dy": -2,
+                "mae": 108.64035087719299
+              },
+              {
+                "dy": -1,
+                "mae": 92.56077015643802
+              },
+              {
+                "dy": 0,
+                "mae": 18.757575757575758
+              },
+              {
+                "dy": 1,
+                "mae": 93.584229390681
+              },
+              {
+                "dy": 2,
+                "mae": 108.94989106753813
+              },
+              {
+                "dy": 3,
+                "mae": 117.80102564102565
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-0",
+            "family": "Rajdhani Bold",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              },
+              "native": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 60.812572087658594
+              },
+              {
+                "dy": -2,
+                "mae": 44.84390547263681
+              },
+              {
+                "dy": -1,
+                "mae": 26.10863697705803
+              },
+              {
+                "dy": 0,
+                "mae": 5.617690058479532
+              },
+              {
+                "dy": 1,
+                "mae": 26.221552878179384
+              },
+              {
+                "dy": 2,
+                "mae": 44.73518518518519
+              },
+              {
+                "dy": 3,
+                "mae": 60.44616265750286
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-1",
+            "family": "Rajdhani Bold",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              },
+              "native": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 81.94789762340037
+              },
+              {
+                "dy": -2,
+                "mae": 61.139219576719576
+              },
+              {
+                "dy": -1,
+                "mae": 35.73571945046999
+              },
+              {
+                "dy": 0,
+                "mae": 5.636762360446571
+              },
+              {
+                "dy": 1,
+                "mae": 34.9295010845987
+              },
+              {
+                "dy": 2,
+                "mae": 60.63194444444444
+              },
+              {
+                "dy": 3,
+                "mae": 81.51218769043267
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-0",
+            "family": "Barlow Semi Condensed",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 193,
+                "y": 298,
+                "right": 257,
+                "bottom": 317
+              },
+              "native": {
+                "x": 193,
+                "y": 298,
+                "right": 258,
+                "bottom": 317
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 54.073059360730596
+              },
+              {
+                "dy": -2,
+                "mae": 42.55961070559611
+              },
+              {
+                "dy": -1,
+                "mae": 27.60546875
+              },
+              {
+                "dy": 0,
+                "mae": 11.428571428571429
+              },
+              {
+                "dy": 1,
+                "mae": 27.618110236220474
+              },
+              {
+                "dy": 2,
+                "mae": 42.04938271604938
+              },
+              {
+                "dy": 3,
+                "mae": 53.16550116550116
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-1",
+            "family": "Barlow Semi Condensed",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 358,
+                "right": 261,
+                "bottom": 377
+              },
+              "native": {
+                "x": 192,
+                "y": 358,
+                "right": 261,
+                "bottom": 377
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 78.34926958831342
+              },
+              {
+                "dy": -2,
+                "mae": 62.14992721979622
+              },
+              {
+                "dy": -1,
+                "mae": 36.769417475728154
+              },
+              {
+                "dy": 0,
+                "mae": 9.10990990990991
+              },
+              {
+                "dy": 1,
+                "mae": 36.02022653721683
+              },
+              {
+                "dy": 2,
+                "mae": 61.62590975254731
+              },
+              {
+                "dy": 3,
+                "mae": 78.42496679946879
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "instrument-fonts/active-454-browser.png",
+          "sha256": "2834320ebb3bd2807c26d3b32230e7929436167938515695a5880bdc44196e8b"
+        },
+        "native.png": {
+          "file": "instrument-fonts/active-454-native.png",
+          "sha256": "067dca136fad06d316efafbd296cbcca64def71549194ac64a34096e21af50e8"
+        }
+      }
+    },
+    {
+      "id": "active-390",
+      "target": "venu441mm",
+      "aod": false,
+      "fine": true,
+      "converted": true,
+      "applicationDataMode": "controlled drawing fixture, licensed fonts and fixed text; physical tracking, tabular advances, baseline shifts and line heights",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [
+        {
+          "layerId": "font0-0",
+          "fontId": "bitmap_ca13c7b67511be8b53d2555000000000",
+          "family": "Rajdhani Light",
+          "text": "11:11",
+          "width": 69,
+          "left": 160,
+          "top": 43,
+          "baseline": 62,
+          "y": 34,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 26,
+          "native": {
+            "width": 69,
+            "left": 160,
+            "top": 43
+          }
+        },
+        {
+          "layerId": "font0-1",
+          "fontId": "bitmap_ca13c7b67511be8b53d2555000000000",
+          "family": "Rajdhani Light",
+          "text": "88:88",
+          "width": 69,
+          "left": 160,
+          "top": 94,
+          "baseline": 113,
+          "y": 85,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 26,
+          "native": {
+            "width": 69,
+            "left": 160,
+            "top": 94
+          }
+        },
+        {
+          "layerId": "font1-0",
+          "fontId": "bitmap_ca1d7f0d4963c5e9e962754000000000",
+          "family": "Rajdhani Bold",
+          "text": "11:11",
+          "width": 74,
+          "left": 157,
+          "top": 152,
+          "baseline": 171,
+          "y": 137,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 157,
+            "top": 152
+          }
+        },
+        {
+          "layerId": "font1-1",
+          "fontId": "bitmap_ca1d7f0d4963c5e9e962754000000000",
+          "family": "Rajdhani Bold",
+          "text": "88:88",
+          "width": 74,
+          "left": 157,
+          "top": 203,
+          "baseline": 222,
+          "y": 188,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 157,
+            "top": 203
+          }
+        },
+        {
+          "layerId": "font2-0",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "11:11",
+          "width": 72,
+          "left": 158,
+          "top": 252,
+          "baseline": 273,
+          "y": 240,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 72,
+            "left": 158,
+            "top": 252
+          }
+        },
+        {
+          "layerId": "font2-1",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "88:88",
+          "width": 72,
+          "left": 158,
+          "top": 304,
+          "baseline": 325,
+          "y": 292,
+          "h": 51,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 72,
+            "left": 158,
+            "top": 304
+          }
+        }
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-67-bitmap-typography-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "2412735190f466d1bf2a27f84f18daa3a7a143e3ad284153634d4ee9904ab932",
+      "prgSha256": "a9200706b3488a568062ba128e754f859e04cd0e1a15e9fce6c3aa486638d676",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 0.3316204695590073,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 3156,
+        "foregroundRgbMeanAbsoluteError": 10.69476130122518,
+        "rows": [
+          {
+            "layerId": "font0-0",
+            "family": "Rajdhani Light",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 163,
+                "y": 44,
+                "right": 223,
+                "bottom": 61
+              },
+              "native": {
+                "x": 162,
+                "y": 44,
+                "right": 223,
+                "bottom": 61
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 90.17494089834516
+              },
+              {
+                "dy": -2,
+                "mae": 81.41414141414141
+              },
+              {
+                "dy": -1,
+                "mae": 62.55840455840456
+              },
+              {
+                "dy": 0,
+                "mae": 29.057692307692307
+              },
+              {
+                "dy": 1,
+                "mae": 63.826330532212886
+              },
+              {
+                "dy": 2,
+                "mae": 81.9950248756219
+              },
+              {
+                "dy": 3,
+                "mae": 91.00709219858156
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font0-1",
+            "family": "Rajdhani Light",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 161,
+                "y": 95,
+                "right": 227,
+                "bottom": 112
+              },
+              "native": {
+                "x": 161,
+                "y": 95,
+                "right": 227,
+                "bottom": 112
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 117.99179487179487
+              },
+              {
+                "dy": -2,
+                "mae": 108.64035087719299
+              },
+              {
+                "dy": -1,
+                "mae": 92.56077015643802
+              },
+              {
+                "dy": 0,
+                "mae": 18.757575757575758
+              },
+              {
+                "dy": 1,
+                "mae": 93.584229390681
+              },
+              {
+                "dy": 2,
+                "mae": 108.94989106753813
+              },
+              {
+                "dy": 3,
+                "mae": 117.80102564102565
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-0",
+            "family": "Rajdhani Bold",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 160,
+                "y": 153,
+                "right": 226,
+                "bottom": 170
+              },
+              "native": {
+                "x": 160,
+                "y": 153,
+                "right": 226,
+                "bottom": 170
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 60.812572087658594
+              },
+              {
+                "dy": -2,
+                "mae": 44.84390547263681
+              },
+              {
+                "dy": -1,
+                "mae": 26.10863697705803
+              },
+              {
+                "dy": 0,
+                "mae": 5.617690058479532
+              },
+              {
+                "dy": 1,
+                "mae": 26.221552878179384
+              },
+              {
+                "dy": 2,
+                "mae": 44.73518518518519
+              },
+              {
+                "dy": 3,
+                "mae": 60.44616265750286
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-1",
+            "family": "Rajdhani Bold",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 158,
+                "y": 204,
+                "right": 229,
+                "bottom": 221
+              },
+              "native": {
+                "x": 158,
+                "y": 204,
+                "right": 229,
+                "bottom": 221
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 81.94789762340037
+              },
+              {
+                "dy": -2,
+                "mae": 61.139219576719576
+              },
+              {
+                "dy": -1,
+                "mae": 35.73571945046999
+              },
+              {
+                "dy": 0,
+                "mae": 5.636762360446571
+              },
+              {
+                "dy": 1,
+                "mae": 34.9295010845987
+              },
+              {
+                "dy": 2,
+                "mae": 60.63194444444444
+              },
+              {
+                "dy": 3,
+                "mae": 81.51218769043267
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-0",
+            "family": "Barlow Semi Condensed",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 160,
+                "y": 253,
+                "right": 224,
+                "bottom": 272
+              },
+              "native": {
+                "x": 160,
+                "y": 253,
+                "right": 225,
+                "bottom": 272
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 54.073059360730596
+              },
+              {
+                "dy": -2,
+                "mae": 42.55961070559611
+              },
+              {
+                "dy": -1,
+                "mae": 27.60546875
+              },
+              {
+                "dy": 0,
+                "mae": 11.428571428571429
+              },
+              {
+                "dy": 1,
+                "mae": 27.618110236220474
+              },
+              {
+                "dy": 2,
+                "mae": 42.04938271604938
+              },
+              {
+                "dy": 3,
+                "mae": 53.16550116550116
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-1",
+            "family": "Barlow Semi Condensed",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 159,
+                "y": 305,
+                "right": 228,
+                "bottom": 324
+              },
+              "native": {
+                "x": 159,
+                "y": 305,
+                "right": 228,
+                "bottom": 324
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 78.34926958831342
+              },
+              {
+                "dy": -2,
+                "mae": 62.14992721979622
+              },
+              {
+                "dy": -1,
+                "mae": 36.769417475728154
+              },
+              {
+                "dy": 0,
+                "mae": 9.10990990990991
+              },
+              {
+                "dy": 1,
+                "mae": 36.02022653721683
+              },
+              {
+                "dy": 2,
+                "mae": 61.62590975254731
+              },
+              {
+                "dy": 3,
+                "mae": 78.42496679946879
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "instrument-fonts/active-390-browser.png",
+          "sha256": "46a5ef1aa74c8ceb32813a31ce7133da5cfe76cea1b30eb6be0f98114bd879bd"
+        },
+        "native.png": {
+          "file": "instrument-fonts/active-390-native.png",
+          "sha256": "4afeb0bec9a14f028efaadba62677dc4adb6ba31b47bdd01c41e21df3885bb27"
+        }
+      }
+    },
+    {
+      "id": "forced-aod-454",
+      "target": "venu445mm",
+      "aod": true,
+      "fine": true,
+      "converted": true,
+      "applicationDataMode": "controlled drawing fixture, licensed fonts and fixed text; physical tracking, tabular advances, baseline shifts and line heights",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [
+        {
+          "layerId": "font0-0",
+          "fontId": "bitmap_ca13c7b67511be8b53d2555000000000",
+          "family": "Rajdhani Light",
+          "text": "11:11",
+          "width": 69,
+          "left": 192,
+          "top": 54,
+          "baseline": 73,
+          "y": 40,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 26,
+          "native": {
+            "width": 69,
+            "left": 192,
+            "top": 54
+          }
+        },
+        {
+          "layerId": "font0-1",
+          "fontId": "bitmap_ca13c7b67511be8b53d2555000000000",
+          "family": "Rajdhani Light",
+          "text": "88:88",
+          "width": 69,
+          "left": 192,
+          "top": 114,
+          "baseline": 133,
+          "y": 100,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": -3,
+          "lineHeight": 26,
+          "native": {
+            "width": 69,
+            "left": 192,
+            "top": 114
+          }
+        },
+        {
+          "layerId": "font1-0",
+          "fontId": "bitmap_ca1d7f0d4963c5e9e962754000000000",
+          "family": "Rajdhani Bold",
+          "text": "11:11",
+          "width": 74,
+          "left": 190,
+          "top": 180,
+          "baseline": 199,
+          "y": 160,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 180
+          }
+        },
+        {
+          "layerId": "font1-1",
+          "fontId": "bitmap_ca1d7f0d4963c5e9e962754000000000",
+          "family": "Rajdhani Bold",
+          "text": "88:88",
+          "width": 74,
+          "left": 190,
+          "top": 240,
+          "baseline": 259,
+          "y": 220,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 4,
+          "lineHeight": 28,
+          "native": {
+            "width": 74,
+            "left": 190,
+            "top": 240
+          }
+        },
+        {
+          "layerId": "font2-0",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "11:11",
+          "width": 72,
+          "left": 191,
+          "top": 297,
+          "baseline": 318,
+          "y": 280,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 297
+          }
+        },
+        {
+          "layerId": "font2-1",
+          "fontId": "bitmap_ca1786021e9594be0513080000000000",
+          "family": "Barlow Semi Condensed",
+          "text": "88:88",
+          "width": 72,
+          "left": 191,
+          "top": 357,
+          "baseline": 378,
+          "y": 340,
+          "h": 60,
+          "tracking": 2,
+          "tabular": true,
+          "baselineShift": 0,
+          "lineHeight": 26,
+          "native": {
+            "width": 72,
+            "left": 191,
+            "top": 357
+          }
+        }
+      ],
+      "browserAodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 3292,
+        "aboveNoisePixels": 3192,
+        "ratio": 0.02033454401699899,
+        "noiseRatio": 0.019716848269216516,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.015971588814065865,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-67-bitmap-typography-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "5c8a1c8178f9d56ad15beac9bfaf610531b80ebd22660bc875bcb821d157319a",
+      "prgSha256": "85b7f729f805815a456258a27da045cf2bd086fb3371060c54d0090236a0ee18",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.15868191963366524,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 2572,
+        "foregroundRgbMeanAbsoluteError": 7.656817003628823,
+        "rows": [
+          {
+            "layerId": "font0-0",
+            "family": "Rajdhani Light",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 195,
+                "y": 55,
+                "right": 254,
+                "bottom": 72
+              },
+              "native": {
+                "x": 195,
+                "y": 55,
+                "right": 255,
+                "bottom": 72
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 50.03603603603604
+              },
+              {
+                "dy": -2,
+                "mae": 44.98148148148148
+              },
+              {
+                "dy": -1,
+                "mae": 32.99009900990099
+              },
+              {
+                "dy": 0,
+                "mae": 16.31159420289855
+              },
+              {
+                "dy": 1,
+                "mae": 34.63430420711974
+              },
+              {
+                "dy": 2,
+                "mae": 45.67283950617284
+              },
+              {
+                "dy": 3,
+                "mae": 50.708708708708706
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font0-1",
+            "family": "Rajdhani Light",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 194,
+                "y": 115,
+                "right": 259,
+                "bottom": 132
+              },
+              "native": {
+                "x": 194,
+                "y": 115,
+                "right": 259,
+                "bottom": 132
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 74.52400548696845
+              },
+              {
+                "dy": -2,
+                "mae": 69.16231884057972
+              },
+              {
+                "dy": -1,
+                "mae": 59.71291866028708
+              },
+              {
+                "dy": 0,
+                "mae": 10.887445887445887
+              },
+              {
+                "dy": 1,
+                "mae": 60.62559241706161
+              },
+              {
+                "dy": 2,
+                "mae": 69.8231884057971
+              },
+              {
+                "dy": 3,
+                "mae": 74.69135802469135
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-0",
+            "family": "Rajdhani Bold",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              },
+              "native": {
+                "x": 193,
+                "y": 181,
+                "right": 259,
+                "bottom": 198
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 52.59274193548387
+              },
+              {
+                "dy": -2,
+                "mae": 38.75292397660819
+              },
+              {
+                "dy": -1,
+                "mae": 22.22596153846154
+              },
+              {
+                "dy": 0,
+                "mae": 5.640625
+              },
+              {
+                "dy": 1,
+                "mae": 22.877777777777776
+              },
+              {
+                "dy": 2,
+                "mae": 39.16086956521739
+              },
+              {
+                "dy": 3,
+                "mae": 52.939516129032256
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font1-1",
+            "family": "Rajdhani Bold",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              },
+              "native": {
+                "x": 191,
+                "y": 241,
+                "right": 262,
+                "bottom": 258
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 66.00568181818181
+              },
+              {
+                "dy": -2,
+                "mae": 50.25105485232068
+              },
+              {
+                "dy": -1,
+                "mae": 29.32936507936508
+              },
+              {
+                "dy": 0,
+                "mae": 5.278378378378378
+              },
+              {
+                "dy": 1,
+                "mae": 29.00079365079365
+              },
+              {
+                "dy": 2,
+                "mae": 49.952883263009845
+              },
+              {
+                "dy": 3,
+                "mae": 65.87769328263624
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-0",
+            "family": "Barlow Semi Condensed",
+            "text": "11:11",
+            "bounds": {
+              "browser": {
+                "x": 194,
+                "y": 298,
+                "right": 257,
+                "bottom": 317
+              },
+              "native": {
+                "x": 193,
+                "y": 298,
+                "right": 257,
+                "bottom": 317
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 56.01815181518152
+              },
+              {
+                "dy": -2,
+                "mae": 43.575268817204304
+              },
+              {
+                "dy": -1,
+                "mae": 26.162745098039217
+              },
+              {
+                "dy": 0,
+                "mae": 8.463675213675213
+              },
+              {
+                "dy": 1,
+                "mae": 26.766666666666666
+              },
+              {
+                "dy": 2,
+                "mae": 43.456989247311824
+              },
+              {
+                "dy": 3,
+                "mae": 55.06765676567657
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "font2-1",
+            "family": "Barlow Semi Condensed",
+            "text": "88:88",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 358,
+                "right": 260,
+                "bottom": 377
+              },
+              "native": {
+                "x": 192,
+                "y": 358,
+                "right": 260,
+                "bottom": 377
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 68.35014619883042
+              },
+              {
+                "dy": -2,
+                "mae": 53.65277777777778
+              },
+              {
+                "dy": -1,
+                "mae": 30.352777777777778
+              },
+              {
+                "dy": 0,
+                "mae": 7.183229813664596
+              },
+              {
+                "dy": 1,
+                "mae": 29.965355805243444
+              },
+              {
+                "dy": 2,
+                "mae": 53.27339901477833
+              },
+              {
+                "dy": 3,
+                "mae": 68.60572687224669
+              }
+            ],
+            "bestDy": 0
+          }
+        ],
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3292,
+            "aboveNoisePixels": 3192,
+            "ratio": 0.02033454401699899,
+            "noiseRatio": 0.019716848269216516,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.015971588814065865,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3156,
+            "aboveNoisePixels": 3156,
+            "ratio": 0.019494477800014825,
+            "noiseRatio": 0.019494477800014825,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.015311766189912477,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        }
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "instrument-fonts/forced-aod-454-browser.png",
+          "sha256": "962fc7c411c14be4261f06f950eee3ab8619157143ef6abb8737be4074185d65"
+        },
+        "native.png": {
+          "file": "instrument-fonts/forced-aod-454-native.png",
+          "sha256": "309855b5b1ad3707552cf83238449a573d721119f4f9f2aabf5475e5ab1ca5f4"
+        }
+      }
+    }
+  ]
+}
