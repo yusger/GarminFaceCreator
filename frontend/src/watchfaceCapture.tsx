@@ -9,7 +9,7 @@ import { missingGlyphs } from "./fontLibrary";
 import { localDateKey, calendarDateLabel } from "./calendar";
 import type { Project } from "./domain";
 export type WatchfaceCapture = {
-  rendererVersion:"browser-capture-1";
+  rendererVersion:"browser-capture-2";
   device:ReturnType<typeof generationDevice>;
   browser:string;
   data: string;
@@ -131,7 +131,7 @@ export async function captureWatchface(
     if (!ctx) throw Error("截图画布不可用");
     ctx.drawImage(img, 0, 0);
     return {
-      rendererVersion:"browser-capture-1",
+      rendererVersion:"browser-capture-2",
       device,
       browser:navigator.userAgent,
       data: canvas.toDataURL("image/png"),

@@ -170,7 +170,7 @@ export default function Scene({
     >
       <defs>
         <clipPath id={"clip-" + clipId}>
-          <circle cx="227" cy="227" r="226" />
+          <circle cx="227" cy="227" r={exact ? 227 : 226} />
         </clipPath>
       </defs>
       <circle
@@ -178,8 +178,8 @@ export default function Scene({
         cy="227"
         r="227"
         fill={aod ? "#000" : project.backgroundColor || "#07131d"}
-        stroke="#53616d"
-        strokeWidth="0.7"
+        stroke={exact ? "none" : "#53616d"}
+        strokeWidth={exact ? 0 : 0.7}
       />
       {!exact && project.layoutGuide?.showGuide && (
         <circle
