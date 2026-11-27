@@ -17,6 +17,8 @@ builder.Services.AddBuildOptions(builder.Configuration);
 builder.Services.AddSingleton<PublicBuildPolicy>();
 builder.Services.AddSingleton<BuildAuditLog>();
 builder.Services.AddSingleton<BuildStore>();
+builder.Services.AddOptions<NativeOptions>().Bind(builder.Configuration.GetSection("NativeVerification"),o=>o.ErrorOnUnknownConfiguration=true).ValidateDataAnnotations().Validate(o=>!o.Enabled||(OperatingSystem.IsLinux()&&Path.IsPathFullyQualified(o.SocketPath)&&Path.GetFileName(o.SocketPath)=="worker.sock"),"Native verification requires Linux and absolute worker.sock path").ValidateOnStart();
+builder.Services.AddSingleton<NativeStore>();builder.Services.AddHostedService<NativeWorker>();builder.Services.AddHostedService<NativeRetention>();
 builder.Services.AddHostedService<BuildWorker>();
 builder.Services.AddHostedService<RetentionWorker>();
 // Trust only the explicitly configured reverse proxy; ignore client-supplied forwarding headers otherwise.
@@ -102,7 +104,7 @@ app.Use(async (ctx, next) =>
 app.Use(async (ctx, next) => { try { await next(ctx); } catch (Exception e) when (e is ArgumentException or InvalidDataException or XmlException or JsonException or BadHttpRequestException) { if (!ctx.Response.HasStarted) { if (ctx.Items[BuildAuditLog.ContextKey] is BuildAuditEntry auditEntry) { var audit = ctx.RequestServices.GetRequiredService<BuildAuditLog>(); audit.Begin(auditEntry); audit.Write(auditEntry, "请求校验失败：" + e.Message); } ctx.Response.StatusCode = 400; await ctx.Response.WriteAsJsonAsync(new { error = e.Message }); } } });
 app.UseDefaultFiles(); app.UseStaticFiles();
 app.MapGet("/api/health", () => Results.Ok(new { status = "ok", framework = ".NET 10" }));
-app.MapGet("/api/capabilities", (BuildStore store) => new { sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, common = store.Readiness.Common(), devices = BuildStore.Targets.Select(store.Readiness.ForTarget), maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8, retention = store.Retention });
+app.MapGet("/api/capabilities", async (BuildStore store,NativeStore native,CancellationToken ct) => new { nativeVerification=await native.Readiness(ct), sdkVersion = "9.3.0", targets = BuildStore.Targets, ready = store.Ready, common = store.Readiness.Common(), devices = BuildStore.Targets.Select(store.Readiness.ForTarget), maxUploadBytes = 25 * 1024 * 1024, maxFiles = 100, queueCapacity = 8, retention = store.Retention });
 app.MapPost("/api/builds", async (HttpRequest request, BuildStore store, BuildAuditLog audit, PublicBuildPolicy policy, CancellationToken ct) =>
 {
     if (!request.HasFormContentType) return Results.BadRequest(new { error = "Expected multipart form" });
@@ -145,6 +147,7 @@ app.MapGet("/api/builds/{id}", (string id, BuildStore s) => s.Jobs.TryGetValue(i
 app.MapGet("/api/builds/{id}/logs", (string id, int? after, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j)) return Results.NotFound(); lock (j.Gate) { var reset = after is < 0 || after > j.Logs.Count; var cursor = reset ? 0 : after ?? 0; return Results.Ok(new { lines = j.Logs.Skip(cursor).ToArray(), nextCursor = j.Logs.Count, reset }); } });
 app.MapPost("/api/builds/{id}/cancel", (string id, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j)) return Results.NotFound(); lock (j.Gate) { if (j.Status is "queued" or "running") { j.Cancel.Cancel(); j.Status = "cancelled"; j.Finished = DateTime.UtcNow; s.Log(j, "用户取消编译任务"); s.Persist(j); } } return Results.Ok(s.View(j)); });
 app.MapGet("/api/builds/{id}/artifacts/{artifact}", (string id, string artifact, BuildStore s) => { if (!s.Jobs.TryGetValue(id, out var j) || j.Status != "succeeded" || artifact != "watchface.prg") return Results.NotFound(); var path = s.ArtifactPath(j); return File.Exists(path) ? new ArtifactDownload(s, j) : Results.NotFound(); });
+app.MapNative();
 app.MapFallback((HttpContext c) => c.Request.Path.StartsWithSegments("/api") ? Results.NotFound() : Results.File(Path.Combine(app.Environment.WebRootPath ?? "wwwroot", "index.html"), "text/html"));
 app.Run();
 
