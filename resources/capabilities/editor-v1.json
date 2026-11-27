@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "projectSchemaVersion": 28,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -96,7 +96,7 @@
       "mode": "active/aod",
       "minimumApi": null,
       "deviceVerification": "not_verified_by_catalog",
-      "constraints": "Ticks or continuous band; start/end clockwise signed sweep within 360deg, flat/round ends, known data/goal. Missing and AOD show dim track only. Rotation remains zero.",
+      "constraints": "Ticks or continuous band; start/end clockwise signed sweep within 360deg, flat/round ends, known data/goal. Missing and AOD show dim track only. Rotation remains zero. Circular continuous band uses native drawArc; noncircular sampled band may have dim-track seams. Subdegree segments avoid drawArc full-circle truncation.",
       "test": "frontend/tests/progress-arc.spec.ts"
     },
     {

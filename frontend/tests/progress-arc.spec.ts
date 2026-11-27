@@ -63,9 +63,7 @@ test("continuous arc controls render a smooth band and retain tick compatibility
   await page.getByLabel("圆环样式").selectOption("continuous");
   await page.getByLabel("圆弧端点").selectOption("round");
   await expect(page.locator("[data-progress-arc]")).toHaveCount(1);
-  expect(
-    await page.locator("[data-progress-arc] polygon").count(),
-  ).toBeGreaterThan(100);
+  await expect(page.locator("[data-progress-arc] path")).toHaveCount(2);
   await page.getByLabel("圆环样式").selectOption("ticks");
   await expect(page.locator("[data-progress-arc]")).toHaveCount(0);
   await expect(page.locator("[data-layer] > line")).toHaveCount(60);

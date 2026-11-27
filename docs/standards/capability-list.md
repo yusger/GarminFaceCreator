@@ -1,6 +1,6 @@
 # 编辑器能力清单
 
-由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.3.0，内部项目版本 28。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
+由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.3.1，内部项目版本 28。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
 
 | 能力 | 网页 | AI创建 | 对话添加 | 本地生成 | 限制 | 回归 |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -10,7 +10,7 @@
 | core.calendar | 支持 | 未开放 | 未开放 | 有条件支持 | Layer rotation must be zero for current deterministic output. | frontend/tests/capabilities.spec.ts |
 | core.celestial | 支持 | 未开放 | 未开放 | 有条件支持 | Layer rotation must be zero for current deterministic output. | frontend/tests/capabilities.spec.ts |
 | core.hand | 支持 | 支持 | 支持 | 有条件支持 | Layer rotation must be zero for current deterministic output. | frontend/tests/capabilities.spec.ts |
-| core.ring | 支持 | 支持 | 支持 | 有条件支持 | Ticks or continuous band; start/end clockwise signed sweep within 360deg, flat/round ends, known data/goal. Missing and AOD show dim track only. Rotation remains zero. | frontend/tests/progress-arc.spec.ts |
+| core.ring | 支持 | 支持 | 支持 | 有条件支持 | Ticks or continuous band; start/end clockwise signed sweep within 360deg, flat/round ends, known data/goal. Missing and AOD show dim track only. Rotation remains zero. Circular continuous band uses native drawArc; noncircular sampled band may have dim-track seams. Subdegree segments avoid drawArc full-circle truncation. | frontend/tests/progress-arc.spec.ts |
 | core.wordTime | 支持 | 未开放 | 未开放 | 有条件支持 | Layer rotation must be zero for current deterministic output. | frontend/tests/capabilities.spec.ts |
 | core.metric | 支持 | 支持 | 支持 | 有条件支持 | Layer rotation must be zero for current deterministic output. | frontend/tests/capabilities.spec.ts |
 | core.text | 支持 | 支持 | 支持 | 有条件支持 | Layer rotation must be zero for current deterministic output. | frontend/tests/capabilities.spec.ts |

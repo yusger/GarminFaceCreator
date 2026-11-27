@@ -11,3 +11,5 @@ AI 创建/对话仅在 polygon 上使用 polygonPoints，仍受结构校验、�
 ## 连续圆弧（内部项目 v28）
 
 ringStyle=ticks（默认，旧项目不变）或continuous，ringCap=butt/round。起止角0度为12点，正向为顺时针，负跨度为逆时针，最大360度。ringWidth为向内厚度，ringDim为同色轨道透明度；ringSource/ringGoal沿用已有绑定。有效0与缺失均无亮色进度，但数据有效性分别判断；电量越界与心率非正值不绘制亮色。AOD仅暗轨道，不逐秒动画。网页与原生均按不超过3度/片绘制带状多边形，360度最多120片/层/轨，圆头另有端点圆；这是绘制量估算，尚未真机性能或耗电验证。外部v1仍不得使用新字段。
+
+原生截图补验发现透明分片的共边会叠加亮度。basic-26起正圆改用原生drawArc与网页SVG弧路径，端点另绘圆头；小于1度的原生片段继续用局部带，避免drawArc整数角度截断成完整圆。非正圆仍为分片近似，暗轨道可能有细接缝，界面明确提示，尚未宣称同等平滑。drawArc角度原点为3点/逆时针标度，适配器转换为编辑器12点/顺时针标度。官方依据：https://developer.garmin.com/connect-iq/api-docs/Toybox/Graphics/Dc.html#drawArc-instance_function 。fillPolygon原生上限64点，现有外部/内部顶点限制不因此自动放宽。

@@ -3111,7 +3111,7 @@ export default function App() {
                       <>
                         <h4>圆环参数</h4>
                         <label>圆环样式<select aria-label="圆环样式" value={current.ringStyle||"ticks"} onChange={e=>patch({ringStyle:e.target.value as "ticks"|"continuous"})}><option value="ticks">分段刻度</option><option value="continuous">连续进度</option></select></label>
-                        {current.ringStyle==="continuous"&&<><label>端点样式<select aria-label="圆弧端点" value={current.ringCap||"butt"} onChange={e=>patch({ringCap:e.target.value as "butt"|"round"})}><option value="butt">平直</option><option value="round">圆头</option></select></label><small>结束角小于起始角时逆时针；AOD仅显示暗色轨道，不更新秒进度。</small></>}
+                        {current.ringStyle==="continuous"&&<><label>端点样式<select aria-label="圆弧端点" value={current.ringCap||"butt"} onChange={e=>patch({ringCap:e.target.value as "butt"|"round"})}><option value="butt">平直</option><option value="round">圆头</option></select></label><small>结束角小于起始角时逆时针；AOD仅显示暗色轨道，不更新秒进度。非正圆目前使用分片近似，暗轨道可能有细接缝。</small></>}
 
                         <label>
                           刻度数

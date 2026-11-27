@@ -19,7 +19,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-25-progress-arc";
+export const LOCAL_GENERATOR_VERSION = "basic-26-smooth-circular-arc";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,

@@ -80,8 +80,14 @@ export const nativeArcMethod = `function drawArcBand(dc,x,y,w,h,start,end,thick,
  var rx=w/2.0;var ry=h/2.0;var t=thick;if(t>rx){t=rx;}if(t>ry){t=ry;}
  dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));
  if(alpha==255){dc.setColor(ink,Graphics.COLOR_TRANSPARENT);}
+ if(w==h && Math.abs(span)>=1.0){
+ dc.setStroke(Graphics.createColor(alpha,(ink>>16)&255,(ink>>8)&255,ink&255));var pen=px(t);dc.setPenWidth(pen>0?pen:1);
+ var from=90-start;var to=90-end;while(from<0){from+=360;}while(from>=360){from-=360;}while(to<0){to+=360;}while(to>=360){to-=360;}
+ dc.drawArc(px(x+rx),px(y+ry),px(rx-t/2.0),span>0?Graphics.ARC_CLOCKWISE:Graphics.ARC_COUNTER_CLOCKWISE,from,to);
+ }else{
  for(var i=0;i<count;i++){var a=(start+span*i/count)*Math.PI/180.0;var b=(start+span*(i+1)/count)*Math.PI/180.0;
  var poly=[[px(x+rx+Math.sin(a)*rx),px(y+ry-Math.cos(a)*ry)],[px(x+rx+Math.sin(b)*rx),px(y+ry-Math.cos(b)*ry)],[px(x+rx+Math.sin(b)*(rx-t)),px(y+ry-Math.cos(b)*(ry-t))],[px(x+rx+Math.sin(a)*(rx-t)),px(y+ry-Math.cos(a)*(ry-t))]];dc.fillPolygon(poly);}
+ }
  if(roundCap && Math.abs(span)<360){for(var j=0;j<2;j++){var angle=(j==0?start:end)*Math.PI/180.0;dc.fillCircle(px(x+rx+Math.sin(angle)*(rx-t/2.0)),px(y+ry-Math.cos(angle)*(ry-t/2.0)),px(t/2.0));}}
 }
 function drawProgressArc(dc,x,y,w,h,start,end,thick,ink,dim,value,goal,battery,hr,low,roundCap){
@@ -89,3 +95,25 @@ function drawProgressArc(dc,x,y,w,h,start,end,thick,ink,dim,value,goal,battery,h
  if(!low && value!=null && value==value && value>=0 && value<1.0e12 && (!battery || value<=100) && (!hr || value>0)){
  var progress=value>=goal?1.0:value*1.0/goal;drawArcBand(dc,x,y,w,h,start,start+(end-start)*progress,thick,ink,255,roundCap);}
 }`;
+
+export function circleArcPath(
+  w: number,
+  h: number,
+  start: number,
+  end: number,
+  thickness: number,
+) {
+  const t = Math.min(thickness, w / 2, h / 2),
+    r = (w - t) / 2,
+    cx = w / 2,
+    cy = h / 2;
+  if (Math.abs(end - start) < 1e-9) return "";
+  const point = (a: number) => {
+    const rad = (a * Math.PI) / 180;
+    return `${cx + Math.sin(rad) * r},${cy - Math.cos(rad) * r}`;
+  };
+  const sweep = end > start ? 1 : 0;
+  if (Math.abs(end - start) >= 360)
+    return `M${point(start)} A${r},${r} 0 0 ${sweep} ${point((start + end) / 2)} A${r},${r} 0 0 ${sweep} ${point(end)}`;
+  return `M${point(start)} A${r},${r} 0 ${Math.abs(end - start) > 180 ? 1 : 0} ${sweep} ${point(end)}`;
+}
