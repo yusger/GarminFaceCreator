@@ -12,6 +12,8 @@ export const overrideKeys = [
   "color",
   "strokeColor",
   "strokeWidth",
+  "ringWidth",
+  "arcSpacing",
   "aod",
   "aodColor",
   "aodSize",

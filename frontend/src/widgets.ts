@@ -1,3 +1,5 @@
+import { groupBox } from "./selection.ts";
+import { compoundV2Kinds, makeParts } from "./compound.ts";
 import { reconcileDevices } from "./multiDevice.ts";
 import { compoundState, expandedChildren, expandWidgets } from "./compound.ts";
 import catalog from "./widgetCatalog.json" with { type: "json" };
@@ -90,6 +92,95 @@ export function insertWidget(p: Project, id: string): Project {
     updated: Date.now(),
   });
 }
+export function combineLayers(p: Project, selected: string[]): Project {
+  if (p.multiDevice?.scope === "device")
+    throw Error("请在共享主设计中合并控件");
+  const ids = new Set(selected),
+    chosen = p.layers.filter((l) => ids.has(l.id));
+  if (
+    chosen.length < 2 ||
+    chosen.length > 40 ||
+    chosen.some((l) => l.locked || !compoundV2Kinds.includes(l.kind))
+  )
+    throw Error("请选择2–40个未锁定的基础控件，不能嵌套复合控件");
+  const positions = p.layers.flatMap((l, i) => (ids.has(l.id) ? [i] : []));
+  if (positions.some((at, i) => i > 0 && at !== positions[i - 1] + 1))
+    throw Error("合并前请将所选图层排列相邻，避免改变与其他图层的遮挡顺序");
+  if (
+    p.layers.some(
+      (l) => l.sourceLabelFor && ids.has(l.id) !== ids.has(l.sourceLabelFor),
+    )
+  )
+    throw Error("请同时选择数据层及其联动标签");
+  const own = (p.controls || []).filter((c) =>
+    c.targets.some((t) => ids.has(t.layerId)),
+  );
+  if (
+    own.some(
+      (c) =>
+        c.targets.some((t) => !ids.has(t.layerId)) ||
+        c.hideWhenChangedFromDefault?.some((id) => !ids.has(id)),
+    ) ||
+    (p.controls || []).some(
+      (c) =>
+        !own.includes(c) &&
+        c.hideWhenChangedFromDefault?.some((id) => ids.has(id)),
+    )
+  )
+    throw Error("配置跨越所选图层，请同时选择其全部目标和联动层");
+  if (
+    p.multiDevice?.variants.some((v) => chosen.some((l) => v.overrides[l.id]))
+  )
+    throw Error("所选图层已有设备微调，暂不能合并；保留基础图层可避免丢失微调");
+  const box = groupBox(chosen);
+  if (box.w > 454 || box.h > 454 || box.w <= 0 || box.h <= 0)
+    throw Error("复合控件原始边界须在454×454以内");
+  const children = structuredClone(chosen).map((l) => ({
+    ...l,
+    x: l.x - box.x,
+    y: l.y - box.y,
+    groupId: undefined,
+    groupName: undefined,
+  }));
+  const controls = structuredClone(own),
+    values = Object.fromEntries(
+      own
+        .filter((c) => p.controlValues?.[c.id] !== undefined)
+        .map((c) => [c.id, p.controlValues![c.id]]),
+    );
+  const root = {
+    ...layer("widget"),
+    name: "自定义复合控件",
+    ...box,
+    aod: true,
+    compound: {
+      version: 2 as const,
+      width: box.w,
+      height: box.h,
+      layers: children,
+      controls,
+      controlValues: values,
+      parts: makeParts(children),
+    },
+  };
+  const next = {
+    ...p,
+    layers: p.layers.flatMap((l, i) =>
+      i === positions[0] ? [root] : ids.has(l.id) ? [] : [l],
+    ),
+    controls: (p.controls || []).filter((c) => !own.includes(c)),
+    controlValues: Object.fromEntries(
+      Object.entries(p.controlValues || {}).filter(
+        ([id]) => !own.some((c) => c.id === id),
+      ),
+    ),
+    revision: p.revision + 1,
+    codeRevision: -1,
+    updated: Date.now(),
+  };
+  return topology(p, next);
+}
+
 export function cloneCompound(l: Layer): Layer {
   const copy = structuredClone(l);
   copy.id = uid();
@@ -156,6 +247,8 @@ export function decomposeWidget(p: Project, id: string): Project {
         "color",
         "strokeColor",
         "strokeWidth",
+        "ringWidth",
+        "arcSpacing",
         "aod",
         "aodColor",
         "aodSize",
@@ -203,7 +296,7 @@ export function validateWidgetOrigin(o: WidgetOrigin | undefined) {
 }
 export function widgetNotices(p: Project) {
   const notices = new Map<string, WidgetOrigin>();
-  for (const l of p.layers) {
+  for (const l of [...p.layers, ...p.layers.flatMap(l=>l.compound?.layers || [])]) {
     const o = l.widgetOrigin;
     if (!o) continue;
     validateWidgetOrigin(o);

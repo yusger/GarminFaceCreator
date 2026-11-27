@@ -1,3 +1,4 @@
+import { expandWidgets } from "./compound.ts";
 import type { Layer, Project, BinaryAsset } from "./domain";
 export function imageAssetPath(
   layer: Pick<Layer, "id" | "assetId" | "libraryIcon">,
@@ -7,6 +8,7 @@ export function imageAssetPath(
   return `assets/${id}.png`;
 }
 export function binaryAssets(project: Project): BinaryAsset[] {
+  project = expandWidgets(project);
   const unique = new Map<string, BinaryAsset>();
   const included = new Set(
     project.layers

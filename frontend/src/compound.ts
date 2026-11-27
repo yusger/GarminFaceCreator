@@ -10,7 +10,7 @@ export type WidgetPart = {
   aod?: boolean;
 };
 export type Compound = {
-  version: 1;
+  version: 1 | 2;
   width: number;
   height: number;
   layers: Layer[];
@@ -19,6 +19,24 @@ export type Compound = {
   parts: WidgetPart[];
   disabledLayers?: string[];
 };
+export const compoundV1Kinds = [
+  "text",
+  "metric",
+  "rect",
+  "circle",
+  "line",
+  "meter",
+];
+export const compoundV2Kinds = [
+  ...compoundV1Kinds,
+  "time",
+  "date",
+  "image",
+  "hand",
+  "ring",
+  "polygon",
+  "arcText",
+];
 export const compoundStyleKeys = [
   "x",
   "y",
@@ -29,6 +47,8 @@ export const compoundStyleKeys = [
   "color",
   "strokeColor",
   "strokeWidth",
+  "ringWidth",
+  "arcSpacing",
   "aod",
   "aodColor",
   "aodSize",
@@ -157,9 +177,13 @@ export function expandedChildren(l: Layer, p: Project): Layer[] {
         : {}),
       ...(c.aodSize !== undefined ? { aodSize: c.aodSize * scale } : {}),
       ...(c.kind === "meter" ? { meterGap: (c.meterGap ?? 3) * scale } : {}),
+      ...(c.ringWidth !== undefined ? { ringWidth: c.ringWidth * scale } : {}),
+      ...(c.arcSpacing !== undefined
+        ? { arcSpacing: c.arcSpacing * scale }
+        : {}),
       groupId: undefined,
       groupName: undefined,
-      widgetOrigin: l.widgetOrigin,
+      widgetOrigin: l.widgetOrigin || c.widgetOrigin,
       hidden: l.hidden || c.hidden,
       locked: l.locked,
       exportIncluded:
@@ -237,7 +261,7 @@ export function validateCompound(
   const b = l.compound;
   if (
     !b ||
-    b.version !== 1 ||
+    ![1, 2].includes(b.version) ||
     !Number.isFinite(b.width) ||
     !Number.isFinite(b.height) ||
     b.width <= 0 ||
@@ -259,7 +283,7 @@ export function validateCompound(
     b.layers.some(
       (c) =>
         !c ||
-        !["text", "metric", "rect", "circle", "line", "meter"].includes(
+        !(b.version === 1 ? compoundV1Kinds : compoundV2Kinds).includes(
           c.kind,
         ) ||
         c.compound !== undefined ||

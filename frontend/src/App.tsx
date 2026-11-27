@@ -8,7 +8,7 @@ import {chatFingerprint} from "./designChat";
 import {resizeModelLayers} from "./selection";
 import CompoundInspector from "./CompoundInspector";
 import WidgetPicker from "./WidgetPicker";
-import {insertWidget,cloneCompound,decomposeWidget} from "./widgets";
+import {insertWidget,cloneCompound,decomposeWidget,combineLayers} from "./widgets";
 import {editorFrame,withEditorLayers,type EditorFrame} from "./editorHistory";
 import { handImageSets,handImagePatch,createHandImageSet } from "./handImages";
 import { handStyles,handStylePatch } from "./handStyles";
@@ -1988,6 +1988,7 @@ export default function App() {
               </aside>
               <main className="canvas-panel">
                 <div className="canvas-toolbar">
+                  <button disabled={selection.length < 2 || p.multiDevice?.scope === "device"} onClick={()=>{try{const next=combineLayers(p,selection);editLayers(next.layers,true,next);selectOne(next.layers.find(l=>!p.layers.some(old=>old.id===l.id))!.id);}catch(e){setNotice((e as Error).message);}}}>合为复合控件</button>
                   <ArrangeTools project={p} selection={selection} onError={setNotice} onChange={next=>editLayers(next.layers,true,next)}/>
                   <button
                     title="撤销"

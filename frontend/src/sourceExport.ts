@@ -1,3 +1,4 @@
+import { expandWidgets } from "./compound";
 import {widgetNotices} from "./widgets";
 import handImageAttribution from "./handImageAttribution.json" with {type:"json"};
 import { preparedCodeFiles, chalkPlans } from "./chalkFonts";
@@ -39,6 +40,7 @@ export async function exportSources(
 ): Promise<{ name: string; blob: Blob; licenseStatus: string }> {
   if (!p.files.length || p.codeRevision !== p.revision)
     throw Error("请先生成并应用与当前设计一致的完整工程，再导出源码包。");
+  p = expandWidgets(p);
   const text = new TextEncoder(),
     entries = parseFiles(
       JSON.stringify({ files: await preparedCodeFiles(p) }),

@@ -1,3 +1,4 @@
+import { expandWidgets } from "./compound.ts";
 import { preparedChalk } from "./chalkFonts";
 import { iconVariants, iconResourcePath } from "./weatherIcons";
 import type { Layer, Project } from "./domain";
@@ -129,6 +130,7 @@ export async function rasterIcon(
   return canvas.toDataURL("image/png");
 }
 export async function preparedAssets(p: Project) {
+  p = expandWidgets(p);
   const assets = new Map(binaryAssets(p).map((a) => [a.path, a]));
   for (const l of p.layers.filter(
     (l) => l.libraryIcon && l.exportIncluded !== false,

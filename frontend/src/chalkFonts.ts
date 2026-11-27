@@ -1,3 +1,4 @@
+import { expandWidgets } from "./compound.ts";
 import type { Layer, Project, CodeFile } from "./domain.ts";
 import { generationDevice } from "./devices.ts";
 import { chalkAtlas } from "./chalkAtlas.ts";
@@ -13,6 +14,7 @@ const fontName = (id: string) =>
     ? "MaShanZheng-Regular.ttf"
     : "PermanentMarker-Regular.ttf";
 export function chalkPlans(p: Project) {
+  p = expandWidgets(p);
   const plans = new Map<
     string,
     { id: string; size: number; glyphs: string; font: string }

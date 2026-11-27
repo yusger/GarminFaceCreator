@@ -1,4 +1,4 @@
-// GarminFaceCreator local generator basic-29-config-preflight; approximate system font mapping, no SDK fonts bundled.
+// GarminFaceCreator local generator basic-30-compound-geometry; approximate system font mapping, no SDK fonts bundled.
 import Toybox.Application;import Toybox.WatchUi;import Toybox.Graphics;import Toybox.System;import Toybox.SensorHistory;import Toybox.ActivityMonitor;import Toybox.Time;import Toybox.Time.Gregorian;import Toybox.Math;
 class GeneratedApp extends Application.AppBase {var mainView=null;function initialize(){AppBase.initialize();} function getInitialView(){mainView=new GeneratedView();return [mainView];}function onSettingsChanged(){if(mainView!=null){mainView.settingsCache=null;}WatchUi.requestUpdate();}}
 class GeneratedView extends WatchUi.WatchFace {

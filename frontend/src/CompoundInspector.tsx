@@ -180,7 +180,7 @@ export default function CompoundInspector({
                   </option>
                 ))}
               </select>
-            ) : null}
+            ) : <input type="checkbox" aria-label={c.label} checked={Boolean(b.controlValues?.[c.id] ?? c.default)} onChange={e=>onChange({compound:{...b,controlValues:{...b.controlValues,[c.id]:e.target.checked}}})}/>}
           </label>
         ))}
         <h4>内部部件</h4>
