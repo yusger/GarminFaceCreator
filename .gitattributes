@@ -35,3 +35,6 @@ resources/examples/reference-release-v2/** -text
 # Container entrypoints must run unchanged after Windows checkouts.
 deploy/simulator-probe/*.sh text eol=lf
 deploy/simulator-probe/tests/*.sh text eol=lf
+
+# Preserve recorded native screenshot and audit hashes on every platform.
+docs/research/theme-settings/** -text
