@@ -46,7 +46,7 @@ test("model payload uses a schema whitelist and drops imported unknown metadata 
       secret: "ICON_PRIVATE_SENTINEL",
     },
   };
-  p.layers.push(image);
+  p.layers.push(image, {...layer("polygon"),polygonPoints:[[0.1,0],[0.9,0],[1,1],[0,1]]});
   const original = JSON.stringify(p),
     old = globalThis.fetch;
   let payload: any;
@@ -89,6 +89,7 @@ test("model payload uses a schema whitelist and drops imported unknown metadata 
     { min: 0, max: 120, color: "#00ff00" },
   ]);
   expect(design.layers[1].libraryIcon.strokeWidth).toBe(2);
+  expect(design.layers[2].polygonPoints).toEqual([[0.1,0],[0.9,0],[1,1],[0,1]]);
   expect(design.layoutGuide.safeInsetPx).toBe(20);
   expect(design.layoutGuide.showGuide).toBeUndefined();
   expect(JSON.stringify(p)).toBe(original);
@@ -144,4 +145,14 @@ test("resolved defaults preserve threshold AOD shape and ring behavior without r
   };
   expect(ink(steps, d)).toBe("#ff0000");
   expect(ink(steps, { ...d, steps: 12500 })).toBe("#00ff00");
+});
+
+test("polygon engineering DTO preserves validated vertices without treating arrays as scalars or leaking metadata",()=>{
+ const points:[number,number][]=[[0.1,0],[0.9,0],[1,0.2],[1,0.8],[0.9,1],[0.1,1],[0,0.8],[0,0.2]];
+ const shape={...layer("polygon"),polygonPoints:points};
+ const dto=generationLayer(shape);expect(dto.polygonPoints).toEqual(points);expect(dto.polygonPoints).not.toBe(points);
+ expect(()=>generationLayer({...shape,polygonPoints:[[0,0],[1,1],[0,1],[1,0]]})).toThrow(/多边形/);
+ expect(()=>generationLayer({...shape,polygonPoints:[[0,0],[Infinity,0],[0,1]]})).toThrow(/多边形/);
+ expect(()=>generationLayer({...shape,polygonPoints:[...points,{key:"PRIVATE"}] as any})).toThrow(/多边形/);
+ expect(generationLayer({...layer("text"),polygonPoints:points})).not.toHaveProperty("polygonPoints");
 });

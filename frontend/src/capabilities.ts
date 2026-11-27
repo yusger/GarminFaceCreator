@@ -1,3 +1,4 @@
+import {GENERATION_FIELD_CONTRACT_VERSION} from "./generationFields.ts";
 import catalog from "../../resources/capabilities/editor-v1.json" with { type: "json" };
 import { sourceContractVersion } from "./sourceAdapters.ts";
 import type { Layer } from "./domain";
@@ -104,6 +105,7 @@ export function designCapabilityContext() {
   return {
     catalogVersion: capabilityVersion,
     sourceContractVersion,
+    generationFieldContractVersion:GENERATION_FIELD_CONTRACT_VERSION,
     projectSchemaVersion: catalog.projectSchemaVersion,
     deterministic: {
       rotation: {

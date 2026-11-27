@@ -4,113 +4,8 @@ import { meterPolygons } from "./meters";
 import { defaultThresholds } from "./thresholds";
 import type { Layer, Project } from "./domain";
 import { imageAssetPath } from "./assets";
-type Omitted =
-  | "readoutSample"
-  | "image"
-  | "assetId"
-  | "hidden"
-  | "locked"
-  | "anchor"
-  | "guide"
-  | "groupId"
-  | "groupName"
-  | "exportIncluded"
-  | "libraryIcon"
-  | "weatherIcon"
-  | "thresholdRules"
-  | "visibility"
-  | "customFont"
-  | "handShape"
-  | "handBitmap"
-  | "widgetOrigin"
-  | "compound"
-  | "compoundOverrides";
-// Adding a Layer field requires an explicit protocol decision here (compile-time complete key coverage).
-const fields: Record<Exclude<keyof Layer, Omitted>, true> = {
-  effectPrompt: true,
-  id: true,
-  name: true,
-  kind: true,
-  x: true,
-  y: true,
-  w: true,
-  h: true,
-  color: true,
-  size: true,
-  rotation: true,
-  arcRadius:true,
-  arcStartAngle:true,
-  arcDirection:true,
-  arcSpacing:true,
-  polygonPoints:true,
-  text: true,
-  source: true,
-  aod: true,
-  threshold: true,
-  strokeWidth: true,
-  metricDecoration: true,
-  sourceLocked: true,
-  fixedSource: true,
-  activeVisible: true,
-  imageFullColor: true,
-  sourceLabelFor: true,
-  autoPrecision: true,
-  autoSourceFormat: true,
-  groupThousands: true,
-  meterContinuous: true,
-  meterDimColor: true,
-  dateFormat: true,
-  handCap: true,
-  wordLanguage: true,
-  wordRow: true,
-  handType: true,
-  handPivotX: true,
-  handPivotY: true,
-  handReach: true,
-  handTail: true,
-  solarPart: true,
-  solarNightColor: true,
-  solarMissingColor: true,
-  calendarStart: true,
-  calendarTodayColor: true,
-  calendarTodayText: true,
-  calendarMutedColor: true,
-  calendarHeaderColor: true,
-  meterShape: true,
-  meterCount: true,
-  meterGap: true,
-  meterGoal: true,
-  meterDim: true,
-  timePart: true,
-  timeUtcOffset: true,
-  dateLocale: true,
-  textAlign: true,
-  fontWeight: true,
-  garminFont: true,
-  label: true,
-  unit: true,
-  precision: true,
-  missingValue: true,
-  allowClip: true,
-  thresholdFallback: true,
-  ringStyle:true,
-  ringCap:true,
-  ringTicks: true,
-  ringStart: true,
-  ringEnd: true,
-  ringWidth: true,
-  ringSource: true,
-  ringGoal: true,
-  ringDim: true,
-  aodColor: true,
-  aodSize: true,
-  aodSeconds: true,
-  fillEnabled: true,
-  strokeEnabled: true,
-  strokeColor: true,
-  opacity: true,
-  cornerRadius: true,
-};
+import {generationScalarFields as fields} from "./generationFields.ts";
+import {validPolygon} from "./geometry.ts";
 function scalar(value: unknown) {
   if (value === undefined) return undefined;
   if (
@@ -129,6 +24,7 @@ function objectFields(value: unknown, keys: string[]) {
 export function generationLayer(l: Layer) {
   if(l.kind==="widget")throw Error("复合控件必须先展开后生成工程");
   validateVisibility(l.visibility);
+  if(l.kind==="polygon" && !validPolygon(l.polygonPoints))throw Error("多边形顶点格式无效");
   const rules =
     l.thresholdRules ??
     (l.kind === "metric" && l.threshold
@@ -178,7 +74,7 @@ export function generationLayer(l: Layer) {
     thresholdFallback: l.thresholdFallback || l.color,
     ...(["rect", "circle", "line", "polygon"].includes(l.kind)
       ? {
-          ...(l.kind==="polygon"?{polygonPoints:l.polygonPoints}:{}),
+          ...(l.kind==="polygon"?{polygonPoints:l.polygonPoints!.map(([x,y])=>[x,y])}:{}),
           fillEnabled: l.fillEnabled ?? l.kind !== "line",
           strokeEnabled: l.strokeEnabled ?? l.kind === "line",
           strokeColor: l.strokeColor || l.color,

@@ -66,3 +66,113 @@
 | recoveryHours | 4.2.0 | h | h | ComplicationSubscriber |
 
 海拔接口依据：[Garmin SensorHistory](https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html)。设备可用性和缺失数据仍须分别检查。
+
+## 工程提示字段契约
+
+版本 fields-1，来源 frontend/src/generationFields.ts；TypeScript保证Layer每个字段均有明确策略。下面是工程提示序列化策略，不是对话修改白名单，不会扩大外部发布包或复合私有层权限。默认值、kind约束与资源读取仍由生成适配器执行。新增字段必须作出策略选择。
+
+| 字段 | 工程提示策略 |
+| --- | --- |
+| activeVisible | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| allowClip | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| aod | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| aodColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| aodSeconds | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| aodSize | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| arcDirection | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| arcRadius | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| arcSpacing | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| arcStartAngle | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| autoPrecision | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| autoSourceFormat | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| calendarHeaderColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| calendarMutedColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| calendarStart | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| calendarTodayColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| calendarTodayText | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| color | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| cornerRadius | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| dateFormat | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| dateLocale | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| effectPrompt | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| fillEnabled | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| fixedSource | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| fontWeight | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| garminFont | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| groupThousands | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| h | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| handCap | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| handPivotX | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| handPivotY | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| handReach | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| handTail | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| handType | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| id | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| imageFullColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| kind | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| label | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| meterContinuous | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| meterCount | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| meterDim | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| meterDimColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| meterGap | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| meterGoal | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| meterShape | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| metricDecoration | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| missingValue | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| name | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| opacity | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| precision | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringCap | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringDim | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringEnd | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringGoal | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringSource | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringStart | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringStyle | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringTicks | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| ringWidth | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| rotation | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| size | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| solarMissingColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| solarNightColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| solarPart | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| source | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| sourceLabelFor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| sourceLocked | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| strokeColor | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| strokeEnabled | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| strokeWidth | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| text | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| textAlign | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| threshold | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| thresholdFallback | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| timePart | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| timeUtcOffset | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| unit | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| w | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| wordLanguage | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| wordRow | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| x | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| y | 已知标量（字符串/有限数值/布尔）；按类型检查 |
+| anchor | editor layout only; omitted |
+| assetId | local storage identity; omitted |
+| compound | parent expanded by the platform; private content cannot be AI patches |
+| compoundOverrides | resolved with parent instance before expansion |
+| customFont | nested whitelist registered id/family/file |
+| exportIncluded | filters the included layer set before serialization |
+| groupId | editor group only; omitted |
+| groupName | editor group label only; omitted |
+| guide | editor guide only; omitted |
+| handBitmap | nested whitelist packId/setId/role/version |
+| handShape | nested whitelist id/version and numeric normalized points |
+| hidden | editor visibility; generation uses exportIncluded and emits hidden=false |
+| image | replaced by a declared asset path; pixel bytes are not prompt fields |
+| libraryIcon | nested whitelist id/recolor/strokeWidth |
+| locked | editor interaction only; omitted |
+| polygonPoints | validated normalized convex point pairs; copied as numeric arrays |
+| readoutSample | editor preview only; omitted |
+| thresholdRules | nested whitelist min/max/color per rule |
+| visibility | validated nested source/ranges/missing/AOD whitelist |
+| weatherIcon | nested whitelist period |
+| widgetOrigin | private provenance; omitted |
