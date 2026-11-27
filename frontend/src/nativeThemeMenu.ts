@@ -76,6 +76,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  function initialize(mode,control){Menu2.initialize({:title=>${q(p.name + " Settings")}});menuMode=mode;menuControl=control;rebuild();}
  var menuMode=null;var menuControl=null;
  function onShow(){Menu2.onShow();rebuild();}
+ function navigate(mode,control){menuMode=mode;menuControl=control;rebuild();setFocus(0);WatchUi.requestUpdate();}
  function rebuild(){while(deleteItem(0)==true){}var mode=menuMode;var control=menuControl;var theme=gfcThemeId();
  if(mode.equals("root")){${item("Theme", '{:action=>"themes"}', "theme")}${item("Background",'{:action=>"background"}')}${root}${item("Reset current theme", '{:action=>"reset"}')}}
  else if(mode.equals("themes")){${themes.map((t) => item(t.name, `{:action=>"set",:key=>"Gfc_Theme",:value=>${themeCode(t.id)}}`)).join("")}}
@@ -85,12 +86,13 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  }
  class GfcSettingsDelegate extends WatchUi.Menu2InputDelegate{
  function initialize(){Menu2InputDelegate.initialize();}
- function onSelect(item){var id=item.getId() as Lang.Dictionary;var action=id[:action];
- if(action.equals("themes")){WatchUi.pushView(new GfcSettingsMenu("themes",null),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
- else if(action.equals("background")){WatchUi.pushView(new GfcSettingsMenu("background",null),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
- else if(action.equals("control")){WatchUi.pushView(new GfcSettingsMenu("values",id[:id]),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
- else if(action.equals("set")){Application.Properties.setValue(id[:key],id[:value]);Application.getApp().onSettingsChanged();WatchUi.popView(WatchUi.SLIDE_IMMEDIATE);}
- else if(action.equals("reset")){var theme=gfcThemeId();${resets}Application.getApp().onSettingsChanged();WatchUi.requestUpdate();}
+ function onBack(){var menu=WatchUi.getCurrentView()[0] as GfcSettingsMenu;if(!menu.menuMode.equals("root")){menu.navigate("root",null);}else{Menu2InputDelegate.onBack();}}
+ function onSelect(item){var id=item.getId() as Lang.Dictionary;var action=id[:action];var menu=WatchUi.getCurrentView()[0] as GfcSettingsMenu;
+ if(action.equals("themes")){menu.navigate("themes",null);}
+ else if(action.equals("background")){menu.navigate("background",null);}
+ else if(action.equals("control")){menu.navigate("values",id[:id]);}
+ else if(action.equals("set")){Application.Properties.setValue(id[:key],id[:value]);Application.getApp().onSettingsChanged();menu.navigate("root",null);}
+ else if(action.equals("reset")){var theme=gfcThemeId();${resets}Application.getApp().onSettingsChanged();menu.navigate("root",null);}
  }
  }
 `,
