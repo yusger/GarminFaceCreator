@@ -1,4 +1,5 @@
 import catalog from "../../resources/capabilities/editor-v1.json" with { type: "json" };
+import { sourceContractVersion } from "./sourceAdapters.ts";
 import type { Layer } from "./domain";
 export const capabilityCatalog = catalog;
 export const capabilityVersion = catalog.version;
@@ -102,6 +103,7 @@ export function localLayerDiagnostics(l: Layer): CapabilityDiagnostic[] {
 export function designCapabilityContext() {
   return {
     catalogVersion: capabilityVersion,
+    sourceContractVersion,
     projectSchemaVersion: catalog.projectSchemaVersion,
     deterministic: {
       rotation: {

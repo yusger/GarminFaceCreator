@@ -1,0 +1,129 @@
+{
+  "format": "gfc-source-adapters",
+  "version": "1.0.0",
+  "policy": "Canonical numeric units, display suffixes, API floors and permissions for existing AI source adapters. API knowledge does not enable deterministic mapping or certify hardware support. A display label alone never converts a numeric value.",
+  "elevationEvidence": {
+    "url": "https://developer.garmin.com/connect-iq/api-docs/Toybox/SensorHistory.html#getElevationHistory-instance_function",
+    "fact": "API 2.1.0 elevation samples are meters; this established adapter converts them to feet before formatting.",
+    "verifiedOn": "2026-11-27"
+  },
+  "adapters": {
+    "solarScene": {
+      "api": "3.3.0",
+      "read": "Position.getInfo().position (passive cache); Weather.getSunrise(location,Time.now()) and getSunset, both nullable; no active GPS, no network",
+      "permission": "Positioning",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "weatherIcon": {
+      "api": "3.2.0",
+      "read": "Weather.getCurrentConditions().condition (nullable cached conditions; use the fixed native icon helper)",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "heartRate": {
+      "api": "2.1.0",
+      "read": "SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next().data",
+      "permission": "SensorHistory",
+      "unit": "bpm",
+      "defaultDisplayUnit": "",
+      "decoration": "♡ "
+    },
+    "altitude": {
+      "api": "2.1.0",
+      "read": "SensorHistory.getElevationHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next().data * 3.280839895 (meters to feet)",
+      "permission": "SensorHistory",
+      "unit": "ft",
+      "defaultDisplayUnit": "ft",
+      "decoration": ""
+    },
+    "steps": {
+      "api": "1.0.0",
+      "read": "ActivityMonitor.getInfo().steps",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "calories": {
+      "api": "1.0.0",
+      "read": "ActivityMonitor.getInfo().calories (total daily calories, not active-only calories)",
+      "unit": "kcal",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "distance": {
+      "api": "1.0.0",
+      "read": "ActivityMonitor.getInfo().distance / 100000.0 (centimeters to kilometers)",
+      "unit": "km",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "battery": {
+      "api": "1.0.0",
+      "read": "System.getSystemStats().battery",
+      "unit": "%",
+      "defaultDisplayUnit": "%",
+      "decoration": ""
+    },
+    "seconds": {
+      "api": "1.0.0",
+      "read": "System.getClockTime().sec",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "floorsClimbed": {
+      "api": "2.1.0",
+      "read": "ActivityMonitor.getInfo().floorsClimbed",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "intensityMinutes": {
+      "api": "2.1.0",
+      "read": "ActivityMonitor.getInfo().activeMinutesDay.total",
+      "unit": "min",
+      "defaultDisplayUnit": "/150",
+      "decoration": ""
+    },
+    "temperature": {
+      "api": "3.2.0",
+      "read": "Weather.getCurrentConditions().temperature",
+      "unit": "°C",
+      "defaultDisplayUnit": "°C",
+      "decoration": ""
+    },
+    "humidity": {
+      "api": "3.2.0",
+      "read": "Weather.getCurrentConditions().relativeHumidity",
+      "unit": "%",
+      "defaultDisplayUnit": "%",
+      "decoration": ""
+    },
+    "windSpeed": {
+      "api": "3.2.0",
+      "read": "Weather.getCurrentConditions().windSpeed",
+      "unit": "m/s",
+      "defaultDisplayUnit": "m/s",
+      "decoration": ""
+    },
+    "uvIndex": {
+      "api": "5.1.0",
+      "read": "Weather.getCurrentConditions().uvIndex",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "stress": {
+      "api": "4.2.0",
+      "read": "Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_STRESS)).value",
+      "permission": "ComplicationSubscriber",
+      "defaultDisplayUnit": "",
+      "decoration": ""
+    },
+    "recoveryHours": {
+      "api": "4.2.0",
+      "read": "Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_RECOVERY_TIME)).value / 60.0 (minutes to hours)",
+      "permission": "ComplicationSubscriber",
+      "unit": "h",
+      "defaultDisplayUnit": "h",
+      "decoration": ""
+    }
+  }
+}

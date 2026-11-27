@@ -1,5 +1,5 @@
-export const DESIGN_PROMPT_VERSION = "design-6-data-format";
-export const CHAT_PROMPT_VERSION = "chat-7-data-format";
+export const DESIGN_PROMPT_VERSION = "design-7-source-contract";
+export const CHAT_PROMPT_VERSION = "chat-8-source-contract";
 const KEY = "gfc-ai-request-history-v1";
 const MAX_BYTES = 512 * 1024;
 export type RequestSnapshot = {
@@ -9,6 +9,8 @@ export type RequestSnapshot = {
   promptVersion: string;
   capabilityVersion: string;
   model: string;
+  profileId?: string;
+  sourceContractVersion?: string;
   endpoint: string;
   status: "pending" | "response" | "failed" | "cancelled";
   request: unknown;

@@ -4,84 +4,7 @@ import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
 import type { Project } from "./domain";
 import { generationDevice } from "./devices.ts";
 
-type Adapter = {
-  api: string;
-  read: string;
-  permission?: string;
-  unit?: string;
-};
-const adapters: Record<string, Adapter> = {
-  solarScene: {
-    api: "3.3.0",
-    read: "Position.getInfo().position (passive cache); Weather.getSunrise(location,Time.now()) and getSunset, both nullable; no active GPS, no network",
-    permission: "Positioning",
-  },
-  weatherIcon: {
-    api: "3.2.0",
-    read: "Weather.getCurrentConditions().condition (nullable cached conditions; use the fixed native icon helper)",
-  },
-  heartRate: {
-    api: "2.1.0",
-    read: "SensorHistory.getHeartRateHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next().data",
-    permission: "SensorHistory",
-    unit: "bpm",
-  },
-  altitude: {
-    api: "2.1.0",
-    read: "SensorHistory.getElevationHistory({:period=>1,:order=>SensorHistory.ORDER_NEWEST_FIRST}).next().data * 3.280839895 (meters to feet)",
-    permission: "SensorHistory",
-    unit: "ft",
-  },
-  steps: { api: "1.0.0", read: "ActivityMonitor.getInfo().steps" },
-  calories: {
-    api: "1.0.0",
-    read: "ActivityMonitor.getInfo().calories (total daily calories, not active-only calories)",
-    unit: "kcal",
-  },
-  distance: {
-    api: "1.0.0",
-    read: "ActivityMonitor.getInfo().distance / 100000.0 (centimeters to kilometers)",
-    unit: "km",
-  },
-  battery: { api: "1.0.0", read: "System.getSystemStats().battery", unit: "%" },
-  seconds: { api: "1.0.0", read: "System.getClockTime().sec" },
-  floorsClimbed: {
-    api: "2.1.0",
-    read: "ActivityMonitor.getInfo().floorsClimbed",
-  },
-  intensityMinutes: {
-    api: "2.1.0",
-    read: "ActivityMonitor.getInfo().activeMinutesDay.total",
-    unit: "min",
-  },
-  temperature: {
-    api: "3.2.0",
-    read: "Weather.getCurrentConditions().temperature",
-    unit: "°C",
-  },
-  humidity: {
-    api: "3.2.0",
-    read: "Weather.getCurrentConditions().relativeHumidity",
-    unit: "%",
-  },
-  windSpeed: {
-    api: "3.2.0",
-    read: "Weather.getCurrentConditions().windSpeed",
-    unit: "m/s",
-  },
-  uvIndex: { api: "5.1.0", read: "Weather.getCurrentConditions().uvIndex" },
-  stress: {
-    api: "4.2.0",
-    read: "Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_STRESS)).value",
-    permission: "ComplicationSubscriber",
-  },
-  recoveryHours: {
-    api: "4.2.0",
-    read: "Complications.getComplication(new Complications.Id(Complications.COMPLICATION_TYPE_RECOVERY_TIME)).value / 60.0 (minutes to hours)",
-    permission: "ComplicationSubscriber",
-    unit: "h",
-  },
-};
+import { sourceAdapters as adapters, sourceContractVersion } from "./sourceAdapters.ts";
 // Shared by design-only requests; numeric units come from the same adapter as native code.
 export function designSourceUnit(source: string) {
   const adapter = adapters[source];
@@ -174,6 +97,7 @@ export function generationRequirements(p: Project) {
     .sort()
     .join("");
   return {
+    sourceContractVersion,
     minApiLevel,
     permissions,
     languages,

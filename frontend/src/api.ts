@@ -4,6 +4,7 @@ import {
   DESIGN_PROMPT_VERSION,
   CHAT_PROMPT_VERSION,
 } from "./aiRequestHistory";
+import { sourceContractVersion } from "./sourceAdapters.ts";
 import { capabilityVersion } from "./capabilities";
 import { expandWidgets } from "./compound";
 import {
@@ -338,6 +339,8 @@ async function designRequest(
         kind === "chat" ? CHAT_PROMPT_VERSION : DESIGN_PROMPT_VERSION,
       capabilityVersion,
       model: p.model,
+      profileId: p.id,
+      sourceContractVersion,
       endpoint: new URL(p.url).origin,
       request: body,
     },
