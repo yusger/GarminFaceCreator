@@ -1,3 +1,4 @@
+import { deviceMetadata, deviceMetadataVersion } from "./deviceMetadata.ts";
 export const devices = [
   {
     series: "Venu",
@@ -80,7 +81,11 @@ export function generationDevice(p: { target?: string; deviceSize?: string }) {
     (d) => d.id === target && (!p.deviceSize || d.size === p.deviceSize),
   );
   if (!device) throw Error("项目型号或尺寸无效，请选择受支持的目标设备");
+  const evidence = deviceMetadata(target);
+  if(evidence?.status === "sdk-package" && (evidence.width !== device.pixels || evidence.height !== device.pixels || evidence.shape !== "round" || evidence.displayType !== "amoled")) throw Error("设备目录与SDK元数据不一致，暂停生成并检查目标配置");
   return {
+    metadataVersion:deviceMetadataVersion,
+    metadata:evidence || {target,status:"unknown",aod:"unverified",hardwareValidation:"unverified"},
     series: device.series,
     model: device.model,
     size: device.size,

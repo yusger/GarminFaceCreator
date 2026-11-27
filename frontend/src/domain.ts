@@ -153,6 +153,7 @@ export type CodeFile = { path: string; content: string };
 export type CodeProvenance = {
   primary: "ai" | "deterministic" | "reference" | "unknown";
   generatorVersion?: string;
+  deviceMetadataVersion?: string;
   repairRootId?: string;
   patches?: { source: "ai" | "manual"; at: number }[];
 };

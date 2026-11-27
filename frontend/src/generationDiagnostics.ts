@@ -1,3 +1,4 @@
+import { deviceMetadata, deviceMetadataVersion } from "./deviceMetadata.ts";
 import type { Layer, Project } from "./domain.ts";
 import { capabilityCatalog, localLayerDiagnostics } from "./capabilities.ts";
 import { expandWidgets, expandedChildren } from "./compound.ts";
@@ -7,6 +8,9 @@ export type GenerationDiagnostic = {
   code: string;
   status: "unsupported" | "unverified" | "approximation";
   layerId?: string;
+  target?: string;
+  mode?: "active" | "aod" | "both";
+  capabilityId?: string;
   path: string;
   message: string;
 };
@@ -130,6 +134,13 @@ export function generationDiagnostics(
       message: (e as Error).message,
     });
   }
+  if (deviceMetadata(project.target || "venu445mm")?.status !== "sdk-package")
+    issues.push({
+      code: "DEVICE_METADATA_UNKNOWN",
+      status: "unverified",
+      path: "target",
+      message: "当前目标没有SDK设备包元数据，能力和预算保持待验证。",
+    });
   issues.push({
     code: "DEVICE_VERIFICATION_PENDING",
     status: "unverified",
@@ -142,6 +153,9 @@ export function generationDiagnostics(
     .map((d) => ({
       ...d,
       layerId: d.layerId ? owners.get(d.layerId) || d.layerId : undefined,
+      target: project.target || "venu445mm",
+      mode: "both" as const,
+      capabilityId: d.capabilityId || "project." + d.code.toLowerCase(),
     }))
     .filter((d) => {
       const key = [d.code, d.layerId, d.path, d.message].join("|");

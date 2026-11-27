@@ -1,0 +1,9 @@
+# 设备能力元数据与证据
+
+resources/devices/sdk-metadata.json只收录已安装Garmin设备包中可核对的事实；scripts/build-device-metadata.mjs显式接收本地Devices目录，输出不含主机路径、SDK二进制或字体。按目标记录compiler.json/simulator.json的SHA256及设备包版本，目录版本带内容摘要。缺少包记录unknown，解析或设备标识冲突直接失败。更新包后重新提取、构建和验证，不静默刷新线上事实。
+
+字段包括实际宽高、形状、displayType、色深、透明混合、包中API版本列表、watchFace应用内存限制、graphicsResourcePoolSize以及sensorHistory种类。两个内存预算属于不同池，不可把原图RGBA估算或压缩文件体积直接当作运行分配。包内API版本是所列固件变体声明，不是用户手表当前固件版本，也不是应用minApiLevel。sensorHistory不是所有数据接口的完整能力表，未列项不能直接断言设备无此功能。
+
+编辑器「生成检查 → 目标设备依据」显示这些事实；生成设备上下文、原生源码注释和确定性来源记录绑定元数据版本，原生源码另列目标与包摘要。目录声明与编辑器宽高/形状/屏幕类型冲突时暂停生成，未知项不伪装通过。51mm/47mm共享同一SDK产品ID不等于物理尺寸已由包独立核验；物理型号选择仍来自现有产品目录。
+
+AOD、真实固件、接口当前是否有读数、真机显示/功耗与可接受安全区保持独立状态。当前9个唯一SDK目标均有提取事实，不因此宣称所有控件已在9款真机测试；圆形AMOLED以外仍未开放。

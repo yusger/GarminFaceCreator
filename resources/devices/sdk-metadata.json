@@ -1,0 +1,291 @@
+{
+  "version": "sdk-metadata-1-7722889381ba",
+  "sourcePolicy": "Facts extracted from installed device packages; firmware, hardware and power are not verified. No SDK binaries, fonts or host paths included.",
+  "devices": [
+    {
+      "target": "venu441mm",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "venu441mm/compiler.json",
+        "simulatorFile": "venu441mm/simulator.json",
+        "compilerSha256": "13a16cc2e597c6756574872dd65508b1f545e68152140955d23e52cb749a66fe",
+        "simulatorSha256": "7132c5b726ab7c80ef6a87564fbcf065a768781ebefe371f175a177c424e5814",
+        "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+      },
+      "width": 390,
+      "height": 390,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "6.0.3"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 4194304,
+      "sensorHistory": [
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "venu445mm",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "venu445mm/compiler.json",
+        "simulatorFile": "venu445mm/simulator.json",
+        "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+        "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+        "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+      },
+      "width": 454,
+      "height": 454,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "6.0.3"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 4194304,
+      "sensorHistory": [
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "venu3",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "venu3/compiler.json",
+        "simulatorFile": "venu3/simulator.json",
+        "compilerSha256": "db149043596f47e3220122e6052f813ad354b0b8da50789425189c08fbd0ce1a",
+        "simulatorSha256": "b505aebe5f5d83a2d16090f545ba9af9c244656e48b2a7788ff86b95ceb6895a",
+        "packageVersion": "3d0fb192a2cf01699aefd0f384af3f527e5885bd"
+      },
+      "width": 454,
+      "height": 454,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "5.2.0"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 4194304,
+      "sensorHistory": [
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "venu3s",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "venu3s/compiler.json",
+        "simulatorFile": "venu3s/simulator.json",
+        "compilerSha256": "15bbae2d2b55f847f36993a4e54015a516aded10506abb1e371877acc10e10d4",
+        "simulatorSha256": "45b1afef83c214e627c1d6a7a278edc92f8b6531f8e9e4ae2ed42d65ba8573e5",
+        "packageVersion": "3d0fb192a2cf01699aefd0f384af3f527e5885bd"
+      },
+      "width": 390,
+      "height": 390,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "5.2.0"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 4194304,
+      "sensorHistory": [
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "fr57042mm",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "fr57042mm/compiler.json",
+        "simulatorFile": "fr57042mm/simulator.json",
+        "compilerSha256": "8ab38ad5f1a678afe72111ecfe9a1fe0744290d3742b8a92d93df5056ec9d847",
+        "simulatorSha256": "b8a14221b3f8ff592a4f38a2276af02418e0ce6244674f238bee20f3c6ffd5e7",
+        "packageVersion": "2a089d06d343f3feda75c93ddf12e1fa29abe918"
+      },
+      "width": 390,
+      "height": 390,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "6.0.3"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 3145728,
+      "sensorHistory": [
+        "bodybattery",
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "stress",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "fr57047mm",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "fr57047mm/compiler.json",
+        "simulatorFile": "fr57047mm/simulator.json",
+        "compilerSha256": "697d1be0a4cc944003155635f8467d31d912bdb2aaf0885725d6cf10f18bd24b",
+        "simulatorSha256": "3743f6ec9ace4cc92b8279d26b98be4781ffa43b0442f47c89c2b6e4d66df3d1",
+        "packageVersion": "2a089d06d343f3feda75c93ddf12e1fa29abe918"
+      },
+      "width": 454,
+      "height": 454,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "6.0.3"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 3145728,
+      "sensorHistory": [
+        "bodybattery",
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "stress",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "fr970",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "fr970/compiler.json",
+        "simulatorFile": "fr970/simulator.json",
+        "compilerSha256": "594d092ffd51f13936430f834aa86fe4d7d1efcdefc6be43c32aa61c6a8db457",
+        "simulatorSha256": "5799acd323d9bdfaeb1ae94be5092fa35b020db85bb82810c31bf7a5bcf944d8",
+        "packageVersion": "2a089d06d343f3feda75c93ddf12e1fa29abe918"
+      },
+      "width": 454,
+      "height": 454,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "6.0.3"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 3145728,
+      "sensorHistory": [
+        "bodybattery",
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "stress",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "fenix843mm",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "fenix843mm/compiler.json",
+        "simulatorFile": "fenix843mm/simulator.json",
+        "compilerSha256": "342fc308b5d5c3d003048b4ee053c842df6a327da4b14b2834e488d835d81566",
+        "simulatorSha256": "12bcee3d0c974a59f38cd840f74cec1ebceafadd5cbe4be716589b323aaa8654",
+        "packageVersion": "69f9c27a08d175c50b86464a70c24d15718945cb"
+      },
+      "width": 416,
+      "height": 416,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "6.0.3"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 3145728,
+      "sensorHistory": [
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    },
+    {
+      "target": "fenix847mm",
+      "status": "sdk-package",
+      "source": {
+        "compilerFile": "fenix847mm/compiler.json",
+        "simulatorFile": "fenix847mm/simulator.json",
+        "compilerSha256": "e694cc55c7e22297935df08a8122ac8e2985d3298a7df2d90df73d11cd160970",
+        "simulatorSha256": "02e1938c1a0abf60b2a43b1a60f92ad0fcdaac6aae0bb53ef0087452296c4872",
+        "packageVersion": "69f9c27a08d175c50b86464a70c24d15718945cb"
+      },
+      "width": 454,
+      "height": 454,
+      "shape": "round",
+      "displayType": "amoled",
+      "bitsPerPixel": 16,
+      "alphaBlending": true,
+      "apiVersions": [
+        "6.0.3"
+      ],
+      "watchFaceMemoryBytes": 131072,
+      "graphicsPoolBytes": 3145728,
+      "sensorHistory": [
+        "elevation",
+        "heartrate",
+        "pressure",
+        "pulseox",
+        "temperature"
+      ],
+      "aod": "unverified",
+      "hardwareValidation": "unverified"
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+import DeviceEvidence from "./DeviceEvidence";
 import { useMemo } from "react";
 import type { Project } from "./domain";
 import { generationDiagnostics } from "./generationDiagnostics";
@@ -23,6 +24,7 @@ export default function GenerationChecks({
       <p className="hint">
         检查本地生成映射与配置选项；不代替SDK编译、资源预算或真机验收。显示近似不代表已接受降级。
       </p>
+      <DeviceEvidence project={project}/>
       {issues.map((d, i) => (
         <div key={i} data-diagnostic-status={d.status}>
           <p>
