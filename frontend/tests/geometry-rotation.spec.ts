@@ -95,7 +95,7 @@ for (const [target, size] of [
       .poll(
         async () => {
           state = await (
-            await request.get(`/api/builds/${job.buildId}`)
+            await request.get(`/api/builds/${job.buildId}`, {headers:job.accessToken?{Authorization:"Bearer "+job.accessToken}:{}})
           ).json();
           return state.status;
         },
