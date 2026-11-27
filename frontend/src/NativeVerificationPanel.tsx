@@ -1,3 +1,6 @@
+import {download as downloadLocal} from "./storage";
+import AodPixelSummary from "./AodPixelSummary";
+import {analyzeAodPixels,type AodPixelReport} from "./aodPixels";
 import { useEffect, useState } from "react";
 import { buildFetch, downloadBuild } from "./buildAccess";
 import {
@@ -25,6 +28,7 @@ export default function NativeVerificationPanel({
   const [refresh, setRefresh] = useState(0);
   const [error, setError] = useState("");
   const [sending, setSending] = useState(false);
+  const [pixels,setPixels]=useState<AodPixelReport|null>(null);
   const [image, setImage] = useState("");
   const [imageError, setImageError] = useState("");
   const path = `/api/builds/${buildId}/native-verification`;
@@ -78,6 +82,7 @@ export default function NativeVerificationPanel({
     const abort = new AbortController();
     let owned = "";
     setImage("");
+    setPixels(null);
     setImageError("");
     if (state.status !== "succeeded" || state.expired) return;
     async function load() {
@@ -155,8 +160,7 @@ export default function NativeVerificationPanel({
         {state.expired ? "产物已过期" : nativeStatuses[state.status]}
       </summary>
       <p className="hint">
-        可选运行已编译工程，不调用模型，会占用验证配额。当前支持新版“本地生成”的
-        Venu 4 工程。
+        可选运行已编译工程，不调用模型，会占用验证配额。当前支持带平台帧报告的本地或AI工程，目标为 Venu 4 两尺寸。
       </p>
       {!matchesCurrent && (
         <p className="hint">
@@ -236,9 +240,11 @@ export default function NativeVerificationPanel({
         <img
           src={image}
           alt="SDK 模拟器原生盘面截图"
+          onLoad={e=>{try{const img=e.currentTarget;if(img.currentSrc!==image)return;const canvas=document.createElement("canvas");canvas.width=img.naturalWidth;canvas.height=img.naturalHeight;if(canvas.width>1024||canvas.height>1024)throw Error("图像尺寸超出统计预算");const ctx=canvas.getContext("2d");if(!ctx)throw Error("像素画布不可用");ctx.drawImage(img,0,0);setPixels(analyzeAodPixels(ctx.getImageData(0,0,canvas.width,canvas.height).data,canvas.width,canvas.height,state.target||"unknown","native-frame",state.report?.applicationMode==="aod"?"aod":state.report?.applicationMode==="active"?"active":"unknown"));}catch(error){setImageError("像素统计失败："+(error as Error).message);}}}
           onError={() => setImageError("截图无法解码，请下载报告检查")}
         />
       )}
+      {pixels&&<><AodPixelSummary report={pixels}/><button type="button" onClick={()=>downloadLocal("native-pixel-analysis.json",{...pixels,buildId,projectId:state.projectId,revision:state.revision,prgSha256:state.prgSha256,sourceSha256:state.sourceSha256,generatorVersion:state.generatorVersion,capturedAtUtc:state.report?.capturedAtUtc})}>下载像素统计</button></>}
       {!!state.artifacts?.length && !state.expired && (
         <div className="native-actions">
           {image && (

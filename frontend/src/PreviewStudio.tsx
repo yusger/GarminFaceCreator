@@ -1,3 +1,5 @@
+import AodPixelSummary from "./AodPixelSummary";
+import type {AodPixelReport} from "./aodPixels";
 import {download} from "./storage";
 import {captureWatchface} from "./watchfaceCapture";
 import {previewStress,previewBoundaries,withPreviewValues} from "./previewCases";
@@ -45,11 +47,14 @@ export default function PreviewStudio({
   setPreview: Dispatch<SetStateAction<Preview>>;
   onClose: () => void;
 }) {
+  const [pixelCapture,setPixelCapture]=useState<{key:string;report:AodPixelReport;image:string}|null>(null);
+  const pixelKey=JSON.stringify([project.id,project.revision,project.target,project.deviceSize,preview]);
   const [dynamic, setDynamic] = useState(true);
   const [capturing,setCapturing]=useState(false);
   const [captureMetadata,setCaptureMetadata]=useState<Record<string,unknown>|null>(null);
   const [captureMessage,setCaptureMessage]=useState("");
-  async function exportCapture(aod:boolean){manualPause();setCapturing(true);setCaptureMessage("");try{const result=await captureWatchface(project,preview,aod);const link=document.createElement("a");link.href=result.data;link.download=project.name+"-"+result.mode+"-"+result.width+".png";link.click();const {data,...metadata}=result;setCaptureMetadata(metadata);setCaptureMessage("已导出纯盘面，固定本次数据。"+result.warnings.join(" "));}catch(e){setCaptureMessage("截图失败："+(e as Error).message);}finally{setCapturing(false);}}
+  async function exportCapture(aod:boolean){manualPause();setCapturing(true);setCaptureMessage("");try{const result=await captureWatchface(project,preview,aod);const link=document.createElement("a");link.href=result.data;link.download=project.name+"-"+result.mode+"-"+result.width+".png";link.click();const {data,...metadata}=result;if(result.aodAnalysis)setPixelCapture({key:pixelKey,report:result.aodAnalysis,image:result.data});setCaptureMetadata(metadata);setCaptureMessage("已导出纯盘面，固定本次数据。"+result.warnings.join(" "));}catch(e){setCaptureMessage("截图失败："+(e as Error).message);}finally{setCapturing(false);}}
+  async function analyzeAod(){manualPause();setCapturing(true);setCaptureMessage("");const key=pixelKey;try{const result=await captureWatchface(project,preview,true);const {data,...metadata}=result;setCaptureMetadata(metadata);if(result.aodAnalysis)setPixelCapture({key,report:result.aodAnalysis,image:data});setCaptureMessage("已冻结本次数据并完成息屏像素估算；不是设备合规结论。"+result.warnings.join(" "));}catch(e){setCaptureMessage("像素检查失败："+(e as Error).message);}finally{setCapturing(false);}}
   const [playing, setPlaying] = useState(true),
     [speed, setSpeed] = useState(1),
     [mode, setMode] = useState("对比"),
@@ -216,10 +221,13 @@ export default function PreviewStudio({
           </div>
           <button disabled={capturing} onClick={()=>void exportCapture(false)}>下载亮屏盘面</button>
           <button disabled={capturing} onClick={()=>void exportCapture(true)}>下载息屏盘面</button>
+          <button disabled={capturing} onClick={()=>void analyzeAod()}>检查息屏像素</button>
           <button disabled={!captureMetadata} onClick={()=>download(project.name+"-capture.json",captureMetadata)}>下载截图参数</button>
           <button onClick={onClose}>关闭预览</button>
         </header>
         {captureMessage&&<p role="status">{captureMessage}</p>}
+        {pixelCapture?.key===pixelKey&&<div className="aod-pixel-check"><img src={pixelCapture.image} alt="本次息屏像素检查盘面" width={160} height={160}/><AodPixelSummary report={pixelCapture.report}/></div>}
+        {pixelCapture&&pixelCapture.key!==pixelKey&&<p className="hint">预览或设计已改变，重新检查后再比较像素；已下载的记录仍对应原来的固定数据。</p>}
         <div className="preview-controls">
           <label>
             <input
