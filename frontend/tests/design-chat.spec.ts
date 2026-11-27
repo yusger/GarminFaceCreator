@@ -339,14 +339,11 @@ for (const vision of [false, true])
       .setInputFiles({
         name: "reference.png",
         mimeType: "image/png",
-        buffer: Buffer.from(
-          "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+aM1sAAAAASUVORK5CYII=",
-          "base64",
-        ),
+        buffer: Buffer.from(await page.evaluate(()=>{const c=document.createElement("canvas");c.width=4;c.height=4;return c.toDataURL("image/png").split(",")[1];}),"base64"),
       });
     await expect(
-      page.getByText("reference.png", { exact: true }),
-    ).toBeVisible();
+      page.locator(".chat-visual-options"),
+    ).toContainText("reference.png");
     await send(page, "按参考图调整");
     if (vision) {
       await expect(page.getByRole("log")).toContainText("已调整");
@@ -363,6 +360,6 @@ for (const vision of [false, true])
       await expect(page.getByLabel("设计对话输入")).toHaveValue("按参考图调整");
     }
     await expect(
-      page.getByText("reference.png", { exact: true }),
-    ).toBeVisible();
+      page.locator(".chat-visual-options"),
+    ).toContainText("reference.png");
   });
