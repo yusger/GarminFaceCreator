@@ -24,7 +24,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-33-layer-source-map";
+export const LOCAL_GENERATOR_VERSION = "basic-34-required-font-glyphs";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,

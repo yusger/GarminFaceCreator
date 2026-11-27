@@ -1,3 +1,4 @@
+import {missingGlyphs} from "../frontend/src/fontLibrary.ts";
 // Maintainer-only default font snapshot generation; normal builds use checked-in snapshots.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { resolve } from "node:path";
@@ -31,7 +32,8 @@ try {
     const f = r.fonts.find((f) => f.publishName === plan.font);
     if (!f) throw Error("Missing font " + plan.font);
     const bytes = await readFile(dir + "/" + f.file),
-      atlas = await page.evaluate(
+      checked = missingGlyphs(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),plan.glyphs),
+      atlas = checked.length ? (()=>{throw Error("Font missing required glyphs: "+checked.join(" "));})() : await page.evaluate(
         async ({ bytes, plan }) =>
           chalkAtlas(
             Uint8Array.from(atob(bytes), (c) => c.charCodeAt(0)).buffer,

@@ -1,3 +1,4 @@
+import {missingGlyphs} from "../frontend/src/fontLibrary.ts";
 // Maintainer-only canonical bitmap/font resource creation. Run from repository root.
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -49,6 +50,7 @@ try {
   r.codeFiles = r.codeFiles.filter((a) => !a.endsWith(".fnt"));
   for (const plan of chalkPlans(p)) {
     const bytes = await readFile(dir + "/fonts/" + plan.font);
+    const missing=missingGlyphs(bytes.buffer.slice(bytes.byteOffset,bytes.byteOffset+bytes.byteLength),plan.glyphs);if(missing.length)throw Error("Font missing required glyphs: "+missing.join(" "));
     const atlas = await page.evaluate(
       async ({ bytes, plan }) =>
         chalkAtlas(

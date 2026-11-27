@@ -1,3 +1,6 @@
+import { missingGlyphs } from "./fontLibrary.ts";
+import { metricDisplayUnits, metricDecorations } from "./metricFormat.ts";
+import { sourceLabels, resolvedLayer } from "./projectControls.ts";
 import { expandWidgets } from "./compound.ts";
 import type { Layer, Project, CodeFile } from "./domain.ts";
 import { generationDevice } from "./devices.ts";
@@ -27,24 +30,52 @@ export function chalkPlans(p: Project) {
       throw Error("粉笔字体仅支持时间、日期、数据和文字");
     if (l.kind === "date" && l.dateLocale === "zh" && l.garminFont === "chalk")
       throw Error("中文日期请使用粉笔中文字体");
-    const ascii =
-      Array.from({ length: 95 }, (_, i) => String.fromCharCode(i + 32)).join(
-        "",
-      ) + "°";
-    const glyphs =
-      l.kind === "time"
-        ? "0123456789:"
-        : l.kind === "text" && !l.sourceLabelFor
-          ? l.text || " "
-          : ascii +
-            (l.garminFont === "chalkHan"
-              ? (l.label || "") +
-                (l.unit || "") +
-                (l.missingValue || "") +
-                (l.kind === "date" && l.dateLocale === "zh"
-                  ? "周日一二三四五六月"
-                  : "")
-              : "");
+    const choices = (id: string, source: string) => [
+      ...new Set([
+        source,
+        ...(p.controls || [])
+          .filter(
+            (c) =>
+              c.type === "dataSource" &&
+              c.targets.some(
+                (t) => t.layerId === id && t.property === "source",
+              ),
+          )
+          .flatMap((c) => c.options || []),
+      ]),
+    ];
+    let glyphs = "";
+    if (l.kind === "time") glyphs = "0123456789:";
+    else if (l.kind === "date")
+      glyphs =
+        l.dateFormat === "monthDayWeek"
+          ? "0123456789. SUNMONTUEWEDTHUFRISAT"
+          : l.dateLocale === "zh"
+            ? "0123456789 周日一二三四五六月"
+            : "0123456789 SUNMONTUEWEDTHUFRISAT";
+    else if (l.kind === "text") {
+      const owner = p.layers.find((x) => x.id === l.sourceLabelFor);
+      glyphs = owner
+        ? choices(owner.id, owner.source)
+            .map((source) => sourceLabels[source] || "--")
+            .join("")
+        : l.text || " ";
+    } else
+      glyphs = choices(l.id, l.source)
+        .map((source) => {
+          const current = resolvedLayer({ ...l, source }, p.layers);
+          return (
+            "0123456789-. " +
+            (current.groupThousands !== false ? "," : "") +
+            (current.label || "") +
+            (current.unit ?? metricDisplayUnits[source] ?? "") +
+            (current.missingValue ?? "--") +
+            (current.metricDecoration !== false
+              ? metricDecorations[source] || ""
+              : "")
+          );
+        })
+        .join("");
     if (
       l.garminFont === "chalk" &&
       /[^\x20-\x7e°]/.test(
@@ -55,7 +86,7 @@ export function chalkPlans(p: Project) {
       )
     )
       throw Error("粉笔数字字体支持 ASCII 与 °；中文请使用粉笔中文字体");
-    for (const aod of [false, true]) {
+    for (const aod of l.aod ? [false, true] : [false]) {
       const id = chalkId(l, aod),
         existing = plans.get(id);
       const merged = [
@@ -76,9 +107,24 @@ export function chalkPlans(p: Project) {
   }
   return [...plans.values()];
 }
+export type FontPreparationReport = {
+  id: string;
+  font: string;
+  targetPixels: number;
+  glyphCount: number;
+  fontBytes: number;
+  atlasWidth: number;
+  atlasHeight: number;
+  atlasEncodedBytes: number;
+  rgbaBytes: number;
+};
 const cache = new Map<
   string,
-  Promise<{ files: CodeFile[]; assets: { path: string; data: string }[] }>
+  Promise<{
+    files: CodeFile[];
+    assets: { path: string; data: string }[];
+    reports: FontPreparationReport[];
+  }>
 >();
 export function preparedChalk(p: Project) {
   const plans = chalkPlans(p),
@@ -86,18 +132,50 @@ export function preparedChalk(p: Project) {
   const existing = cache.get(key);
   if (existing) return existing;
   const promise = (async () => {
+    const reports: FontPreparationReport[] = [];
     const files: CodeFile[] = [],
       assets: { path: string; data: string }[] = [];
     for (const plan of plans) {
       const response = await fetch("/fonts/" + plan.font);
       if (!response.ok) throw Error("粉笔字体加载失败");
+      const bytes = await response.arrayBuffer(),
+        missing = missingGlyphs(bytes, plan.glyphs);
+      if (missing.length)
+        throw Error(
+          "字体 " +
+            plan.font +
+            " 缺少所需字符：" +
+            missing.join(" ") +
+            "；未使用系统回退字形生成资源。",
+        );
       const atlas = await chalkAtlas(
-        await response.arrayBuffer(),
+        bytes,
         plan.id,
         plan.size,
         plan.glyphs,
         plan.id + ".png",
       );
+      const common =
+        /common lineHeight=\d+ base=\d+ scaleW=(\d+) scaleH=(\d+)/.exec(
+          atlas.content,
+        );
+      if (!common) throw Error("字体图集元数据缺失");
+      const atlasWidth = Number(common[1]),
+        atlasHeight = Number(common[2]),
+        payload = atlas.data.split(",")[1];
+      reports.push({
+        id: plan.id,
+        font: plan.font,
+        targetPixels: plan.size,
+        glyphCount: new Set([...plan.glyphs]).size,
+        fontBytes: bytes.byteLength,
+        atlasWidth,
+        atlasHeight,
+        atlasEncodedBytes:
+          Math.floor((payload.length * 3) / 4) -
+          (payload.endsWith("==") ? 2 : payload.endsWith("=") ? 1 : 0),
+        rgbaBytes: atlasWidth * atlasHeight * 4,
+      });
       files.push({
         path: "resources/fonts/" + plan.id + ".fnt",
         content: atlas.content,
@@ -107,7 +185,7 @@ export function preparedChalk(p: Project) {
         data: atlas.data,
       });
     }
-    return { files, assets };
+    return { files, assets, reports };
   })().catch((e) => {
     cache.delete(key);
     throw e;
