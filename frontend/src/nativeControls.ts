@@ -143,6 +143,7 @@ export function nativeControls(p: Project) {
     })
     .join("");
   return {
+    frameVariables:controls.map(c=>({name:variable(c.id),type:"Toybox.Lang."+(c.type === "color" ? "Number" : c.type === "boolean" ? "Boolean" : "String")})),
     files: controls.length
       ? ([
           {

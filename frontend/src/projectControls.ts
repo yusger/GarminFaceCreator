@@ -61,6 +61,7 @@ export function validateControls(p: Project) {
     )
       throw Error("表盘配置定义无效");
     seen.add(c.id);
+    if(c.type === "dataSource" && (!c.options || c.options.length>7 || new Set(c.options).size!==c.options.length)) throw Error("数据源配置选项须唯一且最多7项");
     const valid = (v: unknown) =>
       c.type === "boolean"
         ? typeof v === "boolean"
