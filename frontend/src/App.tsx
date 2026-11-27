@@ -61,7 +61,7 @@ import { mergeLogs, diagnostic, type LogBuffer } from "./buildLogs";
 import PreviewStudio from "./PreviewStudio";
 import DevicePicker from "./DevicePicker";
 import { deviceFor, deviceLabel } from "./devices";
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo, lazy, Suspense } from "react";
 import {
   MousePointer2,
   Hand,
@@ -100,6 +100,7 @@ import {
   X,
   SlidersHorizontal,
   Sparkles,
+  HelpCircle,
 } from "lucide-react";
 import {
   project as createProject,
@@ -126,6 +127,7 @@ import { generate, GenerationFailure } from "./api";
 import Models from "./Models";
 import { loadReferences, isReference, copyReference } from "./builtins";
 import Scene, { reading, type Preview } from "./Scene";
+const HelpAbout=lazy(()=>import("./HelpAbout"));
 const tools = [
   ["time", "时间", Clock],
   ["date", "日期", Calendar],
@@ -1468,7 +1470,7 @@ export default function App() {
             </button>
           ) : (
             <span>
-              {page === "models" ? "设置 / 模型配置" : "你的表盘设计工作台"}
+              {page === "models" ? "设置 / 模型配置" : page === "help" ? "帮助 / 关于" : "你的表盘设计工作台"}
             </span>
           )}
         </div>
@@ -1588,7 +1590,19 @@ export default function App() {
           )}
         </div>
       )}
-      {page === "models" ? (
+      {page === "help" ? (
+        <div className="app-layout help-layout">
+          <nav className="sidebar help-sidebar" aria-label="工作区导航">
+            <button onClick={()=>setPage("projects")}><Folder size={18}/>表盘项目</button>
+            {p && <button onClick={()=>setPage("editor")}><MousePointer2 size={18}/>表盘编辑器</button>}
+            <div className="nav-label">工作区设置</div>
+            <button onClick={()=>setPage("models")}><Settings size={18}/>模型配置</button>
+            <button className="active" aria-current="page"><HelpCircle size={18}/>帮助与关于</button>
+            <p className="sidebar-note">设计保存在当前浏览器<br/>先备份，再迁移工作区</p>
+          </nav>
+          <Suspense fallback={<main className="help-loading" role="status">正在打开帮助…</main>}><HelpAbout onProjects={()=>setPage("projects")} onModels={()=>setPage("models")} onEditor={p?()=>setPage("editor"):undefined}/></Suspense>
+        </div>
+      ) : page === "models" ? (
         <div className="app-layout">
           <nav className="sidebar">
             <button onClick={() => setPage("projects")}>
@@ -1607,6 +1621,7 @@ export default function App() {
               <Settings size={18} />
               模型配置
             </button>
+            <button onClick={()=>setPage("help")}><HelpCircle size={18}/>帮助与关于</button>
             <p className="sidebar-note">
               模型请求由浏览器发出
               <br />
@@ -1650,6 +1665,7 @@ export default function App() {
               <Settings size={18} />
               模型配置
             </button>
+            <button onClick={()=>setPage("help")}><HelpCircle size={18}/>帮助与关于</button>
             <p className="sidebar-note">
               DESIGNED FOR
               <br />
@@ -1843,6 +1859,7 @@ export default function App() {
                   <Folder size={21} />
                 </button>
                 <div className="rail-bottom">
+                  <button title="帮助与关于" aria-label="帮助与关于" onClick={()=>setPage("help")}><HelpCircle size={21}/></button>
                   <button title="模型配置" onClick={() => setPage("models")}>
                     <Settings size={21} />
                   </button>

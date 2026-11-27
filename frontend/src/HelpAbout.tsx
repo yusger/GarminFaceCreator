@@ -1,0 +1,34 @@
+import {useEffect,useRef,useState} from "react";
+import {ArrowRight,BookOpen,Download,HelpCircle,Lightbulb,Info,Search,ExternalLink,RefreshCw,CheckCircle2} from "lucide-react";
+import packageInfo from "../../package.json" with {type:"json"};
+import {referenceAttributions} from "./attribution";
+import {helpSections,findHelpArticles,type HelpArticle,type HelpSectionId} from "./helpContent";
+import "./help.css";
+const icons={start:BookOpen,install:Download,faq:HelpCircle,design:Lightbulb,about:Info};
+const exportTypes=[{type:"设计JSON",use:"备份、迁移和继续编辑",install:"不能直接安装"},{type:"盘面PNG",use:"预览、对照与分享效果",install:"不能直接安装"},{type:"源码工程ZIP",use:"用自己的SDK编译或调试",install:"需先编译"},{type:"表盘PRG",use:"指定设备的可运行表盘",install:"可USB侧载"}];
+function ServiceStatus(){
+ const [result,setResult]=useState<{compile:string;native:string}|null>(null),[checking,setChecking]=useState(false),[error,setError]=useState("");
+ const pending=useRef<AbortController|null>(null);useEffect(()=>()=>pending.current?.abort(),[]);
+ async function check(){const c=new AbortController();pending.current=c;setChecking(true);setError("");setResult(null);try{const r=await fetch("/api/capabilities",{signal:AbortSignal.any([c.signal,AbortSignal.timeout(10000)]),cache:"no-store",redirect:"error"});if(!r.ok)throw Error("服务暂不可用，请稍后重试。");const data=await r.json();if(!data || typeof data!=="object")throw Error("未取得有效的服务状态。");const ready=Array.isArray(data.devices)?data.devices.filter((d:unknown)=>d && typeof d==="object" && (d as {ready?:boolean}).ready===true).length:undefined;const total=Array.isArray(data.devices)?data.devices.length:undefined;setResult({compile:typeof data.ready!=="boolean"?"服务已连接，就绪信息未返回":data.ready?(ready!==undefined?`${ready}/${total}个目标编译就绪；仍需核对所选设备。`:"至少一个目标编译就绪。") :"编译环境暂未就绪。",native:data.nativeVerification?.enabled===false?"未启用，不影响工程编译。":data.nativeVerification?.enabled===true?(data.nativeVerification.ready===true?"服务就绪，支持范围以编译面板为准。":"已启用，服务暂未就绪。") :"当前部署未提供原生验证状态。"});}catch(e){if(!c.signal.aborted)setError(e instanceof Error && e.name==="TimeoutError"?"检查超时，请稍后重试。":"无法检查服务状态，请确认连接后重试。");}finally{if(!c.signal.aborted)setChecking(false);}}
+ return <div className="help-service"><button type="button" onClick={()=>void check()} disabled={checking}><RefreshCw size={15}/>{checking?"检查中…":"检查服务状态"}</button><div role="status" aria-live="polite">{error || (result?<><p><b>编译服务：</b>{result.compile}</p><p><b>原生模拟器：</b>{result.native}</p></>:checking?"正在读取当前部署状态…":"尚未检查；不会自动创建编译或模拟器任务。")}</div></div>;
+}
+function Article({article,sectionLabel,faq=false}:{article:HelpArticle;sectionLabel?:string;faq?:boolean}){
+ const body=<>{sectionLabel && <span className="help-result-section">{sectionLabel}</span>}{article.paragraphs.map((p,i)=><p key={i}>{p}</p>)}{article.steps && <ol className="help-install-steps">{article.steps.map(s=><li key={s.title}><b>{s.title}</b><p>{s.text}</p></li>)}</ol>}{article.bullets && <ul className="help-tips">{article.bullets.map(text=><li key={text}>{text}</li>)}</ul>}{article.links && <div className="help-links">{article.links.map(l=><a key={l.url} href={l.url} target="_blank" rel="noopener noreferrer">{l.label}<ExternalLink size={12}/></a>)}</div>}{article.id==="service-status" && <ServiceStatus/>}{article.id==="credits" && <ul className="help-credits">{referenceAttributions.map(r=><li key={r.id}><a href={r.source} target="_blank" rel="noopener noreferrer">{r.name}<ExternalLink size={12}/></a><small>{r.summary}</small></li>)}</ul>}</>;
+ return faq?<details className="help-faq" data-help-article={article.id}><summary>{article.title}</summary><div>{body}</div></details>:<article className="help-article" data-help-article={article.id}><h3>{article.title}</h3>{body}</article>;
+}
+export default function HelpAbout({onProjects,onModels,onEditor}:{onProjects:()=>void;onModels:()=>void;onEditor?:()=>void}){
+ const [section,setSection]=useState<HelpSectionId>("start"),[query,setQuery]=useState("");
+ const current=helpSections.find(s=>s.id===section)!,searching=!!query.trim(),results=searching?findHelpArticles(query):[];
+ const content=useRef<HTMLDivElement>(null);
+ function choose(id:HelpSectionId){setSection(id);setQuery("");content.current?.scrollIntoView({block:"start",behavior:"instant"});}
+ return <main className="help-page" aria-labelledby="help-title">
+  <header className="help-hero"><div><span className="eyebrow">GFC · HELP CENTER</span><h1 id="help-title">帮助与关于</h1><p>从创建设计到导出安装，遇到问题从这里开始。</p></div><span className="help-version"><img src="/brand/gfc-mark.svg" width="34" height="34" alt=""/>v{packageInfo.version}<small>开发中</small></span></header>
+  <div className="help-start-actions"><button onClick={onProjects}><BookOpen size={16}/>打开表盘项目<ArrowRight size={14}/></button><button onClick={onModels}>模型配置</button>{onEditor && <button onClick={onEditor}>返回当前设计</button>}</div>
+  <label className="help-search"><Search size={18}/><span className="help-sr-only">搜索帮助</span><input type="search" placeholder="搜索：安装、PRG、字体、项目不见了…" value={query} onChange={e=>setQuery(e.target.value)}/>{query && <button type="button" onClick={()=>setQuery("")}>清除搜索</button>}</label>
+  <nav className="help-tabs" aria-label="帮助分类">{helpSections.map(s=>{const Icon=icons[s.id];return <button key={s.id} aria-current={!searching && section===s.id?"page":undefined} onClick={()=>choose(s.id)}><Icon size={16}/>{s.label}</button>;})}</nav>
+  <div className="help-content" ref={content}>
+   {searching?<><div className="help-section-heading"><h2>搜索结果</h2><p role="status">找到{results.length}条相关内容</p></div>{results.length?results.map(({section:s,article})=><Article key={article.id} article={article} sectionLabel={s.label}/>):<div className="help-empty"><Search size={28}/><h3>没有找到相关帮助</h3><p>试试“安装”“字体”或“备份”，也可以查看其他分类。</p><button onClick={()=>setQuery("")}>查看全部分类</button></div>}</>:<><div className="help-section-heading"><h2>{current.label}</h2><p>{current.description}</p></div>{section==="start" && <div className="help-flow" aria-label="从设计到安装"><span>可编辑设计</span><ArrowRight size={14}/><span>生成工程</span><ArrowRight size={14}/><span>编译PRG</span><ArrowRight size={14}/><span>验证与安装</span></div>}{section==="install" && <div className="help-export-table"><table><caption>下载文件用途对照</caption><thead><tr><th scope="col">文件</th><th scope="col">用途</th><th scope="col">能否安装</th></tr></thead><tbody>{exportTypes.map(row=><tr key={row.type}><th scope="row">{row.type}</th><td>{row.use}</td><td>{row.install}</td></tr>)}</tbody></table></div>}{current.articles.map(article=><Article key={article.id} article={article} faq={section==="faq"}/>)}</>}
+  </div>
+  <footer className="help-footer"><CheckCircle2 size={15}/><span>设计、网页预览、SDK编译、原生模拟和真机验收分别核对。</span><a href="https://github.com/yusger/GarminFaceCreator/issues" target="_blank" rel="noopener noreferrer">反馈问题<ExternalLink size={12}/></a></footer>
+ </main>;
+}
