@@ -31,3 +31,7 @@ resources/default-imgs/** -text
 resources/examples/reference-release/** -text
 
 resources/examples/reference-release-v2/** -text
+
+# Container entrypoints must run unchanged after Windows checkouts.
+deploy/simulator-probe/*.sh text eol=lf
+deploy/simulator-probe/tests/*.sh text eol=lf
