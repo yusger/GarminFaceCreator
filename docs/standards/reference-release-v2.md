@@ -20,3 +20,6 @@
 
 
 字体范围也冻结在初版cb0a56b：Permanent Marker、Ma Shan Zheng、Barlow Semi Condensed、Share Tech Mono四组id/family/file及原始文件SHA-256记录在同一baseline。后续素材库新增字体不自动获准；旧提交引用未冻结身份或原始字节改变时拒绝。此检查只限制旧deterministic-v2交付，不限制编辑器的新字体功能；新交付契约需显式声明和验证扩展范围。
+
+
+阶段139验证：bc8dd8a已推送。六项离线契约测试在本机与约定113环境均通过，覆盖正常六数据用例、私有字段注入、未声明文件、已新增编辑能力及临时新增字体不能扩张旧v2。113使用Node24.22.3隔离容器，镜像摘要`sha256:116b800c3754b440ee0aa3ed2f20f5bf3d99a554bfd9adeea09ea8017f6e85f5`；只读挂载、非root、无网络、256MiB/CPU1/PIDs128、退出即移除。首次准备遗漏设备元数据，补齐后完整六项通过；没有改应用服务、worker或展示环境，没有模型/编译/原生配额消耗。
