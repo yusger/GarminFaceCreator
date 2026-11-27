@@ -4,7 +4,7 @@
 
 | 规范 | 版本 | 用途 |
 | --- | --- | --- |
-| [编辑器能力清单](capability-list.md) | 1.6.1 | 从共享目录生成的现有入口/本地生成边界；不代表设备验收 |
+| [编辑器能力清单](capability-list.md) | 随能力目录生成 | 从共享目录生成的现有入口/本地生成边界；不代表设备验收 |
 | [表盘设计基础规范](watchface-basic-spec.md) | v1.1 | 表盘设计原则、数据与 AI 创建的能力边界 |
 | [表盘设计包接入规范](watchface-package-standard.md) | v1.2 | 完整表盘包的结构、资源、配置和转换验收 |
 | [自定义控件交付规范](custom-widget-standard.md) | v1.0 | 一个完整复合控件的交付、内部部件和验收 |
@@ -20,3 +20,8 @@
 - [本地诊断包](local-diagnostic-export.md)：主动下载与脱敏边界。
 
 - [数据源联动规则](data-source-linkage.md)：格式、静态图标、设计量程及亮屏/AOD一致性。
+
+- [主题预设及设置](theme-presets.md)：主题覆盖、稳定来源码与原生背景属性。
+- [日/小时图表](../chart-widget-design.md)：窗口、聚合、缺失和AOD缓存。
+- [新增数据来源](additional-data-sources.md)：SpO2、连接、久坐、天气与日出日落。
+- [AOD像素分析](aod-pixel-analysis.md)：像素分母、已核验设备参照与验证边界。

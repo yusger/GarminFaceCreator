@@ -9,3 +9,5 @@ await import("./update-reference-provenance.mjs");
 
 
 await import("./build-ai-design-schema.mjs");
+
+await import("./build-capability-doc.mjs");
