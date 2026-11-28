@@ -78,6 +78,24 @@ function fixture(input: Project, nonce: string,target="venu445mm") {
     throw Error("Observer hook changed");
   return p;
 }
+function observedAiFixture(input:Project,nonce:string){
+ if(!/^[a-f0-9]{32}$/.test(nonce)||input.target!=="venu445mm"||input.codeProvenance?.primary!=="ai")throw Error("Require an actual AI Venu4 project");
+ const p=structuredClone(input),old=p.appId;p.id=nonce;p.appId=nonce;
+ let observed=false;
+ p.files=p.files.map(f=>{
+  if(f.path==="manifest.xml")return {...f,content:f.content.replaceAll(old,nonce)};
+  if(f.path!=="source/GfcFrameReporter.mc")return f;
+  let content=f.content.replace("import Toybox.WatchUi;","import Toybox.Application;import Toybox.WatchUi;")
+   .replace("var inner=null;var low=false;var reported=false;","var inner=null;var low=false;var reported=false;var observedTheme=-1;")
+   .replace("function onEnterSleep(){","function onEnterSleep(){System.println(\"GFC_LIFECYCLE enterSleep\");")
+   .replace("function onExitSleep(){","function onExitSleep(){System.println(\"GFC_LIFECYCLE exitSleep\");")
+   .replace("inner.onUpdate(dc);if(!reported){",`inner.onUpdate(dc);var current=Application.Properties.getValue("Gfc_Theme");if(current!=observedTheme){observedTheme=current;System.println("GFC_AI_THEME="+current);}if(!reported){System.println("GFC_THEME_UI_VALIDATION=1");System.println("GFC_THEME_UI_RUN=${nonce}");`);
+  observed=content.includes("var observedTheme=-1")&&content.includes("GFC_AI_THEME=");
+  return {...f,content};
+ });
+ if(!observed||p.files.some(f=>f.path.endsWith(".mc")&&f.path!=="source/GfcFrameReporter.mc"&&f.content!==input.files.find(x=>x.path===f.path)?.content))throw Error("Observation must leave all AI drawing source exact");
+ return p;
+}
 Object.assign(window, {
-  gfcThemeUiFixture: { fixture, preparedCodeFiles, preparedAssets },
+  gfcThemeUiFixture: { fixture, observedAiFixture, preparedCodeFiles, preparedAssets },
 });

@@ -5,7 +5,7 @@ import { createRequire } from "node:module";
 import crypto from "node:crypto";
 import path from "node:path";
 const scenario = process.argv[2];
-if (!["themes", "persistence", "overrides", "matrix45", "matrix41", "inspect41", "lifecycle41", "persistence41", "lifecycle45", "upgrade41"].includes(scenario))
+if (!["themes", "persistence", "overrides", "matrix45", "matrix41", "inspect41", "lifecycle41", "persistence41", "lifecycle45", "upgrade41", "paid45"].includes(scenario))
   throw Error("Choose explicit themes, persistence or overrides scenario");
 const matrix=scenario.startsWith("matrix");
 const dir = "Temp/native-theme-ui-" + scenario + "-" + Date.now();
@@ -95,9 +95,9 @@ try {
   const page = await browser.newPage();
   await page.goto(url);
   await page.addScriptTag({ content: entry.code });
-  const p = JSON.parse(
-    await readFile("resources/default-watchfaces/trail/design.json", "utf8"),
-  );
+  const sourceFile=scenario==="paid45"?path.resolve(process.env.GFC_PAID_PROJECT_FILE||""):"resources/default-watchfaces/trail/design.json";
+  if(scenario==="paid45"&&!sourceFile.startsWith(path.resolve("Temp")+path.sep))throw Error("Private paid project must be in Temp");
+  const p = JSON.parse(await readFile(sourceFile,"utf8"));
   const result = await page.evaluate(
     async ({ p, nonce,scenario,matrix }) => {
       if(scenario==="upgrade41"){
@@ -105,7 +105,7 @@ try {
         p.themes.presets[0].backgroundColor="#14202B";
       }
       const h = matrix?window.gfcTrailMatrix:window.gfcThemeUiFixture;
-      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce,["inspect41","lifecycle41","persistence41","upgrade41"].includes(scenario)?"venu441mm":"venu445mm"),
+      const f = scenario==="paid45"?h.observedAiFixture(p,nonce):matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce,["inspect41","lifecycle41","persistence41","upgrade41"].includes(scenario)?"venu441mm":"venu445mm"),
         form = new FormData();
       form.append(
         "project",
@@ -382,6 +382,21 @@ sleep 1.2
 close_settings
 import -window root /output/ui-vital.png
 `);
+  if(scenario==="paid45")script+=`xdotool mousemove 65 12 click 1 mousemove 174 994
+sleep 1.6
+xdotool mousemove 170 815
+sleep 1.2
+xdotool mousemove 375 840 click 1
+sleep 4
+import -window root /output/ui-vital-aod.png
+xdotool mousemove 65 12 click 1 mousemove 174 994
+sleep 1.6
+xdotool mousemove 170 815
+sleep 1.2
+xdotool mousemove 375 815 click 1
+sleep 2
+import -window root /output/ui-vital-active.png
+`;
   if(scenario==="persistence41")script=script.replaceAll("325 431","287 406").replaceAll("325 572","287 527");
   if(scenario==="upgrade41"){
     const digest=crypto.createHash("sha256").update(upgradeSeed).digest("hex");
@@ -467,6 +482,10 @@ import -window root /output/ui-vital.png
     if(audit.priorPrgSha256===digest)throw Error("Upgrade must actually use a different PRG");
     const session=await readFile(dir+"/session-result.txt","utf8");
     if(!session.includes("samePrgRestartReady=true")||!session.includes("settingsSeedSha256="+audit.seedSha256))throw Error("SET seed restore or immutable new PRG restart not confirmed");
+  }
+  if(scenario==="paid45"){
+    for(const code of [2009808953,2078923795,1156566441])if(!observations.includes("GFC_AI_THEME="+code))throw Error("Actual AI theme not observed: "+code);
+    if(!observations.includes("GFC_LIFECYCLE enterSleep")||!observations.includes("GFC_LIFECYCLE exitSleep"))throw Error("Actual AI lifecycle not observed");
   }
   if(scenario.startsWith("lifecycle")&&(!observations.includes("GFC_LIFECYCLE enterSleep")||!observations.includes("GFC_LIFECYCLE exitSleep")))throw Error("Actual enterSleep/exitSleep callbacks not observed; screenshots alone do not pass");
   if(matrix){for(let i=0;i<12;i++)if(!observations.includes("GFC_MATRIX_FRAME="+i+" vm="))throw Error("Missing controlled matrix frame "+i);}
