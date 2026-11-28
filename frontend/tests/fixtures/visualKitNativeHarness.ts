@@ -4,7 +4,7 @@ import { localGenerate } from "../../src/localGenerator";
 import { preparedCodeFiles } from "../../src/chalkFonts";
 import { preparedAssets } from "../../src/iconLibrary";
 async function fixture(id: string, target: string, aod: boolean) {
-  const p = makeProject(id, target),
+  const p = await makeProject(id, target),
     anchor = "dc.clear();dc.setBlendMode(Graphics.BLEND_MODE_SOURCE_OVER);";
   p.files = localGenerate(p).map((f) => {
     if (f.path !== "source/App.mc") return f;
@@ -30,6 +30,9 @@ async function fixture(id: string, target: string, aod: boolean) {
         (content.includes("var dateText=") ? 'dateText="WED 25";' : ""),
     );
     content = content
+      .replace(/\bcalendar\.day_of_week\b/g, "(4)")
+      .replace(/\bcalendar\.day\b/g, "(25)")
+      .replace(/\bcalendar\.month\b/g, "(11)")
       .replace(/\bclock\.hour\b/g, "(9)")
       .replace(/\bclock\.min\b/g, "(41)")
       .replace(/\bclock\.sec\b/g, "(15)");

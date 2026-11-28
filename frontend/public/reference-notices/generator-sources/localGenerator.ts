@@ -38,7 +38,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-69-sleep-frame-ready";
+export const LOCAL_GENERATOR_VERSION = "basic-70-meter-stroke-reset";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -209,7 +209,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string,m
       meterPolygons(l)
         .map(
           (points, i) =>
-            `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${i}<lit?255:${Math.round((l.meterDim ?? 0.35) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));if(${i}<lit || ${Math.round((l.meterDim ?? 0.35) * 255)}==255){dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);}dc.fillPolygon([${points.map(([x, y]) => `[px(${num(l.x + x)}),px(${num(l.y + y)})]`).join(",")}]);`,
+            `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${i}<lit?255:${Math.round((l.meterDim ?? 0.35) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));if(${i}<lit || ${Math.round((l.meterDim ?? 0.35) * 255)}==255){dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);}dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon([${points.map(([x, y]) => `[px(${num(l.x + x)}),px(${num(l.y + y)})]`).join(",")}]);`,
         )
         .join("") +
       `}`

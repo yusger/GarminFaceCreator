@@ -1,3 +1,4 @@
+import {prepareVisualKit} from "./visualKits";
 import TemplatePicker from "./TemplatePicker";
 import BackgroundPicker from "./BackgroundPicker";
 import { layoutTemplate } from "./layoutTemplates";
@@ -44,6 +45,7 @@ export default function AiCreateWatchface({
     sources: ["heartRate", "steps", "battery"],
     instruction: "简洁清晰，时间突出，青色点缀，保留独立可编辑的数据控件。",
   });
+  const [preparingFonts,setPreparingFonts]=useState(false);
   const [normalizations,setNormalizations]=useState<{layerId:string;field:string;message:string}[]>([]);
   const [background,setBackground]=useState<BackgroundChoice>(defaultBackground);
   const [backgroundBusy,setBackgroundBusy]=useState(false);
@@ -127,7 +129,9 @@ export default function AiCreateWatchface({
           ? choices.instruction.replaceAll(profile.key, "[REDACTED]")
           : choices.instruction,
       };
-      const candidate = parseDesign(text, safe, refs);
+      setPreparingFonts(!!choices.layoutTemplateId);
+      const candidate = await prepareVisualKit(parseDesign(text, safe, refs),choices.layoutTemplateId);
+      if(!alive.current||c.signal.aborted)return;
       setResult(applyBackground(candidate,background));
     } catch (e) {
       if (!alive.current) return;
@@ -139,12 +143,22 @@ export default function AiCreateWatchface({
       );
     } finally {
       if (alive.current) {
-        setBusy(false);
+        setBusy(false);setPreparingFonts(false);
         controller.current = null;
       }
     }
   }
-  function applySafeCorrections(){const proposal=normalizeDesignResponse(raw);if(!proposal.edits.length)return;setNormalizations(proposal.edits);try{const safe={...choices,instruction:profile?.key?choices.instruction.replaceAll(profile.key,"[REDACTED]"):choices.instruction};const p=parseDesign(proposal.raw,safe,refs);p.designBrief=JSON.stringify({...JSON.parse(p.designBrief||"{}"),normalizations:proposal.edits});setResult(applyBackground(p,background));setError("");}catch(e){setError("格式修正后仍未通过校验：\n"+(e as Error).message);}}
+  async function applySafeCorrections(){
+    const proposal=normalizeDesignResponse(raw);if(!proposal.edits.length||busy)return;
+    const c=new AbortController();controller.current=c;setBusy(true);setPreparingFonts(true);setNormalizations(proposal.edits);
+    try{
+      const safe={...choices,instruction:profile?.key?choices.instruction.replaceAll(profile.key,"[REDACTED]"):choices.instruction};
+      const p=await prepareVisualKit(parseDesign(proposal.raw,safe,refs),choices.layoutTemplateId);
+      if(!alive.current||c.signal.aborted)return;
+      p.designBrief=JSON.stringify({...JSON.parse(p.designBrief||"{}"),normalizations:proposal.edits});setResult(applyBackground(p,background));setError("");
+    }catch(e){if(alive.current&&!c.signal.aborted)setError("格式修正后仍未通过校验：\n"+(e as Error).message);}
+    finally{if(alive.current){setBusy(false);setPreparingFonts(false);controller.current=null;}}
+  }
   function downloadResponse() {
     const url = URL.createObjectURL(
       new Blob([raw], { type: "text/plain;charset=utf-8" }),
@@ -532,7 +546,7 @@ export default function AiCreateWatchface({
             <p className="hint">
               调用所选模型可能消耗Token。此步骤只生成设计，不生成工程、不编译、不自动重试。
             </p>
-            {busy && <p role="status">AI正在设计表盘，请稍候…</p>}
+            {busy && <p role="status">{preparingFonts?"正在本地准备字体…":"AI正在设计表盘，请稍候…"}</p>}
             {error && (
               <div className="ai-design-error" role="alert" style={{whiteSpace:"pre-line"}}>{error}</div>
             )}

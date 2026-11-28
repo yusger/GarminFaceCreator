@@ -10,11 +10,12 @@ export default function DevicePicker({
   blank = false,
   templateId,
 }: {
-  onChoose: (device: (typeof devices)[number], layout: LayoutChoice) => void;
+  onChoose: (device: (typeof devices)[number], layout: LayoutChoice) => void|Promise<void>;
   blank?: boolean;
   templateId?: string;
   onCancel: () => void;
 }) {
+  const [preparing,setPreparing]=useState(false);
   const [series, setSeries] = useState("Venu"),
     [model, setModel] = useState("Venu 4"),
     [size, setSize] = useState("45mm");
@@ -138,20 +139,19 @@ export default function DevicePicker({
           字体与浏览器不同，创建后可调整。
         </p>
         <div className="inline">
-          <button onClick={onCancel}>取消</button>
+          <button disabled={preparing} onClick={onCancel}>取消</button>
           <button
             className="primary"
-            disabled={!!(presetId.startsWith("template:")&&layoutTemplate(presetId.slice(9))?.visualKit&&!layoutTemplate(presetId.slice(9))!.visualKit!.targets.includes(selected.id)) || backgroundBusy || (background.mode==="image"&&!background.image)}
-            onClick={() =>
-              onChoose(selected, {
+            disabled={preparing || !!(presetId.startsWith("template:")&&layoutTemplate(presetId.slice(9))?.visualKit&&!layoutTemplate(presetId.slice(9))!.visualKit!.targets.includes(selected.id)) || backgroundBusy || (background.mode==="image"&&!background.image)}
+            onClick={async () => {setPreparing(true);try{await onChoose(selected, {
                 ...suggestedLayout(selected, presetId),
                 safeInsetPx: inset ?? suggestedLayout(selected).safeInsetPx,
                 showGuide,
                 background,
-              })
+              });}finally{setPreparing(false);}}
             }
           >
-            创建项目
+            {preparing?"正在准备字体…":"创建项目"}
           </button>
         </div>
       </section>

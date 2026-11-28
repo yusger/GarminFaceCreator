@@ -131,6 +131,9 @@ for (const kit of kits)
       expect(
         saved.layers.some((l: any) => l.activeVisible === false && l.aod),
       ).toBe(true);
+      expect(saved.bitmapFonts.length).toBeGreaterThan(0);
+      expect(saved.bitmapFonts.length).toBeLessThanOrEqual(8);
+      expect(saved.layers.some((l: any) => l.customFont)).toBe(false);
       expect(posts).toEqual([]);
       await page.reload();
       await page
@@ -169,7 +172,7 @@ for (const kit of kits)
       const result = await page.evaluate(
         async ({ key, id }) => {
           const h = (window as any).gfcVisualKits,
-            p = h.fixture(id, key);
+            p = await h.fixture(id, key);
           p.files = h.localGenerate(p);
           const form = new FormData();
           form.append(

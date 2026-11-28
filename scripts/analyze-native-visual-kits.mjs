@@ -12,9 +12,20 @@ if (!process.argv[2]) throw Error("Pass a completed capture directory");
 const input = JSON.parse(
   await readFile(path.join(dir, "results.json"), "utf8"),
 );
-const allowed=new Set(["kit-instrument","kit-activity","kit-minimal"].flatMap(id=>[id+"-active-454",id+"-active-390",id+"-forced-aod-454"]));
-if (input.records.length !== 9)
-  throw Error("Nine completed native cases required");
+const all = ["kit-instrument", "kit-activity", "kit-minimal"].flatMap((id) => [
+  id + "-active-454",
+  id + "-active-390",
+  id + "-forced-aod-454",
+]);
+const smoke = all.filter(
+  (id) =>
+    id.endsWith("active-454") ||
+    id === "kit-activity-active-390" ||
+    id === "kit-minimal-forced-aod-454",
+);
+const allowed = new Set(input.records.length === 9 ? all : smoke);
+if (input.records.length !== allowed.size)
+  throw Error("Complete full9 or smoke5 native cohort required");
 const bundle = await build({
   configFile: false,
   logLevel: "silent",
@@ -108,7 +119,17 @@ try {
               }
             }
         // Whole frame alignment diagnostic; no registration shift is applied to the reported image error.
-        const regions=[{layerId:"whole-watchface",family:"actual kit resources",text:"",x:0,y:3,w:n,h:n-6}];
+        const regions = [
+          {
+            layerId: "whole-watchface",
+            family: "actual kit resources",
+            text: "",
+            x: 0,
+            y: 3,
+            w: n,
+            h: n - 6,
+          },
+        ];
         const rows = regions.map((m) => {
           const y0 = m.y,
             y1 = m.y + m.h;

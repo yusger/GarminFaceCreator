@@ -1,3 +1,4 @@
+import {prepareVisualKit} from "./visualKits";
 import BitmapTypographyPanel from "./BitmapTypographyPanel";
 import {bitmapLayerPatch,bitmapTypographyReset} from "./bitmapFontLayout.ts";
 import {meterSources,meterDefaultGoal} from "./meters.ts";
@@ -677,14 +678,15 @@ export default function App() {
       target: device.id,
       deviceSize: device.size,
     };
-    const item = choice ? applyLayout(base, choice) : base;
     try {
+      const layout=choice?applyLayout(base,choice):base;
+      const item=await prepareVisualKit(layout,choice?.presetId.startsWith("template:")?choice.presetId.slice(9):undefined);
       item.storageVersion = await saveProject(item);
       setProjects((items) => [item, ...items]);
       setNewProject(null);
       open(item);
-    } catch {
-      setNotice("项目保存失败，请检查浏览器存储");
+    } catch(e) {
+      setNotice("项目创建失败："+(e as Error).message);
     }
   }
 

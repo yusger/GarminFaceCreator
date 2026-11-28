@@ -40,7 +40,7 @@ try {
         const capture = await page.evaluate(
           async ({ id, target, aod }) => {
             const h = window.gfcVisualKits;
-            return h.captureWatchface(h.fixture(id, target), h.preview, aod);
+            return h.captureWatchface(await h.fixture(id, target), h.preview, aod);
           },
           { id, target, aod },
         );

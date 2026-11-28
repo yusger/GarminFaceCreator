@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.22.0",
+  "version": "1.23.0",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -743,7 +743,8 @@
       "resources": "registered licensed fontId and lucide iconId; resolved before editing",
       "colorBindings": "explicit layer IDs, editable project color controls; no guessed adjacency",
       "aod": "independent activeVisible:false time layer; rendering not a Sleep/hardware acceptance",
-      "ai": "editable composition guidance, selected sources override defaults; no automatic guarantee of generated controls"
+      "ai": "editable composition guidance, selected sources override defaults; no automatic guarantee of generated controls",
+      "fontPreparation": "browser-local grouped approved TTF to BMF, max8 font/physical-size groups; full license, atomic validation, matching independent AOD sizes"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

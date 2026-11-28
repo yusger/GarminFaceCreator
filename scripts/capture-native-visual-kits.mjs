@@ -7,7 +7,8 @@ if (process.env.GFC_NATIVE_FIXTURE_TEST !== "1" || !process.env.GFC_TEST_URL)
 const url = new URL(process.env.GFC_TEST_URL);
 if (!["http:", "https:"].includes(url.protocol) || url.username || url.password)
   throw Error("Invalid staging URL");
-if (process.argv.length > 2) throw Error("No capture options expected");
+const smoke = process.argv.slice(2).join(" ") === "--smoke";
+if (process.argv.length > 2 && !smoke) throw Error("Only --smoke accepted");
 const output = path.resolve("Temp/native-visual-kits-" + Date.now());
 await mkdir(output, { recursive: true });
 const bundled = await build({
@@ -37,13 +38,19 @@ try {
   const page = await browser.newPage();
   await page.goto(url.href);
   await page.addScriptTag({ content: entry.code });
-  for (const c of ["kit-instrument", "kit-activity", "kit-minimal"].flatMap(
-    (kit) => [
+  for (const c of ["kit-instrument", "kit-activity", "kit-minimal"]
+    .flatMap((kit) => [
       { id: kit + "-active-454", kit, target: "venu445mm", aod: false },
       { id: kit + "-active-390", kit, target: "venu441mm", aod: false },
       { id: kit + "-forced-aod-454", kit, target: "venu445mm", aod: true },
-    ],
-  )) {
+    ])
+    .filter(
+      (c) =>
+        !smoke ||
+        c.id.endsWith("active-454") ||
+        c.id === "kit-activity-active-390" ||
+        c.id === "kit-minimal-forced-aod-454",
+    )) {
     const dir = path.join(output, c.id);
     await mkdir(dir, { recursive: true });
     const result = await page.evaluate(async (c) => {
