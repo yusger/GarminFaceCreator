@@ -59,7 +59,7 @@ function fixture(input: Project, nonce: string) {
               )
               .replace(
                 "var action=id[:action];",
-                'var action=id[:action];System.println("GFC_THEME_UI_ACTION "+action);',
+                'var action=id[:action];System.println("GFC_THEME_UI_ACTION "+action+" mode="+id[:mode]+" id="+id[:id]);',
               )
               .replace(
                 "Application.Properties.setValue(id[:key],id[:value]);",

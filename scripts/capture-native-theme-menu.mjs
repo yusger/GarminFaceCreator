@@ -220,9 +220,9 @@ back
 import -window root /output/ui-custom-source.png
 open_settings
 scroll_one
-scroll_one
-xdotool mousemove 325 431 click 1
+xdotool mousemove 325 680 click 1
 sleep 1.2
+import -window root /output/ui-custom-color-group.png
 xdotool mousemove 325 431 click 1
 sleep 1.2
 xdotool mousemove 325 572 click 1

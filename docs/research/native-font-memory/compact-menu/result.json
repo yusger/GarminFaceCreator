@@ -1,0 +1,21 @@
+{
+  "implementation": "14a16e9e107f1fa455996f45771f5b3a45094a6b",
+  "status": "succeeded",
+  "cleanupStatus": "completed",
+  "prgSha256": "8805486a71722e7641b6f2608a744185517e822014760cd72725938745e63cf1",
+  "sourceSha256": "ca96bf7032adf65aa019b4d57c34ff98033b5f366672206047e72c7e81b67f0c",
+  "firstUpdateVm": {
+    "used": 83616,
+    "total": 126784,
+    "free": 43168
+  },
+  "checks": {
+    "dataSourceRestart": "passed",
+    "secondsRestart": "passed",
+    "backgroundDecorationRestart": "passed",
+    "colorRestart": "not tested: operator clicked decorations group instead of colors"
+  },
+  "sdk": "45mm succeeded in this job",
+  "hardware": "unverified",
+  "sleepTransition": "unverified"
+}
