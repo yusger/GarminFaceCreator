@@ -1,0 +1,192 @@
+{
+  "format": "gfc-theme-project",
+  "formatVersion": 1,
+  "profile": "theme-project-v1",
+  "slug": "theme-contract-sample",
+  "version": "1.0.0",
+  "name": "Theme contract sample",
+  "origin": {
+    "author": "GarminFaceCreator contributors",
+    "source": "https://github.com/yusger/GarminFaceCreator",
+    "license": "MIT",
+    "noticeFile": "LICENSE.txt"
+  },
+  "targets": [
+    {
+      "target": "venu445mm",
+      "deviceSize": "45mm"
+    },
+    {
+      "target": "venu441mm",
+      "deviceSize": "41mm"
+    }
+  ],
+  "previews": [
+    {
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "file": "previews/apex-venu445mm-active.png"
+    },
+    {
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "file": "previews/apex-venu445mm-aod.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "file": "previews/trail-venu445mm-active.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "file": "previews/trail-venu445mm-aod.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "file": "previews/vital-venu445mm-active.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "file": "previews/vital-venu445mm-aod.png"
+    },
+    {
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "file": "previews/apex-venu441mm-active.png"
+    },
+    {
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "file": "previews/apex-venu441mm-aod.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "file": "previews/trail-venu441mm-active.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "file": "previews/trail-venu441mm-aod.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "file": "previews/vital-venu441mm-active.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "file": "previews/vital-venu441mm-aod.png"
+    }
+  ],
+  "images": [],
+  "fonts": [],
+  "files": [
+    {
+      "path": "design.json",
+      "role": "design",
+      "bytes": 15139,
+      "sha256": "208a18bd6cae6daa0e02e5cbf9d586434d31c1f8fe3bd8013e820efb6a87851a"
+    },
+    {
+      "path": "cases.json",
+      "role": "cases",
+      "bytes": 61729,
+      "sha256": "60e9b49444ca328e3295f476b14fe7f01cf08d3912eea4714c88dda49e79ceb0"
+    },
+    {
+      "path": "LICENSE.txt",
+      "role": "notice",
+      "bytes": 1133,
+      "sha256": "d4c8787d032152027c6d0bf3d9a1a0b8a96ad395552f37013c00326c44a1e070"
+    },
+    {
+      "path": "previews/apex-venu445mm-active.png",
+      "role": "preview",
+      "bytes": 20817,
+      "sha256": "00ed6958f02779a64c5e9bdcbe23a3c5b3b028be13430cde38a100c473c98905"
+    },
+    {
+      "path": "previews/apex-venu445mm-aod.png",
+      "role": "preview",
+      "bytes": 16053,
+      "sha256": "8b70a4d878270b6c15bc527d0bd2d2a0b36febf84ef74cd8c8f414aa5decaae5"
+    },
+    {
+      "path": "previews/trail-venu445mm-active.png",
+      "role": "preview",
+      "bytes": 20646,
+      "sha256": "feb0ecb24227a39282dd2e73c3da6fe2e3bbd5a4dfd7180cb01ddf03be663d99"
+    },
+    {
+      "path": "previews/trail-venu445mm-aod.png",
+      "role": "preview",
+      "bytes": 16132,
+      "sha256": "96f99858e68ce6de9c421ce70137c4b46c92c280bf96eab04d28deec07b28522"
+    },
+    {
+      "path": "previews/vital-venu445mm-active.png",
+      "role": "preview",
+      "bytes": 20294,
+      "sha256": "470b29fa87687bfc1da73fa65be48f17677c606d74fb782f5d07148ebc9f9fb7"
+    },
+    {
+      "path": "previews/vital-venu445mm-aod.png",
+      "role": "preview",
+      "bytes": 15758,
+      "sha256": "c88f79fd4002c1ebaeea50aae19ed55854605b75dff260e6c0f8164ad877a314"
+    },
+    {
+      "path": "previews/apex-venu441mm-active.png",
+      "role": "preview",
+      "bytes": 17140,
+      "sha256": "a73cb368ce9adb0696d8d2aee6be3ac47a00d8b03f4ccf3002f54f539b07a583"
+    },
+    {
+      "path": "previews/apex-venu441mm-aod.png",
+      "role": "preview",
+      "bytes": 13119,
+      "sha256": "7aa254e7b551f98dfdc2122cddfac571477686ac9f7c9e3effb4cb84ecf47e66"
+    },
+    {
+      "path": "previews/trail-venu441mm-active.png",
+      "role": "preview",
+      "bytes": 17117,
+      "sha256": "02a1366b591abe835ee266934127edd800123539ab249cf2dbb8ce1bb3542734"
+    },
+    {
+      "path": "previews/trail-venu441mm-aod.png",
+      "role": "preview",
+      "bytes": 13272,
+      "sha256": "4977ec0f34141a69c6d2ac2ee7b6470b5e31293d4eb0d84e5c1c695fff4d499f"
+    },
+    {
+      "path": "previews/vital-venu441mm-active.png",
+      "role": "preview",
+      "bytes": 16795,
+      "sha256": "056942ba20afe790279014f34ca3aae0f3f20dcc0e6d141596d68d0871eed28d"
+    },
+    {
+      "path": "previews/vital-venu441mm-aod.png",
+      "role": "preview",
+      "bytes": 12886,
+      "sha256": "3e1276b1774ecfdbd180d976ccd58ea892b66e11781beca8e88736732363efe9"
+    }
+  ]
+}

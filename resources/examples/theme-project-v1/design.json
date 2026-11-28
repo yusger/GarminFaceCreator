@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 49,
+  "id": "00000000-0000-4000-8000-000000000146",
+  "appId": "14614614614614614614614614614614",
+  "name": "Theme contract sample",
+  "updated": 0,
+  "revision": 0,
+  "layers": [
+    {
+      "id": "apex-title",
+      "name": "apex title",
+      "kind": "text",
+      "x": 80,
+      "y": 92,
+      "w": 294,
+      "h": 40,
+      "color": "#FFBB44",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "APEX",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "apex-time",
+      "name": "apex time",
+      "kind": "time",
+      "x": 44,
+      "y": 160,
+      "w": 366,
+      "h": 100,
+      "color": "#FFBB44",
+      "size": 72,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "aodSize": 54,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "rajdhani_bold",
+        "family": "Rajdhani Bold",
+        "file": "Rajdhani-Bold.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "apex-reading",
+      "name": "apex reading",
+      "kind": "metric",
+      "x": 104,
+      "y": 282,
+      "w": 246,
+      "h": 46,
+      "color": "#FFBB44",
+      "size": 32,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": true,
+      "aodSize": 26,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "trail-title",
+      "name": "trail title",
+      "kind": "text",
+      "x": 80,
+      "y": 92,
+      "w": 294,
+      "h": 40,
+      "color": "#55FF99",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "TRAIL",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "trail-time",
+      "name": "trail time",
+      "kind": "time",
+      "x": 44,
+      "y": 160,
+      "w": 366,
+      "h": 100,
+      "color": "#55FF99",
+      "size": 72,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "aodSize": 54,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "sonar_number_font",
+        "family": "Share Tech Mono",
+        "file": "sonar-number-font.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "trail-reading",
+      "name": "trail reading",
+      "kind": "metric",
+      "x": 104,
+      "y": 282,
+      "w": 246,
+      "h": 46,
+      "color": "#55FF99",
+      "size": 32,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": true,
+      "aodSize": 26,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "vital-title",
+      "name": "vital title",
+      "kind": "text",
+      "x": 80,
+      "y": 92,
+      "w": 294,
+      "h": 40,
+      "color": "#66BBFF",
+      "size": 28,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "VITAL",
+      "source": "heartRate",
+      "aod": false,
+      "threshold": false,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "vital-time",
+      "name": "vital time",
+      "kind": "time",
+      "x": 44,
+      "y": 160,
+      "w": 366,
+      "h": 100,
+      "color": "#66BBFF",
+      "size": 72,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": false,
+      "aodSize": 54,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "rajdhani_light",
+        "family": "Rajdhani Light",
+        "file": "Rajdhani-Light.ttf"
+      },
+      "aodColor": "#777777"
+    },
+    {
+      "id": "vital-reading",
+      "name": "vital reading",
+      "kind": "metric",
+      "x": 104,
+      "y": 282,
+      "w": 246,
+      "h": 46,
+      "color": "#66BBFF",
+      "size": 32,
+      "rotation": 0,
+      "hidden": false,
+      "locked": false,
+      "text": "",
+      "source": "heartRate",
+      "aod": true,
+      "threshold": true,
+      "aodSize": 26,
+      "garminFont": "auto",
+      "customFont": {
+        "id": "sonar_label_font",
+        "family": "Barlow Semi Condensed",
+        "file": "sonar-label-font.ttf"
+      },
+      "aodColor": "#777777"
+    }
+  ],
+  "files": [],
+  "codeRevision": -1,
+  "versions": [],
+  "backgroundColor": "#05090F",
+  "controls": [
+    {
+      "id": "apex-ink",
+      "label": "apex ink",
+      "type": "color",
+      "semantic": "primary",
+      "default": "#FFBB44",
+      "targets": [
+        {
+          "layerId": "apex-time",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "apex-source",
+      "label": "apex data",
+      "type": "dataSource",
+      "slot": true,
+      "default": "heartRate",
+      "options": [
+        "heartRate",
+        "battery"
+      ],
+      "targets": [
+        {
+          "layerId": "apex-reading",
+          "property": "source"
+        }
+      ]
+    },
+    {
+      "id": "trail-ink",
+      "label": "trail ink",
+      "type": "color",
+      "semantic": "primary",
+      "default": "#55FF99",
+      "targets": [
+        {
+          "layerId": "trail-time",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "trail-source",
+      "label": "trail data",
+      "type": "dataSource",
+      "slot": true,
+      "default": "heartRate",
+      "options": [
+        "heartRate",
+        "battery"
+      ],
+      "targets": [
+        {
+          "layerId": "trail-reading",
+          "property": "source"
+        }
+      ]
+    },
+    {
+      "id": "vital-ink",
+      "label": "vital ink",
+      "type": "color",
+      "semantic": "primary",
+      "default": "#66BBFF",
+      "targets": [
+        {
+          "layerId": "vital-time",
+          "property": "color"
+        }
+      ]
+    },
+    {
+      "id": "vital-source",
+      "label": "vital data",
+      "type": "dataSource",
+      "slot": true,
+      "default": "heartRate",
+      "options": [
+        "heartRate",
+        "battery"
+      ],
+      "targets": [
+        {
+          "layerId": "vital-reading",
+          "property": "source"
+        }
+      ]
+    }
+  ],
+  "fontRoles": [
+    {
+      "id": "apex-numbers",
+      "name": "apex numbers",
+      "themeId": "apex",
+      "fontId": "rajdhani_bold",
+      "layerIds": [
+        "apex-time"
+      ]
+    },
+    {
+      "id": "trail-numbers",
+      "name": "trail numbers",
+      "themeId": "trail",
+      "fontId": "sonar_number_font",
+      "layerIds": [
+        "trail-time"
+      ]
+    },
+    {
+      "id": "vital-numbers",
+      "name": "vital numbers",
+      "themeId": "vital",
+      "fontId": "rajdhani_light",
+      "layerIds": [
+        "vital-time"
+      ]
+    }
+  ],
+  "themes": {
+    "version": 1,
+    "activeId": "apex",
+    "defaultId": "apex",
+    "presets": [
+      {
+        "id": "apex",
+        "name": "APEX",
+        "version": "1.0.0",
+        "backgroundColor": "#05090F",
+        "layerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "controlIds": [
+          "apex-ink",
+          "apex-source"
+        ]
+      },
+      {
+        "id": "trail",
+        "name": "TRAIL",
+        "version": "1.0.0",
+        "backgroundColor": "#05090F",
+        "layerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "controlIds": [
+          "trail-ink",
+          "trail-source"
+        ]
+      },
+      {
+        "id": "vital",
+        "name": "VITAL",
+        "version": "1.0.0",
+        "backgroundColor": "#05090F",
+        "layerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "controlIds": [
+          "vital-ink",
+          "vital-source"
+        ]
+      }
+    ]
+  },
+  "multiDevice": {
+    "master": [
+      {
+        "id": "apex-title",
+        "name": "apex title",
+        "kind": "text",
+        "x": 80,
+        "y": 92,
+        "w": 294,
+        "h": 40,
+        "color": "#FFBB44",
+        "size": 28,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "APEX",
+        "source": "heartRate",
+        "aod": false,
+        "threshold": false,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "apex-time",
+        "name": "apex time",
+        "kind": "time",
+        "x": 44,
+        "y": 160,
+        "w": 366,
+        "h": 100,
+        "color": "#FFBB44",
+        "size": 72,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "",
+        "source": "heartRate",
+        "aod": true,
+        "threshold": false,
+        "aodSize": 54,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "apex-reading",
+        "name": "apex reading",
+        "kind": "metric",
+        "x": 104,
+        "y": 282,
+        "w": 246,
+        "h": 46,
+        "color": "#FFBB44",
+        "size": 32,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "",
+        "source": "heartRate",
+        "aod": true,
+        "threshold": true,
+        "aodSize": 26,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "trail-title",
+        "name": "trail title",
+        "kind": "text",
+        "x": 80,
+        "y": 92,
+        "w": 294,
+        "h": 40,
+        "color": "#55FF99",
+        "size": 28,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "TRAIL",
+        "source": "heartRate",
+        "aod": false,
+        "threshold": false,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "trail-time",
+        "name": "trail time",
+        "kind": "time",
+        "x": 44,
+        "y": 160,
+        "w": 366,
+        "h": 100,
+        "color": "#55FF99",
+        "size": 72,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "",
+        "source": "heartRate",
+        "aod": true,
+        "threshold": false,
+        "aodSize": 54,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "sonar_number_font",
+          "family": "Share Tech Mono",
+          "file": "sonar-number-font.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "trail-reading",
+        "name": "trail reading",
+        "kind": "metric",
+        "x": 104,
+        "y": 282,
+        "w": 246,
+        "h": 46,
+        "color": "#55FF99",
+        "size": 32,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "",
+        "source": "heartRate",
+        "aod": true,
+        "threshold": true,
+        "aodSize": 26,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "vital-title",
+        "name": "vital title",
+        "kind": "text",
+        "x": 80,
+        "y": 92,
+        "w": 294,
+        "h": 40,
+        "color": "#66BBFF",
+        "size": 28,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "VITAL",
+        "source": "heartRate",
+        "aod": false,
+        "threshold": false,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "vital-time",
+        "name": "vital time",
+        "kind": "time",
+        "x": 44,
+        "y": 160,
+        "w": 366,
+        "h": 100,
+        "color": "#66BBFF",
+        "size": 72,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "",
+        "source": "heartRate",
+        "aod": true,
+        "threshold": false,
+        "aodSize": 54,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "rajdhani_light",
+          "family": "Rajdhani Light",
+          "file": "Rajdhani-Light.ttf"
+        },
+        "aodColor": "#777777"
+      },
+      {
+        "id": "vital-reading",
+        "name": "vital reading",
+        "kind": "metric",
+        "x": 104,
+        "y": 282,
+        "w": 246,
+        "h": 46,
+        "color": "#66BBFF",
+        "size": 32,
+        "rotation": 0,
+        "hidden": false,
+        "locked": false,
+        "text": "",
+        "source": "heartRate",
+        "aod": true,
+        "threshold": true,
+        "aodSize": 26,
+        "garminFont": "auto",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "aodColor": "#777777"
+      }
+    ],
+    "scope": "master",
+    "variants": [
+      {
+        "key": "venu445mm:45mm",
+        "target": "venu445mm",
+        "deviceSize": "45mm",
+        "overrides": {},
+        "revision": 0,
+        "code": {
+          "files": [],
+          "versions": [],
+          "codeRevision": -1
+        }
+      },
+      {
+        "key": "venu441mm:41mm",
+        "target": "venu441mm",
+        "deviceSize": "41mm",
+        "overrides": {},
+        "revision": 0,
+        "code": {
+          "files": [],
+          "versions": [],
+          "codeRevision": -1
+        }
+      }
+    ]
+  },
+  "target": "venu445mm",
+  "deviceSize": "45mm"
+}

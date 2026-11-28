@@ -1,0 +1,2718 @@
+{
+  "format": "gfc-theme-project-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "apex-venu445mm-active-normal",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-active-zero",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-active-missing",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-active-source",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "apex-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-active-threshold0",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-active-threshold120",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-active-threshold150",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-aod-normal",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-aod-zero",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-aod-missing",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-aod-source",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "apex-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-aod-threshold0",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-aod-threshold120",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-aod-threshold150",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-active-normal",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-active-zero",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-active-missing",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-active-source",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "trail-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-active-threshold0",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-active-threshold120",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-active-threshold150",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-aod-normal",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-aod-zero",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-aod-missing",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-aod-source",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "trail-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-aod-threshold0",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-aod-threshold120",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-aod-threshold150",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-active-normal",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-active-zero",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-active-missing",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-active-source",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "vital-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-active-threshold0",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-active-threshold120",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-active-threshold150",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-aod-normal",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-aod-zero",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-aod-missing",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-aod-source",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "vital-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-aod-threshold0",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-aod-threshold120",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-aod-threshold150",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-active-normal",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-active-zero",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-active-missing",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-active-source",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "apex-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-active-threshold0",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-active-threshold120",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-active-threshold150",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "apex-title",
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-title": "APEX",
+          "apex-time": "09:41",
+          "apex-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-aod-normal",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-aod-zero",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-aod-missing",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-aod-source",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "apex-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-aod-threshold0",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#FFBB44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-aod-threshold120",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-aod-threshold150",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "apex-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "apex-time",
+          "apex-reading"
+        ],
+        "readings": {
+          "apex-time": "09:41",
+          "apex-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-active-normal",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-active-zero",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-active-missing",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-active-source",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "trail-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-active-threshold0",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-active-threshold120",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-active-threshold150",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "trail-title",
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-title": "TRAIL",
+          "trail-time": "09:41",
+          "trail-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-aod-normal",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-aod-zero",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-aod-missing",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-aod-source",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "trail-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-aod-threshold0",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#55FF99"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-aod-threshold120",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-aod-threshold150",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "trail-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "trail-time",
+          "trail-reading"
+        ],
+        "readings": {
+          "trail-time": "09:41",
+          "trail-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-active-normal",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-active-zero",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-active-missing",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-active-source",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "vital-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-active-threshold0",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-active-threshold120",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-active-threshold150",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "vital-title",
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-title": "VITAL",
+          "vital-time": "09:41",
+          "vital-reading": "150"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-aod-normal",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#55ff99"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "72"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-aod-zero",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-aod-missing",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-aod-source",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "battery": 78
+        }
+      },
+      "controlValues": {
+        "vital-source": "battery"
+      },
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "78%"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-aod-threshold0",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#66BBFF"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "--"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-aod-threshold120",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ffee44"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "120"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-aod-threshold150",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "battery": 78
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "colors": {
+          "vital-reading": "#ff5566"
+        },
+        "visibleLayerIds": [
+          "vital-time",
+          "vital-reading"
+        ],
+        "readings": {
+          "vital-time": "09:41",
+          "vital-reading": "150"
+        }
+      }
+    }
+  ]
+}

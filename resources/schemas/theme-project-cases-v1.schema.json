@@ -1,0 +1,262 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gfc:theme-project-cases:1",
+  "title": "GFC reference release executable cases v1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "gfc-theme-project-cases"
+    },
+    "formatVersion": {
+      "const": 1
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 240,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,59}$"
+          },
+          "mode": {
+            "enum": [
+              "active",
+              "aod"
+            ]
+          },
+          "data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "time": {
+                "type": "string",
+                "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              },
+              "calendarDate": {
+                "type": "string",
+                "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$"
+              },
+              "utcOffsetMinutes": {
+                "type": "integer",
+                "minimum": -720,
+                "maximum": 840
+              },
+              "missing": {
+                "type": "boolean"
+              },
+              "weatherCondition": {
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              },
+              "sunrise": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              },
+              "sunset": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "pattern": "^([01][0-9]|2[0-3]):[0-5][0-9]$"
+              },
+              "values": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "heartRate": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "steps": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "battery": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "calories": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "distance": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "temperature": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "stress": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "recoveryHours": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "floorsClimbed": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "intensityMinutes": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "humidity": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "uvIndex": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "altitude": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "windSpeed": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "seconds": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                },
+                "required": []
+              }
+            },
+            "required": [
+              "time",
+              "calendarDate",
+              "utcOffsetMinutes",
+              "missing",
+              "values"
+            ]
+          },
+          "controlValues": {
+            "type": "object",
+            "maxProperties": 100,
+            "additionalProperties": {
+              "type": [
+                "string",
+                "boolean"
+              ]
+            }
+          },
+          "expect": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "visibleLayerIds": {
+                "type": "array",
+                "maxItems": 2000,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 120
+                }
+              },
+              "readings": {
+                "type": "object",
+                "maxProperties": 2000,
+                "additionalProperties": {
+                  "type": "string",
+                  "maxLength": 2000
+                }
+              },
+              "colors": {
+                "type": "object",
+                "maxProperties": 200,
+                "additionalProperties": {
+                  "type": "string",
+                  "pattern": "^#[a-fA-F0-9]{6}$"
+                }
+              }
+            },
+            "required": [
+              "visibleLayerIds",
+              "readings"
+            ]
+          },
+          "themeId": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,79}$"
+          },
+          "target": {
+            "enum": [
+              "venu445mm",
+              "venu441mm"
+            ]
+          },
+          "scenario": {
+            "enum": [
+              "normal",
+              "zero",
+              "missing",
+              "threshold",
+              "source"
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "mode",
+          "data",
+          "controlValues",
+          "expect",
+          "themeId",
+          "target",
+          "scenario"
+        ]
+      }
+    }
+  },
+  "required": [
+    "format",
+    "formatVersion",
+    "cases"
+  ]
+}

@@ -1,0 +1,1477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gfc:theme-project:1",
+  "title": "Closed schema49 theme-project-v1 submission",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 49
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    },
+    "appId": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{32}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "updated": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "revision": {
+      "const": 0
+    },
+    "codeRevision": {
+      "const": -1
+    },
+    "versions": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "files": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "assets": {
+      "type": "array",
+      "maxItems": 0
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64
+    },
+    "deviceSize": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 16
+    },
+    "backgroundColor": {
+      "type": "string",
+      "pattern": "^#[A-Fa-f0-9]{6}$"
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 200,
+      "items": {
+        "$ref": "#/$defs/layer"
+      }
+    },
+    "controls": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "label",
+          "type",
+          "default",
+          "targets"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "type": {
+            "enum": [
+              "color",
+              "boolean",
+              "dataSource"
+            ]
+          },
+          "default": {
+            "type": [
+              "string",
+              "boolean"
+            ]
+          },
+          "options": {
+            "type": "array",
+            "maxItems": 7,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "targets": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 40,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "layerId",
+                "property"
+              ],
+              "properties": {
+                "layerId": {
+                  "type": "string"
+                },
+                "property": {
+                  "type": "string",
+                  "pattern": "^(color|activeVisible|source|thresholdRules\\.[0-7]\\.color)$"
+                }
+              }
+            }
+          },
+          "hideWhenChangedFromDefault": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "semantic": {
+            "enum": [
+              "primary",
+              "accent",
+              "track",
+              "text",
+              "warning",
+              "danger"
+            ]
+          },
+          "slot": {
+            "const": true
+          },
+          "sourceLabels": {
+            "type": "object",
+            "maxProperties": 40,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "sourceUnits": {
+            "type": "object",
+            "maxProperties": 40,
+            "additionalProperties": {
+              "type": "string"
+            }
+          },
+          "sourcePrecisions": {
+            "type": "object",
+            "maxProperties": 40,
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "sourceGoals": {
+            "type": "object",
+            "maxProperties": 40,
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "sourceIcons": {
+            "type": "object",
+            "maxProperties": 40,
+            "additionalProperties": {
+              "type": "array",
+              "uniqueItems": true,
+              "maxItems": 200,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "preserveFormatFor": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 200,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "controlValues": {
+      "type": "object",
+      "maxProperties": 100,
+      "additionalProperties": {
+        "type": [
+          "string",
+          "boolean"
+        ]
+      }
+    },
+    "fontRoles": {
+      "type": "array",
+      "maxItems": 24,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "themeId": {
+            "type": "string"
+          },
+          "fontId": {
+            "type": "string"
+          },
+          "layerIds": {
+            "type": "array",
+            "uniqueItems": true,
+            "maxItems": 200,
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "fontId",
+          "layerIds"
+        ]
+      }
+    },
+    "themes": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "activeId": {
+          "type": "string"
+        },
+        "defaultId": {
+          "type": "string"
+        },
+        "presets": {
+          "type": "array",
+          "minItems": 2,
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string",
+                "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+              },
+              "layerIds": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 200,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "controlIds": {
+                "type": "array",
+                "uniqueItems": true,
+                "maxItems": 200,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "backgroundColor": {
+                "type": "string",
+                "pattern": "^#[A-Fa-f0-9]{6}$"
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "version",
+              "layerIds",
+              "controlIds",
+              "backgroundColor"
+            ]
+          }
+        }
+      },
+      "required": [
+        "version",
+        "activeId",
+        "defaultId",
+        "presets"
+      ]
+    },
+    "multiDevice": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "master": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 200,
+          "items": {
+            "$ref": "#/$defs/layer"
+          }
+        },
+        "scope": {
+          "const": "master"
+        },
+        "variants": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "key": {
+                "type": "string"
+              },
+              "target": {
+                "enum": [
+                  "venu445mm",
+                  "venu441mm"
+                ]
+              },
+              "deviceSize": {
+                "enum": [
+                  "45mm",
+                  "41mm"
+                ]
+              },
+              "overrides": {
+                "type": "object",
+                "maxProperties": 200,
+                "additionalProperties": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "x": {
+                      "type": "number",
+                      "minimum": -454,
+                      "maximum": 908
+                    },
+                    "y": {
+                      "type": "number",
+                      "minimum": -454,
+                      "maximum": 908
+                    },
+                    "w": {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 908
+                    },
+                    "h": {
+                      "type": "number",
+                      "exclusiveMinimum": 0,
+                      "maximum": 908
+                    },
+                    "size": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 200
+                    },
+                    "rotation": {
+                      "type": "number",
+                      "minimum": -360,
+                      "maximum": 360
+                    },
+                    "color": {
+                      "type": "string",
+                      "pattern": "^#[A-Fa-f0-9]{6}$"
+                    },
+                    "strokeColor": {
+                      "type": "string",
+                      "pattern": "^#[0-9A-Fa-f]{6}$"
+                    },
+                    "strokeWidth": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 32
+                    },
+                    "ringWidth": {
+                      "type": "number",
+                      "minimum": 1,
+                      "maximum": 32
+                    },
+                    "arcSpacing": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 12
+                    },
+                    "aod": {
+                      "type": "boolean"
+                    },
+                    "aodColor": {
+                      "type": "string",
+                      "pattern": "^#[A-Fa-f0-9]{6}$"
+                    },
+                    "aodSize": {
+                      "anyOf": [
+                        {
+                          "type": "number"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "exportIncluded": {
+                      "const": true
+                    },
+                    "hidden": {
+                      "const": false
+                    },
+                    "customFont": {
+                      "anyOf": [
+                        {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "id",
+                            "family",
+                            "file"
+                          ],
+                          "properties": {
+                            "id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 120
+                            },
+                            "family": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 120
+                            },
+                            "file": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 120
+                            }
+                          }
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "garminFont": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            "auto",
+                            "xtiny",
+                            "tiny",
+                            "small",
+                            "medium",
+                            "large",
+                            "numberHot",
+                            "systemXTiny"
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "fontWeight": {
+                      "anyOf": [
+                        {
+                          "enum": [
+                            400,
+                            600,
+                            700
+                          ]
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "bitmapFontId": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "bitmapTracking": {
+                      "anyOf": [
+                        {
+                          "type": "number",
+                          "minimum": -8,
+                          "maximum": 32
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "bitmapTabular": {
+                      "anyOf": [
+                        {
+                          "type": "boolean"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "bitmapBaselineShift": {
+                      "anyOf": [
+                        {
+                          "type": "number",
+                          "minimum": -64,
+                          "maximum": 64
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "bitmapLineHeight": {
+                      "anyOf": [
+                        {
+                          "type": "number",
+                          "minimum": 1,
+                          "maximum": 256
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    }
+                  },
+                  "required": []
+                }
+              },
+              "revision": {
+                "const": 0
+              },
+              "code": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "files": {
+                    "type": "array",
+                    "maxItems": 0
+                  },
+                  "versions": {
+                    "type": "array",
+                    "maxItems": 0
+                  },
+                  "codeRevision": {
+                    "const": -1
+                  }
+                },
+                "required": [
+                  "files",
+                  "versions",
+                  "codeRevision"
+                ]
+              }
+            },
+            "required": [
+              "key",
+              "target",
+              "deviceSize",
+              "overrides",
+              "revision",
+              "code"
+            ]
+          }
+        }
+      },
+      "required": [
+        "master",
+        "scope",
+        "variants"
+      ]
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "id",
+    "appId",
+    "name",
+    "updated",
+    "revision",
+    "codeRevision",
+    "versions",
+    "files",
+    "target",
+    "deviceSize",
+    "backgroundColor",
+    "layers"
+  ],
+  "$defs": {
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "name",
+        "kind",
+        "x",
+        "y",
+        "w",
+        "h",
+        "color",
+        "size",
+        "rotation",
+        "hidden",
+        "locked",
+        "text",
+        "source",
+        "aod",
+        "aodColor",
+        "threshold"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 120
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 80
+        },
+        "kind": {
+          "enum": [
+            "widget",
+            "time",
+            "date",
+            "metric",
+            "text",
+            "image",
+            "wordTime",
+            "hand",
+            "celestial",
+            "calendar",
+            "meter",
+            "ring",
+            "rect",
+            "circle",
+            "line",
+            "polygon",
+            "arcText"
+          ]
+        },
+        "x": {
+          "type": "number",
+          "minimum": -454,
+          "maximum": 908
+        },
+        "y": {
+          "type": "number",
+          "minimum": -454,
+          "maximum": 908
+        },
+        "w": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 908
+        },
+        "h": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 908
+        },
+        "color": {
+          "type": "string",
+          "pattern": "^#[A-Fa-f0-9]{6}$"
+        },
+        "size": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 200
+        },
+        "aod": {
+          "type": "boolean"
+        },
+        "aodColor": {
+          "type": "string",
+          "pattern": "^#[A-Fa-f0-9]{6}$"
+        },
+        "text": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "source": {
+          "type": "string",
+          "maxLength": 80
+        },
+        "garminFont": {
+          "enum": [
+            "auto",
+            "xtiny",
+            "tiny",
+            "small",
+            "medium",
+            "large",
+            "numberHot",
+            "systemXTiny"
+          ]
+        },
+        "rotation": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "strokeWidth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "strokeColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "fillEnabled": {
+          "type": "boolean"
+        },
+        "strokeEnabled": {
+          "type": "boolean"
+        },
+        "cornerRadius": {
+          "type": "number"
+        },
+        "textAlign": {
+          "enum": [
+            "left",
+            "center",
+            "right"
+          ]
+        },
+        "precision": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "unit": {
+          "type": "string",
+          "maxLength": 12
+        },
+        "missingValue": {
+          "const": "--"
+        },
+        "label": {
+          "type": "string",
+          "maxLength": 40
+        },
+        "groupThousands": {
+          "type": "boolean"
+        },
+        "thresholdFallback": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "thresholdRules": {
+          "type": "array",
+          "maxItems": 8,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "color"
+            ],
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              },
+              "color": {
+                "type": "string",
+                "pattern": "^#[0-9A-Fa-f]{6}$"
+              }
+            }
+          }
+        },
+        "meterContinuous": {
+          "type": "boolean"
+        },
+        "meterDimColor": {
+          "type": "string",
+          "pattern": "^#[0-9A-Fa-f]{6}$"
+        },
+        "meterShape": {
+          "const": "bar"
+        },
+        "meterCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "meterGoal": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "ringSource": {
+          "enum": [
+            "static",
+            "battery",
+            "steps",
+            "heartRate",
+            "seconds"
+          ]
+        },
+        "ringTicks": {
+          "type": "integer",
+          "minimum": 4,
+          "maximum": 180
+        },
+        "ringGoal": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "ringDim": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "ringWidth": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 32
+        },
+        "ringStart": {
+          "type": "number"
+        },
+        "ringEnd": {
+          "type": "number"
+        },
+        "timePart": {
+          "enum": [
+            "full",
+            "hours",
+            "minutes",
+            "seconds",
+            "hourTens",
+            "hourOnes",
+            "minuteTens",
+            "minuteOnes"
+          ]
+        },
+        "dateLocale": {
+          "enum": [
+            "en",
+            "zh"
+          ]
+        },
+        "handType": {
+          "enum": [
+            "hour",
+            "minute",
+            "second"
+          ]
+        },
+        "handPivotX": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "handPivotY": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "handReach": {
+          "type": "number",
+          "minimum": 0.1,
+          "maximum": 1
+        },
+        "handTail": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 0.3
+        },
+        "handCap": {
+          "enum": [
+            "butt",
+            "round"
+          ]
+        },
+        "aodSeconds": {
+          "enum": [
+            "hide",
+            "zero"
+          ]
+        },
+        "activeVisible": {
+          "type": "boolean"
+        },
+        "threshold": {
+          "type": "boolean"
+        },
+        "polygonPoints": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 32,
+          "items": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        },
+        "arcRadius": {
+          "type": "number",
+          "minimum": 0.05,
+          "maximum": 0.5
+        },
+        "arcStartAngle": {
+          "type": "number",
+          "minimum": -360,
+          "maximum": 360
+        },
+        "arcDirection": {
+          "enum": [
+            "clockwise",
+            "counterclockwise"
+          ]
+        },
+        "arcSpacing": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 12
+        },
+        "ringStyle": {
+          "enum": [
+            "ticks",
+            "continuous"
+          ]
+        },
+        "ringCap": {
+          "enum": [
+            "butt",
+            "round"
+          ]
+        },
+        "fontWeight": {
+          "enum": [
+            400,
+            600,
+            700
+          ]
+        },
+        "metricDecoration": {
+          "type": "boolean"
+        },
+        "hidden": {
+          "const": false
+        },
+        "locked": {
+          "type": "boolean"
+        },
+        "image": {
+          "const": ""
+        },
+        "assetId": false,
+        "effectPrompt": {
+          "const": ""
+        },
+        "compound": {
+          "$ref": "#/$defs/compound"
+        },
+        "sourceLabelFor": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "fixedSource": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "groupId": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "groupName": {
+          "type": "string",
+          "maxLength": 2000
+        },
+        "sourceLocked": {
+          "type": "boolean"
+        },
+        "autoSourceFormat": {
+          "type": "boolean"
+        },
+        "autoPrecision": {
+          "type": "boolean"
+        },
+        "imageFullColor": {
+          "type": "boolean"
+        },
+        "exportIncluded": {
+          "const": true
+        },
+        "guide": {
+          "const": false
+        },
+        "timeUtcOffset": {
+          "type": "number"
+        },
+        "opacity": {
+          "type": "number"
+        },
+        "anchor": {
+          "enum": [
+            "topLeft",
+            "center",
+            "topRight",
+            "bottomLeft",
+            "bottomRight"
+          ]
+        },
+        "customFont": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "family",
+            "file"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            "family": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            },
+            "file": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 120
+            }
+          }
+        },
+        "handShape": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "id",
+            "version",
+            "points"
+          ],
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "points": {
+              "type": "array",
+              "minItems": 3,
+              "maxItems": 32,
+              "items": {
+                "type": "array",
+                "minItems": 2,
+                "maxItems": 2,
+                "items": {
+                  "type": "number",
+                  "minimum": -1,
+                  "maximum": 1
+                }
+              }
+            }
+          }
+        },
+        "visibility": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "source"
+          ],
+          "properties": {
+            "source": {
+              "enum": [
+                "heartRate",
+                "steps",
+                "battery"
+              ]
+            },
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            },
+            "minExclusive": {
+              "type": "boolean"
+            },
+            "maxInclusive": {
+              "type": "boolean"
+            },
+            "missingVisible": {
+              "type": "boolean"
+            },
+            "aod": {
+              "enum": [
+                "evaluate",
+                "show",
+                "hide"
+              ]
+            }
+          }
+        },
+        "aodSize": {
+          "type": "number"
+        },
+        "meterGap": {
+          "type": "number"
+        },
+        "meterDim": {
+          "type": "number"
+        },
+        "allowClip": {
+          "type": "boolean"
+        },
+        "dateFormat": {
+          "enum": [
+            "monthDayWeek"
+          ]
+        },
+        "wordLanguage": {
+          "enum": [
+            "en",
+            "zh"
+          ]
+        },
+        "wordRow": {
+          "enum": [
+            "all",
+            "top",
+            "middle",
+            "bottom"
+          ]
+        },
+        "solarPart": {
+          "enum": [
+            "sky",
+            "body"
+          ]
+        },
+        "calendarStart": {
+          "enum": [
+            "monday",
+            "sunday"
+          ]
+        },
+        "solarNightColor": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "solarMissingColor": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "calendarTodayColor": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "calendarTodayText": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "calendarMutedColor": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "calendarHeaderColor": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "iconMask": {
+          "type": "boolean"
+        },
+        "preserveSourceLabelDefault": {
+          "type": "boolean"
+        },
+        "sourceLabelStyle": {
+          "enum": [
+            "unit",
+            "label",
+            "unitLabel"
+          ]
+        },
+        "bitmapFontId": {
+          "type": "string"
+        },
+        "bitmapTracking": {
+          "type": "number",
+          "minimum": -8,
+          "maximum": 32
+        },
+        "bitmapTabular": {
+          "type": "boolean"
+        },
+        "bitmapBaselineShift": {
+          "type": "number",
+          "minimum": -64,
+          "maximum": 64
+        },
+        "bitmapLineHeight": {
+          "type": "number",
+          "minimum": 1,
+          "maximum": 256
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "polygon"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "then": {
+            "required": [
+              "polygonPoints"
+            ],
+            "properties": {
+              "polygonPoints": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 32,
+                "items": {
+                  "type": "array",
+                  "minItems": 2,
+                  "maxItems": 2,
+                  "items": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                  }
+                }
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "polygonPoints": false
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": {
+                "const": "ring"
+              }
+            },
+            "required": [
+              "kind"
+            ]
+          },
+          "else": {
+            "properties": {
+              "ringStyle": false,
+              "ringCap": false
+            }
+          }
+        }
+      ]
+    },
+    "compound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "version",
+        "width",
+        "height",
+        "layers",
+        "controls",
+        "parts"
+      ],
+      "properties": {
+        "version": {
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 454
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 454
+        },
+        "layers": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "$ref": "#/$defs/layer"
+          }
+        },
+        "controls": {
+          "type": "array",
+          "maxItems": 40,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "label",
+              "type",
+              "default",
+              "targets"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              },
+              "type": {
+                "enum": [
+                  "color",
+                  "boolean",
+                  "dataSource"
+                ]
+              },
+              "default": {
+                "type": [
+                  "string",
+                  "boolean"
+                ]
+              },
+              "options": {
+                "type": "array",
+                "maxItems": 7,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              },
+              "targets": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 40,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "layerId",
+                    "property"
+                  ],
+                  "properties": {
+                    "layerId": {
+                      "type": "string"
+                    },
+                    "property": {
+                      "type": "string",
+                      "pattern": "^(color|activeVisible|source|thresholdRules\\.[0-7]\\.color)$"
+                    }
+                  }
+                }
+              },
+              "hideWhenChangedFromDefault": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "controlValues": {
+          "type": "object",
+          "maxProperties": 100,
+          "additionalProperties": {
+            "type": [
+              "string",
+              "boolean"
+            ]
+          }
+        },
+        "parts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 40,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "id",
+              "name",
+              "layerIds",
+              "enabled"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "enabled": {
+                "type": "boolean"
+              },
+              "active": {
+                "type": "boolean"
+              },
+              "aod": {
+                "type": "boolean"
+              },
+              "layerIds": {
+                "type": "array",
+                "minItems": 1,
+                "maxItems": 40,
+                "uniqueItems": true,
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "disabledLayers": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "description": "Independent profile; not a widening of deterministic-v2. Semantic validation, inventory and per-target SDK gates also required."
+}
