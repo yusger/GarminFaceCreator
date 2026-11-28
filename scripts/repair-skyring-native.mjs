@@ -22,9 +22,9 @@ export function repairSkyRing(input){
     }`);
  method('_drawSunTexts',`    function _drawSunTexts(dc as Dc) as Void {
         // Literal solar labels are retained design samples, not live astronomy.
-        _icon(dc, 211, 39, "o", 0xF9C35A, true);
+        _icon(dc, 211, 39, "c", 0xF9C35A, false);
         _label(dc, 219, 30, 53, 18, 18, "50°", 0xF9C35A);
-        _icon(dc, 101, 170, "o", 0xF9C35A, true);
+        _icon(dc, 101, 170, "c", 0xF9C35A, false);
         _label(dc, 113, 160, 65, 20, 20, "18:55", 0xF9C35A);
         _icon(dc, 188, 170, "L", 0xC8A866, true);
         _label(dc, 197, 161, 55, 18, 18, "-11°", 0xC8A866);
@@ -75,10 +75,17 @@ export function repairSkyRing(input){
         _icon(dc, 285, 396, "L", 0xB4B3AC, true);
         _label(dc, 297, 387, 54, 18, 18, _altitude != null ? _altitude.format("%.0f") + "ft" : "--", 0xE8DECF);
     }`);
+ // Restore the design's tangential ring strokes; the AI used radial squares.
+ const ring=p.layers.filter(l=>Number(l.id?.split('-').at(-1))>=2&&Number(l.id?.split('-').at(-1))<=73&&l.kind==='line');
+ if(ring.length!==72)throw Error('Expected the original 72-segment SkyRing ring');
+ let ringBody='    function _drawSkyRing(dc as Dc) as Void {\n';
+ for(const l of ring){const a=l.rotation*Math.PI/180,cx=l.x+l.w/2,cy=l.y+l.h/2,n=x=>Number(x.toFixed(4));ringBody+=`        dc.setColor(0x${l.color.slice(1)}, Graphics.COLOR_TRANSPARENT); dc.setPenWidth(12); dc.drawLine(${n(cx-Math.cos(a)*l.w/2)}*_sx, ${n(cy-Math.sin(a)*l.w/2)}*_sy, ${n(cx+Math.cos(a)*l.w/2)}*_sx, ${n(cy+Math.sin(a)*l.w/2)}*_sy);\n`;}
+ ringBody+='    }';method('_drawSkyRing',ringBody);
  const helpers=`
     function _font(size as Number) {
         if (!_fonts.hasKey(size)) {
-            var f = Graphics.getVectorFont({:face => ["RobotoCondensedRegular", "RobotoRegular"], :size => size});
+            var faces = size >= 60 ? ["RobotoCondensedBold", "RobotoCondensedRegular"] : ["RobotoCondensedRegular", "RobotoRegular"];
+            var f = Graphics.getVectorFont({:face => faces, :size => size});
             if (f == null) { f = Graphics.FONT_XTINY; }
             _fonts[size] = f;
         }
