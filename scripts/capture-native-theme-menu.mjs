@@ -4,7 +4,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
 const scenario = process.argv[2];
-if (!["themes", "persistence", "overrides", "matrix45", "matrix41", "inspect41"].includes(scenario))
+if (!["themes", "persistence", "overrides", "matrix45", "matrix41", "inspect41", "lifecycle41", "persistence41", "lifecycle45"].includes(scenario))
   throw Error("Choose explicit themes, persistence or overrides scenario");
 const matrix=scenario.startsWith("matrix");
 const dir = "Temp/native-theme-ui-" + scenario + "-" + Date.now();
@@ -88,7 +88,7 @@ try {
   const result = await page.evaluate(
     async ({ p, nonce,scenario,matrix }) => {
       const h = matrix?window.gfcTrailMatrix:window.gfcThemeUiFixture;
-      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce,scenario==="inspect41"?"venu441mm":"venu445mm"),
+      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce,["inspect41","lifecycle41","persistence41"].includes(scenario)?"venu441mm":"venu445mm"),
         form = new FormData();
       form.append(
         "project",
@@ -206,9 +206,28 @@ try {
 open_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; xdotool mousemove 147 940 click 1; sleep 1.2; }
 close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; xdotool mousemove 147 965 click 1; sleep 1.2; }
 `;
-  const script =
+  let script =
     common +
-    (scenario==="inspect41"?`open_settings
+    (scenario.startsWith("lifecycle")?`xdotool mousemove 65 12 click 1 mousemove 174 994
+sleep 1.6
+xdotool mousemove 170 815
+sleep 1.2
+import -window root /output/ui-display-modes.png
+xdotool mousemove 375 840 click 1
+sleep 5
+import -window root /output/ui-always-on.png
+xdotool mousemove 65 12 click 1 mousemove 174 994
+sleep 1.6
+xdotool mousemove 170 815
+sleep 1.2
+xdotool mousemove 375 815 click 1
+sleep 3
+import -window root /output/ui-high-power.png
+sha256sum /input/watchface.prg | cut -d' ' -f1 > /output/theme-ui-restart.request
+for i in $(seq 1 30); do test -f /output/theme-ui-restart.ready && break; sleep 1; done
+test -f /output/theme-ui-restart.ready
+find "$HOME" /tmp /output -type f -iname '*.set' -print > /output/ui-settings-paths.txt
+`:scenario==="inspect41"?`open_settings
 import -window root /output/ui-root41.png
 xdotool mousemove 287 406 click 1
 sleep 1.2
@@ -297,7 +316,7 @@ sha256sum /input/watchface.prg | cut -d' ' -f1 > /output/theme-ui-restart.reques
 for i in $(seq 1 30); do test -f /output/theme-ui-restart.ready && break; sleep 1; done
 test -f /output/theme-ui-restart.ready
 import -window root /output/ui-custom-after-restart.png
-` : scenario === "persistence"
+` : ["persistence","persistence41"].includes(scenario)
       ? `open_settings
 xdotool mousemove 325 431 click 1
 sleep 1.2
@@ -333,6 +352,7 @@ sleep 1.2
 close_settings
 import -window root /output/ui-vital.png
 `);
+  if(scenario==="persistence41")script=script.replaceAll("325 431","287 406").replaceAll("325 572","287 527");
   const quoted = "'" + script.replaceAll("'", "'\\''") + "'";
   console.log(
     (await exec(`docker exec ${container} bash -c ${quoted}`)).toString(),
@@ -353,6 +373,7 @@ import -window root /output/ui-vital.png
         await exec(`docker exec ${container} cat /output/${n}`),
       );
   }
+  if(scenario.startsWith("lifecycle"))await writeFile(dir+"/settings-paths.txt",await exec(`docker exec ${container} cat /output/ui-settings-paths.txt`));
   await writeFile(
     dir + "/observations.log",
     await exec(`docker exec ${container} cat /output/monkeydo.log`),
@@ -383,7 +404,7 @@ import -window root /output/ui-vital.png
     (!states.includes("trail") || !states.includes("vital"))
   )
     throw Error("Actual three-theme transition not observed");
-  if (scenario === "persistence") {
+  if (["persistence","persistence41"].includes(scenario)) {
     const sections = observations.split("GFC_THEME_UI_STATE ");
     const last = sections.at(-1);
     if (
@@ -404,6 +425,7 @@ import -window root /output/ui-vital.png
     for(const expected of ["Gfc_Source_apex_value_apex_tl=588927973","Gfc_apex_value_apex_tl_color=16777215","Gfc_apex_show_seconds=false"]){if(!last?.startsWith("apex\n")||!last.includes(expected))throw Error("Independent override not persisted: "+expected);}
     if(!(await readFile(dir+"/session-result.txt","utf8")).includes("samePrgRestartReady=true"))throw Error("Same PRG restart not observed");
   }
+  if(scenario.startsWith("lifecycle")&&(!observations.includes("GFC_LIFECYCLE enterSleep")||!observations.includes("GFC_LIFECYCLE exitSleep")))throw Error("Actual enterSleep/exitSleep callbacks not observed; screenshots alone do not pass");
   if(matrix){for(let i=0;i<12;i++)if(!observations.includes("GFC_MATRIX_FRAME="+i+" vm="))throw Error("Missing controlled matrix frame "+i);}
   await writeFile(
     dir + "/validation.json",
@@ -415,9 +437,9 @@ import -window root /output/ui-vital.png
         sourceSha256: native.sourceSha256,
         cleanupStatus: native.report.cleanupStatus,
         applicationDataMode: matrix?"controlled-fixed-data":native.report.dataMode,
-        aodMode:matrix?"forced rendering; not lifecycle":"unverified",
+        aodMode:matrix?"forced rendering; not lifecycle":scenario.startsWith("lifecycle")?"actual SDK Display Mode Always-On":"unverified",
         hardware: "unverified",
-        sleepTransition: "unverified",
+        sleepTransition: scenario.startsWith("lifecycle")?"observed SDK enterSleep and exitSleep; not hardware":"unverified",
       },
       null,
       2,
