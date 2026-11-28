@@ -1,0 +1,15 @@
+{
+  "scenario": "persistence41",
+  "states": [
+    "apex",
+    "trail",
+    "trail"
+  ],
+  "prgSha256": "5becafd653a8982078b155b49de902d35cf9a9ab3b024307a597d9aa43f5eed9",
+  "sourceSha256": "ac3ae31b6b212c11ab443bb83a3e0b53d565b41313d56de8b2bca555d370a8d2",
+  "cleanupStatus": "completed",
+  "applicationDataMode": "unverified",
+  "aodMode": "unverified",
+  "hardware": "unverified",
+  "sleepTransition": "unverified"
+}

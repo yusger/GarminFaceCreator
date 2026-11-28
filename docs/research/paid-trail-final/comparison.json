@@ -1,0 +1,44 @@
+{
+  "preview": {
+    "time": "10:07",
+    "seconds": 22,
+    "calendarDate": "2026-11-28",
+    "utcOffsetMinutes": 0,
+    "heartRate": 80,
+    "steps": 0,
+    "battery": 50,
+    "values": {
+      "heartRate": 80,
+      "steps": 0,
+      "battery": 50,
+      "calories": 0,
+      "distance": 0,
+      "temperature": 23
+    }
+  },
+  "theme": "apex",
+  "dataPolicy": "Transcribed displayed native values; not controlled native injection",
+  "nativeDataMode": "unverified",
+  "prgSha256": "7aa12f637e01bf97d2b07a953c3c76590611aa6b091a415e08f391a655f42aa2",
+  "sourceSha256": "e2e0f5747c46d906fc977843d439e6b6fd7a608850cb5acaf50976bb48656a37",
+  "cleanupStatus": "completed",
+  "delta": {
+    "rgbMae": 10.02541889841661,
+    "foregroundRgbMae": 10.131923853723519,
+    "changedAbove24": 23554,
+    "pixels": 159068
+  },
+  "limitations": [
+    "single active frame",
+    "AOD/theme menu not verified by this frame",
+    "no quality percentage"
+  ],
+  "observations": [
+    "background artwork missing",
+    "outer track mostly missing",
+    "data icons missing",
+    "date lowercase glyphs missing",
+    "battery percent suffix missing",
+    "text baseline/format differences"
+  ]
+}

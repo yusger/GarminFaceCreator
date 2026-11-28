@@ -1,0 +1,14 @@
+{
+  "target": "venu445mm",
+  "status": "failed",
+  "error": "simulator_exited_before_capture",
+  "prgSha256": "7f54da5b1be265cd9374b541cbca64896488bac62dbaae7e8ec3bfbb5d8b7f55",
+  "sourceSha256": "e138d8781606ce17dc47cbc6082e3d48d33d89b5f5c497d86bd6fd66630fd3ac",
+  "cleanup": "completed",
+  "actualSdkCallbacks": {
+    "enterSleep": true,
+    "exitSleep": true
+  },
+  "dataMode": "unverified",
+  "hardware": "unverified"
+}

@@ -64,3 +64,7 @@ resources/examples/theme-project-v2/** -text
 
 # Preserve raw SDK/browser matrix evidence and exact audit hashes.
 docs/research/trail-native-matrix/** -text
+
+# Preserve native lifecycle and paid-model comparison evidence.
+docs/research/trail-native-lifecycle/** -text
+docs/research/paid-trail-final/** -text

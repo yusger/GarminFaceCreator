@@ -1,7 +1,7 @@
 {
   "date": "2026-11-28",
   "model": "deepseek-flash",
-  "classification": "Actual AI generation + two bounded AI repairs + frontend platform resource preparation; not unmodified model output",
+  "classification": "Actual AI generation + five AI repairs on the same root + frontend platform resource preparation; additional operator rounds explicitly authorized for this Plan",
   "calls": [
     {
       "stage": "generation",
@@ -33,9 +33,48 @@
         "prompt_cache_hit_tokens": 0,
         "prompt_cache_miss_tokens": 12603
       }
+    },
+    {
+      "stage": "repair3",
+      "usage": {
+        "prompt_tokens": 15430,
+        "completion_tokens": 3228,
+        "total_tokens": 18658,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 15430
+      }
+    },
+    {
+      "stage": "repair4",
+      "usage": {
+        "prompt_tokens": 12567,
+        "completion_tokens": 122,
+        "total_tokens": 12689,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 12311
+      }
+    },
+    {
+      "stage": "repair5",
+      "usage": {
+        "prompt_tokens": 12848,
+        "completion_tokens": 5556,
+        "total_tokens": 18404,
+        "prompt_tokens_details": {
+          "cached_tokens": 768
+        },
+        "prompt_cache_hit_tokens": 768,
+        "prompt_cache_miss_tokens": 12080
+      }
     }
   ],
-  "knownAdditionalTokens": 88040,
+  "knownAdditionalTokens": 137791,
   "unknownAdditionalUsageCalls": 1,
   "previousKnownTokens": 125332,
   "originalSourceMcSha256": "ece21bb093969c8b69109d6a4529ea7171f603a51434a8ebd55d6b266b78e716",
@@ -44,8 +83,7 @@
   "afterPlatformMcSha256": "59dcbb69af61411dbd0d1082401668a51c3e2d738c6af9ca6993cfbf450f953a",
   "preparedMcSha256": "59dcbb69af61411dbd0d1082401668a51c3e2d738c6af9ca6993cfbf450f953a",
   "modelSourceUnchangedDuringPlatformPreparation": true,
-  "rounds": 2,
-  "maxRounds": 2,
+  "rounds": 5,
   "initialNative": {
     "status": "failed",
     "prgSha256": "72190e034a3c8a80320c5bc1ba24fa5b71691e162985da27a4077a0bd069c14c",
@@ -62,14 +100,14 @@
   },
   "packedSdk": {
     "status": "succeeded",
-    "native": "not run: worker daily budget exhausted",
+    "native": "succeeded",
     "nonIndexedBitmaps": 7,
     "bytes": 2599660,
     "prgSha256": "7aa12f637e01bf97d2b07a953c3c76590611aa6b091a415e08f391a655f42aa2"
   },
   "visualComparison": {
-    "status": "pending",
-    "reason": "No valid native frame from final AI source; no fidelity percentage fabricated"
+    "status": "single active frame: major missing elements corrected; remaining pixel differences documented, not perfect acceptance",
+    "evidence": "repaired/comparison.json"
   },
   "hardware": "unverified",
   "dailyNativeBudget": {
@@ -79,5 +117,58 @@
     "restoredFrontendPerIp": 10,
     "restoredFrontendGlobal": 30,
     "ledgersPreserved": true
+  },
+  "packedNative": {
+    "status": "succeeded",
+    "prgSha256": "7aa12f637e01bf97d2b07a953c3c76590611aa6b091a415e08f391a655f42aa2",
+    "sourceSha256": "e2e0f5747c46d906fc977843d439e6b6fd7a608850cb5acaf50976bb48656a37",
+    "cleanup": "completed",
+    "dataMode": "unverified"
+  },
+  "currentRoundAuthorization": "Temporary native budget approved; existing ledger preserved. Further paid repairs authorized only for this Plan; normal product UI maximum remains 2.",
+  "normalUiMaxRounds": 2,
+  "final": {
+    "preview": {
+      "time": "10:30",
+      "seconds": 19,
+      "calendarDate": "2026-11-28",
+      "utcOffsetMinutes": 0,
+      "heartRate": 80,
+      "steps": 0,
+      "battery": 50,
+      "values": {
+        "heartRate": 80,
+        "steps": 0,
+        "battery": 50,
+        "calories": 0,
+        "distance": 0,
+        "temperature": 23
+      }
+    },
+    "theme": "apex",
+    "dataPolicy": "Transcribed displayed native values; not controlled native injection",
+    "nativeDataMode": "unverified",
+    "prgSha256": "3fee8121ad5ce1d7a8cd766daeee87344ef5d344b568e5fa43436d6934287d1d",
+    "sourceSha256": "54c47b55c0cea7649dfc45556fb921564da70a8f5e53515f030dffcb17fa0d61",
+    "cleanupStatus": "completed",
+    "delta": {
+      "rgbMae": 3.823071474673305,
+      "foregroundRgbMae": 3.8563554077054,
+      "changedAbove24": 1650,
+      "pixels": 159068
+    },
+    "limitations": [
+      "single active frame",
+      "AOD/theme menu not verified by this frame",
+      "no quality percentage"
+    ],
+    "observations": [
+      "background artwork restored",
+      "outer track restored",
+      "data icons restored",
+      "uppercase date and battery suffix restored",
+      "remaining pixel differences require inspection"
+    ],
+    "sourceDrawing": "fifth AI repair source unchanged by subsequent lossless PNG resource preparation"
   }
 }

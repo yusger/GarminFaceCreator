@@ -1,0 +1,9 @@
+{
+  "target": "venu445mm",
+  "status": "succeeded",
+  "prgSha256": "264470c6373d896f525fc66b317b9f6b602f3d54130d7705feb9edd25ff4dd10",
+  "sourceSha256": "9760a2ea698901fb423591fe59843fad8f391f3a82dd8ac73a86abc164ef383d",
+  "cleanup": "completed",
+  "dataMode": "unverified",
+  "hardware": "unverified"
+}

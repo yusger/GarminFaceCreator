@@ -1,0 +1,6 @@
+scenario=theme-ui-v1
+prgSha256=fdf7aa6effc923de3dd7cd740f9db0b9eb117aa5cbfffb61230f0e7fcb981413
+restartRequested=true
+settingsSeedSha256=1c3be44776a7cd41e428186ffa2c188d095b5a011849caa1805ba617ee5552d0
+settingsSeedBytes=1971
+samePrgRestartReady=true

@@ -1,0 +1,14 @@
+{
+  "target": "venu441mm",
+  "status": "succeeded",
+  "error": "",
+  "prgSha256": "f646beee2ccac4b87ad394aae667d52e20a4729973023580e7e4880ca083852e",
+  "sourceSha256": "1768dc9f99b87b5fa6fa6099e388d6a19f70c86af805d712835aa400f46c72b1",
+  "cleanup": "completed",
+  "actualSdkCallbacks": {
+    "enterSleep": false,
+    "exitSleep": false
+  },
+  "dataMode": "unverified",
+  "hardware": "unverified"
+}

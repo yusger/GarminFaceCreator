@@ -1,0 +1,14 @@
+{
+  "scenario": "upgrade41",
+  "states": [
+    "apex",
+    "trail"
+  ],
+  "prgSha256": "fdf7aa6effc923de3dd7cd740f9db0b9eb117aa5cbfffb61230f0e7fcb981413",
+  "sourceSha256": "d9e799060eec1da7ed4e32e44d9cf5b3519d5be13a509d4aecbcc19c81e73b4e",
+  "cleanupStatus": "completed",
+  "applicationDataMode": "unverified",
+  "aodMode": "unverified",
+  "hardware": "unverified",
+  "sleepTransition": "unverified"
+}

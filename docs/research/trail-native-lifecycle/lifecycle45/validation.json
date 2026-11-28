@@ -1,0 +1,15 @@
+{
+  "scenario": "lifecycle45",
+  "states": [
+    "apex",
+    "apex",
+    "apex"
+  ],
+  "prgSha256": "264470c6373d896f525fc66b317b9f6b602f3d54130d7705feb9edd25ff4dd10",
+  "sourceSha256": "9760a2ea698901fb423591fe59843fad8f391f3a82dd8ac73a86abc164ef383d",
+  "cleanupStatus": "completed",
+  "applicationDataMode": "unverified",
+  "aodMode": "actual SDK Display Mode Always-On",
+  "hardware": "unverified",
+  "sleepTransition": "observed SDK enterSleep and exitSleep; not hardware"
+}
