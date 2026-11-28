@@ -1,15 +1,15 @@
+import {projectForDevice,deviceKey} from "../../src/multiDevice";
 import type { Project } from "../../src/domain";
 import { localGenerate } from "../../src/localGenerator";
 import { preparedCodeFiles } from "../../src/chalkFonts";
 import { preparedAssets } from "../../src/iconLibrary";
 import { controlSettingKey } from "../../src/nativeSettingIds";
 import { themeBackgroundKey } from "../../src/themes";
-function fixture(input: Project, nonce: string) {
+function fixture(input: Project, nonce: string,target="venu445mm") {
   if (!/^[a-f0-9]{32}$/.test(nonce))
     throw Error("Unique fixture identity required");
-  if (input.target !== "venu445mm")
-    throw Error("Menu fixture coordinates are measured for Venu 4 45mm only");
-  const p = structuredClone(input);
+  if (!["venu445mm","venu441mm"].includes(target))throw Error("Venu4 fixture target required");
+  const p = projectForDevice(input,deviceKey({target,deviceSize:target==="venu445mm"?"45mm":"41mm"}));
   p.id = nonce;
   p.appId = nonce;
   p.name = "trail";
@@ -27,6 +27,8 @@ function fixture(input: Project, nonce: string) {
       ? {
           ...f,
           content: f.content
+            .replace("function onEnterSleep(){","function onEnterSleep(){gfcUiCount=0;System.println(\"GFC_LIFECYCLE enterSleep\");")
+            .replace("function onExitSleep(){","function onExitSleep(){gfcUiCount=0;System.println(\"GFC_LIFECYCLE exitSleep\");")
             .replace(/(local generator basic-[a-z0-9-]+)/, "$1-fixture")
             .replace(
               "if(!gfcFrameReported){System.println(",

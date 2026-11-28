@@ -4,7 +4,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
 const scenario = process.argv[2];
-if (!["themes", "persistence", "overrides", "matrix45", "matrix41"].includes(scenario))
+if (!["themes", "persistence", "overrides", "matrix45", "matrix41", "inspect41"].includes(scenario))
   throw Error("Choose explicit themes, persistence or overrides scenario");
 const matrix=scenario.startsWith("matrix");
 const dir = "Temp/native-theme-ui-" + scenario + "-" + Date.now();
@@ -88,7 +88,7 @@ try {
   const result = await page.evaluate(
     async ({ p, nonce,scenario,matrix }) => {
       const h = matrix?window.gfcTrailMatrix:window.gfcThemeUiFixture;
-      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce),
+      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce,scenario==="inspect41"?"venu441mm":"venu445mm"),
         form = new FormData();
       form.append(
         "project",
@@ -208,7 +208,31 @@ close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; 
 `;
   const script =
     common +
-    (matrix ? `set -x
+    (scenario==="inspect41"?`open_settings
+import -window root /output/ui-root41.png
+xdotool mousemove 287 406 click 1
+sleep 1.2
+import -window root /output/ui-themes41.png
+xdotool mousemove 287 527 click 1
+sleep 1.2
+close_settings
+import -window root /output/ui-trail41.png
+open_settings
+xdotool mousemove 287 406 click 1
+sleep 1.2
+xdotool mousemove 287 620 click 1
+sleep 1.2
+close_settings
+import -window root /output/ui-vital41.png
+xdotool mousemove 143 12 click 1
+sleep 1
+import -window root /output/ui-simulation41.png
+xdotool key Escape
+xdotool mousemove 65 12 click 1 mousemove 174 994
+sleep 1.6
+import -window root /output/ui-settings41.png
+xdotool key Escape
+`: matrix ? `set -x
 for index in $(seq 0 11); do
  for attempt in $(seq 1 450); do
   grep -Fq "GFC_MATRIX_FRAME=$index vm=" /output/monkeydo.log && break
