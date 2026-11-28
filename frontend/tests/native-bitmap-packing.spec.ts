@@ -23,6 +23,9 @@ test("AI transform preparation supplies non-indexed bitmaps without changing sou
     expect(r[0]).toEqual(files[0]);
     expect(r[1].content.match(/automaticPalette="false"/g)).toHaveLength(2);
     expect(r[1].content).toContain('id="A" filename="a.png"');
+    expect(r[1].content).toContain('packingFormat="png"');
+    expect(r[1].content).toContain('dithering="none"');
+    expect(r[1].content.match(/packingFormat=/g)).toHaveLength(1);
     expect(r[1].content).toContain("Keep");
     expect(preparedTransformBitmaps(p, r)).toEqual(r);
   }

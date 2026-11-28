@@ -31,6 +31,16 @@ export function preparedTransformBitmaps(
     }
     const content = f.content.replace(/<bitmap\b[^>]*>/g, (tag) => {
       if (!/\sfilename\s*=/.test(tag)) return tag;
+      // PNG packing preserves the source alpha/color information. SDK default raw packing
+      // can drop subtle translucent artwork even when it no longer throws a palette error.
+      const png = /\sfilename\s*=\s*["'][^"']+\.png["']/i.test(tag);
+      const packing = tag.match(/\spackingFormat\s*=\s*(["'])([^"']*)\1/);
+      if (png && (!packing || packing[2] === "default")) {
+        tag = tag.replace(/\spackingFormat\s*=\s*(["'])[^"']*\1/g, "");
+        tag = tag.replace(/\/?>$/, (ending) => ' packingFormat="png"' + ending);
+      }
+      if (png && !/\sdithering\s*=/.test(tag))
+        tag = tag.replace(/\/?>$/, (ending) => ' dithering="none"' + ending);
       return tag
         .replace(/\sautomaticPalette\s*=\s*(["'])[^"']*\1/g, "")
         .replace(/\/?>$/, (ending) => ' automaticPalette="false"' + ending);
