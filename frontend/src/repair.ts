@@ -36,7 +36,10 @@ export function redactRepair(text: string, secrets: string[] = []) {
       "[LOCAL_PATH]",
     );
 }
-export function repairResourceReferences(p:Project,paths:string[]){return paths.filter(path=>path.startsWith("resources/")&&path.endsWith(".xml")).flatMap(file=>binaryAssets(p).map(asset=>({file,projectPath:asset.path,filename:"../".repeat(file.split("/").length-1)+asset.path})));}
+export function repairResourceReferences(p:Project,paths:string[]){
+ const resources=[...new Set([...binaryAssets(p).map(a=>a.path),...p.files.filter(f=>/^resources\/[\w/-]+\.(fnt|svg)$/.test(f.path)).map(f=>f.path)])];
+ return paths.filter(path=>path.startsWith("resources/")&&path.endsWith(".xml")).flatMap(file=>resources.map(projectPath=>({file,projectPath,filename:"../".repeat(file.split("/").length-1)+projectPath})));
+}
 export function repairPayload(
   p: Project,
   paths: string[],

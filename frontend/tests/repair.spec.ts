@@ -201,3 +201,12 @@ test("resource repairs receive real relative asset names and cannot invent new f
 
 
 test("small native repairs use atomic exact patches and reject ambiguity or unauthorized paths",()=>{const p=project("ExactRepair",true);p.files=[{path:"manifest.xml",content:"<manifest/>"},{path:"monkey.jungle",content:"project.manifest=manifest.xml"},{path:"source/App.mc",content:"// prefix\nvar broken = 0;\n// suffix"}];const paths=["source/App.mc"],raw=(edits:unknown)=>JSON.stringify({edits});const out=mergeRepair(p,paths,raw([{path:paths[0],find:"var broken = 0;",replace:"var fixed = 0;"}]));expect(out[2].content).toContain("var fixed = 0;");expect(p.files[2].content).toContain("var broken = 0;");expect(()=>mergeRepair(p,paths,raw([{path:paths[0],find:"//",replace:"x"}]))).toThrow("唯一命中");expect(()=>mergeRepair(p,paths,raw([{path:"manifest.xml",find:"<manifest/>",replace:"x"}]))).toThrow();expect(()=>mergeRepair(p,paths,raw([{path:paths[0],find:"var broken = 0;",replace:"var fixed = 0;"},{path:paths[0],find:"missing",replace:"x"}]))).toThrow();expect(p.files[2].content).toContain("var broken = 0;");});
+
+test("resource repair may reference existing FNT descriptors but cannot invent one",()=>{
+ const p=project("Legacy font",true);p.files=[...localGenerate(p),{path:"resources/fonts/fonts.xml",content:'<fonts><font id="Existing" filename="atlas.png"/></fonts>'},{path:"resources/fonts/existing.fnt",content:'info face="Reference" size=20\ncommon lineHeight=20 base=16 scaleW=16 scaleH=16 pages=1 packed=0\npage id=0 file="atlas.png"\nchars count=0'}];
+ const selected=["resources/fonts/fonts.xml"],references=repairResourceReferences(p,selected);
+ expect(references.some(r=>r.projectPath==="resources/fonts/existing.fnt"&&r.filename==="../../resources/fonts/existing.fnt")).toBe(true);
+ const raw=JSON.stringify({files:[{path:selected[0],content:'<fonts><font id="Existing" filename="../../resources/fonts/existing.fnt"/></fonts>'}]});
+ expect(mergeRepair(p,selected,raw).find(f=>f.path===selected[0])!.content).toContain("existing.fnt");
+ expect(()=>mergeRepair(p,selected,raw.replaceAll("existing.fnt","invented.fnt"))).toThrow();
+});
