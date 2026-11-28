@@ -1,0 +1,483 @@
+{
+  "expectedGenerator": "basic-71-meter-pixel-gaps-fixture",
+  "note": "Original unmodified images. Foreground threshold80 is diagnostic, separate from AOD lit-pixel counting. Offset search does not shift saved images. Editable visual-kit full-frame drawing cases, no real Sleep/hardware or model calls.",
+  "records": [
+    {
+      "id": "kit-instrument-active-454",
+      "kit": "kit-instrument",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-71-meter-pixel-gaps-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "e88a40a0fef9510a3bf43bcbea03d62ff820e9ba8191e786eeab869f383b63b8",
+      "prgSha256": "4cf1b2fd51dd94c71b3bea34a8d1a919eab31107df691aafadf09d0915bc8723",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 1.0880072311582207,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 11878,
+        "foregroundRgbMeanAbsoluteError": 7.484284671942527,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 88,
+                "y": 59,
+                "right": 361,
+                "bottom": 392
+              },
+              "native": {
+                "x": 88,
+                "y": 59,
+                "right": 361,
+                "bottom": 392
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 66.92367643717337
+              },
+              {
+                "dy": -2,
+                "mae": 52.05105169852906
+              },
+              {
+                "dy": -1,
+                "mae": 31.37690564482901
+              },
+              {
+                "dy": 0,
+                "mae": 7.484284671942527
+              },
+              {
+                "dy": 1,
+                "mae": 31.491115574783684
+              },
+              {
+                "dy": 2,
+                "mae": 52.00527350304425
+              },
+              {
+                "dy": 3,
+                "mae": 66.85946130242073
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-activity-active-454",
+      "kit": "kit-activity",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_heart_pulse"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-71-meter-pixel-gaps-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "6020adcf8bb8f03865f2d7ce9da501bdf9f5e2d5baca43d0243c23b94ab53619",
+      "prgSha256": "4634b1a1215faeb759d9e7aa6c65b1de066664b7c5b1c68f9c1a15c31811b382",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 1.7518407333283919,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 27070,
+        "foregroundRgbMeanAbsoluteError": 9.163723679349834,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 35,
+                "y": 35,
+                "right": 413,
+                "bottom": 351
+              },
+              "native": {
+                "x": 35,
+                "y": 35,
+                "right": 414,
+                "bottom": 351
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 49.26147991813763
+              },
+              {
+                "dy": -2,
+                "mae": 37.415035299881964
+              },
+              {
+                "dy": -1,
+                "mae": 23.3005062935096
+              },
+              {
+                "dy": 0,
+                "mae": 9.163723679349834
+              },
+              {
+                "dy": 1,
+                "mae": 16.931498625169603
+              },
+              {
+                "dy": 2,
+                "mae": 30.965194431108976
+              },
+              {
+                "dy": 3,
+                "mae": 43.28645286813571
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-activity-active-390",
+      "kit": "kit-activity",
+      "target": "venu441mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_heart_pulse"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-71-meter-pixel-gaps-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "9c486f26b420ac8bd8d7a983f365782cefe109f13e4c6e342c11052838891fc8",
+      "prgSha256": "e5aa6be9997222975460cd9883584d6a09d95eec2ae8e3b042307b6c41241650",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 3.4981504418853775,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 20700,
+        "foregroundRgbMeanAbsoluteError": 18.695152979066023,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 30,
+                "y": 30,
+                "right": 355,
+                "bottom": 300
+              },
+              "native": {
+                "x": 31,
+                "y": 31,
+                "right": 354,
+                "bottom": 300
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 61.24744933036328
+              },
+              {
+                "dy": -2,
+                "mae": 49.118666781947084
+              },
+              {
+                "dy": -1,
+                "mae": 34.51214279192915
+              },
+              {
+                "dy": 0,
+                "mae": 18.695152979066023
+              },
+              {
+                "dy": 1,
+                "mae": 20.100448690114344
+              },
+              {
+                "dy": 2,
+                "mae": 31.358592420726993
+              },
+              {
+                "dy": 3,
+                "mae": 44.22694846913908
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-minimal-active-454",
+      "kit": "kit-minimal",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_battery_full"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-71-meter-pixel-gaps-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "e4f85a94362bb8b800931f34434549db19a1d858ef062d9472b0811d15ce29b4",
+      "prgSha256": "93a9bb0a5d23393ef49606daa039f6daff1292ca00b3fda2c81e42df337bf624",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.4183159143132459,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 4290,
+        "foregroundRgbMeanAbsoluteError": 12.741491841491841,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 131,
+                "y": 102,
+                "right": 320,
+                "bottom": 385
+              },
+              "native": {
+                "x": 130,
+                "y": 102,
+                "right": 320,
+                "bottom": 384
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 101.46681529754758
+              },
+              {
+                "dy": -2,
+                "mae": 82.93993278337916
+              },
+              {
+                "dy": -1,
+                "mae": 52.67690627346577
+              },
+              {
+                "dy": 0,
+                "mae": 12.741491841491841
+              },
+              {
+                "dy": 1,
+                "mae": 48.74029478928794
+              },
+              {
+                "dy": 2,
+                "mae": 80.9272322257286
+              },
+              {
+                "dy": 3,
+                "mae": 101.66695264241592
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-minimal-forced-aod-454",
+      "kit": "kit-minimal",
+      "target": "venu445mm",
+      "aod": true,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_battery_full"
+      ],
+      "browserAodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 894,
+        "aboveNoisePixels": 870,
+        "ratio": 0.005522199985175302,
+        "noiseRatio": 0.005373953005707509,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.004337363426420074,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-71-meter-pixel-gaps-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "cc7235a6cd4371278e453c535c2e9a51051c751a613c26f3d94683a52bf70147",
+      "prgSha256": "8642f9063f9318dae03f15347fd10cb2806e607778c63a968ceafb9c0bbcb8d8",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.03860598423640452,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 495,
+        "foregroundRgbMeanAbsoluteError": 7.857239057239057,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 179,
+                "y": 214,
+                "right": 271,
+                "bottom": 246
+              },
+              "native": {
+                "x": 180,
+                "y": 214,
+                "right": 271,
+                "bottom": 246
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 66.73650321941555
+              },
+              {
+                "dy": -2,
+                "mae": 58.996927803379414
+              },
+              {
+                "dy": -1,
+                "mae": 36.07494407158837
+              },
+              {
+                "dy": 0,
+                "mae": 7.857239057239057
+              },
+              {
+                "dy": 1,
+                "mae": 36.343434343434346
+              },
+              {
+                "dy": 2,
+                "mae": 58.97948717948718
+              },
+              {
+                "dy": 3,
+                "mae": 66.65673124689518
+              }
+            ],
+            "bestDy": 0
+          }
+        ],
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 894,
+            "aboveNoisePixels": 870,
+            "ratio": 0.005522199985175302,
+            "noiseRatio": 0.005373953005707509,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004337363426420074,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 858,
+            "aboveNoisePixels": 858,
+            "ratio": 0.005299829515973612,
+            "noiseRatio": 0.005299829515973612,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004162704496497118,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

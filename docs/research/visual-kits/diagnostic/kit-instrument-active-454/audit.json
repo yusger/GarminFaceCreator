@@ -1,0 +1,16 @@
+{
+  "status": "succeeded",
+  "error": "",
+  "generatorVersion": "basic-70-meter-stroke-reset-fixture",
+  "sourceSha256": "e9314bee418a968bab85a1138a657178aab6f2b07fe8b39254320e1a897c011d",
+  "prgSha256": "62634ee0c2edc5c05d4f883c455501cb4e6e4c923a51653018de4b6498f0a855",
+  "target": "venu445mm",
+  "cleanupStatus": "completed",
+  "applicationMode": "active",
+  "sdkVersion": "9.3.0",
+  "width": 454,
+  "height": 454,
+  "dataMode": "simulator-defaults-dynamic",
+  "sleepTransition": "unverified",
+  "hardware": "unverified"
+}

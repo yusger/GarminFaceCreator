@@ -65,7 +65,7 @@ The screenshots show the current Chinese interface.
 - Optional AI layout suggestions for the current device, with payload review, before/after previews, explicit application, and a recoverable design snapshot.
 - Owned PulseManiac default reference: four static HR-driven poses, configurable top data slots, live HR inside a chest heart, subdued auxiliary data and a handwritten chalk clock; the ready pose uses a matching black face.
 - Data-driven layer visibility with explicit range boundaries, missing/AOD fallback, and target-sized static PNG resources.
-- Twelve protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, BAWF, PulseManiac, and SONAR; each creates an independent editable copy.
+- Thirteen protected references: ClownWatch, SkyRing, fine-o-clock, Crystal, TimelyFenix, AboutTime, KISSFace, YetAnother, Celestial, BAWF, PulseManiac, SONAR, and trail; each creates an independent editable copy.
 - AI provider presets, custom compatible endpoints, connection checks, and model-list retrieval.
 - Separate design/code snapshots and retention limits; generation, raw failure recovery, review, and stale-code protection.
 - Configurable rings, threshold ranges/fallbacks, metric typography, independent AOD styles, and round-screen clipping inspection.
@@ -77,7 +77,9 @@ User-triggered AI repair supports up to two rounds with diff review and scoped f
 
 ## Layout templates and resource packages
 
-Blank and AI creation can start from 12 editable layout templates, with solid colors or a local background image. Background images are processed in the browser and are not automatically sent as model references; compilation includes them in the submitted project. The material library provides 10 original bitmap hand sets and 3 polygon styles, with editable individual hands.
+Blank and AI creation can start from 15 editable layout templates, with solid colors or a local background image. Background images are processed in the browser and are not automatically sent as model references; compilation includes them in the submitted project. The material library provides 10 original bitmap hand sets and 3 polygon styles, with editable individual hands.
+
+Three editable visual kits—Compact Instrument, Activity Rings, and Minimal Thin—include licensed fonts, icons, independent color groups, and reduced AOD layouts for both Venu 4 sizes. Target-pixel fonts are prepared locally in the browser; this does not upload assets. Native rendering and actual sleep behavior require separate checks.
 
 Canonical resources live in `resources/`: default watchfaces, layout templates, controls, images and shared fonts. Builds publish browser assets while preserving existing resource URLs.
 

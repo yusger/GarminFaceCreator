@@ -1,0 +1,16 @@
+{
+  "status": "succeeded",
+  "error": "",
+  "generatorVersion": "basic-69-sleep-frame-ready-fixture",
+  "sourceSha256": "a0de1b6f17e6fa2a9a6d3bb157921aa9c955971e6ed1975e8f6077a56689c419",
+  "prgSha256": "01116872fd18d2103dabb72c6f15e275aa45b4167c819ab2ec7f7548b3ac905a",
+  "target": "venu445mm",
+  "cleanupStatus": "completed",
+  "applicationMode": "aod",
+  "sdkVersion": "9.3.0",
+  "width": 454,
+  "height": 454,
+  "dataMode": "simulator-defaults-dynamic",
+  "sleepTransition": "unverified",
+  "hardware": "unverified"
+}

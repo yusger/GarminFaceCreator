@@ -1,0 +1,954 @@
+{
+  "expectedGenerator": "basic-69-sleep-frame-ready-fixture",
+  "note": "Original unmodified images. Foreground threshold80 is diagnostic, separate from AOD lit-pixel counting. Offset search does not shift saved images. Editable visual-kit full-frame drawing cases, no real Sleep/hardware or model calls.",
+  "records": [
+    {
+      "id": "kit-instrument-active-454",
+      "kit": "kit-instrument",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "1427a5adca2593ceb679ea115d44ff681fd6328052fa47dc4d80497ecd7996d5",
+      "prgSha256": "ba753d0bfc2e3b93ac523c30f6dcfae2959b8c03ec9e75bd07148558df5422bd",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 5.266088915243907,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 13740,
+        "foregroundRgbMeanAbsoluteError": 54.325133430373604,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 88,
+                "y": 60,
+                "right": 362,
+                "bottom": 394
+              },
+              "native": {
+                "x": 88,
+                "y": 60,
+                "right": 362,
+                "bottom": 394
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 93.06906232453677
+              },
+              {
+                "dy": -2,
+                "mae": 84.56915410005824
+              },
+              {
+                "dy": -1,
+                "mae": 71.45836180584028
+              },
+              {
+                "dy": 0,
+                "mae": 54.325133430373604
+              },
+              {
+                "dy": 1,
+                "mae": 50.22481748283975
+              },
+              {
+                "dy": 2,
+                "mae": 46.984317989609764
+              },
+              {
+                "dy": 3,
+                "mae": 50.03125890059812
+              }
+            ],
+            "bestDy": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-instrument-active-390",
+      "kit": "kit-instrument",
+      "target": "venu441mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "c39059bbe27712d84220c7bc5e14e37cdf8bedb741a6bff12ea77a49d2b55614",
+      "prgSha256": "586d7c69b38fbf6f872101ad02b39a3e4ef6c77d4ed4eff66ac17e1fe75558de",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 5.70990113372612,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 10794,
+        "foregroundRgbMeanAbsoluteError": 56.2137916126243,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 75,
+                "y": 52,
+                "right": 311,
+                "bottom": 338
+              },
+              "native": {
+                "x": 74,
+                "y": 51,
+                "right": 311,
+                "bottom": 339
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 92.94931463181383
+              },
+              {
+                "dy": -2,
+                "mae": 84.23294701986755
+              },
+              {
+                "dy": -1,
+                "mae": 70.68754220617164
+              },
+              {
+                "dy": 0,
+                "mae": 56.2137916126243
+              },
+              {
+                "dy": 1,
+                "mae": 47.644274376417236
+              },
+              {
+                "dy": 2,
+                "mae": 44.48066660425054
+              },
+              {
+                "dy": 3,
+                "mae": 49.41939903187506
+              }
+            ],
+            "bestDy": 2
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-instrument-forced-aod-454",
+      "kit": "kit-instrument",
+      "target": "venu445mm",
+      "aod": true,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints"
+      ],
+      "browserAodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 888,
+        "aboveNoisePixels": 635,
+        "ratio": 0.005485138240308354,
+        "noiseRatio": 0.003922367998418699,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.004308253604766248,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "a0de1b6f17e6fa2a9a6d3bb157921aa9c955971e6ed1975e8f6077a56689c419",
+      "prgSha256": "01116872fd18d2103dabb72c6f15e275aa45b4167c819ab2ec7f7548b3ac905a",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.41741407852148343,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 579,
+        "foregroundRgbMeanAbsoluteError": 73.78295912492804,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 180,
+                "y": 213,
+                "right": 272,
+                "bottom": 245
+              },
+              "native": {
+                "x": 181,
+                "y": 216,
+                "right": 272,
+                "bottom": 248
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 82.34763476347635
+              },
+              {
+                "dy": -2,
+                "mae": 79.94183445190157
+              },
+              {
+                "dy": -1,
+                "mae": 77.6575963718821
+              },
+              {
+                "dy": 0,
+                "mae": 73.78295912492804
+              },
+              {
+                "dy": 1,
+                "mae": 66.54732510288066
+              },
+              {
+                "dy": 2,
+                "mae": 46.10559796437659
+              },
+              {
+                "dy": 3,
+                "mae": 13.399833748960932
+              }
+            ],
+            "bestDy": 3
+          }
+        ],
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 888,
+            "aboveNoisePixels": 635,
+            "ratio": 0.005485138240308354,
+            "noiseRatio": 0.003922367998418699,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004308253604766248,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 858,
+            "aboveNoisePixels": 858,
+            "ratio": 0.005299829515973612,
+            "noiseRatio": 0.005299829515973612,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004162704496497118,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "kit-activity-active-454",
+      "kit": "kit-activity",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_heart_pulse"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "893b2372c6ea8d69e545681662f8a0903462909a2fe54be4990045f3560a16e4",
+      "prgSha256": "cd5c703c1409b0d2d97f94a6c4e048cff62359768838012eb3c1128033abe7dc",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 4.18184962814716,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 27938,
+        "foregroundRgbMeanAbsoluteError": 22.430858806404657,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 35,
+                "y": 35,
+                "right": 413,
+                "bottom": 351
+              },
+              "native": {
+                "x": 35,
+                "y": 35,
+                "right": 414,
+                "bottom": 352
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 57.468194505655944
+              },
+              {
+                "dy": -2,
+                "mae": 46.8828970675064
+              },
+              {
+                "dy": -1,
+                "mae": 34.19999312738394
+              },
+              {
+                "dy": 0,
+                "mae": 22.430858806404657
+              },
+              {
+                "dy": 1,
+                "mae": 20.467990139766417
+              },
+              {
+                "dy": 2,
+                "mae": 27.16630054511431
+              },
+              {
+                "dy": 3,
+                "mae": 34.61558015026769
+              }
+            ],
+            "bestDy": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-activity-active-390",
+      "kit": "kit-activity",
+      "target": "venu441mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_heart_pulse"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "1b61e6dba7e50ca43b640ca5e403f72e6895831b5631f59faa4099c9b09c98a5",
+      "prgSha256": "11307952eafc9fbbbadd259be7fe49242fd4ffadcbf72d6b0b58c9f29c606b9d",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 5.772052423674344,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 21309,
+        "foregroundRgbMeanAbsoluteError": 30.376413721901542,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 30,
+                "y": 30,
+                "right": 355,
+                "bottom": 301
+              },
+              "native": {
+                "x": 31,
+                "y": 31,
+                "right": 354,
+                "bottom": 302
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 67.99879236885668
+              },
+              {
+                "dy": -2,
+                "mae": 57.675488449684735
+              },
+              {
+                "dy": -1,
+                "mae": 44.93821551071317
+              },
+              {
+                "dy": 0,
+                "mae": 30.376413721901542
+              },
+              {
+                "dy": 1,
+                "mae": 20.57949638542526
+              },
+              {
+                "dy": 2,
+                "mae": 24.613666999698687
+              },
+              {
+                "dy": 3,
+                "mae": 37.64405367745062
+              }
+            ],
+            "bestDy": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-activity-forced-aod-454",
+      "kit": "kit-activity",
+      "target": "venu445mm",
+      "aod": true,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_heart_pulse"
+      ],
+      "browserAodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 888,
+        "aboveNoisePixels": 635,
+        "ratio": 0.005485138240308354,
+        "noiseRatio": 0.003922367998418699,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.004308253604766248,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "8151d78399ed40fca0640cc1ff6dc33012f2ae9b95676a73dc6af2d4fb3efef6",
+      "prgSha256": "32ea3fb4f78c225c2debf5a64084989aacd886cd26fab2cfa06c62fd181997d4",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.41741407852148343,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 579,
+        "foregroundRgbMeanAbsoluteError": 73.78295912492804,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 180,
+                "y": 213,
+                "right": 272,
+                "bottom": 245
+              },
+              "native": {
+                "x": 181,
+                "y": 216,
+                "right": 272,
+                "bottom": 248
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 82.34763476347635
+              },
+              {
+                "dy": -2,
+                "mae": 79.94183445190157
+              },
+              {
+                "dy": -1,
+                "mae": 77.6575963718821
+              },
+              {
+                "dy": 0,
+                "mae": 73.78295912492804
+              },
+              {
+                "dy": 1,
+                "mae": 66.54732510288066
+              },
+              {
+                "dy": 2,
+                "mae": 46.10559796437659
+              },
+              {
+                "dy": 3,
+                "mae": 13.399833748960932
+              }
+            ],
+            "bestDy": 3
+          }
+        ],
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 888,
+            "aboveNoisePixels": 635,
+            "ratio": 0.005485138240308354,
+            "noiseRatio": 0.003922367998418699,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004308253604766248,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 858,
+            "aboveNoisePixels": 858,
+            "ratio": 0.005299829515973612,
+            "noiseRatio": 0.005299829515973612,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004162704496497118,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "kit-minimal-active-454",
+      "kit": "kit-minimal",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_battery_full"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "9bfbdb30945ab1b8a16fa283d8e77724e5fa4a0c782fd6d1d783f39413730096",
+      "prgSha256": "f000270353520fc74124614c4ce45fbe20d40f0a630632e09a871f1eab0dcc66",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 3.3983519877449164,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 5433,
+        "foregroundRgbMeanAbsoluteError": 96.38020737468557,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 131,
+                "y": 104,
+                "right": 320,
+                "bottom": 385
+              },
+              "native": {
+                "x": 130,
+                "y": 104,
+                "right": 320,
+                "bottom": 384
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 122.44574326127568
+              },
+              {
+                "dy": -2,
+                "mae": 117.90947781961042
+              },
+              {
+                "dy": -1,
+                "mae": 109.65783702677747
+              },
+              {
+                "dy": 0,
+                "mae": 96.38020737468557
+              },
+              {
+                "dy": 1,
+                "mae": 94.37231132661942
+              },
+              {
+                "dy": 2,
+                "mae": 85.30866290018832
+              },
+              {
+                "dy": 3,
+                "mae": 72.68083889418494
+              }
+            ],
+            "bestDy": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-minimal-active-390",
+      "kit": "kit-minimal",
+      "target": "venu441mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_battery_full"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "cebf2734ca869814a08ad756fbb4603262714640b29c64b56c43aaed2c3e7297",
+      "prgSha256": "9a436a05d7fcbda29679a03dfda66d818d3466bc7da5714a13a4cb98cbbe2231",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 3.845409859846456,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 4374,
+        "foregroundRgbMeanAbsoluteError": 99.90062490474013,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 112,
+                "y": 89,
+                "right": 275,
+                "bottom": 330
+              },
+              "native": {
+                "x": 112,
+                "y": 88,
+                "right": 275,
+                "bottom": 330
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 120.42048281890929
+              },
+              {
+                "dy": -2,
+                "mae": 117.4434162725341
+              },
+              {
+                "dy": -1,
+                "mae": 109.66623329721921
+              },
+              {
+                "dy": 0,
+                "mae": 99.90062490474013
+              },
+              {
+                "dy": 1,
+                "mae": 98.5629646662068
+              },
+              {
+                "dy": 2,
+                "mae": 90.10395269218799
+              },
+              {
+                "dy": 3,
+                "mae": 74.53413173652694
+              }
+            ],
+            "bestDy": 3
+          }
+        ]
+      }
+    },
+    {
+      "id": "kit-minimal-forced-aod-454",
+      "kit": "kit-minimal",
+      "target": "venu445mm",
+      "aod": true,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_battery_full"
+      ],
+      "browserAodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 888,
+        "aboveNoisePixels": 635,
+        "ratio": 0.005485138240308354,
+        "noiseRatio": 0.003922367998418699,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.004308253604766248,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-69-sleep-frame-ready-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "b7ffc1b7570082428e0fa61317357a7ca26806135a6e61cb153cee3de4177134",
+      "prgSha256": "461ea20efdebf0aef4f570bdfaed9e763a49c886a05cd1f57372f031d047bba6",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.41741407852148343,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 579,
+        "foregroundRgbMeanAbsoluteError": 73.78295912492804,
+        "rows": [
+          {
+            "layerId": "whole-watchface",
+            "family": "actual kit resources",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 180,
+                "y": 213,
+                "right": 272,
+                "bottom": 245
+              },
+              "native": {
+                "x": 181,
+                "y": 216,
+                "right": 272,
+                "bottom": 248
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 82.34763476347635
+              },
+              {
+                "dy": -2,
+                "mae": 79.94183445190157
+              },
+              {
+                "dy": -1,
+                "mae": 77.6575963718821
+              },
+              {
+                "dy": 0,
+                "mae": 73.78295912492804
+              },
+              {
+                "dy": 1,
+                "mae": 66.54732510288066
+              },
+              {
+                "dy": 2,
+                "mae": 46.10559796437659
+              },
+              {
+                "dy": 3,
+                "mae": 13.399833748960932
+              }
+            ],
+            "bestDy": 3
+          }
+        ],
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 888,
+            "aboveNoisePixels": 635,
+            "ratio": 0.005485138240308354,
+            "noiseRatio": 0.003922367998418699,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004308253604766248,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 858,
+            "aboveNoisePixels": 858,
+            "ratio": 0.005299829515973612,
+            "noiseRatio": 0.005299829515973612,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.004162704496497118,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

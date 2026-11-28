@@ -1,0 +1,49 @@
+{
+  "note": "No hardware or real Sleep acceptance; no model calls",
+  "records": [
+    {
+      "id": "kit-instrument-active-454",
+      "kit": "kit-instrument",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-70-meter-stroke-reset-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "c9ff2151cd7d373bd3cd4847537631201e01759f1f14d7d1d9ad3c6d17c22fe4",
+      "prgSha256": "8d54166b35250da5a7463b3415294f1c409adf7eba6f59eb6231d447a06c437c",
+      "workerDataMode": "simulator-defaults-dynamic"
+    },
+    {
+      "id": "kit-activity-active-454",
+      "kit": "kit-activity",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled clock/date/readouts and ring progress through the actual editable visual-kit project; dynamic original font resources retained; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_heart_pulse"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-70-meter-stroke-reset-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "74409808e49e8848a3613e225325a8edc660921a39eeef1a563d9dbf5f695697",
+      "prgSha256": "30e682e6e3a520d491cc0972a2379559a1c2ea49baa9494e6f6fb69cddd6f0e4",
+      "workerDataMode": "simulator-defaults-dynamic"
+    }
+  ]
+}

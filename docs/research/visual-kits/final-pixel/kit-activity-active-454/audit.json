@@ -1,0 +1,16 @@
+{
+  "status": "succeeded",
+  "error": "",
+  "generatorVersion": "basic-71-meter-pixel-gaps-fixture",
+  "sourceSha256": "6020adcf8bb8f03865f2d7ce9da501bdf9f5e2d5baca43d0243c23b94ab53619",
+  "prgSha256": "4634b1a1215faeb759d9e7aa6c65b1de066664b7c5b1c68f9c1a15c31811b382",
+  "target": "venu445mm",
+  "cleanupStatus": "completed",
+  "applicationMode": "active",
+  "sdkVersion": "9.3.0",
+  "width": 454,
+  "height": 454,
+  "dataMode": "simulator-defaults-dynamic",
+  "sleepTransition": "unverified",
+  "hardware": "unverified"
+}

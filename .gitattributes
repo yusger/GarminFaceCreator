@@ -46,3 +46,6 @@ docs/research/instrument-fonts/** -text
 frontend/tests/baselines/pure-watchface-v1/** -text
 
 docs/research/ai-library-icons/** -text
+
+docs/research/visual-kits/** -text whitespace=cr-at-eol,-blank-at-eof
+docs/research/visual-kits/**/logs.txt whitespace=-blank-at-eol,-blank-at-eof,cr-at-eol
