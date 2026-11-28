@@ -1,13 +1,13 @@
 # trail 混合表盘及精细编辑：当前实施状态
 
-截至阶段143，本轮仍在实施。默认参考13款，trail为单项目三主题；Rider不进默认库。实现先提交推送、核对GitHub SHA，再部署约定测试环境，测试后提交证据。展示环境未更新，Temp保持忽略。
+截至阶段144，本轮仍在实施。默认参考13款，trail为单项目三主题；Rider不进默认库。实现先提交推送、核对GitHub SHA，再部署约定测试环境，测试后提交证据。展示环境未更新，Temp保持忽略。
 
 | 部分 | 当前交付与证据 | 仍待完成/验证 |
 | --- | --- | --- |
 | 数据与图标 | 显式数据槽、格式/图标/目标联动、可换色遮罩；[AI内置图标和原生颜色](research/ai-library-icon-validation.md)已验；[规则](standards/data-source-linkage.md) | 更完整主题角色及外部新契约 |
 | 图表 | 每日活动、小时心率、聚合/缺失/样式/阈值；[固定数据绘图](research/chart-drawing-fixture-validation.md) | 真实历史覆盖、实际Sleep/重启等生命周期 |
 | 字体 | 本地TTF/OTF、浏览器内转换及固定像素FNT＋PNG；字形/图集预算、许可、共享字偶距；[原生对照](research/bitmap-font-validation.md) | [精细排版及三种字体原生对照](research/bitmap-typography-validation.md)已验；真实细线/角形/紧凑三类字体28px原生已验；视觉套件及完整表盘排版继续推进 |
-| 三主题 | 预设/独立颜色、数据与开关覆盖、单一应用身份、原生分组菜单、每主题背景；[原生交互](research/native-theme-settings-validation.md) | 已验45mm实际切换/数据/颜色/秒数开关/当前重置、主题与背景正常退出重载；[单设备主题定义更新](standards/theme-definition-upgrade.md)页面已验；非默认覆盖的原生重载/跨PRG升级、最终全矩阵和41mm原生交互待验 |
+| 三主题 | 预设/独立颜色、数据与开关覆盖、单一应用身份、原生分组菜单、每主题背景；[原生交互](research/native-theme-settings-validation.md) | 已验45mm实际切换/数据/颜色/秒数开关/当前重置、主题与背景正常退出重载；[单/多设备主题定义更新](standards/theme-definition-upgrade.md)页面已验；非默认覆盖的原生重载/跨PRG升级、最终全矩阵和41mm原生交互待验 |
 | 新来源 | 血氧、连接、久坐、天气、日出日落等；[来源范围](standards/additional-data-sources.md) | 真实传感器和设备限制继续分别核验 |
 | 月相 | 受限UTC估算、图标/照明读数、两尺寸及受控AOD；[实测](research/moon-validation.md) | 不宣称精密历书、本地天空倾角或真实Sleep |
 | 几何 | 简单凹多边形及受限原生单轮廓；[原生记录](research/concave-native-validation.md) | 路径、虚线、刻度与样式实例等后续评估/交付 |
@@ -23,3 +23,6 @@
 
 
 阶段143交付15个布局模板中的三套视觉套件、独立AOD创建检查及精确本地字体准备；[原生记录](research/visual-kit-validation.md)保存前后原图、一次未再现的启动失败及不完整采集，不冒称完整矩阵。最终basic71五组原生成功，网页8项、两尺寸SDK六项及追加41mm两项通过。完整Plan仍待E角色/新契约、G和trail最终对照；展示环境未动，未增加付费调用。
+
+
+阶段144：6a7771e已部署测试环境，主题共享定义升级保留设备字体、几何和兼容配置，删除/变更对象有诊断，撤销恢复完整设备设计并保留当前源码历史为过期。113整组28项及复合/AI补充3项通过；[规则与记录](standards/theme-definition-upgrade.md)。新外部主题契约、主题角色、几何复用、最终矩阵及跨PRG设置迁移仍未完成。无新增native或付费调用，worker仍截至阶段143只读87/100，计划结束仍须恢复50和前台10/30。

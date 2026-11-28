@@ -1,3 +1,4 @@
+import {CHAT_PROMPT_VERSION} from "../src/aiRequestHistory";
 import {sourceContractVersion} from "../src/sourceAdapters";
 import {capabilityVersion} from "../src/capabilities";
 import {GENERATION_FIELD_CONTRACT_VERSION} from "../src/generationFields";
@@ -248,7 +249,7 @@ test("chat browser applies multiple turns, undo/redo, folds and persists editabl
       (s: any) =>
         s.kind === "chat" &&
         s.status === "response" &&
-        s.promptVersion === "chat-16-moon" &&
+        s.promptVersion === CHAT_PROMPT_VERSION &&
         s.profileId === "chat-test" && s.sourceContractVersion === sourceContractVersion &&
         s.context?.version === "request-context-1" && s.context.target === "venu445mm" && s.context.inputFingerprint.startsWith("local-v1:"),
     ),
