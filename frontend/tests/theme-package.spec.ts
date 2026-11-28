@@ -98,8 +98,9 @@ for (const target of ["venu445mm", "venu441mm"])
         for (const a of await h.preparedAssets(p))
           f.append("files", await (await fetch(a.data)).blob(), a.path);
         const r = await fetch("/api/builds", { method: "POST", body: f });
-        return { status: r.status, body: await r.json() };
+        return { status: r.status, body: await r.json(),fileCount:f.getAll("files").length };
       }, q);
+      expect(submitted.fileCount).toBeLessThanOrEqual(100);
       expect(submitted.status, JSON.stringify(submitted.body)).toBe(202);
       const job = submitted.body,
         headers = { Authorization: "Bearer " + job.accessToken };

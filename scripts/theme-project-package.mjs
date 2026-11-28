@@ -176,8 +176,10 @@ export async function convertThemePackage(directory) {
     png(bytes);
     const license = await resource(b.noticeFile, "notice");
     if (!license.toString("utf8").trim()) throw Error("Empty image license");
-    for (const l of matches)
+    for (const l of matches){
       l.image = "data:image/png;base64," + bytes.toString("base64");
+      if(advanced)l.assetId="theme_image_"+sha(bytes);
+    }
   }
   for (const l of layers())
     if (l.kind === "image" && !imageIds.has(l.id))
