@@ -17,6 +17,21 @@ gfc_ui_stop_simulator(){
  wait "$spid" 2>/dev/null || true
  if [[ -n "$mpid" ]]; then kill "$mpid" 2>/dev/null || true; fi
 }
+gfc_ui_seed_settings(){
+ # Operator fixture only: one bounded SDK-produced SET, fixed sandbox path, no host/API input.
+ local seed=/output/theme-ui-settings.seed request=/output/theme-ui-settings.seed.sha256 digest bytes
+ [[ -e "$seed" || -e "$request" ]] || return 0
+ [[ -f "$seed" && ! -L "$seed" ]] || return 12
+ bytes=$(wc -c < "$seed")
+ (( bytes > 0 && bytes <= 65536 )) || return 12
+ digest=$(sha256sum "$seed" | cut -d' ' -f1)
+ gfc_ui_hash_request "$request" "$digest" || return 12
+ local directory=/tmp/com.garmin.connectiq/GARMIN/APPS/SETTINGS
+ [[ -d "$directory" && ! -L "$directory" && ! -L "$directory/WATCHFACE.SET" ]] || return 12
+ cp -- "$seed" "$directory/WATCHFACE.SET"
+ printf 'settingsSeedSha256=%s\nsettingsSeedBytes=%s\n' "$digest" "$bytes" >> /output/theme-ui-session.txt
+}
+
 gfc_theme_ui_gate(){
  local expected deadline restarted=0 readyCount
  expected=$(sha256sum /input/watchface.prg | cut -d' ' -f1)
@@ -35,6 +50,7 @@ gfc_theme_ui_gate(){
    restarted=1
    printf 'restartRequested=true\n' >> /output/theme-ui-session.txt
    gfc_ui_stop_simulator
+   gfc_ui_seed_settings
    gfc_start_simulator
    gfc_start_app
    readyCount=0

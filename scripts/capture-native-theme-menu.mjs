@@ -3,8 +3,9 @@ import { chromium } from "@playwright/test";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
+import path from "node:path";
 const scenario = process.argv[2];
-if (!["themes", "persistence", "overrides", "matrix45", "matrix41", "inspect41", "lifecycle41", "persistence41", "lifecycle45"].includes(scenario))
+if (!["themes", "persistence", "overrides", "matrix45", "matrix41", "inspect41", "lifecycle41", "persistence41", "lifecycle45", "upgrade41"].includes(scenario))
   throw Error("Choose explicit themes, persistence or overrides scenario");
 const matrix=scenario.startsWith("matrix");
 const dir = "Temp/native-theme-ui-" + scenario + "-" + Date.now();
@@ -51,7 +52,19 @@ const exec = (cmd) =>
       );
     }),
   );
-const nonce = crypto.randomBytes(16).toString("hex"),
+let upgradeSeed, upgradeIdentity;
+if(scenario==="upgrade41"){
+ const from=path.resolve(process.env.GFC_NATIVE_UPGRADE_FROM||"");
+ if(!from.startsWith(path.resolve("Temp")+path.sep))throw Error("Upgrade evidence must be inside ignored Temp");
+ const session=JSON.parse(await readFile(path.join(from,"session.json"),"utf8"));
+ const prior=JSON.parse(await readFile(path.join(from,"native.json"),"utf8"));
+ if(prior.status!=="succeeded"||prior.target!=="venu441mm"||prior.report?.cleanupStatus!=="completed"||!/^[a-f0-9]{32}$/.test(session.nonce))throw Error("Require successful same-target source identity");
+ upgradeSeed=await readFile(path.join(from,"settings.set"));
+ if(!upgradeSeed.length||upgradeSeed.length>65536)throw Error("SDK SET size is out of bounds");
+ upgradeIdentity=session.nonce;
+ await writeFile(dir+"/upgrade-source.json",JSON.stringify({appId:upgradeIdentity,target:prior.target,priorPrgSha256:prior.prgSha256,seedSha256:crypto.createHash("sha256").update(upgradeSeed).digest("hex"),seedBytes:upgradeSeed.length},null,2));
+}
+const nonce = upgradeIdentity||crypto.randomBytes(16).toString("hex"),
   url = endpoint.href.replace(/\/$/, "");
 if (process.env.GFC_NATIVE_FIXTURE_TEST !== "1" || !url)
   throw Error("Explicit native test URL required");
@@ -87,8 +100,12 @@ try {
   );
   const result = await page.evaluate(
     async ({ p, nonce,scenario,matrix }) => {
+      if(scenario==="upgrade41"){
+        p.name="trail upgrade v2";
+        p.themes.presets[0].backgroundColor="#14202B";
+      }
       const h = matrix?window.gfcTrailMatrix:window.gfcThemeUiFixture;
-      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce,["inspect41","lifecycle41","persistence41"].includes(scenario)?"venu441mm":"venu445mm"),
+      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce,["inspect41","lifecycle41","persistence41","upgrade41"].includes(scenario)?"venu441mm":"venu445mm"),
         form = new FormData();
       form.append(
         "project",
@@ -208,7 +225,12 @@ close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; 
 `;
   let script =
     common +
-    (scenario.startsWith("lifecycle")?`xdotool mousemove 65 12 click 1 mousemove 174 994
+    (scenario==="upgrade41"?`sha256sum /input/watchface.prg | cut -d' ' -f1 > /output/theme-ui-restart.request
+for i in $(seq 1 30); do test -f /output/theme-ui-restart.ready && break; sleep 1; done
+test -f /output/theme-ui-restart.ready
+sleep 2
+import -window root /output/ui-upgraded.png
+`:scenario.startsWith("lifecycle")?`xdotool mousemove 65 12 click 1 mousemove 174 994
 sleep 1.6
 xdotool mousemove 170 815
 sleep 1.2
@@ -227,6 +249,10 @@ sha256sum /input/watchface.prg | cut -d' ' -f1 > /output/theme-ui-restart.reques
 for i in $(seq 1 30); do test -f /output/theme-ui-restart.ready && break; sleep 1; done
 test -f /output/theme-ui-restart.ready
 find "$HOME" /tmp /output -type f -iname '*.set' -print > /output/ui-settings-paths.txt
+settings=/tmp/com.garmin.connectiq/GARMIN/APPS/SETTINGS/WATCHFACE.SET
+test -f "$settings" && test ! -L "$settings" && test "$(wc -c < "$settings")" -le 65536
+cp "$settings" /output/ui-settings.set
+sleep 2
 `:scenario==="inspect41"?`open_settings
 import -window root /output/ui-root41.png
 xdotool mousemove 287 406 click 1
@@ -334,6 +360,10 @@ sha256sum /input/watchface.prg | cut -d' ' -f1 > /output/theme-ui-restart.reques
 for i in $(seq 1 30); do test -f /output/theme-ui-restart.ready && break; sleep 1; done
 test -f /output/theme-ui-restart.ready
 import -window root /output/ui-after-restart.png
+settings=/tmp/com.garmin.connectiq/GARMIN/APPS/SETTINGS/WATCHFACE.SET
+test -f "$settings" && test ! -L "$settings" && test "$(wc -c < "$settings")" -le 65536
+cp "$settings" /output/ui-settings.set
+sleep 2
 `
       : `open_settings
 import -window root /output/ui-root.png
@@ -353,6 +383,10 @@ close_settings
 import -window root /output/ui-vital.png
 `);
   if(scenario==="persistence41")script=script.replaceAll("325 431","287 406").replaceAll("325 572","287 527");
+  if(scenario==="upgrade41"){
+    const digest=crypto.createHash("sha256").update(upgradeSeed).digest("hex");
+    await exec(`docker exec ${container} sh -c 'printf %s ${upgradeSeed.toString("base64")} | base64 -d > /output/theme-ui-settings.seed; printf %s ${digest} > /output/theme-ui-settings.seed.sha256'`);
+  }
   const quoted = "'" + script.replaceAll("'", "'\\''") + "'";
   console.log(
     (await exec(`docker exec ${container} bash -c ${quoted}`)).toString(),
@@ -373,7 +407,8 @@ import -window root /output/ui-vital.png
         await exec(`docker exec ${container} cat /output/${n}`),
       );
   }
-  if(scenario.startsWith("lifecycle"))await writeFile(dir+"/settings-paths.txt",await exec(`docker exec ${container} cat /output/ui-settings-paths.txt`));
+  if(scenario==="persistence41")await writeFile(dir+"/settings.set",await exec(`docker exec ${container} cat /output/ui-settings.set`));
+  if(scenario.startsWith("lifecycle")){await writeFile(dir+"/settings-paths.txt",await exec(`docker exec ${container} cat /output/ui-settings-paths.txt`));await writeFile(dir+"/settings.set",await exec(`docker exec ${container} cat /output/ui-settings.set`));}
   await writeFile(
     dir + "/observations.log",
     await exec(`docker exec ${container} cat /output/monkeydo.log`),
@@ -424,6 +459,14 @@ import -window root /output/ui-vital.png
     const last=observations.split("GFC_THEME_UI_STATE ").at(-1);
     for(const expected of ["Gfc_Source_apex_value_apex_tl=588927973","Gfc_apex_value_apex_tl_color=16777215","Gfc_apex_show_seconds=false"]){if(!last?.startsWith("apex\n")||!last.includes(expected))throw Error("Independent override not persisted: "+expected);}
     if(!(await readFile(dir+"/session-result.txt","utf8")).includes("samePrgRestartReady=true"))throw Error("Same PRG restart not observed");
+  }
+  if(scenario==="upgrade41"){
+    const last=observations.split("GFC_THEME_UI_STATE ").at(-1);
+    if(!last?.startsWith("trail\n")||!last.includes("Gfc_Background_2078923795=0"))throw Error("Old SET theme/background not preserved across PRGs");
+    const audit=JSON.parse(await readFile(dir+"/upgrade-source.json","utf8"));
+    if(audit.priorPrgSha256===digest)throw Error("Upgrade must actually use a different PRG");
+    const session=await readFile(dir+"/session-result.txt","utf8");
+    if(!session.includes("samePrgRestartReady=true")||!session.includes("settingsSeedSha256="+audit.seedSha256))throw Error("SET seed restore or immutable new PRG restart not confirmed");
   }
   if(scenario.startsWith("lifecycle")&&(!observations.includes("GFC_LIFECYCLE enterSleep")||!observations.includes("GFC_LIFECYCLE exitSleep")))throw Error("Actual enterSleep/exitSleep callbacks not observed; screenshots alone do not pass");
   if(matrix){for(let i=0;i<12;i++)if(!observations.includes("GFC_MATRIX_FRAME="+i+" vm="))throw Error("Missing controlled matrix frame "+i);}
