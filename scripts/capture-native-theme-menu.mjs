@@ -382,6 +382,7 @@ sleep 1.2
 close_settings
 import -window root /output/ui-vital.png
 `);
+  if(scenario==="paid45"&&process.env.GFC_AI_THEME_AUTO_EXIT==="1")script=script.replaceAll("\nclose_settings\n","\n");
   if(scenario==="paid45")script+=`xdotool mousemove 65 12 click 1 mousemove 174 994
 sleep 1.6
 xdotool mousemove 170 815
@@ -495,13 +496,14 @@ import -window root /output/ui-vital-active.png
       {
         scenario,
         states,
+        ...(scenario==="paid45"?{aiThemes:[...observations.matchAll(/GFC_AI_THEME=(\d+)/g)].map(m=>Number(m[1])),themeAutoExit:process.env.GFC_AI_THEME_AUTO_EXIT==="1"}:{}),
         prgSha256: digest,
         sourceSha256: native.sourceSha256,
         cleanupStatus: native.report.cleanupStatus,
         applicationDataMode: matrix?"controlled-fixed-data":native.report.dataMode,
-        aodMode:matrix?"forced rendering; not lifecycle":scenario.startsWith("lifecycle")?"actual SDK Display Mode Always-On":"unverified",
+        aodMode:matrix?"forced rendering; not lifecycle":(scenario.startsWith("lifecycle")||scenario==="paid45")?"actual SDK Display Mode Always-On":"unverified",
         hardware: "unverified",
-        sleepTransition: scenario.startsWith("lifecycle")?"observed SDK enterSleep and exitSleep; not hardware":"unverified",
+        sleepTransition: (scenario.startsWith("lifecycle")||scenario==="paid45")?"observed SDK enterSleep and exitSleep; not hardware":"unverified",
       },
       null,
       2,
