@@ -1,0 +1,14 @@
+{
+  "scenario": "themes",
+  "states": [
+    "apex",
+    "trail",
+    "vital"
+  ],
+  "prgSha256": "03b9b6795913084e2d8800e615d0b0abda5372d453b99c7fb26f5c630dddcb53",
+  "sourceSha256": "05337a1cefde7e29e6114d484f714071573d8c85c0502df5ad0d197c58cb5416",
+  "cleanupStatus": "completed",
+  "applicationDataMode": "simulator-defaults-dynamic",
+  "hardware": "unverified",
+  "sleepTransition": "unverified"
+}

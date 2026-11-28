@@ -1,0 +1,45 @@
+{
+  "implementation": "9cca5a29a08928a5a11e45ac811584df413693a3",
+  "generatorVersion": "basic-75-shared-slot-text-fixture",
+  "measurement": "System.getSystemStats at observed update entry; not a peak or hardware measurement",
+  "firstFrame": {
+    "used": 102624,
+    "total": 126784,
+    "free": 24160
+  },
+  "afterThemeChange": {
+    "used": 111464,
+    "total": 126784,
+    "free": 15320
+  },
+  "artifacts": [
+    {
+      "name": "boot.png",
+      "sha256": "efe9a2a2dd6bcc54d75540ae20550944d6c4a27b4d5d40a88c5b9e3150fba031"
+    },
+    {
+      "name": "ui-trail.png",
+      "sha256": "60ca996f6ef28f972e782afa1221f54f7550b89aff0128a0e071a7b1e9fb0131"
+    },
+    {
+      "name": "ui-vital.png",
+      "sha256": "8c5940f2f1f5fb65821370cc6cb2887b47b6d6e403c935d24ee7e4bcb9ff2ae2"
+    },
+    {
+      "name": "ui-root.png",
+      "sha256": "36c995eff73a9dffbfa3cff14d9572522442fdcf38686471e41760203aa7e698"
+    },
+    {
+      "name": "ui-themes.png",
+      "sha256": "f849f5afdc5d3d0b34440ea4ca7850558386e3ff4de7aed33473b78e3d9695e5"
+    },
+    {
+      "name": "observations.log",
+      "sha256": "ee563c0f593c99748dd3ecb96c24b5f5de762cd311ec586a4f518a5ba715ac4f"
+    },
+    {
+      "name": "validation.json",
+      "sha256": "511ce22073d2d0073f1a0939dc303be7b7de56d845c265488d3beada999bc53c"
+    }
+  ]
+}

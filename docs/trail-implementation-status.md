@@ -43,3 +43,5 @@
 阶段149：613fd14 已核对GitHub且仅更新113原生worker的失败日志截取。首次basic73原生任务未进入首帧，旧日志仅保留40行堆转储末尾；第二次正常计数复验保留首个异常，明确为 Out Of Memory Error / Failed invoking <symbol>。两次均失败并cleanup completed，未当作三主题视觉通过；worker最后计数89/100，第一次部署镜像基底引用错误发生在服务重建前，改用已缓存的备份标签完成，额度、原账本字节、资源限制及端口均核对未变。C#构建/沙箱检查及首异常保留回归通过；证据docs/research/native-font-memory/failure.json。容器采样不等于表盘VM内存或精确峰值。当前主要原生阻塞是精确字体版本的VM内存，下一步定位栈与减少常驻指标/资源，不能以SDK编译通过宣称Plan完成。没有新增付费调用，展示环境未动；结束恢复worker50与前台10/30。
 
 阶段150/151内存排查：basic74首帧仍OOM，VM报告116352/126784字节已用（与Docker采样分开）。安全失败记录 docs/research/native-font-memory/lazy-metrics-failure.json。basic75只合并非文本参数完全一致的终端位图文字调用，原分支取值、格式和颜色保留；本地语义执行对照、主题/字体7项通过，2项SDK明确跳过，构建通过。尚待113实际验证，完整Plan未完成。
+
+阶段151实际原生：9cca5a2 已核对GitHub并部署113。basic75同一完整PRG成功首帧、原生菜单和Apex→Trail→Vital切换，cleanup completed；启动可用VM24160字节，切换观察点15320字节，非峰值/真机数据。截图/摘要与日志在 docs/research/native-font-memory/shared-slot-text。并未验证全部设置重载、跨版本或Sleep；下一步继续精简菜单重复实例化代码，保留设置键和选项顺序。
