@@ -1,0 +1,60 @@
+{
+  "profile": "theme-project-v2",
+  "schemaVersion": 50,
+  "fonts": [
+    {
+      "id": "chalk",
+      "name": "粉笔手写",
+      "family": "Permanent Marker",
+      "file": "PermanentMarker-Regular.ttf",
+      "license": "Apache-2.0",
+      "usage": "数字与英文",
+      "sha256": "28f82c8a7943cb8e9d599f8554da1d4fc75dbcf69b9885ad6c0611d20c6946c5"
+    },
+    {
+      "id": "chalkHan",
+      "name": "毛笔中文",
+      "family": "Ma Shan Zheng",
+      "file": "MaShanZheng-Regular.ttf",
+      "license": "SIL OFL 1.1",
+      "usage": "中文与数字",
+      "sha256": "6d2546bb189c732a8ca29af9e22457b152387d158aa459e4ac2ce1e51788b7fb"
+    },
+    {
+      "id": "sonar_label_font",
+      "name": "窄体信息字",
+      "family": "Barlow Semi Condensed",
+      "file": "sonar-label-font.ttf",
+      "license": "SIL OFL 1.1",
+      "usage": "紧凑数据与标签",
+      "sha256": "4998b693a190b76f2b11315844345a8546c1e2e6a320905507a9eed04edf8b48"
+    },
+    {
+      "id": "sonar_number_font",
+      "name": "等宽科技字",
+      "family": "Share Tech Mono",
+      "file": "sonar-number-font.ttf",
+      "license": "SIL OFL 1.1",
+      "usage": "时间与仪表数字",
+      "sha256": "9ceab1f87414829af259c0f537573ae03ef7dd3147c0b27a36a1a0beb6732677"
+    },
+    {
+      "id": "rajdhani_light",
+      "name": "轻线仪表字",
+      "family": "Rajdhani Light",
+      "file": "Rajdhani-Light.ttf",
+      "license": "SIL OFL 1.1",
+      "usage": "细线数字与英文标签",
+      "sha256": "140e9f13af69538161c5780fcf7f81594c069aea887e7bffd417ae1c641213c3"
+    },
+    {
+      "id": "rajdhani_bold",
+      "name": "角形仪表字",
+      "family": "Rajdhani Bold",
+      "file": "Rajdhani-Bold.ttf",
+      "license": "SIL OFL 1.1",
+      "usage": "角形数字与紧凑英文",
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+    }
+  ]
+}

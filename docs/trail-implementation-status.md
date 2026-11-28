@@ -51,3 +51,5 @@
 阶段152原生结果：14a16e9已部署113；basic76首帧与正常退出重启成功、cleanup completed，VM启动free43168字节。步数来源、背景隐藏与秒数隐藏在重启后保持。脚本两次滑动未进入预期颜色组，实际操作了背景装饰开关，因此颜色验收明确失败/未测，不归因设置丢失；已改用与已测数据组相同单次滑动后的第三行，并增加实际组身份日志待复验。证据 docs/research/native-font-memory/compact-menu。
 
 阶段152复验：162a114的修正验收使用113当前basic76，完整PRG成功；正常退出重启后来源=steps、独立颜色=#FFFFFF、show_seconds=false，背景仍原默认true。samePrgRestartReady、摘要及cleanup completed均核对；VM重启入口free43120字节。113菜单、主题/AI/页面相关11项通过，2项SDK显式跳过；实际本轮45mm SDK/原生已通过。证据 docs/research/native-font-memory/override-restart。下一步E独立精确主题契约、最终全尺寸视觉/Sleep和付费对照，不能宣称整个Plan完成。
+
+阶段153实现：独立theme-project-v2（Schema50）允许32存储/多主题目标16且每主题每模式8份字体、32字体角色，以及封闭组件主样式/实例覆盖；旧theme-project-v1和deterministic-v2均保持冻结。完整trail交付示例30字体资源（28BMF+2TTF）、27角色、66图像绑定去重12文件、89清单文件、102语义用例及12真实浏览器预览，约2.26MB。AOD颜色检查按AOD实色，不套用亮屏阈值。30项新旧Node契约回归通过、页面导入/编辑/导出/重开通过（首轮仅颜色大小写断言修正）、构建通过。离线转换仍只返回工程草稿，发布API未上线；待推送后113 SDK与页面复验。

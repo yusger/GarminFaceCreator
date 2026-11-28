@@ -1,0 +1,6536 @@
+{
+  "format": "gfc-theme-project-cases",
+  "formatVersion": 1,
+  "cases": [
+    {
+      "id": "apex-venu445mm-0",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "72",
+          "apex_value_apex_tr": "4,500",
+          "apex_value_apex_bl": "426",
+          "apex_value_apex_br": "3.50",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-1",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "--",
+          "apex_value_apex_tr": "0",
+          "apex_value_apex_bl": "0",
+          "apex_value_apex_br": "0.00",
+          "apex_battery_value": "0%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "00"
+        },
+        "colors": {
+          "apex_battery_meter": "#FF4D5E",
+          "apex_value_apex_tl": "#738594",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-2",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "--",
+          "apex_value_apex_tr": "--",
+          "apex_value_apex_bl": "--",
+          "apex_value_apex_br": "--",
+          "apex_battery_value": "--",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#738594",
+          "apex_value_apex_tl": "#738594",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#738594"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-3",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_date_main",
+          "apex_aod_time",
+          "apex_aod_hr",
+          "apex_aod_hr_label",
+          "apex_aod_battery"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_aod_time": "09:41",
+          "apex_aod_hr": "72",
+          "apex_aod_hr_label": "BPM",
+          "apex_aod_battery": "78%"
+        },
+        "colors": {
+          "apex_aod_hr": "#BDBDBD",
+          "apex_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-4",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_date_main",
+          "apex_aod_time",
+          "apex_aod_hr",
+          "apex_aod_hr_label",
+          "apex_aod_battery"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_aod_time": "09:41",
+          "apex_aod_hr": "--",
+          "apex_aod_hr_label": "BPM",
+          "apex_aod_battery": "0%"
+        },
+        "colors": {
+          "apex_aod_hr": "#BDBDBD",
+          "apex_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-5",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_date_main",
+          "apex_aod_time",
+          "apex_aod_hr",
+          "apex_aod_hr_label",
+          "apex_aod_battery"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_aod_time": "09:41",
+          "apex_aod_hr": "--",
+          "apex_aod_hr_label": "BPM",
+          "apex_aod_battery": "--"
+        },
+        "colors": {
+          "apex_aod_hr": "#BDBDBD",
+          "apex_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-6",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "heartRate",
+        "apex-value-apex-tr": "heartRate",
+        "apex-value-apex-bl": "heartRate",
+        "apex-value-apex-br": "heartRate"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_heartRate",
+          "apex_icon_apex_bl_heartRate",
+          "apex_icon_apex_br_heartRate",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "BPM",
+          "apex_label_apex_bl": "BPM",
+          "apex_label_apex_br": "BPM",
+          "apex_value_apex_tl": "72",
+          "apex_value_apex_tr": "72",
+          "apex_value_apex_bl": "72",
+          "apex_value_apex_br": "72",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-7",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "steps",
+        "apex-value-apex-tr": "steps",
+        "apex-value-apex-bl": "steps",
+        "apex-value-apex-br": "steps"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_steps",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_steps",
+          "apex_icon_apex_br_steps",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "STEPS",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "STEPS",
+          "apex_label_apex_br": "STEPS",
+          "apex_value_apex_tl": "4,500",
+          "apex_value_apex_tr": "4,500",
+          "apex_value_apex_bl": "4,500",
+          "apex_value_apex_br": "4,500",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-8",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "calories",
+        "apex-value-apex-tr": "calories",
+        "apex-value-apex-bl": "calories",
+        "apex-value-apex-br": "calories"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_calories",
+          "apex_icon_apex_tr_calories",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_calories",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "KCAL",
+          "apex_label_apex_tr": "KCAL",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KCAL",
+          "apex_value_apex_tl": "426",
+          "apex_value_apex_tr": "426",
+          "apex_value_apex_bl": "426",
+          "apex_value_apex_br": "426",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-9",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "distance",
+        "apex-value-apex-tr": "distance",
+        "apex-value-apex-bl": "distance",
+        "apex-value-apex-br": "distance"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_distance",
+          "apex_icon_apex_tr_distance",
+          "apex_icon_apex_bl_distance",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "KM",
+          "apex_label_apex_tr": "KM",
+          "apex_label_apex_bl": "KM",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "3.50",
+          "apex_value_apex_tr": "3.50",
+          "apex_value_apex_bl": "3.50",
+          "apex_value_apex_br": "3.50",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-10",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "battery",
+        "apex-value-apex-tr": "battery",
+        "apex-value-apex-bl": "battery",
+        "apex-value-apex-br": "battery"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_battery",
+          "apex_icon_apex_tr_battery",
+          "apex_icon_apex_bl_battery",
+          "apex_icon_apex_br_battery",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "%",
+          "apex_label_apex_tr": "%",
+          "apex_label_apex_bl": "%",
+          "apex_label_apex_br": "%",
+          "apex_value_apex_tl": "78",
+          "apex_value_apex_tr": "78",
+          "apex_value_apex_bl": "78",
+          "apex_value_apex_br": "78",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-11",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "temperature",
+        "apex-value-apex-tr": "temperature",
+        "apex-value-apex-bl": "temperature",
+        "apex-value-apex-br": "temperature"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_temperature",
+          "apex_icon_apex_tr_temperature",
+          "apex_icon_apex_bl_temperature",
+          "apex_icon_apex_br_temperature",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "C",
+          "apex_label_apex_tr": "C",
+          "apex_label_apex_bl": "C",
+          "apex_label_apex_br": "C",
+          "apex_value_apex_tl": "24.0°",
+          "apex_value_apex_tr": "24.0°",
+          "apex_value_apex_bl": "24.0°",
+          "apex_value_apex_br": "24.0°",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-12",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 10,
+          "steps": 10,
+          "battery": 10,
+          "calories": 10,
+          "distance": 10,
+          "temperature": 10,
+          "seconds": 10
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "10",
+          "apex_value_apex_tr": "10",
+          "apex_value_apex_bl": "10",
+          "apex_value_apex_br": "10.00",
+          "apex_battery_value": "10%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "10"
+        },
+        "colors": {
+          "apex_battery_meter": "#FFC04A",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#FFC04A"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-13",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 30,
+          "steps": 30,
+          "battery": 30,
+          "calories": 30,
+          "distance": 30,
+          "temperature": 30,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "30",
+          "apex_value_apex_tr": "30",
+          "apex_value_apex_bl": "30",
+          "apex_value_apex_br": "30.00",
+          "apex_battery_value": "30%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-14",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "steps": 120,
+          "battery": 120,
+          "calories": 120,
+          "distance": 120,
+          "temperature": 120,
+          "seconds": 120
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "120",
+          "apex_value_apex_tr": "120",
+          "apex_value_apex_bl": "120",
+          "apex_value_apex_br": "120.00",
+          "apex_battery_value": "--",
+          "apex_time_main": "09:41",
+          "apex_seconds": "59"
+        },
+        "colors": {
+          "apex_battery_meter": "#738594",
+          "apex_value_apex_tl": "#FFC04A",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#738594"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-15",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "steps": 150,
+          "battery": 150,
+          "calories": 150,
+          "distance": 150,
+          "temperature": 150,
+          "seconds": 150
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "150",
+          "apex_value_apex_tr": "150",
+          "apex_value_apex_bl": "150",
+          "apex_value_apex_br": "150.00",
+          "apex_battery_value": "--",
+          "apex_time_main": "09:41",
+          "apex_seconds": "59"
+        },
+        "colors": {
+          "apex_battery_meter": "#738594",
+          "apex_value_apex_tl": "#FF4D5E",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#738594"
+        }
+      }
+    },
+    {
+      "id": "apex-venu445mm-16",
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "--",
+          "apex_value_apex_tr": "0",
+          "apex_value_apex_bl": "0",
+          "apex_value_apex_br": "0.00",
+          "apex_battery_value": "0%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "00"
+        },
+        "colors": {
+          "apex_battery_meter": "#FF4D5E",
+          "apex_value_apex_tl": "#738594",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-0",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "24°",
+          "trail_value_trail_tr": "3.5",
+          "trail_value_trail_bl": "72",
+          "trail_value_trail_br": "4,500",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-1",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "0°",
+          "trail_value_trail_tr": "0.0",
+          "trail_value_trail_bl": "--",
+          "trail_value_trail_br": "0",
+          "trail_battery_value": "0%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "00"
+        },
+        "colors": {
+          "trail_battery_meter": "#FF4D5E",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#6E6A62",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-2",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "--",
+          "trail_value_trail_tr": "--",
+          "trail_value_trail_bl": "--",
+          "trail_value_trail_br": "--",
+          "trail_battery_value": "--",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#6E6A62",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#6E6A62",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#6E6A62"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-3",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_date_main",
+          "trail_aod_time",
+          "trail_aod_temp",
+          "trail_aod_dot",
+          "trail_aod_distance",
+          "trail_aod_km",
+          "trail_aod_battery"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_aod_time": "09:41",
+          "trail_aod_temp": "24°",
+          "trail_aod_dot": "·",
+          "trail_aod_distance": "3.5",
+          "trail_aod_km": "KM",
+          "trail_aod_battery": "78%"
+        },
+        "colors": {
+          "trail_aod_temp": "#BDBDBD",
+          "trail_aod_distance": "#BDBDBD",
+          "trail_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-4",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_date_main",
+          "trail_aod_time",
+          "trail_aod_temp",
+          "trail_aod_dot",
+          "trail_aod_distance",
+          "trail_aod_km",
+          "trail_aod_battery"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_aod_time": "09:41",
+          "trail_aod_temp": "0°",
+          "trail_aod_dot": "·",
+          "trail_aod_distance": "0.0",
+          "trail_aod_km": "KM",
+          "trail_aod_battery": "0%"
+        },
+        "colors": {
+          "trail_aod_temp": "#BDBDBD",
+          "trail_aod_distance": "#BDBDBD",
+          "trail_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-5",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_date_main",
+          "trail_aod_time",
+          "trail_aod_temp",
+          "trail_aod_dot",
+          "trail_aod_distance",
+          "trail_aod_km",
+          "trail_aod_battery"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_aod_time": "09:41",
+          "trail_aod_temp": "--",
+          "trail_aod_dot": "·",
+          "trail_aod_distance": "--",
+          "trail_aod_km": "KM",
+          "trail_aod_battery": "--"
+        },
+        "colors": {
+          "trail_aod_temp": "#BDBDBD",
+          "trail_aod_distance": "#BDBDBD",
+          "trail_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-6",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "heartRate",
+        "trail-value-trail-tr": "heartRate",
+        "trail-value-trail-bl": "heartRate",
+        "trail-value-trail-br": "heartRate"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_heartRate",
+          "trail_icon_trail_tr_heartRate",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_heartRate",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "BPM",
+          "trail_label_trail_tr": "BPM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "BPM",
+          "trail_value_trail_tl": "72",
+          "trail_value_trail_tr": "72",
+          "trail_value_trail_bl": "72",
+          "trail_value_trail_br": "72",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-7",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "steps",
+        "trail-value-trail-tr": "steps",
+        "trail-value-trail-bl": "steps",
+        "trail-value-trail-br": "steps"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_steps",
+          "trail_icon_trail_tr_steps",
+          "trail_icon_trail_bl_steps",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "STEPS",
+          "trail_label_trail_tr": "STEPS",
+          "trail_label_trail_bl": "STEPS",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "4,500",
+          "trail_value_trail_tr": "4,500",
+          "trail_value_trail_bl": "4,500",
+          "trail_value_trail_br": "4,500",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-8",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "calories",
+        "trail-value-trail-tr": "calories",
+        "trail-value-trail-bl": "calories",
+        "trail-value-trail-br": "calories"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_calories",
+          "trail_icon_trail_tr_calories",
+          "trail_icon_trail_bl_calories",
+          "trail_icon_trail_br_calories",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "KCAL",
+          "trail_label_trail_tr": "KCAL",
+          "trail_label_trail_bl": "KCAL",
+          "trail_label_trail_br": "KCAL",
+          "trail_value_trail_tl": "426",
+          "trail_value_trail_tr": "426",
+          "trail_value_trail_bl": "426",
+          "trail_value_trail_br": "426",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-9",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "distance",
+        "trail-value-trail-tr": "distance",
+        "trail-value-trail-bl": "distance",
+        "trail-value-trail-br": "distance"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_distance",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_distance",
+          "trail_icon_trail_br_distance",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "KM",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "KM",
+          "trail_label_trail_br": "KM",
+          "trail_value_trail_tl": "3.50",
+          "trail_value_trail_tr": "3.5",
+          "trail_value_trail_bl": "3.50",
+          "trail_value_trail_br": "3.50",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-10",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "battery",
+        "trail-value-trail-tr": "battery",
+        "trail-value-trail-bl": "battery",
+        "trail-value-trail-br": "battery"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_battery",
+          "trail_icon_trail_tr_battery",
+          "trail_icon_trail_bl_battery",
+          "trail_icon_trail_br_battery",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "%",
+          "trail_label_trail_tr": "%",
+          "trail_label_trail_bl": "%",
+          "trail_label_trail_br": "%",
+          "trail_value_trail_tl": "78",
+          "trail_value_trail_tr": "78",
+          "trail_value_trail_bl": "78",
+          "trail_value_trail_br": "78",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-11",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "temperature",
+        "trail-value-trail-tr": "temperature",
+        "trail-value-trail-bl": "temperature",
+        "trail-value-trail-br": "temperature"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_temperature",
+          "trail_icon_trail_bl_temperature",
+          "trail_icon_trail_br_temperature",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "C",
+          "trail_label_trail_bl": "C",
+          "trail_label_trail_br": "C",
+          "trail_value_trail_tl": "24°",
+          "trail_value_trail_tr": "24.0°",
+          "trail_value_trail_bl": "24.0°",
+          "trail_value_trail_br": "24.0°",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-12",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 10,
+          "steps": 10,
+          "battery": 10,
+          "calories": 10,
+          "distance": 10,
+          "temperature": 10,
+          "seconds": 10
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "10°",
+          "trail_value_trail_tr": "10.0",
+          "trail_value_trail_bl": "10",
+          "trail_value_trail_br": "10",
+          "trail_battery_value": "10%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "10"
+        },
+        "colors": {
+          "trail_battery_meter": "#FFC04A",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#FFC04A"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-13",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 30,
+          "steps": 30,
+          "battery": 30,
+          "calories": 30,
+          "distance": 30,
+          "temperature": 30,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "30°",
+          "trail_value_trail_tr": "30.0",
+          "trail_value_trail_bl": "30",
+          "trail_value_trail_br": "30",
+          "trail_battery_value": "30%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-14",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "steps": 120,
+          "battery": 120,
+          "calories": 120,
+          "distance": 120,
+          "temperature": 120,
+          "seconds": 120
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "120°",
+          "trail_value_trail_tr": "120.0",
+          "trail_value_trail_bl": "120",
+          "trail_value_trail_br": "120",
+          "trail_battery_value": "--",
+          "trail_time_main": "09:41",
+          "trail_seconds": "59"
+        },
+        "colors": {
+          "trail_battery_meter": "#6E6A62",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#FFC04A",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#6E6A62"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-15",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "steps": 150,
+          "battery": 150,
+          "calories": 150,
+          "distance": 150,
+          "temperature": 150,
+          "seconds": 150
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "150°",
+          "trail_value_trail_tr": "150.0",
+          "trail_value_trail_bl": "150",
+          "trail_value_trail_br": "150",
+          "trail_battery_value": "--",
+          "trail_time_main": "09:41",
+          "trail_seconds": "59"
+        },
+        "colors": {
+          "trail_battery_meter": "#6E6A62",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#FF4D5E",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#6E6A62"
+        }
+      }
+    },
+    {
+      "id": "trail-venu445mm-16",
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "0°",
+          "trail_value_trail_tr": "0.0",
+          "trail_value_trail_bl": "--",
+          "trail_value_trail_br": "0",
+          "trail_battery_value": "0%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "00"
+        },
+        "colors": {
+          "trail_battery_meter": "#FF4D5E",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#6E6A62",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-0",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "4,500",
+          "vital_value_vital_br": "426",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "72",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-1",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "0",
+          "vital_value_vital_br": "0",
+          "vital_battery_value": "0%",
+          "vital_heart_big": "--",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#FF4D5E",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#FF4D5E",
+          "vital_heart_big": "#54736F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-2",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "--",
+          "vital_value_vital_br": "--",
+          "vital_battery_value": "--",
+          "vital_heart_big": "--",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#54736F",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#54736F",
+          "vital_heart_big": "#54736F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-3",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_aod_time",
+          "vital_aod_hr",
+          "vital_aod_hr_cap",
+          "vital_aod_battery"
+        ],
+        "readings": {
+          "vital_aod_time": "09:41",
+          "vital_aod_hr": "72",
+          "vital_aod_hr_cap": "BPM",
+          "vital_aod_battery": "78%"
+        },
+        "colors": {
+          "vital_aod_hr": "#FFFFFF",
+          "vital_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-4",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_aod_time",
+          "vital_aod_hr",
+          "vital_aod_hr_cap",
+          "vital_aod_battery"
+        ],
+        "readings": {
+          "vital_aod_time": "09:41",
+          "vital_aod_hr": "--",
+          "vital_aod_hr_cap": "BPM",
+          "vital_aod_battery": "0%"
+        },
+        "colors": {
+          "vital_aod_hr": "#FFFFFF",
+          "vital_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-5",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_aod_time",
+          "vital_aod_hr",
+          "vital_aod_hr_cap",
+          "vital_aod_battery"
+        ],
+        "readings": {
+          "vital_aod_time": "09:41",
+          "vital_aod_hr": "--",
+          "vital_aod_hr_cap": "BPM",
+          "vital_aod_battery": "--"
+        },
+        "colors": {
+          "vital_aod_hr": "#FFFFFF",
+          "vital_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-6",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "heartRate",
+        "vital-value-vital-bl": "heartRate",
+        "vital-value-vital-br": "heartRate"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_heartRate",
+          "vital_icon_vital_br_heartRate",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "BPM",
+          "vital_label_vital_br": "BPM",
+          "vital_value_vital_bl": "72",
+          "vital_value_vital_br": "72",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "72",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-7",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "steps",
+        "vital-value-vital-bl": "steps",
+        "vital-value-vital-br": "steps"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_steps",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "STEPS",
+          "vital_value_vital_bl": "4,500",
+          "vital_value_vital_br": "4,500",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "4,500",
+          "vital_hr_unit": "STEPS · DAILY STEPS",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-8",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "calories",
+        "vital-value-vital-bl": "calories",
+        "vital-value-vital-br": "calories"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_calories",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "KCAL",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "426",
+          "vital_value_vital_br": "426",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "426",
+          "vital_hr_unit": "KCAL · CALORIES",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-9",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "distance",
+        "vital-value-vital-bl": "distance",
+        "vital-value-vital-br": "distance"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_distance",
+          "vital_icon_vital_br_distance",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "KM",
+          "vital_label_vital_br": "KM",
+          "vital_value_vital_bl": "3.50",
+          "vital_value_vital_br": "3.50",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "3.50",
+          "vital_hr_unit": "KM · DISTANCE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-10",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "battery",
+        "vital-value-vital-bl": "battery",
+        "vital-value-vital-br": "battery"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_battery",
+          "vital_icon_vital_br_battery",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "%",
+          "vital_label_vital_br": "%",
+          "vital_value_vital_bl": "78",
+          "vital_value_vital_br": "78",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "78",
+          "vital_hr_unit": "% · BATTERY",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-11",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "temperature",
+        "vital-value-vital-bl": "temperature",
+        "vital-value-vital-br": "temperature"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_temperature",
+          "vital_icon_vital_br_temperature",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "C",
+          "vital_label_vital_br": "C",
+          "vital_value_vital_bl": "24.0°",
+          "vital_value_vital_br": "24.0°",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "24.0°",
+          "vital_hr_unit": "C · TEMPERATURE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-12",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 10,
+          "steps": 10,
+          "battery": 10,
+          "calories": 10,
+          "distance": 10,
+          "temperature": 10,
+          "seconds": 10
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "10",
+          "vital_value_vital_br": "10",
+          "vital_battery_value": "10%",
+          "vital_heart_big": "10",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#FFC04A",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#FFC04A",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-13",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 30,
+          "steps": 30,
+          "battery": 30,
+          "calories": 30,
+          "distance": 30,
+          "temperature": 30,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "30",
+          "vital_value_vital_br": "30",
+          "vital_battery_value": "30%",
+          "vital_heart_big": "30",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-14",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "steps": 120,
+          "battery": 120,
+          "calories": 120,
+          "distance": 120,
+          "temperature": 120,
+          "seconds": 120
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "120",
+          "vital_value_vital_br": "120",
+          "vital_battery_value": "--",
+          "vital_heart_big": "120",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#54736F",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#54736F",
+          "vital_heart_big": "#FFC04A"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-15",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "steps": 150,
+          "battery": 150,
+          "calories": 150,
+          "distance": 150,
+          "temperature": 150,
+          "seconds": 150
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "150",
+          "vital_value_vital_br": "150",
+          "vital_battery_value": "--",
+          "vital_heart_big": "150",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#54736F",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#54736F",
+          "vital_heart_big": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "vital-venu445mm-16",
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "0",
+          "vital_value_vital_br": "0",
+          "vital_battery_value": "0%",
+          "vital_heart_big": "--",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#FF4D5E",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#FF4D5E",
+          "vital_heart_big": "#54736F"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-0",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "72",
+          "apex_value_apex_tr": "4,500",
+          "apex_value_apex_bl": "426",
+          "apex_value_apex_br": "3.50",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-1",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "--",
+          "apex_value_apex_tr": "0",
+          "apex_value_apex_bl": "0",
+          "apex_value_apex_br": "0.00",
+          "apex_battery_value": "0%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "00"
+        },
+        "colors": {
+          "apex_battery_meter": "#FF4D5E",
+          "apex_value_apex_tl": "#738594",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-2",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "--",
+          "apex_value_apex_tr": "--",
+          "apex_value_apex_bl": "--",
+          "apex_value_apex_br": "--",
+          "apex_battery_value": "--",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#738594",
+          "apex_value_apex_tl": "#738594",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#738594"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-3",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_date_main",
+          "apex_aod_time",
+          "apex_aod_hr",
+          "apex_aod_hr_label",
+          "apex_aod_battery"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_aod_time": "09:41",
+          "apex_aod_hr": "72",
+          "apex_aod_hr_label": "BPM",
+          "apex_aod_battery": "78%"
+        },
+        "colors": {
+          "apex_aod_hr": "#BDBDBD",
+          "apex_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-4",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_date_main",
+          "apex_aod_time",
+          "apex_aod_hr",
+          "apex_aod_hr_label",
+          "apex_aod_battery"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_aod_time": "09:41",
+          "apex_aod_hr": "--",
+          "apex_aod_hr_label": "BPM",
+          "apex_aod_battery": "0%"
+        },
+        "colors": {
+          "apex_aod_hr": "#BDBDBD",
+          "apex_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-5",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_date_main",
+          "apex_aod_time",
+          "apex_aod_hr",
+          "apex_aod_hr_label",
+          "apex_aod_battery"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_aod_time": "09:41",
+          "apex_aod_hr": "--",
+          "apex_aod_hr_label": "BPM",
+          "apex_aod_battery": "--"
+        },
+        "colors": {
+          "apex_aod_hr": "#BDBDBD",
+          "apex_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-6",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "heartRate",
+        "apex-value-apex-tr": "heartRate",
+        "apex-value-apex-bl": "heartRate",
+        "apex-value-apex-br": "heartRate"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_heartRate",
+          "apex_icon_apex_bl_heartRate",
+          "apex_icon_apex_br_heartRate",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "BPM",
+          "apex_label_apex_bl": "BPM",
+          "apex_label_apex_br": "BPM",
+          "apex_value_apex_tl": "72",
+          "apex_value_apex_tr": "72",
+          "apex_value_apex_bl": "72",
+          "apex_value_apex_br": "72",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-7",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "steps",
+        "apex-value-apex-tr": "steps",
+        "apex-value-apex-bl": "steps",
+        "apex-value-apex-br": "steps"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_steps",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_steps",
+          "apex_icon_apex_br_steps",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "STEPS",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "STEPS",
+          "apex_label_apex_br": "STEPS",
+          "apex_value_apex_tl": "4,500",
+          "apex_value_apex_tr": "4,500",
+          "apex_value_apex_bl": "4,500",
+          "apex_value_apex_br": "4,500",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-8",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "calories",
+        "apex-value-apex-tr": "calories",
+        "apex-value-apex-bl": "calories",
+        "apex-value-apex-br": "calories"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_calories",
+          "apex_icon_apex_tr_calories",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_calories",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "KCAL",
+          "apex_label_apex_tr": "KCAL",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KCAL",
+          "apex_value_apex_tl": "426",
+          "apex_value_apex_tr": "426",
+          "apex_value_apex_bl": "426",
+          "apex_value_apex_br": "426",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-9",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "distance",
+        "apex-value-apex-tr": "distance",
+        "apex-value-apex-bl": "distance",
+        "apex-value-apex-br": "distance"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_distance",
+          "apex_icon_apex_tr_distance",
+          "apex_icon_apex_bl_distance",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "KM",
+          "apex_label_apex_tr": "KM",
+          "apex_label_apex_bl": "KM",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "3.50",
+          "apex_value_apex_tr": "3.50",
+          "apex_value_apex_bl": "3.50",
+          "apex_value_apex_br": "3.50",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-10",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "battery",
+        "apex-value-apex-tr": "battery",
+        "apex-value-apex-bl": "battery",
+        "apex-value-apex-br": "battery"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_battery",
+          "apex_icon_apex_tr_battery",
+          "apex_icon_apex_bl_battery",
+          "apex_icon_apex_br_battery",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "%",
+          "apex_label_apex_tr": "%",
+          "apex_label_apex_bl": "%",
+          "apex_label_apex_br": "%",
+          "apex_value_apex_tl": "78",
+          "apex_value_apex_tr": "78",
+          "apex_value_apex_bl": "78",
+          "apex_value_apex_br": "78",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-11",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "apex-value-apex-tl": "temperature",
+        "apex-value-apex-tr": "temperature",
+        "apex-value-apex-bl": "temperature",
+        "apex-value-apex-br": "temperature"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_temperature",
+          "apex_icon_apex_tr_temperature",
+          "apex_icon_apex_bl_temperature",
+          "apex_icon_apex_br_temperature",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "C",
+          "apex_label_apex_tr": "C",
+          "apex_label_apex_bl": "C",
+          "apex_label_apex_br": "C",
+          "apex_value_apex_tl": "24.0°",
+          "apex_value_apex_tr": "24.0°",
+          "apex_value_apex_bl": "24.0°",
+          "apex_value_apex_br": "24.0°",
+          "apex_battery_value": "78%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-12",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 10,
+          "steps": 10,
+          "battery": 10,
+          "calories": 10,
+          "distance": 10,
+          "temperature": 10,
+          "seconds": 10
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "10",
+          "apex_value_apex_tr": "10",
+          "apex_value_apex_bl": "10",
+          "apex_value_apex_br": "10.00",
+          "apex_battery_value": "10%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "10"
+        },
+        "colors": {
+          "apex_battery_meter": "#FFC04A",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#FFC04A"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-13",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 30,
+          "steps": 30,
+          "battery": 30,
+          "calories": 30,
+          "distance": 30,
+          "temperature": 30,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "30",
+          "apex_value_apex_tr": "30",
+          "apex_value_apex_bl": "30",
+          "apex_value_apex_br": "30.00",
+          "apex_battery_value": "30%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "30"
+        },
+        "colors": {
+          "apex_battery_meter": "#38E1D0",
+          "apex_value_apex_tl": "#38E1D0",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-14",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "steps": 120,
+          "battery": 120,
+          "calories": 120,
+          "distance": 120,
+          "temperature": 120,
+          "seconds": 120
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "120",
+          "apex_value_apex_tr": "120",
+          "apex_value_apex_bl": "120",
+          "apex_value_apex_br": "120.00",
+          "apex_battery_value": "--",
+          "apex_time_main": "09:41",
+          "apex_seconds": "59"
+        },
+        "colors": {
+          "apex_battery_meter": "#738594",
+          "apex_value_apex_tl": "#FFC04A",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#738594"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-15",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "steps": 150,
+          "battery": 150,
+          "calories": 150,
+          "distance": 150,
+          "temperature": 150,
+          "seconds": 150
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "150",
+          "apex_value_apex_tr": "150",
+          "apex_value_apex_bl": "150",
+          "apex_value_apex_br": "150.00",
+          "apex_battery_value": "--",
+          "apex_time_main": "09:41",
+          "apex_seconds": "59"
+        },
+        "colors": {
+          "apex_battery_meter": "#738594",
+          "apex_value_apex_tl": "#FF4D5E",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#738594"
+        }
+      }
+    },
+    {
+      "id": "apex-venu441mm-16",
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "apex_bg_art",
+          "apex_ticks",
+          "apex_icon_apex_tl_heartRate",
+          "apex_icon_apex_tr_steps",
+          "apex_icon_apex_bl_calories",
+          "apex_icon_apex_br_distance",
+          "apex_battery_meter",
+          "apex_date_main",
+          "apex_label_apex_tl",
+          "apex_label_apex_tr",
+          "apex_label_apex_bl",
+          "apex_label_apex_br",
+          "apex_value_apex_tl",
+          "apex_value_apex_tr",
+          "apex_value_apex_bl",
+          "apex_value_apex_br",
+          "apex_battery_value",
+          "apex_time_main",
+          "apex_seconds"
+        ],
+        "readings": {
+          "apex_date_main": "SAT 28",
+          "apex_label_apex_tl": "BPM",
+          "apex_label_apex_tr": "STEPS",
+          "apex_label_apex_bl": "KCAL",
+          "apex_label_apex_br": "KM",
+          "apex_value_apex_tl": "--",
+          "apex_value_apex_tr": "0",
+          "apex_value_apex_bl": "0",
+          "apex_value_apex_br": "0.00",
+          "apex_battery_value": "0%",
+          "apex_time_main": "09:41",
+          "apex_seconds": "00"
+        },
+        "colors": {
+          "apex_battery_meter": "#FF4D5E",
+          "apex_value_apex_tl": "#738594",
+          "apex_value_apex_tr": "#EAF1F6",
+          "apex_value_apex_bl": "#FF6A1A",
+          "apex_value_apex_br": "#FFC04A",
+          "apex_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-0",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "24°",
+          "trail_value_trail_tr": "3.5",
+          "trail_value_trail_bl": "72",
+          "trail_value_trail_br": "4,500",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-1",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "0°",
+          "trail_value_trail_tr": "0.0",
+          "trail_value_trail_bl": "--",
+          "trail_value_trail_br": "0",
+          "trail_battery_value": "0%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "00"
+        },
+        "colors": {
+          "trail_battery_meter": "#FF4D5E",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#6E6A62",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-2",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "--",
+          "trail_value_trail_tr": "--",
+          "trail_value_trail_bl": "--",
+          "trail_value_trail_br": "--",
+          "trail_battery_value": "--",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#6E6A62",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#6E6A62",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#6E6A62"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-3",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_date_main",
+          "trail_aod_time",
+          "trail_aod_temp",
+          "trail_aod_dot",
+          "trail_aod_distance",
+          "trail_aod_km",
+          "trail_aod_battery"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_aod_time": "09:41",
+          "trail_aod_temp": "24°",
+          "trail_aod_dot": "·",
+          "trail_aod_distance": "3.5",
+          "trail_aod_km": "KM",
+          "trail_aod_battery": "78%"
+        },
+        "colors": {
+          "trail_aod_temp": "#BDBDBD",
+          "trail_aod_distance": "#BDBDBD",
+          "trail_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-4",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_date_main",
+          "trail_aod_time",
+          "trail_aod_temp",
+          "trail_aod_dot",
+          "trail_aod_distance",
+          "trail_aod_km",
+          "trail_aod_battery"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_aod_time": "09:41",
+          "trail_aod_temp": "0°",
+          "trail_aod_dot": "·",
+          "trail_aod_distance": "0.0",
+          "trail_aod_km": "KM",
+          "trail_aod_battery": "0%"
+        },
+        "colors": {
+          "trail_aod_temp": "#BDBDBD",
+          "trail_aod_distance": "#BDBDBD",
+          "trail_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-5",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_date_main",
+          "trail_aod_time",
+          "trail_aod_temp",
+          "trail_aod_dot",
+          "trail_aod_distance",
+          "trail_aod_km",
+          "trail_aod_battery"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_aod_time": "09:41",
+          "trail_aod_temp": "--",
+          "trail_aod_dot": "·",
+          "trail_aod_distance": "--",
+          "trail_aod_km": "KM",
+          "trail_aod_battery": "--"
+        },
+        "colors": {
+          "trail_aod_temp": "#BDBDBD",
+          "trail_aod_distance": "#BDBDBD",
+          "trail_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-6",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "heartRate",
+        "trail-value-trail-tr": "heartRate",
+        "trail-value-trail-bl": "heartRate",
+        "trail-value-trail-br": "heartRate"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_heartRate",
+          "trail_icon_trail_tr_heartRate",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_heartRate",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "BPM",
+          "trail_label_trail_tr": "BPM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "BPM",
+          "trail_value_trail_tl": "72",
+          "trail_value_trail_tr": "72",
+          "trail_value_trail_bl": "72",
+          "trail_value_trail_br": "72",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-7",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "steps",
+        "trail-value-trail-tr": "steps",
+        "trail-value-trail-bl": "steps",
+        "trail-value-trail-br": "steps"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_steps",
+          "trail_icon_trail_tr_steps",
+          "trail_icon_trail_bl_steps",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "STEPS",
+          "trail_label_trail_tr": "STEPS",
+          "trail_label_trail_bl": "STEPS",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "4,500",
+          "trail_value_trail_tr": "4,500",
+          "trail_value_trail_bl": "4,500",
+          "trail_value_trail_br": "4,500",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-8",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "calories",
+        "trail-value-trail-tr": "calories",
+        "trail-value-trail-bl": "calories",
+        "trail-value-trail-br": "calories"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_calories",
+          "trail_icon_trail_tr_calories",
+          "trail_icon_trail_bl_calories",
+          "trail_icon_trail_br_calories",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "KCAL",
+          "trail_label_trail_tr": "KCAL",
+          "trail_label_trail_bl": "KCAL",
+          "trail_label_trail_br": "KCAL",
+          "trail_value_trail_tl": "426",
+          "trail_value_trail_tr": "426",
+          "trail_value_trail_bl": "426",
+          "trail_value_trail_br": "426",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-9",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "distance",
+        "trail-value-trail-tr": "distance",
+        "trail-value-trail-bl": "distance",
+        "trail-value-trail-br": "distance"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_distance",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_distance",
+          "trail_icon_trail_br_distance",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "KM",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "KM",
+          "trail_label_trail_br": "KM",
+          "trail_value_trail_tl": "3.50",
+          "trail_value_trail_tr": "3.5",
+          "trail_value_trail_bl": "3.50",
+          "trail_value_trail_br": "3.50",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-10",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "battery",
+        "trail-value-trail-tr": "battery",
+        "trail-value-trail-bl": "battery",
+        "trail-value-trail-br": "battery"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_battery",
+          "trail_icon_trail_tr_battery",
+          "trail_icon_trail_bl_battery",
+          "trail_icon_trail_br_battery",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "%",
+          "trail_label_trail_tr": "%",
+          "trail_label_trail_bl": "%",
+          "trail_label_trail_br": "%",
+          "trail_value_trail_tl": "78",
+          "trail_value_trail_tr": "78",
+          "trail_value_trail_bl": "78",
+          "trail_value_trail_br": "78",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-11",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "trail-value-trail-tl": "temperature",
+        "trail-value-trail-tr": "temperature",
+        "trail-value-trail-bl": "temperature",
+        "trail-value-trail-br": "temperature"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_temperature",
+          "trail_icon_trail_bl_temperature",
+          "trail_icon_trail_br_temperature",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "C",
+          "trail_label_trail_bl": "C",
+          "trail_label_trail_br": "C",
+          "trail_value_trail_tl": "24°",
+          "trail_value_trail_tr": "24.0°",
+          "trail_value_trail_bl": "24.0°",
+          "trail_value_trail_br": "24.0°",
+          "trail_battery_value": "78%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-12",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 10,
+          "steps": 10,
+          "battery": 10,
+          "calories": 10,
+          "distance": 10,
+          "temperature": 10,
+          "seconds": 10
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "10°",
+          "trail_value_trail_tr": "10.0",
+          "trail_value_trail_bl": "10",
+          "trail_value_trail_br": "10",
+          "trail_battery_value": "10%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "10"
+        },
+        "colors": {
+          "trail_battery_meter": "#FFC04A",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#FFC04A"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-13",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 30,
+          "steps": 30,
+          "battery": 30,
+          "calories": 30,
+          "distance": 30,
+          "temperature": 30,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "30°",
+          "trail_value_trail_tr": "30.0",
+          "trail_value_trail_bl": "30",
+          "trail_value_trail_br": "30",
+          "trail_battery_value": "30%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "30"
+        },
+        "colors": {
+          "trail_battery_meter": "#EAF1F6",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#EAF1F6",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#EAF1F6"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-14",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "steps": 120,
+          "battery": 120,
+          "calories": 120,
+          "distance": 120,
+          "temperature": 120,
+          "seconds": 120
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "120°",
+          "trail_value_trail_tr": "120.0",
+          "trail_value_trail_bl": "120",
+          "trail_value_trail_br": "120",
+          "trail_battery_value": "--",
+          "trail_time_main": "09:41",
+          "trail_seconds": "59"
+        },
+        "colors": {
+          "trail_battery_meter": "#6E6A62",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#FFC04A",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#6E6A62"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-15",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "steps": 150,
+          "battery": 150,
+          "calories": 150,
+          "distance": 150,
+          "temperature": 150,
+          "seconds": 150
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "150°",
+          "trail_value_trail_tr": "150.0",
+          "trail_value_trail_bl": "150",
+          "trail_value_trail_br": "150",
+          "trail_battery_value": "--",
+          "trail_time_main": "09:41",
+          "trail_seconds": "59"
+        },
+        "colors": {
+          "trail_battery_meter": "#6E6A62",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#FF4D5E",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#6E6A62"
+        }
+      }
+    },
+    {
+      "id": "trail-venu441mm-16",
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "trail_bg_art",
+          "trail_ticks",
+          "trail_icon_trail_tl_temperature",
+          "trail_icon_trail_tr_distance",
+          "trail_icon_trail_bl_heartRate",
+          "trail_icon_trail_br_steps",
+          "trail_battery_meter",
+          "trail_date_main",
+          "trail_label_trail_tl",
+          "trail_label_trail_tr",
+          "trail_label_trail_bl",
+          "trail_label_trail_br",
+          "trail_value_trail_tl",
+          "trail_value_trail_tr",
+          "trail_value_trail_bl",
+          "trail_value_trail_br",
+          "trail_battery_value",
+          "trail_time_main",
+          "trail_seconds"
+        ],
+        "readings": {
+          "trail_date_main": "SAT 28",
+          "trail_label_trail_tl": "TEMP",
+          "trail_label_trail_tr": "KM",
+          "trail_label_trail_bl": "BPM",
+          "trail_label_trail_br": "STEPS",
+          "trail_value_trail_tl": "0°",
+          "trail_value_trail_tr": "0.0",
+          "trail_value_trail_bl": "--",
+          "trail_value_trail_br": "0",
+          "trail_battery_value": "0%",
+          "trail_time_main": "09:41",
+          "trail_seconds": "00"
+        },
+        "colors": {
+          "trail_battery_meter": "#FF4D5E",
+          "trail_value_trail_tl": "#38E1D0",
+          "trail_value_trail_tr": "#FFC04A",
+          "trail_value_trail_bl": "#6E6A62",
+          "trail_value_trail_br": "#8492A0",
+          "trail_battery_value": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-0",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "4,500",
+          "vital_value_vital_br": "426",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "72",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-1",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "0",
+          "vital_value_vital_br": "0",
+          "vital_battery_value": "0%",
+          "vital_heart_big": "--",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#FF4D5E",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#FF4D5E",
+          "vital_heart_big": "#54736F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-2",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "--",
+          "vital_value_vital_br": "--",
+          "vital_battery_value": "--",
+          "vital_heart_big": "--",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#54736F",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#54736F",
+          "vital_heart_big": "#54736F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-3",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "normal",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_aod_time",
+          "vital_aod_hr",
+          "vital_aod_hr_cap",
+          "vital_aod_battery"
+        ],
+        "readings": {
+          "vital_aod_time": "09:41",
+          "vital_aod_hr": "72",
+          "vital_aod_hr_cap": "BPM",
+          "vital_aod_battery": "78%"
+        },
+        "colors": {
+          "vital_aod_hr": "#FFFFFF",
+          "vital_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-4",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "zero",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_aod_time",
+          "vital_aod_hr",
+          "vital_aod_hr_cap",
+          "vital_aod_battery"
+        ],
+        "readings": {
+          "vital_aod_time": "09:41",
+          "vital_aod_hr": "--",
+          "vital_aod_hr_cap": "BPM",
+          "vital_aod_battery": "0%"
+        },
+        "colors": {
+          "vital_aod_hr": "#FFFFFF",
+          "vital_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-5",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "scenario": "missing",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": true,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_aod_time",
+          "vital_aod_hr",
+          "vital_aod_hr_cap",
+          "vital_aod_battery"
+        ],
+        "readings": {
+          "vital_aod_time": "09:41",
+          "vital_aod_hr": "--",
+          "vital_aod_hr_cap": "BPM",
+          "vital_aod_battery": "--"
+        },
+        "colors": {
+          "vital_aod_hr": "#FFFFFF",
+          "vital_aod_battery": "#8F8F8F"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-6",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "heartRate",
+        "vital-value-vital-bl": "heartRate",
+        "vital-value-vital-br": "heartRate"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_heartRate",
+          "vital_icon_vital_br_heartRate",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "BPM",
+          "vital_label_vital_br": "BPM",
+          "vital_value_vital_bl": "72",
+          "vital_value_vital_br": "72",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "72",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-7",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "steps",
+        "vital-value-vital-bl": "steps",
+        "vital-value-vital-br": "steps"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_steps",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "STEPS",
+          "vital_value_vital_bl": "4,500",
+          "vital_value_vital_br": "4,500",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "4,500",
+          "vital_hr_unit": "STEPS · DAILY STEPS",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-8",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "calories",
+        "vital-value-vital-bl": "calories",
+        "vital-value-vital-br": "calories"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_calories",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "KCAL",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "426",
+          "vital_value_vital_br": "426",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "426",
+          "vital_hr_unit": "KCAL · CALORIES",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-9",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "distance",
+        "vital-value-vital-bl": "distance",
+        "vital-value-vital-br": "distance"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_distance",
+          "vital_icon_vital_br_distance",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "KM",
+          "vital_label_vital_br": "KM",
+          "vital_value_vital_bl": "3.50",
+          "vital_value_vital_br": "3.50",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "3.50",
+          "vital_hr_unit": "KM · DISTANCE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-10",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "battery",
+        "vital-value-vital-bl": "battery",
+        "vital-value-vital-br": "battery"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_battery",
+          "vital_icon_vital_br_battery",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "%",
+          "vital_label_vital_br": "%",
+          "vital_value_vital_bl": "78",
+          "vital_value_vital_br": "78",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "78",
+          "vital_hr_unit": "% · BATTERY",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-11",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "source",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 72,
+          "steps": 4500,
+          "battery": 78,
+          "calories": 426,
+          "distance": 3.5,
+          "temperature": 24,
+          "seconds": 30
+        }
+      },
+      "controlValues": {
+        "vital-heart-big": "temperature",
+        "vital-value-vital-bl": "temperature",
+        "vital-value-vital-br": "temperature"
+      },
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_temperature",
+          "vital_icon_vital_br_temperature",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "C",
+          "vital_label_vital_br": "C",
+          "vital_value_vital_bl": "24.0°",
+          "vital_value_vital_br": "24.0°",
+          "vital_battery_value": "78%",
+          "vital_heart_big": "24.0°",
+          "vital_hr_unit": "C · TEMPERATURE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-12",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 10,
+          "steps": 10,
+          "battery": 10,
+          "calories": 10,
+          "distance": 10,
+          "temperature": 10,
+          "seconds": 10
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "10",
+          "vital_value_vital_br": "10",
+          "vital_battery_value": "10%",
+          "vital_heart_big": "10",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#FFC04A",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#FFC04A",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-13",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 30,
+          "steps": 30,
+          "battery": 30,
+          "calories": 30,
+          "distance": 30,
+          "temperature": 30,
+          "seconds": 30
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "30",
+          "vital_value_vital_br": "30",
+          "vital_battery_value": "30%",
+          "vital_heart_big": "30",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#38E1D0",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#38E1D0",
+          "vital_heart_big": "#38E1D0"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-14",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 120,
+          "steps": 120,
+          "battery": 120,
+          "calories": 120,
+          "distance": 120,
+          "temperature": 120,
+          "seconds": 120
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "120",
+          "vital_value_vital_br": "120",
+          "vital_battery_value": "--",
+          "vital_heart_big": "120",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#54736F",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#54736F",
+          "vital_heart_big": "#FFC04A"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-15",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 150,
+          "steps": 150,
+          "battery": 150,
+          "calories": 150,
+          "distance": 150,
+          "temperature": 150,
+          "seconds": 150
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_hr_zone_1",
+          "vital_hr_zone_2",
+          "vital_hr_zone_3",
+          "vital_hr_zone_4",
+          "vital_hr_zone_5",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "150",
+          "vital_value_vital_br": "150",
+          "vital_battery_value": "--",
+          "vital_heart_big": "150",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#54736F",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#54736F",
+          "vital_heart_big": "#FF4D5E"
+        }
+      }
+    },
+    {
+      "id": "vital-venu441mm-16",
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "scenario": "threshold",
+      "data": {
+        "time": "09:41",
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 480,
+        "missing": false,
+        "values": {
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 0,
+          "seconds": 0
+        }
+      },
+      "controlValues": {},
+      "expect": {
+        "visibleLayerIds": [
+          "vital_bg_art",
+          "vital_ticks",
+          "vital_icon_vital_bl_steps",
+          "vital_icon_vital_br_calories",
+          "vital_battery_meter",
+          "vital_date_main",
+          "vital_label_vital_bl",
+          "vital_label_vital_br",
+          "vital_value_vital_bl",
+          "vital_value_vital_br",
+          "vital_battery_value",
+          "vital_heart_big",
+          "vital_hr_unit",
+          "vital_time_main"
+        ],
+        "readings": {
+          "vital_date_main": "SAT 28",
+          "vital_label_vital_bl": "STEPS",
+          "vital_label_vital_br": "KCAL",
+          "vital_value_vital_bl": "0",
+          "vital_value_vital_br": "0",
+          "vital_battery_value": "0%",
+          "vital_heart_big": "--",
+          "vital_hr_unit": "BPM · HEART RATE",
+          "vital_time_main": "09:41"
+        },
+        "colors": {
+          "vital_battery_meter": "#FF4D5E",
+          "vital_value_vital_bl": "#38E1D0",
+          "vital_value_vital_br": "#FFC04A",
+          "vital_battery_value": "#FF4D5E",
+          "vital_heart_big": "#54736F"
+        }
+      }
+    }
+  ]
+}

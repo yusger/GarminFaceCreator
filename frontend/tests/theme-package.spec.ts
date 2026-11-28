@@ -43,14 +43,15 @@ test("113 converted theme package imports as editable project and preserves them
   await page.getByRole("button",{name:"打开 Theme contract sample",exact:true}).click();
   await expect(page.getByText("表盘配置", { exact: true })).toBeVisible();
 });
+for(const profile of ["theme-project-v1","theme-project-v2"])
 for (const target of ["venu445mm", "venu441mm"])
   test(
-    "theme package prepared full project SDK " + target,
+    profile+" prepared full project SDK " + target,
     async ({ page, request }) => {
       test.skip(process.env.GFC_TEST_SDK !== "1", "Explicit SDK check");
       test.setTimeout(150000);
       const { project: p } = await convertThemePackage(
-          "resources/examples/theme-project-v1",
+          "resources/examples/"+profile,
         ),
         q = projectForDevice(
           p,
@@ -125,3 +126,7 @@ for (const target of ["venu445mm", "venu441mm"])
         .toBe("succeeded");
     },
   );
+
+ test('precision theme package stays editable and preserves exact fonts on save and export',async({page})=>{
+ const {project:p}=await convertThemePackage('resources/examples/theme-project-v2');p.name='Precision trail package';await page.goto('/');await page.locator('input[accept=".json"]').setInputFiles({name:'precision-theme.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(p))});await page.getByText('表盘配置',{exact:true}).click();await page.getByLabel('主题预设',{exact:true}).selectOption('vital');await page.getByLabel('vital · Heart rate hero color',{exact:true}).fill('#abcdef');await page.getByLabel('vital · Heart rate hero',{exact:true}).selectOption('battery');await expect(page.getByText('已保存到本机',{exact:true})).toBeVisible();const download=page.waitForEvent('download');await page.getByRole('button',{name:'导出项目',exact:true}).click();const saved=JSON.parse(await readFile((await(await download).path())!,'utf8'));expect(()=>validateProject(saved)).not.toThrow();expect(saved.bitmapFonts).toHaveLength(28);expect(saved.fontRoles).toHaveLength(27);expect(saved.multiDevice.variants).toHaveLength(2);expect(saved.controlValues['vital-heart-big']).toBe('battery');expect(saved.controlValues['vital-heart-big-color']).toBe('#ABCDEF');await page.reload();await page.getByRole('button',{name:'我的表盘',exact:true}).click();await page.getByRole('button',{name:'打开 Precision trail package',exact:true}).click();await expect(page.getByText('表盘配置',{exact:true})).toBeVisible();
+ });

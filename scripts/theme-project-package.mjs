@@ -6,7 +6,7 @@ import { createHash } from "node:crypto";
 import Ajv2020 from "ajv/dist/2020.js";
 import { validateProject } from "../frontend/src/domain.ts";
 import { importLocalFont } from "../frontend/src/localFonts.ts";
-import { createBitmapFontAsset } from "../frontend/src/bitmapFonts.ts";
+import { bitmapFontDiagnostics,createBitmapFontAsset } from "../frontend/src/bitmapFonts.ts";
 import { projectForDevice, deviceKey } from "../frontend/src/multiDevice.ts";
 import {
   localGenerate,
@@ -25,7 +25,7 @@ const ajv = new Ajv2020({
   allErrors: true,
   allowUnionTypes: true,
 });
-const [manifestSchema, designSchema, casesSchema] = await Promise.all(
+const [manifestV1, designV1, casesSchema] = await Promise.all(
   [
     "theme-project-manifest-v1.schema.json",
     "theme-project-v1.schema.json",
@@ -36,12 +36,14 @@ const [manifestSchema, designSchema, casesSchema] = await Promise.all(
     ),
   ),
 );
-const baseline = await readJSON(
+const baselineV1 = await readJSON(
   new URL(
     "../resources/capabilities/theme-project-v1-baseline.json",
     import.meta.url,
   ),
 );
+const [manifestV2,designV2]=await Promise.all(["theme-project-manifest-v2.schema.json","theme-project-v2.schema.json"].map(async f=>ajv.compile(await readJSON(new URL("../resources/schemas/"+f,import.meta.url)))));
+const baselineV2=await readJSON(new URL("../resources/capabilities/theme-project-v2-baseline.json",import.meta.url));
 const check = (schema, v, label) => {
   if (!schema(v))
     throw Error(label + ": " + JSON.stringify(schema.errors).slice(0, 2500));
@@ -99,6 +101,8 @@ export async function convertThemePackage(directory) {
     return bytes;
   }
   const manifest = JSON.parse((await file("publish.json")).toString("utf8"));
+  const advanced=manifest.profile==="theme-project-v2";
+  const manifestSchema=advanced?manifestV2:manifestV1,designSchema=advanced?designV2:designV1,baseline=advanced?baselineV2:baselineV1;
   check(manifestSchema, manifest, "Manifest");
   const inventory = new Map(),
     actual = [];
@@ -246,7 +250,7 @@ export async function convertThemePackage(directory) {
     )
   )
     throw Error("Target inventory mismatch");
-  if((p.bitmapFonts||[]).length>16)throw Error("Frozen theme-project-v1 stores at most16 bitmap fonts");
+  if(!advanced&&(p.bitmapFonts||[]).length>16)throw Error("Frozen theme-project-v1 stores at most16 bitmap fonts");
   validateProject(p);
   const previewKeys = new Set();
   for (const v of manifest.previews) {
@@ -287,7 +291,8 @@ export async function convertThemePackage(directory) {
     const variant = p.multiDevice
       ? projectForDevice(p, deviceKey(target))
       : structuredClone(p);
-    if(new Set(expandWidgets(variant).layers.filter(l=>l.exportIncluded!==false&&l.bitmapFontId).map(l=>l.bitmapFontId)).size>8)throw Error("Frozen theme-project-v1 uses at most8 bitmap fonts per target");
+    if(!advanced&&new Set(expandWidgets(variant).layers.filter(l=>l.exportIncluded!==false&&l.bitmapFontId).map(l=>l.bitmapFontId)).size>8)throw Error("Frozen theme-project-v1 uses at most8 bitmap fonts per target");
+    if(advanced){const errors=bitmapFontDiagnostics(variant);if(errors.length)throw Error("Precision bitmap budget/glyphs: "+errors.map(e=>e.message).join(";"));}
     const diagnostics = generationDiagnostics(variant);
     if (diagnostics.some((d) => d.status === "unsupported"))
       throw Error(
@@ -365,20 +370,20 @@ export async function convertThemePackage(directory) {
           const l = visible.find((l) => l.id === id);
           if (
             !l ||
-            ink(l, {
+            (advanced&&c.mode==="aod" ? (l.aodColor||"#777777") : ink(l, {
               ...c.data,
               heartRate: NaN,
               steps: NaN,
               battery: NaN,
               seconds: 0,
-            }).toLowerCase() !== expected.toLowerCase()
+            })).toLowerCase() !== expected.toLowerCase()
           )
             throw Error("Color mismatch in " + c.id + "/" + id);
         }
         if (
           c.scenario === "threshold" &&
           themeLayers(q).some(
-            (l) => l.threshold && !Object.hasOwn(c.expect.colors || {}, l.id),
+            (l) => l.threshold && (!advanced || (c.mode==="aod"?l.aod:l.activeVisible!==false)) && !Object.hasOwn(c.expect.colors || {}, l.id),
           )
         )
           throw Error("Threshold case needs expected colors");
@@ -407,7 +412,7 @@ export async function convertThemePackage(directory) {
     targets: results,
     report: {
       profile: manifest.profile,
-      schemaVersion: 49,
+      schemaVersion: baseline.schemaVersion,
       themes: p.themes.presets.length,
       targets: targets.length,
       cases: cases.cases.length,

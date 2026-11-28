@@ -1,0 +1,1236 @@
+{
+  "format": "gfc-theme-project",
+  "formatVersion": 2,
+  "profile": "theme-project-v2",
+  "slug": "precision-trail-sample",
+  "version": "1.0.0",
+  "name": "trail",
+  "origin": {
+    "author": "yusger",
+    "source": "https://github.com/yusger/GarminFaceCreator/tree/main/resources/default-watchfaces/trail",
+    "license": "Author-supplied design notices; fonts SIL OFL-1.1",
+    "noticeFile": "notices/design-apex.txt"
+  },
+  "targets": [
+    {
+      "target": "venu445mm",
+      "deviceSize": "45mm"
+    },
+    {
+      "target": "venu441mm",
+      "deviceSize": "41mm"
+    }
+  ],
+  "previews": [
+    {
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "active",
+      "file": "previews/apex-venu445mm-active.png"
+    },
+    {
+      "themeId": "apex",
+      "target": "venu445mm",
+      "mode": "aod",
+      "file": "previews/apex-venu445mm-aod.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "active",
+      "file": "previews/trail-venu445mm-active.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu445mm",
+      "mode": "aod",
+      "file": "previews/trail-venu445mm-aod.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "active",
+      "file": "previews/vital-venu445mm-active.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu445mm",
+      "mode": "aod",
+      "file": "previews/vital-venu445mm-aod.png"
+    },
+    {
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "active",
+      "file": "previews/apex-venu441mm-active.png"
+    },
+    {
+      "themeId": "apex",
+      "target": "venu441mm",
+      "mode": "aod",
+      "file": "previews/apex-venu441mm-aod.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "active",
+      "file": "previews/trail-venu441mm-active.png"
+    },
+    {
+      "themeId": "trail",
+      "target": "venu441mm",
+      "mode": "aod",
+      "file": "previews/trail-venu441mm-aod.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "active",
+      "file": "previews/vital-venu441mm-active.png"
+    },
+    {
+      "themeId": "vital",
+      "target": "venu441mm",
+      "mode": "aod",
+      "file": "previews/vital-venu441mm-aod.png"
+    }
+  ],
+  "images": [
+    {
+      "layerId": "apex_bg_art",
+      "file": "images/29dece72cc99a2b4bc8c1f5a963a0bf6d347e4638663880f73f316bc03d92842.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_ticks",
+      "file": "images/ed8bda8b6363dcf29646f47c99f06188310a1eee5985dc49fdee921e512598ad.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tl_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_tr_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_bl_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_br_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_br_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_br_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_br_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_br_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "apex_icon_apex_br_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-apex.txt"
+    },
+    {
+      "layerId": "trail_bg_art",
+      "file": "images/13e7ff93f138e65ef1810ebe804fc9f578ec9a31dd7c2683809424e78471df65.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_ticks",
+      "file": "images/f32badf9ae2c1eec56a3169810df952fd7e284ef760b2d5c57d9ed963918dd37.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tl_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_tr_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_bl_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_br_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_br_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_br_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_br_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_br_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "trail_icon_trail_br_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-trail.txt"
+    },
+    {
+      "layerId": "vital_bg_art",
+      "file": "images/c24ad9e7c60270457ae5f3dc910a42b22d9e411d297e81688d60f453743f9da7.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_ticks",
+      "file": "images/9635ea7d39431ca5ec227e76b2fd2cedf3fcce366b35137eab6abbef9046a885.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_bl_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_br_temperature",
+      "file": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_br_battery",
+      "file": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_br_distance",
+      "file": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_br_calories",
+      "file": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_br_steps",
+      "file": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "noticeFile": "notices/design-vital.txt"
+    },
+    {
+      "layerId": "vital_icon_vital_br_heartRate",
+      "file": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "noticeFile": "notices/design-vital.txt"
+    }
+  ],
+  "fonts": [
+    {
+      "id": "local_ca177c514f264e623225342630000000",
+      "kind": "ttf",
+      "family": "Rajdhani-Bold",
+      "file": "fonts/local_ca177c514f264e623225342630000000.ttf",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "local_ca1eb715b1edcd220e65771900000000",
+      "kind": "ttf",
+      "family": "ShareTechMono-Regular",
+      "file": "fonts/local_ca1eb715b1edcd220e65771900000000.ttf",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1a046d5220b0a44465862000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_20",
+      "file": "fonts/bitmap_ca1a046d5220b0a44465862000000000.fnt",
+      "atlas": "fonts/bitmap_ca1a046d5220b0a44465862000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1425dc502ad15d9e63213000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_11",
+      "file": "fonts/bitmap_ca1425dc502ad15d9e63213000000000.fnt",
+      "atlas": "fonts/bitmap_ca1425dc502ad15d9e63213000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1d6afbdda74fe1f2e4052000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_34",
+      "file": "fonts/bitmap_ca1d6afbdda74fe1f2e4052000000000.fnt",
+      "atlas": "fonts/bitmap_ca1d6afbdda74fe1f2e4052000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1ff856e2c877634086116000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_88",
+      "file": "fonts/bitmap_ca1ff856e2c877634086116000000000.fnt",
+      "atlas": "fonts/bitmap_ca1ff856e2c877634086116000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1dd985554af57afa42472000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_20",
+      "file": "fonts/bitmap_ca1dd985554af57afa42472000000000.fnt",
+      "atlas": "fonts/bitmap_ca1dd985554af57afa42472000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca11a41db983f8a33c46826000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_104",
+      "file": "fonts/bitmap_ca11a41db983f8a33c46826000000000.fnt",
+      "atlas": "fonts/bitmap_ca11a41db983f8a33c46826000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1727a8d237260c5073518000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_30",
+      "file": "fonts/bitmap_ca1727a8d237260c5073518000000000.fnt",
+      "atlas": "fonts/bitmap_ca1727a8d237260c5073518000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1e611a8c73326425f3635000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_15",
+      "file": "fonts/bitmap_ca1e611a8c73326425f3635000000000.fnt",
+      "atlas": "fonts/bitmap_ca1e611a8c73326425f3635000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca14c4a9a3e88c31b1a3098000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_24",
+      "file": "fonts/bitmap_ca14c4a9a3e88c31b1a3098000000000.fnt",
+      "atlas": "fonts/bitmap_ca14c4a9a3e88c31b1a3098000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca11b733177edfdea6f5125000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_18",
+      "file": "fonts/bitmap_ca11b733177edfdea6f5125000000000.fnt",
+      "atlas": "fonts/bitmap_ca11b733177edfdea6f5125000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1083e0b6be452c1fb8811000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_118",
+      "file": "fonts/bitmap_ca1083e0b6be452c1fb8811000000000.fnt",
+      "atlas": "fonts/bitmap_ca1083e0b6be452c1fb8811000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca17a1fbe681eef4b843581000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_40",
+      "file": "fonts/bitmap_ca17a1fbe681eef4b843581000000000.fnt",
+      "atlas": "fonts/bitmap_ca17a1fbe681eef4b843581000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca19efecd1e7f2730963598000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_44",
+      "file": "fonts/bitmap_ca19efecd1e7f2730963598000000000.fnt",
+      "atlas": "fonts/bitmap_ca19efecd1e7f2730963598000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca175a039387acf4a8c9533000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_130",
+      "file": "fonts/bitmap_ca175a039387acf4a8c9533000000000.fnt",
+      "atlas": "fonts/bitmap_ca175a039387acf4a8c9533000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1f9818c2991e4c25d5575000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_17",
+      "file": "fonts/bitmap_ca1f9818c2991e4c25d5575000000000.fnt",
+      "atlas": "fonts/bitmap_ca1f9818c2991e4c25d5575000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca176d6824b42b2d8533029000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_9",
+      "file": "fonts/bitmap_ca176d6824b42b2d8533029000000000.fnt",
+      "atlas": "fonts/bitmap_ca176d6824b42b2d8533029000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca10f725598294677ec3651000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_29",
+      "file": "fonts/bitmap_ca10f725598294677ec3651000000000.fnt",
+      "atlas": "fonts/bitmap_ca10f725598294677ec3651000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca126f1b5fc180c4d245511000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_76",
+      "file": "fonts/bitmap_ca126f1b5fc180c4d245511000000000.fnt",
+      "atlas": "fonts/bitmap_ca126f1b5fc180c4d245511000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1c55310f7d3d59a4b2275000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_17",
+      "file": "fonts/bitmap_ca1c55310f7d3d59a4b2275000000000.fnt",
+      "atlas": "fonts/bitmap_ca1c55310f7d3d59a4b2275000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca16a3680d7876585a36140000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_89",
+      "file": "fonts/bitmap_ca16a3680d7876585a36140000000000.fnt",
+      "atlas": "fonts/bitmap_ca16a3680d7876585a36140000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1ed4544beb5025a363253000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_26",
+      "file": "fonts/bitmap_ca1ed4544beb5025a363253000000000.fnt",
+      "atlas": "fonts/bitmap_ca1ed4544beb5025a363253000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1d1be502ec8a022c23464000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_13",
+      "file": "fonts/bitmap_ca1d1be502ec8a022c23464000000000.fnt",
+      "atlas": "fonts/bitmap_ca1d1be502ec8a022c23464000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1a302c9682f09f8ec2925000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_21",
+      "file": "fonts/bitmap_ca1a302c9682f09f8ec2925000000000.fnt",
+      "atlas": "fonts/bitmap_ca1a302c9682f09f8ec2925000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca16b33f3668a0aea5e4665000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca1eb715b1edcd220e65771900000000_15",
+      "file": "fonts/bitmap_ca16b33f3668a0aea5e4665000000000.fnt",
+      "atlas": "fonts/bitmap_ca16b33f3668a0aea5e4665000000000.png",
+      "noticeFile": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1fd55b7d618d59f867547000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_101",
+      "file": "fonts/bitmap_ca1fd55b7d618d59f867547000000000.fnt",
+      "atlas": "fonts/bitmap_ca1fd55b7d618d59f867547000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca16a57b0b78174afb73158000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_34",
+      "file": "fonts/bitmap_ca16a57b0b78174afb73158000000000.fnt",
+      "atlas": "fonts/bitmap_ca16a57b0b78174afb73158000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1c894495b52312a933390000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_38",
+      "file": "fonts/bitmap_ca1c894495b52312a933390000000000.fnt",
+      "atlas": "fonts/bitmap_ca1c894495b52312a933390000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    },
+    {
+      "id": "bitmap_ca1900d98722430b47e8108000000000",
+      "kind": "bitmap",
+      "family": "GFCBitmap_local_ca177c514f264e623225342630000000_112",
+      "file": "fonts/bitmap_ca1900d98722430b47e8108000000000.fnt",
+      "atlas": "fonts/bitmap_ca1900d98722430b47e8108000000000.png",
+      "noticeFile": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "source": "Author-supplied Native454 study; OFL notices retained"
+    }
+  ],
+  "files": [
+    {
+      "path": "notices/design-apex.txt",
+      "role": "notice",
+      "bytes": 891,
+      "sha256": "41e3620bb02dcfdbbadbe313b325130e0e563a5cc1b86920b605b0a0ca0a7ab8"
+    },
+    {
+      "path": "notices/design-trail.txt",
+      "role": "notice",
+      "bytes": 889,
+      "sha256": "d6248cb65f310f844ec827aceda903dc3c0f4b5c7308e1c43ec2f282ef35e88c"
+    },
+    {
+      "path": "notices/design-vital.txt",
+      "role": "notice",
+      "bytes": 887,
+      "sha256": "fb299fca781c8ad39f9b77ca097bd6512d78f146a4d247ab8d5e7a1524dbbba9"
+    },
+    {
+      "path": "images/29dece72cc99a2b4bc8c1f5a963a0bf6d347e4638663880f73f316bc03d92842.png",
+      "role": "image",
+      "bytes": 81322,
+      "sha256": "29dece72cc99a2b4bc8c1f5a963a0bf6d347e4638663880f73f316bc03d92842"
+    },
+    {
+      "path": "images/ed8bda8b6363dcf29646f47c99f06188310a1eee5985dc49fdee921e512598ad.png",
+      "role": "image",
+      "bytes": 10442,
+      "sha256": "ed8bda8b6363dcf29646f47c99f06188310a1eee5985dc49fdee921e512598ad"
+    },
+    {
+      "path": "images/74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11.png",
+      "role": "image",
+      "bytes": 610,
+      "sha256": "74d7a50cc83b2433831d34bfb53aaca722ae283b7d7b7d0416978487d024ad11"
+    },
+    {
+      "path": "images/54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339.png",
+      "role": "image",
+      "bytes": 105,
+      "sha256": "54cc359cd7fc21320a3a233228148756c4a1b9baa5ea72eb86c59c3b4cad4339"
+    },
+    {
+      "path": "images/dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab.png",
+      "role": "image",
+      "bytes": 575,
+      "sha256": "dcb79178a2284371fc129ffe37e2969fe8526215c316202ba7fa322680adedab"
+    },
+    {
+      "path": "images/70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5.png",
+      "role": "image",
+      "bytes": 746,
+      "sha256": "70cf3df31a3936639ddcd2926a41805556b7c1dd8afbc83a331643cf02c29ac5"
+    },
+    {
+      "path": "images/395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6.png",
+      "role": "image",
+      "bytes": 734,
+      "sha256": "395e53044eaf3d66d6eeccfa3b60c66d64baeed102f1e611fd422f77a69b77e6"
+    },
+    {
+      "path": "images/7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c.png",
+      "role": "image",
+      "bytes": 848,
+      "sha256": "7ae194c07d6fbf81afd814a66c62dfbf20d398cde025515d1b7cdd040b252e8c"
+    },
+    {
+      "path": "images/13e7ff93f138e65ef1810ebe804fc9f578ec9a31dd7c2683809424e78471df65.png",
+      "role": "image",
+      "bytes": 83811,
+      "sha256": "13e7ff93f138e65ef1810ebe804fc9f578ec9a31dd7c2683809424e78471df65"
+    },
+    {
+      "path": "images/f32badf9ae2c1eec56a3169810df952fd7e284ef760b2d5c57d9ed963918dd37.png",
+      "role": "image",
+      "bytes": 10436,
+      "sha256": "f32badf9ae2c1eec56a3169810df952fd7e284ef760b2d5c57d9ed963918dd37"
+    },
+    {
+      "path": "images/c24ad9e7c60270457ae5f3dc910a42b22d9e411d297e81688d60f453743f9da7.png",
+      "role": "image",
+      "bytes": 91011,
+      "sha256": "c24ad9e7c60270457ae5f3dc910a42b22d9e411d297e81688d60f453743f9da7"
+    },
+    {
+      "path": "images/9635ea7d39431ca5ec227e76b2fd2cedf3fcce366b35137eab6abbef9046a885.png",
+      "role": "image",
+      "bytes": 10589,
+      "sha256": "9635ea7d39431ca5ec227e76b2fd2cedf3fcce366b35137eab6abbef9046a885"
+    },
+    {
+      "path": "fonts/local_ca177c514f264e623225342630000000.ttf",
+      "role": "font",
+      "bytes": 400680,
+      "sha256": "691470dd3286a14e9677940d0bf75796179841ba5215cbda1a2c8910a3226afd"
+    },
+    {
+      "path": "notices/font-115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21.txt",
+      "role": "notice",
+      "bytes": 4372,
+      "sha256": "115dd549b4be6002ee895a6b0a863c563464dd6b74615e952c1cb223e3878d21"
+    },
+    {
+      "path": "fonts/local_ca1eb715b1edcd220e65771900000000.ttf",
+      "role": "font",
+      "bytes": 43272,
+      "sha256": "9ceab1f87414829af259c0f537573ae03ef7dd3147c0b27a36a1a0beb6732677"
+    },
+    {
+      "path": "notices/font-5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6.txt",
+      "role": "notice",
+      "bytes": 4428,
+      "sha256": "5c729c2ccd4ead94f64d6210ff1dee074127581ce99612a46f6eb6ea8eced0f6"
+    },
+    {
+      "path": "fonts/bitmap_ca1a046d5220b0a44465862000000000.fnt",
+      "role": "font",
+      "bytes": 3134,
+      "sha256": "8ba93496cce206b1d5594e3f6e5cca8861e1d90263d870356b7146bf1077f878"
+    },
+    {
+      "path": "fonts/bitmap_ca1a046d5220b0a44465862000000000.png",
+      "role": "font",
+      "bytes": 1977,
+      "sha256": "1cc6be64826daa6b42c007cede1552779cdd00e4f0192f168de99a55824ba7a8"
+    },
+    {
+      "path": "fonts/bitmap_ca1425dc502ad15d9e63213000000000.fnt",
+      "role": "font",
+      "bytes": 2061,
+      "sha256": "26252b20906d6562148757e6c465abd39410aa8536dd1040bd82d6e01f5e4d77"
+    },
+    {
+      "path": "fonts/bitmap_ca1425dc502ad15d9e63213000000000.png",
+      "role": "font",
+      "bytes": 803,
+      "sha256": "35106d3b67b95d6cb9508d7184c652dcc57a3729da3f13adb2792f5691f73dfb"
+    },
+    {
+      "path": "fonts/bitmap_ca1d6afbdda74fe1f2e4052000000000.fnt",
+      "role": "font",
+      "bytes": 1657,
+      "sha256": "659d69a073c92812962c592010c50093d37edf11dea6c60cb77552898574acef"
+    },
+    {
+      "path": "fonts/bitmap_ca1d6afbdda74fe1f2e4052000000000.png",
+      "role": "font",
+      "bytes": 1738,
+      "sha256": "bfcbb852008e29d864f13fcb3c89ff962430ea0ffcfaf1616372e47c61192816"
+    },
+    {
+      "path": "fonts/bitmap_ca1ff856e2c877634086116000000000.fnt",
+      "role": "font",
+      "bytes": 1226,
+      "sha256": "9c200a0b42802f53f427509ee5a2a185c591f8e7cb9b4d5f2f0603f39d7db9cc"
+    },
+    {
+      "path": "fonts/bitmap_ca1ff856e2c877634086116000000000.png",
+      "role": "font",
+      "bytes": 3614,
+      "sha256": "e668adf3792cf0f00b6c11616caf6485da6cae8f7b0ffc2ad728660eb17c543d"
+    },
+    {
+      "path": "fonts/bitmap_ca1dd985554af57afa42472000000000.fnt",
+      "role": "font",
+      "bytes": 1226,
+      "sha256": "816142d878c33da21bbfa04b28d57a4eb8aef18db0f64f062a6bad1690bbfecd"
+    },
+    {
+      "path": "fonts/bitmap_ca1dd985554af57afa42472000000000.png",
+      "role": "font",
+      "bytes": 882,
+      "sha256": "f5d1f7fb126cd48c08b41bef482b6e03e17cd3bebdc3b816105963980764de72"
+    },
+    {
+      "path": "fonts/bitmap_ca11a41db983f8a33c46826000000000.fnt",
+      "role": "font",
+      "bytes": 1228,
+      "sha256": "cae22540793d80c8d2fdcbfcd04e261361769f8e883153efbbb036fef860341d"
+    },
+    {
+      "path": "fonts/bitmap_ca11a41db983f8a33c46826000000000.png",
+      "role": "font",
+      "bytes": 4144,
+      "sha256": "3e5367a10e9b70d6c3e5055c5f5d718f3e0a43fd39a862a0b50ec7f49ba7f3f7"
+    },
+    {
+      "path": "fonts/bitmap_ca1727a8d237260c5073518000000000.fnt",
+      "role": "font",
+      "bytes": 1655,
+      "sha256": "f81eb5277538a53282657bd5f42519a36d861f50c48ffffe9aaff3f0de8cc53e"
+    },
+    {
+      "path": "fonts/bitmap_ca1727a8d237260c5073518000000000.png",
+      "role": "font",
+      "bytes": 1341,
+      "sha256": "0193b89c1536fdad0054512c421f4073c5beb332a8f321e4110a073566360f3c"
+    },
+    {
+      "path": "fonts/bitmap_ca1e611a8c73326425f3635000000000.fnt",
+      "role": "font",
+      "bytes": 2055,
+      "sha256": "7a9c172c6d94a4d2af370262f3f0dc4e1c0a8f83362f5847545fcba9f5c76240"
+    },
+    {
+      "path": "fonts/bitmap_ca1e611a8c73326425f3635000000000.png",
+      "role": "font",
+      "bytes": 1123,
+      "sha256": "349962f6399377a9e45c1a49dbaf11a19b43013c87c5de8aece9719dca6fdf3e"
+    },
+    {
+      "path": "fonts/bitmap_ca14c4a9a3e88c31b1a3098000000000.fnt",
+      "role": "font",
+      "bytes": 1481,
+      "sha256": "b4738a8b4f2a03a76770fa771d3279134a8878237d9d32e526e8cca9d2bd3c60"
+    },
+    {
+      "path": "fonts/bitmap_ca14c4a9a3e88c31b1a3098000000000.png",
+      "role": "font",
+      "bytes": 1156,
+      "sha256": "a6254c5e9c23c7d963bfccfba0bf1a26c767f192c693195506dded6847f081ff"
+    },
+    {
+      "path": "fonts/bitmap_ca11b733177edfdea6f5125000000000.fnt",
+      "role": "font",
+      "bytes": 2785,
+      "sha256": "cdf30fd10349bc2b1cf5847a48f59fe9fc8c969eed84a2e064dd7b9c8568a827"
+    },
+    {
+      "path": "fonts/bitmap_ca11b733177edfdea6f5125000000000.png",
+      "role": "font",
+      "bytes": 1689,
+      "sha256": "d3404d5a21a4dbade499d8e71c21166a8fdb3f8f28f9f2f323698c9b10370473"
+    },
+    {
+      "path": "fonts/bitmap_ca1083e0b6be452c1fb8811000000000.fnt",
+      "role": "font",
+      "bytes": 1581,
+      "sha256": "85bb8a73ec07144de0684c6dc539d0205590a63903bbb7468fe412b80219059b"
+    },
+    {
+      "path": "fonts/bitmap_ca1083e0b6be452c1fb8811000000000.png",
+      "role": "font",
+      "bytes": 5367,
+      "sha256": "f3ae86df9fbd6855957deee983707bd1765720e830f67fc7eef7733c9246784b"
+    },
+    {
+      "path": "fonts/bitmap_ca17a1fbe681eef4b843581000000000.fnt",
+      "role": "font",
+      "bytes": 1223,
+      "sha256": "a2ac33a4e45ce5eb0ef404ae46ebe638aadef75922e5f86ad721c7a835a23a6e"
+    },
+    {
+      "path": "fonts/bitmap_ca17a1fbe681eef4b843581000000000.png",
+      "role": "font",
+      "bytes": 1714,
+      "sha256": "d8724fc55dc0c0ec3ff4208bf13679553d08b70a552a3727c9b542b9868e49e1"
+    },
+    {
+      "path": "fonts/bitmap_ca19efecd1e7f2730963598000000000.fnt",
+      "role": "font",
+      "bytes": 1224,
+      "sha256": "af09134fe09fcbcc04353d6e7bfe2f82a0e0f0988cf3a1d8dcef93a246a8d7f8"
+    },
+    {
+      "path": "fonts/bitmap_ca19efecd1e7f2730963598000000000.png",
+      "role": "font",
+      "bytes": 1726,
+      "sha256": "cdbaf2ea0ac6e6afc75509f82c0e3ca71480a72542d38e8f7e3bf167d1f79005"
+    },
+    {
+      "path": "fonts/bitmap_ca175a039387acf4a8c9533000000000.fnt",
+      "role": "font",
+      "bytes": 1603,
+      "sha256": "9ab2a1ba80439044ebe67c36dbcda9812484b5d9301ebb302bc6094871e6e05b"
+    },
+    {
+      "path": "fonts/bitmap_ca175a039387acf4a8c9533000000000.png",
+      "role": "font",
+      "bytes": 5892,
+      "sha256": "79e75e5a1b53873fbada9b6c057a3b13f9c8b0c2408212362b00a9bf92e32434"
+    },
+    {
+      "path": "fonts/bitmap_ca1f9818c2991e4c25d5575000000000.fnt",
+      "role": "font",
+      "bytes": 3087,
+      "sha256": "ff9de83f40d56673b891f35ae02b51ea2d0bf8f381462a95c32808f562a68e3d"
+    },
+    {
+      "path": "fonts/bitmap_ca1f9818c2991e4c25d5575000000000.png",
+      "role": "font",
+      "bytes": 1797,
+      "sha256": "2609ffa1fd0de36ca1c2cfa091598bde04a885d141be18aeb36af01c66601b37"
+    },
+    {
+      "path": "fonts/bitmap_ca176d6824b42b2d8533029000000000.fnt",
+      "role": "font",
+      "bytes": 2037,
+      "sha256": "b1a192f4e84f931e80beae5272ad4942ab260cd24be9c8b9e233d2005deed8cd"
+    },
+    {
+      "path": "fonts/bitmap_ca176d6824b42b2d8533029000000000.png",
+      "role": "font",
+      "bytes": 683,
+      "sha256": "d9c648e7ec74f6634b6c11159e89c9f6fc3e0586116d780e174cb1cb19f50014"
+    },
+    {
+      "path": "fonts/bitmap_ca10f725598294677ec3651000000000.fnt",
+      "role": "font",
+      "bytes": 1656,
+      "sha256": "61778aca8bab8b9855d6bda6404d6677e17f0557c76dc8c7cb38e09e047affa8"
+    },
+    {
+      "path": "fonts/bitmap_ca10f725598294677ec3651000000000.png",
+      "role": "font",
+      "bytes": 1440,
+      "sha256": "380d29ba3f572aab5c7ad1247c490f8b61202bc5970b7ca9d4e0b61878056bf3"
+    },
+    {
+      "path": "fonts/bitmap_ca126f1b5fc180c4d245511000000000.fnt",
+      "role": "font",
+      "bytes": 1225,
+      "sha256": "55b29605382324c35554bfd6b43d3d90383f5d754d44451fadcec14c692c78ea"
+    },
+    {
+      "path": "fonts/bitmap_ca126f1b5fc180c4d245511000000000.png",
+      "role": "font",
+      "bytes": 3161,
+      "sha256": "31e22b51290cd57ea6252ab714046cfdeaa65e276f7ff2116aacdff27fe4b71f"
+    },
+    {
+      "path": "fonts/bitmap_ca1c55310f7d3d59a4b2275000000000.fnt",
+      "role": "font",
+      "bytes": 1217,
+      "sha256": "fd03460e0647623619b7e617cf74bcabbe9a0d1d2ec28e198cf6cd0741d0baeb"
+    },
+    {
+      "path": "fonts/bitmap_ca1c55310f7d3d59a4b2275000000000.png",
+      "role": "font",
+      "bytes": 739,
+      "sha256": "6d40efda2c96f6c9d76191f8300efa6500d67ba248eb0078b8769ad52d3c521d"
+    },
+    {
+      "path": "fonts/bitmap_ca16a3680d7876585a36140000000000.fnt",
+      "role": "font",
+      "bytes": 1226,
+      "sha256": "f2727c560cf4da9341c069167d5edb90a30a76bf14567df6252ec81fe4338cba"
+    },
+    {
+      "path": "fonts/bitmap_ca16a3680d7876585a36140000000000.png",
+      "role": "font",
+      "bytes": 3632,
+      "sha256": "126b6e4a19b9a4f226d06a96fe28e0c4b864d57e091c073c52d2d8539a127c83"
+    },
+    {
+      "path": "fonts/bitmap_ca1ed4544beb5025a363253000000000.fnt",
+      "role": "font",
+      "bytes": 1654,
+      "sha256": "db5d831b1441ee729717593d167752ed6025d0241ab9657d8dac3d36aaa3d482"
+    },
+    {
+      "path": "fonts/bitmap_ca1ed4544beb5025a363253000000000.png",
+      "role": "font",
+      "bytes": 1143,
+      "sha256": "6db1a1c0f1241af8feade8393a007666df516e5ec3a56331f0281f80690dcebc"
+    },
+    {
+      "path": "fonts/bitmap_ca1d1be502ec8a022c23464000000000.fnt",
+      "role": "font",
+      "bytes": 2056,
+      "sha256": "e07706ab8f21811c56cdf718f6d4cd9e9a255927124b5f44c03dbcf63adebb6c"
+    },
+    {
+      "path": "fonts/bitmap_ca1d1be502ec8a022c23464000000000.png",
+      "role": "font",
+      "bytes": 994,
+      "sha256": "96ca71458e7d809c619aa301a19cf84fdb4e0433983297ac0aabb80afd9769e4"
+    },
+    {
+      "path": "fonts/bitmap_ca1a302c9682f09f8ec2925000000000.fnt",
+      "role": "font",
+      "bytes": 1480,
+      "sha256": "17b96d319b066f924d034bd67fb343572f80366d8640e2532274e99ebde1dd53"
+    },
+    {
+      "path": "fonts/bitmap_ca1a302c9682f09f8ec2925000000000.png",
+      "role": "font",
+      "bytes": 1028,
+      "sha256": "99d5e6224c62c6885f9bdb137e491fca8ab83ca059b320be438c096d9be1eda2"
+    },
+    {
+      "path": "fonts/bitmap_ca16b33f3668a0aea5e4665000000000.fnt",
+      "role": "font",
+      "bytes": 2749,
+      "sha256": "36216a491e6b771f4269eafef8a6d98e642929aee9b2ae2402dc3fbc5b758acf"
+    },
+    {
+      "path": "fonts/bitmap_ca16b33f3668a0aea5e4665000000000.png",
+      "role": "font",
+      "bytes": 1370,
+      "sha256": "2d377c1d2c2750b08105fcd3bc2abce9db0ecbb114e9e404e2cb2ab040c3f619"
+    },
+    {
+      "path": "fonts/bitmap_ca1fd55b7d618d59f867547000000000.fnt",
+      "role": "font",
+      "bytes": 1577,
+      "sha256": "4860134d0ae82b7a3781d290e06acb857a1411603ea38038c62441f5ad965d63"
+    },
+    {
+      "path": "fonts/bitmap_ca1fd55b7d618d59f867547000000000.png",
+      "role": "font",
+      "bytes": 4420,
+      "sha256": "b4918ab8a23eb4369a2626f7db9705b22421fc54e859424cd388473781de9348"
+    },
+    {
+      "path": "fonts/bitmap_ca16a57b0b78174afb73158000000000.fnt",
+      "role": "font",
+      "bytes": 1224,
+      "sha256": "736d5d9a48cd1fcc05617f4ec5d6695c84b48b4f3ad03680a49461ba01c89f35"
+    },
+    {
+      "path": "fonts/bitmap_ca16a57b0b78174afb73158000000000.png",
+      "role": "font",
+      "bytes": 1398,
+      "sha256": "2e7d1639e5459aaaf6388b7d27ea0df6c612ed1ced4af4cb19f97f00e13bb753"
+    },
+    {
+      "path": "fonts/bitmap_ca1c894495b52312a933390000000000.fnt",
+      "role": "font",
+      "bytes": 1224,
+      "sha256": "091c2b8c0351abd80d85d987ab5dbabdf8202363f2d0d3080c1fe9994a67e2c5"
+    },
+    {
+      "path": "fonts/bitmap_ca1c894495b52312a933390000000000.png",
+      "role": "font",
+      "bytes": 1571,
+      "sha256": "05de6a2cd78e5522719ffa0640fe610d9a796cc9bf1f9d19fc6d7835a51b4eaf"
+    },
+    {
+      "path": "fonts/bitmap_ca1900d98722430b47e8108000000000.fnt",
+      "role": "font",
+      "bytes": 1578,
+      "sha256": "8420f8a6943ddd2654bef26cff2b2b17819b5ce278b975044f5a146041ec08b8"
+    },
+    {
+      "path": "fonts/bitmap_ca1900d98722430b47e8108000000000.png",
+      "role": "font",
+      "bytes": 4840,
+      "sha256": "c1d5d3ea8e7a2969e08ca2f47e21dee75ad082686ac7a5c4b1c42e826ddeca17"
+    },
+    {
+      "path": "previews/apex-venu445mm-active.png",
+      "role": "preview",
+      "bytes": 159314,
+      "sha256": "bccfb3642a7e5adc068de4e0fd14fbab6dff83f025cf210271645d5bdc391544"
+    },
+    {
+      "path": "previews/apex-venu445mm-aod.png",
+      "role": "preview",
+      "bytes": 20873,
+      "sha256": "d22c6382fe08af26c7ae7e9280be93c4ae342e0e828fd27119f6efc5a713046b"
+    },
+    {
+      "path": "previews/trail-venu445mm-active.png",
+      "role": "preview",
+      "bytes": 159633,
+      "sha256": "7fea88d124a75d4fd4caab307f024f1733be6d60eab7cd49ed7325dbd703ce4f"
+    },
+    {
+      "path": "previews/trail-venu445mm-aod.png",
+      "role": "preview",
+      "bytes": 21589,
+      "sha256": "fb37f132e6fbf13eee7e3be27ce720340561ee1a4291265269908b6719d7b287"
+    },
+    {
+      "path": "previews/vital-venu445mm-active.png",
+      "role": "preview",
+      "bytes": 162137,
+      "sha256": "ffc134e1db9206a7fabe5a9200588f5d4883f1ad5644784330897f274316da00"
+    },
+    {
+      "path": "previews/vital-venu445mm-aod.png",
+      "role": "preview",
+      "bytes": 19748,
+      "sha256": "90a0f1a35b32dd44020e23eeb74feec1de9ad6932771f743353ee9a33fc45e0b"
+    },
+    {
+      "path": "previews/apex-venu441mm-active.png",
+      "role": "preview",
+      "bytes": 107351,
+      "sha256": "d807e36eba9274f8b2c53de614b0cf73731b9257fdae5b27792dbbb23f90bf16"
+    },
+    {
+      "path": "previews/apex-venu441mm-aod.png",
+      "role": "preview",
+      "bytes": 17167,
+      "sha256": "06a2873ecb75467bb780bb372cb05e8773b4fca4cd0ba8bc7c7bbe93ab8b8cae"
+    },
+    {
+      "path": "previews/trail-venu441mm-active.png",
+      "role": "preview",
+      "bytes": 115479,
+      "sha256": "b84c547aefa06eee92403c6af1065e9613acd982cec449f214981ac1f3f53db3"
+    },
+    {
+      "path": "previews/trail-venu441mm-aod.png",
+      "role": "preview",
+      "bytes": 17765,
+      "sha256": "36e0e23bc20d4fe363924800baf7be7ecfe6a103f42dec4cc28854bca91e97c2"
+    },
+    {
+      "path": "previews/vital-venu441mm-active.png",
+      "role": "preview",
+      "bytes": 114722,
+      "sha256": "bfa9289124ee67f49c4e44d4245348f4fe160ce63feb7d781b1b663061607c06"
+    },
+    {
+      "path": "previews/vital-venu441mm-aod.png",
+      "role": "preview",
+      "bytes": 16513,
+      "sha256": "eb5ca17fffa5e74a18e6937dc8aa5680ac0d5b95105c403ae3f632e5ceca2d3e"
+    },
+    {
+      "path": "design.json",
+      "role": "design",
+      "bytes": 230596,
+      "sha256": "a27da868bc45b813ba23fa9bd3ef985f69d8218e8985dda5c5ca431d64a6b4cc"
+    },
+    {
+      "path": "cases.json",
+      "role": "cases",
+      "bytes": 189795,
+      "sha256": "2cadd247c315ef326bab5c7e9bfb626a198a8337af1d66d90476f7a4a2364a04"
+    }
+  ]
+}

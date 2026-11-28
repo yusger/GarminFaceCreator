@@ -1,0 +1,266 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "format": {
+      "const": "gfc-theme-project"
+    },
+    "formatVersion": {
+      "const": 2
+    },
+    "profile": {
+      "const": "theme-project-v2"
+    },
+    "slug": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]{0,79}$"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "author": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "source": {
+          "type": "string",
+          "maxLength": 1000
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "noticeFile": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_./-]+$",
+          "maxLength": 240
+        }
+      },
+      "required": [
+        "author",
+        "source",
+        "license",
+        "noticeFile"
+      ]
+    },
+    "targets": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "target": {
+            "enum": [
+              "venu445mm",
+              "venu441mm"
+            ]
+          },
+          "deviceSize": {
+            "enum": [
+              "45mm",
+              "41mm"
+            ]
+          }
+        },
+        "required": [
+          "target",
+          "deviceSize"
+        ]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "previews": {
+      "type": "array",
+      "maxItems": 32,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "themeId": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9-]{0,79}$"
+          },
+          "target": {
+            "enum": [
+              "venu445mm",
+              "venu441mm"
+            ]
+          },
+          "mode": {
+            "enum": [
+              "active",
+              "aod"
+            ]
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+$",
+            "maxLength": 240
+          }
+        },
+        "required": [
+          "themeId",
+          "target",
+          "mode",
+          "file"
+        ]
+      }
+    },
+    "images": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "layerId": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+$",
+            "maxLength": 240
+          },
+          "noticeFile": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+$",
+            "maxLength": 240
+          }
+        },
+        "required": [
+          "layerId",
+          "file",
+          "noticeFile"
+        ]
+      }
+    },
+    "fonts": {
+      "type": "array",
+      "maxItems": 40,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "ttf",
+              "otf",
+              "bitmap"
+            ]
+          },
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "family": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100
+          },
+          "file": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+$",
+            "maxLength": 240
+          },
+          "atlas": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+$",
+            "maxLength": 240
+          },
+          "noticeFile": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+$",
+            "maxLength": 240
+          },
+          "source": {
+            "type": "string",
+            "maxLength": 1000
+          }
+        },
+        "required": [
+          "kind",
+          "id",
+          "family",
+          "file",
+          "noticeFile",
+          "source"
+        ]
+      }
+    },
+    "files": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9_./-]+$",
+            "maxLength": 240
+          },
+          "role": {
+            "enum": [
+              "design",
+              "cases",
+              "preview",
+              "image",
+              "font",
+              "notice"
+            ]
+          },
+          "bytes": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 8388608
+          },
+          "sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        },
+        "required": [
+          "path",
+          "role",
+          "bytes",
+          "sha256"
+        ]
+      },
+      "minItems": 4
+    }
+  },
+  "required": [
+    "format",
+    "formatVersion",
+    "profile",
+    "slug",
+    "version",
+    "name",
+    "origin",
+    "targets",
+    "previews",
+    "images",
+    "fonts",
+    "files"
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gfc:theme-project-manifest:2",
+  "title": "Precision multi-theme package v2"
+}

@@ -35,3 +35,5 @@
 - [外部主题项目包](theme-project-package-v1.md)：独立Schema49契约、主题/设备矩阵、字体和资源清单、离线转换边界。
 
 - [组件主样式与实例](component-styles.md)：Schema50显式插槽、版本同步、实例覆盖、脱离和AI边界。
+
+- [精确主题项目包 v2](theme-project-package-v2.md)：Schema50、精确双尺寸字体与组件样式；旧主题v1和发布v2保持冻结。
