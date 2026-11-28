@@ -1,0 +1,28 @@
+{
+  "date": "2026-11-28",
+  "target": "venu445mm",
+  "classification": "Manual repair of existing paid AI output; original AI failure not overwritten",
+  "hardware": "unverified",
+  "files": [
+    {
+      "file": "Venu4_45mm_SkyRing.prg",
+      "bytes": 32444,
+      "sha256": "c0b0b68ffa8044f330e958386828319b5bd30fbb38d807b6dbbe87dba271bacb"
+    },
+    {
+      "file": "Venu4_45mm_SkyRing-source.zip",
+      "bytes": 252125,
+      "sha256": "baf8a2c482de70376082ab24e6369441cc2ec5665a59f9d65547d9c47e3d1306"
+    },
+    {
+      "file": "SkyRing.design.json",
+      "bytes": 143520,
+      "sha256": "88b00b5a0c079a49bd9358044a0cbb449ecf8daf91e175e455c6d2bfd6dbdd2b"
+    },
+    {
+      "file": "SkyRing.engineering-checkpoint.json",
+      "bytes": 586610,
+      "sha256": "9a5e580eeac88a7c94768baa0c91bed9e4bab1f217c5aefc16a758b4f0edd68a"
+    }
+  ]
+}

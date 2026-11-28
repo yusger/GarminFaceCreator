@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-28",
+  "authorization": "User explicitly requested no quotas for trusted 113 intranet staging",
+  "enforceQuotas": {
+    "buildLimits": false,
+    "nativeVerification": false,
+    "nativeWorker": false
+  },
+  "repositoryDefaults": true,
+  "showcaseTouched": false,
+  "ledgerBytesUnchangedAtConfigurationSwitch": true,
+  "nativeUsedBefore": 142,
+  "nativeUsedAfter": 148,
+  "containerResourcesUnchanged": true,
+  "apiRateCheck": {
+    "requests": 250,
+    "status200": 250,
+    "window": "less than one minute",
+    "purpose": "staging opt-out exceeds default 240 per minute",
+    "paidCalls": 0
+  },
+  "backendPolicyRegression": "passed; disabled mode charges existing ledger, retains concurrency, re-enabled mode rejects over-limit charges",
+  "backendNativeRegression": "passed; disabled mode charges existing ledger and re-enabled mode rejects",
+  "workerBuildAndSandboxChecks": "passed",
+  "stagingApplicationRevision": "1b1412c6ccf8280066f3beae21d2cd41d44ab17a",
+  "paidCalls": 0
+}

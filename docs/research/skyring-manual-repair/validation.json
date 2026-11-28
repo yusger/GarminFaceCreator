@@ -1,0 +1,77 @@
+{
+  "date": "2026-11-28",
+  "classification": "Manual repair of existing paid AI output; original AI failure not overwritten",
+  "paidModelCalls": 0,
+  "target": "venu445mm",
+  "nativePixels": 454,
+  "normalPrgContainsFixedData": false,
+  "sourceRepair": {
+    "beforeViewSha256": "3fce21504157fdef0cd175819e623616bb2cb56d353f4d965fcc74898fd2754b",
+    "afterViewSha256": "235d084d030e125357b042bd7890f340396b504bb17de600ed8e0bcfbde2a12e",
+    "paidModelCalls": 0,
+    "classification": "Manual repair of existing AI output; not a new AI success",
+    "originalSampleDecorations": 34,
+    "staticLabels": [
+      "solar labels",
+      "7d 8642",
+      "25/18",
+      "illustrative charts"
+    ],
+    "drawingChanged": true
+  },
+  "scenarios": [
+    {
+      "mode": "active",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "cleanup": "completed",
+      "prgSha256": "c0b0b68ffa8044f330e958386828319b5bd30fbb38d807b6dbbe87dba271bacb",
+      "sourceSha256": "0ce637ebe37e7c568e48016f27cc83cff23d53df57fb4bc421c431578d530f4c",
+      "workerDataMode": "unverified",
+      "applicationDataMode": "real simulator values; hardware unverified",
+      "aod": "not verified"
+    },
+    {
+      "mode": "high",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "cleanup": "completed",
+      "prgSha256": "043e72dd987e15bacfa6c0e980856d2978217fae0869dc894e7c7f974a346637",
+      "sourceSha256": "a47ee1968f28d68b0937d453143dc26758919559c4a88fa1e765a77ce9a07faa",
+      "workerDataMode": "unverified",
+      "applicationDataMode": "controlled source fixture",
+      "aod": "not verified",
+      "observations": {
+        "heartRate": 160,
+        "steps": 999999,
+        "stress": 100,
+        "recoveryHours": 168,
+        "calories": 12345,
+        "intensityMinutes": 999,
+        "floors": 999,
+        "battery": 9,
+        "altitudeFeet": -1500,
+        "weather": null
+      }
+    },
+    {
+      "mode": "aod",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "cleanup": "completed",
+      "prgSha256": "4b4dc431db85b59d28ccedda09aad7202d8b9b2be01591a3985f7b63a4b3a700",
+      "sourceSha256": "c48e2cdef7a44cae53866d80ec28269f8b44f20f3bd1c9b754e841baef70b198",
+      "workerDataMode": "unverified",
+      "applicationDataMode": "controlled source fixture",
+      "aod": "forced drawing branch only; no actual SDK Sleep test"
+    }
+  ],
+  "designImport": {
+    "imported": true,
+    "exported": true,
+    "reloaded": true,
+    "designLayerCount": 159,
+    "codeStrippedAsDesigned": true,
+    "sourceZipDeliveredSeparately": true
+  }
+}
