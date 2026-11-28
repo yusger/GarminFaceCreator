@@ -43,12 +43,12 @@ sealed class PublicBuildPolicy
             var now = DateTime.UtcNow;
             foreach (var key in attempts.Where(pair => (now - pair.Value.Window).TotalMinutes >= 1).Select(pair => pair.Key).ToArray()) attempts.Remove(key);
             if (!attempts.TryGetValue(ip, out var row)) row = (now, 0);
-            if (row.Count >= PerMinute || attempts.Count >= 10000) return "提交过于频繁，请稍后重试";
-            attempts[ip] = (row.Window, row.Count + 1);
+            if (settings.EnforceQuotas && (row.Count >= PerMinute || attempts.Count >= 10000)) return "提交过于频繁，请稍后重试";
+            if (settings.EnforceQuotas) attempts[ip] = (row.Window, row.Count + 1);
             var active = store.Jobs.Values.Count(j => j.Status is "queued" or "running" && j.CallerIpKey == Hash(ip));
             if (active + uploads.GetValueOrDefault(ip) >= 2 || uploads.Values.Sum() >= 2) return "当前编译或上传任务较多，请稍后重试";
             if (quota.Day != Today) quota = new() { Day = Today };
-            if (quota.Total >= GlobalPerDay || quota.ByIp.GetValueOrDefault(Hash(ip)) >= PerDay) return "今日编译配额已用完，请明天再试";
+            if (settings.EnforceQuotas && (quota.Total >= GlobalPerDay || quota.ByIp.GetValueOrDefault(Hash(ip)) >= PerDay)) return "今日编译配额已用完，请明天再试";
             uploads[ip] = uploads.GetValueOrDefault(ip) + 1;
             return null;
         }
@@ -60,7 +60,7 @@ sealed class PublicBuildPolicy
         {
             if (quota.Day != Today) quota = new() { Day = Today };
             var key = Hash(ip);
-            if (quota.Total >= GlobalPerDay || quota.ByIp.GetValueOrDefault(key) >= PerDay) return false;
+            if (settings.EnforceQuotas && (quota.Total >= GlobalPerDay || quota.ByIp.GetValueOrDefault(key) >= PerDay)) return false;
             quota.Total++; quota.ByIp[key] = quota.ByIp.GetValueOrDefault(key) + 1;
             var tmp = ledger + ".tmp";
             File.WriteAllText(tmp, JsonSerializer.Serialize(quota)); File.Move(tmp, ledger, true);

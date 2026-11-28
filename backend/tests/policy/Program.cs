@@ -69,5 +69,15 @@ using (var bad = (ConfigurationRoot)new ConfigurationBuilder().AddJsonFile(jsonP
     }
 }
 Console.WriteLine("PASS appsettings defaults, production JSON precedence, standard environment override and invalid-value rejection");
+// Explicit trusted staging opt-out keeps counters and resource/concurrency guards.
+var unlimitedOptions = limits.Value; unlimitedOptions.EnforceQuotas = false;
+var unlimited = new PublicBuildPolicy(Options.Create(unlimitedOptions));
+for (var i=0;i<8;i++) { Check(unlimited.Enter("ip1",store)==null,"trusted quota opt-out still limited"); unlimited.Leave("ip1"); Check(unlimited.Charge("ip1"),"trusted daily charge blocked"); }
+Check(unlimited.Enter("ip1",store)==null && unlimited.Enter("ip1",store)==null && unlimited.Enter("ip2",store)!=null,"trusted uploads lost concurrency guard");
+unlimited.Leave("ip1");unlimited.Leave("ip1");
+using (var ledgerDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(Path.Combine(root,"quota.json")))) Check(ledgerDoc.RootElement.GetProperty("Total").GetInt32()==11,"trusted usage was not retained");
+unlimitedOptions.EnforceQuotas = true;
+Check(!new PublicBuildPolicy(Options.Create(unlimitedOptions)).Charge("ip1"),"re-enabled quotas must use retained ledger");
+Console.WriteLine("PASS explicit unlimited trusted mode preserves ledger, concurrency, and re-enabled quota enforcement");
 class BuildJob{public string Status{get;set;}="queued";public string CallerIpKey{get;set;}="";public string AccessTokenHash{get;set;}="";}
 class BuildStore{public ConcurrentDictionary<string,BuildJob> Jobs{get;}=new();}

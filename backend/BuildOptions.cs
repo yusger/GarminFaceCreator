@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 sealed class BuildLimitsOptions
 {
+    public bool EnforceQuotas { get; set; } = true;
     [Range(1, 600)] public int SubmissionsPerMinutePerIp { get; set; }
     [Range(1, 10000)] public int BuildsPerDayPerIp { get; set; }
     [Range(1, 100000)] public int BuildsPerDayGlobal { get; set; }

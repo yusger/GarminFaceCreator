@@ -10,6 +10,7 @@ using Microsoft.Extensions.Options;
 
 sealed class NativeOptions
 {
+    public bool EnforceQuotas { get; set; } = true;
  public bool Enabled {get;set;}
  public string SocketPath {get;set;}="/run/gfc-simulator/worker.sock";
  [Range(1,4)] public int QueueCapacity {get;set;}=2;
@@ -81,7 +82,7 @@ sealed class NativeStore
    var sourceSha256=Convert.ToHexStringLower(sourceHash.GetHashAndReset());
    if(Jobs.Values.Count(n=>n.Status is "queued" or "running" or "cancelling")>=Options.QueueCapacity)return Results.Json(new{error="原生验证队列已满"},statusCode:429);
    if(!policy.HasSpace(Builds.Root,1))return Results.Json(new{error="验证存储空间不足"},statusCode:507);
-   if(quota.Day!=Today)quota=new(){Day=Today};var ip=PublicBuildPolicy.Hash(PublicBuildPolicy.Ip(context));if(quota.Used>=Options.RunsPerDayGlobal||quota.Ips.GetValueOrDefault(ip)>=Options.RunsPerDayPerIp){context.Response.Headers.RetryAfter=PublicBuildPolicy.DailyRetry;return Results.Json(new{error="今日原生验证配额已用完"},statusCode:429);}
+   if(quota.Day!=Today)quota=new(){Day=Today};var ip=PublicBuildPolicy.Hash(PublicBuildPolicy.Ip(context));if(Options.EnforceQuotas&&(quota.Used>=Options.RunsPerDayGlobal||quota.Ips.GetValueOrDefault(ip)>=Options.RunsPerDayPerIp)){context.Response.Headers.RetryAfter=PublicBuildPolicy.DailyRetry;return Results.Json(new{error="今日原生验证配额已用完"},statusCode:429);}
    var n=new NativeJob{BuildId=b.Id,Target=b.Target,Revision=b.Revision,ProjectId=b.ProjectId,Attempt=old?.Attempt+1??1,SourceSha256=sourceSha256,SourceHashMode="ordered-mc-v1",GeneratorVersion=generator.Groups[1].Value};
    lock(b.Gate){if(b.ArtifactExpired||!File.Exists(prg))return Results.Json(new{error="PRG已过期"},statusCode:410);using var input=File.OpenRead(prg);n.PrgSha256=Convert.ToHexStringLower(SHA256.HashData(input));b.Downloads++;}
    try

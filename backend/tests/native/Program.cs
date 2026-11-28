@@ -22,3 +22,11 @@ var quota=File.ReadAllText(Path.Combine(root,"native-quota.json"));Check(!quota.
 store.Cleanup(DateTime.UtcNow.AddHours(2));Check(store.Jobs[first.Id].Expired,"native retention did not expire independent artifacts");
 var file=Path.Combine(root,first.Id,"native","verification.json");var corrupted=JsonSerializer.Serialize(store.Jobs[first.Id],BuildStore.Json).Replace("cancelled","forged_state");File.WriteAllText(file,corrupted);var closed=Store(settings);Check(closed.Jobs[first.Id].Error=="invalid_verification_record"&&closed.Jobs[first.Id].Attempt==settings.AttemptsPerBuild,"invalid record allowed retry bypass");
 Console.WriteLine("PASS disabled/old-source guards, bounded/idempotent queue, retention leases, cancellation separation, persistent hashed quotas and corrupt-state rejection; no service or SDK launched");
+
+settings.EnforceQuotas=false;
+var unlimited=Store(settings);var extra=Fake();Check(Status(unlimited.Submit(extra,context))==202,"trusted native quota opt-out rejected");
+var retained=System.Text.Json.JsonDocument.Parse(File.ReadAllText(Path.Combine(root,"native-quota.json")));
+Check(retained.RootElement.GetProperty("used").GetInt32()==4,"trusted native usage not retained");
+settings.EnforceQuotas=true;
+Check(Status(Store(settings).Submit(Fake(),context))==429,"re-enabled native quota lost retained charges");
+Console.WriteLine("PASS trusted native opt-out retains charges and re-enabled daily rejection");

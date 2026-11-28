@@ -38,6 +38,7 @@ builder.Services.AddOptions<Microsoft.AspNetCore.RateLimiting.RateLimiterOptions
 {
     options.RejectionStatusCode = 429;
     options.GlobalLimiter = System.Threading.RateLimiting.PartitionedRateLimiter.Create<HttpContext, string>(ctx =>
+        !limits.Value.EnforceQuotas ? System.Threading.RateLimiting.RateLimitPartition.GetNoLimiter<string>(PublicBuildPolicy.Ip(ctx)) :
         System.Threading.RateLimiting.RateLimitPartition.GetFixedWindowLimiter(PublicBuildPolicy.Ip(ctx), _ => new()
         { PermitLimit = limits.Value.ApiRequestsPerMinutePerIp, Window = TimeSpan.FromMinutes(1), QueueLimit = 0 }));
     options.OnRejected = async (context, ct) =>

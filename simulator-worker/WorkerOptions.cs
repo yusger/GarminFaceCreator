@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 sealed class WorkerOptions
 {
+    public bool EnforceQuotas { get; set; } = true;
     public string SocketPath { get; set; } = "/run/gfc-simulator/worker.sock";
     public string WorkRoot { get; set; } = "/var/lib/gfc-simulator";
     public string SdkRoot { get; set; } = "/opt/gfc/sdk";

@@ -29,7 +29,7 @@ sealed class NativeRunner
     void Charge()
     {
         string file = Path.Combine(root, "quota.json"), day = DateTimeOffset.UtcNow.ToOffset(TimeSpan.FromHours(8)).ToString("yyyyMMdd"); var current = File.Exists(file) ? JsonSerializer.Deserialize<Counter>(File.ReadAllText(file)) ?? throw new InvalidDataException("Invalid worker quota") : new(day, 0);
-        if (current.Day != day) current = new(day, 0); if (current.Used >= options.RunsPerDay) throw new NativeBusyException(); var tmp = file + ".tmp"; File.WriteAllText(tmp, JsonSerializer.Serialize(current with { Used = current.Used + 1 })); File.Move(tmp, file, true);
+        if (current.Day != day) current = new(day, 0); if (options.EnforceQuotas && current.Used >= options.RunsPerDay) throw new NativeBusyException(); var tmp = file + ".tmp"; File.WriteAllText(tmp, JsonSerializer.Serialize(current with { Used = current.Used + 1 })); File.Move(tmp, file, true);
     }
     public async Task<NativeVerification> Run(string target, string hash, byte[] prg, CancellationToken abort)
     {
