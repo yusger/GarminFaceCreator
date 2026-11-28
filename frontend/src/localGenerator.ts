@@ -1,3 +1,4 @@
+import {useLibraryIconMask} from "./libraryIconMasks.ts";
 import {nativeMoonFiles} from "./nativeMoon.ts";
 import {bitmapFontDiagnostics,bitmapFontResourceId,usedBitmapFonts} from "./bitmapFonts.ts";
 import {nativeBitmapFontFiles} from "./nativeBitmapFonts.ts";
@@ -37,7 +38,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-67-bitmap-typography";
+export const LOCAL_GENERATOR_VERSION = "basic-68-library-icon-masks";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -120,7 +121,7 @@ function primitive(l: Layer, aod: boolean, targetScale:number) {
       : "")
   );
 }
-function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):string {
+function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string,maskIcon=false):string {
   if (!aod && l.activeVisible === false) return "";
   if (
     aod &&
@@ -218,7 +219,7 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string):
   if (l.kind === "image" && !l.libraryIcon)
     return `drawStaticImage(dc,Rez.Drawables.${bitmapId(l)},px(${num(l.x)}),px(${num(l.y)}));`;
   if (l.kind === "image" && l.libraryIcon)
-    return `GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
+    return maskIcon?`GfcIcons.${iconDrawMethod(l)}Tint(dc,px(${num(l.x)}),px(${num(l.y)}),${color(aod?l.aodColor||l.color:l.color)});`:`GfcIcons.${iconDrawMethod(l)}(dc,px(${num(l.x)}),px(${num(l.y)}));`;
   if (["rect", "circle", "line", "polygon"].includes(l.kind))
     return `{${primitive(l, aod, targetScale)}}`;
   const align = l.textAlign || "center",
@@ -274,7 +275,7 @@ function bitmapId(l: Layer) {
   return "GfcImage_" + l.id.replace(/[^a-zA-Z0-9]/g, "_");
 }
 function visibleDraw(l: Layer, aod: boolean, p: Project, owner?:string) {
-  const code = nativeControlledDraw(p, l, aod, (input) => draw(input, aod, generationDevice(p).screenWidth/454));
+  const code = nativeControlledDraw(p, l, aod, (input) => draw(input, aod, generationDevice(p).screenWidth/454,undefined,useLibraryIconMask(p,input)));
   return mappedDraw(code ? `if(${nativeVisibility(l, aod)}){${code}}` : "",{layerId:owner || l.id,partId:l.id,capabilityId:"core."+l.kind,mode:aod?"aod":"active"});
 }
 export function localGenerate(p: Project) {

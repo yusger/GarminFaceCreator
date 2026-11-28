@@ -1,3 +1,4 @@
+import {preparedLibraryIconMasks,useLibraryIconMask} from "./libraryIconMasks.ts";
 import {preparedBitmapFonts} from "./bitmapFonts.ts";
 import { expandWidgets } from "./compound.ts";
 import {preparedIconMasks} from "./iconMasks";
@@ -116,6 +117,10 @@ export async function rasterIcon(
     height = Math.max(1, Math.ceil((l.h * device.screenHeight) / 454));
   if (width > 2048 || height > 2048)
     throw Error("素材栅格化尺寸最多 2048 像素");
+  return rasterIconAtSize(l,width,height);
+}
+export async function rasterIconAtSize(l:Layer,width:number,height:number){
+ if(!Number.isInteger(width)||!Number.isInteger(height)||width<1||height<1||width>2048||height>2048)throw Error("素材像素尺寸无效");
   const doc = new DOMParser().parseFromString(
     await styledIcon(l),
     "image/svg+xml",
@@ -137,6 +142,7 @@ export async function preparedAssets(p: Project) {
   for (const l of p.layers.filter(
     (l) => l.libraryIcon && l.exportIncluded !== false,
   )) {
+    if(useLibraryIconMask(p,l)){assets.delete(imageAssetPath(l));continue;}
     if (l.weatherIcon) assets.delete(imageAssetPath(l));
     for (const v of iconVariants(l))
       assets.set(iconResourcePath(l, v.key), {
@@ -148,6 +154,6 @@ export async function preparedAssets(p: Project) {
       });
   }
 
-  for (const a of [...(await preparedChalk(p)).assets,...(await preparedBitmapFonts(p)).assets,...(await preparedIconMasks(p)).assets]) assets.set(a.path, a);
+  for (const a of [...(await preparedChalk(p)).assets,...(await preparedBitmapFonts(p)).assets,...(await preparedIconMasks(p)).assets,...(await preparedLibraryIconMasks(p)).assets]) assets.set(a.path, a);
   return [...assets.values()];
 }

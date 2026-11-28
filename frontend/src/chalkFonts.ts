@@ -1,3 +1,4 @@
+import {preparedLibraryIconMasks} from "./libraryIconMasks.ts";
 import {preparedBitmapFonts} from "./bitmapFonts.ts";
 import {requiredFontGlyphs} from "./fontGlyphs.ts";
 import {preparedIconMasks} from "./iconMasks.ts";
@@ -170,6 +171,6 @@ export function preparedChalk(p: Project) {
 export async function preparedCodeFiles(p: Project) {
   const chalk = await preparedChalk(p),
     files = new Map(p.files.map((f) => [f.path, f]));
-  for (const f of [...chalk.files,...(await preparedBitmapFonts(p)).files,...(await preparedIconMasks(p)).files]) files.set(f.path, f);
+  for (const f of [...chalk.files,...(await preparedBitmapFonts(p)).files,...(await preparedIconMasks(p)).files,...(await preparedLibraryIconMasks(p)).files]) files.set(f.path, f);
   return [...files.values()];
 }

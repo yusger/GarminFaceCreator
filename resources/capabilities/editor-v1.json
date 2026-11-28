@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.19.1",
+  "version": "1.20.0",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -628,7 +628,17 @@
       "sourceSwitch": "ProjectControl.sourceIcons; explicit members by allowed source",
       "stateSwitch": "existing Compound visibility rules and images",
       "test": "frontend/tests/icon-masks.spec.ts",
-      "aiCreate": "optional approved Lucide iconId on image layer; mapped to existing recolorable libraryIcon, stroke2; mutually exclusive with uploaded referenceId; static icon is not automatic data binding"
+      "aiCreate": "optional approved Lucide iconId on image layer; mapped to existing recolorable libraryIcon, stroke2; mutually exclusive with uploaded referenceId; static icon is not automatic data binding",
+      "nativeTint": {
+        "targets": [
+          "venu445mm",
+          "venu441mm"
+        ],
+        "scope": "recolorable library icons at 6..128 physical pixels; grayscale glyphs preserve runtime ink and AOD ink",
+        "budget": "96 mask layers, aggregate 131072 physical glyph pixels, <=512x2048 atlas per layer",
+        "fallback": "unmeasured target, full-colour or unsupported size uses existing bitmap path without new runtime-tint guarantee",
+        "calibration": "SDK9.3 y-1 font inset; native recapture required"
+      }
     },
     "sourceDisplay": {
       "labels": [

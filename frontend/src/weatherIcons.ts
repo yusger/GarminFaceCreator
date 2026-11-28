@@ -1,3 +1,4 @@
+import {useLibraryIconMask,libraryIconMaskId,libraryIconMaskLayers} from "./libraryIconMasks.ts";
 import {nativeWeatherFile,needsNativeWeather} from "./nativeWeather.ts";
 import type { Layer, Project, CodeFile } from "./domain.ts";
 // Official Toybox.Weather.Condition enum values (API 3.2); shared by preview and generated native helper.
@@ -100,10 +101,11 @@ export function nativeIconBindings(p: Project) {
     .filter((l) => l.exportIncluded !== false && l.libraryIcon)
     .map((l) => ({
       layerId: l.id,
-      call: `GfcIcons.${iconDrawMethod(l)}(dc, scaledX, scaledY)`,
+      call: useLibraryIconMask(p,l)?`GfcIcons.${iconDrawMethod(l)}Tint(dc,scaledX,scaledY,activeOrAodInk)`:`GfcIcons.${iconDrawMethod(l)}(dc, scaledX, scaledY)`,
+      ...(useLibraryIconMask(p,l)?{tint:"Runtime color and AOD ink supported via licensed grayscale glyph masks; 6..128 physical px, Venu4 only",fontId:libraryIconMaskId(l)}:{}),
       weather: !!l.weatherIcon,
       ...(l.weatherIcon?{prepare:"GfcIcons.prepare(lowPower); call once each frame before icon draws; AOD reuses last active shared weather"}:{}),
-      assets: iconVariants(l).map((v) => ({
+      assets: (useLibraryIconMask(p,l)?[]:iconVariants(l)).map((v) => ({
         ...v,
         path: iconResourcePath(l, v.key),
         drawable: iconSymbol(l, v.key),
@@ -115,7 +117,8 @@ export function nativeIconFiles(p: Project): CodeFile[] {
     (l) => l.exportIncluded !== false && l.libraryIcon,
   );
   if (!layers.length) return [];
-  const drawables = layers
+  const masks=libraryIconMaskLayers(p);
+  const drawables = layers.filter(l=>!useLibraryIconMask(p,l))
     .flatMap((l) =>
       iconVariants(l).map(
         (v) =>
@@ -125,6 +128,11 @@ export function nativeIconFiles(p: Project): CodeFile[] {
     .join("");
   const methods = layers
     .map((l) => {
+      if(useLibraryIconMask(p,l)){
+       const id=libraryIconMaskId(l),variants=iconVariants(l),fallback=l.weatherIcon?variants.findIndex(v=>v.key==="missing"):0;
+       const choose=l.weatherIcon?weatherGroups.filter(g=>g.key!=="missing").map(g=>`if(${g.values.map(v=>`condition==${v}`).join("||")}){glyph="${String.fromCharCode(65+variants.findIndex(v=>v.key===g.key))}";}`).join("else "):"";
+       return `static var font_${id}=null;static function ${iconDrawMethod(l)}(dc as Graphics.Dc,x,y) as Void {${iconDrawMethod(l)}Tint(dc,x,y,0x${l.color.slice(1)});}static function ${iconDrawMethod(l)}Tint(dc as Graphics.Dc,x,y,ink) as Void {if(font_${id}==null){font_${id}=WatchUi.loadResource(Rez.Fonts.${id});}var glyph="${String.fromCharCode(65+fallback)}";${l.weatherIcon?`var condition=cachedCondition;if(condition!=null){${choose}}`:""}dc.setFill(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setStroke(Graphics.createColor(255,(ink>>16)&255,(ink>>8)&255,ink&255));dc.setColor(ink,Graphics.COLOR_TRANSPARENT);dc.drawText(x,y-1,font_${id},glyph,Graphics.TEXT_JUSTIFY_LEFT);}`;
+      }
       const start = `static function ${iconDrawMethod(l)}(dc as Graphics.Dc,x,y) as Void {`;
       if (!l.weatherIcon)
         return (
@@ -145,13 +153,14 @@ export function nativeIconFiles(p: Project): CodeFile[] {
     })
     .join("\n");
   return [
+    ...(masks.length?[{path:"resources/fonts/gfc-library-icons.xml",content:"<fonts>"+masks.map(l=>`<font id="${libraryIconMaskId(l)}" filename="${libraryIconMaskId(l)}.fnt" antialias="true"/>`).join("")+"</fonts>"}]:[]),
     {
       path: "resources/drawables/gfc-icons.xml",
       content: `<drawables>${drawables}</drawables>`,
     },
     {
       path: "source/GfcIcons.mc",
-      content: `// GarminFaceCreator fixed icon adapter icons-2. Weather categories are approximate pictograms, not severe-weather warnings.
+      content: `// GarminFaceCreator fixed icon adapter icons-3-mask-tint. Weather categories are approximate pictograms, not severe-weather warnings.
 import Toybox.Graphics;import Toybox.WatchUi;import Toybox.Weather;class GfcIcons {${layers.some(l=>l.weatherIcon)?"static var cachedCondition=null;static function prepare(low){var data=GfcWeather.read(low);cachedCondition=null;if(data!=null && data has :condition){cachedCondition=data.condition;}}":""}${methods}}`,
     },
   ];
