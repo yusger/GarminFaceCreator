@@ -289,7 +289,7 @@
         "PulseManiac-Font-Sources.json"
       ],
       "path": "/default-watchfaces/pulsemaniac/project.json",
-      "sha256": "791d0868637b9dd763ed7acf4c7217b29e40d7a1ad5ab71a5aa86b8365417378"
+      "sha256": "7a714978614930284c060e36f8de9ae40532b0a19ecdaacaa1f61d9faf1533ab"
     },
     {
       "id": "00000000-0000-4000-8000-000000000012",
@@ -315,7 +315,7 @@
         "repository-LICENSE.txt"
       ],
       "path": "/default-watchfaces/sonar/project.json",
-      "sha256": "ba4b11d5abac61d5a29e8c4ebfd09f93c01c8082df0333976b4fc6468a15f4cc"
+      "sha256": "d0ab017ea505e0eb6aaee32ddf1597872da5f2cd048483b09ebc1cde263b835c"
     },
     {
       "id": "00000000-0000-4000-8000-000000000454",
@@ -340,7 +340,7 @@
         "trail-Rajdhani-OFL.txt"
       ],
       "path": "/default-watchfaces/trail/project.json",
-      "sha256": "be49e174fe0ebddf289c2207c35fd563b131f7c8433227f53e42176477c770b7"
+      "sha256": "049f7f3e5a536a720107bc0135d9ddbfeaa2a13b64df7e1897c77834b03d18d2"
     }
   ],
   "generators": [

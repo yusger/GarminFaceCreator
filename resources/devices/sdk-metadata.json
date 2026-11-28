@@ -1,5 +1,5 @@
 {
-  "version": "sdk-metadata-1-7722889381ba",
+  "version": "sdk-metadata-1-0395c8c0074d",
   "sourcePolicy": "Facts extracted from installed device packages; firmware, hardware and power are not verified. No SDK binaries, fonts or host paths included.",
   "devices": [
     {
@@ -29,6 +29,23 @@
         "pressure",
         "pulseox",
         "temperature"
+      ],
+      "vectorFontFaces": [
+        "BionicBold",
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansArmenianBold",
+        "NotoSansArmenianRegular",
+        "NotoSansHebrewBold",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoCondensedBold",
+        "RobotoCondensedRegular",
+        "RobotoItalic",
+        "RobotoRegular"
       ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
@@ -61,6 +78,26 @@
         "pulseox",
         "temperature"
       ],
+      "vectorFontFaces": [
+        "BionicBold",
+        "BionicMedium",
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansArmenianBold",
+        "NotoSansArmenianRegular",
+        "NotoSansHebrewBold",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoCondensedBold",
+        "RobotoCondensedRegular",
+        "RobotoItalic",
+        "RobotoMedium",
+        "RobotoRegular",
+        "YantramanavRegular"
+      ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
     },
@@ -92,6 +129,16 @@
         "pulseox",
         "temperature"
       ],
+      "vectorFontFaces": [
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoRegular",
+        "YantramanavRegular"
+      ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
     },
@@ -122,6 +169,16 @@
         "pressure",
         "pulseox",
         "temperature"
+      ],
+      "vectorFontFaces": [
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoRegular",
+        "YantramanavRegular"
       ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
@@ -156,6 +213,22 @@
         "stress",
         "temperature"
       ],
+      "vectorFontFaces": [
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansArmenianBold",
+        "NotoSansArmenianRegular",
+        "NotoSansHebrewBold",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoCondensedBold",
+        "RobotoCondensedRegular",
+        "RobotoItalic",
+        "RobotoRegular"
+      ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
     },
@@ -188,6 +261,22 @@
         "pulseox",
         "stress",
         "temperature"
+      ],
+      "vectorFontFaces": [
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansArmenianBold",
+        "NotoSansArmenianRegular",
+        "NotoSansHebrewBold",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoCondensedBold",
+        "RobotoCondensedRegular",
+        "RobotoItalic",
+        "RobotoRegular"
       ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
@@ -222,6 +311,22 @@
         "stress",
         "temperature"
       ],
+      "vectorFontFaces": [
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansArmenianBold",
+        "NotoSansArmenianRegular",
+        "NotoSansHebrewBold",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoCondensedBold",
+        "RobotoCondensedRegular",
+        "RobotoItalic",
+        "RobotoRegular"
+      ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
     },
@@ -253,6 +358,25 @@
         "pulseox",
         "temperature"
       ],
+      "vectorFontFaces": [
+        "BionicBold",
+        "BionicMedium",
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansArmenianBold",
+        "NotoSansArmenianRegular",
+        "NotoSansHebrewBold",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoCondensedBold",
+        "RobotoCondensedRegular",
+        "RobotoItalic",
+        "RobotoMedium",
+        "RobotoRegular"
+      ],
       "aod": "unverified",
       "hardwareValidation": "unverified"
     },
@@ -283,6 +407,25 @@
         "pressure",
         "pulseox",
         "temperature"
+      ],
+      "vectorFontFaces": [
+        "BionicBold",
+        "BionicMedium",
+        "KosugiRegular",
+        "NanumGothicBold",
+        "NotoNaskhArabicBold",
+        "NotoNaskhArabicRegular",
+        "NotoSansArmenianBold",
+        "NotoSansArmenianRegular",
+        "NotoSansHebrewBold",
+        "NotoSansHebrewRegular",
+        "NotoSansSCMedium",
+        "PridiRegular",
+        "RobotoCondensedBold",
+        "RobotoCondensedRegular",
+        "RobotoItalic",
+        "RobotoMedium",
+        "RobotoRegular"
       ],
       "aod": "unverified",
       "hardwareValidation": "unverified"

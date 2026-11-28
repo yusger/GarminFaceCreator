@@ -19,6 +19,7 @@ export type DeviceMetadata = {
   watchFaceMemoryBytes?: number | null;
   graphicsPoolBytes?: number | null;
   sensorHistory?: string[];
+  vectorFontFaces?: string[];
   aod: string;
   hardwareValidation: string;
 };
