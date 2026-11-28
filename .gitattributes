@@ -61,3 +61,6 @@ docs/research/native-font-memory/** -text
 
 # Precision-theme package manifests hash exact resource bytes.
 resources/examples/theme-project-v2/** -text
+
+# Preserve raw SDK/browser matrix evidence and exact audit hashes.
+docs/research/trail-native-matrix/** -text

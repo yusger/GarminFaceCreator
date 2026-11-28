@@ -1,0 +1,11 @@
+{
+  "scenario": "matrix41",
+  "states": [],
+  "prgSha256": "8cc42c8eca6f0a9a071d5e2b00348c2353697237703cb8320cc3132616025711",
+  "sourceSha256": "8949d774eac7674346861a4506e350cf144a95ab68012e555bee685a3c5aa350",
+  "cleanupStatus": "completed",
+  "applicationDataMode": "controlled-fixed-data",
+  "aodMode": "forced rendering; not lifecycle",
+  "hardware": "unverified",
+  "sleepTransition": "unverified"
+}

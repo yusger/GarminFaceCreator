@@ -63,3 +63,5 @@
 阶段154首轮：9081bf4工具在113对两尺寸各一个完整PRG运行成功，12个固定场景均有编号/VM日志，SDK/原生/cleanup通过，worker累计95/100。桌面帧与独立SDK导出PNG的暗色RGB映射存在差异（例8,16,16对2,7,7），因此像素工具拒绝把桌面裁剪作为等价原始帧；未虚报精细对照通过。现改为每场景直接调用SDK Capture Screen导出原始PNG，沿用48秒序列、80秒门禁和资源预算，准备复验。
 
 阶段154 SDK逐帧首试失败：快速文件对话框操作未完成，工具报remote1；正常API最终返回simulator_exited_before_capture，交互门禁超时且cleanup completed，worker96/100。并非表盘VM错误，不当作视觉通过。修正为按原SDK采集工具等待对话框与路径提交，每场景6秒（全序列72秒），仍在原80秒门禁与120秒worker内，不改资源/配额；增加操作trace，继续保存旧失败。
+
+阶段154完整SDK原图矩阵：b49eefa工具在113两尺寸各一个完整PRG成功采集三主题×正常/强制AOD/高值/缺失12帧，cleanup completed。24组网页/SDK原图、输入、摘要和像素指标在 docs/research/trail-native-matrix；未调整整屏MAE0.261–4.056/255，前景另列，不当作还原率。24网页帧warnings为空，实际Sleep/真机/41mm菜单/跨PRG重载仍待独立证据。最终SDK截图保留原始字节；桌面色差与一次文件对话框超时失败均未丢弃。
