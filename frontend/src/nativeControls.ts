@@ -1,3 +1,4 @@
+import {factorNativeTextBranches} from "./nativeTextBranches.ts";
 import {thresholdRoleIndex} from "./thresholds.ts";
 import {controlSettingKey,legacySettingKey,sourceCode,nativeSourceSettings} from "./nativeSettingIds.ts";
 import { nativeThemeMenu } from "./nativeThemeMenu.ts";
@@ -60,14 +61,10 @@ export function nativeControlledDraw(
       code = code.replaceAll(token, value);
     return code;
   };
-  let code = source
-    ? source
-        .options!.map(
-          (value, i) =>
-            `${i ? "else " : ""}if(${variable(source.id)}.equals(${JSON.stringify(value)})){${make(l.sourceLabelFor ? { ...l, text: sourceLabelText({...l,text:p.layers.find(x=>x.id===l.id)?.text??l.text},value,controls), sourceLabelFor: undefined } : source.slot ? sourceSlotLayer(p, l, source, value) : { ...l, source: value })}}`,
-        )
-        .join("")
-    : make(l);
+  const branches=source?.options!.map(value=>make(l.sourceLabelFor ? { ...l, text: sourceLabelText({...l,text:p.layers.find(x=>x.id===l.id)?.text??l.text},value,controls), sourceLabelFor: undefined } : source.slot ? sourceSlotLayer(p, l, source, value) : { ...l, source: value }));
+  const factored=branches?factorNativeTextBranches(branches):null;
+  let code = source ? (factored?.branches||branches!).map((branch,i)=>`${i?"else ":""}if(${variable(source.id)}.equals(${JSON.stringify(source.options![i])})){${branch}}`).join("") : make(l);
+  if(factored)code="{var gfcSlotText=null;"+code+"if(gfcSlotText!=null){"+factored.call+"}}";
   const conditions: string[] = [];
   if (!aod) {
     const bool = controls.find(

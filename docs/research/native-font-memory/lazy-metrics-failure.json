@@ -1,0 +1,11 @@
+{
+  "stage": 150,
+  "target": "venu445mm",
+  "status": "failed",
+  "prgSha256": "60172975a1903a4fc344602dfbee92ea6fa0f9a4257316d2da1c959782ba33c9",
+  "sourceSha256": "85f8f6a63aef5d64f38a0b4b131b681f9492b3516587e19a10a1f4b2e42a1903",
+  "generatorVersion": "basic-74-lazy-font-metrics-fixture",
+  "logs": "No expected frame report before timeout\nGFC_VM_MEMORY used=116352 total=126784 free=10432\nGFC_THEME_UI_STATE apex\nGfc_Theme=2009808953\nGfc_Background_2009808953=922393\nGfc_Background_2078923795=1052171\nGfc_Background_1156566441=528656\nGfc_Source_apex_value_apex_tl=-1\nGfc_apex_value_apex_tl_color=3727824\nGfc_Source_apex_value_apex_tr=-1\nGfc_apex_value_apex_tr_color=15397366\nGfc_apex_show_bg_art=true\nGfc_apex_show_ticks=true\nGfc_apex_show_seconds=true\n\nError: Out Of Memory Error\nDetails: Failed invoking <symbol>\nStack: \n  - 0x10000037 \n  - 0x1000d339 \n  - 0x100166ba \nEncountered an app crash.\n03:30:22: Debug: Adding duplicate image handler for 'JPEG file'\n03:30:22: Debug: SetLayout\n\n",
+  "cleanupStatus": "completed",
+  "memoryMeasurement": "docker stats sample; not exact peak or watchface memory"
+}
