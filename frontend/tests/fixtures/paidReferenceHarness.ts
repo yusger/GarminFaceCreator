@@ -1,3 +1,4 @@
+import {preservedFontBindings} from "../../src/nativePreservedFonts";
 ﻿import {generationDevice} from "../../src/devices";
 import {generate,repairCode} from "../../src/api";
 import {loadReferencePackage,copyReference} from "../../src/builtins";
@@ -8,4 +9,4 @@ import {preparedAssets} from "../../src/iconLibrary";
 import {readProfiles} from "../../src/storage";
 import {repairRoot,repairBudgetKey,managedRepairPaths,redactRepair} from "../../src/repair";
 import {captureWatchface} from "../../src/watchfaceCapture";
-Object.assign(window,{gfcPaidReference:{generationDevice,generate,repairCode,loadReferencePackage,copyReference,referenceAttributions,addCodeVersion,preparedCodeFiles,preparedAssets,readProfiles,repairRoot,repairBudgetKey,managedRepairPaths,redactRepair,captureWatchface}});
+Object.assign(window,{gfcPaidReference:{preservedFontBindings,generationDevice,generate,repairCode,loadReferencePackage,copyReference,referenceAttributions,addCodeVersion,preparedCodeFiles,preparedAssets,readProfiles,repairRoot,repairBudgetKey,managedRepairPaths,redactRepair,captureWatchface}});

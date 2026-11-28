@@ -37,3 +37,5 @@
 - [组件主样式与实例](component-styles.md)：Schema50显式插槽、版本同步、实例覆盖、脱离和AI边界。
 
 - [精确主题项目包 v2](theme-project-package-v2.md)：Schema50、精确双尺寸字体与组件样式；旧主题v1和发布v2保持冻结。
+
+- [AI工程资源与绘图契约](ai-engineering-resources.md)：目标图片边界、原生字体保留、文本锚点及SDK返回类型。

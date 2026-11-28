@@ -23,7 +23,7 @@ try{
  const page=await browser.newPage();await page.goto(url.origin);await page.addScriptTag({content:entry.code});
  const descriptors=await page.evaluate(()=>window.gfcPaidReference.referenceAttributions.map(x=>({slug:x.template,name:x.name,id:x.id})));
  if(process.env.GFC_PAID_AUDIT_PREFLIGHT==="1"){
-  const preflight=await page.evaluate(async()=>{const h=window.gfcPaidReference,profile=h.readProfiles().find(p=>(p.provider==="deepseek"||p.url.includes("deepseek"))&&p.key);if(!profile)throw Error("Stored DeepSeek profile missing");const references=[];for(const d of h.referenceAttributions){const p=h.copyReference(await h.loadReferencePackage(d),d.name),device=h.generationDevice(p);p.target=device.target;p.deviceSize=device.size;references.push({slug:d.template,name:p.name,target:p.target,layers:p.layers.length,files:p.files.length});}return {model:profile.model,references,paidCalls:0};});
+  const preflight=await page.evaluate(async()=>{const h=window.gfcPaidReference,profile=h.readProfiles().find(p=>(p.provider==="deepseek"||p.url.includes("deepseek"))&&p.key);if(!profile)throw Error("Stored DeepSeek profile missing");const references=[];for(const d of h.referenceAttributions){const p=h.copyReference(await h.loadReferencePackage(d),d.name),device=h.generationDevice(p);p.target=device.target;p.deviceSize=device.size;references.push({slug:d.template,name:p.name,target:p.target,layers:p.layers.length,files:p.files.length,preservedFonts:h.preservedFontBindings(p).map(f=>({path:f.path,resourceIds:f.resourceIds}))});}return {model:profile.model,references,paidCalls:0};});
   await write("preflight.json",preflight);console.log(JSON.stringify(preflight));
  }else{
  const only=process.env.GFC_PAID_AUDIT_ONLY?.split(",");

@@ -1,3 +1,4 @@
+import {preservedFontBindings,mergePreservedFonts} from "./nativePreservedFonts";
 import {nativeImageBindings} from "./nativeImageResources";
 import {mergeNativeSettings} from "./nativeManagedSettings";
 import {mergeNativeMoon} from "./nativeMoon";
@@ -176,6 +177,7 @@ export async function generate(
           iconVariants(l).map((v) => ({ path: iconResourcePath(l, v.key) })),
         ),
     ],
+    preservedFontResources:preservedFontBindings(project),
     nativeImageBindings:nativeImageBindings(project),
     nativeGeometryPolicy:"All layer x/y/w/h describe TOP-LEFT bounds. Plain center-aligned text anchors at x+w/2, right at x+w, left at x; vertically center using measured font height. GfcBitmapText.drawDetailed already receives the top-left bounds and performs alignment itself. Default textAlign is center when absent. Coordinates accept both integer and float design values: use Lang.Numeric for shared geometric helper parameters, not Float-only or Number-only signatures. Use Gregorian.info for calendar fields; System.ClockTime has only time fields. Respect actual month lengths and leap years. Never parse a hexadecimal character with String.toNumber as if it were a character code; use a character code or an explicit value map.",
     nativeImageScalePolicy:"Source PNGs may be much larger than their intended on-watch bounds. Use nativeImageBindings resourceScale attributes (pixel-rounded for the selected target) so the resource compiler scales them before quantization. Full-color/translucent art uses packingFormat=png and automaticPalette=false. Do not declare a 1254px portrait as an unscaled bitmap to draw into a 220px layer: this can exhaust the compiler heap or crop the result. Never raise server memory limits or drop images to compensate. Preserve source bytes and all state images.",
@@ -256,7 +258,7 @@ export async function generate(
     );
   try {
     const files=mergeNativeSettings(project,mergeNativeFrameReporter(project,mergeNativeFonts(project,mergeNativeWordTime(project,mergeNativeIcons(project,mergeNativeMoon(project,parseFiles(content)))))));
-    return parseFiles(JSON.stringify({files}));
+    return parseFiles(JSON.stringify({files:mergePreservedFonts(project,files)}));
   } catch (error) {
     throw new GenerationFailure((error as Error).message, content);
   }
