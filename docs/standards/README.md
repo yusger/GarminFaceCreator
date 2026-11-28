@@ -33,3 +33,5 @@
 - [主题颜色与字体角色](appearance-roles.md)：Schema49的明确引用、解绑、阈值语义、AI与设备覆盖边界。
 
 - [外部主题项目包](theme-project-package-v1.md)：独立Schema49契约、主题/设备矩阵、字体和资源清单、离线转换边界。
+
+- [组件主样式与实例](component-styles.md)：Schema50显式插槽、版本同步、实例覆盖、脱离和AI边界。

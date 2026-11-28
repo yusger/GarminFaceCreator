@@ -1,3 +1,4 @@
+import {validateComponentStyles,type ComponentStyle,type ComponentStyleLink} from "./componentStyles.ts";
 import {validateFontRoles,remapFontRoles,type FontRole} from "./fontRoles.ts";
 import {validateBitmapFonts,type BitmapFontAsset} from "./bitmapFonts.ts";
 import {meterSources} from "./meters.ts";
@@ -35,6 +36,7 @@ export type Kind =
   | "arcText";
 export type ThresholdRange = { min?: number; max?: number; color: string };
 export type Layer = {
+  componentStyle?:ComponentStyleLink;
   moonHemisphere?:"north"|"south";
   chart?:ChartConfig;
   arcRadius?:number;
@@ -196,6 +198,7 @@ export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
   themes?:ThemeSet;
   fontRoles?:FontRole[];
+  componentStyles?:ComponentStyle[];
   localFonts?:LocalFont[];
   bitmapFonts?:BitmapFontAsset[];
   designBrief?: string;
@@ -216,6 +219,7 @@ export type DesignSnapshot = {
 export type Project = {
   themes?:ThemeSet;
   fontRoles?:FontRole[];
+  componentStyles?:ComponentStyle[];
   localFonts?:LocalFont[];
   bitmapFonts?:BitmapFontAsset[];
   designBrief?: string;
@@ -264,7 +268,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49;
+    | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49 | 50;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -839,6 +843,7 @@ export function validateProject(value: unknown): Project {
   if(nodes.length>200||new Set(nodes.map(l=>l.id)).size!==nodes.length)throw Error("对象及内部图层重复或超过200个");
   const allControls=[...(p.controls||[]),...p.layers.flatMap(l=>l.compound?.controls||[])];
   if(allControls.length>40||new Set(allControls.map(c=>c.id)).size!==allControls.length)throw Error("配置项重复或超过40个");
+  validateComponentStyles(p);
   validateFontRoles(p);
   validateControls(p);
   validateMultiDevice(p, validateProject);

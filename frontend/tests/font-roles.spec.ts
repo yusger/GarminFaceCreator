@@ -393,7 +393,7 @@ test("113 font roles create, update, detach, undo and persist in the actual edit
   await page.getByRole("button", { name: "打开 Roles", exact: true }).click();
   saved = await dump();
   expect(saved.fontRoles[0].layerIds).toEqual(["title-b"]);
-  expect(saved.schemaVersion).toBe(49);
+  expect(saved.schemaVersion).toBe(50);
 });
 for (const key of ["venu445mm", "venu441mm"])
   test(

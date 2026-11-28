@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.25.0",
-  "projectSchemaVersion": 49,
+  "version": "1.26.0",
+  "projectSchemaVersion": 50,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -768,6 +768,16 @@
       "thresholds": "warning/danger/primary map by explicit source meaning for heartRate and battery; unrelated sources have no old ranges; fixed threshold color bindings apply only original slot source",
       "detach": "materialize current color before removing only the explicit binding; fonts retain current outlines; locked members reject",
       "legacy": "old widget/release-v2 remains frozen; no new runtime font menu implied"
+    },
+    "componentStyles": {
+      "schema": 50,
+      "limit": 24,
+      "scope": "shared design only; one-level compound instances",
+      "appearance": "explicit stable slot-key to private-layer-id mapping; geometry/color/AOD fields from compoundStyleKeys",
+      "preserved": "parent bounds, data/source configuration, public part switches, independent compound and device overrides, origin notices",
+      "version": "publish increments integer version atomically; locked instance blocks all; detach preserves current appearance, delete rejects linked definitions",
+      "ai": "public root create/publish/detach only; no direct private map or definition updates",
+      "unsupported": "font family, asset/structure replacement, nested instances and parent rotation are outside this style contract"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

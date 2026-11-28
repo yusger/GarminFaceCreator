@@ -1,3 +1,4 @@
+import ComponentStylePanel from "./ComponentStylePanel";
 import StateMappingEditor from "./StateMappingEditor";
 import { useState } from "react";
 import type { Layer, Project } from "./domain";
@@ -8,11 +9,13 @@ export default function CompoundInspector({
   project: p,
   onChange,
   onDecompose,
+  onProjectChange,
 }: {
   layer: Layer;
   project: Project;
   onChange: (patch: Partial<Layer>) => void;
   onDecompose: () => void;
+  onProjectChange:(p:Project)=>void;
 }) {
   const [editing, setEditing] = useState(false),
     [childId, setChildId] = useState("");
@@ -73,6 +76,7 @@ export default function CompoundInspector({
   };
   return (
     <div className="compound-inspector">
+      <ComponentStylePanel key={l.id} project={p} layer={l} onChange={onProjectChange}/>
       <p className="hint">
         复合控件 · 独立对象。部件隐藏后保留原位置，整体等比缩放。
       </p>

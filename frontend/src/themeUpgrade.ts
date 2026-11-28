@@ -132,6 +132,7 @@ export function upgradeThemeDefinition(
     layers: structuredClone(incoming.layers),
     controls: structuredClone(incoming.controls),
     fontRoles:structuredClone(incoming.fontRoles),
+    componentStyles:structuredClone(incoming.componentStyles),
     localFonts: structuredClone(incoming.localFonts),
     bitmapFonts: structuredClone(incoming.bitmapFonts),
     assets: structuredClone(incoming.assets),

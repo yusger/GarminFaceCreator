@@ -521,7 +521,7 @@ export default function App() {
     }
     const nextProject={
       ...withEditorLayers(base,layers),
-      revision:p.revision+((renderChanged(p.layers,layers)||base.backgroundColor!==p.backgroundColor||JSON.stringify(base.controlValues)!==JSON.stringify(p.controlValues))?1:0),
+      revision:p.revision+((renderChanged(p.layers,layers)||JSON.stringify(base.componentStyles)!==JSON.stringify(p.componentStyles)||base.backgroundColor!==p.backgroundColor||JSON.stringify(base.controlValues)!==JSON.stringify(p.controlValues))?1:0),
       updated:Date.now(),
     };
     activeProject.current=nextProject;
@@ -2181,7 +2181,7 @@ export default function App() {
                   <b>{current?.name || "画布属性"}</b>
                   <SlidersHorizontal size={16} />
                 </div>
-                {current?.kind==="widget" ? (<CompoundInspector key={current.id} layer={current} project={p} onChange={patch} onDecompose={()=>{try{const next=decomposeWidget(p,current.id);editLayers(next.layers,true,next);selectOne(next.layers.find(l=>!p.layers.some(old=>old.id===l.id))?.id||"");setNotice("已拆解为基础图层，可撤销恢复复合控件。");}catch(e){setNotice((e as Error).message);}}}/>) : current ? (
+                {current?.kind==="widget" ? (<CompoundInspector key={current.id} layer={current} project={p} onChange={patch} onProjectChange={next=>editLayers(next.layers,true,next)} onDecompose={()=>{try{const next=decomposeWidget(p,current.id);editLayers(next.layers,true,next);selectOne(next.layers.find(l=>!p.layers.some(old=>old.id===l.id))?.id||"");setNotice("已拆解为基础图层，可撤销恢复复合控件。");}catch(e){setNotice((e as Error).message);}}}/>) : current ? (
                   <>
                     <label>
                       图层名称

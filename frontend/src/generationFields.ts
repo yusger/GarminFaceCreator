@@ -1,6 +1,7 @@
 import type {Layer} from "./domain";
-export const GENERATION_FIELD_CONTRACT_VERSION="fields-8-bitmap-typography";
+export const GENERATION_FIELD_CONTRACT_VERSION="fields-9-component-style-metadata";
 type Omitted =
+  | "componentStyle"
   | "chart"
   | "polygonPoints"
   | "readoutSample"
@@ -115,6 +116,7 @@ export const generationScalarFields: Record<Exclude<keyof Layer, Omitted>, true>
   cornerRadius: true,
 };
 export const generationSpecialFields: Record<Omitted,string> = {
+  componentStyle:"editor master/instance link; baked child appearance is authoritative; never direct private geometry patches",
   chart:"validated daily time-series configuration; scalar whitelist only",
   "polygonPoints": "validated normalized simple outline point pairs; concave allowed, no holes/crossings/contacts; copied as numeric arrays",
   "readoutSample": "editor preview only; omitted",

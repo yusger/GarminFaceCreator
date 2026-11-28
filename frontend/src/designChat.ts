@@ -1,8 +1,9 @@
+import {createComponentStyle,publishComponentStyle,detachComponentStyle} from "./componentStyles.ts";
 import {reconcileDevices,deviceKey} from "./multiDevice.ts";
 import {createFontRole,addFontRoleMembers,setFontRole,detachFontRole,captureFontRoleEdits} from "./fontRoles.ts";
 import {setColorRoleSemantic,detachColorTarget} from "./colorRoles.ts";
 import {approvedFontChoices,fontChoicePatch} from "./fontChoices.ts";
-import {activeTheme,themeControls,selectTheme,resetTheme,setThemeBackground,themeBackground} from "./themes";
+import {activeTheme,themeControls,themeLayers,selectTheme,resetTheme,setThemeBackground,themeBackground} from "./themes";
 import {validateChart} from "./charts";
 import {generationContext} from "./generationContext";
 import {validPolygon} from "./geometry";
@@ -84,6 +85,7 @@ export function chatFingerprint(p: Project) {
     layers: p.layers,
     themes:p.themes,
     fontRoles:p.fontRoles,
+    componentStyles:p.componentStyles,
     bitmapFonts:p.bitmapFonts,
     controls: p.controls,
     controlValues: p.controlValues,
@@ -132,6 +134,8 @@ export function chatPayload(p: Project, selected: string[]) {
     coordinateSystem: { width: 454, height: 454, shape: "circle" },
     backgroundColor: scene.backgroundColor,
     themes:p.themes?{activeId:activeTheme(p)?.id,defaultId:p.themes.defaultId,presets:p.themes.presets.map(t=>({id:t.id,name:t.name,version:t.version,backgroundColor:themeBackground(p,t.id),defaultBackgroundColor:t.backgroundColor})),policy:"Operations target current theme/common objects only. Select a different theme explicitly before adjusting it. Reset clears current user control/background overrides, not geometry/default definitions. Never modify private theme internals."}:undefined,
+    componentStyles:p.componentStyles?.map(d=>({id:d.id,name:d.name,version:d.version,instances:p.layers.filter(l=>l.componentStyle?.id===d.id).map(l=>l.id)})),
+    componentStylePolicy:"Only create/publish/detach on existing public widget roots. No direct private layer maps or style-definition mutation. Publish preserves all instance sources, positions and public switches; locked instances block the transaction.",
     fontRoles:p.fontRoles?.filter(r=>!r.themeId||r.themeId===activeTheme(p)?.id),
     selectedLayerIds: selected,
     layers: scene.layers.map(describe),
@@ -161,6 +165,9 @@ export function chatPayload(p: Project, selected: string[]) {
       addKinds: kinds,
       maxOperations: 80,
       operations: [
+        {type:"componentStyle",action:"create",layerId:"existing public widget root",name:"主样式"},
+        {type:"componentStyle",action:"publish",layerId:"existing linked widget root"},
+        {type:"componentStyle",action:"detach",layerId:"existing linked widget root"},
         {type:"fontRole",action:"create",roleId:"new-stable-role",name:"文字字体",fontId:"approved font id",layerIds:["existing id"]},
         {type:"fontRole",action:"bind",roleId:"existing role id",layerIds:["existing unbound id"]},
         {type:"fontRole",action:"set",roleId:"existing role id",fontId:"approved font id"},
@@ -291,6 +298,12 @@ export function applyChat(
         throw Error("背景色无效");
       next=setThemeBackground(next,op.color);
       changes.push("背景色 → " + op.color);
+    } else if(op.type==="componentStyle"){
+      keys(op,op.action==="create"?["type","action","layerId","name"]:["type","action","layerId"]);const l=next.layers.find(l=>l.id===op.layerId);if(!l||!themeLayers(next).some(a=>a.id===l.id)||l.locked)throw Error("请选择当前主题未锁定的复合控件");
+      if(op.action==="create"){if(typeof op.name!=="string")throw Error("主样式名称缺失");next=createComponentStyle(next,l.id,op.name);}
+      else if(op.action==="publish")next=publishComponentStyle(next,l.id);
+      else if(op.action==="detach")next=detachComponentStyle(next,l.id);
+      else throw Error("组件样式操作无效");changes.push("组件主样式："+l.name);
     } else if(op.type==="fontRole"){
       if(op.action==="create"){keys(op,["type","action","roleId","name","fontId","layerIds"]);if(!Array.isArray(op.layerIds)||typeof op.roleId!=="string"||typeof op.name!=="string")throw Error("字体角色创建参数无效");next=createFontRole(next,op.roleId,op.name,op.fontId,op.layerIds);}
       else if(op.action==="bind"){keys(op,["type","action","roleId","layerIds"]);if(!Array.isArray(op.layerIds))throw Error("字体角色成员无效");next=addFontRoleMembers(next,op.roleId,op.layerIds);}

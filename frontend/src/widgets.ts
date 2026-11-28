@@ -200,6 +200,7 @@ export function cloneCompound(l: Layer): Layer {
       ? { sourceLabelFor: ids.get(c.sourceLabelFor) || c.sourceLabelFor }
       : {}),
   }));
+  if(copy.componentStyle)copy.componentStyle={...copy.componentStyle,bindings:Object.fromEntries(Object.entries(copy.componentStyle.bindings).map(([slot,id])=>[slot,ids.get(id)!]))};
   b.disabledLayers = b.disabledLayers?.map((id) => ids.get(id)!);
   b.parts = b.parts.map((part) => ({
     ...part,
