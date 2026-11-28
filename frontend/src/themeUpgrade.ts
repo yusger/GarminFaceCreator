@@ -1,17 +1,31 @@
+import { upgradeMultiDeviceThemes } from "./multiThemeUpgrade.ts";
 import { validateProject, type Project } from "./domain.ts";
 import { migrateProject } from "./migrations.ts";
 import { isReference } from "./builtins.ts";
 import { contextIdentity } from "./localIdentity.ts";
 import { editorFrame } from "./editorHistory.ts";
-export const themeUpgradeBase = (p: Project) =>
-  contextIdentity({
+export const themeUpgradeBase = (p: Project) => {
+  const { multiDevice, ...frame } = editorFrame(p);
+  return contextIdentity({
     id: p.id,
     appId: p.appId,
     target: p.target,
     deviceSize: p.deviceSize,
-    frame: editorFrame(p),
-    multiDevice: p.multiDevice,
+    frame,
+    multiDevice: multiDevice
+      ? {
+          master: multiDevice.master,
+          scope: multiDevice.scope,
+          variants: multiDevice.variants.map((v) => ({
+            key: v.key,
+            target: v.target,
+            deviceSize: v.deviceSize,
+            overrides: v.overrides,
+          })),
+        }
+      : undefined,
   });
+};
 const owner = (p: Project, id: string) =>
   p.themes?.presets.find((t) => t.controlIds.includes(id))?.id || "common";
 const versionCompare = (a: string, b: string) => {
@@ -19,12 +33,22 @@ const versionCompare = (a: string, b: string) => {
     y = b.split(".").map(Number);
   return x[0] - y[0] || x[1] - y[1] || x[2] - y[2];
 };
-export function upgradeThemeDefinition(current: Project, value: unknown) {
+export type ThemeUpgradeResult = {
+  project: Project;
+  retained: string[];
+  warnings: string[];
+  versions: { id: string; from?: string; to: string }[];
+  base: string;
+};
+export function upgradeThemeDefinition(
+  current: Project,
+  value: unknown,
+): ThemeUpgradeResult {
   if (isReference(current))
     throw Error("内置参考由资源库维护，请先复制到我的表盘");
   if (!current.themes) throw Error("当前项目没有主题定义");
   if (current.multiDevice)
-    throw Error("主题升级暂不处理多设备覆盖，请先导出单设备副本");
+    return upgradeMultiDeviceThemes(current, value, upgradeThemeDefinition);
   const incoming = migrateProject(value);
   validateProject(incoming);
   if (!incoming.themes) throw Error("更新文件没有主题定义");
@@ -146,6 +170,25 @@ export function applyCheckedThemeUpgrade(
   const next = {
     ...current,
     ...editorFrame(checked.project),
+    ...(checked.project.multiDevice
+      ? {
+          multiDevice: {
+            ...structuredClone(checked.project.multiDevice),
+            viewVersion: (current.multiDevice?.viewVersion || 0) + 1,
+            variants: checked.project.multiDevice.variants.map((v) => {
+              const prior = current.multiDevice?.variants.find(
+                (c) => c.key === v.key,
+              );
+              return {
+                ...structuredClone(v),
+                code: { ...(prior?.code || v.code), codeRevision: -1 },
+                buildId: undefined,
+                buildStatus: undefined,
+              };
+            }),
+          },
+        }
+      : {}),
     schemaVersion: checked.project.schemaVersion,
     revision: current.revision + 1,
     codeRevision: -1,

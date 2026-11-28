@@ -1,3 +1,4 @@
+import {restoreEditorFrame} from "./editorHistory";
 import {prepareVisualKit} from "./visualKits";
 import BitmapTypographyPanel from "./BitmapTypographyPanel";
 import {bitmapLayerPatch,bitmapTypographyReset} from "./bitmapFontLayout.ts";
@@ -607,8 +608,8 @@ export default function App() {
     selectOne((id) => (layers.some((l) => l.id === id) ? id : ""));
     setP({
       ...p,
-      ...frame,
-      revision: p.revision + ((renderChanged(p.layers, layers)||JSON.stringify(p.controls)!==JSON.stringify(frame.controls)||JSON.stringify(p.controlValues)!==JSON.stringify(frame.controlValues)) ? 1 : 0),
+      ...restoreEditorFrame(p,frame),
+      revision: p.revision + 1,
       updated: Date.now(),
     });
   }

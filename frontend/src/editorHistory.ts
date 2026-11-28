@@ -1,6 +1,10 @@
-import type { Layer, Project } from "./domain";
+import { reconcileDevices, deviceKey } from "./multiDevice.ts";
+import type { Layer, Project } from "./domain.ts";
 export type EditorFrame = Pick<
   Project,
+  | "multiDevice"
+  | "target"
+  | "deviceSize"
   | "assets"
   | "layers"
   | "controls"
@@ -11,8 +15,13 @@ export type EditorFrame = Pick<
   | "themes"
 >;
 export function editorFrame(p: Project, layers = p.layers): EditorFrame {
+  const resolved =
+    layers === p.layers ? p : reconcileDevices(p, { ...p, layers })!;
   return structuredClone({
     layers,
+    target: p.target,
+    deviceSize: p.deviceSize,
+    multiDevice: resolved.multiDevice,
     assets: p.assets,
     localFonts: p.localFonts,
     bitmapFonts: p.bitmapFonts,
@@ -74,5 +83,42 @@ export function withEditorLayers(p: Project, layers: Layer[]): Project {
           Object.entries(p.controlValues).filter(([id]) => valid.has(id)),
         )
       : undefined,
+  };
+}
+
+// Restore design metadata while retaining current source history only as stale code.
+export function restoreEditorFrame(p: Project, frame: EditorFrame): Project {
+  if (!frame.multiDevice)
+    return {
+      ...p,
+      ...structuredClone(frame),
+      revision: p.revision + 1,
+      codeRevision: -1,
+    };
+  const targetKey = deviceKey(frame),
+    m = structuredClone(frame.multiDevice);
+  m.viewVersion = (p.multiDevice?.viewVersion || 0) + 1;
+  m.variants = m.variants.map((v) => {
+    const current = p.multiDevice?.variants.find((c) => c.key === v.key);
+    return {
+      ...v,
+      revision:
+        v.key === targetKey
+          ? p.revision + 1
+          : (current?.revision || v.revision) + 1,
+      code: { ...(current?.code || v.code), codeRevision: -1 },
+      buildId: undefined,
+      buildStatus: undefined,
+    };
+  });
+  const active = m.variants.find((v) => v.key === targetKey);
+  if (!active) throw Error("撤销的目标设备缺失");
+  return {
+    ...p,
+    ...structuredClone(frame),
+    ...active.code,
+    multiDevice: m,
+    revision: p.revision + 1,
+    codeRevision: -1,
   };
 }
