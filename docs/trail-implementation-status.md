@@ -1,20 +1,25 @@
 # trail 混合表盘及精细编辑：当前实施状态
 
-截至阶段149，本轮仍在实施。默认参考13款，trail为单项目三主题；Rider不进默认库。实现先提交推送、核对GitHub SHA，再部署约定测试环境，测试后提交证据。展示环境未更新，Temp保持忽略。
+截至阶段156，功能实现和独立软件验证已大幅推进，完整Plan仍未验收完成。默认参考13款，trail为同一项目三主题；Rider不进默认库。所有本轮部署/SDK/原生只在约定测试环境执行，展示环境未动；Temp保持忽略。
 
 | 部分 | 当前交付与证据 | 仍待完成/验证 |
 | --- | --- | --- |
-| 数据与图标 | 显式数据槽、格式/图标/目标联动、可换色遮罩；[AI内置图标和原生颜色](research/ai-library-icon-validation.md)已验；[规则](standards/data-source-linkage.md) | 更完整主题角色及外部新契约 |
-| 图表 | 每日活动、小时心率、聚合/缺失/样式/阈值；[固定数据绘图](research/chart-drawing-fixture-validation.md) | 真实历史覆盖、实际Sleep/重启等生命周期 |
-| 字体 | 本地TTF/OTF、浏览器内转换及固定像素FNT＋PNG；字形/图集预算、许可、共享字偶距；[原生对照](research/bitmap-font-validation.md) | [精细排版及三种字体原生对照](research/bitmap-typography-validation.md)已验；真实细线/角形/紧凑三类字体28px原生已验；视觉套件及完整表盘排版继续推进 |
-| 三主题 | 预设/独立颜色、数据与开关覆盖、单一应用身份、原生分组菜单、每主题背景；[原生交互](research/native-theme-settings-validation.md) | 已验45mm实际切换/数据/颜色/秒数开关/当前重置、主题与背景正常退出重载；[单/多设备主题定义更新](standards/theme-definition-upgrade.md)页面已验；非默认覆盖的原生重载/跨PRG升级、最终全矩阵和41mm原生交互待验 |
-| 新来源 | 血氧、连接、久坐、天气、日出日落等；[来源范围](standards/additional-data-sources.md) | 真实传感器和设备限制继续分别核验 |
-| 月相 | 受限UTC估算、图标/照明读数、两尺寸及受控AOD；[实测](research/moon-validation.md) | 不宣称精密历书、本地天空倾角或真实Sleep |
-| 几何 | 简单凹多边形及受限原生单轮廓；[原生记录](research/concave-native-validation.md) | 路径、虚线、刻度与样式实例等后续评估/交付 |
-| AI与最终视觉 | 字段同源、批准字体、有限修复/截图；[真实付费对照](paid-model-native454-comparison.md) | 最终三主题精细视觉、配置完整性及视觉套件；已有AI结果没有通过这些验收 |
-| 第三方 | 旧widget/release v2继续冻结，字体身份与字节冻结、本地及隔离Linux离线门禁6项通过；[规则](standards/reference-release-v2.md) | 新主题/字体等契约、转换和样例，自动发布API仍未上线 |
+| 数据与图标 | 显式数据槽、来源/格式/单位/图标/目标和阈值联动；[规则](standards/data-source-linkage.md)、[原生图标](research/ai-library-icon-validation.md) | 新来源的实际设备覆盖和生命周期继续单独验收 |
+| 图表 | 每日/小时历史、聚合、缺失、样式、阈值及固定原生绘图；[记录](research/chart-drawing-fixture-validation.md) | 实际历史覆盖、缓存重启与Sleep证据 |
+| 字体与排版 | 本地TTF/OTF、FNT+PNG、精确字距/基线/角色；trail双尺寸28图集、27角色；[排版](research/bitmap-typography-validation.md)、[整盘24对](research/trail-native-matrix.md) | 真机显示和持续AOD；原始色阶/抗锯齿差异保留，未称像素全同 |
+| 三主题与设置 | 完整预设、独立覆盖、稳定来源码、每主题背景；45mm实际三主题切换、来源/白色/隐藏秒数正常退出重载；[重载证据](research/native-font-memory/override-restart/validation.json) | 41mm实际菜单、跨PRG设置迁移、设备重启及真机入口 |
+| 升级与复用 | 单/多设备定义升级、颜色/字体角色、组件主样式/显式插槽/实例覆盖；[角色](standards/appearance-roles.md)、[组件](standards/component-styles.md) | 实际旧.SET跨PRG迁移；嵌套/整体旋转仍未开放 |
+| 几何 | 凹多边形、顶点预算及原生证据；通用Bezier/虚线/路径分布/SVG转换已评估、明确未开放；[边界](standards/vector-panels.md) | 未开放项不冒称实现 |
+| 视觉套件与AI | 3套授权视觉套件、15布局、公开字段对话、有限修复及审计；AI设置资源与位图编码准备已补齐 | [最终付费工程](research/paid-trail-final.md)原生编码修正复验、真实画面差异仍待；不能用确定性截图代替 |
+| 第三方契约 | 原widget/release v2冻结；独立主题v1及精确v2、双尺寸样包与SDK通过；[主题v2](standards/theme-project-package-v2.md) | 自动发布API仍未上线，不包含在离线转换通过声明中 |
 
-当前付费授权仅适用于本轮Plan；阶段133/134没有新增调用。原生测试前台100/300为用户授权的临时值，本Plan结束须恢复10/30；用户又明确授权worker仅本Plan临时100/日，结束须恢复50；既有使用账本保留，队列和容器资源不变。实际Sleep、真机显示与功耗仍须独立验收。不能以固定帧、编译通过或目录清单代替整个计划完成。
+软件验收包已生成于被忽略的 release/trail：双尺寸实际数据PRG、一个可编辑双设备项目、两份含许可源码包和摘要。PRG已通过SDK，不含固定测试夹具；精确发布二进制本身未作真机验收。
+
+本轮临时提额测试已用完：测试环境worker账本20261128/Used100，全部任务清理完成，没有重置账本。已提前收回临时提额，仅恢复worker50/日、前台原生10/IP/30全局；两份账本字节及CPU/内存/PIDs/网络限制核对保持。后续合法日配额恢复后仍可继续剩余原生验收；本计划未宣布结束。
+
+付费授权仅本Plan。本轮追加3次逻辑请求，已采usage为88,040tokens，另1次修复usage未保留；加此前125,332，已知累计213,372tokens，不能把未知项当零。原根和本轮新根各自2/2均保留、不再付费重试。当前AI绘图源码经平台资源补全保持字节不变；最新非索引编码SDK通过，但原生日限额已用完，最终AI画面误差不能给出。
+
+仍需闭环：AI编码修正实际原生及最终视觉对照、41mm菜单、跨PRG设置迁移、实际Sleep/持续AOD/真实历史覆盖、目标真机显示/续航和用户外观确认。已有实现/编译/固定帧不替代这些证据，也不能据此勾选整个Plan完成。
 
 前一轮阶段72–107的结果保留在[历史归档](plan-implementation-status.md)，其中默认库数量、字体/凹形边界及授权只描述当时范围。
 
@@ -64,10 +69,12 @@
 
 阶段154 SDK逐帧首试失败：快速文件对话框操作未完成，工具报remote1；正常API最终返回simulator_exited_before_capture，交互门禁超时且cleanup completed，worker96/100。并非表盘VM错误，不当作视觉通过。修正为按原SDK采集工具等待对话框与路径提交，每场景6秒（全序列72秒），仍在原80秒门禁与120秒worker内，不改资源/配额；增加操作trace，继续保存旧失败。
 
-阶段154完整SDK原图矩阵：b49eefa工具在113两尺寸各一个完整PRG成功采集三主题×正常/强制AOD/高值/缺失12帧，cleanup completed。24组网页/SDK原图、输入、摘要和像素指标在 docs/research/trail-native-matrix；未调整整屏MAE0.261–4.056/255，前景另列，不当作还原率。24网页帧warnings为空，实际Sleep/真机/41mm菜单/跨PRG重载仍待独立证据。最终SDK截图保留原始字节；桌面色差与一次文件对话框超时失败均未丢弃。
+阶段154完整SDK原图矩阵：b49eefa工具在113两尺寸各一个完整PRG成功采集三主题×正常/强制AOD/高值/缺失12帧，cleanup completed。24组网页/SDK原图、输入、摘要和像素指标在 docs/research/trail-native-matrix；未调整整屏MAE0.261–4.055/255，前景另列，不当作还原率。24网页帧warnings为空，实际Sleep/真机/41mm菜单/跨PRG重载仍待独立证据。最终SDK截图保留原始字节；桌面色差与一次文件对话框超时失败均未丢弃。
 
 阶段155实现：付费真实输出遗漏Properties声明，首帧在Theme.current抛UnexpectedType，SDK类型/资源两次AI修复后仍不能直接运行；未再付费或重置根。新增前端受管理设置三文件，按当前合法稳定来源码及颜色/布尔默认值合并、保留未知XML定义且不改绘图源码；受管理文件禁止AI修复。engineering17补ResourceId/精确13参数字体接口；repair1记录脱敏请求和usage。后端原生报告dataMode统一unverified，不能由未知应用代码推断真实读数。12项原有相关回归、5项新专项、构建及原生后端策略检查通过。下一步仅113部署并对补全平台资源后的同一AI绘图源码编译/原生；固定矩阵已独立归档。
 
 阶段155复验：1c10cbc已核对GitHub并仅部署113，相关13项全部通过；真实AI工程补全平台设置后三个文件增加、全部.mc字节及原2/2修复根保持不变，74文件完整SDK通过。最后原生任务已越过Properties错误，但在GfcWatchFace.drawImage的drawBitmap2处抛“Source must not use a color palette”，failed/cleanup completed；未有有效帧，不能报告最终AI视觉误差。worker100/100、无运行残留，不再提交原生请求。两次付费修复不再重试；后续只完成独立资源编码与SDK检查，下一轮原生须等合法日配额恢复。
 
 阶段156实现：定位AI drawImage的drawBitmap2不能使用当前索引资源，新增AI-only的Venu4位图准备器automaticPalette=false；源码导出和编译共享处理，不改.mc、不重置修复根；显式自定义palette拒绝、其他生成模式/目标不变。engineering18/cap1.32，7项专项及构建通过。初次预构建发现新模块缺显式.ts扩展名，已修正并完整构建。接下来只做113 SDK/文件体积验证和交付整理；今日worker100/100，实际新原生复验、AI最终画面对照与真实Sleep等保持待验，不能宣称整个Plan完成。
+
+阶段156 SDK收尾：7d58c3d已核对GitHub并仅部署113；7项专项通过，同一AI源码的非索引准备工程SDK成功、PRG2,599,660字节。原生日限额100已满，未绕过或继续请求。默认确定性真实数据交付包45mm351,356/41mm798,476字节、同一新应用身份，两尺寸SDK和可编辑项目校验通过，无测试夹具。临时前台10/30及worker50已恢复，原Used100账本字节和资源不变；Plan剩余验证明确待验。

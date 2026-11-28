@@ -1,0 +1,83 @@
+{
+  "date": "2026-11-28",
+  "model": "deepseek-flash",
+  "classification": "Actual AI generation + two bounded AI repairs + frontend platform resource preparation; not unmodified model output",
+  "calls": [
+    {
+      "stage": "generation",
+      "usage": {
+        "prompt_tokens": 52055,
+        "completion_tokens": 21574,
+        "total_tokens": 73629,
+        "prompt_tokens_details": {
+          "cached_tokens": 640
+        },
+        "prompt_cache_hit_tokens": 640,
+        "prompt_cache_miss_tokens": 51415
+      }
+    },
+    {
+      "stage": "repair1",
+      "usage": null,
+      "note": "Response usage was not retained; not zero. Root round consumed."
+    },
+    {
+      "stage": "repair2",
+      "usage": {
+        "prompt_tokens": 12603,
+        "completion_tokens": 1808,
+        "total_tokens": 14411,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 12603
+      }
+    }
+  ],
+  "knownAdditionalTokens": 88040,
+  "unknownAdditionalUsageCalls": 1,
+  "previousKnownTokens": 125332,
+  "originalSourceMcSha256": "ece21bb093969c8b69109d6a4529ea7171f603a51434a8ebd55d6b266b78e716",
+  "afterRepair1McSha256": "ece21bb093969c8b69109d6a4529ea7171f603a51434a8ebd55d6b266b78e716",
+  "afterRepair2McSha256": "59dcbb69af61411dbd0d1082401668a51c3e2d738c6af9ca6993cfbf450f953a",
+  "afterPlatformMcSha256": "59dcbb69af61411dbd0d1082401668a51c3e2d738c6af9ca6993cfbf450f953a",
+  "preparedMcSha256": "59dcbb69af61411dbd0d1082401668a51c3e2d738c6af9ca6993cfbf450f953a",
+  "modelSourceUnchangedDuringPlatformPreparation": true,
+  "rounds": 2,
+  "maxRounds": 2,
+  "initialNative": {
+    "status": "failed",
+    "prgSha256": "72190e034a3c8a80320c5bc1ba24fa5b71691e162985da27a4077a0bd069c14c",
+    "error": "simulator_exited_before_capture",
+    "exception": "Unexpected Type Error at Theme.current / missing Properties declarations",
+    "cleanup": "completed"
+  },
+  "platformNative": {
+    "status": "failed",
+    "prgSha256": "53af552bdb9b59cd5efd0cdde5c27fc263c6632be95df554c0a234d87b871a8f",
+    "error": "simulator_exited_before_capture",
+    "exception": "Source must not use a color palette at drawImage / drawBitmap2",
+    "cleanup": "completed"
+  },
+  "packedSdk": {
+    "status": "succeeded",
+    "native": "not run: worker daily budget exhausted",
+    "nonIndexedBitmaps": 7,
+    "bytes": 2599660,
+    "prgSha256": "7aa12f637e01bf97d2b07a953c3c76590611aa6b091a415e08f391a655f42aa2"
+  },
+  "visualComparison": {
+    "status": "pending",
+    "reason": "No valid native frame from final AI source; no fidelity percentage fabricated"
+  },
+  "hardware": "unverified",
+  "dailyNativeBudget": {
+    "day": "20261128",
+    "used": 100,
+    "restoredWorkerLimit": 50,
+    "restoredFrontendPerIp": 10,
+    "restoredFrontendGlobal": 30,
+    "ledgersPreserved": true
+  }
+}

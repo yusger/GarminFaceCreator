@@ -54,3 +54,6 @@ backend/tests/**/obj/
 
 simulator-worker/**/bin/
 simulator-worker/**/obj/
+
+# Generated review/install packages (not source or credentials)
+/release/
