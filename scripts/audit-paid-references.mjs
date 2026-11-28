@@ -32,7 +32,8 @@ try{
   const record={slug,name:descriptor.name,status:"started",calls:[],sdk:"unverified",native:"unverified",visual:"unverified",hardware:"unverified"};
   console.log("AUDIT_START "+slug);
   try{
-   if(await exists(slug+"/result.json")){const previous=await read(slug+"/result.json");summary.push(previous);console.log("AUDIT_RESUME_COMPLETED "+slug+" "+previous.status);continue;}
+   if(await exists(slug+"/result.json")){const old=await read(slug+"/result.json");if(process.env.GFC_PAID_AUDIT_CONTINUE_FAILURES!=="1"||old.status==="runtime-passed-visual-pending"){summary.push(old);console.log("AUDIT_RESUME_COMPLETED "+slug+" "+old.status);continue;}}
+   let previous;
    let project;
    if(await exists(slug+"/project.json"))project=await read(slug+"/project.json");
    else{project=await page.evaluate(async descriptor=>{const h=window.gfcPaidReference,d=h.referenceAttributions.find(x=>x.id===descriptor.id);const p=h.copyReference(await h.loadReferencePackage(d),descriptor.name),device=h.generationDevice(p);p.target=device.target;p.deviceSize=device.size;return p;},descriptor);await write(slug+"/input.json",project);}
@@ -55,7 +56,24 @@ try{
     await write(base+".json",answer);record.calls.push({kind,round,usage});if(answer.error)throw Error(answer.error);return answer.project;
    }
    if(!(await exists(slug+"/project.json"))){project=await call("generation",0);await write(slug+"/project.json",project);}
-   for(let round=0;round<=4;round++){
+   let firstRound=0;
+   if(process.env.GFC_PAID_AUDIT_CONTINUE_FAILURES==="1"&&await exists(slug+"/result.json")){
+    previous=await read(slug+"/result.json");for(const file of ["native.png","watchface.prg"]){if(await exists(slug+"/"+file))await fs.copyFile(path.join(dir,slug,file),path.join(dir,slug,Date.now()+"-before-continuation-"+file));}await write(slug+"/result-before-continuation-"+Date.now()+".json",previous);
+    const oldRounds=(await fs.readdir(path.join(dir,slug))).flatMap(f=>{const m=f.match(/^repair-(\d+)\.json$/);return m?[Number(m[1])]:[];});
+    firstRound=Math.max(previous.repairs||0,...oldRounds)+1;record.repairs=previous.repairs||0;
+    let diagnostics="";
+    if(previous.native==="failed"&&await exists(slug+"/native.json"))diagnostics=(await read(slug+"/native.json")).report?.logs||previous.nativeError||"Native failed";
+    else if(await exists(slug+"/compile-"+(previous.repairs||0)+".json"))diagnostics=((await read(slug+"/compile-"+(previous.repairs||0)+".json")).logs.lines||[]).filter(x=>x.includes("ERROR")).join("\n");
+    const categories=new Set();diagnostics=diagnostics.split("\n").filter(line=>{const key=line.replace(/:[0-9]+,[0-9]+:/g,":LINE:");if(categories.has(key))return false;categories.add(key);return true;}).join("\n").slice(0,10000);
+    const guidance=await fs.readFile(path.join(dir,slug,"operator-guidance.txt"),"utf8").catch(()=>"");
+    let selected=project.files.filter(f=>/^source\/.*\.mc$/.test(f.path)&&!/^source\/Gfc(BitmapText|FrameReporter|Weather|Icons|Moon|WordTime)\.mc$/.test(f.path)).map(f=>f.path);
+    if(/font|bitmap|resource|resolve/i.test(diagnostics))selected.push(...project.files.filter(f=>/^resources\/.*\.xml$/.test(f.path)&&!f.path.includes("settings/")&&!f.path.includes("gfc-managed")&&!f.path.includes("gfc-library")).map(f=>f.path));
+    selected=[...new Set(selected)].slice(0,5);
+    project=await call("repair",firstRound,diagnostics+"\nOperator diagnostics: "+guidance+"\nUse small unique exact edits only, not complete file rewrites. Fix the ROOT type or null handling rather than dozens of callers. Preserve live data and exact design; no fixed fake readings, removed layers or system-font substitutions. Use Lang.Numeric for helpers accepting both integer and float coordinates. Gregorian.info supplies calendar fields; ClockTime supplies only time. Keep original repair root/counter; this additional Plan-only round is explicitly authorized.",selected);await write(slug+"/project.json",project);
+   }
+   const lastRound=Number(process.env.GFC_PAID_AUDIT_LAST_REPAIR||4);
+   if(!Number.isInteger(lastRound)||lastRound<firstRound||lastRound>100)throw Error("Invalid explicit last repair round");
+   for(let round=firstRound;round<=lastRound;round++){
     const attempt=slug+"/compile-"+round;let job;
     if(await exists(attempt+"-private-job.json"))job=await read(attempt+"-private-job.json");
     else{const submitted=await page.evaluate(async p=>{const h=window.gfcPaidReference,f=new FormData();f.append("project",JSON.stringify({projectId:p.id,projectName:p.name,target:p.target,appId:p.appId,revision:p.revision}));for(const file of await h.preparedCodeFiles(p))f.append("files",new Blob([file.content]),file.path);for(const a of await h.preparedAssets(p))f.append("files",await(await fetch(a.data)).blob(),a.path);const r=await fetch("/api/builds",{method:"POST",body:f});return {status:r.status,job:await r.json(),fileCount:f.getAll("files").length};},project);if(submitted.status!==202)throw Error("SDK submission "+submitted.status+": "+(submitted.job.error||"rejected"));job=submitted.job;await write(attempt+"-private-job.json",job);}
@@ -64,15 +82,15 @@ try{
     const poll=async suffix=>{for(let i=0;i<180;i++){const s=await(await get(suffix)).json();if(["succeeded","failed","cancelled"].includes(s.status))return s;await delay(1000);}throw Error("Verification deadline exceeded; existing job retained");};
     const compiled=await poll(""),logs=await(await get("/logs")).json();await write(attempt+".json",{compiled,logs});record.sdk=compiled.status;record.repairs=round;
     if(compiled.status!=="succeeded"){
-     if(round===4){record.status="sdk-failed";break;}
-     const lines=(logs.lines||[]).filter(x=>x.includes("ERROR"));
+     if(round===lastRound){record.status="sdk-failed";break;}
+     const seen=new Set();const lines=(logs.lines||[]).filter(x=>x.includes("ERROR")).filter(x=>{const key=x.replace(/:[0-9]+,[0-9]+:/g,":LINE:");if(seen.has(key))return false;seen.add(key);return true;});
      const selected=[...new Set(lines.flatMap(l=>[...l.matchAll(/((?:source|resources)\/[\w/.-]+\.(?:mc|xml|svg|fnt))/g)].map(m=>m[1])))].filter(path=>project.files.some(f=>f.path===path)&&!['source/GfcBitmapText.mc','source/GfcFrameReporter.mc','source/GfcWeather.mc','source/GfcIcons.mc'].includes(path)).slice(0,5);
      if(!selected.length){record.status="sdk-failed-no-repairable-selected-files";break;}
      project=await call("repair",round+1,lines.join("\n").slice(0,14000)+"\nUse SDK9.3 exact APIs and provided managed resource IDs. Prefer small unique exact edits, preserve all geometry and live data. No full project rewrite or managed helper modification. Current Plan operator audit allows further paid repair while normal UI remains max2.",selected);await write(slug+"/project.json",project);continue;
     }
     const bytes=Buffer.from(await(await get("/artifacts/watchface.prg")).arrayBuffer());await fs.writeFile(path.join(dir,slug,"watchface.prg"),bytes);record.prg={bytes:bytes.length,sha256:hash(bytes)};
-    let native;if(await exists(slug+"/native.json"))native=await read(slug+"/native.json");else{
-     const r=await fetch(root+"/native-verification",{method:"POST",headers});if(r.status!==202)throw Error("Native submission "+r.status+": "+(await r.text()).slice(0,250));native=await poll("/native-verification");await write(slug+"/native.json",native);
+    let native;if(await exists(slug+"/native.json")){const old=await read(slug+"/native.json");if(old.prgSha256===record.prg.sha256&&old.buildId===job.buildId)native=old;else await write(slug+"/native-before-continuation-"+Date.now()+".json",old);}if(!native){
+     const r=await fetch(root+"/native-verification",{method:"POST",headers});if(r.status!==202)throw Error("Native submission "+r.status+": "+(await r.text()).slice(0,250));native=await poll("/native-verification");await write(slug+"/native-"+round+".json",native);await write(slug+"/native.json",native);
     }
     record.native=native.status;record.nativeError=native.error;record.cleanup=native.report?.cleanupStatus;record.dataMode=native.report?.dataMode;record.sourceSha256=native.sourceSha256;
     if(native.status==="succeeded")await fs.writeFile(path.join(dir,slug,"native.png"),Buffer.from(await(await get("/native-verification/artifacts/screen.png")).arrayBuffer()));
