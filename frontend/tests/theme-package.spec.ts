@@ -25,7 +25,7 @@ test("113 converted theme package imports as editable project and preserves them
   }
   await page.getByLabel("vital ink", { exact: true }).fill("#abcdef");
   await page
-    .getByLabel("vital data · 联动数据槽", { exact: true })
+    .getByLabel("vital data", { exact: true })
     .selectOption("battery");
   await expect(page.getByText("已保存到本机", { exact: true })).toBeVisible();
   const download = page.waitForEvent("download");
@@ -39,6 +39,8 @@ test("113 converted theme package imports as editable project and preserves them
   expect(saved.fontRoles).toHaveLength(3);
   expect(saved.controlValues["vital-source"]).toBe("battery");
   await page.reload();
+  await page.getByRole("button",{name:"我的表盘",exact:true}).click();
+  await page.getByRole("button",{name:"打开 Theme contract sample",exact:true}).click();
   await expect(page.getByText("表盘配置", { exact: true })).toBeVisible();
 });
 for (const target of ["venu445mm", "venu441mm"])
