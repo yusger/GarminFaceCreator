@@ -4,8 +4,9 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
 const scenario = process.argv[2];
-if (!["themes", "persistence", "overrides"].includes(scenario))
+if (!["themes", "persistence", "overrides", "matrix45", "matrix41"].includes(scenario))
   throw Error("Choose explicit themes, persistence or overrides scenario");
+const matrix=scenario.startsWith("matrix");
 const dir = "Temp/native-theme-ui-" + scenario + "-" + Date.now();
 if (
   process.env.GFC_NATIVE_FIXTURE_TEST !== "1" ||
@@ -64,7 +65,7 @@ try {
         write: false,
         minify: false,
         lib: {
-          entry: "frontend/tests/fixtures/themeUiHarness.ts",
+          entry: matrix?"frontend/tests/fixtures/trailMatrixHarness.ts":"frontend/tests/fixtures/themeUiHarness.ts",
           name: "GfcThemeFixture",
           formats: ["iife"],
         },
@@ -85,9 +86,9 @@ try {
     await readFile("resources/default-watchfaces/trail/design.json", "utf8"),
   );
   const result = await page.evaluate(
-    async ({ p, nonce }) => {
-      const h = window.gfcThemeUiFixture;
-      const f = h.fixture(p, nonce),
+    async ({ p, nonce,scenario,matrix }) => {
+      const h = matrix?window.gfcTrailMatrix:window.gfcThemeUiFixture;
+      const f = matrix?h.fixture(p,nonce,scenario==="matrix41"?"venu441mm":"venu445mm"):h.fixture(p, nonce),
         form = new FormData();
       form.append(
         "project",
@@ -99,18 +100,20 @@ try {
           revision: f.revision,
         }),
       );
+      const shots=matrix?await h.captures(f):[];
       for (const file of await h.preparedCodeFiles(f))
         form.append("files", new Blob([file.content]), file.path);
       for (const a of await h.preparedAssets(f))
         form.append("files", await (await fetch(a.data)).blob(), a.path);
       const r = await fetch("/api/builds", { method: "POST", body: form });
-      return { status: r.status, job: await r.json(), files: f.files };
+      return { status: r.status, job: await r.json(), files: f.files,shots };
     },
-    { p, nonce },
+    { p, nonce,scenario,matrix },
   );
-  if (result.status !== 202) throw Error(JSON.stringify(result));
+  if (result.status !== 202) throw Error(JSON.stringify({status:result.status,error:result.job?.error}));
   await writeFile(dir+"/private-job.json",JSON.stringify(result.job));
   await writeFile(dir + "/source.json", JSON.stringify(result.files, null, 2));
+  if(matrix){for(const record of result.shots){await writeFile(dir+"/browser-"+record.index+".png",Buffer.from(record.shot.data.split(",")[1],"base64"));delete record.shot.data;}await writeFile(dir+"/browser-matrix.json",JSON.stringify(result.shots,null,2));}
   const root = url + "/api/builds/" + result.job.buildId,
     headers = { Authorization: "Bearer " + result.job.accessToken };
   const get = async (s) => {
@@ -205,7 +208,15 @@ close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; 
 `;
   const script =
     common +
-    (scenario === "overrides" ? `back(){ xdotool mousemove 591 624 click 1; sleep 1.2; }
+    (matrix ? `for index in $(seq 0 11); do
+ for attempt in $(seq 1 450); do
+  grep -Fq "GFC_MATRIX_FRAME=$index vm=" /output/monkeydo.log && break
+  sleep 0.1
+ done
+ grep -Fq "GFC_MATRIX_FRAME=$index vm=" /output/monkeydo.log
+ import -window root /output/ui-matrix-$index.png
+ done
+` : scenario === "overrides" ? `back(){ xdotool mousemove 591 624 click 1; sleep 1.2; }
 scroll_one(){ xdotool mousemove 325 600 mousedown 1; sleep 0.05; xdotool mousemove 325 320; sleep 0.05; xdotool mouseup 1; sleep 1.3; }
 open_settings
 scroll_one
@@ -351,6 +362,7 @@ import -window root /output/ui-vital.png
     for(const expected of ["Gfc_Source_apex_value_apex_tl=588927973","Gfc_apex_value_apex_tl_color=16777215","Gfc_apex_show_seconds=false"]){if(!last?.startsWith("apex\n")||!last.includes(expected))throw Error("Independent override not persisted: "+expected);}
     if(!(await readFile(dir+"/session-result.txt","utf8")).includes("samePrgRestartReady=true"))throw Error("Same PRG restart not observed");
   }
+  if(matrix){for(let i=0;i<12;i++)if(!observations.includes("GFC_MATRIX_FRAME="+i+" vm="))throw Error("Missing controlled matrix frame "+i);}
   await writeFile(
     dir + "/validation.json",
     JSON.stringify(
@@ -360,7 +372,8 @@ import -window root /output/ui-vital.png
         prgSha256: digest,
         sourceSha256: native.sourceSha256,
         cleanupStatus: native.report.cleanupStatus,
-        applicationDataMode: native.report.dataMode,
+        applicationDataMode: matrix?"controlled-fixed-data":native.report.dataMode,
+        aodMode:matrix?"forced rendering; not lifecycle":"unverified",
         hardware: "unverified",
         sleepTransition: "unverified",
       },
