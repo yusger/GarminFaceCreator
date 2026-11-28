@@ -1,0 +1,1852 @@
+{
+  "version": "trail-browser-matrix-1",
+  "projectSha256": "491f2d9ee8cc551d2f23a92fce47ef100c1955701fc4e718a86d300caa58f322",
+  "browserVersion": "158.0.4370.33",
+  "posts": 0,
+  "mismatches": [
+    {
+      "theme": "trail",
+      "case": "default-active",
+      "previewData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 12.4,
+        "temperature": 18
+      },
+      "caseData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 6.42,
+        "temperature": 18
+      },
+      "choice": "default preview.png is rendered from previewData; use previewData for default comparisons"
+    },
+    {
+      "theme": "trail",
+      "case": "default-aod",
+      "previewData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 12.4,
+        "temperature": 18
+      },
+      "caseData": {
+        "localDateTime": "2026-11-26T10:08:36",
+        "heartRate": 72,
+        "steps": 8432,
+        "battery": 78,
+        "calories": 420,
+        "distance": 6.42,
+        "temperature": 18
+      },
+      "choice": "default preview.png is rendered from previewData; use previewData for default comparisons"
+    }
+  ],
+  "records": [
+    {
+      "theme": "apex",
+      "scenario": "default-active",
+      "mode": "active",
+      "png": "apex-default-active.png",
+      "sha256": "f3825ad87335c9cb2ad241459295757ba7e018ad3f6c4c297fe7a793d1163b78",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "10:08",
+          "seconds": 36,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "values": {
+            "heartRate": 72,
+            "steps": 8432,
+            "battery": 78,
+            "calories": 420,
+            "distance": 6.42,
+            "temperature": 18
+          },
+          "date": "THU 26"
+        },
+        "projectId": "3756abd4-c792-4dae-a998-1dcdb7bd8da2",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3706,
+        "rgbMae": 1.7788340375064857,
+        "foregroundPixels": 157245,
+        "foregroundRgbMae": 1.8136835299479581,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "apex",
+      "scenario": "default-aod",
+      "mode": "aod",
+      "png": "apex-default-aod.png",
+      "sha256": "be791c3e5008952a9f94fe4ad2254b761ca2e6859c0a95d8d03cce5ab80d05b3",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 9667,
+          "aboveNoisePixels": 9621,
+          "ratio": 0.059712647938131594,
+          "noiseRatio": 0.059428507894151654,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.04690077432125599,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "10:08",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "values": {
+            "heartRate": 72,
+            "steps": 8432,
+            "battery": 78,
+            "calories": 420,
+            "distance": 6.42,
+            "temperature": 18
+          },
+          "date": "THU 26"
+        },
+        "projectId": "0ce06a0e-48d9-4424-85ad-0c4bf7626c1e",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3347,
+        "rgbMae": 1.833940734151986,
+        "foregroundPixels": 10871,
+        "foregroundRgbMae": 27.204335694355013,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "apex",
+      "scenario": "high-values",
+      "mode": "active",
+      "png": "apex-high-values.png",
+      "sha256": "9397e2bc827e9af2c9ba1f519cb702e202173a0770a4fabf080d24b38fb31694",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "23:59",
+          "seconds": 59,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "values": {
+            "heartRate": 165,
+            "steps": 24861,
+            "battery": 9,
+            "calories": 3210,
+            "distance": 21.65,
+            "temperature": -3
+          },
+          "date": "THU 26"
+        },
+        "projectId": "a67080e9-7127-45b2-a5df-101eb54612e3",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3703,
+        "rgbMae": 1.7680902494667228,
+        "foregroundPixels": 157348,
+        "foregroundRgbMae": 1.8017515316368813,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "apex",
+      "scenario": "missing-values",
+      "mode": "active",
+      "png": "apex-missing-values.png",
+      "sha256": "eaef7049e0fcf23f1b24cfae43dfb67a80fa929c9a3aa82c81343df85c2df46d",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "10:08",
+          "seconds": 36,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "values": {
+            "heartRate": null,
+            "steps": null,
+            "battery": null,
+            "calories": null,
+            "distance": null,
+            "temperature": null
+          },
+          "date": "THU 26"
+        },
+        "projectId": "7cf2aab8-3c76-46c4-9e4b-6852b5e75d90",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 2324,
+        "rgbMae": 1.3638516212454392,
+        "foregroundPixels": 157124,
+        "foregroundRgbMae": 1.3870955423741758,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "apex",
+      "scenario": "high-values-aod",
+      "mode": "aod",
+      "png": "apex-high-values-aod.png",
+      "sha256": "f5b1c7b85bebad9dded300fb479227845e9ccc4fe68b0848247d8350e465f54e",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 9917,
+          "aboveNoisePixels": 9866,
+          "ratio": 0.06125688730758778,
+          "noiseRatio": 0.06094186247621872,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.04811368355683208,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "23:59",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "values": {
+            "heartRate": 165,
+            "steps": 24861,
+            "battery": 9,
+            "calories": 3210,
+            "distance": 21.65,
+            "temperature": -3
+          },
+          "date": "THU 26"
+        },
+        "projectId": "0654bfe7-96f3-44cf-8faa-6116c08561a7",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": null
+    },
+    {
+      "theme": "apex",
+      "scenario": "missing-values-aod",
+      "mode": "aod",
+      "png": "apex-missing-values-aod.png",
+      "sha256": "cacf7a937e3ae354037fe0e2aa0118972b025885680baba8e57af37380e6742e",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 9175,
+          "aboveNoisePixels": 9139,
+          "ratio": 0.05667358485904183,
+          "noiseRatio": 0.05645121438984014,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.04451376894564226,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "10:08",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "values": {
+            "heartRate": null,
+            "steps": null,
+            "battery": null,
+            "calories": null,
+            "distance": null,
+            "temperature": null
+          },
+          "date": "THU 26"
+        },
+        "projectId": "f7f2a2fb-267b-4c65-b418-91c2056a0d23",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": null
+    },
+    {
+      "theme": "trail",
+      "scenario": "default-active",
+      "mode": "active",
+      "png": "trail-default-active.png",
+      "sha256": "66e8d27c9d9dd090cd37b98a775e3a70491f2efb5471806d3d687d4672cfacef",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "10:08",
+          "seconds": 36,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "values": {
+            "heartRate": 72,
+            "steps": 8432,
+            "battery": 78,
+            "calories": 420,
+            "distance": 12.4,
+            "temperature": 18
+          },
+          "date": "THU 26"
+        },
+        "projectId": "0d60eef6-c5c4-40fc-b907-3b535316c525",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 4534,
+        "rgbMae": 1.9668256203724293,
+        "foregroundPixels": 63349,
+        "foregroundRgbMae": 4.407983288344462,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "trail",
+      "scenario": "default-aod",
+      "mode": "aod",
+      "png": "trail-default-aod.png",
+      "sha256": "bc014e8f1e79355671abf108730354f38c8143e94236665b0e958fa6af1ce50f",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 10245,
+          "aboveNoisePixels": 10193,
+          "ratio": 0.06328292936031428,
+          "noiseRatio": 0.0629617275714674,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.049705020473907895,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "10:08",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "values": {
+            "heartRate": 72,
+            "steps": 8432,
+            "battery": 78,
+            "calories": 420,
+            "distance": 12.4,
+            "temperature": 18
+          },
+          "date": "THU 26"
+        },
+        "projectId": "460ab480-7d75-4780-942e-8547e95fff57",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3661,
+        "rgbMae": 1.8107771436101434,
+        "foregroundPixels": 11429,
+        "foregroundRgbMae": 25.52568028698924,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "trail",
+      "scenario": "high-values",
+      "mode": "active",
+      "png": "trail-high-values.png",
+      "sha256": "fbab4fdb1c870c20899af0f057f1bdcc41dacff4659d3c2245b7e5224a750c77",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "23:59",
+          "seconds": 59,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "values": {
+            "heartRate": 165,
+            "steps": 24861,
+            "battery": 9,
+            "calories": 3210,
+            "distance": 21.65,
+            "temperature": -3
+          },
+          "date": "THU 26"
+        },
+        "projectId": "7acde685-a478-4f9f-850f-2f1c294d0f1d",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 3572,
+        "rgbMae": 1.521534932753523,
+        "foregroundPixels": 63408,
+        "foregroundRgbMae": 3.2655290604760703,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "trail",
+      "scenario": "missing-values",
+      "mode": "active",
+      "png": "trail-missing-values.png",
+      "sha256": "e8eeed032e41801b613b833497ccb0080b54108d955602bd048a5e5cf2af0e3a",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "10:08",
+          "seconds": 36,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "values": {
+            "heartRate": null,
+            "steps": null,
+            "battery": null,
+            "calories": null,
+            "distance": null,
+            "temperature": null
+          },
+          "date": "THU 26"
+        },
+        "projectId": "bb3c072e-5bba-4296-afce-02341e62fa62",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 2332,
+        "rgbMae": 1.155731392945091,
+        "foregroundPixels": 61322,
+        "foregroundRgbMae": 2.3944370155354795,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "trail",
+      "scenario": "high-values-aod",
+      "mode": "aod",
+      "png": "trail-high-values-aod.png",
+      "sha256": "3835768e6c421ae7eabc709017dcc8f710790fedf498dc71f34218f285321c57",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 10134,
+          "aboveNoisePixels": 10074,
+          "ratio": 0.06259728708027575,
+          "noiseRatio": 0.06222666963160626,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.04916648877331212,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "23:59",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "values": {
+            "heartRate": 165,
+            "steps": 24861,
+            "battery": 9,
+            "calories": 3210,
+            "distance": 21.65,
+            "temperature": -3
+          },
+          "date": "THU 26"
+        },
+        "projectId": "4b749669-b1f1-48d8-b285-07681d549ad0",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": null
+    },
+    {
+      "theme": "trail",
+      "scenario": "missing-values-aod",
+      "mode": "aod",
+      "png": "trail-missing-values-aod.png",
+      "sha256": "cfc704e4afe0c165089f182867669dd24414d6ff77275a37a157c8c18c218c89",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 9262,
+          "aboveNoisePixels": 9222,
+          "ratio": 0.05721098015961258,
+          "noiseRatio": 0.05696390186049959,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.044935861359622735,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "10:08",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "values": {
+            "heartRate": null,
+            "steps": null,
+            "battery": null,
+            "calories": null,
+            "distance": null,
+            "temperature": null
+          },
+          "date": "THU 26"
+        },
+        "projectId": "db2756e6-1c33-496f-8918-f1a77eea7cc7",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": null
+    },
+    {
+      "theme": "vital",
+      "scenario": "default-active",
+      "mode": "active",
+      "png": "vital-default-active.png",
+      "sha256": "6e836e4432e2436c2b864d38e682e5d9ecbc8d0c26b87eb08367ac6cb235dc2a",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "10:08",
+          "seconds": 36,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "values": {
+            "heartRate": 72,
+            "steps": 8432,
+            "battery": 78,
+            "calories": 420,
+            "distance": 6.42,
+            "temperature": 18
+          },
+          "date": "THU 26"
+        },
+        "projectId": "3f834c2b-4df9-4b7b-824d-6118754f5b41",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 4269,
+        "rgbMae": 2.169643960170978,
+        "foregroundPixels": 62960,
+        "foregroundRgbMae": 4.993477340110123,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "vital",
+      "scenario": "default-aod",
+      "mode": "aod",
+      "png": "vital-default-aod.png",
+      "sha256": "fb727432fefae12404e6235004641247a2774d1073bdeef8720172b5eb7bc4ad",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 7450,
+          "aboveNoisePixels": 7404,
+          "ratio": 0.046018333209794184,
+          "noiseRatio": 0.045734193165814244,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.036144695220167285,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "10:08",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 72,
+          "steps": 8432,
+          "battery": 78,
+          "values": {
+            "heartRate": 72,
+            "steps": 8432,
+            "battery": 78,
+            "calories": 420,
+            "distance": 6.42,
+            "temperature": 18
+          },
+          "date": "THU 26"
+        },
+        "projectId": "12ed87be-cca8-4491-a5e3-8f2a83bb4989",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 1666,
+        "rgbMae": 0.5760836442401931,
+        "foregroundPixels": 8055,
+        "foregroundRgbMae": 11.484667908131595,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "vital",
+      "scenario": "high-values",
+      "mode": "active",
+      "png": "vital-high-values.png",
+      "sha256": "4c44d9381b5beebd97e88b817c72d282fc0f0579bc44c787e08ddd331b1d8d9c",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "23:59",
+          "seconds": 59,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "values": {
+            "heartRate": 165,
+            "steps": 24861,
+            "battery": 9,
+            "calories": 3210,
+            "distance": 21.65,
+            "temperature": -3
+          },
+          "date": "THU 26"
+        },
+        "projectId": "2b3ea456-77f2-4d6c-97d5-b1b84177edca",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 5347,
+        "rgbMae": 2.514373780050898,
+        "foregroundPixels": 63074,
+        "foregroundRgbMae": 5.8688947373984,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "vital",
+      "scenario": "missing-values",
+      "mode": "active",
+      "png": "vital-missing-values.png",
+      "sha256": "eee42b65f619b2d3aa863bc461dd67121eefb1d97d2db7e8c1e8a4e5ed9f628d",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "active",
+        "preview": {
+          "time": "10:08",
+          "seconds": 36,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "values": {
+            "heartRate": null,
+            "steps": null,
+            "battery": null,
+            "calories": null,
+            "distance": null,
+            "temperature": null
+          },
+          "date": "THU 26"
+        },
+        "projectId": "cb2bbf15-40cc-4253-a6a3-ded355e77bbf",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": {
+        "pixels": 161892,
+        "changedAbove24": 4265,
+        "rgbMae": 2.2681314291832413,
+        "foregroundPixels": 61092,
+        "foregroundRgbMae": 5.393821340491936,
+        "policy": "Diagnostic only; no fidelity percentage, identical fixed data and454 physical pixels; alpha composited black"
+      }
+    },
+    {
+      "theme": "vital",
+      "scenario": "high-values-aod",
+      "mode": "aod",
+      "png": "vital-high-values-aod.png",
+      "sha256": "27a5a2503f9a59521272ce06b12e4b13fc8892a566294240cfeed40b1babf562",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 10619,
+          "aboveNoisePixels": 10568,
+          "ratio": 0.06559311145702074,
+          "noiseRatio": 0.06527808662565167,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.05151953269032972,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "23:59",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 165,
+          "steps": 24861,
+          "battery": 9,
+          "values": {
+            "heartRate": 165,
+            "steps": 24861,
+            "battery": 9,
+            "calories": 3210,
+            "distance": 21.65,
+            "temperature": -3
+          },
+          "date": "THU 26"
+        },
+        "projectId": "c023893d-8ec8-4fa1-b3b3-c64d29aee5cc",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": null
+    },
+    {
+      "theme": "vital",
+      "scenario": "missing-values-aod",
+      "mode": "aod",
+      "png": "vital-missing-values-aod.png",
+      "sha256": "4cad8a37396a0b8686f8408dd088d2b83a27312b25fd26efe8f609cfa04a7f9f",
+      "metadata": {
+        "rendererVersion": "browser-capture-4",
+        "aodAnalysis": {
+          "version": "aod-pixels-1",
+          "origin": "browser-estimate",
+          "target": "venu445mm",
+          "width": 454,
+          "height": 454,
+          "mode": "aod",
+          "mask": "round",
+          "availablePixels": 161892,
+          "nonBlackPixels": 2919,
+          "aboveNoisePixels": 2907,
+          "ratio": 0.018030538877770366,
+          "noiseRatio": 0.017956415388036467,
+          "rectanglePixels": 206116,
+          "rectangleRatio": 0.01416192823458635,
+          "referenceRatio": 0.1,
+          "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+          "referenceStatus": "under-reference",
+          "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+          "limitations": [
+            "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+            "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+          ]
+        },
+        "device": {
+          "metadataVersion": "sdk-metadata-1-7722889381ba",
+          "metadata": {
+            "target": "venu445mm",
+            "status": "sdk-package",
+            "source": {
+              "compilerFile": "venu445mm/compiler.json",
+              "simulatorFile": "venu445mm/simulator.json",
+              "compilerSha256": "1aa85d1594c28318b66e6cdc656d4f5e7c782c81fbf488bd44a4b7c2439feaf4",
+              "simulatorSha256": "bd43392ac5d148de44d6abeefd598a1e680a54d09bb920047422eeb49ca7e1e2",
+              "packageVersion": "eddc2840754f6d29c6c9a3ede43befdaadd25a09"
+            },
+            "width": 454,
+            "height": 454,
+            "shape": "round",
+            "displayType": "amoled",
+            "bitsPerPixel": 16,
+            "alphaBlending": true,
+            "apiVersions": [
+              "6.0.3"
+            ],
+            "watchFaceMemoryBytes": 131072,
+            "graphicsPoolBytes": 4194304,
+            "sensorHistory": [
+              "elevation",
+              "heartrate",
+              "pressure",
+              "pulseox",
+              "temperature"
+            ],
+            "aod": "unverified",
+            "hardwareValidation": "unverified"
+          },
+          "series": "Venu",
+          "model": "Venu 4",
+          "size": "45mm",
+          "target": "venu445mm",
+          "screenWidth": 454,
+          "screenHeight": 454,
+          "screenShape": "round",
+          "screenTechnology": "AMOLED"
+        },
+        "browser": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "preview": {
+          "time": "10:08",
+          "seconds": 0,
+          "calendarDate": "2026-11-26",
+          "utcOffsetMinutes": 0,
+          "heartRate": 0,
+          "steps": 0,
+          "battery": 0,
+          "values": {
+            "heartRate": null,
+            "steps": null,
+            "battery": null,
+            "calories": null,
+            "distance": null,
+            "temperature": null
+          },
+          "date": "THU 26"
+        },
+        "projectId": "8da06462-91c9-4445-8107-b6c0c4d20852",
+        "revision": 1,
+        "warnings": []
+      },
+      "difference": null
+    }
+  ],
+  "files": [
+    {
+      "path": "apex-default-active.png",
+      "bytes": 158808,
+      "sha256": "f3825ad87335c9cb2ad241459295757ba7e018ad3f6c4c297fe7a793d1163b78"
+    },
+    {
+      "path": "apex-default-aod.png",
+      "bytes": 20237,
+      "sha256": "be791c3e5008952a9f94fe4ad2254b761ca2e6859c0a95d8d03cce5ab80d05b3"
+    },
+    {
+      "path": "apex-high-values.png",
+      "bytes": 159688,
+      "sha256": "9397e2bc827e9af2c9ba1f519cb702e202173a0770a4fabf080d24b38fb31694"
+    },
+    {
+      "path": "apex-missing-values.png",
+      "bytes": 152930,
+      "sha256": "eaef7049e0fcf23f1b24cfae43dfb67a80fa929c9a3aa82c81343df85c2df46d"
+    },
+    {
+      "path": "apex-high-values-aod.png",
+      "bytes": 21770,
+      "sha256": "f5b1c7b85bebad9dded300fb479227845e9ccc4fe68b0848247d8350e465f54e"
+    },
+    {
+      "path": "apex-missing-values-aod.png",
+      "bytes": 18393,
+      "sha256": "cacf7a937e3ae354037fe0e2aa0118972b025885680baba8e57af37380e6742e"
+    },
+    {
+      "path": "trail-default-active.png",
+      "bytes": 160191,
+      "sha256": "66e8d27c9d9dd090cd37b98a775e3a70491f2efb5471806d3d687d4672cfacef"
+    },
+    {
+      "path": "trail-default-aod.png",
+      "bytes": 21140,
+      "sha256": "bc014e8f1e79355671abf108730354f38c8143e94236665b0e958fa6af1ce50f"
+    },
+    {
+      "path": "trail-high-values.png",
+      "bytes": 160172,
+      "sha256": "fbab4fdb1c870c20899af0f057f1bdcc41dacff4659d3c2245b7e5224a750c77"
+    },
+    {
+      "path": "trail-missing-values.png",
+      "bytes": 154566,
+      "sha256": "e8eeed032e41801b613b833497ccb0080b54108d955602bd048a5e5cf2af0e3a"
+    },
+    {
+      "path": "trail-high-values-aod.png",
+      "bytes": 22408,
+      "sha256": "3835768e6c421ae7eabc709017dcc8f710790fedf498dc71f34218f285321c57"
+    },
+    {
+      "path": "trail-missing-values-aod.png",
+      "bytes": 18424,
+      "sha256": "cfc704e4afe0c165089f182867669dd24414d6ff77275a37a157c8c18c218c89"
+    },
+    {
+      "path": "vital-default-active.png",
+      "bytes": 162310,
+      "sha256": "6e836e4432e2436c2b864d38e682e5d9ecbc8d0c26b87eb08367ac6cb235dc2a"
+    },
+    {
+      "path": "vital-default-aod.png",
+      "bytes": 19505,
+      "sha256": "fb727432fefae12404e6235004641247a2774d1073bdeef8720172b5eb7bc4ad"
+    },
+    {
+      "path": "vital-high-values.png",
+      "bytes": 160678,
+      "sha256": "4c44d9381b5beebd97e88b817c72d282fc0f0579bc44c787e08ddd331b1d8d9c"
+    },
+    {
+      "path": "vital-missing-values.png",
+      "bytes": 160365,
+      "sha256": "eee42b65f619b2d3aa863bc461dd67121eefb1d97d2db7e8c1e8a4e5ed9f628d"
+    },
+    {
+      "path": "vital-high-values-aod.png",
+      "bytes": 20796,
+      "sha256": "27a5a2503f9a59521272ce06b12e4b13fc8892a566294240cfeed40b1babf562"
+    },
+    {
+      "path": "vital-missing-values-aod.png",
+      "bytes": 15563,
+      "sha256": "4cad8a37396a0b8686f8408dd088d2b83a27312b25fd26efe8f609cfa04a7f9f"
+    }
+  ]
+}
