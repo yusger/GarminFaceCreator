@@ -16,3 +16,5 @@ verify只接受最多4MiB二进制PRG、明确Venu4目标、64位小写SHA256及
 
 
 本地发布可使用publish.ps1：构建/沙箱检查任一失败即中止，不使用旧发布目录继续部署。受限broker不使用docker cp，而以固定容器文件名读取有上限的PNG/日志，不增cap。显式IPC集成测试见test-worker.py，需要GFC_NATIVE_TEST、socket/fixture/output目录；开启负例消耗额外运行配额，只用于独立测试环境。
+
+失败退出时保留有界日志的开头（最多16,000字符），避免长堆转储挤掉首个异常；成功截图的运行日志仍按既有预算读取。日志与docker stats采样均不能代替表盘VM内存、精确峰值或真机验证。

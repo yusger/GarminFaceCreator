@@ -1,0 +1,14 @@
+{
+  "status": "failed",
+  "target": "venu445mm",
+  "prgSha256": "f9babeb64630f18ff89ca850b60d0a179336d47fab0c7f3ce097aaa1a69cc22f",
+  "sourceSha256": "4f5f551fbc5d2c3653003d79d3f6e0308bc817bc1f4fa0f6a4dac15c59d5f693",
+  "generatorVersion": "basic-73-theme-font-budgets-fixture",
+  "error": "simulator_exited_before_capture",
+  "success": false,
+  "logs": "Error: Out Of Memory Error\nDetails: Failed invoking <symbol>\nStack: \n  - 0x10000037 \n  - 0x1000d03e \n  - 0x10016380 \nEncountered an app crash.",
+  "cleanupStatus": "completed",
+  "maxSampledContainerMemoryBytes": 135476019,
+  "memoryMeasurement": "docker stats sample; not exact peak or watchface memory",
+  "hardware": "unverified"
+}
