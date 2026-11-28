@@ -215,6 +215,20 @@ close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; 
  done
  grep -Fq "GFC_MATRIX_FRAME=$index vm=" /output/monkeydo.log
  import -window root /output/ui-matrix-$index.png
+ xdotool mousemove 16 12 click 1 mousemove 104 37 click 1
+ sleep 0.25
+ dialog=$(xdotool search --onlyvisible --class simulator | tail -1)
+ test -n "$dialog"
+ xdotool windowfocus "$dialog"
+ xdotool mousemove --window "$dialog" 230 27 click 1
+ xdotool key ctrl+a
+ xdotool type --delay 1 --clearmodifiers "ui-sdk-$index.png"
+ xdotool key Return
+ width=$(xdotool getwindowgeometry --shell "$dialog" | grep '^WIDTH=' | cut -d= -f2)
+ height=$(xdotool getwindowgeometry --shell "$dialog" | grep '^HEIGHT=' | cut -d= -f2)
+ xdotool mousemove --window "$dialog" "$((width-50))" "$((height-24))" click 1
+ for attempt in $(seq 1 30); do test -s "/output/ui-sdk-$index.png" && break; sleep 0.05; done
+ test -s "/output/ui-sdk-$index.png"
  done
 ` : scenario === "overrides" ? `back(){ xdotool mousemove 591 624 click 1; sleep 1.2; }
 scroll_one(){ xdotool mousemove 325 600 mousedown 1; sleep 0.05; xdotool mousemove 325 320; sleep 0.05; xdotool mouseup 1; sleep 1.3; }
