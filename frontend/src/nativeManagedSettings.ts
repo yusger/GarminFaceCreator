@@ -1,7 +1,7 @@
-import type { CodeFile, Project } from "./domain";
-import { nativeControls } from "./nativeControls";
-import { controlSettingKey, sourceCode } from "./nativeSettingIds";
-import { controlValue } from "./projectControls";
+import type { CodeFile, Project } from "./domain.ts";
+import { nativeControls } from "./nativeControls.ts";
+import { controlSettingKey, sourceCode } from "./nativeSettingIds.ts";
+import { controlValue } from "./projectControls.ts";
 export const managedSettingPaths = [
   "resources/settings/properties.xml",
   "resources/settings/settings.xml",

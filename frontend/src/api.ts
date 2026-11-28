@@ -175,6 +175,7 @@ export async function generate(
           iconVariants(l).map((v) => ({ path: iconResourcePath(l, v.key) })),
         ),
     ],
+    nativeBitmapPackingPolicy:"On Venu4, AI projects using drawBitmap2 have bitmap declarations prepared with automaticPalette=false; indexed resources cause a runtime exception. Explicit custom palettes are rejected rather than silently removed. Source export and SDK compilation use the same preparation; observe PRG/graphics-pool budgets. Do not invent width/height keys for drawBitmap2 options: use a supported affine transform or plain drawBitmap for unscaled assets.",
     nativeSettingsPolicy:"Properties/settings declarations for all design.controls, theme and background keys are supplied by the frontend at resources/settings/properties.xml, settings.xml and strings.xml. Do not declare managed keys elsewhere. Use the exact propertyKey and stable source option codes. New install source defaults are valid stable codes; unknown persisted values still need validation. Implement the on-watch menu and refresh/persistence logic in your source.",
     nativeWordTimeBindings: nativeWordTimeBindings(project),
     nativeWordTimeHelpers: nativeWordTimeFiles(project).map((f) => ({

@@ -30,3 +30,5 @@ image层可选iconId，只允许请求approvedIcons中列出的Lucide素材。�
 `fontId`、`iconId` 是 AI 创建响应的受控资源选择字段，解析后转换为注册字体或图标引用，不存入图层。AI 对话的普通 `update.patch` 不接受这些字段（包括数字等错误类型）；更换字体继续使用公开的 `font` 操作。设备范围的字体编辑由字体库完成，当前对话仍限定共享主设计。不能将创建响应字段直接复制为对话修改字段。
 
 工程提示词engineering-17明确SDK ResourceId/字体类型及受管理13参数GfcBitmapText接口；主题和控件设置资源由前端统一合并。源码/资源的局部修复仍最多两轮，同一根不重置；repair-1把请求与服务端返回的usage写入脱敏本地历史，不保存API Key。受管理文件不可由模型修复修改。原生运行成功只证明采集到帧；服务不自动证明该帧使用真实设备数据，dataMode统一unverified，固定夹具另附明确审计。
+
+engineering-18补充Venu4位图变换编码：AI工程包含drawBitmap2时，编译和源码导出共享准备器，将bitmap声明的automaticPalette设为false；确定性生成、其他目标和未使用该接口的AI工程不受影响。显式palette子项会拒绝并提示改用drawBitmap/调整资源，不删除用户调色板。该处理保留所有.mc字节；非索引资源可能增加PRG体积，仍由原文件/字节/原生资源预算约束。此修正源于真实palette运行异常，SDK通过后仍须实际原生复验。

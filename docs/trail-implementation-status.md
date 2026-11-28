@@ -69,3 +69,5 @@
 阶段155实现：付费真实输出遗漏Properties声明，首帧在Theme.current抛UnexpectedType，SDK类型/资源两次AI修复后仍不能直接运行；未再付费或重置根。新增前端受管理设置三文件，按当前合法稳定来源码及颜色/布尔默认值合并、保留未知XML定义且不改绘图源码；受管理文件禁止AI修复。engineering17补ResourceId/精确13参数字体接口；repair1记录脱敏请求和usage。后端原生报告dataMode统一unverified，不能由未知应用代码推断真实读数。12项原有相关回归、5项新专项、构建及原生后端策略检查通过。下一步仅113部署并对补全平台资源后的同一AI绘图源码编译/原生；固定矩阵已独立归档。
 
 阶段155复验：1c10cbc已核对GitHub并仅部署113，相关13项全部通过；真实AI工程补全平台设置后三个文件增加、全部.mc字节及原2/2修复根保持不变，74文件完整SDK通过。最后原生任务已越过Properties错误，但在GfcWatchFace.drawImage的drawBitmap2处抛“Source must not use a color palette”，failed/cleanup completed；未有有效帧，不能报告最终AI视觉误差。worker100/100、无运行残留，不再提交原生请求。两次付费修复不再重试；后续只完成独立资源编码与SDK检查，下一轮原生须等合法日配额恢复。
+
+阶段156实现：定位AI drawImage的drawBitmap2不能使用当前索引资源，新增AI-only的Venu4位图准备器automaticPalette=false；源码导出和编译共享处理，不改.mc、不重置修复根；显式自定义palette拒绝、其他生成模式/目标不变。engineering18/cap1.32，7项专项及构建通过。初次预构建发现新模块缺显式.ts扩展名，已修正并完整构建。接下来只做113 SDK/文件体积验证和交付整理；今日worker100/100，实际新原生复验、AI最终画面对照与真实Sleep等保持待验，不能宣称整个Plan完成。
