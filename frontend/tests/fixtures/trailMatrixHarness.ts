@@ -14,7 +14,7 @@ export function fixture(input:Project,nonce:string,target:string){
  const anchor=' function onUpdate(dc as Graphics.Dc) as Void {';
  if(!s.includes(anchor)||!s.includes('  frameContext=null;'))throw Error('Matrix generator anchor changed');
  s=s.replace('var gfcFrameReported=false;','var gfcFrameReported=false;var gfcMatrixStart=-1;var gfcMatrixPhase=-1;var gfcMatrixLogged=-1;var gfcMatrixSec=0;');
- s=s.replace(anchor,anchor+'if(gfcMatrixStart<0){gfcMatrixStart=System.getTimer();}gfcMatrixPhase=((System.getTimer()-gfcMatrixStart)/4000).toNumber();if(gfcMatrixPhase>11){gfcMatrixPhase=11;}sleeping=('+scene+'==1);gfcMatrixSec='+scene+'==2?59:('+scene+'==0?30:0);');
+ s=s.replace(anchor,anchor+'if(gfcMatrixStart<0){gfcMatrixStart=System.getTimer();}gfcMatrixPhase=((System.getTimer()-gfcMatrixStart)/6000).toNumber();if(gfcMatrixPhase>11){gfcMatrixPhase=11;}sleeping=('+scene+'==1);gfcMatrixSec='+scene+'==2?59:('+scene+'==0?30:0);');
  const assignments=Object.keys(matrixScenarios[0]).filter(k=>!['id','aod','seconds'].includes(k)).map(key=>{const values=matrixScenarios.map(c=>(c as any)[key]);return 'data'+key+'='+JSON.stringify(values)+'['+scene+'];';}).join('');
  const paint='var bg=sleeping?Graphics.COLOR_BLACK:';if(!s.includes(paint))throw Error('Matrix paint anchor changed');s=s.replace(paint,'cfgTheme=(gfcMatrixPhase/4).toNumber();cfgThemeBackground='+JSON.stringify(bg)+'[cfgTheme];'+assignments+paint);
  s=s.replace(/\bcalendar\.day_of_week\b/g,'(7)').replace(/\bcalendar\.day\b/g,'(28)').replace(/\bcalendar\.month\b/g,'(11)').replace(/\bclock\.hour\b/g,'(9)').replace(/\bclock\.min\b/g,'(41)').replace(/\bclock\.sec\b/g,'gfcMatrixSec');

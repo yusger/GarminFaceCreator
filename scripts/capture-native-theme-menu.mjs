@@ -208,7 +208,8 @@ close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; 
 `;
   const script =
     common +
-    (matrix ? `for index in $(seq 0 11); do
+    (matrix ? `set -x
+for index in $(seq 0 11); do
  for attempt in $(seq 1 450); do
   grep -Fq "GFC_MATRIX_FRAME=$index vm=" /output/monkeydo.log && break
   sleep 0.1
@@ -216,17 +217,20 @@ close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; 
  grep -Fq "GFC_MATRIX_FRAME=$index vm=" /output/monkeydo.log
  import -window root /output/ui-matrix-$index.png
  xdotool mousemove 16 12 click 1 mousemove 104 37 click 1
- sleep 0.25
+ sleep 1
  dialog=$(xdotool search --onlyvisible --class simulator | tail -1)
  test -n "$dialog"
  xdotool windowfocus "$dialog"
  xdotool mousemove --window "$dialog" 230 27 click 1
  xdotool key ctrl+a
  xdotool type --delay 1 --clearmodifiers "ui-sdk-$index.png"
- xdotool key Return
  width=$(xdotool getwindowgeometry --shell "$dialog" | grep '^WIDTH=' | cut -d= -f2)
  height=$(xdotool getwindowgeometry --shell "$dialog" | grep '^HEIGHT=' | cut -d= -f2)
+ xdotool key Return
+ sleep 1
+ if ! test -s "/output/ui-sdk-$index.png"; then
  xdotool mousemove --window "$dialog" "$((width-50))" "$((height-24))" click 1
+ fi
  for attempt in $(seq 1 30); do test -s "/output/ui-sdk-$index.png" && break; sleep 0.05; done
  test -s "/output/ui-sdk-$index.png"
  done
