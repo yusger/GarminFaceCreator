@@ -11,3 +11,5 @@ Check(containerArgs.Contains("PROBE_READY_MARKER=GFC_RENDER_READY")&&containerAr
 Check(Sandbox.SampleMemory("159.5MiB / 768MiB")==167247872,"Sample conversion wrong");
 Check(Sandbox.SampleMemory("unknown")==null,"Unknown memory cannot become zero");
 Console.WriteLine("PASS: identity validation, fixed container mounts/limits, bounded tmpfs, readiness and memory units");
+
+var heapDump="Error: Out Of Memory\n"+new string('x',30000)+"last heap handle";var excerpt=Sandbox.FailureLog(heapDump);Check(excerpt.StartsWith("Error: Out Of Memory\n")&&excerpt.Length==16000&&!excerpt.Contains("last heap handle"),"Failure evidence must preserve the first exception under a long heap dump");Check(Sandbox.FailureLog("short error")=="short error","Short failure logs must remain unchanged");Console.WriteLine("PASS: first-error preservation and bounded failure log");

@@ -45,7 +45,7 @@ sealed class NativeRunner
             var started = await Sandbox.Docker(Sandbox.Arguments(options, name, input, target), ct); if (started.Code != 0) return Failure("container_start_failed");
             while (true)
             {
-                ct.ThrowIfCancellationRequested(); var state = await Sandbox.Docker(["inspect", "--format", "{{.State.Running}}", name], ct); if (state.Code != 0 || state.Text.Trim() != "true") { logs = (await Sandbox.Docker(["logs", "--tail", "40", name], ct)).Text; return Failure("simulator_exited_before_capture"); }
+                ct.ThrowIfCancellationRequested(); var state = await Sandbox.Docker(["inspect", "--format", "{{.State.Running}}", name], ct); if (state.Code != 0 || state.Text.Trim() != "true") { logs = Sandbox.FailureLog((await Sandbox.Docker(["logs", name], ct)).Text); return Failure("simulator_exited_before_capture"); }
                 var stats = await Sandbox.Docker(["stats", "--no-stream", "--format", "{{.MemUsage}}", name], ct); if (stats.Code == 0 && Sandbox.SampleMemory(stats.Text) is { } memory) { maxMemory = maxMemory.HasValue ? Math.Max(memory, maxMemory.Value) : memory; samples++; }
                 var metadata = await Sandbox.Docker(["exec", name, "cat", "/output/capture-metadata.txt"], ct); var match = Regex.Match(metadata.Text, @"(?m)^nativeCapture=(native-[A-Za-z0-9._-]+\.png)\r?$");
                 if (match.Success)

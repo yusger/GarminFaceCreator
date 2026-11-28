@@ -29,6 +29,8 @@ static class Sandbox
         var stdout = Drain(process.StandardOutput); var stderr = Drain(process.StandardError); try { await process.WaitForExitAsync(ct); } catch { try { if (!process.HasExited) process.Kill(true); await Task.WhenAll(stdout, stderr).WaitAsync(TimeSpan.FromSeconds(2)); } catch { } throw; }
         return new(process.ExitCode, (await stdout) + "\n" + (await stderr));
     }
+    // Heap dumps may be long; keep the leading exception instead of losing it to a tail-only excerpt.
+    public static string FailureLog(string text) => text[..Math.Min(text.Length, 16000)];
     public static long? SampleMemory(string stats)
     {
         var m = Regex.Match(stats, @"([0-9.]+)\s*(KiB|MiB|GiB|B)"); if (!m.Success || !double.TryParse(m.Groups[1].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out var n)) return null;

@@ -109,6 +109,7 @@ try {
     { p, nonce },
   );
   if (result.status !== 202) throw Error(JSON.stringify(result));
+  await writeFile(dir+"/private-job.json",JSON.stringify(result.job));
   await writeFile(dir + "/source.json", JSON.stringify(result.files, null, 2));
   const root = url + "/api/builds/" + result.job.buildId,
     headers = { Authorization: "Bearer " + result.job.accessToken };
@@ -177,7 +178,7 @@ try {
       break;
     await new Promise((r) => setTimeout(r, 500));
   }
-  if (!container) throw Error("Container not found");
+  if (!container) {const native=await(await get("/native-verification")).json();await writeFile(dir+"/native-original.json",JSON.stringify(native,null,2));throw Error("Native UI session was not reached: "+native.status+" / "+native.error);}
   const digest = (
     await exec(`docker exec ${container} sha256sum /input/watchface.prg`)
   )
