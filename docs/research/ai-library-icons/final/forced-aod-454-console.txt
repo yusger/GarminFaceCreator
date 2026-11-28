@@ -1,0 +1,3 @@
+GFC_CONTROLLED_AI_LIBRARY_ICONS count=10
+GFC_RENDER_READY target=venu445mm mode=aod
+

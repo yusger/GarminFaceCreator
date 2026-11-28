@@ -44,3 +44,5 @@ docs/research/bitmap-typography/** -text
 docs/research/instrument-fonts/** -text
 
 frontend/tests/baselines/pure-watchface-v1/** -text
+
+docs/research/ai-library-icons/** -text

@@ -1,0 +1,69 @@
+{
+  "note": "Original baseline files retained unchanged. Intended changes are measured library icon pixel geometry and AOD ink only.",
+  "records": [
+    {
+      "name": "venu445mm-active",
+      "rendererFrom": "browser-capture-3",
+      "rendererTo": "browser-capture-4",
+      "oldSha256": "73fc70a006276869594738aa9df218217822322fb08b7337da6fe598a1956aa5",
+      "newSha256": "73fc70a006276869594738aa9df218217822322fb08b7337da6fe598a1956aa5",
+      "expectedPhysicalRegion": {
+        "x": 83,
+        "y": 73,
+        "right": 127,
+        "bottom": 117
+      },
+      "changedChannels": 0,
+      "changedPixels": 0,
+      "changesOutsideExpectedIcon": 0
+    },
+    {
+      "name": "venu445mm-aod",
+      "rendererFrom": "browser-capture-3",
+      "rendererTo": "browser-capture-4",
+      "oldSha256": "d98e2e3724d1d438ed6e76a1302898eed2fb0d946a68db0f18b5cf29b2e88d98",
+      "newSha256": "d98e2e3724d1d438ed6e76a1302898eed2fb0d946a68db0f18b5cf29b2e88d98",
+      "expectedPhysicalRegion": {
+        "x": 83,
+        "y": 73,
+        "right": 127,
+        "bottom": 117
+      },
+      "changedChannels": 0,
+      "changedPixels": 0,
+      "changesOutsideExpectedIcon": 0
+    },
+    {
+      "name": "venu441mm-active",
+      "rendererFrom": "browser-capture-3",
+      "rendererTo": "browser-capture-4",
+      "oldSha256": "b2189cd5194d7ecd8a653c516f548498bf6c2d737239fba97f5c861f1d11366b",
+      "newSha256": "2f03fb4a179741d9177de65e3115e7c3d7598798bcb5e2f4c31c6ee6a0b17b01",
+      "expectedPhysicalRegion": {
+        "x": 71,
+        "y": 62,
+        "right": 110,
+        "bottom": 101
+      },
+      "changedChannels": 1295,
+      "changedPixels": 436,
+      "changesOutsideExpectedIcon": 0
+    },
+    {
+      "name": "venu441mm-aod",
+      "rendererFrom": "browser-capture-3",
+      "rendererTo": "browser-capture-4",
+      "oldSha256": "4aa3e8a4ff815a47fcb6d03ecb459ec28bd8e0390c4c53a63edad7dcb464460e",
+      "newSha256": "4f58eff2a47ffc4d650a753124c84a819bc937eaff76534fc36273881a2a93f0",
+      "expectedPhysicalRegion": {
+        "x": 71,
+        "y": 62,
+        "right": 110,
+        "bottom": 101
+      },
+      "changedChannels": 1302,
+      "changedPixels": 438,
+      "changesOutsideExpectedIcon": 0
+    }
+  ]
+}

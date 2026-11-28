@@ -1,0 +1,1724 @@
+{
+  "expectedGenerator": "basic-68-library-icon-masks-fixture",
+  "note": "Original unmodified images. Foreground threshold80 is diagnostic, separate from AOD lit-pixel counting. Offset search does not shift saved images. Fixed approved iconId drawing cases, no real Sleep/hardware or model calls.",
+  "records": [
+    {
+      "id": "active-454",
+      "target": "venu445mm",
+      "aod": false,
+      "applicationDataMode": "controlled static drawing through parseDesign iconId mappings; 10 approved licensed recolorable icons and fixed bitmap text; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_activity",
+        "lucide_586bf5cf_battery_full",
+        "lucide_586bf5cf_calendar_days",
+        "lucide_586bf5cf_thermometer",
+        "lucide_586bf5cf_mountain",
+        "lucide_586bf5cf_bluetooth",
+        "lucide_586bf5cf_flame",
+        "lucide_586bf5cf_wind"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-68-library-icon-masks-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "6e3e6d9d9947b39567d4a084b7f833e0f1427aeb859b0a71cd6b5e61273a568b",
+      "prgSha256": "2d1972c4bddc371dd092c3e36d608a55bb3c6c778271fff1494c8287f065c45d",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 0.24813455884169694,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 3147,
+        "foregroundRgbMeanAbsoluteError": 11.098294672174557,
+        "rows": [
+          {
+            "layerId": "lucide_586bf5cf_heart_pulse",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 78,
+                "right": 141,
+                "bottom": 100
+              },
+              "native": {
+                "x": 116,
+                "y": 78,
+                "right": 141,
+                "bottom": 100
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 100.25803921568628
+              },
+              {
+                "dy": -2,
+                "mae": 86.16052631578947
+              },
+              {
+                "dy": -1,
+                "mae": 51.81172839506173
+              },
+              {
+                "dy": 0,
+                "mae": 9.133811230585424
+              },
+              {
+                "dy": 1,
+                "mae": 51.97626418988648
+              },
+              {
+                "dy": 2,
+                "mae": 85.99737532808399
+              },
+              {
+                "dy": 3,
+                "mae": 98.9128086419753
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_footprints",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 76,
+                "right": 215,
+                "bottom": 101
+              },
+              "native": {
+                "x": 192,
+                "y": 76,
+                "right": 215,
+                "bottom": 101
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 77.51555555555555
+              },
+              {
+                "dy": -2,
+                "mae": 63.50244379276637
+              },
+              {
+                "dy": -1,
+                "mae": 37.54207650273224
+              },
+              {
+                "dy": 0,
+                "mae": 9.237247924080664
+              },
+              {
+                "dy": 1,
+                "mae": 38.39672131147541
+              },
+              {
+                "dy": 2,
+                "mae": 63.61356932153392
+              },
+              {
+                "dy": 3,
+                "mae": 76.86343216531895
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_activity",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 266,
+                "y": 76,
+                "right": 291,
+                "bottom": 101
+              },
+              "native": {
+                "x": 266,
+                "y": 76,
+                "right": 291,
+                "bottom": 101
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 118.06084656084656
+              },
+              {
+                "dy": -2,
+                "mae": 96.23684210526316
+              },
+              {
+                "dy": -1,
+                "mae": 56.00990099009901
+              },
+              {
+                "dy": 0,
+                "mae": 11.382575757575758
+              },
+              {
+                "dy": 1,
+                "mae": 56.00990099009901
+              },
+              {
+                "dy": 2,
+                "mae": 96.23684210526316
+              },
+              {
+                "dy": 3,
+                "mae": 118.06084656084656
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_battery_full",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 136,
+                "right": 141,
+                "bottom": 151
+              },
+              "native": {
+                "x": 116,
+                "y": 135,
+                "right": 141,
+                "bottom": 152
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 77.79916666666666
+              },
+              {
+                "dy": -2,
+                "mae": 70.55163043478261
+              },
+              {
+                "dy": -1,
+                "mae": 42.864615384615384
+              },
+              {
+                "dy": 0,
+                "mae": 13.125806451612902
+              },
+              {
+                "dy": 1,
+                "mae": 42.8625641025641
+              },
+              {
+                "dy": 2,
+                "mae": 70.5498188405797
+              },
+              {
+                "dy": 3,
+                "mae": 77.79916666666666
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_calendar_days",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 131,
+                "right": 215,
+                "bottom": 155
+              },
+              "native": {
+                "x": 192,
+                "y": 131,
+                "right": 215,
+                "bottom": 155
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 89.19640644361834
+              },
+              {
+                "dy": -2,
+                "mae": 78.09103078982596
+              },
+              {
+                "dy": -1,
+                "mae": 52.41116352201258
+              },
+              {
+                "dy": 0,
+                "mae": 4.179924242424242
+              },
+              {
+                "dy": 1,
+                "mae": 51.966353677621285
+              },
+              {
+                "dy": 2,
+                "mae": 77.612
+              },
+              {
+                "dy": 3,
+                "mae": 88.8104938271605
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_thermometer",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 273,
+                "y": 131,
+                "right": 284,
+                "bottom": 156
+              },
+              "native": {
+                "x": 273,
+                "y": 131,
+                "right": 284,
+                "bottom": 156
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 99.99848484848485
+              },
+              {
+                "dy": -2,
+                "mae": 80.31848184818482
+              },
+              {
+                "dy": -1,
+                "mae": 50.75905797101449
+              },
+              {
+                "dy": 0,
+                "mae": 16.423694779116467
+              },
+              {
+                "dy": 1,
+                "mae": 50.57789855072464
+              },
+              {
+                "dy": 2,
+                "mae": 81.24917491749174
+              },
+              {
+                "dy": 3,
+                "mae": 101.6590909090909
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_mountain",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 187,
+                "right": 141,
+                "bottom": 210
+              },
+              "native": {
+                "x": 116,
+                "y": 187,
+                "right": 141,
+                "bottom": 210
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 90.67774699907663
+              },
+              {
+                "dy": -2,
+                "mae": 72.09884332281808
+              },
+              {
+                "dy": -1,
+                "mae": 44.295482295482294
+              },
+              {
+                "dy": 0,
+                "mae": 8.13550135501355
+              },
+              {
+                "dy": 1,
+                "mae": 45.22341696535245
+              },
+              {
+                "dy": 2,
+                "mae": 72.31991744066048
+              },
+              {
+                "dy": 3,
+                "mae": 90.34332425068119
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_bluetooth",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 197,
+                "y": 186,
+                "right": 210,
+                "bottom": 211
+              },
+              "native": {
+                "x": 197,
+                "y": 186,
+                "right": 210,
+                "bottom": 211
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 81.17929292929293
+              },
+              {
+                "dy": -2,
+                "mae": 64.50546448087432
+              },
+              {
+                "dy": -1,
+                "mae": 36.60633484162896
+              },
+              {
+                "dy": 0,
+                "mae": 6.876190476190477
+              },
+              {
+                "dy": 1,
+                "mae": 36.60633484162896
+              },
+              {
+                "dy": 2,
+                "mae": 64.80874316939891
+              },
+              {
+                "dy": 3,
+                "mae": 81.45959595959596
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_flame",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 269,
+                "y": 187,
+                "right": 288,
+                "bottom": 211
+              },
+              "native": {
+                "x": 269,
+                "y": 187,
+                "right": 288,
+                "bottom": 211
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 136.3576965669989
+              },
+              {
+                "dy": -2,
+                "mae": 111.98383084577114
+              },
+              {
+                "dy": -1,
+                "mae": 67.41452991452991
+              },
+              {
+                "dy": 0,
+                "mae": 12.715242881072026
+              },
+              {
+                "dy": 1,
+                "mae": 68.04131054131054
+              },
+              {
+                "dy": 2,
+                "mae": 112.93407960199005
+              },
+              {
+                "dy": 3,
+                "mae": 137.23034330011075
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_wind",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 243,
+                "right": 141,
+                "bottom": 264
+              },
+              "native": {
+                "x": 116,
+                "y": 243,
+                "right": 141,
+                "bottom": 264
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 95.97395833333333
+              },
+              {
+                "dy": -2,
+                "mae": 94.05214152700187
+              },
+              {
+                "dy": -1,
+                "mae": 61.98464912280702
+              },
+              {
+                "dy": 0,
+                "mae": 9.866666666666667
+              },
+              {
+                "dy": 1,
+                "mae": 63.12582781456954
+              },
+              {
+                "dy": 2,
+                "mae": 94.51523545706371
+              },
+              {
+                "dy": 3,
+                "mae": 95.03341902313625
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "mask-before-preview-fix/active-454-browser.png",
+          "sha256": "6bc7cb1c6b285d7d354016a4ab5210820347a9183eb5e2c98a50f0ed0bdcc13c"
+        },
+        "native.png": {
+          "file": "mask-before-preview-fix/active-454-native.png",
+          "sha256": "880ad88063218ee2ac84aa67a176da15b5e2bf89fc08607215188c5d3dfc7af6"
+        }
+      }
+    },
+    {
+      "id": "active-390",
+      "target": "venu441mm",
+      "aod": false,
+      "applicationDataMode": "controlled static drawing through parseDesign iconId mappings; 10 approved licensed recolorable icons and fixed bitmap text; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_activity",
+        "lucide_586bf5cf_battery_full",
+        "lucide_586bf5cf_calendar_days",
+        "lucide_586bf5cf_thermometer",
+        "lucide_586bf5cf_mountain",
+        "lucide_586bf5cf_bluetooth",
+        "lucide_586bf5cf_flame",
+        "lucide_586bf5cf_wind"
+      ],
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-68-library-icon-masks-fixture",
+      "width": 390,
+      "height": 390,
+      "cleanup": "completed",
+      "sourceSha256": "52a0b2e93054e2094808c088971e7d192d902a1b5a0d7db12810fd1c8ce3fc0c",
+      "prgSha256": "78a3b8416d2ff796009f4c6f31aded948eaf6b093fc453ac52a43d98035d246a",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 119488,
+        "rgbMeanAbsoluteError": 1.1801240849848242,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 2586,
+        "foregroundRgbMeanAbsoluteError": 49.684583655581335,
+        "rows": [
+          {
+            "layerId": "lucide_586bf5cf_heart_pulse",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 100,
+                "y": 67,
+                "right": 121,
+                "bottom": 86
+              },
+              "native": {
+                "x": 99,
+                "y": 67,
+                "right": 120,
+                "bottom": 85
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 87.0179104477612
+              },
+              {
+                "dy": -2,
+                "mae": 72.21956769055745
+              },
+              {
+                "dy": -1,
+                "mae": 48.24393358876117
+              },
+              {
+                "dy": 0,
+                "mae": 46.71484375
+              },
+              {
+                "dy": 1,
+                "mae": 72.4931506849315
+              },
+              {
+                "dy": 2,
+                "mae": 88.21084337349397
+              },
+              {
+                "dy": 3,
+                "mae": 94.02849002849003
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_footprints",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 165,
+                "y": 65,
+                "right": 185,
+                "bottom": 87
+              },
+              "native": {
+                "x": 165,
+                "y": 65,
+                "right": 184,
+                "bottom": 86
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 73.00593119810202
+              },
+              {
+                "dy": -2,
+                "mae": 55.78608923884514
+              },
+              {
+                "dy": -1,
+                "mae": 31.458515283842793
+              },
+              {
+                "dy": 0,
+                "mae": 31.886430678466077
+              },
+              {
+                "dy": 1,
+                "mae": 56.83532536520584
+              },
+              {
+                "dy": 2,
+                "mae": 72.17753623188406
+              },
+              {
+                "dy": 3,
+                "mae": 80.84132420091325
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_activity",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 228,
+                "y": 65,
+                "right": 250,
+                "bottom": 87
+              },
+              "native": {
+                "x": 228,
+                "y": 65,
+                "right": 249,
+                "bottom": 86
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 113.35304659498208
+              },
+              {
+                "dy": -2,
+                "mae": 93.94246031746032
+              },
+              {
+                "dy": -1,
+                "mae": 70.02777777777777
+              },
+              {
+                "dy": 0,
+                "mae": 74.61783439490446
+              },
+              {
+                "dy": 1,
+                "mae": 95.65686274509804
+              },
+              {
+                "dy": 2,
+                "mae": 113.55495495495495
+              },
+              {
+                "dy": 3,
+                "mae": 127.01015228426395
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_battery_full",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 100,
+                "y": 116,
+                "right": 121,
+                "bottom": 130
+              },
+              "native": {
+                "x": 99,
+                "y": 116,
+                "right": 120,
+                "bottom": 129
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 95.08641975308642
+              },
+              {
+                "dy": -2,
+                "mae": 82.35687732342008
+              },
+              {
+                "dy": -1,
+                "mae": 58.61538461538461
+              },
+              {
+                "dy": 0,
+                "mae": 69.8468085106383
+              },
+              {
+                "dy": 1,
+                "mae": 93.38112745098039
+              },
+              {
+                "dy": 2,
+                "mae": 95.48310810810811
+              },
+              {
+                "dy": 3,
+                "mae": 93.26551724137931
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_calendar_days",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 165,
+                "y": 112,
+                "right": 185,
+                "bottom": 133
+              },
+              "native": {
+                "x": 165,
+                "y": 112,
+                "right": 184,
+                "bottom": 132
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 95.93109388458225
+              },
+              {
+                "dy": -2,
+                "mae": 78.51762336354481
+              },
+              {
+                "dy": -1,
+                "mae": 36.40344403444035
+              },
+              {
+                "dy": 0,
+                "mae": 54.10514541387025
+              },
+              {
+                "dy": 1,
+                "mae": 90.79005524861878
+              },
+              {
+                "dy": 2,
+                "mae": 95.26265270506109
+              },
+              {
+                "dy": 3,
+                "mae": 90.69337016574586
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_thermometer",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 234,
+                "y": 112,
+                "right": 244,
+                "bottom": 134
+              },
+              "native": {
+                "x": 234,
+                "y": 112,
+                "right": 243,
+                "bottom": 133
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 111.20930232558139
+              },
+              {
+                "dy": -2,
+                "mae": 95.06118143459915
+              },
+              {
+                "dy": -1,
+                "mae": 75.48526077097506
+              },
+              {
+                "dy": 0,
+                "mae": 80.36241610738254
+              },
+              {
+                "dy": 1,
+                "mae": 98.78395061728395
+              },
+              {
+                "dy": 2,
+                "mae": 113.68939393939394
+              },
+              {
+                "dy": 3,
+                "mae": 120.43063063063063
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_mountain",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 100,
+                "y": 161,
+                "right": 121,
+                "bottom": 180
+              },
+              "native": {
+                "x": 99,
+                "y": 160,
+                "right": 120,
+                "bottom": 179
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 86.58431372549019
+              },
+              {
+                "dy": -2,
+                "mae": 65.4640234948605
+              },
+              {
+                "dy": -1,
+                "mae": 44.30392156862745
+              },
+              {
+                "dy": 0,
+                "mae": 63.92740740740741
+              },
+              {
+                "dy": 1,
+                "mae": 82.94156706507304
+              },
+              {
+                "dy": 2,
+                "mae": 91.15980024968789
+              },
+              {
+                "dy": 3,
+                "mae": 97.8032979976443
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_bluetooth",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 169,
+                "y": 160,
+                "right": 181,
+                "bottom": 181
+              },
+              "native": {
+                "x": 169,
+                "y": 159,
+                "right": 180,
+                "bottom": 180
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 72.43169398907104
+              },
+              {
+                "dy": -2,
+                "mae": 52.376543209876544
+              },
+              {
+                "dy": -1,
+                "mae": 27.591324200913242
+              },
+              {
+                "dy": 0,
+                "mae": 49.734177215189874
+              },
+              {
+                "dy": 1,
+                "mae": 71.18703703703704
+              },
+              {
+                "dy": 2,
+                "mae": 80.3656462585034
+              },
+              {
+                "dy": 3,
+                "mae": 83.54785478547855
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_flame",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 231,
+                "y": 161,
+                "right": 247,
+                "bottom": 181
+              },
+              "native": {
+                "x": 231,
+                "y": 160,
+                "right": 246,
+                "bottom": 180
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 125.52054794520548
+              },
+              {
+                "dy": -2,
+                "mae": 96.11340206185567
+              },
+              {
+                "dy": -1,
+                "mae": 62.840823970037455
+              },
+              {
+                "dy": 0,
+                "mae": 76.04964539007092
+              },
+              {
+                "dy": 1,
+                "mae": 107.97641509433963
+              },
+              {
+                "dy": 2,
+                "mae": 128.34880450070324
+              },
+              {
+                "dy": 3,
+                "mae": 138.78982597054886
+              }
+            ],
+            "bestDy": -1
+          },
+          {
+            "layerId": "lucide_586bf5cf_wind",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 100,
+                "y": 209,
+                "right": 121,
+                "bottom": 226
+              },
+              "native": {
+                "x": 99,
+                "y": 209,
+                "right": 120,
+                "bottom": 226
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 90.40425531914893
+              },
+              {
+                "dy": -2,
+                "mae": 97.24074074074075
+              },
+              {
+                "dy": -1,
+                "mae": 65.87096774193549
+              },
+              {
+                "dy": 0,
+                "mae": 41.428333333333335
+              },
+              {
+                "dy": 1,
+                "mae": 80.01844532279316
+              },
+              {
+                "dy": 2,
+                "mae": 98.85747126436782
+              },
+              {
+                "dy": 3,
+                "mae": 85.81060606060606
+              }
+            ],
+            "bestDy": 0
+          }
+        ]
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "mask-before-preview-fix/active-390-browser.png",
+          "sha256": "91471879233b9359775a6d53c90f3b73ce3e7523f2785464daee5c111916c956"
+        },
+        "native.png": {
+          "file": "mask-before-preview-fix/active-390-native.png",
+          "sha256": "23e30d05ef143193bb8f8644785411fe2d01b94bcfacb8d8ff304ebe9c09ccb4"
+        }
+      }
+    },
+    {
+      "id": "forced-aod-454",
+      "target": "venu445mm",
+      "aod": true,
+      "applicationDataMode": "controlled static drawing through parseDesign iconId mappings; 10 approved licensed recolorable icons and fixed bitmap text; no model calls",
+      "sleepTransition": "unverified; forced AOD is a drawing case",
+      "metrics": [],
+      "iconIds": [
+        "lucide_586bf5cf_heart_pulse",
+        "lucide_586bf5cf_footprints",
+        "lucide_586bf5cf_activity",
+        "lucide_586bf5cf_battery_full",
+        "lucide_586bf5cf_calendar_days",
+        "lucide_586bf5cf_thermometer",
+        "lucide_586bf5cf_mountain",
+        "lucide_586bf5cf_bluetooth",
+        "lucide_586bf5cf_flame",
+        "lucide_586bf5cf_wind"
+      ],
+      "browserAodAnalysis": {
+        "version": "aod-pixels-1",
+        "origin": "browser-estimate",
+        "target": "venu445mm",
+        "width": 454,
+        "height": 454,
+        "mode": "aod",
+        "mask": "round",
+        "availablePixels": 161892,
+        "nonBlackPixels": 3203,
+        "aboveNoisePixels": 3175,
+        "ratio": 0.019784794801472588,
+        "noiseRatio": 0.019611839992093493,
+        "rectanglePixels": 206116,
+        "rectangleRatio": 0.01553979312620078,
+        "referenceRatio": 0.1,
+        "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+        "referenceStatus": "under-reference",
+        "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+        "limitations": [
+          "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+          "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+        ]
+      },
+      "warnings": [],
+      "sdk": "9.3.0",
+      "generator": "basic-68-library-icon-masks-fixture",
+      "width": 454,
+      "height": 454,
+      "cleanup": "completed",
+      "sourceSha256": "79074ed8bfbb0393d339e4b367b7280664ce9f3ff35feebbe27910c208f32c01",
+      "prgSha256": "361ae9a0b156433e919aee0a8317397245144c97973551f224d3798772146c53",
+      "workerDataMode": "simulator-defaults-dynamic",
+      "pixels": {
+        "circularPixels": 161892,
+        "rgbMeanAbsoluteError": 1.0883675536777604,
+        "foregroundThreshold": 80,
+        "foregroundPixels": 2559,
+        "foregroundRgbMeanAbsoluteError": 65.58851113716295,
+        "rows": [
+          {
+            "layerId": "lucide_586bf5cf_heart_pulse",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 78,
+                "right": 141,
+                "bottom": 100
+              },
+              "native": {
+                "x": 116,
+                "y": 78,
+                "right": 141,
+                "bottom": 100
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 107.93284789644012
+              },
+              {
+                "dy": -2,
+                "mae": 98.27717391304348
+              },
+              {
+                "dy": -1,
+                "mae": 78.39139784946236
+              },
+              {
+                "dy": 0,
+                "mae": 60.910666666666664
+              },
+              {
+                "dy": 1,
+                "mae": 78.78817204301075
+              },
+              {
+                "dy": 2,
+                "mae": 98.75452898550725
+              },
+              {
+                "dy": 3,
+                "mae": 108.41585760517799
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_footprints",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 76,
+                "right": 215,
+                "bottom": 101
+              },
+              "native": {
+                "x": 192,
+                "y": 76,
+                "right": 215,
+                "bottom": 101
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 101.10767790262172
+              },
+              {
+                "dy": -2,
+                "mae": 95.28615384615385
+              },
+              {
+                "dy": -1,
+                "mae": 85.78546712802768
+              },
+              {
+                "dy": 0,
+                "mae": 81.24183006535948
+              },
+              {
+                "dy": 1,
+                "mae": 86.07151095732411
+              },
+              {
+                "dy": 2,
+                "mae": 95.66564102564102
+              },
+              {
+                "dy": 3,
+                "mae": 101.55305164319249
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_activity",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 266,
+                "y": 76,
+                "right": 291,
+                "bottom": 101
+              },
+              "native": {
+                "x": 266,
+                "y": 76,
+                "right": 291,
+                "bottom": 101
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 136.05501618122977
+              },
+              {
+                "dy": -2,
+                "mae": 124.01052631578948
+              },
+              {
+                "dy": -1,
+                "mae": 110.71544715447155
+              },
+              {
+                "dy": 0,
+                "mae": 108.03381642512078
+              },
+              {
+                "dy": 1,
+                "mae": 110.71544715447155
+              },
+              {
+                "dy": 2,
+                "mae": 124.01052631578948
+              },
+              {
+                "dy": 3,
+                "mae": 136.05501618122977
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_battery_full",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 136,
+                "right": 141,
+                "bottom": 151
+              },
+              "native": {
+                "x": 116,
+                "y": 136,
+                "right": 141,
+                "bottom": 151
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 103.68664563617244
+              },
+              {
+                "dy": -2,
+                "mae": 95.99559955995599
+              },
+              {
+                "dy": -1,
+                "mae": 77.62222222222222
+              },
+              {
+                "dy": 0,
+                "mae": 64.22067901234568
+              },
+              {
+                "dy": 1,
+                "mae": 77.62222222222222
+              },
+              {
+                "dy": 2,
+                "mae": 95.99559955995599
+              },
+              {
+                "dy": 3,
+                "mae": 103.68664563617244
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_calendar_days",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 192,
+                "y": 131,
+                "right": 215,
+                "bottom": 155
+              },
+              "native": {
+                "x": 192,
+                "y": 131,
+                "right": 215,
+                "bottom": 155
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 104.36641221374046
+              },
+              {
+                "dy": -2,
+                "mae": 102.11894882434302
+              },
+              {
+                "dy": -1,
+                "mae": 87.32682926829268
+              },
+              {
+                "dy": 0,
+                "mae": 77.4971098265896
+              },
+              {
+                "dy": 1,
+                "mae": 87.16747967479675
+              },
+              {
+                "dy": 2,
+                "mae": 102.13001383125865
+              },
+              {
+                "dy": 3,
+                "mae": 104.7139208173691
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_thermometer",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 273,
+                "y": 131,
+                "right": 284,
+                "bottom": 156
+              },
+              "native": {
+                "x": 273,
+                "y": 131,
+                "right": 284,
+                "bottom": 156
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 116.43396226415095
+              },
+              {
+                "dy": -2,
+                "mae": 110.09965635738831
+              },
+              {
+                "dy": -1,
+                "mae": 99.37689393939394
+              },
+              {
+                "dy": 0,
+                "mae": 93.59493670886076
+              },
+              {
+                "dy": 1,
+                "mae": 99.26704545454545
+              },
+              {
+                "dy": 2,
+                "mae": 109.9553264604811
+              },
+              {
+                "dy": 3,
+                "mae": 116.78930817610063
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_mountain",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 187,
+                "right": 141,
+                "bottom": 210
+              },
+              "native": {
+                "x": 116,
+                "y": 187,
+                "right": 141,
+                "bottom": 210
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 102.13793103448276
+              },
+              {
+                "dy": -2,
+                "mae": 91.41394335511983
+              },
+              {
+                "dy": -1,
+                "mae": 73
+              },
+              {
+                "dy": 0,
+                "mae": 64.12191358024691
+              },
+              {
+                "dy": 1,
+                "mae": 73.53180661577608
+              },
+              {
+                "dy": 2,
+                "mae": 91.72984749455338
+              },
+              {
+                "dy": 3,
+                "mae": 102.03256704980843
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_bluetooth",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 197,
+                "y": 186,
+                "right": 210,
+                "bottom": 211
+              },
+              "native": {
+                "x": 197,
+                "y": 186,
+                "right": 210,
+                "bottom": 211
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 111.20338983050847
+              },
+              {
+                "dy": -2,
+                "mae": 104.06853582554517
+              },
+              {
+                "dy": -1,
+                "mae": 93.8584229390681
+              },
+              {
+                "dy": 0,
+                "mae": 91.42307692307692
+              },
+              {
+                "dy": 1,
+                "mae": 93.73655913978494
+              },
+              {
+                "dy": 2,
+                "mae": 104.15264797507788
+              },
+              {
+                "dy": 3,
+                "mae": 111.3135593220339
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_flame",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 270,
+                "y": 187,
+                "right": 287,
+                "bottom": 211
+              },
+              "native": {
+                "x": 270,
+                "y": 187,
+                "right": 287,
+                "bottom": 211
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 137.69038701622972
+              },
+              {
+                "dy": -2,
+                "mae": 127.08757062146893
+              },
+              {
+                "dy": -1,
+                "mae": 110.00990099009901
+              },
+              {
+                "dy": 0,
+                "mae": 103.3012048192771
+              },
+              {
+                "dy": 1,
+                "mae": 108.5973597359736
+              },
+              {
+                "dy": 2,
+                "mae": 126.22598870056497
+              },
+              {
+                "dy": 3,
+                "mae": 136.23470661672908
+              }
+            ],
+            "bestDy": 0
+          },
+          {
+            "layerId": "lucide_586bf5cf_wind",
+            "family": "licensed library icon",
+            "text": "",
+            "bounds": {
+              "browser": {
+                "x": 116,
+                "y": 243,
+                "right": 141,
+                "bottom": 264
+              },
+              "native": {
+                "x": 116,
+                "y": 243,
+                "right": 141,
+                "bottom": 264
+              }
+            },
+            "offsetDiagnostics": [
+              {
+                "dy": -3,
+                "mae": 106.37726838586437
+              },
+              {
+                "dy": -2,
+                "mae": 102.13255360623782
+              },
+              {
+                "dy": -1,
+                "mae": 81.29656862745098
+              },
+              {
+                "dy": 0,
+                "mae": 60.73
+              },
+              {
+                "dy": 1,
+                "mae": 81.95588235294117
+              },
+              {
+                "dy": 2,
+                "mae": 102.16471734892788
+              },
+              {
+                "dy": 3,
+                "mae": 106.34574976122254
+              }
+            ],
+            "bestDy": 0
+          }
+        ],
+        "aod": {
+          "browser": {
+            "version": "aod-pixels-1",
+            "origin": "browser-estimate",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3203,
+            "aboveNoisePixels": 3175,
+            "ratio": 0.019784794801472588,
+            "noiseRatio": 0.019611839992093493,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.01553979312620078,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          },
+          "native": {
+            "version": "aod-pixels-1",
+            "origin": "native-frame",
+            "target": "venu445mm",
+            "width": 454,
+            "height": 454,
+            "mode": "aod",
+            "mask": "round",
+            "availablePixels": 161892,
+            "nonBlackPixels": 3147,
+            "aboveNoisePixels": 3147,
+            "ratio": 0.019438885182714402,
+            "noiseRatio": 0.019438885182714402,
+            "rectanglePixels": 206116,
+            "rectangleRatio": 0.015268101457431738,
+            "referenceRatio": 0.1,
+            "referenceSource": "https://developer.garmin.com/connect-iq/articles/user-experience-guidelines/Watch_Faces.html",
+            "referenceStatus": "under-reference",
+            "definition": "Composite RGBA on black with byte rounding; lit=max(R,G,B)>0; secondary max>=16. Round mask uses pixel centers and min(width,height)/2, excludes corners. Rectangular denominator also retained.",
+            "limitations": [
+              "单帧计数不能证明持续点亮、防烧屏、实际Sleep转换或续航合规；低于参考线也不保证时间可读或设计完整。",
+              "网页字体、抗锯齿、原生色深和SDK像素判定可能有差异；>=16仅为敏感性统计，不把更暗像素当成未点亮。"
+            ]
+          }
+        }
+      },
+      "artifacts": {
+        "browser.png": {
+          "file": "mask-before-preview-fix/forced-aod-454-browser.png",
+          "sha256": "0c63b2fa55b04ef1405bba1df1ff1aac3f7795287515a53bf5e8e12f14070730"
+        },
+        "native.png": {
+          "file": "mask-before-preview-fix/forced-aod-454-native.png",
+          "sha256": "f634b7be96548244aa6f326d0c2b09dec5c77ed70ab8d283c1569d1fbe8fa51f"
+        }
+      }
+    }
+  ]
+}

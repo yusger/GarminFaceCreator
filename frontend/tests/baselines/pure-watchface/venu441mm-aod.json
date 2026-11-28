@@ -1,6 +1,6 @@
 {
-  "fixtureVersion": "capture-gallery-1",
-  "rendererVersion": "browser-capture-3",
+  "fixtureVersion": "capture-gallery-2",
+  "rendererVersion": "browser-capture-4",
   "browserVersion": "158.0.4370.33",
   "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/158.0.0.0 Safari/537.36 Edg/158.0.0.0",
   "viewport": {
