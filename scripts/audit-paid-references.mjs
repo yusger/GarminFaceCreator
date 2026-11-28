@@ -21,6 +21,7 @@ const browser=await chromium.launchPersistentContext(path.join(process.env.LOCAL
 const summary=[];
 try{
  const page=await browser.newPage();await page.goto(url.origin);await page.addScriptTag({content:entry.code});
+ const protectedPaths=new Set(await page.evaluate(()=>window.gfcPaidReference.managedRepairPaths));
  const descriptors=await page.evaluate(()=>window.gfcPaidReference.referenceAttributions.map(x=>({slug:x.template,name:x.name,id:x.id})));
  if(process.env.GFC_PAID_AUDIT_PREFLIGHT==="1"){
   const preflight=await page.evaluate(async()=>{const h=window.gfcPaidReference,profile=h.readProfiles().find(p=>(p.provider==="deepseek"||p.url.includes("deepseek"))&&p.key);if(!profile)throw Error("Stored DeepSeek profile missing");const references=[];for(const d of h.referenceAttributions){const p=h.copyReference(await h.loadReferencePackage(d),d.name),device=h.generationDevice(p);p.target=device.target;p.deviceSize=device.size;references.push({slug:d.template,name:p.name,target:p.target,layers:p.layers.length,files:p.files.length,preservedFonts:h.preservedFontBindings(p).map(f=>({path:f.path,resourceIds:f.resourceIds}))});}return {model:profile.model,references,paidCalls:0};});
@@ -71,11 +72,12 @@ try{
     const mentioned=[...diagnostics.matchAll(/((?:source|resources)\/[\w/.-]+\.(?:mc|xml|svg|fnt))/g)].map(m=>m[1]).filter(p=>project.files.some(f=>f.path===p));
     const main=sources.filter(p=>/View|WatchFace/.test(p));
     const resources=/font|bitmap|resource|resolve/i.test(diagnostics+" "+guidance)?project.files.filter(f=>/^resources\/.*\.xml$/.test(f.path)&&!f.path.includes("settings/")&&!f.path.includes("gfc-managed")&&!f.path.includes("gfc-library")).map(f=>f.path).sort((a,b)=>Number(b.includes("drawables"))-Number(a.includes("drawables"))):[];
-    const selected=[...new Set([...mentioned,...main,...resources,...sources])].slice(0,5);
+    const selected=[...new Set([...mentioned,...main,...resources,...sources])].filter(p=>!protectedPaths.has(p)&&!/^resources\/fonts\/GfcLibrary_/.test(p)).slice(0,5);
     project=await call("repair",firstRound,diagnostics+"\nOperator diagnostics: "+guidance+"\nUse small unique exact edits only, not complete file rewrites. Fix the ROOT type or null handling rather than dozens of callers. Preserve live data and exact design; no fixed fake readings, removed layers or system-font substitutions. Use Lang.Numeric for helpers accepting both integer and float coordinates. Gregorian.info supplies calendar fields; ClockTime supplies only time. Keep original repair root/counter; this additional Plan-only round is explicitly authorized.",selected);await write(slug+"/project.json",project);
    }
    const lastRound=Number(process.env.GFC_PAID_AUDIT_LAST_REPAIR||4);
    if(!Number.isInteger(lastRound)||lastRound<firstRound||lastRound>100)throw Error("Invalid explicit last repair round");
+   let lastSignature="",unchangedErrors=0;
    for(let round=firstRound;round<=lastRound;round++){
     const attempt=slug+"/compile-"+round;let job;
     if(await exists(attempt+"-private-job.json"))job=await read(attempt+"-private-job.json");
@@ -87,7 +89,8 @@ try{
     if(compiled.status!=="succeeded"){
      if(round===lastRound){record.status="sdk-failed";break;}
      const seen=new Set();const lines=(logs.lines||[]).filter(x=>x.includes("ERROR")).filter(x=>{const key=x.replace(/:[0-9]+,[0-9]+:/g,":LINE:");if(seen.has(key))return false;seen.add(key);return true;});
-     const selected=[...new Set(lines.flatMap(l=>[...l.matchAll(/((?:source|resources)\/[\w/.-]+\.(?:mc|xml|svg|fnt))/g)].map(m=>m[1])))].filter(path=>project.files.some(f=>f.path===path)&&!['source/GfcBitmapText.mc','source/GfcFrameReporter.mc','source/GfcWeather.mc','source/GfcIcons.mc'].includes(path)).slice(0,5);
+     const signature=lines.map(x=>x.replace(/:[0-9]+,[0-9]+:/g,":LINE:")).sort().join("\n");unchangedErrors=signature===lastSignature?unchangedErrors+1:0;lastSignature=signature;if(unchangedErrors>=2){record.status="sdk-failed-no-progress";break;}
+     const selected=[...new Set(lines.flatMap(l=>[...l.matchAll(/((?:source|resources)\/[\w/.-]+\.(?:mc|xml|svg|fnt))/g)].map(m=>m[1])))].filter(path=>project.files.some(f=>f.path===path)&&!protectedPaths.has(path)&&!['source/GfcBitmapText.mc','source/GfcFrameReporter.mc','source/GfcWeather.mc','source/GfcIcons.mc'].includes(path)).slice(0,5);
      if(!selected.length){record.status="sdk-failed-no-repairable-selected-files";break;}
      project=await call("repair",round+1,lines.join("\n").slice(0,14000)+"\nUse SDK9.3 exact APIs and provided managed resource IDs. Prefer small unique exact edits, preserve all geometry and live data. No full project rewrite or managed helper modification. Current Plan operator audit allows further paid repair while normal UI remains max2.",selected);await write(slug+"/project.json",project);continue;
     }

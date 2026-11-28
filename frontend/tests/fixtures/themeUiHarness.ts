@@ -85,7 +85,7 @@ function observedAiFixture(input:Project,nonce:string){
  p.files=p.files.map(f=>{
   if(f.path==="manifest.xml")return {...f,content:f.content.replaceAll(old,nonce)};
   if(f.path!=="source/GfcFrameReporter.mc")return f;
-  let content=f.content.replace("import Toybox.WatchUi;","import Toybox.Application;import Toybox.WatchUi;")
+  let content=f.content.replace("function getInitialView(){","function getSettingsView(){return GeneratedApp.getSettingsView();}function getInitialView(){").replace("import Toybox.WatchUi;","import Toybox.Application;import Toybox.WatchUi;")
    .replace("var inner=null;var low=false;var reported=false;","var inner=null;var low=false;var reported=false;var observedTheme=-1;")
    .replace("function onEnterSleep(){","function onEnterSleep(){System.println(\"GFC_LIFECYCLE enterSleep\");")
    .replace("function onExitSleep(){","function onExitSleep(){System.println(\"GFC_LIFECYCLE exitSleep\");")
