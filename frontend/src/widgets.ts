@@ -1,3 +1,4 @@
+import {applyDeviceOverride} from "./deviceOverrides.ts";
 import {withEditorLayers} from "./editorHistory.ts";
 import { groupBox } from "./selection.ts";
 import { compoundV1Kinds, compoundV2Kinds, makeParts } from "./compound.ts";
@@ -237,7 +238,7 @@ export function decomposeWidget(p: Project, id: string): Project {
   const overrides = p.multiDevice?.variants.map((v) => {
     const next = { ...v.overrides };
     delete next[id];
-    const resolved = expandedChildren({ ...root, ...v.overrides[id] }, p);
+    const resolved = expandedChildren(applyDeviceOverride(root,v.overrides[id]), p);
     for (const l of resolved) {
       const base = children.find((c) => c.id === l.id)!;
       const patch: Record<string, unknown> = {};

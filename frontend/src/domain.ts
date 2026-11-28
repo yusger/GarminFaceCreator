@@ -261,7 +261,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41 | 42 | 43 | 44 | 45 | 46 | 47;
+    | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;

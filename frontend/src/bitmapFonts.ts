@@ -268,8 +268,8 @@ export function validateBitmapFonts(
   p: Pick<Project, "bitmapFonts" | "layers">,
 ) {
   if (p.bitmapFonts === undefined) return;
-  if (!Array.isArray(p.bitmapFonts) || p.bitmapFonts.length > 8)
-    throw Error("最多8份项目位图字体");
+  if (!Array.isArray(p.bitmapFonts) || p.bitmapFonts.length > 16)
+    throw Error("最多16份项目位图字体（每个目标最多使用8份）");
   let total = 0;
   const ids = new Set<string>();
   for (const f of p.bitmapFonts) {
@@ -357,6 +357,8 @@ export function bitmapFontDiagnostics(p: Project) {
   p = expandWidgets(p);
   const scale = generationDevice(p).screenWidth / 454,
     out: { layerId: string; message: string }[] = [];
+  const ids=new Set(p.layers.filter(l=>l.bitmapFontId&&l.exportIncluded!==false).map(l=>l.bitmapFontId));
+  if(ids.size>8)out.push({layerId:p.layers.find(l=>l.bitmapFontId)!.id,message:"当前目标最多使用8份位图字体；项目可存16份供设备变体选择"});
   for (const l of p.layers.filter(
     (l) => l.bitmapFontId && l.exportIncluded !== false,
   )) {

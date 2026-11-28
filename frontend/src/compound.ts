@@ -1,3 +1,4 @@
+import {resolvedDeviceOverride,applyDeviceOverride} from "./deviceOverrides.ts";
 import type { Layer, Project } from "./domain";
 import type { ProjectControl } from "./projectControls";
 import { resolveControls } from "./projectControls.ts";
@@ -491,7 +492,7 @@ export function migrateCompounds(p: Project): Project {
             if (!patch) continue;
             delete overrides[c.id];
             nested[c.id] = {
-              ...patch,
+              ...resolvedDeviceOverride(patch),
               ...(patch.x !== undefined ? { x: patch.x - root.x } : {}),
               ...(patch.y !== undefined ? { y: patch.y - root.y } : {}),
             };
@@ -511,7 +512,7 @@ export function migrateCompounds(p: Project): Project {
       state.layers =
         m.scope === "master"
           ? master.layers
-          : master.layers.map((l) => ({ ...l, ...current.overrides[l.id] }));
+          : master.layers.map((l) => applyDeviceOverride(l,current.overrides[l.id]));
       changed = true;
     } else {
       Object.assign(state, p);

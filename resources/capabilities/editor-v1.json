@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.20.0",
+  "version": "1.21.0",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -671,7 +671,7 @@
         2048
       ],
       "pngMaxBytes": 1048576,
-      "projectMaxFonts": 8,
+      "projectMaxFonts": 16,
       "aod": "same fixed pixel size, cannot silently resize",
       "preview": "shared advances, kerning, offsets, baseline, target pixel truncation",
       "missing": "visible box in preview; generation blocked before resource preparation",
@@ -704,7 +704,9 @@
         "license": "full original notice retained",
         "limits": "existing bitmap font, atlas, project and target budgets apply",
         "privacy": "browser only until explicit compile/export"
-      }
+      },
+      "targetMaxUsedFonts": 8,
+      "deviceOverrides": "Schema48 permits per-device registered fonts, bitmap IDs and typography; null clears an inherited optional font field and is never a Layer value"
     },
     "moon": {
       "model": "SunCalc1.9.0 geocentric illumination,BSD-2-Clause",

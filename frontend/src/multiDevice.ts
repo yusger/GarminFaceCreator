@@ -1,8 +1,22 @@
-import {validateCompoundOverrides} from "./compound.ts";
+import {
+  fontOverrideKeys,
+  applyDeviceOverride,
+  type DeviceFontKey,
+} from "./deviceOverrides.ts";
+import { libraryFonts } from "./fontLibrary.ts";
+import { validateCompoundOverrides } from "./compound.ts";
 import type { Project, Layer } from "./domain";
 import { devices, deviceFor } from "./devices.ts";
 export const overrideKeys = [
   "compoundOverrides",
+  "customFont",
+  "garminFont",
+  "fontWeight",
+  "bitmapFontId",
+  "bitmapTracking",
+  "bitmapTabular",
+  "bitmapBaselineShift",
+  "bitmapLineHeight",
   "x",
   "y",
   "w",
@@ -20,7 +34,9 @@ export const overrideKeys = [
   "exportIncluded",
   "hidden",
 ] as const;
-export type LayerOverride = Partial<Pick<Layer, (typeof overrideKeys)[number]>>;
+export type LayerOverride = Partial<
+  Pick<Layer, Exclude<(typeof overrideKeys)[number], DeviceFontKey>>
+> & { [K in DeviceFontKey]?: Layer[K] | null };
 type CodeState = Pick<
   Project,
   "files" | "versions" | "codeRevision" | "codeProvenance" | "activeCodeVersion"
@@ -81,7 +97,7 @@ export function enableDevices(p: Project): Project {
   };
 }
 export function effectiveLayers(master: Layer[], v: DeviceVariant): Layer[] {
-  return master.map((l) => ({ ...l, ...v.overrides[l.id] }));
+  return master.map((l) => applyDeviceOverride(l, v.overrides[l.id]));
 }
 function capture(p: Project): Project {
   if (!p.multiDevice) return p;
@@ -216,12 +232,15 @@ export function reconcileDevices(
         JSON.stringify(l[key]) !== JSON.stringify(old[key])
       )
         throw Error(
-          "设备微调支持位置、尺寸、颜色和显示开关；其他修改请切换共享主设计",
+          "设备微调支持位置、尺寸、颜色、字体和显示开关；其他修改请切换共享主设计",
         );
     const patch: LayerOverride = {};
     for (const key of overrideKeys)
       if (JSON.stringify(l[key]) !== JSON.stringify(base[key]))
-        Object.assign(patch, { [key]: l[key] });
+        Object.assign(patch, {
+          [key]:
+            l[key] === undefined && fontOverrideKeys.has(key) ? null : l[key],
+        });
     if (Object.keys(patch).length) overrides[l.id] = patch;
   });
   return capture({
@@ -308,7 +327,39 @@ export function validateMultiDevice(
       )
         throw Error("设备图层微调无效");
       for (const [key, value] of Object.entries(patch)) {
-        if(key==="compoundOverrides"){validateCompoundOverrides(m.master.find(l=>l.id===id)!,value as any);continue;}
+        if (key === "compoundOverrides") {
+          validateCompoundOverrides(
+            m.master.find((l) => l.id === id)!,
+            value as any,
+          );
+          continue;
+        }
+        if (fontOverrideKeys.has(key)) {
+          if (value === null) continue;
+          if (key === "customFont") {
+            const font = value as Layer["customFont"];
+            if (
+              !font ||
+              typeof font !== "object" ||
+              Array.isArray(font) ||
+              Object.keys(font).sort().join(",") !== "family,file,id" ||
+              ![...libraryFonts, ...(p.localFonts || [])].some(
+                (f) =>
+                  f.id === font.id &&
+                  f.family === font.family &&
+                  f.file === font.file,
+              )
+            )
+              throw Error("设备字体引用无效");
+          } else if (key === "garminFont" || key === "bitmapFontId") {
+            if (typeof value !== "string") throw Error("设备字体标识无效");
+          } else if (key === "bitmapTabular") {
+            if (typeof value !== "boolean") throw Error("设备等宽数字参数无效");
+          } else if (typeof value !== "number" || !Number.isFinite(value))
+            throw Error("设备字体数值无效");
+          continue;
+        }
+
         if (
           ["aod", "exportIncluded", "hidden"].includes(key)
             ? typeof value !== "boolean"
@@ -323,6 +374,8 @@ export function validateMultiDevice(
       ...p,
       multiDevice: undefined,
       layers: effectiveLayers(m.master, v),
+      target: v.target,
+      deviceSize: v.deviceSize,
     });
   }
   if (!keys.has(deviceKey(p))) throw Error("当前设备不在适配列表中");

@@ -290,7 +290,7 @@ test("editor typography, accurate sample width, baseline and batch settings pers
   const saved = JSON.parse(
     await readFile((await (await download).path())!, "utf8"),
   );
-  expect(saved.schemaVersion).toBe(47);
+  expect(saved.schemaVersion).toBe(48);
   expect(saved.layers[1]).toMatchObject({
     bitmapTracking: 2,
     bitmapTabular: true,

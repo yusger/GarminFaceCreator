@@ -21,8 +21,9 @@ import { withEditorLayers } from "./editorHistory";
 import { crossesScreen } from "./bounds";
 export type ChatMessage = { role: "user" | "assistant"; content: string };
 const kinds = chatKinds;
-export const chatFields = [...designFields.filter(
-  (k) => !["id", "kind", "referenceId", "groupId", "groupName"].includes(k),
+const chatExcludedFields=["id","kind","referenceId","fontId","iconId","groupId","groupName"] as const;
+export const chatFields:(keyof Layer)[] = [...designFields.filter(
+ (k):k is Exclude<(typeof designFields)[number],(typeof chatExcludedFields)[number]> => !(chatExcludedFields as readonly string[]).includes(k)
 ),"bitmapTracking","bitmapTabular","bitmapBaselineShift","bitmapLineHeight"];
 const geometry = ["x", "y", "w", "h"];
 const bools = [
