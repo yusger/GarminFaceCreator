@@ -124,8 +124,8 @@ async function fixture(target: string, aod: boolean, convert = false, fine=false
         ...f,
         content: ("import Toybox.System;\n" + f.content)
           .replace(
-            " static var metrics=",
-            " static var fixtureSeen={};static var metrics=",
+            " static var lastId=",
+            " static var fixtureSeen={};static var lastId=",
           )
           .replace(
             "prev=-1;for(var i=0;i<chars.size();i++){var c=chars[i].toNumber();if(prev>=0){start+=",

@@ -34,7 +34,7 @@ function fixture(input: Project, nonce: string) {
             )
             .replace(
               " function onUpdate(dc as Graphics.Dc) as Void {",
-              ` function onUpdate(dc as Graphics.Dc) as Void {if(gfcUiCount<1){System.println("GFC_THEME_UI_STATE "+gfcThemeId());${keys.map((k) => `System.println(${JSON.stringify(k + "=")}+Application.Properties.getValue(${JSON.stringify(k)}));`).join("")}gfcUiCount+=1;}`,
+              ` function onUpdate(dc as Graphics.Dc) as Void {if(gfcUiCount<1){var mem=System.getSystemStats();System.println("GFC_VM_MEMORY used="+mem.usedMemory+" total="+mem.totalMemory+" free="+mem.freeMemory);System.println("GFC_THEME_UI_STATE "+gfcThemeId());${keys.map((k) => `System.println(${JSON.stringify(k + "=")}+Application.Properties.getValue(${JSON.stringify(k)}));`).join("")}gfcUiCount+=1;}`,
             )
             .replace(
               "function getSettingsView(){",

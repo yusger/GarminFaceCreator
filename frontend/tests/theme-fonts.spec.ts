@@ -4,6 +4,7 @@ import { readFile } from "node:fs/promises";
 import { build } from "vite";
 import { validateProject } from "../src/domain";
 import {
+  bitmapFontInfo,
   bitmapFontDiagnostics,
   usedBitmapFonts,
   createBitmapFontAsset,
@@ -207,3 +208,7 @@ for (const target of ["venu445mm", "venu441mm"])
   });
 
 test("copying a multi-device reference groups layers without desynchronizing the shared master",async()=>{const p=await raw(),copy=copyReference(p);expect(()=>validateProject(copy)).not.toThrow();expect(copy.multiDevice!.master.map(l=>[l.id,l.groupId,l.groupName])).toEqual(copy.layers.map(l=>[l.id,l.groupId,l.groupName]));expect(copy.appId).not.toBe(p.appId);});
+import {nativeBitmapFontPlans,nativeBitmapFontFiles} from '../src/nativeBitmapFonts';
+test('compact native metrics retain every referenced glyph width without eager multi-font tables',async()=>{
+ const p=await raw();for(const v of p.multiDevice.variants){const q=projectForDevice(p,v.key),plans=nativeBitmapFontPlans(q);expect(plans).toHaveLength(14);for(const plan of plans){const font=q.bitmapFonts!.find(f=>f.id===plan.id)!,info=bitmapFontInfo(font);const binary=(c:number)=>{let lo=0,hi=plan.codes.length-1;while(lo<=hi){const mid=Math.trunc((lo+hi)/2);if(plan.codes[mid]===c)return plan.widths[mid];if(plan.codes[mid]<c)lo=mid+1;else hi=mid-1;}return undefined;};for(const g of Object.values(info.glyphs))if(plan.codes.includes(g.id))expect(binary(g.id)).toBe(g.xadvance);for(const c of [-1,0,65535])if(!plan.codes.includes(c))expect(binary(c)).toBeUndefined();}const helper=nativeBitmapFontFiles(q)[0].content;expect(helper).not.toContain('static var metrics={');expect(helper).toContain('lastId=null;lastInfo=null;');expect(helper).toContain('static function glyphIndex');expect(helper.match(/static function info_\d+\(/g)).toHaveLength(14);}
+});

@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.27.0",
+  "version": "1.28.0",
   "projectSchemaVersion": 50,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -708,7 +708,8 @@
       "targetMaxUsedFonts": 8,
       "deviceOverrides": "Schema48 permits per-device registered fonts, bitmap IDs and typography; null clears an inherited optional font field and is never a Layer value",
       "multiThemeTargetMaxUsedFonts": 16,
-      "maxPerThemePerMode": 8
+      "maxPerThemePerMode": 8,
+      "nativeMetricStorage": "one lazy metrics record, sorted numeric glyph-code and advance arrays, binary lookup; no startup dictionary for every theme/font; same layout API"
     },
     "moon": {
       "model": "SunCalc1.9.0 geocentric illumination,BSD-2-Clause",
