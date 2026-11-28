@@ -49,3 +49,5 @@
 阶段152实现：原生设置列表改用共用addValues循环，37个控件和3个主题背景的选项标签、稳定值、调色板和顺序不变，菜单源码从47,180降至20,380字符。basic76/capability1.30；新增原生overrides场景使用真实菜单设置步数、白色和隐藏秒数后正常退出/同PRG重启，不改变80秒门禁或资源。11项本地回归通过、2项SDK显式跳过、构建通过；上一阶段113相关9项（含两尺寸SDK）通过。下一步部署113实际重载验证。
 
 阶段152原生结果：14a16e9已部署113；basic76首帧与正常退出重启成功、cleanup completed，VM启动free43168字节。步数来源、背景隐藏与秒数隐藏在重启后保持。脚本两次滑动未进入预期颜色组，实际操作了背景装饰开关，因此颜色验收明确失败/未测，不归因设置丢失；已改用与已测数据组相同单次滑动后的第三行，并增加实际组身份日志待复验。证据 docs/research/native-font-memory/compact-menu。
+
+阶段152复验：162a114的修正验收使用113当前basic76，完整PRG成功；正常退出重启后来源=steps、独立颜色=#FFFFFF、show_seconds=false，背景仍原默认true。samePrgRestartReady、摘要及cleanup completed均核对；VM重启入口free43120字节。113菜单、主题/AI/页面相关11项通过，2项SDK显式跳过；实际本轮45mm SDK/原生已通过。证据 docs/research/native-font-memory/override-restart。下一步E独立精确主题契约、最终全尺寸视觉/Sleep和付费对照，不能宣称整个Plan完成。

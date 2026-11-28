@@ -1,0 +1,16 @@
+{
+  "scenario": "overrides",
+  "states": [
+    "apex",
+    "apex",
+    "apex",
+    "apex",
+    "apex"
+  ],
+  "prgSha256": "c4a423c408973fba2fd28e759453c452e83678a62560be480b2865e978c6b4ac",
+  "sourceSha256": "8d0111abcb377dd94cade0376ef6a6932cbdcfbfd9b7a5deff34e0fed76919b9",
+  "cleanupStatus": "completed",
+  "applicationDataMode": "simulator-defaults-dynamic",
+  "hardware": "unverified",
+  "sleepTransition": "unverified"
+}
