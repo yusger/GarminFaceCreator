@@ -390,6 +390,21 @@ sleep 1.2
 xdotool mousemove 375 840 click 1
 sleep 4
 import -window root /output/ui-vital-aod.png
+xdotool mousemove 16 12 click 1 mousemove 104 37 click 1
+sleep 1
+dialog=$(xdotool search --onlyvisible --class simulator | tail -1)
+test -n "$dialog"
+xdotool windowfocus "$dialog"
+xdotool mousemove --window "$dialog" 230 27 click 1
+xdotool key ctrl+a
+xdotool type --delay 1 --clearmodifiers "ui-sdk-vital-aod.png"
+width=$(xdotool getwindowgeometry --shell "$dialog" | grep '^WIDTH=' | cut -d= -f2)
+height=$(xdotool getwindowgeometry --shell "$dialog" | grep '^HEIGHT=' | cut -d= -f2)
+xdotool key Return
+sleep 1
+if ! test -s /output/ui-sdk-vital-aod.png; then xdotool mousemove --window "$dialog" "$((width-50))" "$((height-24))" click 1; fi
+for i in $(seq 1 30); do test -s /output/ui-sdk-vital-aod.png && break; sleep 0.05; done
+test -s /output/ui-sdk-vital-aod.png
 xdotool mousemove 65 12 click 1 mousemove 174 994
 sleep 1.6
 xdotool mousemove 170 815
