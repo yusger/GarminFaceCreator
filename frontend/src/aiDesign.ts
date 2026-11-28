@@ -212,6 +212,7 @@ export function validateDesignChoices(
   )
     throw Error("请检查项目名称、时间选项、数据项和提示词");
   if (c.layoutTemplateId && !layoutTemplate(c.layoutTemplateId)) throw Error("布局模板不存在");
+  const kit=layoutTemplate(c.layoutTemplateId)?.visualKit;if(kit&&!kit.targets.includes(c.target))throw Error("此视觉套件仅支持Venu 4两种尺寸");
   if (c.backgroundPreference && (!["solid","image"].includes(c.backgroundPreference.mode)||!/^#[a-fA-F0-9]{6}$/.test(c.backgroundPreference.color))) throw Error("背景选项无效");
   generationDevice(c);
   if (
@@ -241,7 +242,7 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       safeInset: 12,
     },
     choices: c,
-    layoutTemplate: c.layoutTemplateId ? (()=>{const t=layoutTemplate(c.layoutTemplateId)!;return {id:t.id,version:t.version,mode:t.mode,backgroundColor:t.backgroundColor,layers:t.layers,policy:"Use as editable composition guidance; current selected sources/time style override template defaults. Do not add unselected data."};})() : undefined,
+    layoutTemplate: c.layoutTemplateId ? (()=>{const t=layoutTemplate(c.layoutTemplateId)!;return {id:t.id,version:t.version,mode:t.mode,backgroundColor:t.backgroundColor,visualKit:t.visualKit,layers:t.layers.map(l=>{const {customFont,libraryIcon,...fields}=l;return {...fields,...(customFont?{fontId:customFont.id}:{}),...(libraryIcon?{iconId:libraryIcon.id}:{})};}),policy:"Use as editable composition guidance; current selected sources/time style override template defaults. Only keep selected data; fontId/iconId select approved resources. activeVisible:false with aod:true is a valid independent sleep-only layer; do not require it visible in active mode. Do not add unselected data."};})() : undefined,
     dataSources: c.sources.map((source) => ({
       source,
       label: metrics[source],
@@ -524,7 +525,7 @@ export function parseDesign(
     )
   )
     throw Error("AI创建的秒数和秒环应在AOD隐藏");
-  const low = active.filter((l) => l.aod);
+  const low = result.layers.filter((l) => l.aod);
   if (
     c.style !== "ANALOG" &&
     !(

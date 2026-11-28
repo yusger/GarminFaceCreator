@@ -514,6 +514,1027 @@
   },
   {
     "format": "gfc-layout-template",
+    "formatVersion": 2,
+    "id": "kit-activity",
+    "version": "1.0.0",
+    "name": "运动多环",
+    "mode": "DIGITAL",
+    "canvas": {
+      "width": 454,
+      "height": 454,
+      "shape": "circle",
+      "safeInset": 20
+    },
+    "layoutFile": "layout.json",
+    "preview": "preview.svg",
+    "previewAod": "preview-aod.svg",
+    "defaultSources": [
+      "steps",
+      "heartRate",
+      "battery"
+    ],
+    "description": "三条目标圆弧与同色读数、明亮活动配色；秒级动画默认关闭。",
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "GPL-3.0-or-later",
+      "licenseFile": "LICENSE"
+    },
+    "background": {
+      "solid": true,
+      "uploadImage": true
+    },
+    "visualKit": {
+      "targets": [
+        "venu445mm",
+        "venu441mm"
+      ],
+      "fonts": [
+        "sonar_label_font",
+        "rajdhani_bold",
+        "rajdhani_light"
+      ],
+      "colorRoles": [
+        {
+          "id": "ink-0",
+          "label": "配色 1",
+          "color": "#F43E94",
+          "layerIds": [
+            "steps-arc",
+            "steps",
+            "steps-icon"
+          ]
+        },
+        {
+          "id": "ink-1",
+          "label": "配色 2",
+          "color": "#37E1A7",
+          "layerIds": [
+            "battery-arc",
+            "battery"
+          ]
+        },
+        {
+          "id": "ink-2",
+          "label": "配色 3",
+          "color": "#FF8F3F",
+          "layerIds": [
+            "heart-arc",
+            "heart",
+            "heart-icon"
+          ]
+        },
+        {
+          "id": "ink-3",
+          "label": "配色 4",
+          "color": "#7E919C",
+          "layerIds": [
+            "brand",
+            "date",
+            "battery-label"
+          ]
+        },
+        {
+          "id": "ink-4",
+          "label": "配色 5",
+          "color": "#E8ECEF",
+          "layerIds": [
+            "clock"
+          ]
+        }
+      ],
+      "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"
+    },
+    "backgroundColor": "#000000",
+    "layers": [
+      {
+        "id": "steps-arc",
+        "name": "steps-arc",
+        "kind": "ring",
+        "x": 35,
+        "y": 35,
+        "w": 384,
+        "h": 384,
+        "size": 20,
+        "color": "#F43E94",
+        "aod": false,
+        "ringSource": "steps",
+        "ringWidth": 16,
+        "ringTicks": 60,
+        "ringDim": 0.14,
+        "ringStyle": "continuous",
+        "ringCap": "round",
+        "ringStart": -105,
+        "ringEnd": 105,
+        "ringGoal": 10000
+      },
+      {
+        "id": "battery-arc",
+        "name": "battery-arc",
+        "kind": "ring",
+        "x": 61,
+        "y": 61,
+        "w": 332,
+        "h": 332,
+        "size": 20,
+        "color": "#37E1A7",
+        "aod": false,
+        "ringSource": "battery",
+        "ringWidth": 14,
+        "ringTicks": 60,
+        "ringDim": 0.14,
+        "ringStyle": "continuous",
+        "ringCap": "round",
+        "ringStart": -105,
+        "ringEnd": 105,
+        "ringGoal": 100
+      },
+      {
+        "id": "heart-arc",
+        "name": "heart-arc",
+        "kind": "ring",
+        "x": 85,
+        "y": 85,
+        "w": 284,
+        "h": 284,
+        "size": 20,
+        "color": "#FF8F3F",
+        "aod": false,
+        "ringSource": "heartRate",
+        "ringWidth": 12,
+        "ringTicks": 60,
+        "ringDim": 0.14,
+        "ringStyle": "continuous",
+        "ringCap": "round",
+        "ringStart": -105,
+        "ringEnd": 105,
+        "ringGoal": 160
+      },
+      {
+        "id": "brand",
+        "name": "brand",
+        "kind": "text",
+        "x": 160,
+        "y": 91,
+        "w": 180,
+        "h": 23,
+        "size": 17,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "MOVE / 02",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "steps",
+        "name": "steps",
+        "kind": "metric",
+        "x": 209,
+        "y": 124,
+        "w": 137,
+        "h": 36,
+        "size": 32,
+        "color": "#F43E94",
+        "aod": false,
+        "source": "steps",
+        "metricDecoration": false,
+        "threshold": false,
+        "groupThousands": false,
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "heart",
+        "name": "heart",
+        "kind": "metric",
+        "x": 232,
+        "y": 161,
+        "w": 104,
+        "h": 32,
+        "size": 27,
+        "color": "#FF8F3F",
+        "aod": false,
+        "source": "heartRate",
+        "metricDecoration": false,
+        "threshold": false,
+        "groupThousands": false,
+        "unit": "",
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "clock",
+        "name": "clock",
+        "kind": "time",
+        "x": 145,
+        "y": 200,
+        "w": 231,
+        "h": 79,
+        "size": 69,
+        "color": "#E8ECEF",
+        "aod": false,
+        "timePart": "full",
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "aod-clock",
+        "name": "aod-clock",
+        "kind": "time",
+        "x": 107,
+        "y": 200,
+        "w": 240,
+        "h": 62,
+        "size": 50,
+        "color": "#777777",
+        "aod": true,
+        "timePart": "full",
+        "activeVisible": false,
+        "aodColor": "#777777",
+        "customFont": {
+          "id": "rajdhani_light",
+          "family": "Rajdhani Light",
+          "file": "Rajdhani-Light.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "steps-icon",
+        "name": "steps-icon",
+        "kind": "image",
+        "x": 177,
+        "y": 133,
+        "w": 22,
+        "h": 22,
+        "size": 20,
+        "color": "#F43E94",
+        "aod": false,
+        "libraryIcon": {
+          "id": "lucide_586bf5cf_footprints",
+          "recolor": true,
+          "strokeWidth": 2
+        }
+      },
+      {
+        "id": "heart-icon",
+        "name": "heart-icon",
+        "kind": "image",
+        "x": 202,
+        "y": 166,
+        "w": 22,
+        "h": 22,
+        "size": 20,
+        "color": "#FF8F3F",
+        "aod": false,
+        "libraryIcon": {
+          "id": "lucide_586bf5cf_heart_pulse",
+          "recolor": true,
+          "strokeWidth": 2
+        }
+      },
+      {
+        "id": "date",
+        "name": "date",
+        "kind": "date",
+        "x": 161,
+        "y": 289,
+        "w": 200,
+        "h": 30,
+        "size": 24,
+        "color": "#7E919C",
+        "aod": false,
+        "dateLocale": "en",
+        "dateFormat": "weekdayDay",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "battery-label",
+        "name": "battery-label",
+        "kind": "text",
+        "x": 161,
+        "y": 333,
+        "w": 90,
+        "h": 23,
+        "size": 17,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "POWER",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "battery",
+        "name": "battery",
+        "kind": "metric",
+        "x": 256,
+        "y": 328,
+        "w": 88,
+        "h": 32,
+        "size": 26,
+        "color": "#37E1A7",
+        "aod": false,
+        "source": "battery",
+        "metricDecoration": false,
+        "threshold": false,
+        "groupThousands": false,
+        "unit": "%",
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      }
+    ]
+  },
+  {
+    "format": "gfc-layout-template",
+    "formatVersion": 2,
+    "id": "kit-instrument",
+    "version": "1.0.0",
+    "name": "紧凑仪表",
+    "mode": "DIGITAL",
+    "canvas": {
+      "width": 454,
+      "height": 454,
+      "shape": "circle",
+      "safeInset": 20
+    },
+    "layoutFile": "layout.json",
+    "preview": "preview.svg",
+    "previewAod": "preview-aod.svg",
+    "defaultSources": [
+      "battery",
+      "heartRate",
+      "steps"
+    ],
+    "description": "角形主时间、窄体标签、橙色强调及分区数据；息屏独立简化时间。",
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "GPL-3.0-or-later",
+      "licenseFile": "LICENSE"
+    },
+    "background": {
+      "solid": true,
+      "uploadImage": true
+    },
+    "visualKit": {
+      "targets": [
+        "venu445mm",
+        "venu441mm"
+      ],
+      "fonts": [
+        "sonar_label_font",
+        "rajdhani_bold",
+        "rajdhani_light"
+      ],
+      "colorRoles": [
+        {
+          "id": "ink-0",
+          "label": "配色 1",
+          "color": "#34444F",
+          "layerIds": [
+            "ticks",
+            "separator-top",
+            "separator-bottom"
+          ]
+        },
+        {
+          "id": "ink-1",
+          "label": "配色 2",
+          "color": "#7E919C",
+          "layerIds": [
+            "brand",
+            "date",
+            "battery-label",
+            "heart-label",
+            "steps-label",
+            "footer"
+          ]
+        },
+        {
+          "id": "ink-2",
+          "label": "配色 3",
+          "color": "#FF7B28",
+          "layerIds": [
+            "battery",
+            "battery-track",
+            "minutes",
+            "heart-icon",
+            "steps-icon"
+          ]
+        },
+        {
+          "id": "ink-3",
+          "label": "配色 4",
+          "color": "#E8ECEF",
+          "layerIds": [
+            "hours",
+            "heart",
+            "steps"
+          ]
+        }
+      ],
+      "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"
+    },
+    "backgroundColor": "#000000",
+    "layers": [
+      {
+        "id": "ticks",
+        "name": "ticks",
+        "kind": "ring",
+        "x": 24,
+        "y": 24,
+        "w": 406,
+        "h": 406,
+        "size": 20,
+        "color": "#34444F",
+        "aod": false,
+        "ringSource": "static",
+        "ringWidth": 2,
+        "ringTicks": 60,
+        "ringDim": 0.14
+      },
+      {
+        "id": "brand",
+        "name": "brand",
+        "kind": "text",
+        "x": 137,
+        "y": 53,
+        "w": 180,
+        "h": 23,
+        "size": 16,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "INSTRUMENT / 01",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "date",
+        "name": "date",
+        "kind": "date",
+        "x": 127,
+        "y": 80,
+        "w": 200,
+        "h": 30,
+        "size": 24,
+        "color": "#7E919C",
+        "aod": false,
+        "dateLocale": "en",
+        "dateFormat": "weekdayDay",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "separator-top",
+        "name": "separator-top",
+        "kind": "line",
+        "x": 74,
+        "y": 125,
+        "w": 306,
+        "h": 1,
+        "size": 10,
+        "color": "#34444F",
+        "aod": false
+      },
+      {
+        "id": "battery-label",
+        "name": "battery-label",
+        "kind": "text",
+        "x": 90,
+        "y": 137,
+        "w": 64,
+        "h": 23,
+        "size": 16,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "POWER",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "battery",
+        "name": "battery",
+        "kind": "metric",
+        "x": 159,
+        "y": 132,
+        "w": 65,
+        "h": 32,
+        "size": 25,
+        "color": "#FF7B28",
+        "aod": false,
+        "source": "battery",
+        "metricDecoration": false,
+        "threshold": false,
+        "groupThousands": false,
+        "unit": "%",
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "battery-track",
+        "name": "battery-track",
+        "kind": "meter",
+        "x": 247,
+        "y": 140,
+        "w": 116,
+        "h": 14,
+        "size": 14,
+        "color": "#FF7B28",
+        "aod": false,
+        "source": "battery",
+        "meterGoal": 100,
+        "meterCount": 24,
+        "meterDim": 0.18
+      },
+      {
+        "id": "hours",
+        "name": "hours",
+        "kind": "time",
+        "x": 67,
+        "y": 173,
+        "w": 155,
+        "h": 103,
+        "size": 94,
+        "color": "#E8ECEF",
+        "aod": false,
+        "timePart": "hours",
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "minutes",
+        "name": "minutes",
+        "kind": "time",
+        "x": 221,
+        "y": 173,
+        "w": 155,
+        "h": 103,
+        "size": 94,
+        "color": "#FF7B28",
+        "aod": false,
+        "timePart": "minutes",
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "aod-clock",
+        "name": "aod-clock",
+        "kind": "time",
+        "x": 107,
+        "y": 200,
+        "w": 240,
+        "h": 62,
+        "size": 50,
+        "color": "#777777",
+        "aod": true,
+        "timePart": "full",
+        "activeVisible": false,
+        "aodColor": "#777777",
+        "customFont": {
+          "id": "rajdhani_light",
+          "family": "Rajdhani Light",
+          "file": "Rajdhani-Light.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "separator-bottom",
+        "name": "separator-bottom",
+        "kind": "line",
+        "x": 74,
+        "y": 282,
+        "w": 306,
+        "h": 1,
+        "size": 10,
+        "color": "#34444F",
+        "aod": false
+      },
+      {
+        "id": "heart-icon",
+        "name": "heart-icon",
+        "kind": "image",
+        "x": 87,
+        "y": 304,
+        "w": 22,
+        "h": 22,
+        "size": 20,
+        "color": "#FF7B28",
+        "aod": false,
+        "libraryIcon": {
+          "id": "lucide_586bf5cf_heart_pulse",
+          "recolor": true,
+          "strokeWidth": 2
+        }
+      },
+      {
+        "id": "heart",
+        "name": "heart",
+        "kind": "metric",
+        "x": 116,
+        "y": 297,
+        "w": 85,
+        "h": 38,
+        "size": 34,
+        "color": "#E8ECEF",
+        "aod": false,
+        "source": "heartRate",
+        "metricDecoration": false,
+        "threshold": false,
+        "groupThousands": false,
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "heart-label",
+        "name": "heart-label",
+        "kind": "text",
+        "x": 116,
+        "y": 335,
+        "w": 85,
+        "h": 21,
+        "size": 16,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "BPM",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "steps-icon",
+        "name": "steps-icon",
+        "kind": "image",
+        "x": 252,
+        "y": 304,
+        "w": 22,
+        "h": 22,
+        "size": 20,
+        "color": "#FF7B28",
+        "aod": false,
+        "libraryIcon": {
+          "id": "lucide_586bf5cf_footprints",
+          "recolor": true,
+          "strokeWidth": 2
+        }
+      },
+      {
+        "id": "steps",
+        "name": "steps",
+        "kind": "metric",
+        "x": 278,
+        "y": 297,
+        "w": 100,
+        "h": 38,
+        "size": 34,
+        "color": "#E8ECEF",
+        "aod": false,
+        "source": "steps",
+        "metricDecoration": false,
+        "threshold": false,
+        "groupThousands": false,
+        "customFont": {
+          "id": "rajdhani_bold",
+          "family": "Rajdhani Bold",
+          "file": "Rajdhani-Bold.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "steps-label",
+        "name": "steps-label",
+        "kind": "text",
+        "x": 281,
+        "y": 335,
+        "w": 86,
+        "h": 21,
+        "size": 16,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "STEPS",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "footer",
+        "name": "footer",
+        "kind": "text",
+        "x": 124,
+        "y": 377,
+        "w": 206,
+        "h": 22,
+        "size": 16,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "PRECISION / EVERY DAY",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      }
+    ]
+  },
+  {
+    "format": "gfc-layout-template",
+    "formatVersion": 2,
+    "id": "kit-minimal",
+    "version": "1.0.0",
+    "name": "极简细线",
+    "mode": "DIGITAL",
+    "canvas": {
+      "width": 454,
+      "height": 454,
+      "shape": "circle",
+      "safeInset": 20
+    },
+    "layoutFile": "layout.json",
+    "preview": "preview.svg",
+    "previewAod": "preview-aod.svg",
+    "defaultSources": [
+      "battery"
+    ],
+    "description": "真实轻线字体、克制刻度与薄荷色装饰；息屏只保留小号时间。",
+    "origin": {
+      "kind": "self",
+      "authors": [
+        "yusger"
+      ],
+      "license": "GPL-3.0-or-later",
+      "licenseFile": "LICENSE"
+    },
+    "background": {
+      "solid": true,
+      "uploadImage": true
+    },
+    "visualKit": {
+      "targets": [
+        "venu445mm",
+        "venu441mm"
+      ],
+      "fonts": [
+        "sonar_label_font",
+        "rajdhani_light"
+      ],
+      "colorRoles": [
+        {
+          "id": "ink-0",
+          "label": "配色 1",
+          "color": "#263B43",
+          "layerIds": [
+            "hour-ticks"
+          ]
+        },
+        {
+          "id": "ink-1",
+          "label": "配色 2",
+          "color": "#7E919C",
+          "layerIds": [
+            "brand",
+            "date"
+          ]
+        },
+        {
+          "id": "ink-2",
+          "label": "配色 3",
+          "color": "#D6F6ED",
+          "layerIds": [
+            "clock"
+          ]
+        },
+        {
+          "id": "ink-3",
+          "label": "配色 4",
+          "color": "#56D5B2",
+          "layerIds": [
+            "accent",
+            "battery-icon",
+            "battery"
+          ]
+        }
+      ],
+      "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"
+    },
+    "backgroundColor": "#000000",
+    "layers": [
+      {
+        "id": "hour-ticks",
+        "name": "hour-ticks",
+        "kind": "ring",
+        "x": 32,
+        "y": 32,
+        "w": 390,
+        "h": 390,
+        "size": 20,
+        "color": "#263B43",
+        "aod": false,
+        "ringSource": "static",
+        "ringWidth": 2,
+        "ringTicks": 12,
+        "ringDim": 0.14
+      },
+      {
+        "id": "brand",
+        "name": "brand",
+        "kind": "text",
+        "x": 137,
+        "y": 96,
+        "w": 180,
+        "h": 24,
+        "size": 16,
+        "color": "#7E919C",
+        "aod": false,
+        "text": "ESSENTIAL / 03",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "clock",
+        "name": "clock",
+        "kind": "time",
+        "x": 67,
+        "y": 171,
+        "w": 320,
+        "h": 112,
+        "size": 102,
+        "color": "#D6F6ED",
+        "aod": false,
+        "timePart": "full",
+        "customFont": {
+          "id": "rajdhani_light",
+          "family": "Rajdhani Light",
+          "file": "Rajdhani-Light.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "aod-clock",
+        "name": "aod-clock",
+        "kind": "time",
+        "x": 107,
+        "y": 200,
+        "w": 240,
+        "h": 62,
+        "size": 50,
+        "color": "#777777",
+        "aod": true,
+        "timePart": "full",
+        "activeVisible": false,
+        "aodColor": "#777777",
+        "customFont": {
+          "id": "rajdhani_light",
+          "family": "Rajdhani Light",
+          "file": "Rajdhani-Light.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "accent",
+        "name": "accent",
+        "kind": "line",
+        "x": 194,
+        "y": 294,
+        "w": 66,
+        "h": 2,
+        "size": 10,
+        "color": "#56D5B2",
+        "aod": false
+      },
+      {
+        "id": "date",
+        "name": "date",
+        "kind": "date",
+        "x": 127,
+        "y": 318,
+        "w": 200,
+        "h": 30,
+        "size": 24,
+        "color": "#7E919C",
+        "aod": false,
+        "dateLocale": "en",
+        "dateFormat": "weekdayDay",
+        "customFont": {
+          "id": "sonar_label_font",
+          "family": "Barlow Semi Condensed",
+          "file": "sonar-label-font.ttf"
+        },
+        "garminFont": "auto"
+      },
+      {
+        "id": "battery-icon",
+        "name": "battery-icon",
+        "kind": "image",
+        "x": 194,
+        "y": 368,
+        "w": 22,
+        "h": 22,
+        "size": 20,
+        "color": "#56D5B2",
+        "aod": false,
+        "libraryIcon": {
+          "id": "lucide_586bf5cf_battery_full",
+          "recolor": true,
+          "strokeWidth": 2
+        }
+      },
+      {
+        "id": "battery",
+        "name": "battery",
+        "kind": "metric",
+        "x": 220,
+        "y": 361,
+        "w": 55,
+        "h": 31,
+        "size": 23,
+        "color": "#56D5B2",
+        "aod": false,
+        "source": "battery",
+        "metricDecoration": false,
+        "threshold": false,
+        "groupThousands": false,
+        "unit": "%",
+        "customFont": {
+          "id": "rajdhani_light",
+          "family": "Rajdhani Light",
+          "file": "Rajdhani-Light.ttf"
+        },
+        "garminFont": "auto"
+      }
+    ]
+  },
+  {
+    "format": "gfc-layout-template",
     "formatVersion": 1,
     "id": "monolith",
     "version": "1.0.0",

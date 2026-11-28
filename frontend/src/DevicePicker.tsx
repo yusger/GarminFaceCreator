@@ -107,7 +107,7 @@ export default function DevicePicker({
                 {p.name}
               </option>
             ))}
-            {layoutTemplates.map(t=><option key={t.id} value={"template:"+t.id}>{t.name} · {t.mode==="DIGITAL"?"数字":t.mode==="ANALOG"?"指针":"混合"}模板</option>)}
+            {layoutTemplates.map(t=><option key={t.id} value={"template:"+t.id} disabled={!!(t.visualKit&&!t.visualKit.targets.includes(selected.id))}>{t.name} · {t.mode==="DIGITAL"?"数字":t.mode==="ANALOG"?"指针":"混合"}模板</option>)}
           </select>
         </label>
         {presetId.startsWith("template:")&&<img width="160" height="160" src={"/layout-templates/"+presetId.slice(9)+"/preview.svg"} alt={(layoutTemplate(presetId.slice(9))?.name||"")+"模板预览"}/>}
@@ -141,7 +141,7 @@ export default function DevicePicker({
           <button onClick={onCancel}>取消</button>
           <button
             className="primary"
-            disabled={backgroundBusy || (background.mode==="image"&&!background.image)}
+            disabled={!!(presetId.startsWith("template:")&&layoutTemplate(presetId.slice(9))?.visualKit&&!layoutTemplate(presetId.slice(9))!.visualKit!.targets.includes(selected.id)) || backgroundBusy || (background.mode==="image"&&!background.image)}
             onClick={() =>
               onChoose(selected, {
                 ...suggestedLayout(selected, presetId),

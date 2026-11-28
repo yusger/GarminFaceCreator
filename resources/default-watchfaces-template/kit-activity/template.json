@@ -1,0 +1,96 @@
+{
+  "format": "gfc-layout-template",
+  "formatVersion": 2,
+  "id": "kit-activity",
+  "version": "1.0.0",
+  "name": "运动多环",
+  "mode": "DIGITAL",
+  "canvas": {
+    "width": 454,
+    "height": 454,
+    "shape": "circle",
+    "safeInset": 20
+  },
+  "layoutFile": "layout.json",
+  "preview": "preview.svg",
+  "previewAod": "preview-aod.svg",
+  "defaultSources": [
+    "steps",
+    "heartRate",
+    "battery"
+  ],
+  "description": "三条目标圆弧与同色读数、明亮活动配色；秒级动画默认关闭。",
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "LICENSE"
+  },
+  "background": {
+    "solid": true,
+    "uploadImage": true
+  },
+  "visualKit": {
+    "targets": [
+      "venu445mm",
+      "venu441mm"
+    ],
+    "fonts": [
+      "sonar_label_font",
+      "rajdhani_bold",
+      "rajdhani_light"
+    ],
+    "colorRoles": [
+      {
+        "id": "ink-0",
+        "label": "配色 1",
+        "color": "#F43E94",
+        "layerIds": [
+          "steps-arc",
+          "steps",
+          "steps-icon"
+        ]
+      },
+      {
+        "id": "ink-1",
+        "label": "配色 2",
+        "color": "#37E1A7",
+        "layerIds": [
+          "battery-arc",
+          "battery"
+        ]
+      },
+      {
+        "id": "ink-2",
+        "label": "配色 3",
+        "color": "#FF8F3F",
+        "layerIds": [
+          "heart-arc",
+          "heart",
+          "heart-icon"
+        ]
+      },
+      {
+        "id": "ink-3",
+        "label": "配色 4",
+        "color": "#7E919C",
+        "layerIds": [
+          "brand",
+          "date",
+          "battery-label"
+        ]
+      },
+      {
+        "id": "ink-4",
+        "label": "配色 5",
+        "color": "#E8ECEF",
+        "layerIds": [
+          "clock"
+        ]
+      }
+    ],
+    "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"
+  }
+}

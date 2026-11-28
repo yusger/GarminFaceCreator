@@ -687,3 +687,13 @@ test("113 AI creation saves a licensed recolorable icon from a model response wi
  await page.route("https://api.example.com/v1/chat/completions",async route=>{calls++;const payload=decode(route.request().postDataJSON()),icon=payload.contract.approvedIcons[0],data=response(payload.choices,payload.references);expect(icon.id).toBe(approvedDesignIcons[0].id);data.layers.push({id:"heart-icon",name:"Library Heart",kind:"image",iconId:icon.id,x:103,y:110,w:28,h:28,size:20,color:"#38E1D0",aod:false});await route.fulfill({json:{choices:[{finish_reason:"stop",message:{content:JSON.stringify(data)}}]}});});
  await setup(page);await page.getByLabel("AI项目名称").fill("IconIdUI");await next(page);await next(page);await page.getByRole("button",{name:"生成表盘项目",exact:true}).click();await expect(page.getByRole("button",{name:"采用设计并编辑",exact:true})).toBeVisible();await page.getByRole("button",{name:"采用设计并编辑",exact:true}).click();await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();const d=page.waitForEvent("download");await page.getByRole("button",{name:"导出项目",exact:true}).click();const saved=JSON.parse(await readFile((await(await d).path())!,"utf8")),icon=saved.layers.find((l:any)=>l.name==="Library Heart");expect(icon.libraryIcon.id).toBe(approvedDesignIcons[0].id);expect(icon.iconId).toBeUndefined();expect(icon.image).toBeUndefined();expect(saved.files).toEqual([]);expect(calls).toBe(1);expect(builds).toBe(0);
 });
+
+
+test("AI creation accepts independent AOD-only clock but still rejects missing active or sleep time",()=>{
+const data=response(choices),clock=data.layers.find(l=>l.kind==="time");clock.aod=false;
+data.layers.push({...clock,id:"sleep-clock",activeVisible:false,aod:true,aodColor:"#777777",size:30});
+const p=parseDesign(JSON.stringify(data),choices,[]);expect(p.layers.filter(l=>l.kind==="time"&&l.aod)).toHaveLength(1);
+expect(p.layers.find(l=>l.aod&&l.kind==="time")!.activeVisible).toBe(false);expect(()=>localGenerate(p)).not.toThrow();
+const missingActive=structuredClone(data);missingActive.layers=missingActive.layers.filter(l=>l.id!==clock.id);expect(()=>parseDesign(JSON.stringify(missingActive),choices,[])).toThrow("时间模块");
+const missingSleep=structuredClone(data);missingSleep.layers=missingSleep.layers.filter(l=>l.id!=="sleep-clock");expect(()=>parseDesign(JSON.stringify(missingSleep),choices,[])).toThrow("息屏缺少");
+});

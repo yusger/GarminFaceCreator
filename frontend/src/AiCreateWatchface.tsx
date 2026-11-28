@@ -308,7 +308,7 @@ export default function AiCreateWatchface({
               )}
               {step === 1 && (
                 <>
-                  <TemplatePicker value={choices.layoutTemplateId||""} onChange={id=>{const t=layoutTemplate(id);change({layoutTemplateId:id||undefined,...(t?{style:t.mode,sources:t.defaultSources,date:t.layers.some(l=>l.kind==="date"),seconds:false}:{})});}}/>
+                  <TemplatePicker target={choices.target} value={choices.layoutTemplateId||""} onChange={id=>{const t=layoutTemplate(id);change({layoutTemplateId:id||undefined,...(t?{style:t.mode,sources:t.defaultSources,date:t.layers.some(l=>l.kind==="date"),seconds:false}:{})});}}/>
                   <p className="hint">模板作为构图起点，选择后可继续修改时间模式和数据；更换时间模式会取消原模板选择。</p>
                   <BackgroundPicker value={background} onBusy={setBackgroundBusy} onChange={value=>{setBackground(value);change({backgroundPreference:value.mode==="auto"?undefined:{mode:value.mode,color:value.color}});}}/>
                   <label>

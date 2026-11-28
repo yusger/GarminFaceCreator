@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.21.0",
+  "version": "1.22.0",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -728,6 +728,22 @@
       "fontWeight": "actual file outlines; no synthetic weight guarantee",
       "missing": "required glyph coverage checked during local resource preparation; Chinese requires chalkHan in AI create",
       "legacyReleaseV2": "frozen original four fonts and their hashes, not the current catalog"
+    },
+    "visualKits": {
+      "templates": [
+        "kit-instrument",
+        "kit-activity",
+        "kit-minimal"
+      ],
+      "targets": [
+        "venu445mm",
+        "venu441mm"
+      ],
+      "format": "layout-template-v2",
+      "resources": "registered licensed fontId and lucide iconId; resolved before editing",
+      "colorBindings": "explicit layer IDs, editable project color controls; no guessed adjacency",
+      "aod": "independent activeVisible:false time layer; rendering not a Sleep/hardware acceptance",
+      "ai": "editable composition guidance, selected sources override defaults; no automatic guarantee of generated controls"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

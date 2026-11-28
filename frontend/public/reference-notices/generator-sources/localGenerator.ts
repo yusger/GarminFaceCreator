@@ -38,7 +38,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-68-library-icon-masks";
+export const LOCAL_GENERATOR_VERSION = "basic-69-sleep-frame-ready";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -459,8 +459,8 @@ ${hourlyCharts?nativeHourlyChartHelpers:""}
  ${(chalk.length||masks.length||usedBitmapFonts(p).length) ? "function fontFor(id){return WatchUi.loadResource(id);}" : ""}
 
  function initialize(){WatchFace.initialize();}
- function onEnterSleep(){sleeping=true;WatchUi.requestUpdate();}
- function onExitSleep(){sleeping=false;WatchUi.requestUpdate();}
+ function onEnterSleep(){sleeping=true;gfcFrameReported=false;WatchUi.requestUpdate();}
+ function onExitSleep(){sleeping=false;gfcFrameReported=false;WatchUi.requestUpdate();}
  ${meters.length ? "function meterCount(value,goal,count,source){if(!metricValid(value,source)){return 0;}if(value>=goal){return count;}return (value*1.0/goal*count).toNumber();}" : ""}
  ${dataHelpers}
  ${extraMetrics.helpers}

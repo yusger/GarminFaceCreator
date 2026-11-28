@@ -1,0 +1,94 @@
+{
+  "format": "gfc-layout-template",
+  "formatVersion": 2,
+  "id": "kit-instrument",
+  "version": "1.0.0",
+  "name": "紧凑仪表",
+  "mode": "DIGITAL",
+  "canvas": {
+    "width": 454,
+    "height": 454,
+    "shape": "circle",
+    "safeInset": 20
+  },
+  "layoutFile": "layout.json",
+  "preview": "preview.svg",
+  "previewAod": "preview-aod.svg",
+  "defaultSources": [
+    "battery",
+    "heartRate",
+    "steps"
+  ],
+  "description": "角形主时间、窄体标签、橙色强调及分区数据；息屏独立简化时间。",
+  "origin": {
+    "kind": "self",
+    "authors": [
+      "yusger"
+    ],
+    "license": "GPL-3.0-or-later",
+    "licenseFile": "LICENSE"
+  },
+  "background": {
+    "solid": true,
+    "uploadImage": true
+  },
+  "visualKit": {
+    "targets": [
+      "venu445mm",
+      "venu441mm"
+    ],
+    "fonts": [
+      "sonar_label_font",
+      "rajdhani_bold",
+      "rajdhani_light"
+    ],
+    "colorRoles": [
+      {
+        "id": "ink-0",
+        "label": "配色 1",
+        "color": "#34444F",
+        "layerIds": [
+          "ticks",
+          "separator-top",
+          "separator-bottom"
+        ]
+      },
+      {
+        "id": "ink-1",
+        "label": "配色 2",
+        "color": "#7E919C",
+        "layerIds": [
+          "brand",
+          "date",
+          "battery-label",
+          "heart-label",
+          "steps-label",
+          "footer"
+        ]
+      },
+      {
+        "id": "ink-2",
+        "label": "配色 3",
+        "color": "#FF7B28",
+        "layerIds": [
+          "battery",
+          "battery-track",
+          "minutes",
+          "heart-icon",
+          "steps-icon"
+        ]
+      },
+      {
+        "id": "ink-3",
+        "label": "配色 4",
+        "color": "#E8ECEF",
+        "layerIds": [
+          "hours",
+          "heart",
+          "steps"
+        ]
+      }
+    ],
+    "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"
+  }
+}

@@ -13,7 +13,7 @@ import { readFile } from "node:fs/promises";
 import { buildFetch } from "../../backend/tests/build-client.mjs";
 
 test("all layout templates create independent editable projects and preserve supported modes", () => {
-  expect(layoutTemplates).toHaveLength(12);
+  expect(layoutTemplates).toHaveLength(15);
   for (const template of layoutTemplates) {
     const p = applyLayout(
       project(template.id, true),
