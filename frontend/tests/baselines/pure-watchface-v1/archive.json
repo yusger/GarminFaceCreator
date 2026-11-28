@@ -1,0 +1,39 @@
+{
+  "rendererVersion": "browser-capture-3",
+  "fixtureVersion": "capture-gallery-1",
+  "reason": "Preserve original byte-exact baselines before correcting library icon AOD ink and measured physical pixel rounding",
+  "files": [
+    {
+      "file": "venu441mm-active.json",
+      "sha256": "d402c288ea960b43ff5e5c88d51e967d8faeebdf10279ebaf2e3860c7cd82f35"
+    },
+    {
+      "file": "venu441mm-active.png",
+      "sha256": "b2189cd5194d7ecd8a653c516f548498bf6c2d737239fba97f5c861f1d11366b"
+    },
+    {
+      "file": "venu441mm-aod.json",
+      "sha256": "34c2404bc97862fe38d7d3cfb4a21b2a7546c674cc6c4ed96c79d674c9c3d2ab"
+    },
+    {
+      "file": "venu441mm-aod.png",
+      "sha256": "4aa3e8a4ff815a47fcb6d03ecb459ec28bd8e0390c4c53a63edad7dcb464460e"
+    },
+    {
+      "file": "venu445mm-active.json",
+      "sha256": "80490c90371f266d3da19ecce3fb7e3ca24a29f4d19641770f1f8e320478f8d4"
+    },
+    {
+      "file": "venu445mm-active.png",
+      "sha256": "73fc70a006276869594738aa9df218217822322fb08b7337da6fe598a1956aa5"
+    },
+    {
+      "file": "venu445mm-aod.json",
+      "sha256": "09e42bb8b85534c59a49f028515521e4140c9d9274f891d19761afb771d80a26"
+    },
+    {
+      "file": "venu445mm-aod.png",
+      "sha256": "d98e2e3724d1d438ed6e76a1302898eed2fb0d946a68db0f18b5cf29b2e88d98"
+    }
+  ]
+}

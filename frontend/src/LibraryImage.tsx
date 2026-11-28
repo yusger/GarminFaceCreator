@@ -61,6 +61,7 @@ export default function LibraryImage({
   if(layer.iconMask)return <g opacity={layer.opacity??1}><defs><mask id={id} maskUnits="userSpaceOnUse" x="0" y="0" width={layer.w} height={layer.h} style={{maskType:"alpha"}}><image href={href} width={layer.w} height={layer.h} preserveAspectRatio="none"/></mask></defs><rect width={layer.w} height={layer.h} fill={layer.color} mask={"url(#"+id+")"}/></g>;
   return (
     <image
+      opacity={layer.opacity??1}
       href={href}
       width={layer.w}
       height={layer.h}

@@ -71,6 +71,7 @@ try {
         status: response.status,
         job: await response.json(),
         browser: fixture.browser,
+        project: fixture.p,
         iconIds: fixture.iconIds,
         aodAnalysis: fixture.aodAnalysis,
         warnings: fixture.warnings,
@@ -84,6 +85,10 @@ try {
     await writeFile(
       path.join(dir, "browser.png"),
       Buffer.from(result.browser.split(",")[1], "base64"),
+    );
+    await writeFile(
+      path.join(dir, "project.json"),
+      JSON.stringify(result.project, null, 2),
     );
     await writeFile(
       path.join(dir, "source.json"),

@@ -1,6 +1,7 @@
-﻿import { test, expect } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { project, layer } from "../src/domain";
 import {
+  libraryIconPreviewLayer,
   libraryIconMaskLayers,
   useLibraryIconMask,
 } from "../src/libraryIconMasks";
@@ -100,4 +101,25 @@ test("monochrome weather masks keep the category and missing glyph mapping", () 
   expect(helper).toContain('var glyph="I"');
   expect(helper).toContain('glyph="A"');
   expect(helper).toContain("GfcWeather.read(low)");
+});
+
+test("preview snaps only the measured mask scope without modifying stored geometry", () => {
+  const p = fixture();
+  p.target = "venu441mm";
+  p.deviceSize = "41mm";
+  const l = p.layers[0],
+    before = JSON.stringify(l),
+    view = libraryIconPreviewLayer(p, l, true),
+    scale = 390 / 454;
+  expect(view.x * scale).toBe(Math.trunc(l.x * scale));
+  expect(view.w * scale).toBe(Math.round(l.w * scale));
+  expect(view.color).toBe("#667788");
+  expect(JSON.stringify(l)).toBe(before);
+  expect(
+    libraryIconPreviewLayer(
+      p,
+      { ...l, libraryIcon: { ...l.libraryIcon!, recolor: false } },
+      true,
+    ).color,
+  ).toBe(l.color);
 });

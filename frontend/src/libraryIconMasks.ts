@@ -94,3 +94,20 @@ export async function preparedLibraryIconMasks(input: Project) {
   }
   return { files, assets };
 }
+
+export function libraryIconPreviewLayer(
+  p: Project,
+  l: Layer,
+  aod: boolean,
+): Layer {
+  if (!useLibraryIconMask(p, l)) return l;
+  const scale = generationDevice(p).screenWidth / 454;
+  return {
+    ...l,
+    x: Math.trunc(l.x * scale) / scale,
+    y: Math.trunc(l.y * scale) / scale,
+    w: Math.max(1, Math.round(l.w * scale)) / scale,
+    h: Math.max(1, Math.round(l.h * scale)) / scale,
+    color: aod ? l.aodColor || l.color : l.color,
+  };
+}

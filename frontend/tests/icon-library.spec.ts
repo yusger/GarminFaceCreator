@@ -255,17 +255,17 @@ for (const device of [
         body: form,
       });
       expect(r.status).toBe(202);
-      const job = await r.json();
+      const job = await r.json(),headers={Authorization:"Bearer "+job.accessToken};
       await expect
         .poll(
           async () =>
-            (await (await request.get("/api/builds/" + job.buildId)).json())
+            (await (await request.get("/api/builds/" + job.buildId,{headers})).json())
               .status,
           { timeout: 130000, intervals: [1000] },
         )
         .toBe("succeeded");
       const state = await (
-        await request.get("/api/builds/" + job.buildId)
+        await request.get("/api/builds/" + job.buildId,{headers})
       ).json();
       if (process.env.GFC_TEST_ARTIFACT_DIR) {
         await mkdir(process.env.GFC_TEST_ARTIFACT_DIR, { recursive: true });
@@ -274,7 +274,7 @@ for (const device of [
             process.env.GFC_TEST_ARTIFACT_DIR,
             device.target + "_LibraryIcons.prg",
           ),
-          await (await request.get(state.artifacts[0].url)).body(),
+          await (await request.get(state.artifacts[0].url,{headers})).body(),
         );
       }
     },

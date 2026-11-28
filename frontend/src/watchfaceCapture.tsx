@@ -1,17 +1,18 @@
+import {useLibraryIconMask} from "./libraryIconMasks";
 import {analyzeAodPixels,type AodPixelReport} from "./aodPixels";
 import { renderToStaticMarkup } from "react-dom/server";
 import Scene, { reading, type Preview } from "./Scene";
 import { expandWidgets } from "./compound";
 import { resolveControls } from "./projectControls";
 import { generationDevice } from "./devices";
-import { rasterIcon } from "./iconLibrary";
+import { rasterIcon,rasterIconAtSize } from "./iconLibrary";
 import { weatherGroup, weatherIconId } from "./weatherIcons";
 import {fontBytes} from "./localFonts";
 import { missingGlyphs } from "./fontLibrary";
 import { localDateKey, calendarDateLabel } from "./calendar";
 import type { Project } from "./domain";
 export type WatchfaceCapture = {
-  rendererVersion:"browser-capture-3";
+  rendererVersion:"browser-capture-4";
   aodAnalysis?:AodPixelReport;
   device:ReturnType<typeof generationDevice>;
   browser:string;
@@ -64,7 +65,8 @@ export async function captureWatchface(
             weatherGroup(d.missing ? null : (d.weatherCondition ?? 0)).key,
           ),
         };
-      l.image = await rasterIcon(l, p);
+      const masked=useLibraryIconMask(p,l),scale=device.screenWidth/454;
+      l.image = masked?await rasterIconAtSize({...l,color:aod?l.aodColor||l.color:l.color},Math.max(1,Math.round(l.w*scale)),Math.max(1,Math.round(l.h*scale))):await rasterIcon(l,p);
     }
     if (l.kind === "image" || l.handBitmap) {
       if (!l.image || !/^data:image\/(png|jpeg|webp);base64,/.test(l.image))
@@ -133,7 +135,7 @@ export async function captureWatchface(
     if (!ctx) throw Error("截图画布不可用");
     ctx.drawImage(img, 0, 0);
     return {
-      rendererVersion:"browser-capture-3",
+      rendererVersion:"browser-capture-4",
       ...(aod?{aodAnalysis:analyzeAodPixels(ctx.getImageData(0,0,canvas.width,canvas.height).data,canvas.width,canvas.height,device.target)}:{}),
       device,
       browser:navigator.userAgent,

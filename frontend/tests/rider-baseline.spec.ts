@@ -91,7 +91,7 @@ for (const id of ["02", "05"])
           await readFile((await (await metaWait).path())!, "utf8"),
         );
         expect(metadata.width).toBe(pixels);
-        expect(metadata.rendererVersion).toBe("browser-capture-3");
+        expect(metadata.rendererVersion).toBe("browser-capture-4");
         expect(metadata.preview.steps).toBe(8420);
         expect(metadata.preview.time).toBe(audit.fixedPreview.time);
         expect(metadata.preview.seconds).toBe(mode === "aod" ? 0 : audit.fixedPreview.seconds);

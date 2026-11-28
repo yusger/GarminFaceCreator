@@ -1,3 +1,4 @@
+import {libraryIconPreviewLayer} from "./libraryIconMasks";
 import {generationDevice} from "./devices.ts";
 import MoonIcon from "./MoonIcon";
 import BitmapFontText from "./BitmapFontText";
@@ -123,6 +124,7 @@ export default function Scene({
                       l.kind === "ring")
                   ))),
           )
+          .map(l=>libraryIconPreviewLayer(project,l,aod))
           .map((l) => (
             <g
               key={l.id}
