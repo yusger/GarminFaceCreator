@@ -16,3 +16,10 @@
 文字/时间/日期/数据/图表可选`fontId`，取值为当前请求approvedLibraryFonts中的id；完整列表源自resources/shared/fonts/catalog.json。解析器将其转换为已有garminFont/customFont受管字段，不保存新的图层字段，不接受任意customFont路径或字节。省略时继续使用设备字体。指定fontId时garminFont应省略或auto；图片/图形不能携带fontId。中文日期及常见汉字仅允许chalkHan，其他缺字仍由字体资源准备检查，不能静默回退。
 
 新增Rajdhani Light/Bold保留固定上游版本、字节摘要及完整OFL许可；id为rajdhani_light/rajdhani_bold。实际轻重来自字体轮廓，不以网页合成字重充当原生支持。库字体选择也可在创建后使用字体工作台修改或转换为固定像素排版。旧第三方发布v2仍只允许其冻结的四份字体；该AI响应扩展不改变旧交付契约。
+
+
+## 批准的素材库图标（design-16-library-icons）
+
+image层可选iconId，只允许请求approvedIcons中列出的Lucide素材。目录直接来自现有授权素材库，提供id/name/provider/license，不向模型传SVG字节。解析后得到已有libraryIcon字段（可改色、原始线宽2），仍为可编辑图片对象，颜色和AODColor由图层管理；iconId不作为新的持久化图层字段。不能与referenceId、外部URL或内嵌图片混用；未指定iconId时仍需显式标为实际素材的上传引用。
+
+这是固定图标外观，不因选择心形就自动读取心率，不自动生成天气类别或阈值状态。联动数据槽、显隐和状态图标继续使用已有显式控件协议。新增AI选择不改变原图标的许可、资源准备、源码归属或旧第三方v2范围。

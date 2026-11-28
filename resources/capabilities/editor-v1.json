@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.19.0",
+  "version": "1.19.1",
   "projectSchemaVersion": 46,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -627,7 +627,8 @@
       "maxMasks": 96,
       "sourceSwitch": "ProjectControl.sourceIcons; explicit members by allowed source",
       "stateSwitch": "existing Compound visibility rules and images",
-      "test": "frontend/tests/icon-masks.spec.ts"
+      "test": "frontend/tests/icon-masks.spec.ts",
+      "aiCreate": "optional approved Lucide iconId on image layer; mapped to existing recolorable libraryIcon, stroke2; mutually exclusive with uploaded referenceId; static icon is not automatic data binding"
     },
     "sourceDisplay": {
       "labels": [

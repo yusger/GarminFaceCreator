@@ -1,6 +1,6 @@
 import {libraryFonts,missingGlyphs} from "../src/fontLibrary";
 import {chalkPlans} from "../src/chalkFonts";
-import {designResponseSchema,designFields,designBudget,normalizeDesignResponse} from "../src/aiDesign";
+import {approvedDesignIcons,designResponseSchema,designFields,designBudget,normalizeDesignResponse} from "../src/aiDesign";
 import {CURRENT_SCHEMA} from "../src/migrations";
 import { test, expect, type Page } from "@playwright/test";
 import {
@@ -674,4 +674,16 @@ test("113 AI creation renders and saves the approved font selected by a model re
  await page.route("https://api.example.com/v1/chat/completions",async route=>{calls++;const payload=decode(route.request().postDataJSON());expect(payload.contract.approvedLibraryFonts.map((f:any)=>f.id)).toContain("rajdhani_light");const data=response(payload.choices,payload.references);data.layers.find(l=>l.kind==="time").fontId="rajdhani_light";await route.fulfill({json:{choices:[{finish_reason:"stop",message:{content:JSON.stringify(data)}}]}});});
  await setup(page);await page.getByLabel("AI项目名称").fill("FontIdUI");await next(page);await next(page);await page.getByRole("button",{name:"生成表盘项目",exact:true}).click();await expect(page.getByRole("button",{name:"采用设计并编辑",exact:true})).toBeVisible();await page.getByRole("button",{name:"采用设计并编辑",exact:true}).click();await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();
  const d=page.waitForEvent("download");await page.getByRole("button",{name:"导出项目",exact:true}).click();const saved=JSON.parse(await readFile((await(await d).path())!,"utf8")),time=saved.layers.find((l:any)=>l.kind==="time");expect(time.customFont.id).toBe("rajdhani_light");expect(time.fontId).toBeUndefined();expect(time.garminFont).toBe("auto");expect(saved.files).toEqual([]);expect(calls).toBe(1);expect(builds).toBe(0);
+});
+
+test("AI creation imports only approved static library icons and rejects mixed image sources",()=>{
+ const c={...choices,date:false,sources:[]};const data=response(c);for(const [i,icon] of approvedDesignIcons.entries())data.layers.push({id:"icon"+i,name:icon.name,kind:"image",iconId:icon.id,x:115+(i%3)*80,y:90+Math.floor(i/3)*65,w:24,h:24,size:20,color:"#38E1D0",aod:i===0,aodColor:"#667788"});
+ const p=parseDesign(JSON.stringify(data),c,[]),images=p.layers.filter(l=>l.kind==="image");expect(images).toHaveLength(approvedDesignIcons.length);expect(images[0].libraryIcon).toEqual({id:approvedDesignIcons[0].id,recolor:true,strokeWidth:2});expect((images[0] as any).iconId).toBeUndefined();expect(images[0].image).toBeUndefined();expect(!!generationLayer(images[0]).libraryIcon).toBe(true);expect(()=>localGenerate(p)).not.toThrow();
+ for(const patch of [{iconId:"arbitrary-url"},{kind:"circle"},{referenceId:"uploaded"}]){const invalid=structuredClone(data);Object.assign(invalid.layers[1],patch);expect(()=>parseDesign(JSON.stringify(invalid),c,[])).toThrow();}
+ expect(designPayload(c,[]).contract.approvedIcons).toEqual(approvedDesignIcons);expect(JSON.stringify(designPayload(c,[]))).not.toContain("<svg");
+});
+test("113 AI creation saves a licensed recolorable icon from a model response without uploading assets or compiling",async({page})=>{
+ let calls=0,builds=0;page.on("request",r=>{if(r.method()==="POST"&&r.url().endsWith("/api/builds"))builds++;});
+ await page.route("https://api.example.com/v1/chat/completions",async route=>{calls++;const payload=decode(route.request().postDataJSON()),icon=payload.contract.approvedIcons[0],data=response(payload.choices,payload.references);expect(icon.id).toBe(approvedDesignIcons[0].id);data.layers.push({id:"heart-icon",name:"Library Heart",kind:"image",iconId:icon.id,x:103,y:110,w:28,h:28,size:20,color:"#38E1D0",aod:false});await route.fulfill({json:{choices:[{finish_reason:"stop",message:{content:JSON.stringify(data)}}]}});});
+ await setup(page);await page.getByLabel("AI项目名称").fill("IconIdUI");await next(page);await next(page);await page.getByRole("button",{name:"生成表盘项目",exact:true}).click();await expect(page.getByRole("button",{name:"采用设计并编辑",exact:true})).toBeVisible();await page.getByRole("button",{name:"采用设计并编辑",exact:true}).click();await expect(page.getByText("已保存到本机",{exact:true})).toBeVisible();const d=page.waitForEvent("download");await page.getByRole("button",{name:"导出项目",exact:true}).click();const saved=JSON.parse(await readFile((await(await d).path())!,"utf8")),icon=saved.layers.find((l:any)=>l.name==="Library Heart");expect(icon.libraryIcon.id).toBe(approvedDesignIcons[0].id);expect(icon.iconId).toBeUndefined();expect(icon.image).toBeUndefined();expect(saved.files).toEqual([]);expect(calls).toBe(1);expect(builds).toBe(0);
 });

@@ -32,6 +32,20 @@
           "aod"
         ],
         "properties": {
+          "iconId": {
+            "enum": [
+              "lucide_586bf5cf_heart_pulse",
+              "lucide_586bf5cf_footprints",
+              "lucide_586bf5cf_activity",
+              "lucide_586bf5cf_battery_full",
+              "lucide_586bf5cf_calendar_days",
+              "lucide_586bf5cf_thermometer",
+              "lucide_586bf5cf_mountain",
+              "lucide_586bf5cf_bluetooth",
+              "lucide_586bf5cf_flame",
+              "lucide_586bf5cf_wind"
+            ]
+          },
           "fontId": {
             "enum": [
               "chalk",

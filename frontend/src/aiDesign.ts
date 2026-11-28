@@ -1,3 +1,5 @@
+import iconCatalog from "../../resources/default-imgs/icons/catalog.json" with {type:"json"};
+export const approvedDesignIcons=iconCatalog.icons.filter(i=>i.provider==="lucide").map(({id,name,provider,license})=>({id,name,provider,license}));
 import {libraryFonts,fontPatch} from "./fontLibrary";
 import {meterSources} from "./meters.ts";
 import {chartSchema,validateChart} from "./charts";
@@ -44,6 +46,7 @@ export const designSources = Object.entries(metrics).filter(
 );
 const kinds = createKinds;
 export const designFields = [
+  "iconId",
   "fontId",
   "id",
   "moonHemisphere",
@@ -139,6 +142,11 @@ export function layerInputIssues(value:unknown,index:number):DesignIssue[]{
   else if(designNumberFields.has(field)&&!Number.isFinite(v))add(field,"NUMBER_REQUIRED","必须为有限数值");
   else if(!designBooleanFields.has(field)&&!designNumberFields.has(field)&&!["chart","handShape","polygonPoints","thresholdRules"].includes(field)&&typeof v!=="string")add(field,"STRING_REQUIRED","必须为字符串");
  }
+ if(value.iconId!==undefined){
+  if(!approvedDesignIcons.some(i=>i.id===value.iconId))add("iconId","ICON_NOT_APPROVED","仅能使用批准素材库图标ID");
+  if(value.kind!=="image")add("iconId","ICON_KIND_UNSUPPORTED","素材库图标须为image控件");
+  if(value.referenceId!==undefined)add("iconId","IMAGE_SOURCE_CONFLICT","素材库图标不能与上传图片引用叠用");
+ }
  if(value.fontId!==undefined){
   if(!libraryFonts.some(f=>f.id===value.fontId))add("fontId","FONT_NOT_APPROVED","仅能使用批准的字体库ID");
   if(!["time","date","text","metric","chart"].includes(value.kind))add("fontId","FONT_KIND_UNSUPPORTED","此控件不支持字体");
@@ -164,6 +172,7 @@ export function designResponseSchema(c:DesignChoices){
  const properties:Record<string,any>=Object.fromEntries(designFields.map(k=>[k,designBooleanFields.has(k)?{type:"boolean"}:designNumberFields.has(k)?{type:"number"}:{type:"string"}]));
  const points=(min:number,max:number)=>({type:"array",minItems:3,maxItems:32,items:{type:"array",minItems:2,maxItems:2,items:{type:"number",minimum:min,maximum:max}}});
  Object.assign(properties,{
+  iconId:{enum:approvedDesignIcons.map(i=>i.id)},
   fontId:{enum:libraryFonts.map(f=>f.id)},
   id:{type:"string",pattern:"^[a-zA-Z0-9_-]{1,100}$"},name:{type:"string",minLength:1,maxLength:80},kind:{enum:kinds},
   color:{type:"string",pattern:"^#[0-9a-fA-F]{6}$"},size:{type:"number",minimum:1,maximum:200},w:{type:"number",minimum:1,maximum:908},h:{type:"number",minimum:1,maximum:908},opacity:{type:"number",minimum:0,maximum:1},
@@ -254,6 +263,8 @@ export function designPayload(c: DesignChoices, refs: DesignReference[]) {
       clock: "24h device local",
       meterSources,
       ringSources: ["seconds", "steps", "battery", "heartRate", "static"],
+      approvedIcons:approvedDesignIcons,
+      libraryIconPolicy:"Optional iconId is allowed only on image layers and must match an approvedIcons ID. It selects an existing licensed recolorable Lucide icon, fixed source stroke2; layer color/AODColor choose ink. Never combine iconId with referenceId, invent URLs, embed image data or imply static icons automatically read data. It remains an editable image object. Explicit data slots/state mappings are separate editor operations.",
       approvedLibraryFonts:libraryFonts.map(({id,name,family,usage})=>({id,name,family,usage})),
       libraryFontPolicy:"Optional fontId selects an approved library font for time/date/text/metric/chart; never put a library ID in garminFont or send arbitrary customFont. fontId is resolved to managed project font fields and is not stored as a new layer property. Full licensed glyphs are prepared locally; missing glyphs block generation. Chinese requires chalkHan. Physical font weights come from actual file outlines.",
       fonts: [
@@ -455,7 +466,7 @@ export function parseDesign(
           "应使用" +
           designSourceUnit(v.source),
       );
-    const { referenceId, fontId, ...fields } = v;
+    const { referenceId, fontId, iconId, ...fields } = v;
     const item: Layer = {
       ...layer(v.kind),
       threshold: false,
@@ -466,7 +477,8 @@ export function parseDesign(
       exportIncluded: true,
     };
     if(fontId!==undefined)Object.assign(item,fontPatch(fontId));
-    if (item.kind === "image") {
+    if(item.kind==="image"&&iconId!==undefined){item.libraryIcon={id:iconId,recolor:true,strokeWidth:2};item.imageFullColor=false;}
+    else if (item.kind === "image") {
       const r = refs.find((r) => r.id === referenceId && r.usage === "asset");
       if (!r) throw Error("图片图层只能引用标为实际素材的本地参考图");
       item.image = r.data;
