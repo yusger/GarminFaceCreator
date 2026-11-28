@@ -44,6 +44,13 @@ async function fixture(id: string, target: string, aod: boolean) {
           '");System.println(',
       )
       .replace(/(local generator basic-[a-z0-9-]+)/, "$1-fixture");
+    // Explicit opt-in instrumentation for a failed native cohort; never used by normal projects.
+    if((window as any).gfcVisualKitProbe){
+      content=content.replace(" function onUpdate(dc as Graphics.Dc) as Void {",' function onUpdate(dc as Graphics.Dc) as Void {System.println("GFC_PROBE update");');
+      content=content.replace(/render_active_([0-9]+)\(dc\);/g,(_,i)=>'System.println("GFC_PROBE chunk '+i+'");render_active_'+i+'(dc);');
+      content=content.replace(/GfcBitmapText.drawDetailed\(/g,'System.println("GFC_PROBE bitmap draw");GfcBitmapText.drawDetailed(');
+      content=content.replace('function fontFor(id){return WatchUi.loadResource(id);}','function fontFor(id){System.println("GFC_PROBE font load "+id);return WatchUi.loadResource(id);}');
+    }
     return { ...f, content };
   });
   const shot = await captureWatchface(p, preview, aod);
