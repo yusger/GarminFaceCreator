@@ -31,14 +31,14 @@ import { nativeTimeText, nativeClock } from "./timeParts.ts";
 import { mergeNativeWordTime } from "./wordTime.ts";
 import { defaultThresholds } from "./thresholds.ts";
 import { metricDisplayUnits } from "./metricFormat.ts";
-import { meterPolygons } from "./meters.ts";
+import { meterPolygons,meterRasterRects } from "./meters.ts";
 import { iconDrawMethod, mergeNativeIcons } from "./weatherIcons.ts";
 import { parseFiles, type Project, type Layer } from "./domain.ts";
 import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-70-meter-stroke-reset";
+export const LOCAL_GENERATOR_VERSION = "basic-71-meter-pixel-gaps";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -203,14 +203,16 @@ function draw(l: Layer, aod: boolean, targetScale:number,paintOverride?:string,m
   if (l.kind === "meter") {
     const ink = paintOverride||color(aod ? l.aodColor || "#777777" : l.color),
       goal = l.meterGoal ?? meterDefaultGoal(l.source),
-      count = l.meterCount ?? 16;
+      count = l.meterCount ?? 16,
+      rects=(l.meterShape||"bar")==="bar"?meterRasterRects(l,targetScale):null;
     return (
       `{dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);var lit=meterCount(${"data"+l.source},${num(goal)},${count},${JSON.stringify(l.source)});` +
       meterPolygons(l)
-        .map(
-          (points, i) =>
-            `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${i}<lit?255:${Math.round((l.meterDim ?? 0.35) * 255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));if(${i}<lit || ${Math.round((l.meterDim ?? 0.35) * 255)}==255){dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);}dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon([${points.map(([x, y]) => `[px(${num(l.x + x)}),px(${num(l.y + y)})]`).join(",")}]);`,
-        )
+        .map((points,i)=>{
+          const rect=rects?.[i];
+          const fill=rect?(rect.w&&rect.h?`dc.fillRectangle(${rect.x},${rect.y},${rect.w},${rect.h});`:""):`dc.setStroke(Graphics.createColor(0,0,0,0));dc.fillPolygon([${points.map(([x,y])=>`[px(${num(l.x+x)}),px(${num(l.y+y)})]`).join(",")}]);`;
+          return `dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);dc.setFill(Graphics.createColor(${i}<lit?255:${Math.round((l.meterDim ?? 0.35)*255)},(${ink}>>16)&255,(${ink}>>8)&255,${ink}&255));if(${i}<lit || ${Math.round((l.meterDim??.35)*255)}==255){dc.setColor(${ink},Graphics.COLOR_TRANSPARENT);}`+fill;
+        })
         .join("") +
       `}`
     );

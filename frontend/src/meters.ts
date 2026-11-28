@@ -58,3 +58,14 @@ export function meterLit(
       ),
   );
 }
+
+
+// Integer coverage of bar segments at target pixel centres; right/bottom are exclusive.
+// fillPolygon includes boundary pixels on SDK9.3, which can close narrow designed gaps.
+export function meterRasterRects(l:Layer,scale:number){
+ if((l.meterShape||"bar")!=="bar"||!Number.isFinite(scale)||scale<=0)throw Error("矩形分段需要条形进度和有效像素比例");
+ return meterPolygons(l).map(points=>{
+  const x=Math.ceil((l.x+points[0][0])*scale-.5),y=Math.ceil(l.y*scale-.5),right=Math.ceil((l.x+points[1][0])*scale-.5),bottom=Math.ceil((l.y+l.h)*scale-.5);
+  return {x,y,w:Math.max(0,right-x),h:Math.max(0,bottom-y)};
+ });
+}

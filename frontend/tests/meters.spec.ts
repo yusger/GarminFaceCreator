@@ -1,3 +1,4 @@
+import {meterRasterRects} from "../src/meters";
 import { test, expect } from "@playwright/test";
 import { project, layer, validateProject } from "../src/domain";
 import { meterPolygons, meterLit } from "../src/meters";
@@ -98,4 +99,13 @@ test("meter controls change preview, persist and invalidate generated code after
     "left",
   );
   await expect(page.getByLabel("目标数值", { exact: true })).toHaveValue("200");
+});
+
+
+test("native narrow bar coverage keeps each pixel gap and never paints an inclusive right border",()=>{
+ const l={...layer("meter"),x:247,y:140,w:116,h:14,meterCount:24};
+ for(const scale of [1,390/454]){
+  const rects=meterRasterRects(l,scale);expect(rects).toHaveLength(24);
+  rects.forEach((r,i)=>{expect(Number.isInteger(r.x)&&Number.isInteger(r.w)).toBe(true);expect(r.w).toBeGreaterThan(0);if(i)expect(r.x-(rects[i-1].x+rects[i-1].w)).toBeGreaterThanOrEqual(1);});
+ }
 });
