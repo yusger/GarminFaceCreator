@@ -55,3 +55,6 @@ resources/examples/theme-project-v1/** -text
 
 # Preserve captured trail font preparation evidence.
 docs/research/trail-font-preparation/** -text
+
+# Preserve native VM evidence hashes, including original log line endings.
+docs/research/native-font-memory/** -text

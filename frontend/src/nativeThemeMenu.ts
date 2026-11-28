@@ -43,18 +43,12 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
       ...colorPalette,
     ]),
   ];
-  const backgroundEntries=themes.map(t=>`if(theme.equals(${q(t.id)})){${[...new Set([themeBackground(p,t.id),t.backgroundColor,"#000000",...colorPalette])].map(colour=>item(colour,`{:action=>"set",:key=>${q(themeBackgroundKey(t.id))},:value=>0x${colour.slice(1)}}`)).join("")}}`).join("");
-  const values = controls
-    .map((c) => {
-      const entries =
-        c.type === "boolean"
-          ? [true, false]
-          : c.type === "color"
-            ? colorEntries(c)
-            : c.options!;
-      return `if(control.equals(${q(c.id)})){${entries.map((value, i) => item(c.type === "boolean" ? (value ? "On" : "Off") : String(value), `{:action=>"set",:key=>${q(controlSettingKey(c))},:value=>${c.type === "boolean" ? value : c.type === "color" ? "0x" + String(value).slice(1) : sourceCode(String(value))}}`)).join("")}}`;
-    })
-    .join("");
+  const list=(key:string,labels:string[],values:Array<string|number|boolean>)=>`addValues(${q(key)},${q(labels)},[${values.map(v=>typeof v==="string"?"0x"+v.slice(1):String(v)).join(",")}]);`;
+  const backgroundEntries=themes.map(t=>{const entries=[...new Set([themeBackground(p,t.id),t.backgroundColor,"#000000",...colorPalette])];return `if(theme.equals(${q(t.id)})){${list(themeBackgroundKey(t.id),entries,entries)}}`;}).join("");
+  const values=controls.map(c=>{
+    const entries=c.type==="boolean"?[true,false]:c.type==="color"?colorEntries(c):c.options!;
+    return `if(control.equals(${q(c.id)})){${list(controlSettingKey(c),entries.map(v=>c.type==="boolean"?(v?"On":"Off"):String(v)),entries.map(v=>c.type==="dataSource"?sourceCode(String(v)):v))}}`;
+  }).join("");
   const resets = themes
     .map(
       (t) =>
@@ -76,6 +70,7 @@ export function nativeThemeMenu(p: Project): CodeFile[] {
  function initialize(mode,control){Menu2.initialize({:title=>${q(p.name + " Settings")}});menuMode=mode;menuControl=control;rebuild();}
  var menuMode=null;var menuControl=null;
  function onShow(){Menu2.onShow();rebuild();WatchUi.requestUpdate();}
+ function addValues(key,labels,values){for(var i=0;i<labels.size();i++){addItem(new WatchUi.MenuItem(labels[i],null,{:action=>"set",:key=>key,:value=>values[i]},{}));}}
  function clearItems(){while(deleteItem(0)==true){}}
  function navigate(mode,control){clearItems();WatchUi.pushView(new GfcSettingsMenu(mode,control),new GfcSettingsDelegate(),WatchUi.SLIDE_IMMEDIATE);}
  function rebuild(){while(deleteItem(0)==true){}var mode=menuMode;var control=menuControl;var theme=gfcThemeId();

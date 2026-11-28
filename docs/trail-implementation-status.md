@@ -45,3 +45,5 @@
 阶段150/151内存排查：basic74首帧仍OOM，VM报告116352/126784字节已用（与Docker采样分开）。安全失败记录 docs/research/native-font-memory/lazy-metrics-failure.json。basic75只合并非文本参数完全一致的终端位图文字调用，原分支取值、格式和颜色保留；本地语义执行对照、主题/字体7项通过，2项SDK明确跳过，构建通过。尚待113实际验证，完整Plan未完成。
 
 阶段151实际原生：9cca5a2 已核对GitHub并部署113。basic75同一完整PRG成功首帧、原生菜单和Apex→Trail→Vital切换，cleanup completed；启动可用VM24160字节，切换观察点15320字节，非峰值/真机数据。截图/摘要与日志在 docs/research/native-font-memory/shared-slot-text。并未验证全部设置重载、跨版本或Sleep；下一步继续精简菜单重复实例化代码，保留设置键和选项顺序。
+
+阶段152实现：原生设置列表改用共用addValues循环，37个控件和3个主题背景的选项标签、稳定值、调色板和顺序不变，菜单源码从47,180降至20,380字符。basic76/capability1.30；新增原生overrides场景使用真实菜单设置步数、白色和隐藏秒数后正常退出/同PRG重启，不改变80秒门禁或资源。11项本地回归通过、2项SDK显式跳过、构建通过；上一阶段113相关9项（含两尺寸SDK）通过。下一步部署113实际重载验证。

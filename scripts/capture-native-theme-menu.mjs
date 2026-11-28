@@ -4,8 +4,8 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { createRequire } from "node:module";
 import crypto from "node:crypto";
 const scenario = process.argv[2];
-if (!["themes", "persistence"].includes(scenario))
-  throw Error("Choose explicit themes or persistence scenario");
+if (!["themes", "persistence", "overrides"].includes(scenario))
+  throw Error("Choose explicit themes, persistence or overrides scenario");
 const dir = "Temp/native-theme-ui-" + scenario + "-" + Date.now();
 if (
   process.env.GFC_NATIVE_FIXTURE_TEST !== "1" ||
@@ -205,7 +205,46 @@ close_settings(){ xdotool mousemove 65 12 click 1 mousemove 174 994; sleep 1.6; 
 `;
   const script =
     common +
-    (scenario === "persistence"
+    (scenario === "overrides" ? `back(){ xdotool mousemove 591 624 click 1; sleep 1.2; }
+scroll_one(){ xdotool mousemove 325 600 mousedown 1; sleep 0.05; xdotool mousemove 325 320; sleep 0.05; xdotool mouseup 1; sleep 1.3; }
+open_settings
+scroll_one
+xdotool mousemove 325 572 click 1
+sleep 1.2
+xdotool mousemove 325 431 click 1
+sleep 1.2
+xdotool mousemove 325 572 click 1
+sleep 1.2
+back
+back
+import -window root /output/ui-custom-source.png
+open_settings
+scroll_one
+scroll_one
+xdotool mousemove 325 431 click 1
+sleep 1.2
+xdotool mousemove 325 431 click 1
+sleep 1.2
+xdotool mousemove 325 572 click 1
+sleep 1.2
+back
+back
+import -window root /output/ui-custom-color.png
+open_settings
+xdotool mousemove 325 680 click 1
+sleep 1.2
+xdotool mousemove 325 680 click 1
+sleep 1.2
+xdotool mousemove 325 572 click 1
+sleep 1.2
+back
+back
+import -window root /output/ui-custom-before-restart.png
+sha256sum /input/watchface.prg | cut -d' ' -f1 > /output/theme-ui-restart.request
+for i in $(seq 1 30); do test -f /output/theme-ui-restart.ready && break; sleep 1; done
+test -f /output/theme-ui-restart.ready
+import -window root /output/ui-custom-after-restart.png
+` : scenario === "persistence"
       ? `open_settings
 xdotool mousemove 325 431 click 1
 sleep 1.2
@@ -306,6 +345,11 @@ import -window root /output/ui-vital.png
       )
     )
       throw Error("Same-PRG restart was not completed");
+  }
+  if(scenario==="overrides"){
+    const last=observations.split("GFC_THEME_UI_STATE ").at(-1);
+    for(const expected of ["Gfc_Source_apex_value_apex_tl=588927973","Gfc_apex_value_apex_tl_color=16777215","Gfc_apex_show_seconds=false"]){if(!last?.startsWith("apex\n")||!last.includes(expected))throw Error("Independent override not persisted: "+expected);}
+    if(!(await readFile(dir+"/session-result.txt","utf8")).includes("samePrgRestartReady=true"))throw Error("Same PRG restart not observed");
   }
   await writeFile(
     dir + "/validation.json",
