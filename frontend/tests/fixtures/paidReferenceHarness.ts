@@ -1,0 +1,11 @@
+﻿import {generationDevice} from "../../src/devices";
+import {generate,repairCode} from "../../src/api";
+import {loadReferencePackage,copyReference} from "../../src/builtins";
+import {referenceAttributions} from "../../src/attribution";
+import {addCodeVersion} from "../../src/history";
+import {preparedCodeFiles} from "../../src/chalkFonts";
+import {preparedAssets} from "../../src/iconLibrary";
+import {readProfiles} from "../../src/storage";
+import {repairRoot,repairBudgetKey,managedRepairPaths,redactRepair} from "../../src/repair";
+import {captureWatchface} from "../../src/watchfaceCapture";
+Object.assign(window,{gfcPaidReference:{generationDevice,generate,repairCode,loadReferencePackage,copyReference,referenceAttributions,addCodeVersion,preparedCodeFiles,preparedAssets,readProfiles,repairRoot,repairBudgetKey,managedRepairPaths,redactRepair,captureWatchface}});
