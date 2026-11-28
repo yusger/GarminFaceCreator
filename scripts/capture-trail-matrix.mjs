@@ -9,7 +9,7 @@ const out=resolve(process.argv[3]||"Temp/trail-browser-matrix"),root="resources/
 await mkdir(out,{recursive:true});
 const artifact=await build({configFile:false,logLevel:"error",define:{"process.env.NODE_ENV":JSON.stringify("production")},build:{lib:{entry:"scripts/trail-matrix-harness.ts",name:"GfcTrailMatrix",formats:["iife"],fileName:()=>"matrix.js"},write:false,minify:false}});
 const code=(Array.isArray(artifact)?artifact[0]:artifact).output.find(v=>v.type==="chunk")?.code;if(!code)throw Error("Renderer bundle missing");
-const bytes=await readFile(join(root,"design.json")),project=JSON.parse(bytes),sha=b=>createHash("sha256").update(b).digest("hex"),browser=await chromium.launch({channel:process.env.PLAYWRIGHT_CHANNEL||"msedge",headless:true});
+const bytes=await readFile(process.argv[4]||join(root,"design.json")),project=JSON.parse(bytes),sha=b=>createHash("sha256").update(b).digest("hex"),browser=await chromium.launch({channel:process.env.PLAYWRIGHT_CHANNEL||"msedge",headless:true});
 try{
  const page=await browser.newPage({viewport:{width:1200,height:900}});let posts=0;page.on("request",r=>{if(r.method()==="POST")posts++;});await page.goto(url);await page.addScriptTag({content:code});
  const records=[],mismatches=[],tiles=[];

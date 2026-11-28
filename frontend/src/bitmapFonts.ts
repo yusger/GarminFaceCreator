@@ -261,15 +261,15 @@ export function bitmapFontInfo(f: BitmapFontAsset) {
   if (f.family !== info.family || f.id !== identity(f.descriptor, f.atlasData))
     throw Error("位图字体身份与内容不一致");
   cache.set(f.id, { descriptor: f.descriptor, data: f.atlasData, info });
-  while (cache.size > 8) cache.delete(cache.keys().next().value!);
+  while (cache.size > 32) cache.delete(cache.keys().next().value!);
   return info;
 }
 export function validateBitmapFonts(
   p: Pick<Project, "bitmapFonts" | "layers">,
 ) {
   if (p.bitmapFonts === undefined) return;
-  if (!Array.isArray(p.bitmapFonts) || p.bitmapFonts.length > 16)
-    throw Error("最多16份项目位图字体（每个目标最多使用8份）");
+  if (!Array.isArray(p.bitmapFonts) || p.bitmapFonts.length > 32)
+    throw Error("最多32份项目位图字体；普通目标8份，多主题目标16份且每帧8份");
   let total = 0;
   const ids = new Set<string>();
   for (const f of p.bitmapFonts) {
@@ -358,7 +358,8 @@ export function bitmapFontDiagnostics(p: Project) {
   const scale = generationDevice(p).screenWidth / 454,
     out: { layerId: string; message: string }[] = [];
   const ids=new Set(p.layers.filter(l=>l.bitmapFontId&&l.exportIncluded!==false).map(l=>l.bitmapFontId));
-  if(ids.size>8)out.push({layerId:p.layers.find(l=>l.bitmapFontId)!.id,message:"当前目标最多使用8份位图字体；项目可存16份供设备变体选择"});
+  if(ids.size>(p.themes?16:8))out.push({layerId:p.layers.find(l=>l.bitmapFontId)!.id,message:p.themes?"多主题目标最多使用16份位图字体；每帧最多8份":"当前目标最多使用8份位图字体；项目可存32份供设备变体选择"});
+  if(p.themes){const themed=new Set(p.themes.presets.flatMap(t=>t.layerIds));for(const t of p.themes.presets)for(const low of [false,true]){const visible=p.layers.filter(l=>(!themed.has(l.id)||t.layerIds.includes(l.id))&&l.exportIncluded!==false&&(low?l.aod:l.activeVisible!==false));const used=new Set(visible.filter(l=>l.bitmapFontId).map(l=>l.bitmapFontId));if(used.size>8)out.push({layerId:visible.find(l=>l.bitmapFontId)!.id,message:t.name+" / "+(low?"AOD":"亮屏")+"每帧最多使用8份位图字体"});}}
   for (const l of p.layers.filter(
     (l) => l.bitmapFontId && l.exportIncluded !== false,
   )) {

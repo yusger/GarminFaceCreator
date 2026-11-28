@@ -1,5 +1,5 @@
 import type {RequestContext} from "./requestContext";
-export const ENGINEERING_PROMPT_VERSION="engineering-15-component-styles";
+export const ENGINEERING_PROMPT_VERSION="engineering-16-theme-pixel-fonts";
 export const DESIGN_PROMPT_VERSION = "design-18-visual-kit-pixel-fonts";
 export const CHAT_PROMPT_VERSION = "chat-20-component-styles";
 const KEY = "gfc-ai-request-history-v1";

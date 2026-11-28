@@ -1,6 +1,6 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.26.0",
+  "version": "1.27.0",
   "projectSchemaVersion": 50,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
@@ -671,7 +671,7 @@
         2048
       ],
       "pngMaxBytes": 1048576,
-      "projectMaxFonts": 16,
+      "projectMaxFonts": 32,
       "aod": "same fixed pixel size, cannot silently resize",
       "preview": "shared advances, kerning, offsets, baseline, target pixel truncation",
       "missing": "visible box in preview; generation blocked before resource preparation",
@@ -706,7 +706,9 @@
         "privacy": "browser only until explicit compile/export"
       },
       "targetMaxUsedFonts": 8,
-      "deviceOverrides": "Schema48 permits per-device registered fonts, bitmap IDs and typography; null clears an inherited optional font field and is never a Layer value"
+      "deviceOverrides": "Schema48 permits per-device registered fonts, bitmap IDs and typography; null clears an inherited optional font field and is never a Layer value",
+      "multiThemeTargetMaxUsedFonts": 16,
+      "maxPerThemePerMode": 8
     },
     "moon": {
       "model": "SunCalc1.9.0 geocentric illumination,BSD-2-Clause",
@@ -755,7 +757,7 @@
     },
     "appearanceRoles": {
       "schema": 49,
-      "fontRoles": "max24 explicit theme/common families, approved font identities only; literal member fonts validated; change in editor then regenerate",
+      "fontRoles": "max32 explicit theme/common families, approved font identities only; literal member fonts validated; change in editor then regenerate",
       "individualFont": "manual font change detaches only that member; move/size retains family link; device overrides independent",
       "colors": [
         "primary",
@@ -778,6 +780,14 @@
       "version": "publish increments integer version atomically; locked instance blocks all; detach preserves current appearance, delete rejects linked definitions",
       "ai": "public root create/publish/detach only; no direct private map or definition updates",
       "unsupported": "font family, asset/structure replacement, nested instances and parent rotation are outside this style contract"
+    },
+    "themeFontBudget": {
+      "storageFonts": 32,
+      "ordinaryTargetFonts": 8,
+      "multiThemeTargetFonts": 16,
+      "perThemePerModeFonts": 8,
+      "totalAtlasBytes": 4194304,
+      "policy": "Counts are not memory certification; full compiled target, each theme/mode, SDK and native resources are verified separately. Original TTF bytes and complete licenses remain local."
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

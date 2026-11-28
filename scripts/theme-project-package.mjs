@@ -246,6 +246,7 @@ export async function convertThemePackage(directory) {
     )
   )
     throw Error("Target inventory mismatch");
+  if((p.bitmapFonts||[]).length>16)throw Error("Frozen theme-project-v1 stores at most16 bitmap fonts");
   validateProject(p);
   const previewKeys = new Set();
   for (const v of manifest.previews) {
@@ -286,6 +287,7 @@ export async function convertThemePackage(directory) {
     const variant = p.multiDevice
       ? projectForDevice(p, deviceKey(target))
       : structuredClone(p);
+    if(new Set(expandWidgets(variant).layers.filter(l=>l.exportIncluded!==false&&l.bitmapFontId).map(l=>l.bitmapFontId)).size>8)throw Error("Frozen theme-project-v1 uses at most8 bitmap fonts per target");
     const diagnostics = generationDiagnostics(variant);
     if (diagnostics.some((d) => d.status === "unsupported"))
       throw Error(

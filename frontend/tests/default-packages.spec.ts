@@ -16,7 +16,7 @@ test("all canonical references publish equivalent independent source, assets and
     expect(ids.has(ref.identity.id)).toBe(false);
     ids.add(ref.identity.id);
     expect(ref.authorship).toBe(
-      ["clownwatch", "pulsemaniac", "sonar"].includes(entry.name)
+      ["clownwatch", "pulsemaniac", "sonar", "trail"].includes(entry.name)
         ? "self"
         : "community",
     );
@@ -32,17 +32,17 @@ test("all canonical references publish equivalent independent source, assets and
       ).toBe(image.sha256);
     }
   }
-  expect(ids.size).toBe(12);
+  expect(ids.size).toBe(13);
 });
 test("self-authored badges remain distinct from protected defaults", async ({
   page,
 }) => {
   await page.goto("/");
-  await expect(page.locator(".reference-card")).toHaveCount(12);
+  await expect(page.locator(".reference-card")).toHaveCount(13);
   await expect(page.locator(".reference-card .authorship-badge")).toHaveCount(
-    3,
+    4,
   );
-  for (const name of ["ClownWatch", "PulseManiac", "SONAR"]) {
+  for (const name of ["ClownWatch", "PulseManiac", "SONAR", "trail"]) {
     const card = page.locator(".reference-card").filter({
       has: page.getByRole("button", { name: "使用 " + name, exact: true }),
     });
@@ -61,14 +61,14 @@ test("project navigation separates built-ins and browser projects, retains selec
   const mine = page.getByRole("button", { name: "我的表盘", exact: true });
   const cards = page.locator(".project-card");
   await expect(builtin).toHaveAttribute("aria-current", "page");
-  await expect(cards).toHaveCount(12);
+  await expect(cards).toHaveCount(13);
   const firstNames = await cards
     .locator(".project-card-info > div > b")
     .allTextContents();
-  expect(firstNames.slice(0, 3).sort()).toEqual(
-    ["ClownWatch", "PulseManiac", "SONAR"].sort(),
+  expect(firstNames.slice(0, 4).sort()).toEqual(
+    ["ClownWatch", "PulseManiac", "SONAR", "trail"].sort(),
   );
-  for (const name of ["ClownWatch", "PulseManiac", "SONAR"]) {
+  for (const name of ["ClownWatch", "PulseManiac", "SONAR", "trail"]) {
     const card = cards.filter({
       has: page.getByRole("button", { name: "使用 " + name, exact: true }),
     });
@@ -118,7 +118,7 @@ test("project navigation separates built-ins and browser projects, retains selec
     fullPage: true,
   });
   await builtin.click();
-  await expect(cards).toHaveCount(12);
+  await expect(cards).toHaveCount(13);
   await expect(
     page.getByRole("button", { name: "打开 ClownWatch 副本", exact: true }),
   ).toHaveCount(0);
@@ -129,5 +129,5 @@ test("project navigation separates built-ins and browser projects, retains selec
     .click();
   await expect(cards).toHaveCount(0);
   await builtin.click();
-  await expect(cards).toHaveCount(12);
+  await expect(cards).toHaveCount(13);
 });

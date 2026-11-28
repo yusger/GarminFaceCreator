@@ -47,11 +47,11 @@ export function loadReferencePackage(
       });
     };
     for (const asset of bundle.images) {
-      const layer = project.layers.find(
-        (l: { id: string }) => l.id === asset.layerId,
-      );
-      if (!layer) throw Error("图片图层不存在");
-      layer.image = await assetData(asset.path, asset.mime);
+      const nodes=[...project.layers,...(project.multiDevice?.master||[])].flatMap((l: any)=>[l,...(l.compound?.layers||[])]);
+      const matches=nodes.filter((l: {id:string})=>l.id===asset.layerId);
+      if(!matches.length)throw Error("图片图层不存在");
+      const data=await assetData(asset.path,asset.mime);
+      for(const layer of matches)layer.image=data;
     }
     project.assets = await Promise.all(
       bundle.binaryAssets.map(
@@ -83,7 +83,7 @@ export function copyReference(
   name = reference.name + " 副本",
 ): Project {
   const appId = uid().replaceAll("-", "");
-  return {
+  const copy:Project = {
     ...structuredClone(reference),
     id: uid(),
     appId,
@@ -102,7 +102,13 @@ export function copyReference(
     ),
     versions: [],
   };
-}
+
+  if(copy.multiDevice){
+    const groups=new Map(copy.layers.map(l=>[l.id,{groupId:l.groupId,groupName:l.groupName}]));
+    copy.multiDevice.master=copy.multiDevice.master.map(l=>({...l,...groups.get(l.id)}));
+    copy.multiDevice.variants=copy.multiDevice.variants.map(v=>({...v,code:v.target===copy.target&&v.deviceSize===copy.deviceSize?{files:copy.files,versions:[],codeRevision:copy.codeRevision,codeProvenance:copy.codeProvenance}:{files:[],versions:[],codeRevision:-1},buildId:undefined,buildStatus:undefined}));
+  }
+  return copy;}
 
 export async function loadReferences(): Promise<Project[]> {
   return Promise.all(referenceAttributions.map(loadReferencePackage));

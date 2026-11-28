@@ -1,11 +1,13 @@
+// Historical first conversion only. Refuse to replace a subsequently maintained design.
 // Maintain the standard trail reference as one editable project with three presets; native acceptance is separate.
-import {readFile,writeFile,mkdir} from "node:fs/promises";
+import {readFile,writeFile,mkdir,access} from "node:fs/promises";
 import {resolve} from "node:path";
 import {deflateSync} from "node:zlib";
 import {crc32} from "../frontend/src/zip.ts";
 import {project,layer,validateProject} from "../frontend/src/domain.ts";
 import {importLocalFont} from "../frontend/src/localFonts.ts";
 const root=resolve("resources/default-watchfaces/trail"),read=async file=>readFile(resolve(root,"design-source",file)),json=async file=>JSON.parse(await read(file));
+try{await access(resolve(root,"design-source/font-preparation.json"));throw Error("trail已有维护后的精确字体，请使用prepare-trail-fonts.mjs；不能覆盖当前design.json");}catch(e){if(e.code!=="ENOENT")throw e;}
 const names=["apex","trail","vital"],packs=await Promise.all(names.map(n=>json(n+"/watchface.json"))),p=project("trail",true);
 p.id="00000000-0000-4000-8000-000000000454";p.appId="45445445445445445445445445445445";p.updated=0;p.layers=[];p.controls=[];p.target="venu445mm";p.deviceSize="45mm";p.backgroundColor=packs[0].canvas.background;p.localFonts=[];
 const fonts=new Map();for(const r of packs[0].resources.filter(r=>r.type==="font")){const f=await importLocalFont(new File([new Uint8Array(await read("apex/"+r.file))],r.file.split("/").at(-1)),await read("apex/"+r.noticeFile).then(b=>b.toString("utf8")),"Author-supplied Native454 study; OFL notices retained");p.localFonts.push(f);fonts.set(r.id,{id:f.id,family:f.family,file:f.file});}

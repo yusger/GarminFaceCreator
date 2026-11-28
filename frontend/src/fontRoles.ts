@@ -25,8 +25,8 @@ const active = (p: Project, r: FontRole) =>
       p.themes?.defaultId);
 export function validateFontRoles(p: Project) {
   if (p.fontRoles === undefined) return;
-  if (!Array.isArray(p.fontRoles) || p.fontRoles.length > 24)
-    throw Error("字体角色最多24项");
+  if (!Array.isArray(p.fontRoles) || p.fontRoles.length > 32)
+    throw Error("字体角色最多32项");
   const roles = new Set<string>(),
     members = new Set<string>(),
     approved = new Set(approvedFontChoices(p).map((f) => f.id)),

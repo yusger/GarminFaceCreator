@@ -1,0 +1,620 @@
+{
+  "format": "gfc-trail-font-preparation",
+  "formatVersion": 1,
+  "fontRoles": [
+    {
+      "id": "apex-numerals",
+      "name": "Apex Instrument · 数字字体",
+      "themeId": "apex",
+      "fontId": "local_ca177c514f264e623225342630000000",
+      "layerIds": [
+        "apex_time_main",
+        "apex_seconds",
+        "apex_aod_time"
+      ]
+    },
+    {
+      "id": "apex-labels",
+      "name": "Apex Instrument · 信息字体",
+      "themeId": "apex",
+      "fontId": "local_ca1eb715b1edcd220e65771900000000",
+      "layerIds": [
+        "apex_date_main",
+        "apex_label_apex_tl",
+        "apex_label_apex_tr",
+        "apex_label_apex_bl",
+        "apex_label_apex_br",
+        "apex_value_apex_tl",
+        "apex_value_apex_tr",
+        "apex_value_apex_bl",
+        "apex_value_apex_br",
+        "apex_battery_value",
+        "apex_aod_hr",
+        "apex_aod_hr_label",
+        "apex_aod_battery"
+      ]
+    },
+    {
+      "id": "trail-numerals",
+      "name": "Trail Compass · 数字字体",
+      "themeId": "trail",
+      "fontId": "local_ca177c514f264e623225342630000000",
+      "layerIds": [
+        "trail_time_main",
+        "trail_seconds",
+        "trail_aod_time"
+      ]
+    },
+    {
+      "id": "trail-labels",
+      "name": "Trail Compass · 信息字体",
+      "themeId": "trail",
+      "fontId": "local_ca1eb715b1edcd220e65771900000000",
+      "layerIds": [
+        "trail_date_main",
+        "trail_label_trail_tl",
+        "trail_label_trail_tr",
+        "trail_label_trail_bl",
+        "trail_label_trail_br",
+        "trail_value_trail_tl",
+        "trail_value_trail_tr",
+        "trail_value_trail_bl",
+        "trail_value_trail_br",
+        "trail_battery_value",
+        "trail_aod_temp",
+        "trail_aod_dot",
+        "trail_aod_distance",
+        "trail_aod_km",
+        "trail_aod_battery"
+      ]
+    },
+    {
+      "id": "vital-numerals",
+      "name": "Vital Pulse · 数字字体",
+      "themeId": "vital",
+      "fontId": "local_ca177c514f264e623225342630000000",
+      "layerIds": [
+        "vital_heart_big",
+        "vital_time_main",
+        "vital_aod_time",
+        "vital_aod_hr"
+      ]
+    },
+    {
+      "id": "vital-labels",
+      "name": "Vital Pulse · 信息字体",
+      "themeId": "vital",
+      "fontId": "local_ca1eb715b1edcd220e65771900000000",
+      "layerIds": [
+        "vital_date_main",
+        "vital_label_vital_bl",
+        "vital_label_vital_br",
+        "vital_value_vital_bl",
+        "vital_value_vital_br",
+        "vital_battery_value",
+        "vital_hr_unit",
+        "vital_aod_hr_cap",
+        "vital_aod_battery"
+      ]
+    }
+  ],
+  "layers": [
+    {
+      "id": "apex_date_main",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 20,
+      "aodSize": 20,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_label_apex_tl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_label_apex_tr",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_label_apex_bl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_label_apex_br",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_value_apex_tl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_value_apex_tr",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_value_apex_bl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_value_apex_br",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_battery_value",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_time_main",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 88,
+      "aodSize": 88,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_seconds",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 20,
+      "aodSize": 20,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_aod_time",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 104,
+      "aodSize": 104,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_aod_hr",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 30,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_aod_hr_label",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 15,
+      "aodSize": 15,
+      "fontWeight": 400
+    },
+    {
+      "id": "apex_aod_battery",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 24,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_date_main",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 20,
+      "aodSize": 20,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_label_trail_tl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_label_trail_tr",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_label_trail_bl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_label_trail_br",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_value_trail_tl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_value_trail_tr",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_value_trail_bl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_value_trail_br",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_battery_value",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_time_main",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 88,
+      "aodSize": 88,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_seconds",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 20,
+      "aodSize": 20,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_aod_time",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 104,
+      "aodSize": 104,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_aod_temp",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 30,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_aod_dot",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 30,
+      "aodSize": 30,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_aod_distance",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 30,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_aod_km",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 18,
+      "aodSize": 18,
+      "fontWeight": 400
+    },
+    {
+      "id": "trail_aod_battery",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 24,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_date_main",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 20,
+      "aodSize": 20,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_label_vital_bl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_label_vital_br",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 11,
+      "aodSize": 11,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_value_vital_bl",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_value_vital_br",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_battery_value",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 34,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_heart_big",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 118,
+      "aodSize": 118,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_hr_unit",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 20,
+      "aodSize": 20,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_time_main",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 40,
+      "aodSize": 40,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_aod_time",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 44,
+      "aodSize": 44,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_aod_hr",
+      "customFont": {
+        "id": "local_ca177c514f264e623225342630000000",
+        "family": "Rajdhani-Bold",
+        "file": "local_ca177c514f264e623225342630000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 130,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_aod_hr_cap",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 18,
+      "aodSize": 18,
+      "fontWeight": 400
+    },
+    {
+      "id": "vital_aod_battery",
+      "customFont": {
+        "id": "local_ca1eb715b1edcd220e65771900000000",
+        "family": "ShareTechMono-Regular",
+        "file": "local_ca1eb715b1edcd220e65771900000000.ttf"
+      },
+      "size": 34,
+      "aodSize": 24,
+      "fontWeight": 400
+    }
+  ]
+}

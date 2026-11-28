@@ -38,7 +38,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-72-semantic-state-colors";
+export const LOCAL_GENERATOR_VERSION = "basic-73-theme-font-budgets";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,
@@ -334,7 +334,7 @@ export function localGenerate(p: Project) {
             ? (l.label || "") + (l.unit || "") + (l.missingValue || "")
             : "";
       return (
-        /[^\x20-\x7e\n\r\t]/.test(text) && !l.customFont &&
+        /[^\x20-\x7e\n\r\t]/.test(text) && !l.customFont && !l.bitmapFontId &&
         !(l.garminFont === "chalk" && !/[^\x20-\x7e°]/.test(text)) &&
         !(
           (l.garminFont === "systemXTiny" || l.garminFont === "chalkHan") &&

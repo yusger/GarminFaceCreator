@@ -121,7 +121,8 @@ export async function buildDefaultWatchfaces() {
       JSON.stringify(p) + "\n",
     );
     const packed = structuredClone(p);
-    for (const l of packed.layers) delete l.image;
+    const boundImageIds=new Set(images.map(a=>a.layerId));
+    for (const l of [...packed.layers,...(packed.multiDevice?.master||[])].flatMap(l=>[l,...(l.compound?.layers||[])])) if(boundImageIds.has(l.id))delete l.image;
     delete packed.assets;
     const bundle = { format: 1, project: packed, images, binaryAssets };
     await put(publicDir + "/project.json", JSON.stringify(bundle) + "\n");
