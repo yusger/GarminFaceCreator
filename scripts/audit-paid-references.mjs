@@ -66,9 +66,12 @@ try{
     else if(await exists(slug+"/compile-"+(previous.repairs||0)+".json"))diagnostics=((await read(slug+"/compile-"+(previous.repairs||0)+".json")).logs.lines||[]).filter(x=>x.includes("ERROR")).join("\n");
     const categories=new Set();diagnostics=diagnostics.split("\n").filter(line=>{const key=line.replace(/:[0-9]+,[0-9]+:/g,":LINE:");if(categories.has(key))return false;categories.add(key);return true;}).join("\n").slice(0,10000);
     const guidance=await fs.readFile(path.join(dir,slug,"operator-guidance.txt"),"utf8").catch(()=>"");
-    let selected=project.files.filter(f=>/^source\/.*\.mc$/.test(f.path)&&!/^source\/Gfc(BitmapText|FrameReporter|Weather|Icons|Moon|WordTime)\.mc$/.test(f.path)).map(f=>f.path);
-    if(/font|bitmap|resource|resolve/i.test(diagnostics))selected.push(...project.files.filter(f=>/^resources\/.*\.xml$/.test(f.path)&&!f.path.includes("settings/")&&!f.path.includes("gfc-managed")&&!f.path.includes("gfc-library")).map(f=>f.path));
-    selected=[...new Set(selected)].slice(0,5);
+    const allowed=f=>/^source\/.*\.mc$/.test(f.path)&&!/^source\/Gfc(BitmapText|FrameReporter|Weather|Icons|Moon|WordTime)\.mc$/.test(f.path);
+    const sources=project.files.filter(allowed).map(f=>f.path);
+    const mentioned=[...diagnostics.matchAll(/((?:source|resources)\/[\w/.-]+\.(?:mc|xml|svg|fnt))/g)].map(m=>m[1]).filter(p=>project.files.some(f=>f.path===p));
+    const main=sources.filter(p=>/View|WatchFace/.test(p));
+    const resources=/font|bitmap|resource|resolve/i.test(diagnostics+" "+guidance)?project.files.filter(f=>/^resources\/.*\.xml$/.test(f.path)&&!f.path.includes("settings/")&&!f.path.includes("gfc-managed")&&!f.path.includes("gfc-library")).map(f=>f.path).sort((a,b)=>Number(b.includes("drawables"))-Number(a.includes("drawables"))):[];
+    const selected=[...new Set([...mentioned,...main,...resources,...sources])].slice(0,5);
     project=await call("repair",firstRound,diagnostics+"\nOperator diagnostics: "+guidance+"\nUse small unique exact edits only, not complete file rewrites. Fix the ROOT type or null handling rather than dozens of callers. Preserve live data and exact design; no fixed fake readings, removed layers or system-font substitutions. Use Lang.Numeric for helpers accepting both integer and float coordinates. Gregorian.info supplies calendar fields; ClockTime supplies only time. Keep original repair root/counter; this additional Plan-only round is explicitly authorized.",selected);await write(slug+"/project.json",project);
    }
    const lastRound=Number(process.env.GFC_PAID_AUDIT_LAST_REPAIR||4);
