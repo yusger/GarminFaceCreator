@@ -1,0 +1,281 @@
+{
+  "date": "2026-11-28",
+  "model": "deepseek-flash",
+  "generation": "Each of 13 references generated once in this batch; original roots and all repair histories retained",
+  "normalUiRepairLimit": 2,
+  "operatorRounds": "Explicitly authorized for this Plan only; counters not reset",
+  "totals": {
+    "usageFiles": 75,
+    "recordedResponses": 74,
+    "knownTokens": 616129,
+    "responsesWithoutTokenUsage": 0,
+    "emptyUsageFiles": 1
+  },
+  "sdkAndStartupPass": 12,
+  "references": [
+    {
+      "slug": "abouttime",
+      "name": "AboutTime",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 3,
+      "recordedResponses": 4,
+      "knownTokens": 25672,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "文字已居中且完整显示；字体与网页仍有差异。",
+      "prg": {
+        "bytes": 20716,
+        "sha256": "0ce54374fe2471f6734bcdee6143d03cc8dae4d82378c704d4d9decddfc0f5b3"
+      },
+      "sourceSha256": "e546ab5e069c0ab114e3abde75c9cf7364baa99db79a44cf0ce9a3e711affc3e",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "bawf",
+      "name": "BAWF",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 2,
+      "recordedResponses": 3,
+      "knownTokens": 21705,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "基本布局可读；字体、日期格式与网页有差异。",
+      "prg": {
+        "bytes": 17612,
+        "sha256": "1f3f90edc856252777ca835ccff22366a66a0644e7e932ec1e9b923ffe7d80bb"
+      },
+      "sourceSha256": "7b7ddfaf44d5173a5a52408fc78519ff7628e3a5534f1b39316aeed882240b19",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "celestial",
+      "name": "Celestial",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 3,
+      "recordedResponses": 4,
+      "knownTokens": 22626,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "可编译并启动；天文来源、位置变化及低功耗尚未逐项验收。",
+      "prg": {
+        "bytes": 17836,
+        "sha256": "873f37d2fa15f4b5eb77cafbaeecee06635a038bc4a7a9a768706ee116caa2db"
+      },
+      "sourceSha256": "3a6d4830650e85abc24a7847b15b9387689fee7ec4c118aad3595592d1686fd8",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "clownwatch",
+      "name": "ClownWatch",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 8,
+      "recordedResponses": 9,
+      "knownTokens": 95979,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "精确系统字体修复后布局可读；心形字形仍有缺失。原设计部分血氧/海拔/气压是静态文字，不能计作真实传感器绑定。",
+      "prg": {
+        "bytes": 1608444,
+        "sha256": "8021c2d7511153fa854fac5e4387e0ad98a9a098bd9704b7bb889cfcb4db0120"
+      },
+      "sourceSha256": "d5e1d2247bb062a8338d7c67c72df380c2e7d71f26e4a7d3786fbf73e6b12c04",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "crystal",
+      "name": "Crystal",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 14,
+      "recordedResponses": 15,
+      "knownTokens": 70558,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "修复 Numeric 类型及文字锚点后无原有严重重叠；字号与网页仍不同。",
+      "prg": {
+        "bytes": 19612,
+        "sha256": "41838d9b67dc5ddb18c1312eeb9e7fe95037993846636bea51583323b273e489"
+      },
+      "sourceSha256": "dfc5f2ebcf14f025d3c2590b9bcf775c602018d0ec59c07e5f7f5dd9b0176be4",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "fine-o-clock",
+      "name": "fine-o-clock",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 4,
+      "recordedResponses": 5,
+      "knownTokens": 18827,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "原 FNT 描述、图集及无损图片恢复；时间位于气泡、秒数位于杯子。",
+      "prg": {
+        "bytes": 580684,
+        "sha256": "36391de3b836986395f8c008d47a0e48f4a412be9e1ee73fe9c4df2655a3dd6d"
+      },
+      "sourceSha256": "5df22086988259d073136bfa86ce9df879aea60c5cc0331b41a1c00fa9eafa03",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "kissface",
+      "name": "KISSFace",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 6,
+      "recordedResponses": 7,
+      "knownTokens": 63431,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "阈值颜色 Symbol/String 键修复后可读；字体仍有差异。",
+      "prg": {
+        "bytes": 27516,
+        "sha256": "63ca0451b0ed03da58161c252bfaeb06bd0bba697c71a834fdfae12a717451c6"
+      },
+      "sourceSha256": "7db025f2f3461975861881fde6122f30c7abebffc1b719a8428937997492a4cb",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "pulsemaniac",
+      "name": "PulseManiac",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 2,
+      "recordedResponses": 3,
+      "knownTokens": 27095,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "图片按目标尺寸缩放后通过编译；只验证 HR80 静息画面，四态边界未全部验证。",
+      "prg": {
+        "bytes": 601996,
+        "sha256": "eed1a3c197b6093a4768aa7227d450dd3883fd7a7eb71f9e2ac238037e01f9e4"
+      },
+      "sourceSha256": "421f5eee79e5d4482ad5e409e629accef99488db45627ce326ce3d4c87d17ae9",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "skyring",
+      "name": "SkyRing",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 4,
+      "recordedResponses": 5,
+      "knownTokens": 77573,
+      "emptyUsageFiles": 0,
+      "visual": "failed",
+      "notes": "不合格：明显文字重叠、不支持的 Unicode 字形；启动成功不等于显示正常。",
+      "prg": {
+        "bytes": 23644,
+        "sha256": "45bf4fe78c3cbbe5e16179d0e001858efe82062cdd3c55fb5ffc5feb6b72aefb"
+      },
+      "sourceSha256": "18d467d1a8580c51bb42286a49552d65c11ec6b7dbe592a955a5db148a0f8c5c",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "sonar",
+      "name": "SONAR",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 6,
+      "recordedResponses": 7,
+      "knownTokens": 63025,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "日期和文字锚点修复后可读；指针形状/长度有差异，扫描效果未获完整验证。",
+      "prg": {
+        "bytes": 77452,
+        "sha256": "73eb0779d44c1404652c42e641dd568aa408a2ff8da8a1a5b11691a52432af45"
+      },
+      "sourceSha256": "81b4b81870c44096510daa844caaa4c2913884c0aeb96745e2ecb94b704a78e8",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "timelyfenix",
+      "name": "TimelyFenix",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 5,
+      "recordedResponses": 5,
+      "knownTokens": 25392,
+      "emptyUsageFiles": 1,
+      "visual": "not-fully-accepted",
+      "notes": "月份长度修复后日历正确；字体仍近似，非逐像素相同。",
+      "prg": {
+        "bytes": 20108,
+        "sha256": "61b06f75aa4fe97110da64f6d008d8c9fc93464c71a6ca554ff6dadcc87d04f4"
+      },
+      "sourceSha256": "29d200c8ef0bf644db6f2f935a53e92a3f68aa9548dd5e4e29ba2e6d9137d1d4",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "trail",
+      "name": "trail",
+      "sdk": "unverified",
+      "native": "unverified",
+      "repairs": 1,
+      "recordedResponses": 4,
+      "knownTokens": 84095,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "本批次独立根仍失败：位图字体 ID 前缀错误，后续精确补丁不唯一而拒绝应用。独立的既有 trail 根修复9轮后通过，另行报告，不替换本批失败。",
+      "prg": null,
+      "sourceSha256": null,
+      "cleanup": null,
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    },
+    {
+      "slug": "yetanother",
+      "name": "YetAnother",
+      "sdk": "succeeded",
+      "native": "succeeded",
+      "repairs": 2,
+      "recordedResponses": 3,
+      "knownTokens": 20151,
+      "emptyUsageFiles": 0,
+      "visual": "not-fully-accepted",
+      "notes": "基本布局可读；字体及日期格式有差异。",
+      "prg": {
+        "bytes": 18828,
+        "sha256": "9b7b45f8c99dd4af60bfa2ca164f8d1a79110f24542fe8222dff2ab9373a9f24"
+      },
+      "sourceSha256": "73cb78743fbb8da2b40ba2e74d77768b9d883a959d3b0347256eef705ab29569",
+      "cleanup": "completed",
+      "hardware": "unverified",
+      "dataMode": "unverified"
+    }
+  ],
+  "limitations": [
+    "Initial frozen report remains independent",
+    "Empty usage files can represent local rejected requests, not proof of zero charges",
+    "No price estimate or claim that all API transport attempts were observed",
+    "Batch native and web frames are not time/data synchronized; no pixel score assigned",
+    "Startup does not certify all data, configuration, AOD, hardware or battery life"
+  ]
+}

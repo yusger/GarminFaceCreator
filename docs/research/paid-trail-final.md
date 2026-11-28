@@ -12,3 +12,13 @@
 [修复后网页／AI原生／差异图](paid-trail-final/repaired/comparison.png)：单帧Apex，10:30:19，HR80、步数0、热量0、里程0、电量50%。网页按原生显示值重放，属于转录，不是受控原生注入。圆内未平移RGB MAE为3.823/255，前景3.856。原图和指标均保留。SDK RGB565造成背景色阶量化，字体/图标边缘仍有像素差异，不能写成像素全同或虚构还原率。此帧未证明AI的三主题菜单、AOD和所有真实来源语义正常，这些仍需独立验证。
 
 新增已知137,791tokens，另有第一轮修复usage未保留（不是0）；历史4次已知125,332tokens，累计已知263,123+一项未知。后续usage均等待响应采集完成再保存。[公开审计](paid-trail-final/audit.json)只含计数、摘要和分类，不含API Key、访问令牌、原始请求或部署凭据。完整项目、响应和PRG留在忽略的Temp。
+
+## 最终三主题与实际AOD补验
+
+同一根继续至第9轮。第6轮删除未使用菜单对象、第7轮改即时过渡均未解决PageControl错误，失败记录保留。实际根因是选中主题时pop两层退出设置后，又push新的根菜单。第8轮只删除非法重入，三主题与真实enterSleep/exitSleep通过。第9轮只将低功耗背景条件改为纯黑，解决实际AOD仍带绿色背景。操作员包装仅记录日志，没有人工替换AI绘图、没有注入固定数据或强制低功耗。
+
+[生命周期记录](paid-trail-final/lifecycle/validation.json)、[主题/睡眠日志](paid-trail-final/lifecycle/observations.txt)、[最终活动帧](paid-trail-final/lifecycle/native.png)和[实际SDK AOD原图](paid-trail-final/lifecycle/ui-sdk-vital-aod.png)保留。SDK的三主题回调及进出睡眠通过，不能冒充真机或所有配置选项验收。
+
+最终Vital显示11:52、HR80、步数0、热量0、电量50%，网页转录这些显示值后对照：[活动](paid-trail-final/final-vital/active/comparison.png)圆内RGB MAE1.688/255、前景2.923；[AOD](paid-trail-final/final-vital/aod/comparison.png)圆内0.307、前景5.321。大量黑色使AOD整盘误差更低，不能解释为更高的还原率。无平移、未用桌面截图代替SDK帧。第5轮Apex历史对照保留，未被最终Vital覆盖。
+
+本根新增已知157,575 tokens，另有修复1未知usage；加历史已知125,332后为282,907已知tokens及一项未知。独立13款批次另行统计。最终限额恢复50/10/30、账本保留，后续付费使用需另获授权。

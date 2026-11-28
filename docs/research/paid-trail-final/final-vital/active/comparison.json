@@ -1,0 +1,44 @@
+{
+  "preview": {
+    "time": "11:52",
+    "seconds": 0,
+    "calendarDate": "2026-11-28",
+    "utcOffsetMinutes": 0,
+    "heartRate": 80,
+    "steps": 0,
+    "battery": 50,
+    "values": {
+      "heartRate": 80,
+      "steps": 0,
+      "battery": 50,
+      "calories": 0,
+      "distance": 0,
+      "temperature": 23
+    }
+  },
+  "theme": "vital",
+  "actualSdkAod": false,
+  "dataPolicy": "Transcribed displayed native values; not controlled native injection",
+  "nativeDataMode": "unverified",
+  "prgSha256": "21d5ec39f8785d436b7835849af722d8e5c018b4dded65a629b8b48583198821",
+  "sourceSha256": "f9635b9462230f430033f7b76013fb2f71eb769dfdaa8227516c173fdd1dce83",
+  "cleanupStatus": "completed",
+  "delta": {
+    "rgbMae": 1.6880411731670313,
+    "foregroundRgbMae": 2.922977775620595,
+    "changedAbove24": 1217,
+    "pixels": 159068
+  },
+  "limitations": [
+    "single frame; displayed values transcribed",
+    "separate SDK lifecycle log records all three themes; not hardware",
+    "no quality percentage"
+  ],
+  "observations": [
+    "background artwork restored",
+    "outer track restored",
+    "data icons restored",
+    "uppercase date and battery suffix restored",
+    "remaining pixel differences require inspection"
+  ]
+}

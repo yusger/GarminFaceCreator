@@ -1,0 +1,16 @@
+{
+  "date": "2026-11-28T12:01:20Z",
+  "workerRunsPerDay": 50,
+  "apiRunsPerDayPerIp": 10,
+  "apiRunsPerDayGlobal": 30,
+  "retainedRuns": 142,
+  "workerLedgerSha256Before": "c49ea094bc323aa742fb15ff19fe32e4fc7b188bc0f558ae2088150202bce71a",
+  "workerLedgerSha256After": "c49ea094bc323aa742fb15ff19fe32e4fc7b188bc0f558ae2088150202bce71a",
+  "apiLedgerSha256Before": "537143f0734ea4b82295f30537273015265f5a458eebd38c0194183407166717",
+  "apiLedgerSha256After": "537143f0734ea4b82295f30537273015265f5a458eebd38c0194183407166717",
+  "containerResourcesUnchanged": true,
+  "showcaseTouched": false,
+  "health": "ok",
+  "stagingRevision": "9dd30882be2df553ae08fb285ca65b4a27a3e4db",
+  "regressionTestsPassed": 3
+}

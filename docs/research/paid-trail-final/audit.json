@@ -1,7 +1,7 @@
 {
   "date": "2026-11-28",
   "model": "deepseek-flash",
-  "classification": "Actual AI generation + five AI repairs on the same root + frontend platform resource preparation; additional operator rounds explicitly authorized for this Plan",
+  "classification": "Actual AI generation + nine AI repairs on one root; no reset; explicit Plan-only authorization",
   "calls": [
     {
       "stage": "generation",
@@ -72,9 +72,61 @@
         "prompt_cache_hit_tokens": 768,
         "prompt_cache_miss_tokens": 12080
       }
+    },
+    {
+      "stage": "repair6",
+      "usage": {
+        "prompt_tokens": 1754,
+        "completion_tokens": 240,
+        "total_tokens": 1994,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1754
+      }
+    },
+    {
+      "stage": "repair7",
+      "usage": {
+        "prompt_tokens": 1927,
+        "completion_tokens": 783,
+        "total_tokens": 2710,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 1927
+      }
+    },
+    {
+      "stage": "repair8",
+      "usage": {
+        "prompt_tokens": 1962,
+        "completion_tokens": 146,
+        "total_tokens": 2108,
+        "prompt_tokens_details": {
+          "cached_tokens": 128
+        },
+        "prompt_cache_hit_tokens": 128,
+        "prompt_cache_miss_tokens": 1834
+      }
+    },
+    {
+      "stage": "repair9",
+      "usage": {
+        "prompt_tokens": 12919,
+        "completion_tokens": 53,
+        "total_tokens": 12972,
+        "prompt_tokens_details": {
+          "cached_tokens": 256
+        },
+        "prompt_cache_hit_tokens": 256,
+        "prompt_cache_miss_tokens": 12663
+      }
     }
   ],
-  "knownAdditionalTokens": 137791,
+  "knownAdditionalTokens": 157575,
   "unknownAdditionalUsageCalls": 1,
   "previousKnownTokens": 125332,
   "originalSourceMcSha256": "ece21bb093969c8b69109d6a4529ea7171f603a51434a8ebd55d6b266b78e716",
@@ -128,47 +180,117 @@
   "currentRoundAuthorization": "Temporary native budget approved; existing ledger preserved. Further paid repairs authorized only for this Plan; normal product UI maximum remains 2.",
   "normalUiMaxRounds": 2,
   "final": {
-    "preview": {
-      "time": "10:30",
-      "seconds": 19,
-      "calendarDate": "2026-11-28",
-      "utcOffsetMinutes": 0,
-      "heartRate": 80,
-      "steps": 0,
-      "battery": 50,
-      "values": {
+    "repairs": 9,
+    "actualThreeThemeMenu": "passed",
+    "sdkSleepTransition": "passed",
+    "hardware": "unverified",
+    "allConfigurationOptions": "not certified by this probe"
+  },
+  "finalLifecycle": {
+    "scenario": "paid45",
+    "states": [],
+    "aiThemes": [
+      2009808953,
+      2078923795,
+      1156566441
+    ],
+    "themeAutoExit": true,
+    "prgSha256": "21d5ec39f8785d436b7835849af722d8e5c018b4dded65a629b8b48583198821",
+    "sourceSha256": "f9635b9462230f430033f7b76013fb2f71eb769dfdaa8227516c173fdd1dce83",
+    "cleanupStatus": "completed",
+    "applicationDataMode": "unverified",
+    "aodMode": "actual SDK Display Mode Always-On",
+    "hardware": "unverified",
+    "sleepTransition": "observed SDK enterSleep and exitSleep; not hardware"
+  },
+  "finalVital": {
+    "active": {
+      "preview": {
+        "time": "11:52",
+        "seconds": 0,
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 0,
         "heartRate": 80,
         "steps": 0,
         "battery": 50,
-        "calories": 0,
-        "distance": 0,
-        "temperature": 23
-      }
+        "values": {
+          "heartRate": 80,
+          "steps": 0,
+          "battery": 50,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 23
+        }
+      },
+      "theme": "vital",
+      "actualSdkAod": false,
+      "dataPolicy": "Transcribed displayed native values; not controlled native injection",
+      "nativeDataMode": "unverified",
+      "prgSha256": "21d5ec39f8785d436b7835849af722d8e5c018b4dded65a629b8b48583198821",
+      "sourceSha256": "f9635b9462230f430033f7b76013fb2f71eb769dfdaa8227516c173fdd1dce83",
+      "cleanupStatus": "completed",
+      "delta": {
+        "rgbMae": 1.6880411731670313,
+        "foregroundRgbMae": 2.922977775620595,
+        "changedAbove24": 1217,
+        "pixels": 159068
+      },
+      "limitations": [
+        "single frame; displayed values transcribed",
+        "separate SDK lifecycle log records all three themes; not hardware",
+        "no quality percentage"
+      ],
+      "observations": [
+        "background artwork restored",
+        "outer track restored",
+        "data icons restored",
+        "uppercase date and battery suffix restored",
+        "remaining pixel differences require inspection"
+      ]
     },
-    "theme": "apex",
-    "dataPolicy": "Transcribed displayed native values; not controlled native injection",
-    "nativeDataMode": "unverified",
-    "prgSha256": "3fee8121ad5ce1d7a8cd766daeee87344ef5d344b568e5fa43436d6934287d1d",
-    "sourceSha256": "54c47b55c0cea7649dfc45556fb921564da70a8f5e53515f030dffcb17fa0d61",
-    "cleanupStatus": "completed",
-    "delta": {
-      "rgbMae": 3.823071474673305,
-      "foregroundRgbMae": 3.8563554077054,
-      "changedAbove24": 1650,
-      "pixels": 159068
-    },
-    "limitations": [
-      "single active frame",
-      "AOD/theme menu not verified by this frame",
-      "no quality percentage"
-    ],
-    "observations": [
-      "background artwork restored",
-      "outer track restored",
-      "data icons restored",
-      "uppercase date and battery suffix restored",
-      "remaining pixel differences require inspection"
-    ],
-    "sourceDrawing": "fifth AI repair source unchanged by subsequent lossless PNG resource preparation"
+    "aod": {
+      "preview": {
+        "time": "11:52",
+        "seconds": 0,
+        "calendarDate": "2026-11-28",
+        "utcOffsetMinutes": 0,
+        "heartRate": 80,
+        "steps": 0,
+        "battery": 50,
+        "values": {
+          "heartRate": 80,
+          "steps": 0,
+          "battery": 50,
+          "calories": 0,
+          "distance": 0,
+          "temperature": 23
+        }
+      },
+      "theme": "vital",
+      "actualSdkAod": true,
+      "dataPolicy": "Transcribed displayed native values; not controlled native injection",
+      "nativeDataMode": "unverified",
+      "prgSha256": "21d5ec39f8785d436b7835849af722d8e5c018b4dded65a629b8b48583198821",
+      "sourceSha256": "f9635b9462230f430033f7b76013fb2f71eb769dfdaa8227516c173fdd1dce83",
+      "cleanupStatus": "completed",
+      "delta": {
+        "rgbMae": 0.30704059479803186,
+        "foregroundRgbMae": 5.3206577974870655,
+        "changedAbove24": 558,
+        "pixels": 159068
+      },
+      "limitations": [
+        "single frame; displayed values transcribed",
+        "separate SDK lifecycle log records all three themes; not hardware",
+        "no quality percentage"
+      ],
+      "observations": [
+        "background artwork restored",
+        "outer track restored",
+        "data icons restored",
+        "uppercase date and battery suffix restored",
+        "remaining pixel differences require inspection"
+      ]
+    }
   }
 }

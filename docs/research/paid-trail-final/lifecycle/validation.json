@@ -1,0 +1,17 @@
+{
+  "scenario": "paid45",
+  "states": [],
+  "aiThemes": [
+    2009808953,
+    2078923795,
+    1156566441
+  ],
+  "themeAutoExit": true,
+  "prgSha256": "21d5ec39f8785d436b7835849af722d8e5c018b4dded65a629b8b48583198821",
+  "sourceSha256": "f9635b9462230f430033f7b76013fb2f71eb769dfdaa8227516c173fdd1dce83",
+  "cleanupStatus": "completed",
+  "applicationDataMode": "unverified",
+  "aodMode": "actual SDK Display Mode Always-On",
+  "hardware": "unverified",
+  "sleepTransition": "observed SDK enterSleep and exitSleep; not hardware"
+}
