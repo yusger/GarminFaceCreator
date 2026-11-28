@@ -1,7 +1,7 @@
 import type {RequestContext} from "./requestContext";
-export const ENGINEERING_PROMPT_VERSION="engineering-13-device-fonts-icons";
+export const ENGINEERING_PROMPT_VERSION="engineering-14-theme-roles";
 export const DESIGN_PROMPT_VERSION = "design-18-visual-kit-pixel-fonts";
-export const CHAT_PROMPT_VERSION = "chat-18-creation-field-boundary";
+export const CHAT_PROMPT_VERSION = "chat-19-theme-roles";
 const KEY = "gfc-ai-request-history-v1";
 const MAX_BYTES = 512 * 1024;
 export type RequestSnapshot = {

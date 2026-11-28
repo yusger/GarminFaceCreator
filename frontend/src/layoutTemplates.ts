@@ -13,6 +13,7 @@ export type LayoutTemplate = {
       id: string;
       label: string;
       color: string;
+      semantic?:import("./projectControls").ProjectControl["semantic"];
       layerIds: string[];
     }[];
     aodGuide: string;
@@ -43,6 +44,7 @@ export function applyTemplate(p: Project, id: string): Project {
             label: role.label,
             type: "color" as const,
             default: role.color,
+            semantic:role.semantic,
             targets: role.layerIds.map((id) => ({
               layerId: ids.get(id)!,
               property: "color" as const,

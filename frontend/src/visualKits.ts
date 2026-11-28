@@ -44,6 +44,7 @@ export async function prepareVisualKit(
   )
     throw Error("视觉套件每个目标最多8组固定像素字体，请合并相同字体和字号");
   let next = structuredClone(p);
+  const fontRoles=[...(p.fontRoles||[])];
   for (const g of groups.values()) {
     const subset = [
       ...new Set(g.layers.flatMap((l) => [...requiredFontGlyphs(p, l)])),
@@ -63,10 +64,13 @@ export async function prepareVisualKit(
       ],
     };
     const ids = new Set(g.layers.map((l) => l.id));
+    if(g.layers.some(l=>p.fontRoles?.some(r=>r.layerIds.includes(l.id))))throw Error("套件字体准备前请先解除已有字体角色，避免重复关联");
+    fontRoles.push({id:("kit-font-"+g.font+"-"+g.pixels).replaceAll("_","-"),name:g.font+" · "+g.pixels+"px",fontId:font.id,layerIds:[...ids]});
     next.layers = next.layers.map((l) =>
       ids.has(l.id) ? { ...l, ...bitmapLayerPatch(next, font.id) } : l,
     );
   }
+  next={...next,fontRoles};
   const diagnostics = bitmapFontDiagnostics(next);
   if (diagnostics.length)
     throw Error(diagnostics.map((d) => d.message).join("；"));

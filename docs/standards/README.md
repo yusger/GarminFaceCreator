@@ -29,3 +29,5 @@
 - [本地位图字体](bitmap-font-import.md)：单页FNT＋灰度PNG、固定像素及授权边界。
 
 - [月相估算](moon-phase.md)：UTC时间、照明与周期区别、示意方向、缓存和许可。
+
+- [主题颜色与字体角色](appearance-roles.md)：Schema49的明确引用、解绑、阈值语义、AI与设备覆盖边界。

@@ -59,3 +59,11 @@ export function thresholdInk(
     )?.color || fallback
   );
 }
+
+
+// Explicit semantic state roles, not inference from colors or array positions in another source.
+export function thresholdRoleIndex(source:string,semantic?:string){
+ if(source==="heartRate")return semantic==="warning"?1:semantic==="danger"?2:semantic==="primary"?0:undefined;
+ if(source==="battery")return semantic==="warning"?1:semantic==="danger"?0:semantic==="primary"?2:undefined;
+ return undefined;
+}

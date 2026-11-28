@@ -1,3 +1,6 @@
+import {reconcileDevices,deviceKey} from "./multiDevice.ts";
+import {createFontRole,addFontRoleMembers,setFontRole,detachFontRole,captureFontRoleEdits} from "./fontRoles.ts";
+import {setColorRoleSemantic,detachColorTarget} from "./colorRoles.ts";
 import {approvedFontChoices,fontChoicePatch} from "./fontChoices.ts";
 import {activeTheme,themeControls,selectTheme,resetTheme,setThemeBackground,themeBackground} from "./themes";
 import {validateChart} from "./charts";
@@ -80,6 +83,7 @@ export function chatFingerprint(p: Project) {
     deviceSize: p.deviceSize,
     layers: p.layers,
     themes:p.themes,
+    fontRoles:p.fontRoles,
     bitmapFonts:p.bitmapFonts,
     controls: p.controls,
     controlValues: p.controlValues,
@@ -128,13 +132,14 @@ export function chatPayload(p: Project, selected: string[]) {
     coordinateSystem: { width: 454, height: 454, shape: "circle" },
     backgroundColor: scene.backgroundColor,
     themes:p.themes?{activeId:activeTheme(p)?.id,defaultId:p.themes.defaultId,presets:p.themes.presets.map(t=>({id:t.id,name:t.name,version:t.version,backgroundColor:themeBackground(p,t.id),defaultBackgroundColor:t.backgroundColor})),policy:"Operations target current theme/common objects only. Select a different theme explicitly before adjusting it. Reset clears current user control/background overrides, not geometry/default definitions. Never modify private theme internals."}:undefined,
+    fontRoles:p.fontRoles?.filter(r=>!r.themeId||r.themeId===activeTheme(p)?.id),
     selectedLayerIds: selected,
     layers: scene.layers.map(describe),
     controls: themeControls(p).map((c) => ({
       id: c.id,
       label: c.label,
       type: c.type,
-      slot:c.slot,
+      slot:c.slot,semantic:c.semantic,targets:c.targets,
       options: c.options,
       value: p.controlValues?.[c.id] ?? c.default,
     })),
@@ -156,6 +161,12 @@ export function chatPayload(p: Project, selected: string[]) {
       addKinds: kinds,
       maxOperations: 80,
       operations: [
+        {type:"fontRole",action:"create",roleId:"new-stable-role",name:"文字字体",fontId:"approved font id",layerIds:["existing id"]},
+        {type:"fontRole",action:"bind",roleId:"existing role id",layerIds:["existing unbound id"]},
+        {type:"fontRole",action:"set",roleId:"existing role id",fontId:"approved font id"},
+        {type:"fontRole",action:"detach",roleId:"existing role id",layerId:"existing member id"},
+        {type:"colorRole",action:"classify",controlId:"existing color control",semantic:"accent"},
+        {type:"colorRole",action:"detach",controlId:"existing color control",layerId:"existing member id",property:"color"},
         {type:"theme",action:"select",themeId:"existing theme id"},
         {type:"theme",action:"reset"},
         { type: "update", id: "existing id", patch: { x: 90 } },
@@ -273,12 +284,23 @@ export function applyChat(
   const changes: string[] = [];
   for (const op of data.operations) {
     if (!object(op)) throw Error("AI 操作格式无效");
+    const beforeOp={...next,layers:next.layers,multiDevice:next.multiDevice};
     if (op.type === "background") {
       keys(op, ["type", "color"]);
       if (typeof op.color !== "string" || !/^#[a-f0-9]{6}$/i.test(op.color))
         throw Error("背景色无效");
       next=setThemeBackground(next,op.color);
       changes.push("背景色 → " + op.color);
+    } else if(op.type==="fontRole"){
+      if(op.action==="create"){keys(op,["type","action","roleId","name","fontId","layerIds"]);if(!Array.isArray(op.layerIds)||typeof op.roleId!=="string"||typeof op.name!=="string")throw Error("字体角色创建参数无效");next=createFontRole(next,op.roleId,op.name,op.fontId,op.layerIds);}
+      else if(op.action==="bind"){keys(op,["type","action","roleId","layerIds"]);if(!Array.isArray(op.layerIds))throw Error("字体角色成员无效");next=addFontRoleMembers(next,op.roleId,op.layerIds);}
+      else if(op.action==="set"){keys(op,["type","action","roleId","fontId"]);next=setFontRole(next,op.roleId,op.fontId);}
+      else if(op.action==="detach"){keys(op,["type","action","roleId","layerId"]);if(typeof op.layerId!=="string")throw Error("字体角色成员缺失");next=detachFontRole(next,op.roleId,op.layerId);}
+      else throw Error("字体角色操作无效");changes.push("字体角色："+op.roleId);
+    } else if(op.type==="colorRole"){
+      if(op.action==="classify"){keys(op,["type","action","controlId","semantic"]);next=setColorRoleSemantic(next,op.controlId,op.semantic);}
+      else if(op.action==="detach"){keys(op,["type","action","controlId","layerId","property"]);next=detachColorTarget(next,op.controlId,{layerId:op.layerId,property:op.property});}
+      else throw Error("颜色角色操作无效");changes.push("颜色角色："+op.controlId);
     } else if(op.type==="theme"){
       if(op.action==="select"){keys(op,["type","action","themeId"]);next=selectTheme(next,op.themeId);changes.push("切换主题："+activeTheme(next)!.name);}
       else if(op.action==="reset"){keys(op,["type","action"]);if(!next.themes)throw Error("当前项目没有主题");const affected=themeControls(next).filter(c=>activeTheme(next)!.controlIds.includes(c.id));if(affected.some(c=>c.targets.some(t=>next.layers.find(l=>l.id===t.layerId)?.locked)))throw Error("主题配置目标已锁定，不能重置");next=resetTheme(next);changes.push("恢复当前主题配置默认值");}
@@ -368,13 +390,20 @@ export function applyChat(
         changes.push("部件：" + root.name + " / " + part.name);
       } else throw Error("AI 操作类型不支持");
     }
+    next=captureFontRoleEdits(beforeOp,next);
+    if(beforeOp.multiDevice&&next.multiDevice){
+      next=reconcileDevices({...beforeOp,multiDevice:{...beforeOp.multiDevice,viewVersion:next.multiDevice.viewVersion}},next)!;
+      next={...next,multiDevice:{...next.multiDevice!,viewVersion:(beforeOp.multiDevice.viewVersion||0)+1}};
+    }
     if (next.layers.length > 160) throw Error("图层数量超限");
   }
   if (changes.length) {
     next.revision = p.revision + 1;
     next.codeRevision = -1;
     next.updated = Date.now();
+    if(next.multiDevice){const key=deviceKey(next);next={...next,multiDevice:{...next.multiDevice,viewVersion:(p.multiDevice?.viewVersion||0)+1,variants:next.multiDevice.variants.map(v=>({...v,revision:v.key===key?next.revision:(p.multiDevice?.variants.find(old=>old.key===v.key)?.revision||0)+1,code:{...v.code,codeRevision:-1},buildId:undefined,buildStatus:undefined}))}}; }
   }
+  next=captureFontRoleEdits(p,next);
   validateProject(next);
   return { project: next, message: data.message, changes };
 }

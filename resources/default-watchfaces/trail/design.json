@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 40,
+  "schemaVersion": 49,
   "id": "00000000-0000-4000-8000-000000000454",
   "appId": "45445445445445445445445445445445",
   "name": "trail",
@@ -3665,7 +3665,8 @@
           "layerId": "apex_icon_apex_tl_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "apex-value-apex-tr",
@@ -3753,7 +3754,8 @@
           "layerId": "apex_icon_apex_tr_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "apex-value-apex-bl",
@@ -3841,7 +3843,8 @@
           "layerId": "apex_icon_apex_bl_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "apex-value-apex-br",
@@ -3929,7 +3932,8 @@
           "layerId": "apex_icon_apex_br_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "apex-battery-color",
@@ -3953,7 +3957,8 @@
           "layerId": "apex_battery_meter",
           "property": "thresholdRules.2.color"
         }
-      ]
+      ],
+      "semantic": "primary"
     },
     {
       "id": "apex-time-color",
@@ -3965,7 +3970,8 @@
           "layerId": "apex_time_main",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "primary"
     },
     {
       "id": "apex-show-bg-art",
@@ -4093,7 +4099,8 @@
           "layerId": "trail_icon_trail_tl_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "trail-value-trail-tr",
@@ -4185,7 +4192,8 @@
           "layerId": "trail_icon_trail_tr_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "trail-value-trail-bl",
@@ -4277,7 +4285,8 @@
           "layerId": "trail_icon_trail_bl_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "trail-value-trail-br",
@@ -4365,7 +4374,8 @@
           "layerId": "trail_icon_trail_br_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "trail-battery-color",
@@ -4389,7 +4399,8 @@
           "layerId": "trail_battery_meter",
           "property": "thresholdRules.2.color"
         }
-      ]
+      ],
+      "semantic": "primary"
     },
     {
       "id": "trail-time-color",
@@ -4401,7 +4412,8 @@
           "layerId": "trail_time_main",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "primary"
     },
     {
       "id": "trail-show-bg-art",
@@ -4490,7 +4502,8 @@
           "layerId": "vital_heart_big",
           "property": "thresholdRules.0.color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "vital-value-vital-bl",
@@ -4578,7 +4591,8 @@
           "layerId": "vital_icon_vital_bl_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "vital-value-vital-br",
@@ -4666,7 +4680,8 @@
           "layerId": "vital_icon_vital_br_temperature",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "accent"
     },
     {
       "id": "vital-battery-color",
@@ -4690,7 +4705,8 @@
           "layerId": "vital_battery_meter",
           "property": "thresholdRules.2.color"
         }
-      ]
+      ],
+      "semantic": "primary"
     },
     {
       "id": "vital-time-color",
@@ -4702,7 +4718,8 @@
           "layerId": "vital_time_main",
           "property": "color"
         }
-      ]
+      ],
+      "semantic": "primary"
     },
     {
       "id": "vital-show-bg-art",
@@ -4786,7 +4803,7 @@
       {
         "id": "apex",
         "name": "Apex Instrument",
-        "version": "1.0.1",
+        "version": "1.1.0",
         "backgroundColor": "#0E1319",
         "layerIds": [
           "apex_bg_art",
@@ -4852,7 +4869,7 @@
       {
         "id": "trail",
         "name": "Trail Compass",
-        "version": "1.0.1",
+        "version": "1.1.0",
         "backgroundColor": "#100E0B",
         "layerIds": [
           "trail_bg_art",
@@ -4920,7 +4937,7 @@
       {
         "id": "vital",
         "name": "Vital Pulse",
-        "version": "1.0.1",
+        "version": "1.1.0",
         "backgroundColor": "#081110",
         "layerIds": [
           "vital_bg_art",
@@ -4972,5 +4989,102 @@
         ]
       }
     ]
-  }
+  },
+  "fontRoles": [
+    {
+      "id": "apex-numerals",
+      "name": "Apex Instrument · 数字字体",
+      "themeId": "apex",
+      "fontId": "local_ca177c514f264e623225342630000000",
+      "layerIds": [
+        "apex_time_main",
+        "apex_seconds",
+        "apex_aod_time"
+      ]
+    },
+    {
+      "id": "apex-labels",
+      "name": "Apex Instrument · 信息字体",
+      "themeId": "apex",
+      "fontId": "local_ca1eb715b1edcd220e65771900000000",
+      "layerIds": [
+        "apex_date_main",
+        "apex_label_apex_tl",
+        "apex_label_apex_tr",
+        "apex_label_apex_bl",
+        "apex_label_apex_br",
+        "apex_value_apex_tl",
+        "apex_value_apex_tr",
+        "apex_value_apex_bl",
+        "apex_value_apex_br",
+        "apex_battery_value",
+        "apex_aod_hr",
+        "apex_aod_hr_label",
+        "apex_aod_battery"
+      ]
+    },
+    {
+      "id": "trail-numerals",
+      "name": "Trail Compass · 数字字体",
+      "themeId": "trail",
+      "fontId": "local_ca177c514f264e623225342630000000",
+      "layerIds": [
+        "trail_time_main",
+        "trail_seconds",
+        "trail_aod_time"
+      ]
+    },
+    {
+      "id": "trail-labels",
+      "name": "Trail Compass · 信息字体",
+      "themeId": "trail",
+      "fontId": "local_ca1eb715b1edcd220e65771900000000",
+      "layerIds": [
+        "trail_date_main",
+        "trail_label_trail_tl",
+        "trail_label_trail_tr",
+        "trail_label_trail_bl",
+        "trail_label_trail_br",
+        "trail_value_trail_tl",
+        "trail_value_trail_tr",
+        "trail_value_trail_bl",
+        "trail_value_trail_br",
+        "trail_battery_value",
+        "trail_aod_temp",
+        "trail_aod_dot",
+        "trail_aod_distance",
+        "trail_aod_km",
+        "trail_aod_battery"
+      ]
+    },
+    {
+      "id": "vital-numerals",
+      "name": "Vital Pulse · 数字字体",
+      "themeId": "vital",
+      "fontId": "local_ca177c514f264e623225342630000000",
+      "layerIds": [
+        "vital_heart_big",
+        "vital_time_main",
+        "vital_aod_time",
+        "vital_aod_hr"
+      ]
+    },
+    {
+      "id": "vital-labels",
+      "name": "Vital Pulse · 信息字体",
+      "themeId": "vital",
+      "fontId": "local_ca1eb715b1edcd220e65771900000000",
+      "layerIds": [
+        "vital_date_main",
+        "vital_label_vital_bl",
+        "vital_label_vital_br",
+        "vital_value_vital_bl",
+        "vital_value_vital_br",
+        "vital_battery_value",
+        "vital_hr_unit",
+        "vital_aod_hr_cap",
+        "vital_aod_battery"
+      ]
+    }
+  ]
 }

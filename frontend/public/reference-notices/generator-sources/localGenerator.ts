@@ -38,7 +38,7 @@ import {
   generationRequirements,
   generationManifest,
 } from "./generationRequirements.ts";
-export const LOCAL_GENERATOR_VERSION = "basic-71-meter-pixel-gaps";
+export const LOCAL_GENERATOR_VERSION = "basic-72-semantic-state-colors";
 export const LOCAL_PROVENANCE = {
   primary: "deterministic" as const,
   generatorVersion: LOCAL_GENERATOR_VERSION,

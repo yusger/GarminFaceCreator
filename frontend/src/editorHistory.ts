@@ -1,7 +1,9 @@
+import {captureFontRoleEdits} from "./fontRoles.ts";
 import { reconcileDevices, deviceKey } from "./multiDevice.ts";
 import type { Layer, Project } from "./domain.ts";
 export type EditorFrame = Pick<
   Project,
+  | "fontRoles"
   | "multiDevice"
   | "target"
   | "deviceSize"
@@ -19,6 +21,7 @@ export function editorFrame(p: Project, layers = p.layers): EditorFrame {
     layers === p.layers ? p : reconcileDevices(p, { ...p, layers })!;
   return structuredClone({
     layers,
+    fontRoles:p.fontRoles,
     target: p.target,
     deviceSize: p.deviceSize,
     multiDevice: resolved.multiDevice,
@@ -54,7 +57,7 @@ export function withEditorLayers(p: Project, layers: Layer[]): Project {
     }))
     .filter((c) => c.targets.length);
   const valid = new Set(controls?.map((c) => c.id));
-  return {
+  return captureFontRoleEdits(p,{
     ...p,
     layers,
     assets: p.assets,
@@ -83,7 +86,7 @@ export function withEditorLayers(p: Project, layers: Layer[]): Project {
           Object.entries(p.controlValues).filter(([id]) => valid.has(id)),
         )
       : undefined,
-  };
+  });
 }
 
 // Restore design metadata while retaining current source history only as stale code.

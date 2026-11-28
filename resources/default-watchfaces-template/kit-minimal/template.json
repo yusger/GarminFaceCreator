@@ -2,7 +2,7 @@
   "format": "gfc-layout-template",
   "formatVersion": 2,
   "id": "kit-minimal",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "极简细线",
   "mode": "DIGITAL",
   "canvas": {
@@ -42,38 +42,42 @@
     "colorRoles": [
       {
         "id": "ink-0",
-        "label": "配色 1",
+        "label": "刻度",
         "color": "#263B43",
         "layerIds": [
           "hour-ticks"
-        ]
+        ],
+        "semantic": "track"
       },
       {
         "id": "ink-1",
-        "label": "配色 2",
+        "label": "信息文字",
         "color": "#7E919C",
         "layerIds": [
           "brand",
           "date"
-        ]
+        ],
+        "semantic": "text"
       },
       {
         "id": "ink-2",
-        "label": "配色 3",
+        "label": "主时间",
         "color": "#D6F6ED",
         "layerIds": [
           "clock"
-        ]
+        ],
+        "semantic": "primary"
       },
       {
         "id": "ink-3",
-        "label": "配色 4",
+        "label": "强调色",
         "color": "#56D5B2",
         "layerIds": [
           "accent",
           "battery-icon",
           "battery"
-        ]
+        ],
+        "semantic": "accent"
       }
     ],
     "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"

@@ -1,7 +1,7 @@
 {
   "format": 1,
   "slug": "trail",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "authorship": "self",
   "generation": {
     "mode": "deterministic"

@@ -1,7 +1,7 @@
 {
   "format": "gfc-editor-capabilities",
-  "version": "1.24.0",
-  "projectSchemaVersion": 46,
+  "version": "1.25.0",
+  "projectSchemaVersion": 49,
   "scope": "Existing editor and deterministic generator support; not an installed-device verification certificate or external release format.",
   "coordinates": {
     "width": 454,
@@ -752,6 +752,22 @@
       "resources": "referenced old local/bitmap fonts retained; conflicts, budgets or glyph/pixel incompatibility reject whole update",
       "history": "undo restores shared design, variants, target, scope and resources; current code histories retained as stale",
       "nativeMigration": "editor design update only; cross-PRG properties upgrade acceptance remains separate"
+    },
+    "appearanceRoles": {
+      "schema": 49,
+      "fontRoles": "max24 explicit theme/common families, approved font identities only; literal member fonts validated; change in editor then regenerate",
+      "individualFont": "manual font change detaches only that member; move/size retains family link; device overrides independent",
+      "colors": [
+        "primary",
+        "accent",
+        "track",
+        "text",
+        "warning",
+        "danger"
+      ],
+      "thresholds": "warning/danger/primary map by explicit source meaning for heartRate and battery; unrelated sources have no old ranges; fixed threshold color bindings apply only original slot source",
+      "detach": "materialize current color before removing only the explicit binding; fonts retain current outlines; locked members reject",
+      "legacy": "old widget/release-v2 remains frozen; no new runtime font menu implied"
     }
   },
   "evidence": "Source parity and regression fixtures; SDK/device acceptance is recorded separately in docs/stage-validation.md."

@@ -182,7 +182,7 @@ test("113 device font choice and typography persist, undo and remain isolated ac
     return JSON.parse(await readFile((await (await d).path())!, "utf8"));
   };
   let saved = await dump();
-  expect(saved.schemaVersion).toBe(48);
+  expect(saved.schemaVersion).toBe(49);
   expect(saved.layers[0].bitmapFontId).toBe(p.bitmapFonts![0].id);
   expect(
     saved.multiDevice.variants.find((v: any) => v.key === small).overrides[
@@ -319,7 +319,7 @@ test("Schema47 migration preserves shared design, application identity and origi
   p.schemaVersion = 47;
   const before = JSON.stringify(p),
     n = migrateProject(p);
-  expect(n.schemaVersion).toBe(48);
+  expect(n.schemaVersion).toBe(49);
   expect(n.id).toBe(p.id);
   expect(n.appId).toBe(p.appId);
   expect(n.layers).toEqual(p.layers);

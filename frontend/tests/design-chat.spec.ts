@@ -112,9 +112,11 @@ test("chat context excludes image pixels, source files, licenses and storage-onl
     assetId: "private-asset",
   });
   p.files = [{ path: "source/Secret.mc", content: "PRIVATE_SOURCE" }];
-  const context = JSON.stringify(chatPayload(p, []));
+  const privateFonts=[{id:"local_"+"a".repeat(32),file:"local_"+"a".repeat(32)+".ttf",family:"Private font",data:"data:font/ttf;base64,PRIVATE_FONT_BYTES",license:"PRIVATE_LICENSE",source:"PRIVATE_FONT_SOURCE"}];
+  const context = JSON.stringify(chatPayload({...p,localFonts:privateFonts}, []));
   expect(context).not.toContain("PRIVATE");
-  expect(context).not.toContain("license");
+  expect(context).not.toContain("PRIVATE_LICENSE");
+  expect(context).not.toContain("data:font/");
   expect(context).not.toContain("compound");
   expect(chatPayload(p, []).device.screenWidth).toBe(454);
   expect(chatFingerprint({ ...p, storageVersion: 999, updated: 123 })).toBe(

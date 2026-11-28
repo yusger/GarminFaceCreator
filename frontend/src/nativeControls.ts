@@ -1,3 +1,4 @@
+import {thresholdRoleIndex} from "./thresholds.ts";
 import {controlSettingKey,legacySettingKey,sourceCode,nativeSourceSettings} from "./nativeSettingIds.ts";
 import { nativeThemeMenu } from "./nativeThemeMenu.ts";
 import { themeIndex, layerThemeIndex, activeTheme,themeCode,themeBackground,themeBackgroundKey } from "./themes.ts";
@@ -44,14 +45,16 @@ export function nativeControlledDraw(
             const sentinel = "#" + (0xe00000 + index).toString(16);
             if (t.property === "color") copy.color = sentinel;
             else {
-              if(slot&&input.source!==slot.default)continue;
-              const rule =
-                copy.thresholdRules?.[Number(t.property.split(".")[1])];
-              if (rule) rule.color = sentinel;
+              continue; // Source-specific rules are established before semantic state colors below.
             }
             replacements.push([hex(sentinel), variable(c.id)]);
           }
     if(!aod&&slot&&input.source!==slot.default&&copy.kind==="metric"){copy.thresholdRules=sourceSlotThresholds(copy.source,copy.color);copy.threshold=copy.thresholdRules.length>0;copy.thresholdFallback=copy.color;}
+    if(!aod)for(const [index,c] of controls.entries())if(c.type==="color")for(const t of c.targets.filter(t=>t.layerId===l.id&&t.property.startsWith("thresholdRules."))){
+      const ruleIndex=slot&&input.source!==slot.default?thresholdRoleIndex(copy.source,c.semantic):Number(t.property.split(".")[1]);
+      const rule=ruleIndex===undefined?undefined:copy.thresholdRules?.[ruleIndex];
+      if(rule){const sentinel="#"+(0xe00000+index).toString(16);rule.color=sentinel;replacements.push([hex(sentinel),variable(c.id)]);}
+    }
     let code = draw(resolvedLayer(copy, p.layers,p.controls));
     for (const [token, value] of replacements)
       code = code.replaceAll(token, value);

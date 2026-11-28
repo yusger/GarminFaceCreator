@@ -1,3 +1,4 @@
+import {fontRolesForDevice} from "./fontRoles.ts";
 import {
   fontOverrideKeys,
   applyDeviceOverride,
@@ -272,7 +273,7 @@ export function resetDevice(p: Project): Project {
 }
 export function projectForDevice(p: Project, key: string): Project {
   const resolved = selectDevice(p, key, "device");
-  return { ...resolved, multiDevice: undefined };
+  return { ...resolved, multiDevice: undefined,fontRoles:fontRolesForDevice(resolved,resolved.layers) };
 }
 
 function canonical(value: unknown) {
@@ -373,6 +374,7 @@ export function validateMultiDevice(
     validate({
       ...p,
       multiDevice: undefined,
+      fontRoles:undefined,
       layers: effectiveLayers(m.master, v),
       target: v.target,
       deviceSize: v.deviceSize,

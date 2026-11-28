@@ -1,3 +1,4 @@
+import {thresholdRoleIndex} from "./thresholds.ts";
 import {sourceCode} from "./nativeSettingIds.ts";
 import {activeTheme,themeLayers,themeBackground} from "./themes.ts";
 import { validateDataSlots, sourceSlotLayer,sourceSlotLabel } from "./dataSlots.ts";
@@ -11,6 +12,7 @@ export type ControlTarget = {
 export type ProjectControl = {
   id: string;
   label: string;
+  semantic?:"primary"|"accent"|"track"|"text"|"warning"|"danger";
   type: "color" | "boolean" | "dataSource";
   default: string | boolean;
   options?: string[];
@@ -53,7 +55,7 @@ export function validateControls(p: Project) {
   const iconOwners=new Map<string,string>();
   const ids = new Set(p.layers.map((l) => l.id)),
     seen = new Set<string>(),
-    targets = new Set<string>();
+    targets = new Set<string>(),semanticOwners=new Map<string,string>();
   if (
     p.backgroundColor !== undefined &&
     !/^#[a-f0-9]{6}$/i.test(p.backgroundColor)
@@ -74,6 +76,7 @@ export function validateControls(p: Project) {
       !c.targets.length
     )
       throw Error("表盘配置定义无效");
+    if(c.semantic!==undefined&&(c.type!=="color"||!["primary","accent","track","text","warning","danger"].includes(c.semantic)))throw Error("颜色角色用途无效");
     seen.add(c.id);
     if(c.sourcePrecisions!==undefined&&(c.type!=="dataSource"||!c.sourcePrecisions||Array.isArray(c.sourcePrecisions)||Object.entries(c.sourcePrecisions).some(([key,v])=>!c.options?.includes(key)||!Number.isInteger(v)||v<0||v>6)))throw Error("数据槽来源精度无效");
     for(const map of [c.sourceLabels,c.sourceUnits])if(map!==undefined&&(c.type!=="dataSource"||!map||typeof map!=="object"||Array.isArray(map)||Object.entries(map).some(([source,text])=>!c.options?.includes(source)||typeof text!=="string"||text.length>100)))throw Error("数据槽显示标签或后缀无效");
@@ -127,6 +130,7 @@ export function validateControls(p: Project) {
         key = t.layerId + ":" + t.property;
       if (!l || targets.has(key)) throw Error("表盘配置目标缺失或重复");
       targets.add(key);
+      if(t.property.startsWith("thresholdRules.")&&["primary","warning","danger"].includes(c.semantic||"")){const state=t.layerId+":"+c.semantic;if(semanticOwners.has(state)&&semanticOwners.get(state)!==c.id)throw Error("同一图层的状态颜色角色重复");semanticOwners.set(state,c.id);}
       if (
         c.type === "boolean"
           ? t.property !== "activeVisible"
@@ -240,10 +244,7 @@ export function resolveControls(p: Project,allThemes=false): Project {
     for (const t of c.targets) {
       const l = layers.find((l) => l.id === t.layerId);
       if (!l) continue;
-      if (t.property.startsWith("thresholdRules.")) {
-        const rule = l.thresholdRules?.[Number(t.property.split(".")[1])];
-        if (rule) rule.color = String(value);
-      } else (l as unknown as Record<string, unknown>)[t.property] = value;
+      if(!t.property.startsWith("thresholdRules."))(l as unknown as Record<string, unknown>)[t.property] = value;
     }
   }
   for (const c of p.controls || [])
@@ -260,6 +261,14 @@ export function resolveControls(p: Project,allThemes=false): Project {
     const c=p.controls?.find(c=>c.slot && c.targets.some(t=>t.layerId===l.id && t.property==="source"));
     return c?sourceSlotLayer(p,l,c,String(controlValue(p,c))):l;
   });
+  for(const l of slotted){
+   if(l.thresholdRules)l.thresholdRules=l.thresholdRules.map(r=>({...r}));
+   const slot=p.controls?.find(c=>c.slot&&c.targets.some(t=>t.layerId===l.id&&t.property==="source"));
+   for(const c of p.controls||[])if(c.type==="color")for(const t of c.targets.filter(t=>t.layerId===l.id&&t.property.startsWith("thresholdRules."))){
+    const index=slot&&l.source!==slot.default?thresholdRoleIndex(l.source,c.semantic):Number(t.property.split(".")[1]);
+    if(index!==undefined&&l.thresholdRules?.[index])l.thresholdRules[index].color=String(controlValue(p,c));
+   }
+  }
   const resolved={ ...p, layers: slotted.map((l) => resolvedLayer(l, slotted,p.controls)),backgroundColor:allThemes?p.backgroundColor:themeBackground(p) };
   return allThemes?resolved:{...resolved,layers:themeLayers(resolved)};
 }

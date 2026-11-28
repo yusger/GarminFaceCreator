@@ -1,3 +1,4 @@
+import AppearanceRolesPanel from "./AppearanceRolesPanel";
 import ThemeUpgradePanel from "./ThemeUpgradePanel";
 import {
   activeTheme,
@@ -240,6 +241,7 @@ export default function WatchfaceControls({
             </details>
           )}
         </fieldset>
+        <AppearanceRolesPanel project={p} onChange={onChange}/>
         {p.themes&&<ThemeUpgradePanel project={p} onChange={onChange}/>}
         {p.multiDevice?.scope === "device" && <p>请切换共享主设计后修改。</p>}
         <button

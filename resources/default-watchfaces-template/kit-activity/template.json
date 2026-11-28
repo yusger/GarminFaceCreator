@@ -2,7 +2,7 @@
   "format": "gfc-layout-template",
   "formatVersion": 2,
   "id": "kit-activity",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "运动多环",
   "mode": "DIGITAL",
   "canvas": {
@@ -45,50 +45,55 @@
     "colorRoles": [
       {
         "id": "ink-0",
-        "label": "配色 1",
+        "label": "步数与目标环",
         "color": "#F43E94",
         "layerIds": [
           "steps-arc",
           "steps",
           "steps-icon"
-        ]
+        ],
+        "semantic": "accent"
       },
       {
         "id": "ink-1",
-        "label": "配色 2",
+        "label": "电量与目标环",
         "color": "#37E1A7",
         "layerIds": [
           "battery-arc",
           "battery"
-        ]
+        ],
+        "semantic": "primary"
       },
       {
         "id": "ink-2",
-        "label": "配色 3",
+        "label": "心率与目标环",
         "color": "#FF8F3F",
         "layerIds": [
           "heart-arc",
           "heart",
           "heart-icon"
-        ]
+        ],
+        "semantic": "accent"
       },
       {
         "id": "ink-3",
-        "label": "配色 4",
+        "label": "信息文字",
         "color": "#7E919C",
         "layerIds": [
           "brand",
           "date",
           "battery-label"
-        ]
+        ],
+        "semantic": "text"
       },
       {
         "id": "ink-4",
-        "label": "配色 5",
+        "label": "主时间",
         "color": "#E8ECEF",
         "layerIds": [
           "clock"
-        ]
+        ],
+        "semantic": "text"
       }
     ],
     "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"

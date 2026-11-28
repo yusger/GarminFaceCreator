@@ -213,6 +213,16 @@
                 "items": {
                   "type": "string"
                 }
+              },
+              "semantic": {
+                "enum": [
+                  "primary",
+                  "accent",
+                  "track",
+                  "text",
+                  "warning",
+                  "danger"
+                ]
               }
             }
           }

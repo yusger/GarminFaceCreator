@@ -1,3 +1,4 @@
+import {validateFontRoles,remapFontRoles,type FontRole} from "./fontRoles.ts";
 import {validateBitmapFonts,type BitmapFontAsset} from "./bitmapFonts.ts";
 import {meterSources} from "./meters.ts";
 import {validateChart,defaultChart,type ChartConfig} from "./charts.ts";
@@ -194,6 +195,7 @@ export type CodeVersion = {
 export type BinaryAsset = { id?: string; path: string; data: string };
 export type DesignSnapshot = {
   themes?:ThemeSet;
+  fontRoles?:FontRole[];
   localFonts?:LocalFont[];
   bitmapFonts?:BitmapFontAsset[];
   designBrief?: string;
@@ -213,6 +215,7 @@ export type DesignSnapshot = {
 };
 export type Project = {
   themes?:ThemeSet;
+  fontRoles?:FontRole[];
   localFonts?:LocalFont[];
   bitmapFonts?:BitmapFontAsset[];
   designBrief?: string;
@@ -261,7 +264,7 @@ export type Project = {
     | 38
     | 39
     | 40
-    | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48;
+    | 41 | 42 | 43 | 44 | 45 | 46 | 47 | 48 | 49;
   codeProvenance?: CodeProvenance;
   storageVersion?: number;
   target?: string;
@@ -836,6 +839,7 @@ export function validateProject(value: unknown): Project {
   if(nodes.length>200||new Set(nodes.map(l=>l.id)).size!==nodes.length)throw Error("对象及内部图层重复或超过200个");
   const allControls=[...(p.controls||[]),...p.layers.flatMap(l=>l.compound?.controls||[])];
   if(allControls.length>40||new Set(allControls.map(c=>c.id)).size!==allControls.length)throw Error("配置项重复或超过40个");
+  validateFontRoles(p);
   validateControls(p);
   validateMultiDevice(p, validateProject);
   const imported: Project = {
@@ -863,6 +867,7 @@ export function validateProject(value: unknown): Project {
     })),
   };
   remapControlIds(p, imported);
+  remapFontRoles(p,imported);
   return importedDevices(p, imported);
 }
 export function parseFiles(text: string): CodeFile[] {

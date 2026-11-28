@@ -2,7 +2,7 @@
   "format": "gfc-layout-template",
   "formatVersion": 2,
   "id": "kit-instrument",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "name": "紧凑仪表",
   "mode": "DIGITAL",
   "canvas": {
@@ -45,17 +45,18 @@
     "colorRoles": [
       {
         "id": "ink-0",
-        "label": "配色 1",
+        "label": "暗轨与分隔线",
         "color": "#34444F",
         "layerIds": [
           "ticks",
           "separator-top",
           "separator-bottom"
-        ]
+        ],
+        "semantic": "track"
       },
       {
         "id": "ink-1",
-        "label": "配色 2",
+        "label": "信息文字",
         "color": "#7E919C",
         "layerIds": [
           "brand",
@@ -64,11 +65,12 @@
           "heart-label",
           "steps-label",
           "footer"
-        ]
+        ],
+        "semantic": "text"
       },
       {
         "id": "ink-2",
-        "label": "配色 3",
+        "label": "强调色",
         "color": "#FF7B28",
         "layerIds": [
           "battery",
@@ -76,17 +78,19 @@
           "minutes",
           "heart-icon",
           "steps-icon"
-        ]
+        ],
+        "semantic": "accent"
       },
       {
         "id": "ink-3",
-        "label": "配色 4",
+        "label": "主文字",
         "color": "#E8ECEF",
         "layerIds": [
           "hours",
           "heart",
           "steps"
-        ]
+        ],
+        "semantic": "primary"
       }
     ],
     "aodGuide": "独立小号时间层，仅AOD显示；不保留圆弧、装饰与实时数据。像素占比和原生Sleep需独立验证。"

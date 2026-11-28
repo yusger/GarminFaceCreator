@@ -104,6 +104,7 @@ export default function FontLibrary({
       >
         <header>
           <h2>字体素材库</h2>
+          {project.fontRoles?.some(r=>r.layerIds.includes(layer.id))&&<p className="hint">此控件跟随字体角色；单独更换字体会解除它的关联，其他成员保持不变。</p>}
           <button onClick={onClose}>关闭字体库</button>
         </header>
         <p>
