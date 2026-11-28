@@ -1,6 +1,6 @@
 # 编辑器能力清单
 
-由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.30.0，内部项目版本 50。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
+由 resources/capabilities/editor-v1.json 自动生成；不要直接修改表格。版本 1.31.0，内部项目版本 50。当前仅收敛已有层和来源的入口/本地生成差异，不代表任意设备、完整字段或所有组合已验收。数据API、权限与单位仍以 generationRequirements 适配器为准；minimumApi 为 null 表示本清单未独立核验。
 
 | 能力 | 网页 | AI创建 | 对话添加 | 本地生成 | 限制 | 回归 |
 | --- | --- | --- | --- | --- | --- | --- |

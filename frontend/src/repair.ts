@@ -7,7 +7,7 @@ import {
 } from "./domain.ts";
 import { activeVersion } from "./history";
 export const REPAIR_MAX_ROUNDS = 2;
-export const managedRepairPaths=["source/GfcMoon.mc","source/GfcBitmapText.mc","source/GfcWeather.mc","source/GfcIcons.mc","source/GfcWordTime.mc","source/GfcFrameReporter.mc","resources/drawables/gfc-icons.xml","resources/fonts/gfc-managed-fonts.xml","resources/fonts/gfc-library-icons.xml"];
+export const managedRepairPaths=["resources/settings/properties.xml","resources/settings/settings.xml","resources/settings/strings.xml","source/GfcMoon.mc","source/GfcBitmapText.mc","source/GfcWeather.mc","source/GfcIcons.mc","source/GfcWordTime.mc","source/GfcFrameReporter.mc","resources/drawables/gfc-icons.xml","resources/fonts/gfc-managed-fonts.xml","resources/fonts/gfc-library-icons.xml"];
 const isManagedRepairPath=(path:string)=>managedRepairPaths.includes(path)||/^resources\/fonts\/GfcLibrary_/.test(path);
 export const repairRoot = (p: Project) =>
   p.codeProvenance?.repairRootId ||

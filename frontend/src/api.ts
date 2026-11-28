@@ -1,3 +1,4 @@
+import {mergeNativeSettings} from "./nativeManagedSettings";
 import {mergeNativeMoon} from "./nativeMoon";
 import {needsNativeWeather,nativeWeatherFile} from "./nativeWeather";
 import {mergeNativeFrameReporter} from "./nativeFrameReporter";
@@ -10,6 +11,7 @@ import {
   DESIGN_PROMPT_VERSION,
   CHAT_PROMPT_VERSION,
   ENGINEERING_PROMPT_VERSION,
+  REPAIR_PROMPT_VERSION,
 } from "./aiRequestHistory";
 import { sourceContractVersion } from "./sourceAdapters.ts";
 import { capabilityVersion } from "./capabilities";
@@ -173,6 +175,7 @@ export async function generate(
           iconVariants(l).map((v) => ({ path: iconResourcePath(l, v.key) })),
         ),
     ],
+    nativeSettingsPolicy:"Properties/settings declarations for all design.controls, theme and background keys are supplied by the frontend at resources/settings/properties.xml, settings.xml and strings.xml. Do not declare managed keys elsewhere. Use the exact propertyKey and stable source option codes. New install source defaults are valid stable codes; unknown persisted values still need validation. Implement the on-watch menu and refresh/persistence logic in your source.",
     nativeWordTimeBindings: nativeWordTimeBindings(project),
     nativeWordTimeHelpers: nativeWordTimeFiles(project).map((f) => ({
       path: f.path,
@@ -246,14 +249,8 @@ export async function generate(
       raw,
     );
   try {
-    return parseFiles(
-      JSON.stringify({
-        files: mergeNativeFrameReporter(project,mergeNativeFonts(project,mergeNativeWordTime(
-          project,
-          mergeNativeIcons(project, mergeNativeMoon(project,parseFiles(content))),
-        ))),
-      }),
-    );
+    const files=mergeNativeSettings(project,mergeNativeFrameReporter(project,mergeNativeFonts(project,mergeNativeWordTime(project,mergeNativeIcons(project,mergeNativeMoon(project,parseFiles(content)))))));
+    return parseFiles(JSON.stringify({files}));
   } catch (error) {
     throw new GenerationFailure((error as Error).message, content);
   }
@@ -267,7 +264,7 @@ export async function repairCode(
   signal: AbortSignal,
 ) {
   const payload = repairPayload(project, paths, logs, profile);
-  const data = await request(
+  const data = await designRequest(
     profile,
     "/chat/completions",
     {
@@ -287,6 +284,8 @@ export async function repairCode(
       }),
     },
     signal,
+    "repair",
+    requestContext({...payload,designIdentity:generationContext(project,project.files),device:generationDevice(project)}),
   );
   const content = data.choices?.[0]?.message?.content;
   if (
@@ -349,7 +348,7 @@ async function designRequest(
     {
       kind,
       promptVersion:
-        kind === "chat" ? CHAT_PROMPT_VERSION : kind === "engineering" ? ENGINEERING_PROMPT_VERSION : DESIGN_PROMPT_VERSION,
+        kind === "chat" ? CHAT_PROMPT_VERSION : kind === "engineering" ? ENGINEERING_PROMPT_VERSION : kind === "repair" ? REPAIR_PROMPT_VERSION : DESIGN_PROMPT_VERSION,
       capabilityVersion,
       model: p.model,
       profileId: p.id,

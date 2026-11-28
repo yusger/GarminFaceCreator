@@ -65,3 +65,5 @@
 阶段154 SDK逐帧首试失败：快速文件对话框操作未完成，工具报remote1；正常API最终返回simulator_exited_before_capture，交互门禁超时且cleanup completed，worker96/100。并非表盘VM错误，不当作视觉通过。修正为按原SDK采集工具等待对话框与路径提交，每场景6秒（全序列72秒），仍在原80秒门禁与120秒worker内，不改资源/配额；增加操作trace，继续保存旧失败。
 
 阶段154完整SDK原图矩阵：b49eefa工具在113两尺寸各一个完整PRG成功采集三主题×正常/强制AOD/高值/缺失12帧，cleanup completed。24组网页/SDK原图、输入、摘要和像素指标在 docs/research/trail-native-matrix；未调整整屏MAE0.261–4.056/255，前景另列，不当作还原率。24网页帧warnings为空，实际Sleep/真机/41mm菜单/跨PRG重载仍待独立证据。最终SDK截图保留原始字节；桌面色差与一次文件对话框超时失败均未丢弃。
+
+阶段155实现：付费真实输出遗漏Properties声明，首帧在Theme.current抛UnexpectedType，SDK类型/资源两次AI修复后仍不能直接运行；未再付费或重置根。新增前端受管理设置三文件，按当前合法稳定来源码及颜色/布尔默认值合并、保留未知XML定义且不改绘图源码；受管理文件禁止AI修复。engineering17补ResourceId/精确13参数字体接口；repair1记录脱敏请求和usage。后端原生报告dataMode统一unverified，不能由未知应用代码推断真实读数。12项原有相关回归、5项新专项、构建及原生后端策略检查通过。下一步仅113部署并对补全平台资源后的同一AI绘图源码编译/原生；固定矩阵已独立归档。
